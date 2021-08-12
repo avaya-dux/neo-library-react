@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    "alfnielsen.vsc-organize-imports",
+    "coenraads.bracket-pair-colorizer",
+    "eamodio.gitlens",
+    "esbenp.prettier-vscode",
+    "formulahendry.auto-rename-tag",
+    "henriiik.vscode-sort",
+    "ms-vscode.vscode-typescript-next",
+    "shardulm94.trailing-spaces",
+    "silvenon.mdx",
+    "visualstudioexptteam.vscodeintellicode",
+    "vscode-icons-team.vscode-icons",
+    "wayou.vscode-todo-highlight"
+  ]
+}

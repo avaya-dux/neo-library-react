@@ -1,0 +1,36 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "standard",
+    "standard-react",
+    "plugin:prettier/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:cypress/recommended",
+    "prettier"
+  ],
+  "env": {
+    "cypress/globals": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "ecmaFeatures": {
+      "legacyDecorators": true,
+      "jsx": true
+    }
+  },
+  "settings": {
+    "react": {
+      "version": "17"
+    }
+  },
+  "rules": {
+    "jsx-quotes": "warn",
+    "no-unused-vars": "warn",
+    "react-hooks/exhaustive-deps": 0,
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": 0,
+    "space-before-function-paren": 0
+  }
+}

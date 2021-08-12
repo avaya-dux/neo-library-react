@@ -1,0 +1,16 @@
+import { Meta } from "@storybook/react/types-6-0";
+
+import { ExampleComponent } from "./";
+import { Props } from "./ExampleComponentTypes";
+
+export default {
+  title: "Components/Example Component",
+  component: ExampleComponent,
+} as Meta<Props>;
+
+export const Default = () => <ExampleComponent text="test" />;
+
+const Template = ({ text }: Props) => <ExampleComponent text={text} />;
+
+export const Templated = Template.bind({});
+Templated.args = {};
