@@ -1,6 +1,10 @@
 # neo-library-react
 
-> Made to allow React components to be shareable between multiple projects (such as Location data)
+> This is the react version of the shared library called "NEO" buit by Avaya.
+
+Scaffolded via [create-react-library](https://github.com/transitive-bullshit/create-react-library) (with TypeScript support) and then modified to simplify the build process with [rollupjs](https://www.rollupjs.org/).
+
+For unit testing we use [jest](https://jestjs.io/), for integration testing we use [Cypress](https://www.cypress.io/how-it-works), for linting we use [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/).
 
 ## Install
 
@@ -48,7 +52,7 @@ ls -la
 This will run in watch mode and produce builds to `dist`.
 
 ```
-yarn dev
+yarn start
 ```
 
 ## run storybook
@@ -80,7 +84,7 @@ yarn test:cypress
 Open cypress tests in browser
 
 ```
-yarn test:cypress
+yarn test:cypress-open
 ```
 
 Run jest tests and display the code coverage results
