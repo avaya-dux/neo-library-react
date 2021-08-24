@@ -108,6 +108,8 @@ yarn lint
 yarn lint --fix
 ```
 
+## the team's [PR best practices](./readmes/pr-best-practices.md)
+
 ## License MIT
 
 need to contact Avaya legal about this
