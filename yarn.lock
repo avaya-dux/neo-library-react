@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@avaya/neo@^3.40.0":
+  version "3.40.0"
+  resolved "https://registry.yarnpkg.com/@avaya/neo/-/neo-3.40.0.tgz#4cbbc487f44a37ffe0d68f6686e2b5dca11d2e9f"
+  integrity sha512-5/Wu//eMk3lBagSZzcr3UD0veiMKbMXxtTAUD7oTzDiZm5dryBgoR4SysZSEu/EJSRmZzB43DcLYWeXiHRnlTQ==
+
 "@babel/code-frame@7.10.4":
   version "7.10.4"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.10.4.tgz#168da1a36e90da68ae8d49c0f1b48c7c6249213a"

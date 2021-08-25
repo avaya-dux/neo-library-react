@@ -35,9 +35,11 @@
     ]
   },
   "peerDependencies": {
+    "@avaya/neo": "^3.40.0",
     "react": "^17.0.2"
   },
   "devDependencies": {
+    "@avaya/neo": "^3.40.0",
     "@babel/core": "^7.15.0",
     "@cypress/react": "^5.9.4",
     "@cypress/webpack-dev-server": "^1.4.0",
