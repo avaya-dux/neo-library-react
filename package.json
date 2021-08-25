@@ -22,6 +22,7 @@
     "test:cypress": "cypress run-ct",
     "test:cypress-open": "cypress open-ct",
     "storybook": "start-storybook -p 6006 --no-dll",
+    "github": "yarn && yarn lint && yarn build && yarn test",
     "prepublish": "yarn lint && yarn build && yarn test && yarn test:cypress"
   },
   "jest": {
