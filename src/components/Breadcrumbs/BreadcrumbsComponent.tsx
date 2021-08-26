@@ -20,7 +20,7 @@ export const Breadcrumbs = ({
   description,
   buttons = [],
 }: IBreadcrumbs) => {
-  const totalLinks = links.length;
+  const currentPageIndex = links.length;
   return (
     <nav
       aria-label="Breadcrumb"
@@ -35,7 +35,7 @@ export const Breadcrumbs = ({
         ))}
         <li
           className="neo-breadcrumbs__link neo-breadcrumbs__link--current"
-          key={totalLinks}
+          key={currentPageIndex}
         >
           <a href={currentPageLink.href} aria-current="page">
             {currentPageLink.text}
