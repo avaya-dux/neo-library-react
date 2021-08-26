@@ -9,6 +9,7 @@ build
 coverage
 cypress/screenshots
 cypress/videos
+cypress/integration
 dist
 
 # misc
