@@ -46,7 +46,7 @@ export const Breadcrumbs = ({
 
       <div className="neo-breadcrumbs__actions">
         {buttons.map((button, index) => (
-          <Fragment key={index}>{button}</Fragment>
+          <Fragment key={`breadcrumbs_button_${index}`}>{button}</Fragment>
         ))}
       </div>
     </nav>
