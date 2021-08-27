@@ -1,6 +1,10 @@
-import { render, RenderResult } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { Breadcrumbs } from "./BreadcrumbsComponent";
 import "@testing-library/jest-dom";
+import { axe, toHaveNoViolations } from "jest-axe";
+
+expect.extend(toHaveNoViolations);
+
 describe("Breadcrumbs: ", () => {
   describe("given just current page link: ", () => {
     const currentPageLink = { href: "root", text: "root" };
@@ -11,6 +15,10 @@ describe("Breadcrumbs: ", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<Breadcrumbs {...props} />);
+    });
+
+    it("passes basic axe compliance", async () => {
+      await axeTest(renderResult);
     });
 
     it("renders ok", () => {
@@ -46,6 +54,10 @@ describe("Breadcrumbs: ", () => {
       renderResult = render(<Breadcrumbs {...props} />);
     });
 
+    it("passes basic axe compliance", async () => {
+      await axeTest(renderResult);
+    });
+
     it("it renders ok", () => {
       const { getByTestId } = renderResult;
       const rootElement = getByTestId("Breadcrumbs-root");
@@ -72,3 +84,8 @@ describe("Breadcrumbs: ", () => {
     });
   });
 });
+async function axeTest(renderResult) {
+  const { container } = renderResult;
+  const results = await axe(container);
+  expect(results).toHaveNoViolations();
+}

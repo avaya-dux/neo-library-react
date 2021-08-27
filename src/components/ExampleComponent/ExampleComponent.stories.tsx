@@ -8,10 +8,9 @@ export default {
   component: ExampleComponent,
 } as Meta<Props>;
 
-const Template = ({ text }: Props) => <ExampleComponent text={text} />;
+export const Default = () => <ExampleComponent text="test" />;
 
-export const Default = Template.bind({});
-Default.args = {};
+const Template = ({ text }: Props) => <ExampleComponent text={text} />;
 
 export const Example = Template.bind({ text: "example" });
 Example.args = { text: "example" };

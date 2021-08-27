@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import { FunctionComponent, Fragment } from "react";
 
 import "@avaya/neo/neo/dist/css/neo/neo.min.css";
 
@@ -11,7 +11,7 @@ export interface IBreadcrumbs {
   links: IBreadcrumbsLink[];
   currentPageLink: IBreadcrumbsLink;
   description: string;
-  buttons?: FunctionComponent[];
+  buttons?: FunctionComponent[]; // TODO: use NeoButton
 }
 
 export const Breadcrumbs = ({
@@ -46,7 +46,7 @@ export const Breadcrumbs = ({
 
       <div className="neo-breadcrumbs__actions">
         {buttons.map((button, index) => (
-          <React.Fragment key={index}>{button}</React.Fragment>
+          <Fragment key={index}>{button}</Fragment>
         ))}
       </div>
     </nav>

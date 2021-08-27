@@ -30,7 +30,6 @@
   "rules": {
     "jsx-quotes": "warn",
     "no-unused-vars": "warn",
-    "no-use-before-define": "off",
     "react-hooks/exhaustive-deps": 0,
     "react/prop-types": 0,
     "react/react-in-jsx-scope": 0,
