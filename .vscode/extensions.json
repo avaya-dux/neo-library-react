@@ -2,6 +2,7 @@
   "recommendations": [
     "alfnielsen.vsc-organize-imports",
     "coenraads.bracket-pair-colorizer",
+    "deque-systems.vscode-axe-linter",
     "eamodio.gitlens",
     "esbenp.prettier-vscode",
     "formulahendry.auto-rename-tag",

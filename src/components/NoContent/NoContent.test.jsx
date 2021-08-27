@@ -1,4 +1,7 @@
 import { render } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+
+expect.extend(toHaveNoViolations);
 import { NoContent } from ".";
 
 describe("NoContent", () => {
@@ -7,6 +10,12 @@ describe("NoContent", () => {
 
     const rootElement = getByTestId("NoContent-root");
     expect(rootElement).toBeTruthy();
+  });
+
+  it("passes basic axe compliance", async () => {
+    const { container } = render(<NoContent />);
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
   });
 
   it("has default text of 'No Content' if no params are passed", () => {
