@@ -8,7 +8,7 @@ export interface IBreadcrumbsLink {
 }
 
 export interface IBreadcrumbs {
-  links: IBreadcrumbsLink[];
+  links?: IBreadcrumbsLink[];
   currentPageLink: IBreadcrumbsLink;
   description: string;
   buttons?: FunctionComponent[]; // TODO: use NeoButton
@@ -43,7 +43,6 @@ export const Breadcrumbs = ({
         </li>
       </ol>
       <p className="neo-breadcrumbs__description">{description}</p>
-
       <div className="neo-breadcrumbs__actions">
         {buttons.map((button, index) => (
           <Fragment key={`breadcrumbs_button_${index}`}>{button}</Fragment>

@@ -3,6 +3,10 @@ import { Breadcrumbs } from "./BreadcrumbsComponent";
 import "@testing-library/jest-dom";
 import { axe, toHaveNoViolations } from "jest-axe";
 
+import { composeStories } from "@storybook/testing-react";
+
+import * as BreadcrumbsStories from "./BreadcrumbsComponent.stories";
+
 expect.extend(toHaveNoViolations);
 
 describe("Breadcrumbs: ", () => {
@@ -81,6 +85,54 @@ describe("Breadcrumbs: ", () => {
       const currentPageByRole = getAllByRole("link")[1];
       expect(currentPageByRole).toHaveTextContent("Current Page");
       expect(currentPageByRole).toHaveAttribute("aria-current", "page");
+    });
+  });
+
+  describe("CurrentPageOnly story: ", () => {
+    const { CurrentPageOnly } = composeStories(BreadcrumbsStories);
+    let renderResult;
+
+    beforeEach(() => {
+      renderResult = render(<CurrentPageOnly />);
+    });
+
+    it("renders ok", () => {
+      const { container } = renderResult;
+      expect(container).not.toBe(null);
+    });
+  });
+
+  describe("HavingOneLink story: ", () => {
+    const { HavingOneLink } = composeStories(BreadcrumbsStories);
+    let renderResult;
+
+    beforeEach(() => {
+      renderResult = render(<HavingOneLink />);
+    });
+
+    it("renders ok", () => {
+      const { container } = renderResult;
+      expect(container).not.toBe(null);
+    });
+  });
+
+  describe("HavingTwoLinks story: ", () => {
+    const { HavingTwoLinks } = composeStories(BreadcrumbsStories);
+    let renderResult;
+
+    beforeEach(() => {
+      renderResult = render(<HavingTwoLinks />);
+    });
+
+    it("renders ok", () => {
+      const { container } = renderResult;
+      expect(container).not.toBe(null);
+    });
+
+    it("it renders three links", () => {
+      const { getAllByRole } = renderResult;
+      const allListItems = getAllByRole("listitem");
+      expect(allListItems).toHaveLength(3);
     });
   });
 });
