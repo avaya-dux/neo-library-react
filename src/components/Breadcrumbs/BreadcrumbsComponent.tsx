@@ -2,14 +2,14 @@ import { FunctionComponent, Fragment } from "react";
 
 import "@avaya/neo/neo/dist/css/neo/neo.min.css";
 
-export interface IBreadcrumbsLink {
+export interface BreadcrumbsLink {
   href: string;
   text: string;
 }
 
-export interface IBreadcrumbs {
-  links?: IBreadcrumbsLink[];
-  currentPageLink: IBreadcrumbsLink;
+export interface BreadcrumbsProps {
+  links?: BreadcrumbsLink[];
+  currentPageLink: BreadcrumbsLink;
   description: string;
   buttons?: FunctionComponent[]; // TODO: use NeoButton
 }
@@ -19,7 +19,7 @@ export const Breadcrumbs = ({
   currentPageLink,
   description,
   buttons = [],
-}: IBreadcrumbs) => {
+}: BreadcrumbsProps) => {
   const currentPageIndex = links.length;
   return (
     <nav
