@@ -6,12 +6,13 @@
 - every component **_must_** have tests (ideally proving the tickets Acceptance Criteria)
 - prefer `interface` over `type`
 - prefer react hooks over react classes
+- stronlgy enforce accessibility, `throw` if accessibility errors are encountered
 - name prop definitions well
 
 :heavy_check_mark:
 ```
-interface IAwesomeComponent { /* ... */ }
-export const AwesomeComponent = ({ /* ... */ }: IAwesomeComponent) => { /* ... */ }
+interface AwesomeComponentProps { /* ... */ }
+export const AwesomeComponent = ({ /* ... */ }: AwesomeComponentProps) => { /* ... */ }
 ```
 :x:
 ```
@@ -23,7 +24,7 @@ export const AwesomeComponent = ({ /* ... */ }: Props) => { /* ... */ }
 
 :heavy_check_mark:
 ```
-interface IAwesomeComponent {
+interface AwesomeComponentProps {
   goodname: string;
   excellentname: number;
 }
@@ -31,15 +32,15 @@ export const AwesomeComponent = ({
   goodname,
   excellentname,
   ...rest
-}: IAwesomeComponent) => { /* ... */ }
+}: AwesomeComponentProps) => { /* ... */ }
 ```
 :x:
 ```
-interface IAwesomeComponent {
+interface AwesomeComponentProps {
   goodname: string;
   excellentname: number;
 }
-export const AwesomeComponent = (props: IAwesomeComponent) => { /* ... */ }
+export const AwesomeComponent = (props: AwesomeComponentProps) => { /* ... */ }
 ```
 
 - **do** export your named component (`export const MyComponent = () => {}`), _never_ `export default`
