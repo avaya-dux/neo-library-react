@@ -1,6 +1,8 @@
-import { IconNamesType } from "utils/icons";
+import { IconNamesType } from "../../utils/icons";
 
-import "@avaya/neo/neo/dist/css/neo/neo.min.css"; // TODO-564 Theme (NeoProvider): should not be adding this import in individual components
+import "@avaya/neo/neo/dist/css/neo/neo.min.css";
+
+// TODO-564 Theme (NeoProvider): should not be adding this import in individual components
 
 export interface INoContent {
   icon?: IconNamesType;

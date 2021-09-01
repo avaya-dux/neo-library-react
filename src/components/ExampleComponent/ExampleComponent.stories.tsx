@@ -12,5 +12,5 @@ export const Default = () => <ExampleComponent text="test" />;
 
 const Template = ({ text }: Props) => <ExampleComponent text={text} />;
 
-export const Templated = Template.bind({});
-Templated.args = {};
+export const Example = Template.bind({ text: "example" });
+Example.args = { text: "example" };
