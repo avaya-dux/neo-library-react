@@ -29,6 +29,9 @@
   },
   "rules": {
     "jsx-quotes": "warn",
+    // https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/label-has-for.md#deprecated-label-has-for
+    "jsx-a11y/label-has-for": 0,
+    "jsx-a11y/label-has-associated-control": "error",
     "no-unused-vars": "warn",
     "react-hooks/exhaustive-deps": 0,
     "react/prop-types": 0,
