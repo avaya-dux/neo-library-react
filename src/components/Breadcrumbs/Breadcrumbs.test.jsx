@@ -1,11 +1,11 @@
 import { render } from "@testing-library/react";
-import { Breadcrumbs } from "./BreadcrumbsComponent";
+import { Breadcrumbs } from "./Breadcrumbs";
 import "@testing-library/jest-dom";
 import { axe, toHaveNoViolations } from "jest-axe";
 
 import { composeStories } from "@storybook/testing-react";
 
-import * as BreadcrumbsStories from "./BreadcrumbsComponent.stories";
+import * as BreadcrumbsStories from "./Breadcrumbs.stories";
 
 expect.extend(toHaveNoViolations);
 
@@ -14,7 +14,6 @@ describe("Breadcrumbs: ", () => {
     const currentPageLink = { href: "root", text: "root" };
     const props = {
       currentPageLink,
-      description: "Breadcrumb Example page description",
     };
     let renderResult;
     beforeEach(() => {
@@ -42,9 +41,17 @@ describe("Breadcrumbs: ", () => {
       const currentPageByRole = getByRole("listitem");
       expect(currentPageByRole).toHaveClass("neo-breadcrumbs__link");
     });
+
+    it("description is not rendered", () => {
+      const { container } = renderResult;
+      const description = container.querySelector(
+        ".neo-breadcrumbs__description"
+      );
+      expect(description).toBeNull();
+    });
   });
 
-  describe("given one parent link and current page link: ", () => {
+  describe("given one parent link and current page link and description: ", () => {
     const currentPageLink = { href: "#current", text: "Current Page" };
     const links = [{ href: "#parent1", text: "parent1" }];
 

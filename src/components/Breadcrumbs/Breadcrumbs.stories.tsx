@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/react/types-6-0";
 
-import { Breadcrumbs, BreadcrumbsProps } from "./BreadcrumbsComponent";
+import { Breadcrumbs, BreadcrumbsProps } from "./Breadcrumbs";
 
 export default {
   title: "Components/Breadcrumbs",
@@ -15,7 +15,6 @@ const Template = (props: BreadcrumbsProps) => <Breadcrumbs {...props} />;
 export const CurrentPageOnly = Template.bind({});
 CurrentPageOnly.args = {
   currentPageLink,
-  description,
 };
 
 export const HavingOneLink = Template.bind({});

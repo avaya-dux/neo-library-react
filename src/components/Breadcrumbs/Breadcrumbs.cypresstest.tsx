@@ -1,5 +1,5 @@
 import { mount } from "@cypress/react";
-import { Breadcrumbs } from "./BreadcrumbsComponent";
+import { Breadcrumbs } from "./Breadcrumbs";
 
 describe("Breadcrumbs component", () => {
   describe("Current page only", () => {
