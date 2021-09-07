@@ -27,5 +27,5 @@
     "suppressImplicitAnyIndexErrors": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist", "example", "**/*.stories.*"]
+  "exclude": ["node_modules", "dist", "example", "stories"]
 }

@@ -3,7 +3,7 @@ import { HTMLAttributes } from "react";
 
 import { SizeType } from "utils/size";
 
-export interface ISpinner extends HTMLAttributes<HTMLDivElement> {
+export interface SpinnerProps extends HTMLAttributes<HTMLDivElement> {
   size?: SizeType;
 }
 
@@ -25,7 +25,7 @@ export const getSizeClass = (size?: SizeType) => {
   }
 };
 
-export const Spinner = ({ className, size, ...rest }: ISpinner) => (
+export const Spinner = ({ className, size, ...rest }: SpinnerProps) => (
   <div
     className={clsx("neo-spinner", getSizeClass(size), className)}
     {...rest}

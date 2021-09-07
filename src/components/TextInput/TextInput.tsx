@@ -1,8 +1,9 @@
 import { HTMLAttributes, ReactNode, useMemo, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { handleAccessbilityError } from "../../utils/accessibilityUtils";
-import { dispatchInputOnChangeEvent } from "../../utils/nativeDomUtils";
+import { FormControl } from "components/FormControl";
+import { handleAccessbilityError } from "utils/accessibilityUtils";
+import { dispatchInputOnChangeEvent } from "utils/nativeDomUtils";
 
 export interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -40,76 +41,52 @@ export const TextInput: React.FC<TextInputProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div {...getFormControlProps({ error, required, disabled })}>
-      <div {...getInputGroupProps()}>
-        <label htmlFor={internalId}>{label}</label>
+    <FormControl disabled={disabled} error={error} required={required}>
+      <label htmlFor={internalId}>{label}</label>
 
-        <div className="neo-input-group--addons">
-          {!!startAdornment && (
-            <div className="neo-input-group__addon">{startAdornment}</div>
-          )}
+      <div className="neo-input-group--addons">
+        {!!startAdornment && (
+          <div className="neo-input-group__addon">{startAdornment}</div>
+        )}
 
-          <div className="neo-input-editable__wrapper">
-            <input
-              {...getInputProps({ readOnly })}
-              id={internalId}
-              aria-describedby={`${internalId}-description`}
-              ref={inputRef}
-              placeholder={placeholder}
+        <div className="neo-input-editable__wrapper">
+          <input
+            {...getInputProps({ readOnly })}
+            id={internalId}
+            aria-describedby={`${internalId}-description`}
+            ref={inputRef}
+            placeholder={placeholder}
+            disabled={disabled}
+            readOnly={readOnly}
+            {...rest}
+          />
+
+          {!!clearable && (
+            <button
+              aria-label="clear input"
+              tabIndex={-1}
+              className="neo-input-edit__icon neo-icon-end"
               disabled={disabled}
-              readOnly={readOnly}
-              {...rest}
+              onClick={() => {
+                dispatchInputOnChangeEvent(inputRef.current!, "");
+              }}
             />
-
-            {!!clearable && (
-              <button
-                aria-label="clear input"
-                tabIndex={-1}
-                className="neo-input-edit__icon neo-icon-end"
-                disabled={disabled}
-                onClick={() => {
-                  dispatchInputOnChangeEvent(inputRef.current!, "");
-                }}
-              />
-            )}
-          </div>
-
-          {!!endAdornment && (
-            <div className="neo-input-group__addon">{endAdornment}</div>
           )}
         </div>
 
-        {!!helperText && (
-          <div className="neo-input-hint" id={`${internalId}-description`}>
-            {helperText}
-          </div>
+        {!!endAdornment && (
+          <div className="neo-input-group__addon">{endAdornment}</div>
         )}
       </div>
-    </div>
+
+      {!!helperText && (
+        <div className="neo-input-hint" id={`${internalId}-description`}>
+          {helperText}
+        </div>
+      )}
+    </FormControl>
   );
 };
-
-export function getFormControlProps(props?: Partial<TextInputProps>) {
-  const classNames = ["neo-form-control"];
-
-  if (props?.error === true) {
-    classNames.push("neo-form-control--error");
-  }
-  if (props?.required === true) {
-    classNames.push("neo-form-control--required");
-  }
-  if (props?.disabled === true) {
-    classNames.push("neo-form-control--disabled");
-  }
-
-  return { className: classNames.join(" ") };
-}
-
-export function getInputGroupProps() {
-  const classNames = ["neo-input-group"];
-
-  return { className: classNames.join(" ") };
-}
 
 export function getInputProps(props?: Partial<TextInputProps>) {
   const classNames = ["neo-input"];

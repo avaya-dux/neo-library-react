@@ -1,11 +1,11 @@
-import { Meta } from "@storybook/react/types-6-0";
+import { Meta, Story } from "@storybook/react/types-6-0";
 
-import { ISpinner, Spinner } from "./";
+import { SpinnerProps, Spinner } from "./";
 
 export default {
   title: "Components/Spinner",
   component: Spinner,
-} as Meta<ISpinner>;
+} as Meta<SpinnerProps>;
 
 export const Default = () => (
   <main>
@@ -28,7 +28,9 @@ export const Default = () => (
   </main>
 );
 
-const Template = ({ size }: ISpinner) => <Spinner size={size} />;
+const Template: Story<SpinnerProps> = ({ size }: SpinnerProps) => (
+  <Spinner size={size} />
+);
 
 export const Templated = Template.bind({});
 Templated.args = {};

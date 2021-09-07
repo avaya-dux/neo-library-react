@@ -1,4 +1,4 @@
-import { Meta } from "@storybook/react/types-6-0";
+import { Meta, Story } from "@storybook/react/types-6-0";
 
 import { ExampleComponent } from "./";
 import { Props } from "./ExampleComponentTypes";
@@ -10,7 +10,9 @@ export default {
 
 export const Default = () => <ExampleComponent text="test" />;
 
-const Template = ({ text }: Props) => <ExampleComponent text={text} />;
+const Template: Story<Props> = ({ text }: Props) => (
+  <ExampleComponent text={text} />
+);
 
 export const Example = Template.bind({ text: "example" });
 Example.args = { text: "example" };

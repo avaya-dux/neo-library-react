@@ -2,8 +2,6 @@ import { render } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "jest-axe";
 
 import {
-  getFormControlProps,
-  getInputGroupProps,
   getInputProps,
   TextInput,
 } from "./TextInput";
@@ -48,41 +46,6 @@ describe("TextInput", () => {
     ).not.toThrow();
 
     expect(errorSpy).not.toHaveBeenCalled();
-  });
-});
-
-describe("getFormControlProps", () => {
-  it("returns expected props", () => {
-    expect(getFormControlProps()).toMatchInlineSnapshot(`
-      Object {
-        "className": "neo-form-control",
-      }
-    `);
-
-    expect(getFormControlProps({ error: true, required: true, disabled: true }))
-      .toMatchInlineSnapshot(`
-      Object {
-        "className": "neo-form-control neo-form-control--error neo-form-control--required neo-form-control--disabled",
-      }
-    `);
-
-    expect(
-      getFormControlProps({ error: true, required: false, disabled: false })
-    ).toMatchInlineSnapshot(`
-      Object {
-        "className": "neo-form-control neo-form-control--error",
-      }
-    `);
-  });
-});
-
-describe("getInputGroupProps", () => {
-  it("returns expected props", () => {
-    expect(getInputGroupProps()).toMatchInlineSnapshot(`
-      Object {
-        "className": "neo-input-group",
-      }
-    `);
   });
 });
 

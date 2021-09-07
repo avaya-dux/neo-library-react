@@ -1,11 +1,11 @@
-import { Meta } from "@storybook/react/types-6-0";
+import { Meta, Story } from "@storybook/react/types-6-0";
 
-import { INoContent, NoContent } from "./";
+import { NoContentProps, NoContent } from "./";
 
 export default {
   title: "Components/No Content",
   component: NoContent,
-} as Meta<INoContent>;
+} as Meta<NoContentProps>;
 
 export const Default = () => <NoContent />;
 
@@ -41,7 +41,7 @@ export const TakesUpDiv = () => (
   </main>
 );
 
-const Template = ({ icon, text }: INoContent) => (
+const Template: Story<NoContentProps> = ({ icon, text }: NoContentProps) => (
   <NoContent icon={icon} text={text} />
 );
 
