@@ -1,6 +1,6 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, HTMLAttributes } from "react";
 
-interface FormControlProps {
+interface FormControlProps extends HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;
   error?: boolean;
   inline?: boolean;
@@ -13,10 +13,13 @@ export const FormControl: FunctionComponent<FormControlProps> = ({
   error,
   inline,
   required,
+
+  ...rest
 }) => (
   <div
     data-testid="FormControl-root"
     {...getFormControlProps({ disabled, error, required })}
+    {...rest}
   >
     <div
       aria-required={required === true}

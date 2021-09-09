@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+
+import { FormControl } from "components/FormControl";
 
 import { Radio, RadioProps } from "./Radio";
 
@@ -31,19 +33,6 @@ export const RadioGroup = ({
   useEffect(() => {
     setSelectedValue(checked);
   }, [checked]);
-
-  const formGroupClass = useMemo(() => {
-    const classNames = ["neo-form-control"];
-
-    if (error === true) {
-      classNames.push("neo-form-control--error");
-    }
-    if (required === true) {
-      classNames.push("neo-form-control--required");
-    }
-
-    return classNames.join(" ");
-  }, [error, required]);
 
   const onChangeHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,16 +70,18 @@ export const RadioGroup = ({
   };
 
   return (
-    <div className={formGroupClass} data-testid="RadioGroup-root">
-      <div className="neo-input-group">
-        <label htmlFor={groupName}>{groupName}</label>
-        {inline ? (
-          <div className="neo-input-group--inline">{radioButtons()}</div>
-        ) : (
-          <>{radioButtons()}</>
-        )}
-        {helperText && <div className="neo-input-hint">{helperText}</div>}
-      </div>
-    </div>
+    <FormControl
+      data-testid="RadioGroup-root"
+      required={required}
+      error={error}
+    >
+      <label htmlFor={groupName}>{groupName}</label>
+      {inline ? (
+        <div className="neo-input-group--inline">{radioButtons()}</div>
+      ) : (
+        <>{radioButtons()}</>
+      )}
+      {helperText && <div className="neo-input-hint">{helperText}</div>}
+    </FormControl>
   );
 };
