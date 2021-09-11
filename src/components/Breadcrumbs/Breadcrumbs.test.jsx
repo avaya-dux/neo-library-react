@@ -7,8 +7,6 @@ import { composeStories } from "@storybook/testing-react";
 
 import * as BreadcrumbsStories from "./Breadcrumbs.stories";
 
-expect.extend(toHaveNoViolations);
-
 describe("Breadcrumbs: ", () => {
   describe("given just current page link: ", () => {
     const currentPageLink = { href: "root", text: "root" };

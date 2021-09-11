@@ -5,8 +5,6 @@ import { RadioGroup } from ".";
 
 import "@testing-library/jest-dom";
 
-expect.extend(toHaveNoViolations);
-
 async function axeTest(renderResult) {
   const { container } = renderResult;
   const results = await axe(container);

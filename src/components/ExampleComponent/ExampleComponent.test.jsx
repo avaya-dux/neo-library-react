@@ -1,7 +1,6 @@
 import { render } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "jest-axe";
 
-expect.extend(toHaveNoViolations);
 import { ExampleComponent } from ".";
 
 describe("ExampleComponent", () => {

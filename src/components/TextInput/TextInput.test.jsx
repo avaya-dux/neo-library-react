@@ -1,13 +1,7 @@
 import { render } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "jest-axe";
 
-import {
-  getInputProps,
-  TextInput,
-} from "./TextInput";
-
-// TODO this should probably go in some jest test setup file and execute once
-expect.extend(toHaveNoViolations);
+import { getInputProps, TextInput } from "./TextInput";
 
 const errorSpy = jest
   .spyOn(global.console, "error")
