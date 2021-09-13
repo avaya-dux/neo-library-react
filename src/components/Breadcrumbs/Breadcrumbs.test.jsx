@@ -1,11 +1,11 @@
-import { render } from "@testing-library/react";
-import { Breadcrumbs } from "./Breadcrumbs";
-import "@testing-library/jest-dom";
-import { axe, toHaveNoViolations } from "jest-axe";
-
 import { composeStories } from "@storybook/testing-react";
+import { render } from "@testing-library/react";
+import { axe } from "jest-axe";
 
+import { Breadcrumbs } from "./Breadcrumbs";
 import * as BreadcrumbsStories from "./Breadcrumbs.stories";
+
+import "@testing-library/jest-dom";
 
 describe("Breadcrumbs: ", () => {
   describe("given just current page link: ", () => {
