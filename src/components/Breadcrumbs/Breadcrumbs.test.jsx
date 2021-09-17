@@ -2,20 +2,34 @@ import { composeStories } from "@storybook/testing-react";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
-import { Breadcrumbs } from "./Breadcrumbs";
+import { Button } from "components/Button";
+
+import { Breadcrumbs, getNavCssName } from "./Breadcrumbs";
 import * as BreadcrumbsStories from "./Breadcrumbs.stories";
 
 import "@testing-library/jest-dom";
 
 describe("Breadcrumbs: ", () => {
+  describe("getNavCssName", () => {
+    it("returns neo-breadcrumbs with undefined cssName", () => {
+      expect(getNavCssName()).toBe("neo-breadcrumbs");
+    });
+    it("return neo-breadcrumbs with defined cssName", () => {
+      expect(getNavCssName("a b c")).toBe("neo-breadcrumbs a b c");
+    });
+  });
+
   describe("given just current page link: ", () => {
-    const currentPageLink = { href: "root", text: "root" };
+    const currentPageLink = { href: "root", text: "root", color: "red" };
+    const dataTestId = "Breadcrumbs-root-manual-id";
     const props = {
       currentPageLink,
     };
     let renderResult;
     beforeEach(() => {
-      renderResult = render(<Breadcrumbs {...props} />);
+      renderResult = render(
+        <Breadcrumbs {...props} data-testid={dataTestId} />
+      );
     });
 
     it("passes basic axe compliance", async () => {
@@ -24,7 +38,13 @@ describe("Breadcrumbs: ", () => {
 
     it("renders ok", () => {
       const { getByTestId } = renderResult;
-      const rootElement = getByTestId("Breadcrumbs-root");
+      const rootElement = getByTestId(dataTestId);
+      expect(rootElement).toBeTruthy();
+    });
+
+    it("gets navigation role ok", () => {
+      const { getByRole } = renderResult;
+      const rootElement = getByRole("navigation");
       expect(rootElement).toBeTruthy();
     });
 
@@ -67,12 +87,6 @@ describe("Breadcrumbs: ", () => {
       await axeTest(renderResult);
     });
 
-    it("it renders ok", () => {
-      const { getByTestId } = renderResult;
-      const rootElement = getByTestId("Breadcrumbs-root");
-      expect(rootElement).toBeTruthy();
-    });
-
     it("it renders two links", () => {
       const { getAllByRole } = renderResult;
       const allListItems = getAllByRole("listitem");
@@ -90,6 +104,135 @@ describe("Breadcrumbs: ", () => {
       const currentPageByRole = getAllByRole("link")[1];
       expect(currentPageByRole).toHaveTextContent("Current Page");
       expect(currentPageByRole).toHaveAttribute("aria-current", "page");
+    });
+  });
+
+  describe("Having one button", () => {
+    const currentPageLink = { href: "#current", text: "Current Page" };
+    const links = [{ href: "#parent1", text: "parent1" }];
+    const button1 = (
+      <Button
+        data-testid="neo-button1"
+        id="test-axe1"
+        aria-label="test-axe-name1"
+        label="button1"
+      />
+    );
+    const props = {
+      links,
+      currentPageLink,
+      description: "Breadcrumb Example page description",
+      buttons: [button1],
+    };
+    let renderResult;
+    beforeEach(() => {
+      renderResult = render(<Breadcrumbs {...props} />);
+    });
+
+    it("passes basic axe compliance", async () => {
+      await axeTest(renderResult);
+    });
+
+    it("should render button", () => {
+      const { getByRole } = renderResult;
+      const buttonElement = getByRole("button");
+      expect(buttonElement).toBeTruthy();
+    });
+  });
+
+  describe("Having two buttons", () => {
+    const currentPageLink = { href: "#current", text: "Current Page" };
+    const links = [{ href: "#parent1", text: "parent1", color: "red" }];
+    const button1 = (
+      <Button data-testid="neo-button1" id="test-axe1" label="Save" />
+    );
+    const button2 = (
+      <Button data-testid="neo-button2" id="test-axe2" label="Edit" />
+    );
+    const props = {
+      links,
+      currentPageLink,
+      "aria-label": "better breadcrumbs",
+      description: "Breadcrumb Example page description",
+      buttons: [button1, button2],
+    };
+    let renderResult;
+    beforeEach(() => {
+      renderResult = render(<Breadcrumbs {...props} />);
+    });
+
+    it("passes basic axe compliance", async () => {
+      await axeTest(renderResult);
+    });
+
+    it("should render buttons", () => {
+      const { getAllByRole } = renderResult;
+      const buttonElements = getAllByRole("button");
+      expect(buttonElements).toHaveLength(2);
+    });
+
+    it("should match snapshots", () => {
+      const { container } = renderResult;
+      expect(container).toMatchInlineSnapshot(`
+        <div>
+          <nav
+            aria-label="better breadcrumbs"
+            class="neo-breadcrumbs"
+          >
+            <div
+              class="neo-breadcrumbs__wrapper"
+            >
+              <ol>
+                <li
+                  class="neo-breadcrumbs__link"
+                >
+                  <a
+                    color="red"
+                    href="#parent1"
+                  >
+                    parent1
+                  </a>
+                </li>
+                <li
+                  class="neo-breadcrumbs__link neo-breadcrumbs__link--current"
+                >
+                  <a
+                    aria-current="page"
+                    href="#current"
+                  >
+                    Current Page
+                  </a>
+                </li>
+              </ol>
+              <p
+                class="neo-breadcrumbs__description"
+              >
+                Breadcrumb Example page description
+              </p>
+            </div>
+            <div
+              class="neo-breadcrumbs__actions"
+            >
+              <button
+                class="neo-btn neo-btn-icon-left neo-btn--default neo-btn-primary neo-btn-primary--default   "
+                data-badge=""
+                data-testid="neo-button1"
+                id="test-axe1"
+              >
+                Save
+              </button>
+              <button
+                class="neo-btn neo-btn-icon-left neo-btn--default neo-btn-primary neo-btn-primary--default   "
+                data-badge=""
+                data-testid="neo-button2"
+                id="test-axe2"
+              >
+                Edit
+              </button>
+            </div>
+          </nav>
+        </div>
+      `);
     });
   });
 

@@ -12,7 +12,7 @@ describe("Breadcrumbs component", () => {
         description,
       };
       const rootElement = "[data-testid='Breadcrumbs-root']";
-      mount(<Breadcrumbs {...props} />);
+      mount(<Breadcrumbs {...props} data-testid="Breadcrumbs-root" />);
       cy.get(rootElement).should("contain.text", description);
       cy.get(".neo-breadcrumbs__link--current")
         .should("have.class", "neo-breadcrumbs__link")
