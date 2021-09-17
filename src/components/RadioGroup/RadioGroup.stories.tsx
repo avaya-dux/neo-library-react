@@ -1,4 +1,6 @@
-import { RadioGroup } from "./RadioGroup";
+import { Story } from "@storybook/react";
+
+import { RadioGroup, RadioGroupProps } from "./RadioGroup";
 
 export default {
   title: "Components/Radio Group",
@@ -37,7 +39,9 @@ const DefaultRadioArray = [
   },
 ];
 
-const Template = (args) => <RadioGroup {...args} />;
+const Template: Story<RadioGroupProps> = (args: RadioGroupProps) => (
+  <RadioGroup {...args} />
+);
 
 export const Default = Template.bind({});
 Default.args = {
