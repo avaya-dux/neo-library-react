@@ -1,8 +1,7 @@
 import { HTMLAttributes, ReactNode, useMemo, useRef } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 import { FormControl } from "components/FormControl";
-import { handleAccessbilityError } from "utils/accessibilityUtils";
+import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 import { dispatchInputOnChangeEvent } from "utils/nativeDomUtils";
 
 export interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
@@ -36,7 +35,7 @@ export const TextInput: React.FC<TextInputProps> = ({
   }
 
   // use given id or generate a unique one for accessibility
-  const internalId = useMemo(() => rest.id || uuidv4(), []);
+  const internalId = useMemo(() => rest.id || genId(), []);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
