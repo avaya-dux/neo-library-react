@@ -14,7 +14,7 @@ const options = [
   { label: "White", value: "white" },
 ];
 
-export const Default = () => {
+export const BasicLayout = () => {
   const [color, updateColor] = useState("white");
   return (
     <>
@@ -27,6 +27,27 @@ export const Default = () => {
         value={color}
         hint="Color"
         options={options}
+        layout="basic"
+      />
+      <button onClick={() => updateColor("green")}>change Color</button>
+    </>
+  );
+};
+
+export const StandardLayout = () => {
+  const [color, updateColor] = useState("white");
+  return (
+    <>
+      <Select
+        label="Enable Feature"
+        onChange={(event) => {
+          console.log("select value-> ", event.target.value);
+          updateColor(event.target.value);
+        }}
+        value={color}
+        hint="Color"
+        options={options}
+        layout="standard"
       />
       <button onClick={() => updateColor("green")}>change Color</button>
     </>
