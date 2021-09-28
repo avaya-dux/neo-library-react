@@ -2,7 +2,8 @@ import { forwardRef, useMemo } from "react";
 
 import { genId } from "utils/accessibilityUtils";
 
-import { OptionType } from "./SelectTypes";
+import { OptionType } from "../Select/SelectTypes";
+import { getSelectContainerClass } from "utils/SelectUtils";
 
 export interface NativeSelectProps
   extends React.SelectHTMLAttributes<HTMLSelectElement> {
@@ -10,6 +11,9 @@ export interface NativeSelectProps
   options: OptionType[];
   hint: string;
   displayHintAsAnError?: boolean;
+  disabled?: boolean;
+  required?: boolean;
+  isLoading?: boolean;
   value?: string;
 }
 
@@ -21,6 +25,9 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
       options,
       hint,
       displayHintAsAnError,
+      disabled,
+      isLoading,
+      required,
       ...rest
     }: NativeSelectProps,
     ref: React.Ref<HTMLSelectElement>
@@ -29,14 +36,11 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
     const selectId = genId();
 
     const componentClasses = useMemo(() => {
-      const classArray = ["neo-form-control"];
-
-      if (displayHintAsAnError) {
-        classArray.push("neo-form-control--error");
-      }
-
-      return [...classArray, className].join(" ");
-    }, [displayHintAsAnError]);
+      return [
+        ...getSelectContainerClass(displayHintAsAnError, disabled, required),
+        className,
+      ].join(" ");
+    }, [displayHintAsAnError, disabled, required]);
 
     const renderOptions = (options: OptionType[]) => {
       return options.map((option, index) => {
@@ -50,20 +54,35 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
       });
     };
 
+    const selectClass = useMemo(() => {
+      const classArray = ["neo-select"];
+
+      if (isLoading) {
+        classArray.push("neo-select__spinner");
+      }
+
+      return classArray.join(" ");
+    }, [isLoading]);
+
     return (
       <div className={componentClasses}>
         <div className="neo-input-group">
           {label ? <label htmlFor={selectId}>{label}</label> : null}
 
-          <div className="neo-select">
+          <div className={selectClass}>
             <select
               id={selectId}
               {...rest}
               ref={ref as React.Ref<HTMLSelectElement>}
               className="neo-icon-chevron-down"
               aria-describedby={hintId}
+              disabled={disabled}
             >
-              {options ? renderOptions(options) : null}
+              {isLoading ? (
+                <option value={0}>Loading...</option>
+              ) : options ? (
+                renderOptions(options)
+              ) : null}
             </select>
           </div>
 

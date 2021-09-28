@@ -71,7 +71,7 @@ export const NativeSelectExample = () => {
           updateColor(event.target.value);
         }}
         value={color}
-        hint="Choose a State"
+        hint="Please choose a State"
         options={options}
       />
       <button onClick={() => updateColor("UT")}>Set value to "UT"</button>
@@ -87,6 +87,6 @@ export const Template: Story<NativeSelectProps> = (
 
 Template.args = {
   label: "List of States",
-  hint: "Choose a State",
+  hint: "Please choose a State",
   options: options,
 };

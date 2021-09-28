@@ -3,6 +3,7 @@ import { forwardRef, useMemo, useState, useEffect } from "react";
 import { genId } from "utils/accessibilityUtils";
 
 import { OptionType, SelectHandlerType } from "./SelectTypes";
+import { getSelectContainerClass } from "utils/SelectUtils";
 
 export interface SelectProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
@@ -10,6 +11,9 @@ export interface SelectProps
   options: OptionType[];
   hint: string;
   displayHintAsAnError?: boolean;
+  disabled?: boolean;
+  required?: boolean;
+  isLoading?: boolean;
   onChange?: SelectHandlerType;
   value?: string;
 }
@@ -22,6 +26,9 @@ export const Select: React.FC<SelectProps> = forwardRef(
       options,
       hint,
       displayHintAsAnError,
+      disabled,
+      required,
+      isLoading,
       onChange,
       ...rest
     }: SelectProps,
@@ -41,20 +48,29 @@ export const Select: React.FC<SelectProps> = forwardRef(
     const [internal, updateInternal] = useState(defaultValue[0]);
 
     const componentClasses = useMemo(() => {
-      const classArray = ["neo-form-control"];
+      return [
+        ...getSelectContainerClass(displayHintAsAnError, disabled, required),
+        className,
+      ].join(" ");
+    }, [displayHintAsAnError, disabled, required]);
 
-      if (displayHintAsAnError) {
-        classArray.push("neo-form-control--error");
+    const selectClass = useMemo(() => {
+      const classArray = ["neo-multiselect"];
+
+      if (isOpen) {
+        classArray.push("neo-multiselect--active");
       }
 
-      return [...classArray, className].join(" ");
-    }, [displayHintAsAnError]);
+      if (disabled) {
+        classArray.push("neo-multiselect--disabled");
+      }
 
-    const componentClassesStandardLayout = useMemo(() => {
-      return isOpen
-        ? ["neo-multiselect", "neo-multiselect--active"].join(" ")
-        : "neo-multiselect";
-    }, [isOpen]);
+      if (isLoading) {
+        classArray.push("neo-select__spinner");
+      }
+
+      return classArray.join(" ");
+    }, [isOpen, disabled, isLoading]);
 
     useEffect(() => {
       if (rest.value) {
@@ -89,7 +105,9 @@ export const Select: React.FC<SelectProps> = forwardRef(
           onChange(selected[0].value);
         }
       }
-      updateIsOpen(!isOpen);
+      if (!disabled && !isLoading) {
+        updateIsOpen(!isOpen);
+      }
     };
     return (
       <div className={componentClasses}>
@@ -100,7 +118,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
             id={selectId}
             {...rest}
             ref={ref}
-            className={componentClassesStandardLayout}
+            className={selectClass}
             tabIndex={0}
             role="combobox"
             aria-haspopup="listbox"
@@ -110,9 +128,15 @@ export const Select: React.FC<SelectProps> = forwardRef(
             onClick={clickHandler}
             onKeyPress={(e) => console.log(e.key)}
           >
-            <div className="neo-multiselect__header">{internal?.label}</div>
+            <div className="neo-multiselect__header">
+              {isLoading ? (
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loading...</span>
+              ) : (
+                internal?.label
+              )}
+            </div>
             <div className="neo-multiselect__content">
-              <ul id="listbox"> {options ? renderOptions(options) : null}</ul>
+              <ul id="listbox">{options ? renderOptions(options) : null}</ul>
             </div>
           </div>
 
