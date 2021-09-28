@@ -1,18 +1,16 @@
-import { forwardRef, useMemo } from "react";
+import { forwardRef, useMemo, useState, useEffect } from "react";
 
 import { genId } from "utils/accessibilityUtils";
 
-import { LayoutType, OptionType, SelectHandlerType } from "./SelectTypes";
-import { SelectContainer } from "./SelectContainer";
+import { OptionType, SelectHandlerType } from "./SelectTypes";
 
 export interface SelectProps
-  extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   label: string;
   options: OptionType[];
   hint: string;
   displayHintAsAnError?: boolean;
-  layout?: LayoutType;
-  onSelected?: SelectHandlerType;
+  onChange?: SelectHandlerType;
   value?: string;
 }
 
@@ -24,13 +22,23 @@ export const Select: React.FC<SelectProps> = forwardRef(
       options,
       hint,
       displayHintAsAnError,
-      layout = "standard",
+      onChange,
       ...rest
     }: SelectProps,
-    ref: React.Ref<HTMLSelectElement>
+    ref: React.Ref<HTMLDivElement>
   ) => {
     const hintId = genId();
     const selectId = genId();
+    const [isOpen, updateIsOpen] = useState(false);
+    const filterFunc = (array: OptionType[], query: string) => {
+      return array.filter((item) => {
+        return item.value === query;
+      });
+    };
+
+    const defaultValue = rest.value ? filterFunc(options, rest.value) : options;
+
+    const [internal, updateInternal] = useState(defaultValue[0]);
 
     const componentClasses = useMemo(() => {
       const classArray = ["neo-form-control"];
@@ -42,15 +50,24 @@ export const Select: React.FC<SelectProps> = forwardRef(
       return [...classArray, className].join(" ");
     }, [displayHintAsAnError]);
 
-    const renderOptions = (options: OptionType[], layout: LayoutType) => {
+    const componentClassesStandardLayout = useMemo(() => {
+      return isOpen
+        ? ["neo-multiselect", "neo-multiselect--active"].join(" ")
+        : "neo-multiselect";
+    }, [isOpen]);
+
+    useEffect(() => {
+      if (rest.value) {
+        const selected = filterFunc(options, rest.value);
+        updateInternal(selected[0]);
+      }
+    }, [rest.value]);
+
+    const renderOptions = (options: OptionType[]) => {
       return options.map((option, index) => {
         const { label, value } = option;
 
-        return layout === "basic" ? (
-          <option key={`${label}-${value}-${index}`} value={value}>
-            {label}
-          </option>
-        ) : (
+        return (
           <li
             key={`${label}-${value}-${index}`}
             tabIndex={-1}
@@ -62,21 +79,42 @@ export const Select: React.FC<SelectProps> = forwardRef(
       });
     };
 
+    const clickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      const value = (e.target as HTMLDivElement).getAttribute("data-value");
+      if (value) {
+        const selected = filterFunc(options, value);
+
+        updateInternal(selected[0]);
+        if (onChange) {
+          onChange(selected[0].value);
+        }
+      }
+      updateIsOpen(!isOpen);
+    };
     return (
       <div className={componentClasses}>
         <div className="neo-input-group">
           {label ? <label htmlFor={selectId}>{label}</label> : null}
 
-          <SelectContainer
-            layout={layout}
-            options={options}
-            selectId={selectId}
-            hintId={hintId}
-            ref={ref}
+          <div
+            id={selectId}
             {...rest}
+            ref={ref}
+            className={componentClassesStandardLayout}
+            tabIndex={0}
+            role="combobox"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+            aria-controls="listbox"
+            aria-describedby={hintId}
+            onClick={clickHandler}
+            onKeyPress={(e) => console.log(e.key)}
           >
-            {options ? renderOptions(options, layout) : null}
-          </SelectContainer>
+            <div className="neo-multiselect__header">{internal?.label}</div>
+            <div className="neo-multiselect__content">
+              <ul id="listbox"> {options ? renderOptions(options) : null}</ul>
+            </div>
+          </div>
 
           <div className="neo-input-hint" id={hintId}>
             {hint}

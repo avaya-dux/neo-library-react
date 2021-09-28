@@ -1,12 +1,11 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { useState } from "react";
 
-import { Select, SelectProps } from "./Select";
-
+import { NativeSelect, NativeSelectProps } from "./NativeSelect";
 export default {
-  title: "Components/Select",
-  component: Select,
-} as Meta<SelectProps>;
+  title: "Components/SelectNative",
+  component: NativeSelect,
+} as Meta<NativeSelectProps>;
 
 const options = [
   { label: "Alabama", value: "AL" },
@@ -61,16 +60,15 @@ const options = [
   { label: "Wyoming", value: "WY" },
 ];
 
-export const StandardLayout = () => {
-  // const defaultValue: string | number = 1;
+export const NativeSelectExample = () => {
   const [color, updateColor] = useState("AL");
   return (
     <>
-      <Select
+      <NativeSelect
         label="List of States"
-        onChange={(value) => {
-          console.log("select value-> ", value);
-          updateColor(value);
+        onChange={(event) => {
+          console.log("selected value-> ", event.target.value);
+          updateColor(event.target.value);
         }}
         value={color}
         hint="Choose a State"
@@ -80,25 +78,11 @@ export const StandardLayout = () => {
     </>
   );
 };
-/*
-export const StandardLayoutChangeEvent = () => {
-  return (
-    <>
-      <Select
-        label="Enable Feature"
-        onChange={(event) => {
-          console.log("select value-> ", event.target.value);
-        }}
-        hint="Color"
-        options={options}
-        layout="standard"
-      />
-    </>
-  );
-};
-*/
-export const Template: Story<SelectProps> = (props: SelectProps) => {
-  return <Select {...props} />;
+
+export const Template: Story<NativeSelectProps> = (
+  props: NativeSelectProps
+) => {
+  return <NativeSelect {...props} />;
 };
 
 Template.args = {
