@@ -2,7 +2,7 @@ import { forwardRef, useMemo } from "react";
 
 import { genId } from "utils/accessibilityUtils";
 
-import { LayoutType, OptionType } from "./SelectTypes";
+import { LayoutType, OptionType, SelectHandlerType } from "./SelectTypes";
 import { SelectContainer } from "./SelectContainer";
 
 export interface SelectProps
@@ -12,6 +12,8 @@ export interface SelectProps
   hint: string;
   displayHintAsAnError?: boolean;
   layout?: LayoutType;
+  onSelected?: SelectHandlerType;
+  value?: string;
 }
 
 export const Select: React.FC<SelectProps> = forwardRef(
@@ -67,6 +69,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
 
           <SelectContainer
             layout={layout}
+            options={options}
             selectId={selectId}
             hintId={hintId}
             ref={ref}
