@@ -61,9 +61,8 @@ const options = [
   { label: "Wyoming", value: "WY" },
 ];
 
-export const StandardLayout = () => {
-  // const defaultValue: string | number = 1;
-  const [color, updateColor] = useState("AL");
+export const DemoUpdateByPropChange = () => {
+  const [color, updateColor] = useState(["AL"]);
   return (
     <>
       <Select
@@ -76,27 +75,27 @@ export const StandardLayout = () => {
         hint="Please choose a State"
         options={options}
       />
-      <button onClick={() => updateColor("UT")}>Set value to "UT"</button>
+      <button onClick={() => updateColor(["UT"])}>Set value to "UT"</button>
     </>
   );
 };
-/*
-export const StandardLayoutChangeEvent = () => {
+
+export const DemoMultipleSelect = () => {
   return (
     <>
       <Select
-        label="Enable Feature"
-        onChange={(event) => {
-          console.log("select value-> ", event.target.value);
+        label="List of States"
+        onChange={(value) => {
+          console.log("select value-> ", value);
         }}
-        hint="Color"
+        isMultipleSelect={true}
+        hint="Please choose a State"
         options={options}
-        layout="standard"
       />
     </>
   );
 };
-*/
+
 export const Template: Story<SelectProps> = (props: SelectProps) => {
   return <Select {...props} />;
 };

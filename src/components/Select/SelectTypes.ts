@@ -3,4 +3,4 @@ export type OptionType = {
   value: string;
 };
 
-export type SelectHandlerType = (value: string) => void;
+export type SelectHandlerType = (value: string[]) => void;
