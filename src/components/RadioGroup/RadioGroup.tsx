@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { FormControl } from "components/FormControl";
+import { NeoInputWrapper } from "components/NeoInputWrapper";
 
 import { Radio, RadioProps } from "./Radio";
 
@@ -70,7 +70,7 @@ export const RadioGroup = ({
   };
 
   return (
-    <FormControl
+    <NeoInputWrapper
       data-testid="RadioGroup-root"
       required={required}
       error={error}
@@ -82,6 +82,6 @@ export const RadioGroup = ({
         <>{radioButtons()}</>
       )}
       {helperText && <div className="neo-input-hint">{helperText}</div>}
-    </FormControl>
+    </NeoInputWrapper>
   );
 };

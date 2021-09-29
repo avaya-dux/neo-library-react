@@ -1,29 +1,34 @@
 import { FunctionComponent, HTMLAttributes } from "react";
 
-interface FormControlProps extends HTMLAttributes<HTMLDivElement> {
+interface NeoInputWrapperProps
+  extends Omit<HTMLAttributes<HTMLDivElement>, "className"> {
   disabled?: boolean;
   error?: boolean;
+  groupingClassName?: string;
   inline?: boolean;
   required?: boolean;
+  wrapperClassName?: string;
 }
 
-export const FormControl: FunctionComponent<FormControlProps> = ({
+export const NeoInputWrapper: FunctionComponent<NeoInputWrapperProps> = ({
   children,
   disabled,
   error,
+  groupingClassName,
   inline,
   required,
+  wrapperClassName,
 
   ...rest
 }) => (
   <div
-    data-testid="FormControl-root"
-    {...getFormControlProps({ disabled, error, required })}
+    data-testid="NeoInputWrapper-root"
+    {...getNeoInputWrapperProps({ disabled, error, required })}
     {...rest}
   >
     <div
       aria-required={required === true}
-      data-testid="FormControl-group-root"
+      data-testid="NeoInputWrapper-group-root"
       {...getInputGroupProps({ inline })}
     >
       {children}
@@ -31,11 +36,12 @@ export const FormControl: FunctionComponent<FormControlProps> = ({
   </div>
 );
 
-export function getFormControlProps({
+export function getNeoInputWrapperProps({
   disabled,
   error,
   required,
-}: Omit<FormControlProps, "inline"> = {}) {
+  wrapperClassName,
+}: Omit<NeoInputWrapperProps, "inline" | "groupingClassName"> = {}) {
   const classNames = ["neo-form-control"];
 
   if (disabled === true) {
@@ -47,17 +53,24 @@ export function getFormControlProps({
   if (required === true) {
     classNames.push("neo-form-control--required");
   }
+  if (wrapperClassName) {
+    classNames.push(wrapperClassName);
+  }
 
   return { className: classNames.join(" ") };
 }
 
 export function getInputGroupProps({
+  groupingClassName,
   inline,
-}: Pick<FormControlProps, "inline"> = {}) {
+}: Pick<NeoInputWrapperProps, "inline" | "groupingClassName"> = {}) {
   const classNames = ["neo-input-group"];
 
   if (inline) {
     classNames.push("neo-input-group--inline");
+  }
+  if (groupingClassName) {
+    classNames.push(groupingClassName);
   }
 
   return { className: classNames.join(" ") };

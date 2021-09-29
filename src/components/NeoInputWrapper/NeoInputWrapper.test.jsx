@@ -1,14 +1,18 @@
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
-import { FormControl, getFormControlProps, getInputGroupProps } from ".";
+import {
+  getInputGroupProps,
+  getNeoInputWrapperProps,
+  NeoInputWrapper,
+} from ".";
 
-describe("FormControl", () => {
-  const datatestid = "FormControl-root";
-  const groupdatatestid = "FormControl-group-root";
+describe("NeoInputWrapper", () => {
+  const datatestid = "NeoInputWrapper-root";
+  const groupdatatestid = "NeoInputWrapper-group-root";
 
   it("fully renders without exploding", () => {
-    const { getByTestId } = render(<FormControl />);
+    const { getByTestId } = render(<NeoInputWrapper />);
 
     const rootElement = getByTestId(datatestid);
     const groupElement = getByTestId(groupdatatestid);
@@ -17,13 +21,13 @@ describe("FormControl", () => {
   });
 
   it("passes basic axe compliance", async () => {
-    const { container } = render(<FormControl />);
+    const { container } = render(<NeoInputWrapper />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
   it("has default 'control' and 'group' classes", () => {
-    const { getByTestId } = render(<FormControl />);
+    const { getByTestId } = render(<NeoInputWrapper />);
     const rootElement = getByTestId(datatestid);
     const groupElement = getByTestId(groupdatatestid);
 
@@ -32,7 +36,7 @@ describe("FormControl", () => {
   });
 
   it("adds all of the proper 'control' and 'group' classes when the appropriate props are set", () => {
-    const { getByTestId } = render(<FormControl inline error required />);
+    const { getByTestId } = render(<NeoInputWrapper inline error required />);
     const rootElement = getByTestId(datatestid);
     const groupElement = getByTestId(groupdatatestid);
 
@@ -41,29 +45,31 @@ describe("FormControl", () => {
   });
 
   it("adds 'aria-required' appropriately", () => {
-    const { container: requiredContainer } = render(<FormControl required />);
+    const { container: requiredContainer } = render(
+      <NeoInputWrapper required />
+    );
     const requiredElement = requiredContainer.querySelector(
       '[aria-required="true"]'
     );
     expect(requiredElement).toBeTruthy();
 
-    const { container: defaultContainer } = render(<FormControl />);
+    const { container: defaultContainer } = render(<NeoInputWrapper />);
     const nonRequiredElement = defaultContainer.querySelector(
       '[aria-required="true"]'
     );
     expect(nonRequiredElement).toBe(null);
   });
 
-  describe("getFormControlProps", () => {
+  describe("getNeoInputWrapperProps", () => {
     it("returns expected props", () => {
-      expect(getFormControlProps()).toMatchInlineSnapshot(`
+      expect(getNeoInputWrapperProps()).toMatchInlineSnapshot(`
         Object {
           "className": "neo-form-control",
         }
       `);
 
       expect(
-        getFormControlProps({ error: true, required: true, disabled: true })
+        getNeoInputWrapperProps({ error: true, required: true, disabled: true })
       ).toMatchInlineSnapshot(`
         Object {
           "className": "neo-form-control neo-form-control--disabled neo-form-control--error neo-form-control--required",
@@ -71,10 +77,24 @@ describe("FormControl", () => {
       `);
 
       expect(
-        getFormControlProps({ error: true, required: false, disabled: false })
+        getNeoInputWrapperProps({
+          error: true,
+          required: false,
+          disabled: false,
+        })
       ).toMatchInlineSnapshot(`
         Object {
           "className": "neo-form-control neo-form-control--error",
+        }
+      `);
+    });
+
+    it("allows extending of `className` via prop: `wrapperClassName`", () => {
+      expect(
+        getNeoInputWrapperProps({ wrapperClassName: "example-class-name" })
+      ).toMatchInlineSnapshot(`
+        Object {
+          "className": "neo-form-control example-class-name",
         }
       `);
     });
@@ -91,6 +111,15 @@ describe("FormControl", () => {
       expect(getInputGroupProps({ inline: true })).toMatchInlineSnapshot(`
         Object {
           "className": "neo-input-group neo-input-group--inline",
+        }
+      `);
+    });
+
+    it("allows extending of `className` via prop: `groupingClassName`", () => {
+      expect(getInputGroupProps({ groupingClassName: "example-class-name" }))
+        .toMatchInlineSnapshot(`
+        Object {
+          "className": "neo-input-group example-class-name",
         }
       `);
     });
