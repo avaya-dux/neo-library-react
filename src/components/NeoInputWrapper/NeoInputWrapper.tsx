@@ -23,13 +23,18 @@ export const NeoInputWrapper: FunctionComponent<NeoInputWrapperProps> = ({
 }) => (
   <div
     data-testid="NeoInputWrapper-root"
-    {...getNeoInputWrapperProps({ disabled, error, required })}
+    {...getNeoInputWrapperProps({
+      disabled,
+      error,
+      required,
+      wrapperClassName,
+    })}
     {...rest}
   >
     <div
       aria-required={required === true}
       data-testid="NeoInputWrapper-group-root"
-      {...getInputGroupProps({ inline })}
+      {...getInputGroupProps({ inline, groupingClassName })}
     >
       {children}
     </div>

@@ -36,12 +36,20 @@ describe("NeoInputWrapper", () => {
   });
 
   it("adds all of the proper 'control' and 'group' classes when the appropriate props are set", () => {
-    const { getByTestId } = render(<NeoInputWrapper inline error required />);
+    const { getByTestId } = render(
+      <NeoInputWrapper
+        error
+        groupingClassName="example-class-name"
+        inline
+        required
+        wrapperClassName="example-class-name"
+      />
+    );
     const rootElement = getByTestId(datatestid);
     const groupElement = getByTestId(groupdatatestid);
 
-    expect(rootElement.classList.length).toBe(3);
-    expect(groupElement.classList.length).toBe(2);
+    expect(rootElement.classList.length).toBe(4);
+    expect(groupElement.classList.length).toBe(3);
   });
 
   it("adds 'aria-required' appropriately", () => {
