@@ -1,9 +1,10 @@
-import { forwardRef, useMemo, useState, useEffect } from "react";
+import { forwardRef, useMemo, useState, useEffect, createRef } from "react";
 
 import { genId } from "utils/accessibilityUtils";
 
 import { OptionType, SelectHandlerType } from "./SelectTypes";
 import { getSelectContainerClass } from "utils/SelectUtils";
+import "./style.css";
 
 export interface SelectProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
@@ -38,7 +39,11 @@ export const Select: React.FC<SelectProps> = forwardRef(
   ) => {
     const hintId = genId();
     const selectId = genId();
+    const listBoxRef: React.Ref<HTMLDivElement> = createRef();
+
     const [isOpen, updateIsOpen] = useState(false);
+    const [cursor, setCursor] = useState(0);
+
     const filterFunc = (array: OptionType[], query: string[]) => {
       return array.filter((item) => {
         return query.includes(item.value);
@@ -88,13 +93,18 @@ export const Select: React.FC<SelectProps> = forwardRef(
       isMultipleSelect: boolean
     ) => {
       return isMultipleSelect ? (
-        options.map((option) => {
+        options.map((option, index) => {
           const { label, value } = option;
           const checkId = genId();
           const checkHindId = genId();
 
           return (
-            <div className="neo-input-group" key={checkId}>
+            <div
+              className={`neo-input-group ${cursor === index ? "active" : ""}`}
+              key={checkId}
+              role="menuitem"
+              tabIndex={0}
+            >
               <input
                 className="neo-check"
                 type="checkbox"
@@ -143,12 +153,13 @@ export const Select: React.FC<SelectProps> = forwardRef(
 
             if (copy.length >= 2) {
               copy.splice(copy.indexOf(newValue), 1);
+              result = copy;
               updateInternal(copy);
             }
           } else {
             // add
-
-            updateInternal([...internal, ...filterFunc(options, [value])]);
+            result = [...internal, ...filterFunc(options, [value])];
+            updateInternal(result);
           }
         } else {
           result = filterFunc(options, [value]);
@@ -162,6 +173,31 @@ export const Select: React.FC<SelectProps> = forwardRef(
       }
       if (!disabled && !isLoading) {
         isMultipleSelect ? updateIsOpen(true) : updateIsOpen(!isOpen);
+      }
+    };
+    const onKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
+      console.log(`code = ${e.code}`);
+      const active = document.activeElement;
+      console.log(active);
+
+      switch (e.code) {
+        case "Space": {
+          updateIsOpen(true);
+          setTimeout(() => {
+            (active as HTMLElement)?.focus();
+          }, 3000);
+
+          break;
+        }
+
+        case "ArrowDown": {
+          console.log(active);
+          // (active?.nextSibling as HTMLElement)?.focus();
+          break;
+        }
+
+        default:
+          break;
       }
     };
     return (
@@ -181,10 +217,9 @@ export const Select: React.FC<SelectProps> = forwardRef(
             aria-controls="listbox"
             aria-describedby={hintId}
             onClick={clickHandler}
-            // onBlur={() => updateIsOpen(!isOpen)}
-            onKeyPress={(e) => console.log(e.key)}
+            onKeyDown={onKeyDownHandler}
           >
-            <div className="neo-multiselect__header">
+            <div className="neo-multiselect__header" tabIndex={-1}>
               {isLoading ? (
                 <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loading...</span>
               ) : (
@@ -192,9 +227,11 @@ export const Select: React.FC<SelectProps> = forwardRef(
               )}
             </div>
             <div
+              ref={listBoxRef}
               className="neo-multiselect__content"
-              onBlur={() => updateIsOpen(!isOpen)}
               role="listbox"
+              tabIndex={-1}
+              onMouseLeave={() => updateIsOpen(false)}
             >
               {options ? renderOptions(options, isMultipleSelect) : null}
             </div>

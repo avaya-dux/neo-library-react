@@ -1,0 +1,4 @@
+.active {
+  background-color: #e8f1fc;
+  background-color: var(--list-hover);
+}

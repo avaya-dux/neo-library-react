@@ -62,36 +62,44 @@ const options = [
 ];
 
 export const DemoUpdateByPropChange = () => {
-  const [color, updateColor] = useState(["AL"]);
+  const [selectedStates, updateSelectedStates] = useState(["AL"]);
   return (
     <>
       <Select
         label="List of States"
         onChange={(value) => {
           console.log("select value-> ", value);
-          updateColor(value);
+          updateSelectedStates(value);
         }}
-        value={color}
+        value={selectedStates}
         hint="Please choose a State"
         options={options}
       />
-      <button onClick={() => updateColor(["UT"])}>Set value to "UT"</button>
+      <button onClick={() => updateSelectedStates(["UT"])}>
+        Set value to "UT"
+      </button>
     </>
   );
 };
 
 export const DemoMultipleSelect = () => {
+  const [selectedStates, updateSelectedStates] = useState(["AL"]);
   return (
     <>
       <Select
         label="List of States"
         onChange={(value) => {
           console.log("select value-> ", value);
+          updateSelectedStates(value);
         }}
         isMultipleSelect={true}
+        value={selectedStates}
         hint="Please choose a State"
         options={options}
       />
+      <button onClick={() => updateSelectedStates(["UT", "AL"])}>
+        Set value to "UT", "AL"
+      </button>
     </>
   );
 };
