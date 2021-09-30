@@ -6,6 +6,38 @@ import { OptionType, SelectHandlerType } from "./SelectTypes";
 import { getSelectContainerClass } from "utils/SelectUtils";
 import "./style.css";
 
+type KeyType = {
+  key: string;
+};
+
+const useKeyPress = (targetKey: string) => {
+  const [keyPressed, setKeyPressed] = useState(false);
+
+  function downHandler({ key }: KeyType) {
+    if (key === targetKey) {
+      setKeyPressed(true);
+    }
+  }
+
+  const upHandler = ({ key }: KeyType) => {
+    if (key === targetKey) {
+      setKeyPressed(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", downHandler);
+    window.addEventListener("keyup", upHandler);
+
+    return () => {
+      window.removeEventListener("keydown", downHandler);
+      window.removeEventListener("keyup", upHandler);
+    };
+  });
+
+  return keyPressed;
+};
+
 export interface SelectProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   label: string;
@@ -43,6 +75,39 @@ export const Select: React.FC<SelectProps> = forwardRef(
 
     const [isOpen, updateIsOpen] = useState(false);
     const [cursor, setCursor] = useState(0);
+    // const defaultHovered: OptionType | undefined = options[0];
+    const [hovered, setHovered] = useState(options[0]);
+    const downPress = useKeyPress("ArrowDown");
+    const upPress = useKeyPress("ArrowUp");
+    const enterPress = useKeyPress("Enter");
+
+    useEffect(() => {
+      if (options.length && downPress) {
+        setCursor((prevState) =>
+          prevState < options.length - 1 ? prevState + 1 : prevState
+        );
+      }
+    }, [downPress]);
+    useEffect(() => {
+      if (options.length && upPress) {
+        setCursor((prevState) => (prevState > 0 ? prevState - 1 : prevState));
+      }
+    }, [upPress]);
+    useEffect(() => {
+      if (options.length && enterPress) {
+        let result: OptionType[] = [];
+        result = filterFunc(options, [options[cursor].value]);
+        updateInternal(result);
+        if (onChange) {
+          onChange(result?.map((item) => item.value));
+        }
+      }
+    }, [cursor, enterPress]);
+    useEffect(() => {
+      if (options.length && hovered) {
+        setCursor(options.indexOf(hovered));
+      }
+    }, [hovered]);
 
     const filterFunc = (array: OptionType[], query: string[]) => {
       return array.filter((item) => {
@@ -104,6 +169,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
               key={checkId}
               role="menuitem"
               tabIndex={0}
+              onMouseEnter={() => setHovered(option)}
             >
               <input
                 className="neo-check"
@@ -125,13 +191,24 @@ export const Select: React.FC<SelectProps> = forwardRef(
         })
       ) : (
         <ul id="listbox">
-          {options.map((option) => {
+          {options.map((option, index) => {
             const itemId = genId();
             const { label, value } = option;
 
             return (
-              <li key={itemId} tabIndex={-1} data-value={value}>
-                {label}
+              <li
+                key={itemId}
+                tabIndex={-1}
+                data-value={value}
+                className={` ${cursor === index ? "active" : ""}`}
+              >
+                <span
+                  role="button"
+                  tabIndex={0}
+                  onMouseEnter={() => setHovered(option)}
+                >
+                  {label}
+                </span>
               </li>
             );
           })}
@@ -163,7 +240,6 @@ export const Select: React.FC<SelectProps> = forwardRef(
           }
         } else {
           result = filterFunc(options, [value]);
-          console.log(result);
           updateInternal(result);
         }
 
@@ -217,7 +293,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
             aria-controls="listbox"
             aria-describedby={hintId}
             onClick={clickHandler}
-            onKeyDown={onKeyDownHandler}
+            onKeyDown={() => updateIsOpen(true)}
           >
             <div className="neo-multiselect__header" tabIndex={-1}>
               {isLoading ? (
