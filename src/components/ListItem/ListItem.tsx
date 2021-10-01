@@ -2,11 +2,11 @@ import clsx from "clsx";
 import { Fragment, FunctionComponent } from "react";
 import { ReactElement } from "markdown-to-jsx/node_modules/@types/react";
 import { AvatarProps, IconProps } from "components";
-export interface ListItemProps
-  extends Pick<React.HTMLAttributes<HTMLDivElement>, "className" | "role"> {
+export interface ListItemProps {
+  className?: string;
   showDivider?: boolean;
   hover?: boolean;
-  variant?: "default" | "spaces_app";
+  variant?: "list_item" | "list_section";
   avatar?: ReactElement<AvatarProps>;
   actions?: ReactElement<any>[];
   icon?: ReactElement<IconProps>;
@@ -26,7 +26,7 @@ export const ListItem: FunctionComponent<ListItemProps> = ({
   variant,
 }) => {
   const avacon = avatar || icon;
-  if (variant === "spaces_app") {
+  if (variant === "list_section") {
     return (
       <li
         className={clsx(
@@ -50,7 +50,7 @@ export const ListItem: FunctionComponent<ListItemProps> = ({
     );
   }
 
-  // Render default variant style
+  // Render list_item variant style
   return (
     <li
       className={clsx(

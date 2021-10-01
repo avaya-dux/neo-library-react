@@ -117,12 +117,12 @@ const timeAndBadge = (
   </div>
 );
 
-export const PortalSpacesUIExamples: Story<ListItemProps> = (
+export const PortalListItemExamples: Story<ListItemProps> = (
   props: ListItemProps
 ) => (
   <ul className="neo-group-list neo-group-list--hover">
     <ListItem
-      variant="spaces_app"
+      variant="list_section"
       showDivider
       avatar={avatarJB}
       actions={[iconBtnCall]}
@@ -130,12 +130,12 @@ export const PortalSpacesUIExamples: Story<ListItemProps> = (
     >
       Joan Barnett
     </ListItem>
-    <ListItem variant="spaces_app" showDivider {...props}>
+    <ListItem variant="list_section" showDivider {...props}>
       {verticalCounter}
       {twoLineText}
     </ListItem>
     <ListItem
-      variant="spaces_app"
+      variant="list_section"
       actions={[iconBtnTransferCall, iconBtnAddCall]}
       {...props}
     >
@@ -145,7 +145,7 @@ export const PortalSpacesUIExamples: Story<ListItemProps> = (
       </div>
     </ListItem>
     <ListItem
-      variant="spaces_app"
+      variant="list_section"
       showDivider
       avatar={avatarBD}
       actions={[iconBtnCall2, iconBtnVideoOn]}
@@ -155,7 +155,7 @@ export const PortalSpacesUIExamples: Story<ListItemProps> = (
       {twoLineText}
     </ListItem>
     <ListItem
-      variant="spaces_app"
+      variant="list_section"
       icon={iconStar}
       actions={[timeAndBadge]}
       {...props}
@@ -168,9 +168,9 @@ export const PortalSpacesUIExamples: Story<ListItemProps> = (
   </ul>
 );
 
-const basicSwitch = <Switch label="Activate" defaultChecked />;
+const basicSwitch = <Switch aria-label="Activate" defaultChecked />;
 
-export const PortalDefaultNeoUIExamples: Story<ListItemProps> = (
+export const PortalListSectionsExamples: Story<ListItemProps> = (
   props: ListItemProps
 ) => (
   <ul className="neo-group-list--actions">

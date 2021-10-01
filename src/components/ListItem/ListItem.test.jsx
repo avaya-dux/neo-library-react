@@ -9,11 +9,11 @@ import * as ListItemStories from "./ListItem.stories";
 
 describe("ListItem: ", () => {
   describe("Render Portal Spaces UI Examples Story", () => {
-    const { PortalSpacesUIExamples } = composeStories(ListItemStories);
+    const { PortalListItemExamples } = composeStories(ListItemStories);
     let renderResult;
 
     beforeEach(() => {
-      renderResult = render(<PortalSpacesUIExamples />);
+      renderResult = render(<PortalListItemExamples />);
     });
 
     it("renders ok", () => {
@@ -23,11 +23,11 @@ describe("ListItem: ", () => {
   });
 
   describe("Render Portal Default Neo UI Story ", () => {
-    const { PortalDefaultNeoUIExamples } = composeStories(ListItemStories);
+    const { PortalListSectionsExamples } = composeStories(ListItemStories);
     let renderResult;
 
     beforeEach(() => {
-      renderResult = render(<PortalDefaultNeoUIExamples />);
+      renderResult = render(<PortalListSectionsExamples />);
     });
 
     it("renders ok", () => {
