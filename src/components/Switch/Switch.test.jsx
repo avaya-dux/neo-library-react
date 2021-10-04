@@ -115,12 +115,12 @@ describe("Switch", () => {
       <div>
         <div
           class="neo-form-control"
-          data-testid="FormControl-root"
+          data-testid="NeoInputWrapper-root"
         >
           <div
             aria-required="false"
             class="neo-input-group"
-            data-testid="FormControl-group-root"
+            data-testid="NeoInputWrapper-group-root"
           >
             <label
               class="neo-switch"
@@ -158,12 +158,12 @@ describe("Switch", () => {
       <div>
         <div
           class="neo-form-control neo-form-control--disabled"
-          data-testid="FormControl-root"
+          data-testid="NeoInputWrapper-root"
         >
           <div
             aria-required="false"
             class="neo-input-group"
-            data-testid="FormControl-group-root"
+            data-testid="NeoInputWrapper-group-root"
           >
             <label
               class="neo-switch neo-switch--disabled"
@@ -194,12 +194,12 @@ describe("Switch", () => {
       <div>
         <div
           class="neo-form-control"
-          data-testid="FormControl-root"
+          data-testid="NeoInputWrapper-root"
         >
           <div
             aria-required="false"
             class="neo-input-group"
-            data-testid="FormControl-group-root"
+            data-testid="NeoInputWrapper-group-root"
           >
             <label
               class="neo-switch neo-switch--multiline"
@@ -236,12 +236,12 @@ describe("Switch", () => {
       <div>
         <div
           class="neo-form-control"
-          data-testid="FormControl-root"
+          data-testid="NeoInputWrapper-root"
         >
           <div
             aria-required="false"
             class="neo-input-group"
-            data-testid="FormControl-group-root"
+            data-testid="NeoInputWrapper-group-root"
           >
             <label
               class="neo-switch"

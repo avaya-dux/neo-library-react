@@ -12,7 +12,8 @@ export const Default = () => {
     <>
       <Switch
         label="Enable Feature"
-        onChange={(event) => {
+        // TODO: BUG: `any` is bad
+        onChange={(event: any) => {
           alert("Checked -> " + event.target.checked);
         }}
       />

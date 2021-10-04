@@ -1,5 +1,6 @@
-import { FormControl, getFormControlProps } from "components/FormControl";
 import { useMemo } from "react";
+
+import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId } from "utils/accessibilityUtils";
 
 type SwitchChangeHandler = (
@@ -38,14 +39,12 @@ export function Switch(props: SwitchProps) {
   // use given id or generate a unique one for accessibility
   const internalId = useMemo(() => props.id || genId(), [props.id]);
 
-  const formControlProps = {
-    disabled: props.disabled,
-    error: props.error,
-    required: props.required,
-  };
-
   return (
-    <FormControl {...getFormControlProps(formControlProps)}>
+    <NeoInputWrapper
+      disabled={props.disabled}
+      error={props.error}
+      required={props.required}
+    >
       <label {...getSwitchLabelProps(props)} htmlFor={internalId}>
         <input
           {...getSwitchInputProps(props)}
@@ -56,7 +55,7 @@ export function Switch(props: SwitchProps) {
         <i className="neo-switch__icon" />
         {props.label}
       </label>
-    </FormControl>
+    </NeoInputWrapper>
   );
 }
 

@@ -1,8 +1,13 @@
+export * from "./Avatar";
 export * from "./Breadcrumbs";
 export * from "./ExampleComponent";
 export * from "./Form";
+export * from "./Icon";
+export * from "./IconButton";
+export * from "./ListItem";
 export * from "./NoContent";
 export * from "./Spinner";
+export * from "./Switch";
 export * from "./TextInput";
 // TODO-NEO-575: export * from "./Tooltip";
 export * from "utils/icons";

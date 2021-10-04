@@ -1,6 +1,6 @@
 import { HTMLAttributes, ReactNode, useMemo, useRef } from "react";
 
-import { FormControl } from "components/FormControl";
+import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 import { dispatchInputOnChangeEvent } from "utils/nativeDomUtils";
 
@@ -40,7 +40,7 @@ export const TextInput: React.FC<TextInputProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <FormControl disabled={disabled} error={error} required={required}>
+    <NeoInputWrapper disabled={disabled} error={error} required={required}>
       <label htmlFor={internalId}>{label}</label>
 
       <div className="neo-input-group--addons">
@@ -83,7 +83,7 @@ export const TextInput: React.FC<TextInputProps> = ({
           {helperText}
         </div>
       )}
-    </FormControl>
+    </NeoInputWrapper>
   );
 };
 
