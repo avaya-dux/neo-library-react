@@ -162,10 +162,11 @@ export const Select: React.FC<SelectProps> = forwardRef(
           const { label, value } = option;
           const checkId = genId();
           const checkHindId = genId();
+          const isActive = !!internal.find((item) => item.value === value);
 
           return (
             <div
-              className={`neo-input-group ${cursor === index ? "active" : ""}`}
+              className={`neo-input-group ${isActive ? "active" : ""}`}
               key={checkId}
               role="menuitem"
               tabIndex={0}
@@ -177,7 +178,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
                 id={checkId}
                 value={value}
                 tabIndex={-1}
-                defaultChecked={!!internal.find((item) => item.value === value)}
+                defaultChecked={isActive}
                 aria-describedby={checkHindId}
               />
               <label htmlFor={checkId} data-value={value}>
@@ -202,13 +203,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
                 data-value={value}
                 className={` ${cursor === index ? "active" : ""}`}
               >
-                <span
-                  role="button"
-                  tabIndex={0}
-                  onMouseEnter={() => setHovered(option)}
-                >
-                  {label}
-                </span>
+                {label}
               </li>
             );
           })}
@@ -240,7 +235,9 @@ export const Select: React.FC<SelectProps> = forwardRef(
           }
         } else {
           result = filterFunc(options, [value]);
+          console.log(result[0]);
           updateInternal(result);
+          setCursor(options.indexOf(result[0]));
         }
 
         if (onChange) {
@@ -296,8 +293,12 @@ export const Select: React.FC<SelectProps> = forwardRef(
             onKeyDown={() => updateIsOpen(true)}
           >
             <div className="neo-multiselect__header" tabIndex={-1}>
+              {/*
+              TODO gap between the spinner icon and Loading text
+              https://jira.forge.avaya.com/browse/NEO-678
+              */}
               {isLoading ? (
-                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loading...</span>
+                <span>Loading...</span>
               ) : (
                 internal?.map((item) => item.label).join(" ,")
               )}
