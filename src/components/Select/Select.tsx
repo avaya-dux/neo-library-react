@@ -6,38 +6,6 @@ import { OptionType, SelectHandlerType } from "./SelectTypes";
 import { getSelectContainerClass } from "utils/SelectUtils";
 import "./style.css";
 
-type KeyType = {
-  key: string;
-};
-
-const useKeyPress = (targetKey: string) => {
-  const [keyPressed, setKeyPressed] = useState(false);
-
-  function downHandler({ key }: KeyType) {
-    if (key === targetKey) {
-      setKeyPressed(true);
-    }
-  }
-
-  const upHandler = ({ key }: KeyType) => {
-    if (key === targetKey) {
-      setKeyPressed(false);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("keydown", downHandler);
-    window.addEventListener("keyup", upHandler);
-
-    return () => {
-      window.removeEventListener("keydown", downHandler);
-      window.removeEventListener("keyup", upHandler);
-    };
-  });
-
-  return keyPressed;
-};
-
 export interface SelectProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   label: string;
@@ -75,34 +43,9 @@ export const Select: React.FC<SelectProps> = forwardRef(
 
     const [isOpen, updateIsOpen] = useState(false);
     const [cursor, setCursor] = useState(0);
-    // const defaultHovered: OptionType | undefined = options[0];
-    const [hovered, setHovered] = useState(options[0]);
-    const downPress = useKeyPress("ArrowDown");
-    const upPress = useKeyPress("ArrowUp");
-    const enterPress = useKeyPress("Enter");
 
-    useEffect(() => {
-      if (options.length && downPress) {
-        setCursor((prevState) =>
-          prevState < options.length - 1 ? prevState + 1 : prevState
-        );
-      }
-    }, [downPress]);
-    useEffect(() => {
-      if (options.length && upPress) {
-        setCursor((prevState) => (prevState > 0 ? prevState - 1 : prevState));
-      }
-    }, [upPress]);
-    useEffect(() => {
-      if (options.length && enterPress) {
-        let result: OptionType[] = [];
-        result = filterFunc(options, [options[cursor].value]);
-        updateInternal(result);
-        if (onChange) {
-          onChange(result?.map((item) => item.value));
-        }
-      }
-    }, [cursor, enterPress]);
+    const [hovered, setHovered] = useState(options[0]);
+
     useEffect(() => {
       if (options.length && hovered) {
         setCursor(options.indexOf(hovered));
@@ -163,10 +106,21 @@ export const Select: React.FC<SelectProps> = forwardRef(
           const checkId = genId();
           const checkHindId = genId();
           const isActive = !!internal.find((item) => item.value === value);
+          const isHover = cursor === index;
+
+          const classNames = ["neo-input-group"];
+
+          if (isActive) {
+            classNames.push("active");
+          }
+
+          if (isHover) {
+            classNames.push("hover");
+          }
 
           return (
             <div
-              className={`neo-input-group ${isActive ? "active" : ""}`}
+              className={classNames.join(" ")}
               key={checkId}
               role="menuitem"
               tabIndex={0}
@@ -210,62 +164,76 @@ export const Select: React.FC<SelectProps> = forwardRef(
         </ul>
       );
     };
-
-    const clickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      const value = (e.target as HTMLDivElement).getAttribute("data-value");
+    const addOrRemoveSelectedItems = (
+      isMultipleSelect: boolean,
+      value: string
+    ) => {
       let result: OptionType[] = [];
+      if (isMultipleSelect) {
+        const newValue = internal.find((item) => item.value === value);
+        // remove new value if is already there
+        if (newValue) {
+          const copy = [...internal];
+          // do not remove if only one item was left
 
-      if (value) {
-        if (isMultipleSelect) {
-          const newValue = internal.find((item) => item.value === value);
-          // remove new value if is already there
-          if (newValue) {
-            const copy = [...internal];
-            // do not remove if only one item was left
-
-            if (copy.length >= 2) {
-              copy.splice(copy.indexOf(newValue), 1);
-              result = copy;
-              updateInternal(copy);
-            }
-          } else {
-            // add
-            result = [...internal, ...filterFunc(options, [value])];
-            updateInternal(result);
+          if (copy.length >= 2) {
+            copy.splice(copy.indexOf(newValue), 1);
+            result = copy;
+            updateInternal(copy);
           }
         } else {
-          result = filterFunc(options, [value]);
-          console.log(result[0]);
+          // add
+          result = [...internal, ...filterFunc(options, [value])];
           updateInternal(result);
-          setCursor(options.indexOf(result[0]));
         }
+      } else {
+        result = filterFunc(options, [value]);
 
-        if (onChange) {
-          onChange(result?.map((item) => item.value));
-        }
+        updateInternal(result);
+        setCursor(options.indexOf(result[0]));
+      }
+
+      if (onChange) {
+        onChange(result?.map((item) => item.value));
       }
       if (!disabled && !isLoading) {
         isMultipleSelect ? updateIsOpen(true) : updateIsOpen(!isOpen);
       }
     };
-    const onKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
-      console.log(`code = ${e.code}`);
-      const active = document.activeElement;
-      console.log(active);
 
+    const clickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      const value = (e.target as HTMLDivElement).getAttribute("data-value");
+
+      if (value) {
+        addOrRemoveSelectedItems(isMultipleSelect, value);
+      }
+      if (!disabled && !isLoading) {
+        isMultipleSelect ? updateIsOpen(true) : updateIsOpen(!isOpen);
+      }
+    };
+
+    const onKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
       switch (e.code) {
         case "Space": {
-          updateIsOpen(true);
-          setTimeout(() => {
-            (active as HTMLElement)?.focus();
-          }, 3000);
+          updateIsOpen(!isOpen);
 
           break;
         }
 
         case "ArrowDown": {
-          console.log(active);
-          // (active?.nextSibling as HTMLElement)?.focus();
+          setCursor((prevState) =>
+            prevState < options.length - 1 ? prevState + 1 : prevState
+          );
+          break;
+        }
+
+        case "ArrowUp": {
+          setCursor((prevState) => (prevState > 0 ? prevState - 1 : prevState));
+          break;
+        }
+
+        case "Enter": {
+          addOrRemoveSelectedItems(isMultipleSelect, options[cursor].value);
           break;
         }
 
@@ -273,6 +241,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
           break;
       }
     };
+
     return (
       <div className={componentClasses}>
         <div className="neo-input-group">
@@ -290,7 +259,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
             aria-controls="listbox"
             aria-describedby={hintId}
             onClick={clickHandler}
-            onKeyDown={() => updateIsOpen(true)}
+            onKeyDown={onKeyDownHandler}
           >
             <div className="neo-multiselect__header" tabIndex={-1}>
               {/*

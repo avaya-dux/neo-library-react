@@ -1,4 +1,11 @@
+/*
+TODO https://jira.forge.avaya.com/browse/NEO-683
+*/
 .active {
   background-color: #e8f1fc;
   background-color: var(--list-hover);
+}
+.hover {
+  background-color: #f1f1f1;
+  background-color: var(--navbar-bg-color-hover);
 }
