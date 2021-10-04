@@ -102,7 +102,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
     ) => {
       return isMultipleSelect ? (
         options.map((option, index) => {
-          const { label, value } = option;
+          const { label, value, hint } = option;
           const checkId = genId();
           const checkHindId = genId();
           const isActive = !!internal.find((item) => item.value === value);
@@ -138,9 +138,11 @@ export const Select: React.FC<SelectProps> = forwardRef(
               <label htmlFor={checkId} data-value={value}>
                 {label}
               </label>
-              <p className="neo-input-hint" id={checkHindId}>
-                Hint text for option 1
-              </p>
+              {hint ? (
+                <p className="neo-input-hint" id={checkHindId}>
+                  {hint}
+                </p>
+              ) : null}
             </div>
           );
         })
@@ -166,36 +168,39 @@ export const Select: React.FC<SelectProps> = forwardRef(
     };
     const addOrRemoveSelectedItems = (
       isMultipleSelect: boolean,
-      value: string
+      value?: string | null
     ) => {
       let result: OptionType[] = [];
-      if (isMultipleSelect) {
-        const newValue = internal.find((item) => item.value === value);
-        // remove new value if is already there
-        if (newValue) {
-          const copy = [...internal];
-          // do not remove if only one item was left
+      if (value) {
+        if (isMultipleSelect) {
+          const newValue = internal.find((item) => item.value === value);
+          // remove new value if is already there
+          if (newValue) {
+            const copy = [...internal];
+            // do not remove if only one item was left
 
-          if (copy.length >= 2) {
-            copy.splice(copy.indexOf(newValue), 1);
-            result = copy;
-            updateInternal(copy);
+            if (copy.length >= 2) {
+              copy.splice(copy.indexOf(newValue), 1);
+              result = copy;
+              updateInternal(copy);
+            }
+          } else {
+            // add
+            result = [...internal, ...filterFunc(options, [value])];
+            updateInternal(result);
           }
         } else {
-          // add
-          result = [...internal, ...filterFunc(options, [value])];
+          result = filterFunc(options, [value]);
+
           updateInternal(result);
+          setCursor(options.indexOf(result[0]));
         }
-      } else {
-        result = filterFunc(options, [value]);
 
-        updateInternal(result);
-        setCursor(options.indexOf(result[0]));
+        if (onChange) {
+          onChange(result?.map((item) => item.value));
+        }
       }
 
-      if (onChange) {
-        onChange(result?.map((item) => item.value));
-      }
       if (!disabled && !isLoading) {
         isMultipleSelect ? updateIsOpen(true) : updateIsOpen(!isOpen);
       }
@@ -204,15 +209,13 @@ export const Select: React.FC<SelectProps> = forwardRef(
     const clickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       const value = (e.target as HTMLDivElement).getAttribute("data-value");
 
-      if (value) {
-        addOrRemoveSelectedItems(isMultipleSelect, value);
-      }
-      if (!disabled && !isLoading) {
-        isMultipleSelect ? updateIsOpen(true) : updateIsOpen(!isOpen);
-      }
+      addOrRemoveSelectedItems(isMultipleSelect, value);
     };
 
     const onKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
+      const scrollHeight = listBoxRef.current?.scrollHeight;
+      const itemHeight = scrollHeight ? scrollHeight / options.length : 0;
+
       switch (e.code) {
         case "Space": {
           updateIsOpen(!isOpen);
@@ -224,11 +227,17 @@ export const Select: React.FC<SelectProps> = forwardRef(
           setCursor((prevState) =>
             prevState < options.length - 1 ? prevState + 1 : prevState
           );
+          if (scrollHeight && itemHeight) {
+            listBoxRef.current.scrollTop = cursor * itemHeight;
+          }
           break;
         }
 
         case "ArrowUp": {
           setCursor((prevState) => (prevState > 0 ? prevState - 1 : prevState));
+          if (scrollHeight && itemHeight) {
+            listBoxRef.current.scrollTop = cursor * itemHeight;
+          }
           break;
         }
 

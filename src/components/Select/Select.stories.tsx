@@ -84,6 +84,10 @@ export const DemoUpdateByPropChange = () => {
 
 export const DemoMultipleSelect = () => {
   const [selectedStates, updateSelectedStates] = useState(["AL"]);
+  const optionsWithHint = options.map((item) => {
+    const hint = { hint: `state ${item.value}` };
+    return { ...hint, ...item };
+  });
   return (
     <>
       <Select
@@ -95,7 +99,7 @@ export const DemoMultipleSelect = () => {
         isMultipleSelect={true}
         value={selectedStates}
         hint="Please choose a State"
-        options={options}
+        options={optionsWithHint}
       />
       <button onClick={() => updateSelectedStates(["UT", "AL"])}>
         Set value to "UT", "AL"
