@@ -1,4 +1,5 @@
 import { Header } from "./Header";
+import "./page.css";
 
 interface PageProps {
   user?: {};
