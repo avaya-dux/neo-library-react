@@ -4,7 +4,6 @@ import { genId } from "utils/accessibilityUtils";
 
 import { OptionType, SelectHandlerType } from "./SelectTypes";
 import { getSelectContainerClass } from "utils/SelectUtils";
-import "./style.css";
 
 export interface SelectProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
@@ -109,6 +108,12 @@ export const Select: React.FC<SelectProps> = forwardRef(
           const isHover = cursor === index;
 
           const classNames = ["neo-input-group"];
+
+          /*
+           * .active and .hover classNames are missing on the neo.css
+           * TODO https://jira.forge.avaya.com/browse/NEO-683
+           *
+           */
 
           if (isActive) {
             classNames.push("active");

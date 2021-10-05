@@ -8,6 +8,7 @@ export default {
   title: "Components/Select/Select",
   component: Select,
 } as Meta<SelectProps>;
+
 export const DemoUpdateByPropChange = () => {
   const [selectedStates, updateSelectedStates] = useState(["AL"]);
   return (
