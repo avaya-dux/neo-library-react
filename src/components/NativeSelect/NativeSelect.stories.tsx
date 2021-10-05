@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { NativeSelect, NativeSelectProps } from "./NativeSelect";
 export default {
-  title: "Components/SelectNative",
+  title: "Components/Select/NativeSelect",
   component: NativeSelect,
 } as Meta<NativeSelectProps>;
 

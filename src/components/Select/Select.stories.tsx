@@ -5,7 +5,7 @@ import { Select, SelectProps } from "./Select";
 import { listOfStates } from "./SampleData";
 
 export default {
-  title: "Components/Select",
+  title: "Components/Select/Select",
   component: Select,
 } as Meta<SelectProps>;
 export const DemoUpdateByPropChange = () => {
