@@ -9,5 +9,5 @@ export * from "./NoContent";
 export * from "./Spinner";
 export * from "./Switch";
 export * from "./TextInput";
-// TODO-NEO-575: export * from "./Tooltip";
+export * from "./Tooltip";
 export * from "utils/icons";

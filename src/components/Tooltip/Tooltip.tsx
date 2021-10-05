@@ -1,36 +1,43 @@
 import clsx from "clsx";
-import { HTMLAttributes, ReactNode, useMemo } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
+
+import { genId } from "utils/accessibilityUtils";
 import { isString } from "utils/isString";
-import { v4 as uuidv4 } from "uuid";
 
 import {
+  getIdealTooltipPosition,
   getMultilineClassName,
-  getTooltipPosition,
-  TooltipPosition,
+  translatePositionToCSSName,
 } from "./helpers";
-
-export interface TooltipProps extends HTMLAttributes<HTMLDivElement> {
-  arrow?: boolean;
-  children: ReactNode;
-  label: string;
-  multiline?: boolean;
-  position?: TooltipPosition;
-}
+import { TooltipProps } from "./TooltipTypes";
 
 export const Tooltip = ({
   arrow = true,
   children,
-  id = uuidv4(), // TODO-NEO-575 HACK: should not be using id generation
+  id = genId(),
   label,
   multiline,
-  position = "bottom", // TODO-NEO-575: "auto"
+  position = "auto",
 
   ...rest
 }: TooltipProps) => {
-  const tooltipPosition = useMemo(
-    () => getTooltipPosition(position),
-    [position]
-  );
+  const tooltipContainerRef = useRef(null);
+
+  const [tooltipPosition, setTooltipPosition] = useState("");
+  useLayoutEffect(() => {
+    setTooltipPosition(
+      position === "auto"
+        ? getIdealTooltipPosition(
+            {
+              height: document.lastElementChild?.clientHeight || 0,
+              width: document.lastElementChild?.clientWidth || 0,
+            },
+            label,
+            tooltipContainerRef.current
+          )
+        : translatePositionToCSSName(position)
+    );
+  }, [label, position, tooltipContainerRef]);
 
   const multilineClassName = useMemo(
     () => getMultilineClassName(multiline),
@@ -40,6 +47,7 @@ export const Tooltip = ({
   return (
     <div
       className={`neo-tooltip neo-tooltip--${tooltipPosition} neo-tooltip--onhover`}
+      ref={tooltipContainerRef}
       {...rest}
     >
       {isString(children) ? (

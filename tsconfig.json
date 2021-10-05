@@ -4,6 +4,7 @@
     "outDir": "dist",
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "types": ["cypress-real-events"],
 
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
