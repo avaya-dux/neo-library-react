@@ -43,25 +43,26 @@ export const Select: React.FC<SelectProps> = forwardRef(
     const [isOpen, updateIsOpen] = useState(false);
     const [cursor, setCursor] = useState(0);
 
-    const [hovered, setHovered] = useState(options[0]);
-
-    useEffect(() => {
-      if (options.length && hovered) {
-        setCursor(options.indexOf(hovered));
-      }
-    }, [hovered]);
-
     const filterFunc = (array: OptionType[], query: string[]) => {
       return array.filter((item) => {
         return query.includes(item.value);
       });
     };
 
+    const defaultOption = options ? options[0] : { label: "", value: "" };
+
     const defaultValue = rest.value
       ? filterFunc(options, rest.value)
-      : [options[0]];
+      : [defaultOption];
+    const [hovered, setHovered] = useState(defaultOption);
 
     const [internal, updateInternal] = useState(defaultValue);
+
+    useEffect(() => {
+      if (options?.length && hovered) {
+        setCursor(options.indexOf(hovered));
+      }
+    }, [hovered]);
 
     const componentClasses = useMemo(() => {
       return [

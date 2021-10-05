@@ -56,11 +56,12 @@ export const DemoMultipleSelect = () => {
   );
 };
 
-export const Template: Story<SelectProps> = (props: SelectProps) => {
+const Template: Story<SelectProps> = (props: SelectProps) => {
   return <Select {...props} />;
 };
 
-Template.args = {
+export const DefaultSelect = Template.bind({});
+DefaultSelect.args = {
   label: "List of States",
   hint: "Please choose a State",
   options: listOfStates,
