@@ -1,5 +1,6 @@
 export * from "./Avatar";
 export * from "./Breadcrumbs";
+export * from "./Chip";
 export * from "./ExampleComponent";
 export * from "./Form";
 export * from "./Icon";

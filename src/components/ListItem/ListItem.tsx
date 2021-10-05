@@ -1,7 +1,7 @@
 import clsx from "clsx";
-import { Fragment, FunctionComponent } from "react";
-import { ReactElement } from "markdown-to-jsx/node_modules/@types/react";
-import { AvatarProps, IconProps } from "components";
+import { Fragment, FunctionComponent, ReactElement } from "react";
+import { AvatarProps } from "../Avatar";
+import { IconProps } from "../Icon";
 export interface ListItemProps {
   className?: string;
   showDivider?: boolean;
