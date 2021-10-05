@@ -278,7 +278,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
               {isLoading ? (
                 <span>Loading...</span>
               ) : (
-                internal?.map((item) => item.label).join(" ,")
+                internal?.map((item) => item.label).join(", ")
               )}
             </div>
             <div
