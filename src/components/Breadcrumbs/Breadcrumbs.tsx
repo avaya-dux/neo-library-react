@@ -1,7 +1,6 @@
-import { Fragment } from "react";
+import { Fragment, ReactElement } from "react";
 
 import { ButtonProps } from "components/Button";
-import { ReactElement } from "markdown-to-jsx/node_modules/@types/react";
 
 type RequiredAttributes = Required<
   Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">
