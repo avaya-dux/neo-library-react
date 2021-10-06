@@ -1,9 +1,9 @@
-import { forwardRef, useMemo, useState, useEffect, createRef } from "react";
+import { createRef, forwardRef, useEffect, useMemo, useState } from "react";
 
 import { genId } from "utils/accessibilityUtils";
+import { getSelectContainerClass } from "utils/SelectUtils";
 
 import { OptionType, SelectHandlerType } from "./SelectTypes";
-import { getSelectContainerClass } from "utils/SelectUtils";
 
 export interface SelectProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
@@ -19,12 +19,14 @@ export interface SelectProps
   value?: string[];
 }
 
+const defaultOptions: OptionType[] = [{ label: "Loading...", value: "" }];
+
 export const Select: React.FC<SelectProps> = forwardRef(
   (
     {
       className,
-      label,
-      options,
+      label = "label",
+      options = defaultOptions,
       hint,
       displayHintAsAnError,
       disabled,
@@ -36,8 +38,11 @@ export const Select: React.FC<SelectProps> = forwardRef(
     }: SelectProps,
     ref: React.Ref<HTMLDivElement>
   ) => {
+    const LabelId = genId();
     const hintId = genId();
     const selectId = genId();
+    const listBoxId = genId();
+
     const listBoxRef: React.Ref<HTMLDivElement> = createRef();
 
     const [isOpen, updateIsOpen] = useState(false);
@@ -49,14 +54,9 @@ export const Select: React.FC<SelectProps> = forwardRef(
       });
     };
 
-    const defaultOption = options ? options[0] : { label: "", value: "" };
+    const [hovered, setHovered] = useState(options[0]);
 
-    const defaultValue = rest.value
-      ? filterFunc(options, rest.value)
-      : [defaultOption];
-    const [hovered, setHovered] = useState(defaultOption);
-
-    const [internal, updateInternal] = useState(defaultValue);
+    const [internal, updateInternal] = useState(options);
 
     useEffect(() => {
       if (options?.length && hovered) {
@@ -100,77 +100,76 @@ export const Select: React.FC<SelectProps> = forwardRef(
       options: OptionType[],
       isMultipleSelect: boolean
     ) => {
-      return isMultipleSelect ? (
-        options.map((option, index) => {
-          const { label, value, hint } = option;
-          const checkId = genId();
-          const checkHindId = genId();
-          const isActive = !!internal.find((item) => item.value === value);
-          const isHover = cursor === index;
+      return isMultipleSelect
+        ? options.map((option, index) => {
+            const { label, value, hint } = option;
+            const checkId = genId();
+            const checkHindId = genId();
+            const isActive = !!internal.find((item) => item.value === value);
+            const isHover = cursor === index;
 
-          const classNames = ["neo-input-group"];
+            const classNames = ["neo-input-group"];
 
-          /*
-           * .active and .hover classNames are missing on the neo.css
-           * TODO https://jira.forge.avaya.com/browse/NEO-683
-           *
-           */
+            /*
+             * .active and .hover classNames are missing on the neo.css
+             * TODO https://jira.forge.avaya.com/browse/NEO-683
+             *
+             */
 
-          if (isActive) {
-            classNames.push("active");
-          }
+            if (isActive) {
+              classNames.push("active");
+            }
 
-          if (isHover) {
-            classNames.push("hover");
-          }
+            if (isHover) {
+              classNames.push("hover");
+            }
 
-          return (
-            <div
-              className={classNames.join(" ")}
-              key={checkId}
-              role="menuitem"
-              tabIndex={0}
-              onMouseEnter={() => setHovered(option)}
-            >
-              <input
-                className="neo-check"
-                type="checkbox"
-                id={checkId}
-                value={value}
-                tabIndex={-1}
-                defaultChecked={isActive}
-                aria-describedby={checkHindId}
-              />
-              <label htmlFor={checkId} data-value={value}>
-                {label}
-              </label>
-              {hint ? (
-                <p className="neo-input-hint" id={checkHindId}>
-                  {hint}
-                </p>
-              ) : null}
-            </div>
-          );
-        })
-      ) : (
-        <ul id="listbox">
-          {options.map((option, index) => {
+            return (
+              <div
+                className={classNames.join(" ")}
+                key={checkId}
+                role="option"
+                tabIndex={0}
+                aria-selected={isActive || isHover}
+                onMouseEnter={() => setHovered(option)}
+              >
+                <input
+                  className="neo-check"
+                  type="checkbox"
+                  id={checkId}
+                  value={value}
+                  tabIndex={-1}
+                  defaultChecked={isActive}
+                  aria-describedby={checkHindId}
+                />
+                <label htmlFor={checkId} data-value={value}>
+                  {label}
+                </label>
+                {hint ? (
+                  <p className="neo-input-hint" id={checkHindId}>
+                    {hint}
+                  </p>
+                ) : null}
+              </div>
+            );
+          })
+        : options.map((option, index) => {
             const itemId = genId();
             const { label, value } = option;
 
             return (
-              <li
+              <div
                 key={itemId}
                 tabIndex={-1}
                 data-value={value}
+                role="option"
+                aria-selected={cursor === index}
                 className={` ${cursor === index ? "active" : ""}`}
               >
                 {label}
-              </li>
+              </div>
             );
-          })}
-        </ul>
-      );
+          });
     };
     const addOrRemoveSelectedItems = (
       isMultipleSelect: boolean,
@@ -260,8 +259,10 @@ export const Select: React.FC<SelectProps> = forwardRef(
     return (
       <div className={componentClasses}>
         <div className="neo-input-group">
-          {label ? <label htmlFor={selectId}>{label}</label> : null}
-
+          <label id={LabelId} htmlFor={selectId}>
+            {label}
+          </label>
+          :
           <div
             id={selectId}
             {...rest}
@@ -269,14 +270,20 @@ export const Select: React.FC<SelectProps> = forwardRef(
             className={selectClass}
             tabIndex={0}
             role="combobox"
+            aria-labelledby={LabelId}
+            aria-owns={listBoxId}
             aria-haspopup="listbox"
             aria-expanded="false"
             aria-controls="listbox"
-            aria-describedby={hintId}
             onClick={clickHandler}
             onKeyDown={onKeyDownHandler}
           >
-            <div className="neo-multiselect__header" tabIndex={-1}>
+            <div
+              role="textbox"
+              className="neo-multiselect__header"
+              tabIndex={-1}
+              aria-labelledby={LabelId}
+            >
               {/*
               TODO gap between the spinner icon and Loading text
               https://jira.forge.avaya.com/browse/NEO-678
@@ -288,16 +295,17 @@ export const Select: React.FC<SelectProps> = forwardRef(
               )}
             </div>
             <div
+              id={listBoxId}
               ref={listBoxRef}
               className="neo-multiselect__content"
               role="listbox"
               tabIndex={-1}
+              aria-labelledby={LabelId}
               onMouseLeave={() => updateIsOpen(false)}
             >
               {options ? renderOptions(options, isMultipleSelect) : null}
             </div>
           </div>
-
           <div className="neo-input-hint" id={hintId}>
             {hint}
           </div>
