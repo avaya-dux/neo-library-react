@@ -2,7 +2,7 @@ import { Meta, Story } from "@storybook/react/types-6-0";
 
 import { Avatar, Icon, IconButton, Switch } from "components";
 
-import { ListItem, ListItemProps } from ".";
+import { ListItem, ListItemProps, ListSection, ListSectionProps } from ".";
 
 export default {
   title: "Components/ListItem",
@@ -122,7 +122,7 @@ export const PortalListItemExamples: Story<ListItemProps> = (
 ) => (
   <ul className="neo-group-list neo-group-list--hover">
     <ListItem
-      variant="list_section"
+      tooltip="Joanne Barnett"
       showDivider
       avatar={avatarJB}
       actions={[iconBtnCall]}
@@ -130,22 +130,17 @@ export const PortalListItemExamples: Story<ListItemProps> = (
     >
       Joan Barnett
     </ListItem>
-    <ListItem variant="list_section" showDivider {...props}>
+    <ListItem showDivider {...props}>
       {verticalCounter}
       {twoLineText}
     </ListItem>
-    <ListItem
-      variant="list_section"
-      actions={[iconBtnTransferCall, iconBtnAddCall]}
-      {...props}
-    >
+    <ListItem actions={[iconBtnTransferCall, iconBtnAddCall]} {...props}>
       <div className="vertical">
         Roy George
         <p className="neo-body-small">1-555-555-5555</p>
       </div>
     </ListItem>
     <ListItem
-      variant="list_section"
       showDivider
       avatar={avatarBD}
       actions={[iconBtnCall2, iconBtnVideoOn]}
@@ -154,12 +149,7 @@ export const PortalListItemExamples: Story<ListItemProps> = (
       {threeLineText}
       {twoLineText}
     </ListItem>
-    <ListItem
-      variant="list_section"
-      icon={iconStar}
-      actions={[timeAndBadge]}
-      {...props}
-    >
+    <ListItem icon={iconStar} actions={[timeAndBadge]} {...props}>
       <div className="vertical">
         Myron Hart
         <p className="neo-body-small">I sent an email to you regarding</p>
@@ -170,93 +160,98 @@ export const PortalListItemExamples: Story<ListItemProps> = (
 
 const basicSwitch = <Switch aria-label="Activate" defaultChecked />;
 
-export const PortalListSectionsExamples: Story<ListItemProps> = (
-  props: ListItemProps
+export const PortalListSectionsExamples: Story<ListSectionProps> = (
+  props: ListSectionProps
 ) => (
   <ul className="neo-group-list--actions">
-    <ListItem icon={iconChat} {...props}>
+    <ListSection tooltip="This is a list section" icon={iconChat} {...props}>
       Text
-    </ListItem>
+    </ListSection>
 
-    <ListItem icon={iconChat} actions={[basicSwitch]} {...props}>
+    <ListSection icon={iconChat} actions={[basicSwitch]} {...props}>
       Text
-    </ListItem>
+    </ListSection>
 
-    <ListItem
+    <ListSection
       icon={iconChat}
       actions={[iconBtnTransferCall, iconBtnAddCall]}
       {...props}
     >
       Text
-    </ListItem>
+    </ListSection>
 
-    <ListItem actions={[basicSwitch]} {...props}>
+    <ListSection actions={[basicSwitch]} {...props}>
       Text
-    </ListItem>
+    </ListSection>
   </ul>
 );
 
-// Specific ListItem scenarios
-export const TextOnly: Story<ListItemProps> = (props: ListItemProps) => (
+// Specific List Section scenarios
+export const TextOnly: Story<ListSectionProps> = (props: ListSectionProps) => (
   <ul className="neo-group-list--actions">
-    <ListItem {...props}>First item</ListItem>
+    <ListSection {...props}>First item</ListSection>
 
-    <ListItem {...props}>Second item</ListItem>
+    <ListSection {...props}>Second item</ListSection>
   </ul>
 );
 
-export const TextOnlyWithHover: Story<ListItemProps> = (
-  props: ListItemProps
+export const TextOnlyWithHover: Story<ListSectionProps> = (
+  props: ListSectionProps
 ) => (
   <ul className="neo-group-list--actions">
-    <ListItem hover {...props}>
+    <ListSection hover {...props}>
       First item
-    </ListItem>
+    </ListSection>
 
-    <ListItem hover {...props}>
+    <ListSection hover {...props}>
       Second item
-    </ListItem>
+    </ListSection>
   </ul>
 );
 
-export const TextWithIconAndHover: Story<ListItemProps> = (
-  props: ListItemProps
+export const TextWithIconAndHover: Story<ListSectionProps> = (
+  props: ListSectionProps
 ) => (
   <ul className="neo-group-list--actions">
-    <ListItem icon={iconChat} hover {...props}>
-      First item
-    </ListItem>
+    <ListSection icon={iconChat} hover {...props}>
+      First item with chat icon
+    </ListSection>
 
-    <ListItem icon={iconStar} hover {...props}>
-      Second item
-    </ListItem>
+    <ListSection icon={iconStar} hover {...props}>
+      Second item with star icon
+    </ListSection>
   </ul>
 );
 
-export const TextWithIconAndHoverAndSwitch: Story<ListItemProps> = (
-  props: ListItemProps
+export const TextWithIconAndHoverAndSwitch: Story<ListSectionProps> = (
+  props: ListSectionProps
 ) => (
   <ul className="neo-group-list--actions">
-    <ListItem icon={iconChat} actions={[basicSwitch]} hover {...props}>
-      First item
-    </ListItem>
+    <ListSection icon={iconChat} actions={[basicSwitch]} hover {...props}>
+      First item with chat icon and switch
+    </ListSection>
 
-    <ListItem icon={iconStar} hover {...props}>
-      Second item
-    </ListItem>
+    <ListSection icon={iconStar} hover {...props}>
+      Second item with star icon
+    </ListSection>
   </ul>
 );
 
-export const TextWithIconAndHoverAndIconButton: Story<ListItemProps> = (
-  props: ListItemProps
+export const TextWithIconAndHoverAndIconButton: Story<ListSectionProps> = (
+  props: ListSectionProps
 ) => (
   <ul className="neo-group-list--actions">
-    <ListItem icon={iconChat} actions={[iconBtnTransferCall]} hover {...props}>
-      First item
-    </ListItem>
+    <ListSection
+      icon={iconChat}
+      actions={[iconBtnTransferCall]}
+      hover
+      {...props}
+    >
+      First item with chat icon and transfer call button
+    </ListSection>
 
-    <ListItem icon={iconStar} hover {...props}>
-      Second item
-    </ListItem>
+    <ListSection icon={iconStar} hover {...props}>
+      Second item with star icon
+    </ListSection>
   </ul>
 );

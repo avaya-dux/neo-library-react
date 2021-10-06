@@ -3,9 +3,9 @@ import { Fragment, FunctionComponent, ReactElement } from "react";
 import { AvatarProps } from "../Avatar";
 import { IconProps } from "../Icon";
 import { Tooltip } from "components";
-export interface ListItemProps {
+export interface ListSectionProps {
   className?: string;
-  showDivider?: boolean;
+  hover?: boolean;
   avatar?: ReactElement<AvatarProps>;
   actions?: ReactElement<any>[];
   icon?: ReactElement<IconProps>;
@@ -15,13 +15,13 @@ export interface ListItemProps {
 /**
  * This component will typically be used as a child of the List component.
  */
-export const ListItem: FunctionComponent<ListItemProps> = ({
+export const ListSection: FunctionComponent<ListSectionProps> = ({
   avatar,
   actions = [],
   icon,
   children,
   className,
-  showDivider,
+  hover,
   tooltip,
 }) => {
   const avacon = avatar || icon;
@@ -29,22 +29,21 @@ export const ListItem: FunctionComponent<ListItemProps> = ({
   return (
     <li
       className={clsx(
-        "neo-group-list__wrapper",
-        showDivider && "neo-divider",
+        "neo-group-list--actions__item",
+        hover && "neo-group-list--actions__item--clickable",
         className
       )}
     >
-      {tooltip ? (
-        <Tooltip label={tooltip}>
-          <div className="neo-group-list__item">{avacon}</div>
-        </Tooltip>
-      ) : (
-        <div className="neo-group-list__item">{avacon}</div>
-      )}
-      <div className="neo-group-list__item neo-group-list__item--middle">
+      <div className="neo-group-list__actions--left">
+        {tooltip ? (
+          <Tooltip label={tooltip}>{!!avacon && avacon} </Tooltip>
+        ) : (
+          <Fragment key="avacon">{!!avacon && avacon}</Fragment>
+        )}
         {children}
       </div>
-      <div className="neo-group-list__item">
+
+      <div className="neo-group-list__actions--right">
         {actions.map((action, index) => (
           <Fragment key={index}>{action}</Fragment>
         ))}
