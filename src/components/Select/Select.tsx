@@ -100,6 +100,10 @@ export const Select: React.FC<SelectProps> = forwardRef(
       options: OptionType[],
       isMultipleSelect: boolean
     ) => {
+      /* multiple select and single select must have same css styles
+       * TODO https://jira.forge.avaya.com/browse/NEO-679
+       */
+      const classNames = ["neo-input-group"];
       return isMultipleSelect
         ? options.map((option, index) => {
             const { label, value, hint } = option;
@@ -107,8 +111,6 @@ export const Select: React.FC<SelectProps> = forwardRef(
             const checkHindId = genId();
             const isActive = !!internal.find((item) => item.value === value);
             const isHover = cursor === index;
-
-            const classNames = ["neo-input-group"];
 
             /*
              * .active and .hover classNames are missing on the neo.css
@@ -157,14 +159,21 @@ export const Select: React.FC<SelectProps> = forwardRef(
             const itemId = genId();
             const { label, value } = option;
 
+            const isHover = cursor === index;
+
+            if (isHover) {
+              classNames.push("hover");
+            }
+            classNames.push("list-item");
+
             return (
               <div
+                className={classNames.join(" ")}
                 key={itemId}
                 tabIndex={-1}
                 data-value={value}
                 role="option"
                 aria-selected={cursor === index}
-                className={` ${cursor === index ? "active" : ""}`}
               >
                 {label}
               </div>
@@ -260,9 +269,9 @@ export const Select: React.FC<SelectProps> = forwardRef(
       <div className={componentClasses}>
         <div className="neo-input-group">
           <label id={LabelId} htmlFor={selectId}>
-            {label}
+            {label}:
           </label>
-          :
+
           <div
             id={selectId}
             {...rest}
