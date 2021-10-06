@@ -1,20 +1,23 @@
 import { render } from "@testing-library/react";
+import { axe } from "jest-axe";
 
-import { NativeSelect } from "./NativeSelect";
-import { listOfStates } from "../Select/SampleData";
+import { DefaultNativeSelect } from "./NativeSelect.stories";
 
-describe("Select", () => {
-  it("fully renders without exploding", () => {
-    const { getByTestId } = render(
-      <NativeSelect
-        data-testid="neo-native-select"
-        label="List of States"
-        hint="Please choose a State"
-        options={listOfStates}
-      />
-    );
+describe("NativeSelect: ", () => {
+  describe("Default", () => {
+    let renderResult;
+    beforeEach(() => {
+      renderResult = render(<DefaultNativeSelect />);
+    });
+    it("should render ok", () => {
+      const { container } = renderResult;
+      expect(container).not.toBe(null);
+    });
 
-    const rootElement = getByTestId("neo-native-select");
-    expect(rootElement).toBeTruthy();
+    it("passes basic axe compliance", async () => {
+      const { container } = renderResult;
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
   });
 });

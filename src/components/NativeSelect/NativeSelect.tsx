@@ -1,9 +1,9 @@
 import { forwardRef, useMemo } from "react";
 
 import { genId } from "utils/accessibilityUtils";
+import { getSelectContainerClass } from "utils/SelectUtils";
 
 import { OptionType } from "../Select/SelectTypes";
-import { getSelectContainerClass } from "utils/SelectUtils";
 
 export interface NativeSelectProps
   extends React.SelectHTMLAttributes<HTMLSelectElement> {
@@ -17,12 +17,14 @@ export interface NativeSelectProps
   value?: string;
 }
 
+const defaultOptions: OptionType[] = [{ label: "Loading...", value: "" }];
+
 export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
   (
     {
       className,
-      label,
-      options,
+      label = "label",
+      options = defaultOptions,
       hint,
       displayHintAsAnError,
       disabled,
@@ -32,6 +34,7 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
     }: NativeSelectProps,
     ref: React.Ref<HTMLSelectElement>
   ) => {
+    const LabelId = genId();
     const hintId = genId();
     const selectId = genId();
 
@@ -67,7 +70,9 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
     return (
       <div className={componentClasses}>
         <div className="neo-input-group">
-          {label ? <label htmlFor={selectId}>{label}</label> : null}
+          <label id={LabelId} htmlFor={selectId}>
+            {label}:
+          </label>
 
           <div className={selectClass}>
             <select
@@ -75,7 +80,7 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
               {...rest}
               ref={ref as React.Ref<HTMLSelectElement>}
               className="neo-icon-chevron-down"
-              aria-describedby={hintId}
+              aria-labelledby={LabelId}
               disabled={disabled}
             >
               {isLoading ? (
