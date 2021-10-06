@@ -5,25 +5,27 @@ import { listOfStates } from "../Select/SampleData";
 import { NativeSelect, NativeSelectProps } from "./NativeSelect";
 
 export default {
-  title: "Components/Select/NativeSelect",
+  title: "Components/Select/Native Select",
   component: NativeSelect,
 } as Meta<NativeSelectProps>;
 
 export const NativeSelectExample = () => {
-  const [color, updateColor] = useState("AL");
+  const [selectedStates, updateSelectedStates] = useState("");
   return (
     <>
       <NativeSelect
         label="List of States"
         onChange={(event) => {
           console.log("selected value-> ", event.target.value);
-          updateColor(event.target.value);
+          updateSelectedStates(event.target.value);
         }}
-        value={color}
+        value={selectedStates}
         hint="Please choose a State"
         options={listOfStates}
       />
-      <button onClick={() => updateColor("UT")}>Set value to "UT"</button>
+      <button onClick={() => updateSelectedStates("UT")}>
+        Set value to "UT"
+      </button>
     </>
   );
 };
