@@ -8,8 +8,8 @@ import { OptionType, SelectHandlerType } from "./SelectTypes";
 export interface SelectProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   disabled?: boolean;
-  displayHintAsAnError?: boolean;
-  hint: string;
+  errorText?: string[];
+  helperText?: string[];
   isLoading?: boolean;
   isMultipleSelect?: boolean;
   label: string;
@@ -26,8 +26,8 @@ export const Select: React.FC<SelectProps> = forwardRef(
     {
       className,
       disabled,
-      displayHintAsAnError,
-      hint,
+      errorText,
+      helperText,
       isLoading,
       isMultipleSelect = false,
       label = "label",
@@ -62,10 +62,10 @@ export const Select: React.FC<SelectProps> = forwardRef(
 
     const componentClassName = useMemo(() => {
       return [
-        ...getSelectContainerClass(displayHintAsAnError, disabled, required),
+        ...getSelectContainerClass(!!errorText, disabled, required),
         className,
       ].join(" ");
-    }, [displayHintAsAnError, disabled, required]);
+    }, [errorText, disabled, required]);
 
     const selectClassName = useMemo(() => {
       const classArray = ["neo-multiselect"];
@@ -263,8 +263,6 @@ export const Select: React.FC<SelectProps> = forwardRef(
       }
     };
 
-    console.log(selectedItems);
-
     return (
       <div className={componentClassName}>
         <div className="neo-input-group">
@@ -316,7 +314,15 @@ export const Select: React.FC<SelectProps> = forwardRef(
             </div>
           </div>
           <div className="neo-input-hint" id={hintId}>
-            {hint}
+            {errorText ? (
+              <div
+                dangerouslySetInnerHTML={{ __html: errorText?.join(`<br />`) }}
+              />
+            ) : helperText ? (
+              <div
+                dangerouslySetInnerHTML={{ __html: helperText?.join(`<br />`) }}
+              />
+            ) : null}
           </div>
         </div>
       </div>

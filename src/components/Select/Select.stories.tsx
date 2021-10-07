@@ -20,7 +20,7 @@ export const DemoUpdateByPropChange = () => {
           updateSelectedStates(value);
         }}
         value={selectedStates}
-        hint="Please choose a State"
+        helperText={["Please choose a State"]}
         options={listOfStates}
       />
       <button onClick={() => updateSelectedStates(["UT"])}>
@@ -46,7 +46,7 @@ export const DemoMultipleSelect = () => {
         }}
         isMultipleSelect={true}
         value={selectedStates}
-        hint="Please choose a State"
+        helperText={["Please choose a State"]}
         options={optionsWithHint}
       />
       <button onClick={() => updateSelectedStates(["UT", "AL"])}>
@@ -63,6 +63,7 @@ const Template: Story<SelectProps> = (props: SelectProps) => {
 export const DefaultSelect = Template.bind({});
 DefaultSelect.args = {
   label: "List of States",
-  hint: "Please choose a State",
+  helperText: ["Please choose a State"],
+  errorText: ["error 1", "error 2"],
   options: listOfStates,
 };
