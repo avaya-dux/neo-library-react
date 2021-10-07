@@ -32,6 +32,9 @@ export const DemoUpdateByPropChange = () => {
 
 export const DemoMultipleSelect = () => {
   const [selectedStates, updateSelectedStates] = useState(["AL"]);
+  const [errorText, updateErrorText] = useState<undefined | string[]>(
+    undefined
+  );
   const optionsWithHint = listOfStates.map((item) => {
     const hint = { hint: `state ${item.value}` };
     return { ...hint, ...item };
@@ -47,11 +50,18 @@ export const DemoMultipleSelect = () => {
         isMultipleSelect={true}
         value={selectedStates}
         helperText={["Please choose a State"]}
+        errorText={errorText}
         options={optionsWithHint}
       />
       <button onClick={() => updateSelectedStates(["UT", "AL"])}>
         Set value to "UT", "AL"
       </button>
+
+      <button onClick={() => updateErrorText(["Error 1"])}>
+        Display error
+      </button>
+
+      <button onClick={() => updateErrorText(undefined)}>Display Helper</button>
     </>
   );
 };

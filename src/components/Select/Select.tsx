@@ -314,11 +314,11 @@ export const Select: React.FC<SelectProps> = forwardRef(
             </div>
           </div>
           <div className="neo-input-hint" id={hintId}>
-            {errorText ? (
+            {errorText && Array.isArray(errorText) ? (
               <div
                 dangerouslySetInnerHTML={{ __html: errorText?.join(`<br />`) }}
               />
-            ) : helperText ? (
+            ) : helperText && Array.isArray(helperText) ? (
               <div
                 dangerouslySetInnerHTML={{ __html: helperText?.join(`<br />`) }}
               />
