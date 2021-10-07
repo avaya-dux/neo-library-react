@@ -7,13 +7,13 @@ import { OptionType } from "../Select/SelectTypes";
 
 export interface NativeSelectProps
   extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  disabled?: boolean;
+  displayHintAsAnError?: boolean;
+  hint: string;
+  isLoading?: boolean;
   label: string;
   options: OptionType[];
-  hint: string;
-  displayHintAsAnError?: boolean;
-  disabled?: boolean;
   required?: boolean;
-  isLoading?: boolean;
   value?: string;
 }
 
@@ -23,12 +23,12 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
   (
     {
       className,
+      disabled,
+      displayHintAsAnError,
+      hint,
+      isLoading,
       label = "label",
       options = defaultOptions,
-      hint,
-      displayHintAsAnError,
-      disabled,
-      isLoading,
       required,
       ...rest
     }: NativeSelectProps,

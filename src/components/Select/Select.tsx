@@ -7,15 +7,15 @@ import { OptionType, SelectHandlerType } from "./SelectTypes";
 
 export interface SelectProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
-  label: string;
-  options: OptionType[];
-  hint: string;
-  displayHintAsAnError?: boolean;
   disabled?: boolean;
-  required?: boolean;
+  displayHintAsAnError?: boolean;
+  hint: string;
   isLoading?: boolean;
   isMultipleSelect?: boolean;
+  label: string;
   onChange?: SelectHandlerType;
+  options: OptionType[];
+  required?: boolean;
   value?: string[];
 }
 
@@ -25,15 +25,15 @@ export const Select: React.FC<SelectProps> = forwardRef(
   (
     {
       className,
-      label = "label",
-      options = defaultOptions,
-      hint,
-      displayHintAsAnError,
       disabled,
-      required,
+      displayHintAsAnError,
+      hint,
       isLoading,
       isMultipleSelect = false,
+      label = "label",
       onChange,
+      options = defaultOptions,
+      required,
       ...rest
     }: SelectProps,
     ref: React.Ref<HTMLDivElement>
