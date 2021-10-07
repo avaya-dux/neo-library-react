@@ -50,8 +50,9 @@ export const Select: React.FC<SelectProps> = forwardRef(
 
     const [hovered, setHovered] = useState(options[0]);
 
-    const [selectedItems, updateSelectedItems] =
-      useState<OptionType[]>(options);
+    const [selectedItems, updateSelectedItems] = useState<OptionType[]>([
+      options[0],
+    ]);
 
     useEffect(() => {
       if (options?.length && hovered) {
@@ -261,6 +262,8 @@ export const Select: React.FC<SelectProps> = forwardRef(
           break;
       }
     };
+
+    console.log(selectedItems);
 
     return (
       <div className={componentClassName}>
