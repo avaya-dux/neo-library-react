@@ -7,7 +7,6 @@ import { OptionType } from "../Select/SelectTypes";
 
 export interface NativeSelectProps
   extends React.SelectHTMLAttributes<HTMLSelectElement> {
-  disabled?: boolean;
   displayHintAsAnError?: boolean;
   hint: string;
   isLoading?: boolean;
