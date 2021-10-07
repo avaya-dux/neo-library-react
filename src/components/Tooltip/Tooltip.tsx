@@ -1,5 +1,12 @@
 import clsx from "clsx";
-import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import {
+  Children,
+  cloneElement,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { genId } from "utils/accessibilityUtils";
 import { isString } from "utils/isString";
@@ -44,18 +51,23 @@ export const Tooltip = ({
     [multiline]
   );
 
+  const wrappedChildren = useMemo(() => {
+    const shouldWrap = isString(children) || Children.count(children) > 1;
+    if (shouldWrap) {
+      return <div aria-describedby={id}>{children}</div>;
+    } else {
+      const child = Children.only(children) as React.ReactElement;
+      return cloneElement(child, { "aria-describedby": id });
+    }
+  }, [isString, children]);
+
   return (
     <div
       className={`neo-tooltip neo-tooltip--${tooltipPosition} neo-tooltip--onhover`}
       ref={tooltipContainerRef}
       {...rest}
     >
-      {isString(children) ? (
-        <div aria-describedby={id}>{children}</div>
-      ) : (
-        // https://reactjs.org/docs/react-api.html#cloneelement
-        children // TODO-NEO-575: need to pass `id` down here... or wrap it...
-      )}
+      {wrappedChildren}
 
       <div
         className={clsx("neo-tooltip__content", multilineClassName)}

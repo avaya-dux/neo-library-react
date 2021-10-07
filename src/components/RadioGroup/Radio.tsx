@@ -1,10 +1,11 @@
 import { useMemo } from "react";
 
+import { Tooltip } from "components";
+
 export interface RadioProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "id" | "type"> {
   describedBy?: string;
   selected?: string;
-  // TO-DO-NEO-575: Abstract Tooltip logic out into separate Component
   tooltip?: string;
   position?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -51,16 +52,9 @@ export const Radio = ({
         {...rest}
       />
       {tooltip ? (
-        <div
-          className={`neo-tooltip neo-tooltip--${position} neo-tooltip--onhover`}
-          aria-label={tooltip}
-        >
+        <Tooltip label={tooltip}>
           <Label />
-          <div className="neo-tooltip__content">
-            <div className="neo-arrow"></div>
-            {tooltip}
-          </div>
-        </div>
+        </Tooltip>
       ) : (
         <Label />
       )}

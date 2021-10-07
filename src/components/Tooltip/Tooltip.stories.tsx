@@ -26,11 +26,7 @@ export const Default = () => {
 const Template: Story<TooltipProps> = ({ children, ...rest }: TooltipProps) => (
   <Tooltip {...rest}>
     {children || (
-      <button
-        // TODO-NEO-575: figure out how to do this properly:
-        // aria-describedby={id}
-        className="neo-btn neo-btn-primary neo-btn-primary--primary"
-      >
+      <button className="neo-btn neo-btn-primary neo-btn-primary--primary">
         button text
       </button>
     )}
