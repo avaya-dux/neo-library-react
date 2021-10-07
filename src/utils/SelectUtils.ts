@@ -1,3 +1,4 @@
+import { OptionType } from "components/Select/SelectTypes";
 export const getSelectContainerClass = (
   displayHintAsAnError?: boolean,
   disabled?: boolean,
@@ -18,4 +19,10 @@ export const getSelectContainerClass = (
   }
 
   return classArray;
+};
+
+export const getOption = (array: OptionType[], query: string[]) => {
+  return array.filter((item) => {
+    return query.includes(item.value);
+  });
 };

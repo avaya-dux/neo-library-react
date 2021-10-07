@@ -1,7 +1,7 @@
 import { createRef, forwardRef, useEffect, useMemo, useState } from "react";
 
 import { genId } from "utils/accessibilityUtils";
-import { getSelectContainerClass } from "utils/SelectUtils";
+import { getSelectContainerClass, getOption } from "utils/SelectUtils";
 
 import { OptionType, SelectHandlerType } from "./SelectTypes";
 
@@ -48,15 +48,10 @@ export const Select: React.FC<SelectProps> = forwardRef(
     const [isOpen, updateIsOpen] = useState(false);
     const [cursor, setCursor] = useState(0);
 
-    const filterFunc = (array: OptionType[], query: string[]) => {
-      return array.filter((item) => {
-        return query.includes(item.value);
-      });
-    };
-
     const [hovered, setHovered] = useState(options[0]);
 
-    const [internal, updateInternal] = useState(options);
+    const [selectedItems, updateSelectedItems] =
+      useState<OptionType[]>(options);
 
     useEffect(() => {
       if (options?.length && hovered) {
@@ -64,14 +59,14 @@ export const Select: React.FC<SelectProps> = forwardRef(
       }
     }, [hovered]);
 
-    const componentClasses = useMemo(() => {
+    const componentClassName = useMemo(() => {
       return [
         ...getSelectContainerClass(displayHintAsAnError, disabled, required),
         className,
       ].join(" ");
     }, [displayHintAsAnError, disabled, required]);
 
-    const selectClass = useMemo(() => {
+    const selectClassName = useMemo(() => {
       const classArray = ["neo-multiselect"];
 
       if (isOpen) {
@@ -91,10 +86,10 @@ export const Select: React.FC<SelectProps> = forwardRef(
 
     useEffect(() => {
       if (rest.value) {
-        const selected = filterFunc(options, rest.value);
-        updateInternal(selected);
+        const selected = getOption(options, rest.value);
+        updateSelectedItems(selected);
       }
-    }, [rest.value]);
+    }, [rest.value, options]);
 
     const renderOptions = (
       options: OptionType[],
@@ -109,7 +104,9 @@ export const Select: React.FC<SelectProps> = forwardRef(
             const { label, value, hint } = option;
             const checkId = genId();
             const checkHindId = genId();
-            const isActive = !!internal.find((item) => item.value === value);
+            const isActive = !!selectedItems.find(
+              (item) => item.value === value
+            );
             const isHover = cursor === index;
 
             /*
@@ -187,26 +184,26 @@ export const Select: React.FC<SelectProps> = forwardRef(
       let result: OptionType[] = [];
       if (value) {
         if (isMultipleSelect) {
-          const newValue = internal.find((item) => item.value === value);
+          const newValue = selectedItems.find((item) => item.value === value);
           // remove new value if is already there
           if (newValue) {
-            const copy = [...internal];
+            const copy = [...selectedItems];
             // do not remove if only one item was left
 
             if (copy.length >= 2) {
               copy.splice(copy.indexOf(newValue), 1);
               result = copy;
-              updateInternal(copy);
+              updateSelectedItems(copy);
             }
           } else {
             // add
-            result = [...internal, ...filterFunc(options, [value])];
-            updateInternal(result);
+            result = [...selectedItems, ...getOption(options, [value])];
+            updateSelectedItems(result);
           }
         } else {
-          result = filterFunc(options, [value]);
+          result = getOption(options, [value]);
 
-          updateInternal(result);
+          updateSelectedItems(result);
           setCursor(options.indexOf(result[0]));
         }
 
@@ -266,7 +263,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
     };
 
     return (
-      <div className={componentClasses}>
+      <div className={componentClassName}>
         <div className="neo-input-group">
           <label id={LabelId} htmlFor={selectId}>
             {label}:
@@ -276,7 +273,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
             id={selectId}
             {...rest}
             ref={ref}
-            className={selectClass}
+            className={selectClassName}
             tabIndex={0}
             role="combobox"
             aria-labelledby={LabelId}
@@ -300,7 +297,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
               {isLoading ? (
                 <span>Loading...</span>
               ) : (
-                internal?.map((item) => item.label).join(", ")
+                selectedItems?.map((item) => item.label).join(", ")
               )}
             </div>
             <div
