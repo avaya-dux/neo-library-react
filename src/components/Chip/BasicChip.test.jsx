@@ -91,14 +91,21 @@ describe("Basic Chip: ", () => {
 
 describe("getBasicClassNames", () => {
   describe("given icon === null", () => {
-    it("given variant = alert and disabled = false, should return correct css names", () => {
-      expect(getBasicChipClassNames("alert", false)).toBe(
-        "neo-chip neo-chip--alert"
+    it("given variant = alert and disabled = false and withinChipContainer = false, should return correct css names", () => {
+      expect(
+        getBasicChipClassNames("alert", false, false)
+      ).toMatchInlineSnapshot(`"neo-chip neo-chip--alert"`);
+    });
+    it("given variant = alert and disabled = true and withinChipContainer = false, should return correct css names", () => {
+      expect(
+        getBasicChipClassNames("alert", true, false)
+      ).toMatchInlineSnapshot(
+        `"neo-chip neo-chip--alert neo-chip--alert--disabled"`
       );
     });
-    it("given variant = alert and disabled = true, should return correct css names", () => {
-      expect(getBasicChipClassNames("alert", true)).toBe(
-        "neo-chip neo-chip--alert--disabled"
+    it("given variant = alert and disabled = true and withinChipContainer = true, should return correct css names", () => {
+      expect(getBasicChipClassNames("alert", true, true)).toMatchInlineSnapshot(
+        `"neo-chip neo-chip--alert neo-chip--alert--disabled neo-chips__item"`
       );
     });
   });

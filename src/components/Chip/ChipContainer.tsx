@@ -1,12 +1,19 @@
 import { ReactElement, useState, MouseEventHandler } from "react";
 import { UnreachableCaseError } from "ts-essentials";
 import { BasicChip, BasicChipProps } from "./BasicChip";
+import { WithinChipContainerProp } from "./ChipTypes";
 import { ClosableChip, ClosableChipProps } from "./ClosableChip";
 import { IconChip, IconChipProps } from "./IconChip";
 
-type ChipProps = BasicChipProps | ClosableChipProps | IconChipProps;
+type WithinChipContainer = typeof WithinChipContainerProp;
+
+type AllChipProps =
+  | Omit<BasicChipProps, WithinChipContainer>
+  | Omit<ClosableChipProps, WithinChipContainer>
+  | Omit<IconChipProps, WithinChipContainer>;
 export interface ChipContainerProps {
-  chipProps: Array<ChipProps>;
+  /** Array of ChipProps; Note: ChipContainer will set withinChipContainer to true when passing props to a Chip Component */
+  chipProps: Array<AllChipProps>;
 }
 export const ChipContainer = ({ chipProps }: ChipContainerProps) => {
   const [chipList, updateChipList] = useState(chipProps);
@@ -31,13 +38,13 @@ export const ChipContainer = ({ chipProps }: ChipContainerProps) => {
   );
 };
 
-function removeById(list: Array<ChipProps>, idToRemove: string | null) {
+function removeById(list: Array<AllChipProps>, idToRemove: string | null) {
   return list.filter((chip) => {
     return idToRemove !== chip.id;
   });
 }
 
-export function createChip<T extends ChipProps>(
+export function createChip<T extends AllChipProps>(
   chipProp: T,
   handleClick: MouseEventHandler,
   index: number
@@ -46,11 +53,11 @@ export function createChip<T extends ChipProps>(
   switch (chiptype) {
     case "closable":
       chipProp.onClick = handleClick;
-      return <ClosableChip key={index} {...chipProp} />;
+      return <ClosableChip key={index} {...chipProp} withinChipContainer />;
     case "basic":
-      return <BasicChip key={index} {...chipProp} />;
+      return <BasicChip key={index} {...chipProp} withinChipContainer />;
     case "icon":
-      return <IconChip key={index} {...chipProp} />;
+      return <IconChip key={index} {...chipProp} withinChipContainer />;
     default:
       throw new UnreachableCaseError(chiptype);
   }

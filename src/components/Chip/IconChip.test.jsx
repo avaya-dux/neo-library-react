@@ -96,15 +96,24 @@ describe("Icon Chip: ", () => {
 });
 
 describe("getIconChipClassNames", () => {
-  describe("given icon === info ", () => {
-    it("given variant = alert and disabled = false, should return correct css names", () => {
-      expect(getIconChipClassNames("alert", false, "info")).toBe(
-        "neo-chip neo-chip--alert neo-icon-info"
+  describe("given variant = alert and icon === info ", () => {
+    it("given disabled = false and withinChipContainer = false, should return correct css names", () => {
+      expect(
+        getIconChipClassNames("alert", false, "info", false)
+      ).toMatchInlineSnapshot(`"neo-chip neo-chip--alert neo-icon-info"`);
+    });
+    it("given disabled = true and withinChipContainer = false, should return correct css names", () => {
+      expect(
+        getIconChipClassNames("alert", true, "info", false)
+      ).toMatchInlineSnapshot(
+        `"neo-chip neo-chip--alert neo-chip--alert--disabled neo-icon-info"`
       );
     });
-    it("given variant = alert and disabled = true, should return correct css names", () => {
-      expect(getIconChipClassNames("alert", true, "info")).toBe(
-        "neo-chip neo-chip--alert--disabled neo-icon-info"
+    it("given disabled = true and withinChipContainer = true, should return correct css names", () => {
+      expect(
+        getIconChipClassNames("alert", true, "info", true)
+      ).toMatchInlineSnapshot(
+        `"neo-chip neo-chip--alert neo-chip--alert--disabled neo-chips__item neo-icon-info"`
       );
     });
   });
