@@ -10,20 +10,20 @@ export default {
 } as Meta<NativeSelectProps>;
 
 export const NativeSelectExample = () => {
-  const [selectedStates, updateSelectedStates] = useState("");
+  const [selectedState, updateSelectedState] = useState("");
   return (
     <>
       <NativeSelect
         label="List of States"
         onChange={(event) => {
           console.log("selected value-> ", event.target.value);
-          updateSelectedStates(event.target.value);
+          updateSelectedState(event.target.value);
         }}
-        value={selectedStates}
+        value={selectedState}
         hint="Please choose a State"
         options={listOfStates}
       />
-      <button onClick={() => updateSelectedStates("UT")}>
+      <button onClick={() => updateSelectedState("UT")}>
         Set value to "UT"
       </button>
     </>
