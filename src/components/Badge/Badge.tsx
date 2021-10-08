@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 
-import { computeBadge } from "../../utils/ButtonUtils";
+import { computeBadge } from "utils";
 
 export interface BadgeProps {
   data: string;

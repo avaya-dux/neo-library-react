@@ -1,8 +1,10 @@
 import clsx from "clsx";
 import { Fragment, FunctionComponent, ReactElement } from "react";
-import { AvatarProps } from "../Avatar";
-import { IconProps } from "../Icon";
-import { Tooltip } from "components";
+
+import { AvatarProps } from "components/Avatar";
+import { IconProps } from "components/Icon";
+import { Tooltip } from "components/Tooltip";
+
 export interface ListItemProps {
   className?: string;
   showDivider?: boolean;

@@ -1,8 +1,11 @@
 import { HTMLAttributes, ReactNode, useMemo, useRef } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
-import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
-import { dispatchInputOnChangeEvent } from "utils/nativeDomUtils";
+import {
+  dispatchInputOnChangeEvent,
+  genId,
+  handleAccessbilityError,
+} from "utils";
 
 export interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
   label?: string;

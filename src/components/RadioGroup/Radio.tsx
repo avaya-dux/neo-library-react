@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { Tooltip } from "components";
+import { Tooltip } from "components/Tooltip";
 
 export interface RadioProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "id" | "type"> {

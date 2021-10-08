@@ -8,8 +8,8 @@ import {
   getSizeClass,
   getVariantClass,
   showSpinner,
-} from "utils/ButtonUtils";
-import { IconNamesType } from "utils/icons";
+  IconNamesType,
+} from "utils";
 
 import "./style.css";
 

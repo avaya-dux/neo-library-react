@@ -8,8 +8,7 @@ import {
   useState,
 } from "react";
 
-import { genId } from "utils/accessibilityUtils";
-import { isString } from "utils/isString";
+import { genId, isString } from "utils";
 
 import {
   getIdealTooltipPosition,

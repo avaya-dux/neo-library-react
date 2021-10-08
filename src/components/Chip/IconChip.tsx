@@ -1,4 +1,4 @@
-import { IconNamesType } from "components";
+import { IconNamesType } from "utils";
 import { getBasicChipClassNames } from "./BasicChip";
 import { ChipProps, Variants } from "./ChipTypes";
 // Icon can be right or left

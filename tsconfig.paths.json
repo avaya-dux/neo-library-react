@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    // workaround because react-scripts automatically removes paths in `tsconfig.json`
+    // but we need it for storybook (not jest) -- problem is react-scripts limits our flexibility
+    // and we should think about ejecting and/or not using react-scripts for building this component library
+    // https://github.com/facebook/create-react-app/issues/5645#issuecomment-435201019
+    "paths": {
+      "@avaya-neo/react": ["../dist"]
+    }
+  }
+}
