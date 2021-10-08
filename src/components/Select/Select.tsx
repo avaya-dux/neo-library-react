@@ -47,7 +47,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
     const [isOpen, updateIsOpen] = useState(false);
     const [cursor, setCursor] = useState(0);
 
-    const [hovered, setHovered] = useState(options[0]);
+    const [hovered, setHovered] = useState<OptionType | null>(null);
 
     const [selectedItems, updateSelectedItems] = useState<OptionType[]>([
       options[0],
