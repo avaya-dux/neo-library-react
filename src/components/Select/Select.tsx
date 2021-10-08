@@ -95,8 +95,8 @@ export const Select: React.FC<SelectProps> = forwardRef(
       return isMultipleSelect
         ? options.map((option, index) => {
             const { label, value, hint } = option;
-            const checkId = genId();
-            const checkHindId = genId();
+            const checkBoxId = genId();
+            const checkBoxHindId = genId();
             const isActive = !!selectedItems.find(
               (item) => item.value === value
             );
@@ -119,26 +119,27 @@ export const Select: React.FC<SelectProps> = forwardRef(
             return (
               <div
                 className={classNames.join(" ")}
-                key={checkId}
+                key={checkBoxId}
                 tabIndex={0}
+                role="option"
                 aria-selected={isActive || isHover}
+                aria-label={label}
                 onMouseEnter={() => setHovered(option)}
               >
                 <input
-                  role="option"
                   className="neo-check"
                   type="checkbox"
-                  id={checkId}
+                  id={checkBoxId}
                   value={value}
                   tabIndex={-1}
                   defaultChecked={isActive}
-                  aria-describedby={checkHindId}
+                  aria-describedby={checkBoxHindId}
                 />
-                <label htmlFor={checkId} data-value={value}>
+                <label htmlFor={checkBoxId} data-value={value}>
                   {label}
                 </label>
                 {hint ? (
-                  <p className="neo-input-hint" id={checkHindId}>
+                  <p className="neo-input-hint" id={checkBoxHindId}>
                     {hint}
                   </p>
                 ) : null}
