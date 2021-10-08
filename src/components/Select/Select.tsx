@@ -19,8 +19,6 @@ export interface SelectProps
   value?: string[];
 }
 
-const defaultOptions: OptionType[] = [{ label: "Loading...", value: "" }];
-
 export const Select: React.FC<SelectProps> = forwardRef(
   (
     {
@@ -32,7 +30,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
       isMultipleSelect = false,
       label = "label",
       onChange,
-      options = defaultOptions,
+      options,
       required,
       ...rest
     }: SelectProps,
