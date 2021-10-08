@@ -9,8 +9,11 @@ export default {
   component: Select,
 } as Meta<SelectProps>;
 
-export const DemoUpdateByPropChange = () => {
+export const DemoSelect = () => {
   const [selectedStates, updateSelectedStates] = useState(["AL"]);
+  const [errorText, updateErrorText] = useState<undefined | string[]>(
+    undefined
+  );
   return (
     <>
       <Select
@@ -21,10 +24,14 @@ export const DemoUpdateByPropChange = () => {
         }}
         value={selectedStates}
         helperText={["Please choose a State"]}
+        errorText={errorText}
         options={listOfStates}
       />
       <button onClick={() => updateSelectedStates(["UT"])}>
         Set value to "UT"
+      </button>
+      <button onClick={() => updateErrorText(["Error 1"])}>
+        Display error
       </button>
     </>
   );
@@ -74,6 +81,29 @@ export const DefaultSelect = Template.bind({});
 DefaultSelect.args = {
   label: "List of States",
   helperText: ["Please choose a State"],
+  options: listOfStates,
+};
+
+export const SelectError = Template.bind({});
+SelectError.args = {
+  label: "List of States",
+  helperText: ["Please choose a State"],
   errorText: ["error 1", "error 2"],
+  options: listOfStates,
+};
+
+export const SelectRequired = Template.bind({});
+SelectRequired.args = {
+  label: "List of States",
+  helperText: ["Please choose a State"],
+  required: true,
+  options: listOfStates,
+};
+
+export const SelectDisabled = Template.bind({});
+SelectDisabled.args = {
+  label: "List of States",
+  helperText: ["Please choose a State"],
+  disabled: true,
   options: listOfStates,
 };

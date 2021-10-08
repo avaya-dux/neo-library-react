@@ -1,7 +1,8 @@
 import { createRef, forwardRef, useEffect, useMemo, useState } from "react";
+import { NeoInputWrapper } from "components/NeoInputWrapper";
 
 import { genId } from "utils/accessibilityUtils";
-import { getSelectContainerClass, getOption } from "utils/SelectUtils";
+import { getOption } from "utils/SelectUtils";
 
 import { OptionType, SelectHandlerType } from "./SelectTypes";
 
@@ -57,13 +58,6 @@ export const Select: React.FC<SelectProps> = forwardRef(
         setCursor(options.indexOf(hovered));
       }
     }, [hovered]);
-
-    const componentClassName = useMemo(() => {
-      return [
-        ...getSelectContainerClass(!!errorText, disabled, required),
-        className,
-      ].join(" ");
-    }, [errorText, disabled, required]);
 
     const selectClassName = useMemo(() => {
       const classArray = ["neo-multiselect"];
@@ -126,12 +120,12 @@ export const Select: React.FC<SelectProps> = forwardRef(
               <div
                 className={classNames.join(" ")}
                 key={checkId}
-                role="option"
                 tabIndex={0}
                 aria-selected={isActive || isHover}
                 onMouseEnter={() => setHovered(option)}
               >
                 <input
+                  role="option"
                   className="neo-check"
                   type="checkbox"
                   id={checkId}
@@ -262,68 +256,71 @@ export const Select: React.FC<SelectProps> = forwardRef(
     };
 
     return (
-      <div className={componentClassName}>
-        <div className="neo-input-group">
-          <label id={LabelId} htmlFor={selectId}>
-            {label}:
-          </label>
+      <NeoInputWrapper
+        disabled={disabled}
+        error={!!errorText}
+        required={required}
+        wrapperClassName={className}
+      >
+        <label id={LabelId} htmlFor={selectId}>
+          {label}:
+        </label>
 
+        <div
+          id={selectId}
+          {...rest}
+          ref={ref}
+          className={selectClassName}
+          tabIndex={0}
+          role="combobox"
+          aria-labelledby={LabelId}
+          aria-owns={listBoxId}
+          aria-haspopup="listbox"
+          aria-expanded="false"
+          aria-controls="listbox"
+          onClick={clickHandler}
+          onKeyDown={onKeyDownHandler}
+        >
           <div
-            id={selectId}
-            {...rest}
-            ref={ref}
-            className={selectClassName}
-            tabIndex={0}
-            role="combobox"
+            role="textbox"
+            className="neo-multiselect__header"
+            tabIndex={-1}
             aria-labelledby={LabelId}
-            aria-owns={listBoxId}
-            aria-haspopup="listbox"
-            aria-expanded="false"
-            aria-controls="listbox"
-            onClick={clickHandler}
-            onKeyDown={onKeyDownHandler}
           >
-            <div
-              role="textbox"
-              className="neo-multiselect__header"
-              tabIndex={-1}
-              aria-labelledby={LabelId}
-            >
-              {/*
+            {/*
               TODO gap between the spinner icon and Loading text
               https://jira.forge.avaya.com/browse/NEO-678
               */}
-              {isLoading ? (
-                <span>Loading...</span>
-              ) : (
-                selectedItems?.map((item) => item.label).join(", ")
-              )}
-            </div>
-            <div
-              id={listBoxId}
-              ref={listBoxRef}
-              className="neo-multiselect__content"
-              role="listbox"
-              tabIndex={-1}
-              aria-labelledby={LabelId}
-              onMouseLeave={() => updateIsOpen(false)}
-            >
-              {options ? renderOptions(options, isMultipleSelect) : null}
-            </div>
+            {isLoading ? (
+              <span>Loading...</span>
+            ) : (
+              selectedItems?.map((item) => item.label).join(", ")
+            )}
           </div>
-          <div className="neo-input-hint" id={hintId}>
-            {errorText && Array.isArray(errorText) ? (
-              <div
-                dangerouslySetInnerHTML={{ __html: errorText?.join(`<br />`) }}
-              />
-            ) : helperText && Array.isArray(helperText) ? (
-              <div
-                dangerouslySetInnerHTML={{ __html: helperText?.join(`<br />`) }}
-              />
-            ) : null}
+          <div
+            id={listBoxId}
+            ref={listBoxRef}
+            className="neo-multiselect__content"
+            role="listbox"
+            tabIndex={-1}
+            aria-labelledby={LabelId}
+            onMouseLeave={() => updateIsOpen(false)}
+          >
+            {options ? renderOptions(options, isMultipleSelect) : null}
           </div>
         </div>
-      </div>
+        <div className="neo-input-hint" id={hintId}>
+          {errorText && Array.isArray(errorText) ? (
+            <div
+              dangerouslySetInnerHTML={{ __html: errorText?.join(`<br />`) }}
+            />
+          ) : helperText && Array.isArray(helperText) ? (
+            <div
+              dangerouslySetInnerHTML={{ __html: helperText?.join(`<br />`) }}
+            />
+          ) : null}
+        </div>
+      </NeoInputWrapper>
     );
   }
 );

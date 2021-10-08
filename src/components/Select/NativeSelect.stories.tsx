@@ -9,7 +9,7 @@ export default {
   component: NativeSelect,
 } as Meta<NativeSelectProps>;
 
-export const NativeSelectExample = () => {
+export const DemoNativeSelect = () => {
   const [selectedState, updateSelectedState] = useState("");
   return (
     <>
@@ -20,7 +20,7 @@ export const NativeSelectExample = () => {
           updateSelectedState(event.target.value);
         }}
         value={selectedState}
-        hint="Please choose a State"
+        helperText={["Please choose a State"]}
         options={listOfStates}
       />
       <button onClick={() => updateSelectedState("UT")}>
@@ -37,6 +37,30 @@ const Template: Story<NativeSelectProps> = (props: NativeSelectProps) => {
 export const DefaultNativeSelect = Template.bind({});
 DefaultNativeSelect.args = {
   label: "List of States",
-  hint: "Please choose a State",
+  helperText: ["Please choose a State"],
+  options: listOfStates,
+};
+
+export const SelectError = Template.bind({});
+SelectError.args = {
+  label: "List of States",
+  helperText: ["Please choose a State"],
+  errorText: ["error 1", "error 2"],
+  options: listOfStates,
+};
+
+export const SelectRequired = Template.bind({});
+SelectRequired.args = {
+  label: "List of States",
+  helperText: ["Please choose a State"],
+  required: true,
+  options: listOfStates,
+};
+
+export const SelectDisabled = Template.bind({});
+SelectDisabled.args = {
+  label: "List of States",
+  helperText: ["Please choose a State"],
+  disabled: true,
   options: listOfStates,
 };

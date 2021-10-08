@@ -1,14 +1,14 @@
 import { forwardRef, useMemo } from "react";
+import { NeoInputWrapper } from "components/NeoInputWrapper";
 
 import { genId } from "utils/accessibilityUtils";
-import { getSelectContainerClass } from "utils/SelectUtils";
 
 import { OptionType } from "../Select/SelectTypes";
 
 export interface NativeSelectProps
   extends React.SelectHTMLAttributes<HTMLSelectElement> {
-  displayHintAsAnError?: boolean;
-  hint: string;
+  errorText?: string[];
+  helperText?: string[];
   isLoading?: boolean;
   label: string;
   options: OptionType[];
@@ -16,18 +16,16 @@ export interface NativeSelectProps
   value?: string;
 }
 
-const defaultOptions: OptionType[] = [{ label: "Loading...", value: "" }];
-
 export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
   (
     {
       className,
       disabled,
-      displayHintAsAnError,
-      hint,
+      errorText,
+      helperText,
       isLoading,
       label = "label",
-      options = defaultOptions,
+      options,
       required,
       ...rest
     }: NativeSelectProps,
@@ -36,13 +34,6 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
     const LabelId = genId();
     const hintId = genId();
     const selectId = genId();
-
-    const componentClasses = useMemo(() => {
-      return [
-        ...getSelectContainerClass(displayHintAsAnError, disabled, required),
-        className,
-      ].join(" ");
-    }, [displayHintAsAnError, disabled, required]);
 
     const renderOptions = (options: OptionType[]) => {
       return options.map((option, index) => {
@@ -67,34 +58,45 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
     }, [isLoading]);
 
     return (
-      <div className={componentClasses}>
-        <div className="neo-input-group">
-          <label id={LabelId} htmlFor={selectId}>
-            {label}:
-          </label>
+      <NeoInputWrapper
+        disabled={disabled}
+        error={!!errorText}
+        required={required}
+        wrapperClassName={className}
+      >
+        <label id={LabelId} htmlFor={selectId}>
+          {label}:
+        </label>
 
-          <div className={selectClass}>
-            <select
-              id={selectId}
-              {...rest}
-              ref={ref as React.Ref<HTMLSelectElement>}
-              className="neo-icon-chevron-down"
-              aria-labelledby={LabelId}
-              disabled={disabled}
-            >
-              {isLoading ? (
-                <option value={0}>Loading...</option>
-              ) : options ? (
-                renderOptions(options)
-              ) : null}
-            </select>
-          </div>
-
-          <div className="neo-input-hint" id={hintId}>
-            {hint}
-          </div>
+        <div className={selectClass}>
+          <select
+            id={selectId}
+            {...rest}
+            ref={ref as React.Ref<HTMLSelectElement>}
+            className="neo-icon-chevron-down"
+            aria-labelledby={LabelId}
+            disabled={disabled}
+          >
+            {isLoading ? (
+              <option value={0}>Loading...</option>
+            ) : options ? (
+              renderOptions(options)
+            ) : null}
+          </select>
         </div>
-      </div>
+
+        <div className="neo-input-hint" id={hintId}>
+          {errorText && Array.isArray(errorText) ? (
+            <div
+              dangerouslySetInnerHTML={{ __html: errorText?.join(`<br />`) }}
+            />
+          ) : helperText && Array.isArray(helperText) ? (
+            <div
+              dangerouslySetInnerHTML={{ __html: helperText?.join(`<br />`) }}
+            />
+          ) : null}
+        </div>
+      </NeoInputWrapper>
     );
   }
 );
