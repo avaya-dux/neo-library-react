@@ -42,7 +42,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
     const selectId = genId();
     const listBoxId = genId();
 
-    const listBoxRef: React.Ref<HTMLDivElement> = createRef();
+    const listBoxRef: React.Ref<HTMLUListElement> = createRef();
 
     const [isOpen, updateIsOpen] = useState(false);
     const [cursor, setCursor] = useState(0);
@@ -91,7 +91,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
       /* multiple select and single select must have same css styles
        * TODO https://jira.forge.avaya.com/browse/NEO-679
        */
-      const classNames = ["neo-input-group"];
+      const roleType = isMultipleSelect ? "listitem" : "option";
       return isMultipleSelect
         ? options.map((option, index) => {
             const { label, value, hint } = option;
@@ -107,6 +107,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
              * TODO https://jira.forge.avaya.com/browse/NEO-683
              *
              */
+            const classNames = ["neo-input-group"];
 
             if (isActive) {
               classNames.push("active");
@@ -117,14 +118,12 @@ export const Select: React.FC<SelectProps> = forwardRef(
             }
 
             return (
-              <div
+              <li
                 className={classNames.join(" ")}
                 key={checkBoxId}
-                tabIndex={0}
-                role="option"
-                aria-selected={isActive || isHover}
                 aria-label={label}
-                onMouseEnter={() => setHovered(option)}
+                role={roleType}
+                tabIndex={-1}
               >
                 <input
                   className="neo-check"
@@ -133,6 +132,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
                   value={value}
                   tabIndex={-1}
                   defaultChecked={isActive}
+                  onMouseEnter={() => setHovered(option)}
                   aria-describedby={checkBoxHindId}
                 />
                 <label htmlFor={checkBoxId} data-value={value}>
@@ -143,7 +143,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
                     {hint}
                   </p>
                 ) : null}
-              </div>
+              </li>
             );
           })
         : options.map((option, index) => {
@@ -152,22 +152,22 @@ export const Select: React.FC<SelectProps> = forwardRef(
 
             const isHover = cursor === index;
 
+            const classNames = ["list-item"];
+
             if (isHover) {
               classNames.push("hover");
             }
-            classNames.push("list-item");
 
             return (
-              <div
+              <li
                 className={classNames.join(" ")}
                 key={itemId}
                 tabIndex={-1}
                 data-value={value}
-                role="option"
-                aria-selected={cursor === index}
+                role={roleType}
               >
                 {label}
-              </div>
+              </li>
             );
           });
     };
@@ -281,6 +281,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
           aria-controls="listbox"
           onClick={clickHandler}
           onKeyDown={onKeyDownHandler}
+          onMouseLeave={() => updateIsOpen(false)}
         >
           <div
             role="textbox"
@@ -298,17 +299,15 @@ export const Select: React.FC<SelectProps> = forwardRef(
               selectedItems?.map((item) => item.label).join(", ")
             )}
           </div>
-          <div
+          <ul
             id={listBoxId}
             ref={listBoxRef}
             className="neo-multiselect__content"
-            role="listbox"
-            tabIndex={-1}
             aria-labelledby={LabelId}
-            onMouseLeave={() => updateIsOpen(false)}
+            role={isMultipleSelect ? "list" : "listbox"}
           >
             {options ? renderOptions(options, isMultipleSelect) : null}
-          </div>
+          </ul>
         </div>
         <div className="neo-input-hint" id={hintId}>
           {errorText && Array.isArray(errorText) ? (

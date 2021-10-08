@@ -1,5 +1,6 @@
 export const listOfStates = [
   { label: "Alabama", value: "AL" },
+  /*
   { label: "Alaska", value: "AK" },
   { label: "Arizona", value: "AZ" },
   { label: "Arkansas", value: "AR" },
@@ -49,4 +50,5 @@ export const listOfStates = [
   { label: "West Virginia", value: "WV" },
   { label: "Wisconsin", value: "WI" },
   { label: "Wyoming", value: "WY" },
+  */
 ];
