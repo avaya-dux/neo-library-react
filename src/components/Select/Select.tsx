@@ -60,21 +60,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
     }, [hovered]);
 
     const selectClassName = useMemo(() => {
-      const classArray = ["neo-multiselect"];
-
-      if (isOpen) {
-        classArray.push("neo-multiselect--active");
-      }
-
-      if (disabled) {
-        classArray.push("neo-multiselect--disabled");
-      }
-
-      if (isLoading) {
-        classArray.push("neo-select__spinner");
-      }
-
-      return classArray.join(" ");
+      return getComponentClassNames(isOpen, disabled, isLoading);
     }, [isOpen, disabled, isLoading]);
 
     useEffect(() => {
@@ -324,3 +310,25 @@ export const Select: React.FC<SelectProps> = forwardRef(
     );
   }
 );
+
+export const getComponentClassNames = (
+  isOpen: boolean,
+  disabled?: boolean,
+  isLoading?: boolean
+) => {
+  const classArray = ["neo-multiselect"];
+
+  if (isOpen) {
+    classArray.push("neo-multiselect--active");
+  }
+
+  if (disabled) {
+    classArray.push("neo-multiselect--disabled");
+  }
+
+  if (isLoading) {
+    classArray.push("neo-select__spinner");
+  }
+
+  return classArray.join(" ");
+};

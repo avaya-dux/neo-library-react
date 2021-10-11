@@ -3,6 +3,8 @@ import * as NativeSelectStories from "./NativeSelect.stories";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
+import { getComponentClassNames } from "./NativeSelect";
+
 const {
   DefaultNativeSelect,
   DemoNativeSelect,
@@ -95,5 +97,16 @@ describe("NativeSelect: ", () => {
       const results = await axe(container);
       expect(results).toHaveNoViolations();
     });
+  });
+});
+
+describe("getComponentClassNames", () => {
+  it("given isLoading = true, should return correct css names", () => {
+    expect(getComponentClassNames(true)).toMatchInlineSnapshot(
+      `"neo-select neo-select__spinner"`
+    );
+  });
+  it("given isLoading = undefined, should return correct css names", () => {
+    expect(getComponentClassNames()).toMatchInlineSnapshot(`"neo-select"`);
   });
 });

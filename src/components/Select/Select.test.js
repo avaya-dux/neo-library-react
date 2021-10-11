@@ -3,6 +3,8 @@ import * as SelectStories from "./Select.stories";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
+import { getComponentClassNames } from "./Select";
+
 const {
   DefaultSelect,
   DemoSelect,
@@ -113,5 +115,28 @@ describe("Select: ", () => {
       const results = await axe(container);
       expect(results).toHaveNoViolations();
     });
+  });
+});
+
+describe("getComponentClassNames", () => {
+  it("given isOpen = true, should return correct css names", () => {
+    expect(getComponentClassNames(true)).toMatchInlineSnapshot(
+      `"neo-multiselect neo-multiselect--active"`
+    );
+  });
+  it("given isOpen = false, should return correct css names", () => {
+    expect(getComponentClassNames()).toMatchInlineSnapshot(`"neo-multiselect"`);
+  });
+
+  it("given isOpen = true, disabled= true should return correct css names", () => {
+    expect(getComponentClassNames(true, true)).toMatchInlineSnapshot(
+      `"neo-multiselect neo-multiselect--active neo-multiselect--disabled"`
+    );
+  });
+
+  it("given isOpen = true, disabled= true, isLoading= true, should return correct css names", () => {
+    expect(getComponentClassNames(true, true, true)).toMatchInlineSnapshot(
+      `"neo-multiselect neo-multiselect--active neo-multiselect--disabled neo-select__spinner"`
+    );
   });
 });

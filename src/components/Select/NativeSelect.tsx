@@ -33,7 +33,7 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
   ) => {
     const LabelId = genId();
     const hintId = genId();
-    const selectId = genId();
+    const selectId = rest.id || genId();
 
     const renderOptions = (options: OptionType[]) => {
       return options.map((option, index) => {
@@ -47,14 +47,8 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
       });
     };
 
-    const selectClass = useMemo(() => {
-      const classArray = ["neo-select"];
-
-      if (isLoading) {
-        classArray.push("neo-select__spinner");
-      }
-
-      return classArray.join(" ");
+    const selectClassName = useMemo(() => {
+      return getComponentClassNames(isLoading);
     }, [isLoading]);
 
     return (
@@ -68,7 +62,7 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
           {label}:
         </label>
 
-        <div className={selectClass}>
+        <div className={selectClassName}>
           <select
             id={selectId}
             {...rest}
@@ -100,3 +94,13 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
     );
   }
 );
+
+export const getComponentClassNames = (isLoading?: boolean) => {
+  const classArray = ["neo-select"];
+
+  if (isLoading) {
+    classArray.push("neo-select__spinner");
+  }
+
+  return classArray.join(" ");
+};
