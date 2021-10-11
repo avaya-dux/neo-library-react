@@ -3,7 +3,7 @@ import * as SelectStories from "./Select.stories";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
-import { getComponentClassNames } from "./Select";
+import { getSelectClassNames } from "./Select";
 
 const {
   DefaultSelect,
@@ -118,24 +118,24 @@ describe("Select: ", () => {
   });
 });
 
-describe("getComponentClassNames", () => {
+describe("getSelectClassNames", () => {
   it("given isOpen = true, should return correct css names", () => {
-    expect(getComponentClassNames(true)).toMatchInlineSnapshot(
+    expect(getSelectClassNames(true)).toMatchInlineSnapshot(
       `"neo-multiselect neo-multiselect--active"`
     );
   });
   it("given isOpen = false, should return correct css names", () => {
-    expect(getComponentClassNames()).toMatchInlineSnapshot(`"neo-multiselect"`);
+    expect(getSelectClassNames()).toMatchInlineSnapshot(`"neo-multiselect"`);
   });
 
   it("given isOpen = true, disabled= true should return correct css names", () => {
-    expect(getComponentClassNames(true, true)).toMatchInlineSnapshot(
+    expect(getSelectClassNames(true, true)).toMatchInlineSnapshot(
       `"neo-multiselect neo-multiselect--active neo-multiselect--disabled"`
     );
   });
 
   it("given isOpen = true, disabled= true, isLoading= true, should return correct css names", () => {
-    expect(getComponentClassNames(true, true, true)).toMatchInlineSnapshot(
+    expect(getSelectClassNames(true, true, true)).toMatchInlineSnapshot(
       `"neo-multiselect neo-multiselect--active neo-multiselect--disabled neo-select__spinner"`
     );
   });

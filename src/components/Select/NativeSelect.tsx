@@ -48,7 +48,7 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
     };
 
     const selectClassName = useMemo(() => {
-      return getComponentClassNames(isLoading);
+      return getNativeSelectClassNames(isLoading);
     }, [isLoading]);
 
     return (
@@ -95,7 +95,7 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
   }
 );
 
-export const getComponentClassNames = (isLoading?: boolean) => {
+export const getNativeSelectClassNames = (isLoading?: boolean) => {
   const classArray = ["neo-select"];
 
   if (isLoading) {

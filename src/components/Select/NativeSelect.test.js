@@ -3,7 +3,7 @@ import * as NativeSelectStories from "./NativeSelect.stories";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
-import { getComponentClassNames } from "./NativeSelect";
+import { getNativeSelectClassNames } from "./NativeSelect";
 
 const {
   DefaultNativeSelect,
@@ -100,13 +100,13 @@ describe("NativeSelect: ", () => {
   });
 });
 
-describe("getComponentClassNames", () => {
+describe("getNativeSelectClassNames", () => {
   it("given isLoading = true, should return correct css names", () => {
-    expect(getComponentClassNames(true)).toMatchInlineSnapshot(
+    expect(getNativeSelectClassNames(true)).toMatchInlineSnapshot(
       `"neo-select neo-select__spinner"`
     );
   });
   it("given isLoading = undefined, should return correct css names", () => {
-    expect(getComponentClassNames()).toMatchInlineSnapshot(`"neo-select"`);
+    expect(getNativeSelectClassNames()).toMatchInlineSnapshot(`"neo-select"`);
   });
 });

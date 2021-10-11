@@ -60,7 +60,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
     }, [hovered]);
 
     const selectClassName = useMemo(() => {
-      return getComponentClassNames(isOpen, disabled, isLoading);
+      return getSelectClassNames(isOpen, disabled, isLoading);
     }, [isOpen, disabled, isLoading]);
 
     useEffect(() => {
@@ -311,7 +311,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
   }
 );
 
-export const getComponentClassNames = (
+export const getSelectClassNames = (
   isOpen: boolean,
   disabled?: boolean,
   isLoading?: boolean
