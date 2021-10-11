@@ -2,9 +2,6 @@ import { composeStories } from "@storybook/testing-react";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
-// import { Avatar, Icon, IconButton, Switch } from "components";
-
-// import { ListItem } from "./ListItem";
 import * as ListItemStories from "./ListItem.stories";
 
 describe("ListItem: ", () => {
@@ -13,6 +10,7 @@ describe("ListItem: ", () => {
     let renderResult;
 
     beforeEach(() => {
+      jest.spyOn(console, "warn").mockImplementation(() => {});
       renderResult = render(<PortalListItemExamples />);
     });
 
@@ -27,6 +25,7 @@ describe("ListItem: ", () => {
     let renderResult;
 
     beforeEach(() => {
+      jest.spyOn(console, "warn").mockImplementation(() => {});
       renderResult = render(<PortalListSectionsExamples />);
     });
 
