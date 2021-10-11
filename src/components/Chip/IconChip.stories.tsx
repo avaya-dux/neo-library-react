@@ -25,6 +25,7 @@ SuccessWithIcon.args = {
   variant: "success",
   icon: "link",
   text: "Success Disabled RTL with Link Icon",
+  disabled: true,
   dir: "rtl",
 };
 

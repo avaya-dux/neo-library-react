@@ -1,4 +1,4 @@
-import { IconNamesType } from "components";
+import { IconNamesType } from "utils";
 import { getBasicChipClassNames } from "./BasicChip";
 import { ChipProps, Variants } from "./ChipTypes";
 // Icon can be right or left
@@ -11,12 +11,18 @@ export const IconChip: React.FC<IconChipProps> = ({
   variant = "default",
   tooltip,
   disabled = false,
+  withinChipContainer = false,
   icon,
   text,
   children,
   ...rest
 }: IconChipProps) => {
-  const classes = getIconChipClassNames(variant, disabled, icon);
+  const classes = getIconChipClassNames(
+    variant,
+    disabled,
+    icon,
+    withinChipContainer
+  );
   return (
     <div className={classes} {...rest}>
       {text}
@@ -27,9 +33,12 @@ export const IconChip: React.FC<IconChipProps> = ({
 export function getIconChipClassNames(
   variant: Variants,
   disabled: boolean,
-  icon: IconNamesType
+  icon: IconNamesType,
+  withinChipContainer: boolean
 ) {
-  const classNames = [getBasicChipClassNames(variant, disabled)];
+  const classNames = [
+    getBasicChipClassNames(variant, disabled, withinChipContainer),
+  ];
   if (icon !== null) {
     classNames.push(`neo-icon-${icon}`);
   }

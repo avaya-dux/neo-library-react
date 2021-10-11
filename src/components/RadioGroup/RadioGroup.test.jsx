@@ -54,6 +54,9 @@ describe("RadioGroup", () => {
   let renderResult;
 
   beforeEach(() => {
+    // ignore tooltip position warning
+    jest.spyOn(console, "warn").mockImplementation(() => {});
+
     renderResult = render(<RadioGroup {...DefaultProps} />);
   });
 
@@ -124,6 +127,7 @@ describe("RadioGroup", () => {
   });
 
   it("renders with a Tooltip in the correct position", () => {
+    jest.spyOn(console, "warn").mockImplementation(() => {});
     const { getByLabelText } = renderResult;
     DefaultRadioArray.forEach((radio) => {
       if (radio.tootip) {

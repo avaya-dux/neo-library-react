@@ -28,6 +28,7 @@ export function Avatar(props: AvatarProps) {
   const figureProps = getAvatarFigureProps(props);
   const statusProps = getAvatarStatusProps(props);
   const imageProps = getAvatarImageProps(props);
+
   return (
     <figure {...figureProps}>
       {!!props?.image && <img {...imageProps} alt={imageProps.alt} />}
@@ -47,6 +48,9 @@ export function getAvatarFigureProps({
   label,
   image,
   initials,
+  status, // HACK: should use proper typings to remove this field from props
+
+  ...rest
 }: AvatarProps = {}) {
   // if basic, but no image or intials, override to generic
   if (variant === "basic" && !image && !initials) {
@@ -77,6 +81,8 @@ export function getAvatarFigureProps({
   }
 
   return {
+    ...rest,
+
     className: classNames.join(" "),
 
     // initials should be uppercase, respect locale

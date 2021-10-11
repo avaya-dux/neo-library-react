@@ -102,14 +102,25 @@ describe("Closable Chip: ", () => {
   });
   describe("getClosableChipClassNames", () => {
     describe("given icon === info ", () => {
-      it("given variant = alert and disabled = false, should return correct css names", () => {
-        expect(getClosableChipClassNames("alert", false)).toBe(
-          "neo-chip neo-chip--alert neo-chip--close neo-chip--close--alert"
+      it("given variant = alert and disabled = false and withinChipContainer = false, should return correct css names", () => {
+        expect(
+          getClosableChipClassNames("alert", false, false)
+        ).toMatchInlineSnapshot(
+          `"neo-chip neo-chip--alert neo-chip--close neo-chip--close--alert"`
         );
       });
-      it("given variant = alert and disabled = true, should return correct css names", () => {
-        expect(getClosableChipClassNames("alert", true)).toBe(
-          "neo-chip neo-chip--alert--disabled neo-chip--close neo-chip--close--alert"
+      it("given variant = alert and disabled = true and withinChipContainer = false, should return correct css names", () => {
+        expect(
+          getClosableChipClassNames("alert", true, false)
+        ).toMatchInlineSnapshot(
+          `"neo-chip neo-chip--alert neo-chip--alert--disabled neo-chip--close neo-chip--close--alert"`
+        );
+      });
+      it("given variant = alert and disabled = true and withinChipContainer = true, should return correct css names", () => {
+        expect(
+          getClosableChipClassNames("alert", true, true)
+        ).toMatchInlineSnapshot(
+          `"neo-chip neo-chip--alert neo-chip--alert--disabled neo-chips__item neo-chip--close neo-chip--close--alert"`
         );
       });
     });

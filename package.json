@@ -1,12 +1,13 @@
 {
-  "name": "neo-library-react",
+  "name": "@avaya-neo/react",
   "version": "0.1.0",
   "description": "Made with create-react-library",
   "author": "joe-s-avaya",
   "license": "MIT",
   "repository": "neo-library-react",
-  "main": "dist/index.js",
-  "module": "dist/index.modern.js",
+  "main": "dist/avaya-neo-react.cjs.js",
+  "module": "dist/avaya-neo-react.esm.js",
+  "browser": "dist/avaya-neo-react.umd.js",
   "types": "dist/index.d.ts",
   "source": "src/index.ts",
   "files": [
@@ -18,7 +19,10 @@
   "scripts": {
     "lint": "eslint .",
     "start": "rollup -c -w",
-    "build": "rollup -c --environment BUILD:production",
+    "build": "yarn build:src && yarn build:types",
+    "build:src": "rollup -c --environment BUILD:production",
+    "build:types": "tsc --emitDeclarationOnly --project tsconfig.build.json",
+    "clean": "rm -rf dist",
     "test": "react-scripts test --watchAll=false",
     "test:coverage": "react-scripts test --coverage=true --watchAll=false",
     "test:watch": "react-scripts test",
@@ -27,7 +31,7 @@
     "storybook": "start-storybook -p 6006 --no-dll",
     "build-storybook": "build-storybook",
     "github": "yarn && yarn lint && yarn build && yarn test",
-    "prepublish": "yarn lint && yarn build && yarn test && yarn test:cypress"
+    "prepublish": "yarn lint && yarn clean && yarn build && yarn test && yarn test:cypress"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -39,9 +43,14 @@
       "!src/**/*.cypresstest.tsx"
     ]
   },
+  "dependencies": {
+    "clsx": "^1.1.1",
+    "uuid": "^8.3.2"
+  },
   "peerDependencies": {
     "@avaya/neo": "^3.42.0",
-    "react": "^17.0.2",
+    "react": ">=16.8.6",
+    "react-dom": ">=16.8.6",
     "ts-essentials": "^9.0.0"
   },
   "devDependencies": {
@@ -49,10 +58,9 @@
     "@babel/core": "^7.15.5",
     "@cypress/react": "^5.10.1",
     "@cypress/webpack-dev-server": "^1.6.0",
-    "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^21.0.0",
     "@rollup/plugin-node-resolve": "^13.0.5",
-    "@rollup/plugin-replace": "^3.0.0",
+    "@rollup/plugin-typescript": "^8.2.5",
     "@storybook/addon-actions": "^6.3.9",
     "@storybook/addon-essentials": "^6.3.9",
     "@storybook/addon-links": "^6.3.9",
@@ -73,7 +81,6 @@
     "@typescript-eslint/parser": "^4.33.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
-    "clsx": "^1.1.1",
     "cross-env": "^7.0.3",
     "cypress": "^8.5.0",
     "cypress-real-events": "^1.5.1",
@@ -90,16 +97,17 @@
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-standard": "^5.0.0",
     "jest-axe": "^5.0.1",
+    "postcss": "^8.3.8",
     "prettier": "^2.4.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "^4.0.3",
     "rollup": "^2.58.0",
     "rollup-plugin-delete": "^2.0.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.1",
     "rollup-plugin-sizes": "^1.0.4",
-    "rollup-plugin-smart-asset": "^2.1.2",
     "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript2": "^0.30.0",
     "tsconfig-paths-webpack-plugin": "^3.5.1",
     "typescript": "^4.4.3"
   }

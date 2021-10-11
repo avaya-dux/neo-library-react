@@ -15,6 +15,7 @@ export const ClosableChip: React.FC<ClosableChipProps> = forwardRef(
       variant = "default",
       tooltip,
       disabled = false,
+      withinChipContainer = false,
       text,
       onClick = () => {},
       id,
@@ -22,7 +23,11 @@ export const ClosableChip: React.FC<ClosableChipProps> = forwardRef(
     }: ClosableChipProps,
     ref: React.Ref<HTMLDivElement>
   ) => {
-    const classes = getClosableChipClassNames(variant, disabled);
+    const classes = getClosableChipClassNames(
+      variant,
+      disabled,
+      withinChipContainer
+    );
     const buttonAriaLabel = getButtonAriaLabel(text);
 
     const attributes = {
@@ -49,9 +54,12 @@ export const ClosableChip: React.FC<ClosableChipProps> = forwardRef(
 
 export function getClosableChipClassNames(
   variant: Variants,
-  disabled: boolean
+  disabled: boolean,
+  withinChipContainer: boolean
 ) {
-  const classNames = [getBasicChipClassNames(variant, disabled)];
+  const classNames = [
+    getBasicChipClassNames(variant, disabled, withinChipContainer),
+  ];
   classNames.push("neo-chip--close");
   classNames.push(`neo-chip--close--${variant}`);
   return classNames.join(" ");

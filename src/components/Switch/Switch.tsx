@@ -84,10 +84,7 @@ export function getSwitchInputProps({
 }: SwitchProps = {}) {
   return {
     type: "checkbox",
-
-    // conditionally add `checked` property
-    ...(!!checked && { checked }),
-
+    checked,
     disabled,
     ...rest,
   };

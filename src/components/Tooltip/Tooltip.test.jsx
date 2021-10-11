@@ -1,3 +1,4 @@
+import { composeStories } from "@storybook/testing-react";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
@@ -8,6 +9,10 @@ import {
   MultilineClassName,
   translatePositionToCSSName,
 } from "./helpers";
+import * as TooltipStories from "./Tooltip.stories";
+
+const { Default, Templated, MultipleChildren, AutoPosition } =
+  composeStories(TooltipStories);
 
 describe("Tooltip", () => {
   it("fully renders without exploding", () => {
@@ -55,6 +60,205 @@ describe("Tooltip", () => {
     const { container } = render(<Tooltip label="text">text</Tooltip>);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
+  });
+
+  describe("`aria-describedby` functionality", () => {
+    const id = "exampleid";
+    const idProp = `id="${id}"`;
+    const ariaProp = `aria-describedby="${id}"`;
+
+    it("applies an `aria-describedby` to a plain text child", () => {
+      const { container } = render(
+        <Tooltip id={id} label="default tooltip text" position="top">
+          text
+        </Tooltip>
+      );
+      expect(container.innerHTML).toContain(idProp);
+      expect(container.innerHTML).toContain(ariaProp);
+      expect(container).toMatchInlineSnapshot(`
+        <div>
+          <div
+            class="neo-tooltip neo-tooltip--up neo-tooltip--onhover"
+          >
+            <div
+              aria-describedby="exampleid"
+            >
+              text
+            </div>
+            <div
+              class="neo-tooltip__content neo-tooltip__content--multiline"
+              id="exampleid"
+              role="tooltip"
+            >
+              <div
+                class="neo-arrow"
+              />
+              default tooltip text
+            </div>
+          </div>
+        </div>
+      `);
+    });
+
+    it("applies an `aria-describedby` to a single react element", () => {
+      const { container } = render(
+        <Tooltip id={id} label="default tooltip text" position="top">
+          <p>text</p>
+        </Tooltip>
+      );
+      expect(container.innerHTML).toContain(idProp);
+      expect(container.innerHTML).toContain(ariaProp);
+      expect(container).toMatchInlineSnapshot(`
+        <div>
+          <div
+            class="neo-tooltip neo-tooltip--up neo-tooltip--onhover"
+          >
+            <p
+              aria-describedby="exampleid"
+            >
+              text
+            </p>
+            <div
+              class="neo-tooltip__content neo-tooltip__content--multiline"
+              id="exampleid"
+              role="tooltip"
+            >
+              <div
+                class="neo-arrow"
+              />
+              default tooltip text
+            </div>
+          </div>
+        </div>
+      `);
+    });
+
+    it("applies an `aria-describedby` to an array of react elements", () => {
+      const { container } = render(
+        <Tooltip id={id} label="default tooltip text" position="top">
+          <ul>
+            <li>item one</li>
+            <li>item two</li>
+            <li>item three</li>
+            <li>item four</li>
+          </ul>
+        </Tooltip>
+      );
+      expect(container.innerHTML).toContain(idProp);
+      expect(container.innerHTML).toContain(ariaProp);
+      expect(container).toMatchInlineSnapshot(`
+        <div>
+          <div
+            class="neo-tooltip neo-tooltip--up neo-tooltip--onhover"
+          >
+            <ul
+              aria-describedby="exampleid"
+            >
+              <li>
+                item one
+              </li>
+              <li>
+                item two
+              </li>
+              <li>
+                item three
+              </li>
+              <li>
+                item four
+              </li>
+            </ul>
+            <div
+              class="neo-tooltip__content neo-tooltip__content--multiline"
+              id="exampleid"
+              role="tooltip"
+            >
+              <div
+                class="neo-arrow"
+              />
+              default tooltip text
+            </div>
+          </div>
+        </div>
+      `);
+    });
+  });
+
+  describe("storybook tests", () => {
+    describe("Default", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<Default />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("Templated", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<Templated />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("MultipleChildren", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<MultipleChildren />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("AutoPosition", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<AutoPosition />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
   });
 
   describe("helper methods", () => {

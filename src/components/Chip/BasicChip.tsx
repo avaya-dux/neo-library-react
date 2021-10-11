@@ -9,9 +9,14 @@ export const BasicChip: React.FC<BasicChipProps> = ({
   tooltip,
   disabled = false,
   text,
+  withinChipContainer = false,
   ...rest
 }: BasicChipProps) => {
-  const classes = getBasicChipClassNames(variant, disabled);
+  const classes = getBasicChipClassNames(
+    variant,
+    disabled,
+    withinChipContainer
+  );
   return (
     <div className={classes} {...rest}>
       {text}
@@ -19,12 +24,19 @@ export const BasicChip: React.FC<BasicChipProps> = ({
   );
 };
 
-export function getBasicChipClassNames(variant: Variants, disabled: boolean) {
+export function getBasicChipClassNames(
+  variant: Variants,
+  disabled: boolean,
+  withinChipContainer: boolean
+) {
   const classNames = ["neo-chip"];
+  classNames.push(`neo-chip--${variant}`);
+
   if (disabled === true) {
     classNames.push(`neo-chip--${variant}--disabled`);
-  } else {
-    classNames.push(`neo-chip--${variant}`);
+  }
+  if (withinChipContainer) {
+    classNames.push("neo-chips__item");
   }
 
   return classNames.join(" ");

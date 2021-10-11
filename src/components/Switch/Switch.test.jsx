@@ -77,6 +77,7 @@ describe("getSwitchInputProps", () => {
   it("returns expected props", () => {
     expect(getSwitchInputProps({ disabled: true })).toMatchInlineSnapshot(`
       Object {
+        "checked": undefined,
         "disabled": true,
         "type": "checkbox",
       }
@@ -93,6 +94,7 @@ describe("getSwitchInputProps", () => {
       })
     ).toMatchInlineSnapshot(`
       Object {
+        "checked": undefined,
         "disabled": true,
         "onBlur": [Function],
         "onChange": [Function],
