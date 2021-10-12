@@ -13,6 +13,11 @@ export const DemoNativeSelect = () => {
   const [selectedState, updateSelectedState] = useState("");
   return (
     <>
+      <p>
+        This is an example of a controlled Native Select. If you open the
+        console window you will see that the selected element value is being
+        displayed via <code>console.log</code>
+      </p>
       <NativeSelect
         label="List of States"
         onChange={(event) => {

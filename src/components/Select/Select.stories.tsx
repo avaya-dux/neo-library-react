@@ -9,6 +9,14 @@ export default {
   component: Select,
 } as Meta<SelectProps>;
 
+const optionsWithHint = listOfStates.map((item) => {
+  const hint = {
+    hint: `state ${item.value}`,
+    disabled: item.value === "AK",
+  };
+  return { ...hint, ...item };
+});
+
 export const DemoSelect = () => {
   const [selectedStates, updateSelectedStates] = useState(["AL"]);
   const [errorText, updateErrorText] = useState<undefined | string[]>(
@@ -16,6 +24,11 @@ export const DemoSelect = () => {
   );
   return (
     <>
+      <p>
+        This is an example of a controlled Select. If you open the console
+        window you will see that the selected element value is being displayed
+        via <code>console.log</code>
+      </p>
       <Select
         label="List of States"
         onChange={(value) => {
@@ -25,7 +38,7 @@ export const DemoSelect = () => {
         value={selectedStates}
         helperText={["Please choose a State"]}
         errorText={errorText}
-        options={listOfStates}
+        options={optionsWithHint}
       />
       <button onClick={() => updateSelectedStates(["UT"])}>
         Set value to "UT"
@@ -42,13 +55,7 @@ export const DemoMultipleSelect = () => {
   const [errorText, updateErrorText] = useState<undefined | string[]>(
     undefined
   );
-  const optionsWithHint = listOfStates.map((item) => {
-    const hint = {
-      hint: `state ${item.value}`,
-      disabled: item.value === "AK",
-    };
-    return { ...hint, ...item };
-  });
+
   return (
     <>
       <Select

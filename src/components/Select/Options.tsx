@@ -121,13 +121,15 @@ export const Options: React.FC<OptionsProps> = forwardRef(
               classNames.push("disabled");
             }
 
+            const dataValue = { "data-value": value };
+
             return (
               <li
                 className={classNames.join(" ")}
                 key={itemId}
                 tabIndex={-1}
-                data-value={value}
                 role={roleType}
+                {...(disabled ? "" : dataValue)}
               >
                 {label}
               </li>
