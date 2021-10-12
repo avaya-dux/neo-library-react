@@ -3,7 +3,7 @@ import { NeoInputWrapper } from "components/NeoInputWrapper";
 
 import { genId } from "utils/accessibilityUtils";
 
-import { OptionType } from "../Select/SelectTypes";
+import { OptionType } from "./SelectTypes";
 
 export interface NativeSelectProps
   extends React.SelectHTMLAttributes<HTMLSelectElement> {
