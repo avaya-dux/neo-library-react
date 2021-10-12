@@ -5,6 +5,7 @@ import { genId } from "utils/accessibilityUtils";
 import { getOption } from "utils/SelectUtils";
 
 import { OptionType, SelectHandlerType } from "./SelectTypes";
+import { Options } from "./Options";
 
 export interface SelectProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
@@ -29,7 +30,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
       helperText,
       isLoading,
       isMultipleSelect = false,
-      label = "label",
+      label,
       onChange,
       options,
       required,
@@ -47,17 +48,9 @@ export const Select: React.FC<SelectProps> = forwardRef(
     const [isOpen, updateIsOpen] = useState(false);
     const [cursor, setCursor] = useState(0);
 
-    const [hovered, setHovered] = useState<OptionType | null>(null);
-
     const [selectedItems, updateSelectedItems] = useState<OptionType[]>([
       options[0],
     ]);
-
-    useEffect(() => {
-      if (options?.length && hovered) {
-        setCursor(options.indexOf(hovered));
-      }
-    }, [hovered]);
 
     const selectClassName = useMemo(() => {
       return getSelectClassNames(isOpen, disabled, isLoading);
@@ -70,96 +63,6 @@ export const Select: React.FC<SelectProps> = forwardRef(
       }
     }, [rest.value, options]);
 
-    const renderOptions = (
-      options: OptionType[],
-      isMultipleSelect: boolean
-    ) => {
-      /* multiple select and single select must have same css styles
-       * TODO https://jira.forge.avaya.com/browse/NEO-679
-       */
-      const roleType = isMultipleSelect ? "listitem" : "option";
-      return isMultipleSelect
-        ? options.map((option, index) => {
-            const { label, value, hint, disabled } = option;
-            const checkBoxId = genId();
-            const checkBoxHindId = genId();
-            const isActive = !!selectedItems.find(
-              (item) => item.value === value
-            );
-            const isHover = cursor === index;
-
-            /*
-             * .active and .hover classNames are missing on the neo.css
-             * TODO https://jira.forge.avaya.com/browse/NEO-683
-             *
-             */
-            const classNames = ["neo-input-group"];
-
-            if (isActive) {
-              classNames.push("active");
-            }
-
-            if (isHover) {
-              classNames.push("hover");
-            }
-
-            const dataValue = { "data-value": value };
-
-            return (
-              <li
-                className={classNames.join(" ")}
-                key={checkBoxId}
-                aria-label={label}
-                role={roleType}
-                tabIndex={-1}
-              >
-                <input
-                  className="neo-check"
-                  type="checkbox"
-                  id={checkBoxId}
-                  value={value}
-                  tabIndex={-1}
-                  defaultChecked={isActive}
-                  onMouseEnter={() => setHovered(option)}
-                  aria-describedby={checkBoxHindId}
-                  disabled={disabled}
-                />
-                <label htmlFor={checkBoxId} {...(disabled ? "" : dataValue)}>
-                  {label}
-                </label>
-                {hint ? (
-                  <p className="neo-input-hint" id={checkBoxHindId}>
-                    {hint}
-                  </p>
-                ) : null}
-              </li>
-            );
-          })
-        : options.map((option, index) => {
-            const itemId = genId();
-            const { label, value } = option;
-
-            const isHover = cursor === index;
-
-            const classNames = ["list-item"];
-
-            if (isHover) {
-              classNames.push("hover");
-            }
-
-            return (
-              <li
-                className={classNames.join(" ")}
-                key={itemId}
-                tabIndex={-1}
-                data-value={value}
-                role={roleType}
-              >
-                {label}
-              </li>
-            );
-          });
-    };
     const addOrRemoveSelectedItems = (
       isMultipleSelect: boolean,
       value?: string | null
@@ -245,6 +148,16 @@ export const Select: React.FC<SelectProps> = forwardRef(
       }
     };
 
+    const optionsProps = {
+      options,
+      isMultipleSelect,
+      labelledby: LabelId,
+      selectedItems,
+      cursor,
+      updateCursor: setCursor,
+      ref: listBoxRef,
+    };
+
     return (
       <NeoInputWrapper
         disabled={disabled}
@@ -279,7 +192,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
             aria-labelledby={LabelId}
           >
             {/*
-              TODO gap between the spinner icon and Loading text
+              TODO gap between the spinner icon and the Loading text
               https://jira.forge.avaya.com/browse/NEO-678
               */}
             {isLoading ? (
@@ -288,15 +201,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
               selectedItems?.map((item) => item.label).join(", ")
             )}
           </div>
-          <ul
-            id={listBoxId}
-            ref={listBoxRef}
-            className="neo-multiselect__content"
-            aria-labelledby={LabelId}
-            role={isMultipleSelect ? "list" : "listbox"}
-          >
-            {options ? renderOptions(options, isMultipleSelect) : null}
-          </ul>
+          <Options {...optionsProps} />
         </div>
         <div className="neo-input-hint" id={hintId}>
           {errorText && Array.isArray(errorText) ? (
