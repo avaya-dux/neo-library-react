@@ -24,7 +24,7 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
       errorText,
       helperText,
       isLoading,
-      label = "label",
+      label,
       options,
       required,
       ...rest

@@ -34,8 +34,8 @@ const Template: Story<NativeSelectProps> = (props: NativeSelectProps) => {
   return <NativeSelect {...props} />;
 };
 
-export const DefaultNativeSelect = Template.bind({});
-DefaultNativeSelect.args = {
+export const UncontrolledNativeSelect = Template.bind({});
+UncontrolledNativeSelect.args = {
   label: "List of States",
   helperText: ["Please choose a State"],
   options: listOfStates,

@@ -43,7 +43,10 @@ export const DemoMultipleSelect = () => {
     undefined
   );
   const optionsWithHint = listOfStates.map((item) => {
-    const hint = { hint: `state ${item.value}` };
+    const hint = {
+      hint: `state ${item.value}`,
+      disabled: item.value === "AK",
+    };
     return { ...hint, ...item };
   });
   return (

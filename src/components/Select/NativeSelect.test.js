@@ -6,7 +6,7 @@ import { axe } from "jest-axe";
 import { getNativeSelectClassNames } from "./NativeSelect";
 
 const {
-  DefaultNativeSelect,
+  UncontrolledNativeSelect,
   DemoNativeSelect,
   SelectError,
   SelectRequired,
@@ -17,7 +17,7 @@ describe("NativeSelect: ", () => {
   describe("Default", () => {
     let renderResult;
     beforeEach(() => {
-      renderResult = render(<DefaultNativeSelect />);
+      renderResult = render(<UncontrolledNativeSelect />);
     });
     it("should render ok", () => {
       const { container } = renderResult;

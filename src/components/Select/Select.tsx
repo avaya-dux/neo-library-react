@@ -80,7 +80,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
       const roleType = isMultipleSelect ? "listitem" : "option";
       return isMultipleSelect
         ? options.map((option, index) => {
-            const { label, value, hint } = option;
+            const { label, value, hint, disabled } = option;
             const checkBoxId = genId();
             const checkBoxHindId = genId();
             const isActive = !!selectedItems.find(
@@ -103,6 +103,8 @@ export const Select: React.FC<SelectProps> = forwardRef(
               classNames.push("hover");
             }
 
+            const dataValue = { "data-value": value };
+
             return (
               <li
                 className={classNames.join(" ")}
@@ -120,8 +122,9 @@ export const Select: React.FC<SelectProps> = forwardRef(
                   defaultChecked={isActive}
                   onMouseEnter={() => setHovered(option)}
                   aria-describedby={checkBoxHindId}
+                  disabled={disabled}
                 />
-                <label htmlFor={checkBoxId} data-value={value}>
+                <label htmlFor={checkBoxId} {...(disabled ? "" : dataValue)}>
                   {label}
                 </label>
                 {hint ? (
