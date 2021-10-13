@@ -3,7 +3,7 @@ import { Fragment, FunctionComponent, ReactElement } from "react";
 
 import { AvatarProps } from "components/Avatar";
 import { IconProps } from "components/Icon";
-import { Tooltip } from "components/Tooltip";
+import { Tooltip, TooltipPosition } from "components/Tooltip";
 
 export interface ListItemProps {
   className?: string;
@@ -12,6 +12,7 @@ export interface ListItemProps {
   actions?: ReactElement<any>[];
   icon?: ReactElement<IconProps>;
   tooltip?: string;
+  tooltipPosition?: TooltipPosition;
 }
 
 /**
@@ -25,6 +26,7 @@ export const ListItem: FunctionComponent<ListItemProps> = ({
   className,
   showDivider,
   tooltip,
+  tooltipPosition = "bottom-right", // TODO-NEO-690 // remove this line to default to "auto" once 690 is completed
 }) => {
   const avacon = avatar || icon;
 
@@ -37,7 +39,7 @@ export const ListItem: FunctionComponent<ListItemProps> = ({
       )}
     >
       {tooltip ? (
-        <Tooltip label={tooltip}>
+        <Tooltip label={tooltip} position={tooltipPosition}>
           <div className="neo-group-list__item">{avacon}</div>
         </Tooltip>
       ) : (
