@@ -1,8 +1,12 @@
 import { composeStories } from "@storybook/testing-react";
-import * as ChipContainerStories from "./ChipContainer.stories";
 import { render, screen } from "@testing-library/react";
-import { axe } from "jest-axe";
 import userEvent from "@testing-library/user-event";
+import { axe } from "jest-axe";
+
+import { createChip } from "./ChipContainer";
+import * as ChipContainerStories from "./ChipContainer.stories";
+
+jest.spyOn(console, "warn").mockImplementation(() => {});
 
 const { BasicChips, IconChips, ClosableChips, MixedChips } =
   composeStories(ChipContainerStories);
@@ -22,6 +26,11 @@ describe("Container", () => {
       const { container } = renderResult;
       const results = await axe(container);
       expect(results).toHaveNoViolations();
+    });
+    it("tooltip is rendered", async () => {
+      const { getByRole } = renderResult;
+      const tooltip = await getByRole("tooltip");
+      expect(tooltip).toHaveTextContent(/basic/i);
     });
   });
   describe("of IconChips:", () => {
@@ -78,6 +87,11 @@ describe("Container", () => {
       const results = await axe(container);
       expect(results).toHaveNoViolations();
     });
+    it("should render tooltip", async () => {
+      const { getByRole } = renderResult;
+      const tooltip = await getByRole("tooltip");
+      expect(tooltip).toHaveTextContent(/tooltip/i);
+    });
   });
   describe("of Mixed Chips:", () => {
     let renderResult;
@@ -93,6 +107,19 @@ describe("Container", () => {
       const { container } = renderResult;
       const results = await axe(container);
       expect(results).toHaveNoViolations();
+    });
+    it("two tooltips are rendered", async () => {
+      const { getAllByRole } = renderResult;
+      const tooltips = await getAllByRole("tooltip");
+      expect(tooltips).toHaveLength(2);
+    });
+  });
+  describe("createChip: ", () => {
+    it("bad chiptype should fail", () => {
+      const chipProps = { chiptype: "bad" };
+      expect(() => {
+        createChip(chipProps);
+      }).toThrow(/bad/i);
     });
   });
 });

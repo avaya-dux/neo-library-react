@@ -1,6 +1,7 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 
 import { ChipContainer, ChipContainerProps } from "./";
+
 import "@avaya/neo/neo/dist/css/neo/neo.min.css";
 
 export default {
@@ -16,8 +17,9 @@ export const BasicChips = Template.bind({});
 BasicChips.args = {
   chipProps: [
     {
-      text: "Basic Chip",
+      text: "Basic with Tooltip",
       chiptype: "basic",
+      tooltip: { label: "Basic Chip with Tooltip" },
     },
     {
       text: "Basic Chip Disabled",
@@ -32,10 +34,11 @@ export const IconChips = Template.bind({});
 IconChips.args = {
   chipProps: [
     {
-      text: "Link Icon on Right",
+      text: "Link Icon on Right with Tooltip",
       chiptype: "icon",
       icon: "link",
       dir: "rtl",
+      tooltip: { label: "Icon!" },
     },
     {
       text: "Info Chip Disabled",
@@ -57,9 +60,10 @@ ClosableChips.args = {
       disabled: true,
     },
     {
-      text: "Closable Chip TWo",
+      text: "Closable Chip Two with Tooltip",
       chiptype: "closable",
       id: "closable-II",
+      tooltip: { label: "Tooltip" },
     },
   ],
 };
@@ -69,7 +73,8 @@ MixedChips.args = {
   chipProps: [
     {
       chiptype: "basic",
-      text: "basic chip",
+      text: "basic with tooltip",
+      tooltip: { label: "basic chip" },
     },
     {
       id: "id1",
@@ -79,7 +84,8 @@ MixedChips.args = {
     {
       id: "id2",
       chiptype: "closable",
-      text: "close me too",
+      text: "close me with tooltip",
+      tooltip: { label: "closable" },
     },
     {
       text: "Link Icon on Right",

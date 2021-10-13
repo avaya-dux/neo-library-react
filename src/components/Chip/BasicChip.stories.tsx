@@ -32,15 +32,52 @@ Info.args = {
   dir: "rtl",
 };
 
-export const Alert = Template.bind({});
-Alert.args = {
+export const AlertWithTooltip = Template.bind({});
+AlertWithTooltip.args = {
   variant: "alert",
   text: "Basic Chip",
   disabled: true,
+  tooltip: {
+    label: "Basic Disabled Alert Chip",
+  },
 };
 
 export const Warning = Template.bind({});
 Warning.args = {
   variant: "warning",
   text: "Basic Chip",
+};
+
+export const TooltipTopLeft: Story<BasicChipProps> = (
+  props: BasicChipProps
+) => {
+  return (
+    <div
+      style={{
+        border: "solid black",
+        height: "500px",
+        padding: "3px",
+      }}
+    >
+      <div
+        style={{
+          position: "relative",
+          top: "200px",
+          left: "200px",
+          padding: "3px",
+        }}
+      >
+        <BasicChip {...props} />
+      </div>
+    </div>
+  );
+};
+TooltipTopLeft.args = {
+  variant: "alert",
+  text: "Basic Chip",
+  disabled: true,
+  tooltip: {
+    label: "Basic Disabled Alert Chip",
+    position: "top-left",
+  },
 };

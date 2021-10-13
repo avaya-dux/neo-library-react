@@ -1,8 +1,15 @@
 import { composeStories } from "@storybook/testing-react";
-import * as ClosableChipStories from "./ClosableChip.stories";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
-import { getClosableChipClassNames, ClosableChip } from "./ClosableChip";
+
+import {
+  ClosableChip,
+  getButtonAriaLabel,
+  getClosableChipClassNames,
+} from "./ClosableChip";
+import * as ClosableChipStories from "./ClosableChip.stories";
+
+jest.spyOn(console, "warn").mockImplementation(() => {});
 
 const {
   ClosableDefault,
@@ -10,6 +17,7 @@ const {
   ClosableInfo,
   ClosableAlert,
   ClosableWarning,
+  ClosableWarningWithTooltip,
 } = composeStories(ClosableChipStories);
 
 describe("Closable Chip: ", () => {
@@ -100,6 +108,28 @@ describe("Closable Chip: ", () => {
       expect(results).toHaveNoViolations();
     });
   });
+  describe("Warning with tooltip", () => {
+    let renderResult;
+    beforeEach(() => {
+      renderResult = render(<ClosableWarningWithTooltip />);
+    });
+    it("should render ok", () => {
+      const { container } = renderResult;
+      expect(container).not.toBe(null);
+    });
+
+    it("passes basic axe compliance", async () => {
+      const { container } = renderResult;
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it("tooltip is rendered", async () => {
+      const { getByRole } = renderResult;
+      const tooltip = await getByRole("tooltip");
+      expect(tooltip).toHaveTextContent(/Warning/i);
+    });
+  });
   describe("getClosableChipClassNames", () => {
     describe("given icon === info ", () => {
       it("given variant = alert and disabled = false and withinChipContainer = false, should return correct css names", () => {
@@ -137,6 +167,11 @@ describe("Closable Chip: ", () => {
     it("component.props is the same as input", () => {
       const component = <ClosableChip {...closableChip} />;
       expect(component.props).toEqual(closableChip);
+    });
+  });
+  describe("getButtonAriaLabel", () => {
+    it("should return correct value", () => {
+      expect(getButtonAriaLabel("test")).toEqual("remove test");
     });
   });
 });
