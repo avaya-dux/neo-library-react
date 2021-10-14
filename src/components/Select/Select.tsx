@@ -181,7 +181,6 @@ export const Select: React.FC<SelectProps> = forwardRef(
           onClick={clickHandler}
           onKeyDown={onKeyDownHandler}
           onMouseLeave={() => updateIsOpen(false)}
-          {...rest}
         >
           <div
             role="textbox"
