@@ -41,7 +41,6 @@ export const Select: React.FC<SelectProps> = forwardRef(
     const LabelId = genId();
     const hintId = genId();
     const selectId = genId();
-    const listBoxId = genId();
 
     const listBoxRef: React.Ref<HTMLUListElement> = createRef();
 
@@ -171,22 +170,22 @@ export const Select: React.FC<SelectProps> = forwardRef(
 
         <div
           id={selectId}
-          {...rest}
           ref={ref}
           className={selectClassName}
           tabIndex={0}
           role="combobox"
-          aria-labelledby={LabelId}
-          aria-owns={listBoxId}
-          aria-haspopup="listbox"
-          aria-expanded={isOpen}
           aria-controls="listbox"
+          aria-expanded={isOpen}
+          aria-haspopup="listbox"
+          aria-labelledby={LabelId}
           onClick={clickHandler}
           onKeyDown={onKeyDownHandler}
           onMouseLeave={() => updateIsOpen(false)}
+          {...rest}
         >
           <div
             role="textbox"
+            aria-haspopup="listbox"
             className="neo-multiselect__header"
             tabIndex={-1}
             aria-labelledby={LabelId}
