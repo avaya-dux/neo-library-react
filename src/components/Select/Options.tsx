@@ -68,9 +68,9 @@ export const Options: React.FC<OptionsProps> = forwardRef(
 
             return (
               <li
+                aria-label={label}
                 className={classNames.join(" ")}
                 key={checkBoxId}
-                aria-label={label}
                 role={roleType}
                 tabIndex={-1}
               >
@@ -125,10 +125,11 @@ export const Options: React.FC<OptionsProps> = forwardRef(
 
             return (
               <li
+                aria-selected={isHover}
                 className={classNames.join(" ")}
                 key={itemId}
-                tabIndex={-1}
                 role={roleType}
+                tabIndex={-1}
                 {...(disabled ? "" : dataValue)}
               >
                 {label}
