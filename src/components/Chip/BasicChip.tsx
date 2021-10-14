@@ -1,3 +1,5 @@
+import { Tooltip } from "components/Tooltip";
+
 import { ChipProps, Variants } from "./ChipTypes";
 
 export interface BasicChipProps extends ChipProps {
@@ -17,10 +19,21 @@ export const BasicChip: React.FC<BasicChipProps> = ({
     disabled,
     withinChipContainer
   );
-  return (
+  const chipElement = (
     <div className={classes} {...rest}>
       {text}
     </div>
+  );
+  return tooltip ? (
+    <Tooltip
+      label={tooltip.label}
+      position={tooltip.position}
+      multiline={!!tooltip.multiline}
+    >
+      {chipElement}
+    </Tooltip>
+  ) : (
+    <>{chipElement}</>
   );
 };
 

@@ -1,12 +1,13 @@
 import { composeStories } from "@storybook/testing-react";
-import * as IconChipsStories from "./IconChip.stories";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
+
 import { getIconChipClassNames } from "./IconChip";
+import * as IconChipsStories from "./IconChip.stories";
 
 const {
   DefaultWithIcon,
-  SuccessWithIcon,
+  SuccessWithIconAndTooltip,
   InfoWithIcon,
   AlertWithIcon,
   WarningWithIconOnRight,
@@ -32,7 +33,7 @@ describe("Icon Chip: ", () => {
   describe("SuccessWithIcon", () => {
     let renderResult;
     beforeEach(() => {
-      renderResult = render(<SuccessWithIcon />);
+      renderResult = render(<SuccessWithIconAndTooltip />);
     });
     it("should render ok", () => {
       const { container } = renderResult;
@@ -43,6 +44,11 @@ describe("Icon Chip: ", () => {
       const { container } = renderResult;
       const results = await axe(container);
       expect(results).toHaveNoViolations();
+    });
+    it("tooltip is rendered", async () => {
+      const { getByRole } = renderResult;
+      const tooltip = await getByRole("tooltip");
+      expect(tooltip).toHaveTextContent(/success/i);
     });
   });
   describe("InfoWithIcon", () => {

@@ -1,5 +1,6 @@
-import { ReactElement, useState, MouseEventHandler } from "react";
+import { MouseEventHandler, ReactElement, useState } from "react";
 import { UnreachableCaseError } from "ts-essentials";
+
 import { BasicChip, BasicChipProps } from "./BasicChip";
 import { WithinChipContainerProp } from "./ChipTypes";
 import { ClosableChip, ClosableChipProps } from "./ClosableChip";

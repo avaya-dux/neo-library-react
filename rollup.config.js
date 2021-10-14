@@ -1,10 +1,10 @@
 import commonjs from "@rollup/plugin-commonjs";
-import del from "rollup-plugin-delete";
-import sizes from "rollup-plugin-sizes";
-import postcss from "rollup-plugin-postcss";
-import typescript from "@rollup/plugin-typescript";
-import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import resolve from "@rollup/plugin-node-resolve";
+import typescript from "@rollup/plugin-typescript";
+import del from "rollup-plugin-delete";
+import peerDepsExternal from "rollup-plugin-peer-deps-external";
+import postcss from "rollup-plugin-postcss";
+import sizes from "rollup-plugin-sizes";
 import { terser } from "rollup-plugin-terser";
 
 import pkg from "./package.json";
@@ -23,10 +23,12 @@ export default [
         format: "umd",
         sourcemap: !isProdBuild,
         name: "avaya-neo-react",
+
         // prettier-ignore
         globals: {
           "react/jsx-runtime": "reactJsxRuntime",
           "react": "react",
+          "ts-essentials": "tsEssentials",
         },
       },
     ],

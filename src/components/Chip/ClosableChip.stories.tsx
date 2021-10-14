@@ -52,3 +52,10 @@ ClosableWarning.args = {
   text: "Closable Disabled Warning",
   disabled: true,
 };
+
+export const ClosableWarningWithTooltip = Template.bind({});
+ClosableWarningWithTooltip.args = {
+  variant: "warning",
+  text: "Closable Warning With Tooltip",
+  tooltip: { label: "Warning" },
+};

@@ -1,6 +1,9 @@
+import { Tooltip } from "components/Tooltip";
 import { IconNamesType } from "utils";
+
 import { getBasicChipClassNames } from "./BasicChip";
 import { ChipProps, Variants } from "./ChipTypes";
+
 // Icon can be right or left
 export interface IconChipProps extends ChipProps {
   icon: IconNamesType;
@@ -23,10 +26,21 @@ export const IconChip: React.FC<IconChipProps> = ({
     icon,
     withinChipContainer
   );
-  return (
+  const chipElement = (
     <div className={classes} {...rest}>
       {text}
     </div>
+  );
+  return tooltip ? (
+    <Tooltip
+      label={tooltip.label}
+      position={tooltip.position}
+      multiline={!!tooltip.multiline}
+    >
+      {chipElement}
+    </Tooltip>
+  ) : (
+    <>{chipElement}</>
   );
 };
 
@@ -39,8 +53,6 @@ export function getIconChipClassNames(
   const classNames = [
     getBasicChipClassNames(variant, disabled, withinChipContainer),
   ];
-  if (icon !== null) {
-    classNames.push(`neo-icon-${icon}`);
-  }
+  classNames.push(`neo-icon-${icon}`);
   return classNames.join(" ");
 }

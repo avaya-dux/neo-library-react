@@ -1,7 +1,11 @@
+import { forwardRef } from "react";
+
+import { Tooltip } from "components/Tooltip";
 import { genId } from "utils/accessibilityUtils";
+
 import { getBasicChipClassNames } from "./BasicChip";
 import { OneWayChipProps, Variants } from "./ChipTypes";
-import { forwardRef } from "react";
+
 // Close button on the right only
 export interface ClosableChipProps extends OneWayChipProps {
   onClick?: React.MouseEventHandler;
@@ -17,7 +21,6 @@ export const ClosableChip: React.FC<ClosableChipProps> = forwardRef(
       disabled = false,
       withinChipContainer = false,
       text,
-      onClick = () => {},
       id,
       ...rest
     }: ClosableChipProps,
@@ -38,9 +41,8 @@ export const ClosableChip: React.FC<ClosableChipProps> = forwardRef(
       tabIndex: 0,
       role: "button",
       dir: "rtl",
-      onClick,
     };
-    return (
+    const chipElement = (
       <div {...attributes}>
         <section // button is interactive so it can not be used when the parent div is interactive due to the "button" role. Section is a landmark element, which can have an aria-label.
           className="neo-close neo-close--clear"
@@ -48,6 +50,17 @@ export const ClosableChip: React.FC<ClosableChipProps> = forwardRef(
         />
         {text}
       </div>
+    );
+    return tooltip ? (
+      <Tooltip
+        label={tooltip.label}
+        position={tooltip.position}
+        multiline={!!tooltip.multiline}
+      >
+        {chipElement}
+      </Tooltip>
+    ) : (
+      <>{chipElement}</>
     );
   }
 );

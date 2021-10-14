@@ -20,13 +20,14 @@ DefaultWithIcon.args = {
   dir: "ltr",
 };
 
-export const SuccessWithIcon = Template.bind({});
-SuccessWithIcon.args = {
+export const SuccessWithIconAndTooltip = Template.bind({});
+SuccessWithIconAndTooltip.args = {
   variant: "success",
   icon: "link",
   text: "Success Disabled RTL with Link Icon",
   disabled: true,
   dir: "rtl",
+  tooltip: { label: "Success", position: "top-left" },
 };
 
 export const InfoWithIcon = Template.bind({});

@@ -3,7 +3,7 @@ import { Fragment, FunctionComponent, ReactElement } from "react";
 
 import { AvatarProps } from "components/Avatar";
 import { IconProps } from "components/Icon";
-import { Tooltip } from "components/Tooltip";
+import { Tooltip, TooltipPosition } from "components/Tooltip";
 
 export interface ListSectionProps {
   className?: string;
@@ -12,6 +12,7 @@ export interface ListSectionProps {
   actions?: ReactElement<any>[];
   icon?: ReactElement<IconProps>;
   tooltip?: string;
+  tooltipPosition?: TooltipPosition;
 }
 
 /**
@@ -25,6 +26,7 @@ export const ListSection: FunctionComponent<ListSectionProps> = ({
   className,
   hover,
   tooltip,
+  tooltipPosition = "bottom-right", // TODO-NEO-690 // remove this line to default to "auto" once 690 is completed
 }) => {
   const avacon = avatar || icon;
 
@@ -38,7 +40,9 @@ export const ListSection: FunctionComponent<ListSectionProps> = ({
     >
       <div className="neo-group-list__actions--left">
         {tooltip ? (
-          <Tooltip label={tooltip}>{!!avacon && avacon} </Tooltip>
+          <Tooltip label={tooltip} position={tooltipPosition}>
+            {!!avacon && avacon}
+          </Tooltip>
         ) : (
           <Fragment key="avacon">{!!avacon && avacon}</Fragment>
         )}

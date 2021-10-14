@@ -1,6 +1,7 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 
 import { Avatar, Icon, IconButton, Switch } from "components";
+import { List } from "components/List";
 
 import { ListItem, ListItemProps, ListSection, ListSectionProps } from ".";
 
@@ -9,8 +10,7 @@ export default {
   component: ListItem,
 } as Meta<ListItemProps>;
 
-const avatarJB = <Avatar initials="JB" id="avtar-jb" />;
-const avatarBD = <Avatar initials="BD" id="avtar-bd" />;
+const avGeneric = <Avatar variant="generic" id="avtar-generic" />;
 
 const iconBtnCall = (
   <IconButton
@@ -23,45 +23,12 @@ const iconBtnCall = (
   />
 );
 
-const iconBtnCall2 = (
-  <IconButton
-    aria-label="call"
-    data-testid="neo-button-call2"
-    id="btn-call2"
-    icon="call"
-    shape="circle"
-    variant="tertiary"
-  />
-);
-
-const iconBtnVideoOn = (
-  <IconButton
-    aria-label="video on"
-    data-testid="neo-button-video-on"
-    id="btn-video-on"
-    icon="video-on"
-    shape="circle"
-    variant="tertiary"
-  />
-);
-
 const iconBtnTransferCall = (
   <IconButton
     aria-label="transfer call"
     data-testid="neo-button-transfer"
     id="btn-transfer-call"
     icon="call-transfer"
-    shape="circle"
-    variant="tertiary"
-  />
-);
-
-const iconBtnAddCall = (
-  <IconButton
-    aria-label="add call"
-    data-testid="neo-button-add-call"
-    id="btn-add-call"
-    icon="call-add"
     shape="circle"
     variant="tertiary"
   />
@@ -86,28 +53,6 @@ const iconChat = (
   />
 );
 
-const threeLineText = (
-  <div className="vertical">
-    <p className="neo-icon-star-filled star-color">Brent Davidson</p>
-    <p className="neo-body-small neo-icon-call-outbound">2020-10-15 10:33 AM</p>
-    <p className="neo-body-small">01:59:24</p>
-  </div>
-);
-
-const verticalCounter = (
-  <div className="vertical">
-    <p className="neo-body-small">22:30</p>
-    <p className="neo-body-small">30 min</p>
-  </div>
-);
-
-const twoLineText = (
-  <div className="vertical">
-    Devices Design System Weekly
-    <p className="neo-body-small">Devices Innovation</p>
-  </div>
-);
-
 const timeAndBadge = (
   <div className="vertical">
     <p className="neo-body-small">6:02 PM</p>
@@ -117,37 +62,32 @@ const timeAndBadge = (
   </div>
 );
 
-export const PortalListItemExamples: Story<ListItemProps> = (
+const basicSwitch = <Switch aria-label="Activate" defaultChecked />;
+
+// Specific ListItem scenarios
+
+export const ListItemTextOnly: Story<ListItemProps> = (
   props: ListItemProps
 ) => (
-  <ul className="neo-group-list neo-group-list--hover">
+  <List itemType="ListItem">
+    <ListItem {...props}>First item, text Only</ListItem>
+
+    <ListItem {...props}>Second item, text only</ListItem>
+  </List>
+);
+
+export const ListItemTooltipAndDivider: Story<ListItemProps> = (
+  props: ListItemProps
+) => (
+  <List itemType="ListItem">
     <ListItem
-      tooltip="Joanne Barnett"
+      tooltip="Tooltip with auto position"
       showDivider
-      avatar={avatarJB}
+      avatar={avGeneric}
       actions={[iconBtnCall]}
       {...props}
     >
-      Joan Barnett
-    </ListItem>
-    <ListItem showDivider {...props}>
-      {verticalCounter}
-      {twoLineText}
-    </ListItem>
-    <ListItem actions={[iconBtnTransferCall, iconBtnAddCall]} {...props}>
-      <div className="vertical">
-        Roy George
-        <p className="neo-body-small">1-555-555-5555</p>
-      </div>
-    </ListItem>
-    <ListItem
-      showDivider
-      avatar={avatarBD}
-      actions={[iconBtnCall2, iconBtnVideoOn]}
-      {...props}
-    >
-      {threeLineText}
-      {twoLineText}
+      ListItem with Tooltip and divider below and action button
     </ListItem>
     <ListItem icon={iconStar} actions={[timeAndBadge]} {...props}>
       <div className="vertical">
@@ -155,50 +95,24 @@ export const PortalListItemExamples: Story<ListItemProps> = (
         <p className="neo-body-small">I sent an email to you regarding</p>
       </div>
     </ListItem>
-  </ul>
-);
-
-const basicSwitch = <Switch aria-label="Activate" defaultChecked />;
-
-export const PortalListSectionsExamples: Story<ListSectionProps> = (
-  props: ListSectionProps
-) => (
-  <ul className="neo-group-list--actions">
-    <ListSection tooltip="This is a list section" icon={iconChat} {...props}>
-      Text
-    </ListSection>
-
-    <ListSection icon={iconChat} actions={[basicSwitch]} {...props}>
-      Text
-    </ListSection>
-
-    <ListSection
-      icon={iconChat}
-      actions={[iconBtnTransferCall, iconBtnAddCall]}
-      {...props}
-    >
-      Text
-    </ListSection>
-
-    <ListSection actions={[basicSwitch]} {...props}>
-      Text
-    </ListSection>
-  </ul>
+  </List>
 );
 
 // Specific List Section scenarios
-export const TextOnly: Story<ListSectionProps> = (props: ListSectionProps) => (
-  <ul className="neo-group-list--actions">
+export const ListSectionTextOnly: Story<ListSectionProps> = (
+  props: ListSectionProps
+) => (
+  <List itemType="ListSection">
     <ListSection {...props}>First item</ListSection>
 
     <ListSection {...props}>Second item</ListSection>
-  </ul>
+  </List>
 );
 
-export const TextOnlyWithHover: Story<ListSectionProps> = (
+export const ListSectionTextOnlyWithHover: Story<ListSectionProps> = (
   props: ListSectionProps
 ) => (
-  <ul className="neo-group-list--actions">
+  <List itemType="ListSection">
     <ListSection hover {...props}>
       First item
     </ListSection>
@@ -206,13 +120,13 @@ export const TextOnlyWithHover: Story<ListSectionProps> = (
     <ListSection hover {...props}>
       Second item
     </ListSection>
-  </ul>
+  </List>
 );
 
-export const TextWithIconAndHover: Story<ListSectionProps> = (
+export const ListSectionTextWithIconAndHover: Story<ListSectionProps> = (
   props: ListSectionProps
 ) => (
-  <ul className="neo-group-list--actions">
+  <List itemType="ListSection">
     <ListSection icon={iconChat} hover {...props}>
       First item with chat icon
     </ListSection>
@@ -220,38 +134,36 @@ export const TextWithIconAndHover: Story<ListSectionProps> = (
     <ListSection icon={iconStar} hover {...props}>
       Second item with star icon
     </ListSection>
-  </ul>
+  </List>
 );
 
-export const TextWithIconAndHoverAndSwitch: Story<ListSectionProps> = (
-  props: ListSectionProps
-) => (
-  <ul className="neo-group-list--actions">
-    <ListSection icon={iconChat} actions={[basicSwitch]} hover {...props}>
-      First item with chat icon and switch
-    </ListSection>
+export const ListSectionTextWithIconAndHoverAndSwitch: Story<ListSectionProps> =
+  (props: ListSectionProps) => (
+    <List itemType="ListSection">
+      <ListSection icon={iconChat} actions={[basicSwitch]} hover {...props}>
+        First item with chat icon and switch
+      </ListSection>
 
-    <ListSection icon={iconStar} hover {...props}>
-      Second item with star icon
-    </ListSection>
-  </ul>
-);
+      <ListSection icon={iconStar} hover {...props}>
+        Second item with star icon
+      </ListSection>
+    </List>
+  );
 
-export const TextWithIconAndHoverAndIconButton: Story<ListSectionProps> = (
-  props: ListSectionProps
-) => (
-  <ul className="neo-group-list--actions">
-    <ListSection
-      icon={iconChat}
-      actions={[iconBtnTransferCall]}
-      hover
-      {...props}
-    >
-      First item with chat icon and transfer call button
-    </ListSection>
+export const ListSectionTextWithIconAndHoverAndIconButton: Story<ListSectionProps> =
+  (props: ListSectionProps) => (
+    <List itemType="ListSection">
+      <ListSection
+        icon={iconChat}
+        actions={[iconBtnTransferCall]}
+        hover
+        {...props}
+      >
+        First item with chat icon and transfer call button
+      </ListSection>
 
-    <ListSection icon={iconStar} hover {...props}>
-      Second item with star icon
-    </ListSection>
-  </ul>
-);
+      <ListSection icon={iconStar} hover {...props}>
+        Second item with star icon
+      </ListSection>
+    </List>
+  );
