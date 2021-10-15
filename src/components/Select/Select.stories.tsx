@@ -17,7 +17,7 @@ const optionsWithHint = listOfStates.map((item) => {
   return { ...hint, ...item };
 });
 
-export const DemoSelect = () => {
+export const ControlledSelect = () => {
   const [selectedStates, updateSelectedStates] = useState(["AL"]);
   const [errorText, updateErrorText] = useState<undefined | string[]>(
     undefined
@@ -50,7 +50,7 @@ export const DemoSelect = () => {
   );
 };
 
-export const DemoMultipleSelect = () => {
+export const ControlledMultipleSelect = () => {
   const [selectedStates, updateSelectedStates] = useState(["AL"]);
   const [errorText, updateErrorText] = useState<undefined | string[]>(
     undefined
@@ -87,8 +87,8 @@ const Template: Story<SelectProps> = (props: SelectProps) => {
   return <Select {...props} />;
 };
 
-export const DefaultSelect = Template.bind({});
-DefaultSelect.args = {
+export const UncontrolledSelect = Template.bind({});
+UncontrolledSelect.args = {
   label: "List of States",
   helperText: ["Please choose a State"],
   options: listOfStates,

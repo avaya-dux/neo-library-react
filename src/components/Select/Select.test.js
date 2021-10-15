@@ -6,9 +6,9 @@ import { axe } from "jest-axe";
 import { getSelectClassNames } from "./Select";
 
 const {
-  DefaultSelect,
-  DemoSelect,
-  DemoMultipleSelect,
+  UncontrolledSelect,
+  ControlledSelect,
+  ControlledMultipleSelect,
   SelectError,
   SelectRequired,
   SelectDisabled,
@@ -18,7 +18,7 @@ describe("Select: ", () => {
   describe("Default", () => {
     let renderResult;
     beforeEach(() => {
-      renderResult = render(<DefaultSelect />);
+      renderResult = render(<UncontrolledSelect />);
     });
     it("should render ok", () => {
       const { container } = renderResult;
@@ -35,7 +35,7 @@ describe("Select: ", () => {
   describe("DemoSelect", () => {
     let renderResult;
     beforeEach(() => {
-      renderResult = render(<DemoSelect />);
+      renderResult = render(<ControlledSelect />);
     });
     it("should render ok", () => {
       const { container } = renderResult;
@@ -52,7 +52,7 @@ describe("Select: ", () => {
   describe("DemoMultipleSelect", () => {
     let renderResult;
     beforeEach(() => {
-      renderResult = render(<DemoMultipleSelect />);
+      renderResult = render(<ControlledMultipleSelect />);
     });
     it("should render ok", () => {
       const { container } = renderResult;

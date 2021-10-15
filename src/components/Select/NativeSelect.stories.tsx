@@ -9,7 +9,7 @@ export default {
   component: NativeSelect,
 } as Meta<NativeSelectProps>;
 
-export const DemoNativeSelect = () => {
+export const ControlledNativeSelect = () => {
   const [selectedState, updateSelectedState] = useState("");
   return (
     <>

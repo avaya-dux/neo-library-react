@@ -7,7 +7,7 @@ import { getNativeSelectClassNames } from "./NativeSelect";
 
 const {
   UncontrolledNativeSelect,
-  DemoNativeSelect,
+  ControlledNativeSelect,
   SelectError,
   SelectRequired,
   SelectDisabled,
@@ -34,7 +34,7 @@ describe("NativeSelect: ", () => {
   describe("Native Select Demo", () => {
     let renderResult;
     beforeEach(() => {
-      renderResult = render(<DemoNativeSelect />);
+      renderResult = render(<ControlledNativeSelect />);
     });
     it("should render ok", () => {
       const { container } = renderResult;
