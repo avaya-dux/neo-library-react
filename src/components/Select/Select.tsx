@@ -40,7 +40,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
   ) => {
     const LabelId = genId();
     const hintId = genId();
-    const selectId = genId();
+    const selectId = rest.id || genId();
 
     const listBoxRef: React.Ref<HTMLUListElement> = createRef();
 
