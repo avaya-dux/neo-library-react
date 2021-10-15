@@ -43,7 +43,7 @@ export const Options: React.FC<OptionsProps> = forwardRef(
         ? options.map((option, index) => {
             const { label, value, hint, disabled } = option;
             const checkBoxId = genId();
-            const checkBoxHindId = genId();
+            const checkBoxHintId = genId();
             const isActive = !!selectedItems.find(
               (item) => item.value === value
             );
@@ -82,7 +82,7 @@ export const Options: React.FC<OptionsProps> = forwardRef(
                   tabIndex={-1}
                   defaultChecked={isActive}
                   onMouseEnter={() => setHovered(option)}
-                  aria-describedby={checkBoxHindId}
+                  aria-describedby={checkBoxHintId}
                   disabled={disabled}
                 />
                 <label htmlFor={checkBoxId} {...(disabled ? "" : dataValue)}>
@@ -94,7 +94,7 @@ export const Options: React.FC<OptionsProps> = forwardRef(
                  * https://jira.forge.avaya.com/browse/NEO-700
                  */}
                 {hint ? (
-                  <p className="neo-input-hint" id={checkBoxHindId}>
+                  <p className="neo-input-hint" id={checkBoxHintId}>
                     {hint}
                   </p>
                 ) : null}
