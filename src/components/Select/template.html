@@ -1,0 +1,141 @@
+<div class="neo-form-control">
+  <div aria-required="false" class="neo-input-group">
+    <label id="select-box-label-id" for="select-box-id">List of Colors:</label>
+    <div
+      id="select-box-id"
+      class="neo-multiselect"
+      tabindex="0"
+      role="combobox"
+      aria-controls="listbox"
+      aria-expanded="false"
+      aria-haspopup="listbox"
+      aria-labelledby="select-box-label-id"
+    >
+      <div
+        role="textbox"
+        aria-haspopup="listbox"
+        class="neo-multiselect__header"
+        tabindex="-1"
+        aria-labelledby="select-box-label-id"
+      >
+        Red
+      </div>
+      <ul
+        class="neo-multiselect__content"
+        aria-labelledby="select-box-label-id"
+        role="listbox"
+      >
+        <li
+          aria-selected="true"
+          class="list-item hover"
+          role="option"
+          tabindex="-1"
+        >
+          Red
+        </li>
+        <li
+          aria-selected="false"
+          class="list-item disabled"
+          role="option"
+          tabindex="-1"
+        >
+          Blue
+        </li>
+      </ul>
+    </div>
+    <div class="neo-input-hint" id="select-box-hint-id">
+      <div>Please choose a Color</div>
+    </div>
+  </div>
+</div>
+
+<!-- Multiple-->
+
+<div data-testid="NeoInputWrapper-root" class="neo-form-control">
+  <div
+    aria-required="false"
+    data-testid="NeoInputWrapper-group-root"
+    class="neo-input-group"
+  >
+    <label id="select-box-label-id" for="select-box-id">List of States:</label>
+    <div
+      id="select-box-id"
+      class="neo-multiselect"
+      tabindex="0"
+      role="combobox"
+      aria-controls="listbox"
+      aria-expanded="false"
+      aria-haspopup="listbox"
+      aria-labelledby="select-box-label-id"
+    >
+      <div
+        role="textbox"
+        aria-haspopup="listbox"
+        class="neo-multiselect__header"
+        tabindex="-1"
+        aria-labelledby="select-box-label-id"
+      >
+        Alabama
+      </div>
+      <ul
+        class="neo-multiselect__content"
+        aria-labelledby="select-box-label-id"
+        role="list"
+      >
+        <li
+          aria-label="Alabama"
+          class="neo-input-group active hover"
+          role="listitem"
+          tabindex="-1"
+        >
+          <input
+            class="neo-check"
+            type="checkbox"
+            id="checkbox-id-0"
+            tabindex="-1"
+            aria-describedby="checkBox-hint-id-0"
+            value="AL"
+            checked=""
+          /><label for="checkbox-id-0" data-value="AL">Alabama</label>
+          <p class="neo-input-hint" id="checkBox-hint-id-0">state AL</p>
+        </li>
+        <li
+          aria-label="Alaska"
+          class="neo-input-group"
+          role="listitem"
+          tabindex="-1"
+        >
+          <input
+            class="neo-check"
+            type="checkbox"
+            id="checkbox-id-1"
+            tabindex="-1"
+            aria-describedby="checkBox-hint-id-1"
+            disabled=""
+            value="AK"
+          /><label for="checkbox-id-1">Alaska</label>
+          <p class="neo-input-hint" id="checkBox-hint-id-1">state AK</p>
+        </li>
+        <li
+          aria-label="Arizona"
+          class="neo-input-group"
+          role="listitem"
+          tabindex="-1"
+        >
+          <input
+            class="neo-check"
+            type="checkbox"
+            id="checkbox-id-2"
+            tabindex="-1"
+            aria-describedby="checkBox-hint-id-2"
+            value="AZ"
+          /><label for="checkbox-id-2" data-value="AZ">Arizona</label>
+          <p class="neo-input-hint" id="checkBox-hint-id-2">state AZ</p>
+        </li>
+      </ul>
+    </div>
+    <div class="neo-input-hint" id="select-box-hint-id">
+      <div>Please choose some State</div>
+    </div>
+  </div>
+</div>

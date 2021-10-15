@@ -157,6 +157,13 @@ export const Select: React.FC<SelectProps> = forwardRef(
       ref: listBoxRef,
     };
 
+    /**
+     * TODO
+     * https://jira.forge.avaya.com/browse/NEO-709
+     * the current HTML structure doesn't match with the online documentation
+     * https://design.avayacloud.com/components/web/selectbox-web
+     */
+
     return (
       <NeoInputWrapper
         disabled={disabled}
