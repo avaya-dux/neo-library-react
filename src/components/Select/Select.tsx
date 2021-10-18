@@ -2,7 +2,7 @@ import { createRef, forwardRef, useEffect, useMemo, useState } from "react";
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 
 import { genId } from "utils/accessibilityUtils";
-import { getOption } from "utils/SelectUtils";
+import { getOption, getSelectedItems } from "utils/SelectUtils";
 
 import { OptionType, SelectHandlerType } from "./SelectTypes";
 import { Options } from "./Options";
@@ -38,9 +38,9 @@ export const Select: React.FC<SelectProps> = forwardRef(
     }: SelectProps,
     ref: React.Ref<HTMLDivElement>
   ) => {
-    const LabelId = genId();
-    const hintId = genId();
-    const selectId = rest.id || genId();
+    const LabelId = useMemo(() => genId(), []);
+    const hintId = useMemo(() => genId(), []);
+    const selectId = useMemo(() => rest.id || genId(), []);
 
     const listBoxRef: React.Ref<HTMLUListElement> = createRef();
 
@@ -64,39 +64,23 @@ export const Select: React.FC<SelectProps> = forwardRef(
 
     const addOrRemoveSelectedItems = (
       isMultipleSelect: boolean,
-      value?: string | null
+      value: string
     ) => {
-      let result: OptionType[] = [];
-      if (value) {
-        if (isMultipleSelect) {
-          const newValue = selectedItems.find((item) => item.value === value);
-          // remove new value if is already there
-          if (newValue) {
-            const copy = [...selectedItems];
-            // do not remove if only one item was left
+      const result = getSelectedItems(
+        isMultipleSelect,
+        value,
+        selectedItems,
+        options
+      );
+      updateSelectedItems(result);
+      if (!isMultipleSelect) setCursor(options.indexOf(result[0]));
 
-            if (copy.length >= 2) {
-              copy.splice(copy.indexOf(newValue), 1);
-              result = copy;
-              updateSelectedItems(copy);
-            }
-          } else {
-            // add
-            result = [...selectedItems, ...getOption(options, [value])];
-            updateSelectedItems(result);
-          }
-        } else {
-          result = getOption(options, [value]);
-
-          updateSelectedItems(result);
-          setCursor(options.indexOf(result[0]));
-        }
-
-        if (onChange) {
-          onChange(result?.map((item) => item.value));
-        }
+      if (onChange) {
+        onChange(result?.map((item) => item.value));
       }
+    };
 
+    const expandOrCloseListBox = () => {
       if (!disabled && !isLoading) {
         isMultipleSelect ? updateIsOpen(true) : updateIsOpen(!isOpen);
       }
@@ -104,8 +88,11 @@ export const Select: React.FC<SelectProps> = forwardRef(
 
     const clickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       const value = (e.target as HTMLDivElement).getAttribute("data-value");
+      if (value) {
+        addOrRemoveSelectedItems(isMultipleSelect, value);
+      }
 
-      addOrRemoveSelectedItems(isMultipleSelect, value);
+      expandOrCloseListBox();
     };
 
     const onKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -138,7 +125,12 @@ export const Select: React.FC<SelectProps> = forwardRef(
         }
 
         case "Enter": {
-          addOrRemoveSelectedItems(isMultipleSelect, options[cursor].value);
+          if (!options[cursor].disabled) {
+            addOrRemoveSelectedItems(isMultipleSelect, options[cursor].value);
+          }
+
+          expandOrCloseListBox();
+
           break;
         }
 

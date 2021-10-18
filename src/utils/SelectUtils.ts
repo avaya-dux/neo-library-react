@@ -26,3 +26,33 @@ export const getOption = (array: OptionType[], query: string[]) => {
     return query.includes(item.value);
   });
 };
+
+export const getSelectedItems = (
+  isMultipleSelect: boolean,
+  value: string,
+  selectedItems: OptionType[],
+  options: OptionType[]
+) => {
+  let result: OptionType[] = [];
+
+  if (isMultipleSelect) {
+    const newValue = selectedItems.find((item) => item.value === value);
+    // remove new value if is already there
+    if (newValue) {
+      const copy = [...selectedItems];
+      // do not remove if only one item was left
+
+      if (copy.length >= 2) {
+        copy.splice(copy.indexOf(newValue), 1);
+        result = copy;
+      }
+    } else {
+      // add
+      result = [...selectedItems, ...getOption(options, [value])];
+    }
+  } else {
+    result = getOption(options, [value]);
+  }
+
+  return result;
+};
