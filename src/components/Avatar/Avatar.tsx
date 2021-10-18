@@ -16,6 +16,9 @@ export interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
   image?: string;
 }
 
+export interface SmallAvatarProps extends AvatarProps {
+  size: "sm";
+}
 /**
  * Avatars are used to show a thumbnail representation of an individual or business in the interface.
  *

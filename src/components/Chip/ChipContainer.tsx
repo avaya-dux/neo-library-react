@@ -1,6 +1,6 @@
 import { MouseEventHandler, ReactElement, useState } from "react";
 import { UnreachableCaseError } from "ts-essentials";
-
+import { AvatarChip, AvatarChipProps } from "./AvatarChip";
 import { BasicChip, BasicChipProps } from "./BasicChip";
 import { WithinChipContainerProp } from "./ChipTypes";
 import { ClosableChip, ClosableChipProps } from "./ClosableChip";
@@ -9,6 +9,7 @@ import { IconChip, IconChipProps } from "./IconChip";
 type WithinChipContainer = typeof WithinChipContainerProp;
 
 type AllChipProps =
+  | Omit<AvatarChipProps, WithinChipContainer>
   | Omit<BasicChipProps, WithinChipContainer>
   | Omit<ClosableChipProps, WithinChipContainer>
   | Omit<IconChipProps, WithinChipContainer>;
@@ -52,6 +53,8 @@ export function createChip<T extends AllChipProps>(
 ): ReactElement<T> | never {
   const chiptype = chipProp.chiptype;
   switch (chiptype) {
+    case "avatar":
+      return <AvatarChip key={index} {...chipProp} withinChipContainer />;
     case "closable":
       chipProp.onClick = handleClick;
       return <ClosableChip key={index} {...chipProp} withinChipContainer />;

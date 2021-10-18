@@ -111,7 +111,7 @@ describe("Container", () => {
     it("two tooltips are rendered", async () => {
       const { getAllByRole } = renderResult;
       const tooltips = await getAllByRole("tooltip");
-      expect(tooltips).toHaveLength(2);
+      expect(tooltips).toHaveLength(3);
     });
   });
   describe("createChip: ", () => {

@@ -1,5 +1,5 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { Avatar, AvatarProps } from "./Avatar";
+import { Avatar, AvatarProps, SmallAvatarProps } from "./Avatar";
 
 export default {
   title: "Components/Avatar",
@@ -13,3 +13,14 @@ export const Template: Story<AvatarProps> = (props: AvatarProps) => (
 );
 
 Template.args = { label: "Jimmy Bob" };
+
+const SmallTemplate: Story<SmallAvatarProps> = (props: SmallAvatarProps) => (
+  <Avatar {...props} />
+);
+
+export const SmallBot = SmallTemplate.bind({});
+SmallBot.args = {
+  label: "Small Bot",
+  variant: "bot",
+  size: "sm",
+};
