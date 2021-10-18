@@ -119,7 +119,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
         case "ArrowUp": {
           setCursor((prevState) => (prevState > 0 ? prevState - 1 : prevState));
           if (scrollHeight && itemHeight) {
-            listBoxRef.current.scrollTop = cursor * itemHeight;
+            listBoxRef.current.scrollTop = (cursor - 1) * itemHeight;
           }
           break;
         }

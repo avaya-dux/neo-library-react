@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState, useCallback } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { OptionType } from "./SelectTypes";
 
 export interface OptionsProps {
@@ -30,112 +30,112 @@ export const Options: React.FC<OptionsProps> = forwardRef(
       }
     }, [hovered]);
 
-    const renderOptions = useCallback(
-      (options: OptionType[], isMultipleSelect: boolean) => {
-        /* multiple select and single select must have same css styles
-         * TODO https://jira.forge.avaya.com/browse/NEO-679
-         */
-        const roleType = isMultipleSelect ? "listitem" : "option";
-        return isMultipleSelect
-          ? options.map((option, index) => {
-              const { label, value, hint, disabled } = option;
-              const checkBoxId = label + index;
-              const checkBoxHintId = value + index;
-              const isActive = !!selectedItems.find(
-                (item) => item.value === value
-              );
-              const isHover = cursor === index;
+    const renderOptions = (
+      options: OptionType[],
+      isMultipleSelect: boolean
+    ) => {
+      /* multiple select and single select must have same css styles
+       * TODO https://jira.forge.avaya.com/browse/NEO-679
+       */
+      const roleType = isMultipleSelect ? "listitem" : "option";
+      return isMultipleSelect
+        ? options.map((option, index) => {
+            const { label, value, hint, disabled } = option;
+            const checkBoxId = label + index;
+            const checkBoxHintId = value + index;
+            const isActive = !!selectedItems.find(
+              (item) => item.value === value
+            );
+            const isHover = cursor === index;
 
-              /*
-               * .active and .hover classNames are missing on the neo.css
-               * TODO https://jira.forge.avaya.com/browse/NEO-683
-               *
-               */
-              const classNames = ["neo-input-group"];
+            /*
+             * .active and .hover classNames are missing on the neo.css
+             * TODO https://jira.forge.avaya.com/browse/NEO-683
+             *
+             */
+            const classNames = ["neo-input-group"];
 
-              if (isActive) {
-                classNames.push("active");
-              }
+            if (isActive) {
+              classNames.push("active");
+            }
 
-              if (isHover) {
-                classNames.push("hover");
-              }
+            if (isHover) {
+              classNames.push("hover");
+            }
 
-              const dataValue = { "data-value": value };
+            const dataValue = { "data-value": value };
 
-              return (
-                <li
-                  aria-label={label}
-                  className={classNames.join(" ")}
-                  key={checkBoxId}
-                  role={roleType}
+            return (
+              <li
+                aria-label={label}
+                className={classNames.join(" ")}
+                key={checkBoxId}
+                role={roleType}
+                tabIndex={-1}
+              >
+                <input
+                  className="neo-check"
+                  type="checkbox"
+                  id={checkBoxId}
+                  value={value}
                   tabIndex={-1}
-                >
-                  <input
-                    className="neo-check"
-                    type="checkbox"
-                    id={checkBoxId}
-                    value={value}
-                    tabIndex={-1}
-                    defaultChecked={isActive}
-                    onMouseEnter={() => setHovered(option)}
-                    aria-describedby={checkBoxHintId}
-                    disabled={disabled}
-                  />
-                  <label htmlFor={checkBoxId} {...(disabled ? "" : dataValue)}>
-                    {label}
-                  </label>
-                  {/**
-                   * TODO
-                   * Select Box Multiple Select -> Hint text helper is not aligned properly when is disabled
-                   * https://jira.forge.avaya.com/browse/NEO-700
-                   */}
-                  {hint ? (
-                    <p className="neo-input-hint" id={checkBoxHintId}>
-                      {hint}
-                    </p>
-                  ) : null}
-                </li>
-              );
-            })
-          : options.map((option, index) => {
-              const { label, value, disabled } = option;
-              const itemId = label + index;
-
-              const isHover = cursor === index;
-
-              const classNames = ["list-item"];
-
-              if (isHover) {
-                classNames.push("hover");
-              }
-              if (disabled) {
-                /**
-                 * TODO disabled is not a native property from <li> element,
-                 * then a new CSS need to be created to support disabled option
-                 * https://jira.forge.avaya.com/browse/NEO-699
-                 */
-                classNames.push("disabled");
-              }
-
-              const dataValue = { "data-value": value };
-
-              return (
-                <li
-                  aria-selected={isHover}
-                  className={classNames.join(" ")}
-                  key={itemId}
-                  role={roleType}
-                  tabIndex={-1}
-                  {...(disabled ? "" : dataValue)}
-                >
+                  defaultChecked={isActive}
+                  onMouseEnter={() => setHovered(option)}
+                  aria-describedby={checkBoxHintId}
+                  disabled={disabled}
+                />
+                <label htmlFor={checkBoxId} {...(disabled ? "" : dataValue)}>
                   {label}
-                </li>
-              );
-            });
-      },
-      [options, isMultipleSelect]
-    );
+                </label>
+                {/**
+                 * TODO
+                 * Select Box Multiple Select -> Hint text helper is not aligned properly when is disabled
+                 * https://jira.forge.avaya.com/browse/NEO-700
+                 */}
+                {hint ? (
+                  <p className="neo-input-hint" id={checkBoxHintId}>
+                    {hint}
+                  </p>
+                ) : null}
+              </li>
+            );
+          })
+        : options.map((option, index) => {
+            const { label, value, disabled } = option;
+            const itemId = label + index;
+
+            const isHover = cursor === index;
+
+            const classNames = ["list-item"];
+
+            if (isHover) {
+              classNames.push("hover");
+            }
+            if (disabled) {
+              /**
+               * TODO disabled is not a native property from <li> element,
+               * then a new CSS need to be created to support disabled option
+               * https://jira.forge.avaya.com/browse/NEO-699
+               */
+              classNames.push("disabled");
+            }
+
+            const dataValue = { "data-value": value };
+
+            return (
+              <li
+                aria-selected={isHover}
+                className={classNames.join(" ")}
+                key={itemId}
+                role={roleType}
+                tabIndex={-1}
+                {...(disabled ? "" : dataValue)}
+              >
+                {label}
+              </li>
+            );
+          });
+    };
 
     return (
       <ul
