@@ -13,16 +13,47 @@ import { IconChip, IconChipProps } from "./IconChip";
 
 type WithinChipContainer = typeof WithinChipContainerProp;
 
+/**
+ * @typedef AllChipProps
+ */
 type AllChipProps =
   | Omit<AvatarChipProps, WithinChipContainer>
   | Omit<BasicChipProps, WithinChipContainer>
   | Omit<ClosableChipProps, WithinChipContainer>
   | Omit<IconChipProps, WithinChipContainer>;
+
+/**
+ * @typedef ChipContainerProps
+ * @prop { Array<AllChipProps> } chipProps Array of AllChipProps
+ */
 export interface ChipContainerProps {
-  /** Array of ChipProps; Note: ChipContainer will set withinChipContainer to true when passing props to a Chip Component */
   chipProps: Array<AllChipProps>;
 }
 
+/**
+ * ChipContainer allows end-user to create various Chips by passing in a {@link ChipContainerProps}
+ *
+ * @example
+ * const props = {
+ *    chipProps: [
+ *       {
+ *         text: "Closable Chip One",
+ *         chiptype: "closable",
+ *         id: "closable-I",
+ *         disabled: true,
+ *       },
+ *       {
+ *         text: "Closable Chip Two with Tooltip",
+ *         chiptype: "closable",
+ *         id: "closable-II",
+ *         tooltip: { label: "Tooltip" },
+ *       },
+ *   ],
+ * }
+ * <ChipContainer {...props} />
+ *
+ * @see https://design.avayacloud.com/components/web/chip-web
+ */
 export const ChipContainer = ({ chipProps }: ChipContainerProps) => {
   const [chipList, updateChipList] = useState(chipProps);
   const handleClick = (event: React.MouseEvent) => {

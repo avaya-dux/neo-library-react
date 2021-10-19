@@ -83,6 +83,8 @@ describe("Container", () => {
     });
 
     it("press Delete on disabled button should not remove it", async () => {
+      const buttonsBeforeDeletion = await screen.findAllByRole("button");
+      expect(buttonsBeforeDeletion.length).toBe(2);
       expect(document.body).toHaveFocus();
       userEvent.tab();
       const chipOne = screen.getByText(/.*one/i);
@@ -93,6 +95,8 @@ describe("Container", () => {
     });
 
     it("press Delete on enabled button should remove it", async () => {
+      const buttonsBeforeDeletion = await screen.findAllByRole("button");
+      expect(buttonsBeforeDeletion.length).toBe(2);
       expect(document.body).toHaveFocus();
       userEvent.tab();
       const chipOne = screen.getByText(/.*one/i);
@@ -106,6 +110,8 @@ describe("Container", () => {
     });
 
     it("press Space on enabled button should not remove it", async () => {
+      const buttonsBeforeDeletion = await screen.findAllByRole("button");
+      expect(buttonsBeforeDeletion.length).toBe(2);
       expect(document.body).toHaveFocus();
       userEvent.tab();
       const chipOne = screen.getByText(/.*one/i);

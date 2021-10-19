@@ -7,7 +7,7 @@ export interface ExpandableChipProps extends OneWayChipProps {
   chiptype: "expandable";
 }
 
-export const ExpandableChip: React.FC<ExpandableChipProps> = ({
+export const ExpandableChip = ({
   variant = "default",
   tooltip,
   disabled = false,
