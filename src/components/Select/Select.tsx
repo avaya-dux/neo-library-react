@@ -1,11 +1,11 @@
 import { createRef, forwardRef, useEffect, useMemo, useState } from "react";
-import { NeoInputWrapper } from "components/NeoInputWrapper";
 
+import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId } from "utils/accessibilityUtils";
 import { getOption, getSelectedItems } from "utils/SelectUtils";
 
-import { OptionType, SelectHandlerType } from "./SelectTypes";
 import { Options } from "./Options";
+import { OptionType, SelectHandlerType } from "./SelectTypes";
 
 export interface SelectProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
@@ -34,13 +34,14 @@ export const Select: React.FC<SelectProps> = forwardRef(
       onChange,
       options,
       required,
+      id,
       ...rest
     }: SelectProps,
     ref: React.Ref<HTMLDivElement>
   ) => {
     const LabelId = useMemo(() => genId(), []);
     const hintId = useMemo(() => genId(), []);
-    const selectId = useMemo(() => rest.id || genId(), []);
+    const selectId = useMemo(() => id || genId(), []);
 
     const listBoxRef: React.Ref<HTMLUListElement> = createRef();
 
@@ -125,6 +126,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
         }
 
         case "Enter": {
+          console.log(options[cursor].disabled, options[cursor].value);
           if (!options[cursor].disabled) {
             addOrRemoveSelectedItems(isMultipleSelect, options[cursor].value);
           }

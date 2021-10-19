@@ -1,4 +1,5 @@
 import { forwardRef, useEffect, useState } from "react";
+
 import { OptionType } from "./SelectTypes";
 
 export interface OptionsProps {
@@ -43,6 +44,7 @@ export const Options: React.FC<OptionsProps> = forwardRef(
             const { label, value, hint, disabled } = option;
             const checkBoxId = label + index;
             const checkBoxHintId = value + index;
+
             const isActive = !!selectedItems.find(
               (item) => item.value === value
             );
@@ -56,11 +58,11 @@ export const Options: React.FC<OptionsProps> = forwardRef(
             const classNames = ["neo-input-group"];
 
             if (isActive) {
-              classNames.push("active");
+              classNames.push("neo-multiselect__content__item--focus");
             }
 
             if (isHover) {
-              classNames.push("hover");
+              classNames.push("neo-multiselect__content__item--hover");
             }
 
             const dataValue = { "data-value": value };
@@ -79,8 +81,11 @@ export const Options: React.FC<OptionsProps> = forwardRef(
                   id={checkBoxId}
                   value={value}
                   tabIndex={-1}
-                  defaultChecked={isActive}
+                  checked={isActive}
                   onMouseEnter={() => setHovered(option)}
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                  }}
                   aria-describedby={checkBoxHintId}
                   disabled={disabled}
                 />
@@ -106,10 +111,10 @@ export const Options: React.FC<OptionsProps> = forwardRef(
 
             const isHover = cursor === index;
 
-            const classNames = ["list-item"];
+            const classNames = [""];
 
             if (isHover) {
-              classNames.push("hover");
+              classNames.push("neo-multiselect__content__item--hover");
             }
             if (disabled) {
               /**
@@ -117,7 +122,7 @@ export const Options: React.FC<OptionsProps> = forwardRef(
                * then a new CSS need to be created to support disabled option
                * https://jira.forge.avaya.com/browse/NEO-699
                */
-              classNames.push("disabled");
+              classNames.push("neo-multiselect__content__item--disabled");
             }
 
             const dataValue = { "data-value": value };
