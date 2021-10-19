@@ -1,8 +1,8 @@
 import { OptionType } from "components/Select/SelectTypes";
 export const getSelectContainerClass = (
-  displayHintAsAnError?: boolean,
-  disabled?: boolean,
-  required?: boolean
+  displayHintAsAnError: boolean,
+  disabled: boolean,
+  required: boolean
 ) => {
   const classArray = ["neo-form-control"];
 

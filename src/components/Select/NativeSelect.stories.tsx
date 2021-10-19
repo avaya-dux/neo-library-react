@@ -1,7 +1,8 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { useState } from "react";
 
-import { NativeSelect, NativeSelectProps } from "./NativeSelect";
+import { NativeSelect } from "./NativeSelect";
+import { NativeSelectProps } from "./SelectTypes";
 import { listOfStates } from "./SampleData";
 
 export default {

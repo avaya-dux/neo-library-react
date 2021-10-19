@@ -5,21 +5,7 @@ import { genId } from "utils/accessibilityUtils";
 import { getOption, getSelectedItems } from "utils/SelectUtils";
 
 import { Options } from "./Options";
-import { OptionType, SelectHandlerType } from "./SelectTypes";
-
-export interface SelectProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
-  disabled?: boolean;
-  errorText?: string[];
-  helperText?: string[];
-  isLoading?: boolean;
-  isMultipleSelect?: boolean;
-  label: string;
-  onChange?: SelectHandlerType;
-  options: OptionType[];
-  required?: boolean;
-  value?: string[];
-}
+import { OptionType, SelectProps } from "./SelectTypes";
 
 export const Select: React.FC<SelectProps> = forwardRef(
   (
@@ -35,11 +21,11 @@ export const Select: React.FC<SelectProps> = forwardRef(
       options,
       required,
       id,
-      ...rest
+      value,
     }: SelectProps,
     ref: React.Ref<HTMLDivElement>
   ) => {
-    const LabelId = useMemo(() => genId(), []);
+    const labelId = useMemo(() => genId(), []);
     const hintId = useMemo(() => genId(), []);
     const selectId = useMemo(() => id || genId(), []);
 
@@ -57,11 +43,11 @@ export const Select: React.FC<SelectProps> = forwardRef(
     }, [isOpen, disabled, isLoading]);
 
     useEffect(() => {
-      if (rest.value) {
-        const selected = getOption(options, rest.value);
+      if (value) {
+        const selected = getOption(options, value);
         updateSelectedItems(selected);
       }
-    }, [rest.value, options]);
+    }, [value, options]);
 
     const addOrRemoveSelectedItems = (
       isMultipleSelect: boolean,
@@ -98,7 +84,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
 
     const onKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
       const scrollHeight = listBoxRef.current?.scrollHeight;
-      const itemHeight = scrollHeight ? scrollHeight / options.length : 0;
+      const itemHeight = scrollHeight ? scrollHeight / options.length : 1;
 
       switch (e.code) {
         case "Space": {
@@ -144,7 +130,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
     const optionsProps = {
       options,
       isMultipleSelect,
-      labelledby: LabelId,
+      labelledby: labelId,
       selectedItems,
       cursor,
       updateCursor: setCursor,
@@ -165,7 +151,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
         required={required}
         wrapperClassName={className}
       >
-        <label id={LabelId} htmlFor={selectId}>
+        <label id={labelId} htmlFor={selectId}>
           {label}:
         </label>
 
@@ -178,7 +164,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
           aria-controls="listbox"
           aria-expanded={isOpen}
           aria-haspopup="listbox"
-          aria-labelledby={LabelId}
+          aria-labelledby={labelId}
           onClick={clickHandler}
           onKeyDown={onKeyDownHandler}
           onMouseLeave={() => updateIsOpen(false)}
@@ -188,7 +174,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
             aria-haspopup="listbox"
             className="neo-multiselect__header"
             tabIndex={-1}
-            aria-labelledby={LabelId}
+            aria-labelledby={labelId}
           >
             {/*
               TODO gap between the spinner icon and the Loading text
@@ -203,15 +189,11 @@ export const Select: React.FC<SelectProps> = forwardRef(
           <Options {...optionsProps} />
         </div>
         <div className="neo-input-hint" id={hintId}>
-          {errorText && Array.isArray(errorText) ? (
-            <div
-              dangerouslySetInnerHTML={{ __html: errorText?.join(`<br />`) }}
-            />
-          ) : helperText && Array.isArray(helperText) ? (
-            <div
-              dangerouslySetInnerHTML={{ __html: helperText?.join(`<br />`) }}
-            />
-          ) : null}
+          {errorText && Array.isArray(errorText)
+            ? errorText.map((item) => <div>{item}</div>)
+            : helperText && Array.isArray(helperText)
+            ? helperText.map((item) => <div>{item}</div>)
+            : null}
         </div>
       </NeoInputWrapper>
     );

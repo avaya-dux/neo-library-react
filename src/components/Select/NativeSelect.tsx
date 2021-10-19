@@ -1,20 +1,9 @@
 import { forwardRef, useMemo } from "react";
-import { NeoInputWrapper } from "components/NeoInputWrapper";
 
+import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId } from "utils/accessibilityUtils";
 
-import { OptionType } from "./SelectTypes";
-
-export interface NativeSelectProps
-  extends React.SelectHTMLAttributes<HTMLSelectElement> {
-  errorText?: string[];
-  helperText?: string[];
-  isLoading?: boolean;
-  label: string;
-  options: OptionType[];
-  required?: boolean;
-  value?: string;
-}
+import { OptionType, NativeSelectProps } from "./SelectTypes";
 
 export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
   (
@@ -34,18 +23,6 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
     const LabelId = genId();
     const hintId = genId();
     const selectId = rest.id || genId();
-
-    const renderOptions = (options: OptionType[]) => {
-      return options.map((option, index) => {
-        const { label, value } = option;
-
-        return (
-          <option key={`${label}-${value}-${index}`} value={value}>
-            {label}
-          </option>
-        );
-      });
-    };
 
     const selectClassName = useMemo(() => {
       return getNativeSelectClassNames(isLoading);
@@ -73,27 +50,35 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
           >
             {isLoading ? (
               <option value={0}>Loading...</option>
-            ) : options ? (
+            ) : (
               renderOptions(options)
-            ) : null}
+            )}
           </select>
         </div>
 
         <div className="neo-input-hint" id={hintId}>
-          {errorText && Array.isArray(errorText) ? (
-            <div
-              dangerouslySetInnerHTML={{ __html: errorText?.join(`<br />`) }}
-            />
-          ) : helperText && Array.isArray(helperText) ? (
-            <div
-              dangerouslySetInnerHTML={{ __html: helperText?.join(`<br />`) }}
-            />
-          ) : null}
+          {errorText && Array.isArray(errorText)
+            ? errorText.map((item) => <div>{item}</div>)
+            : helperText && Array.isArray(helperText)
+            ? helperText.map((item) => <div>{item}</div>)
+            : null}
         </div>
       </NeoInputWrapper>
     );
   }
 );
+
+export const renderOptions = (options: OptionType[]) => {
+  return options.map((option, index) => {
+    const { label, value } = option;
+
+    return (
+      <option key={`${label}-${value}-${index}`} value={value}>
+        {label}
+      </option>
+    );
+  });
+};
 
 export const getNativeSelectClassNames = (isLoading?: boolean) => {
   const classArray = ["neo-select"];

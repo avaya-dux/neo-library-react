@@ -1,7 +1,8 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { useState } from "react";
 
-import { Select, SelectProps } from "./Select";
+import { Select } from "./Select";
+import { SelectProps } from "./SelectTypes";
 import { listOfStates } from "./SampleData";
 
 export default {
