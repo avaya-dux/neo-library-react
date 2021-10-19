@@ -16,7 +16,3 @@ export interface ChipProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export interface OneWayChipProps extends Omit<ChipProps, "dir"> {}
-
-// Down-pointing arrow should be on the right only
-// TODO: add properties and move to its own file
-export interface ExpandableChipProps extends OneWayChipProps {}

@@ -15,6 +15,7 @@ const Template: Story<ClosableChipProps> = (props: ClosableChipProps) => (
 
 export const ClosableDefault = Template.bind({});
 ClosableDefault.args = {
+  chiptype: "closable",
   id: "default",
   text: "Closable Default",
   onClick: (e) => {
@@ -25,6 +26,7 @@ ClosableDefault.args = {
 
 export const ClosableSuccess = Template.bind({});
 ClosableSuccess.args = {
+  chiptype: "closable",
   id: "success",
   variant: "success",
   text: "Closable Disabled Success",
@@ -33,6 +35,7 @@ ClosableSuccess.args = {
 
 export const ClosableInfo = Template.bind({});
 ClosableInfo.args = {
+  chiptype: "closable",
   id: "info",
   variant: "info",
   text: "Closable Info",
@@ -40,6 +43,7 @@ ClosableInfo.args = {
 
 export const ClosableAlert = Template.bind({});
 ClosableAlert.args = {
+  chiptype: "closable",
   id: "alert",
   variant: "alert",
   text: "Closable Alert",
@@ -47,6 +51,7 @@ ClosableAlert.args = {
 
 export const ClosableWarning = Template.bind({});
 ClosableWarning.args = {
+  chiptype: "closable",
   id: "warning",
   variant: "warning",
   text: "Closable Disabled Warning",
@@ -55,6 +60,7 @@ ClosableWarning.args = {
 
 export const ClosableWarningWithTooltip = Template.bind({});
 ClosableWarningWithTooltip.args = {
+  chiptype: "closable",
   variant: "warning",
   text: "Closable Warning With Tooltip",
   tooltip: { label: "Warning" },

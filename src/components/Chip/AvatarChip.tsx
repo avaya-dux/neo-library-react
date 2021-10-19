@@ -1,10 +1,10 @@
+import { ReactElement } from "react";
+
 import { Tooltip } from "components/Tooltip";
+import { SmallAvatarProps } from "components/Avatar";
 
 import { OneWayChipProps } from "./ChipTypes";
-
-import { SmallAvatarProps } from "components/Avatar";
 import { getBasicChipClassNames } from "./BasicChip";
-import { ReactElement } from "react";
 
 // Avatar is on the left
 export interface AvatarChipProps extends OneWayChipProps {

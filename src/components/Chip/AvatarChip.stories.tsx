@@ -1,6 +1,6 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 
-import { AvatarChip, AvatarChipProps } from "./AvatarChip";
+import { AvatarChip, AvatarChipProps } from ".";
 
 import { SmallAvatarProps, Avatar } from "../Avatar";
 
@@ -23,12 +23,14 @@ const smallAvatar = <Avatar {...smallAvatarProps} />;
 
 export const Default = Template.bind({});
 Default.args = {
+  chiptype: "avatar",
   text: "Avatar Default",
   smallAvatar,
 };
 
 export const Success = Template.bind({});
 Success.args = {
+  chiptype: "avatar",
   variant: "success",
   text: "Avatar Success",
   smallAvatar,
@@ -36,6 +38,7 @@ Success.args = {
 
 export const Info = Template.bind({});
 Info.args = {
+  chiptype: "avatar",
   variant: "info",
   text: "Avatar Disabled Info",
   disabled: true,
@@ -44,6 +47,7 @@ Info.args = {
 
 export const AlertWithTooltip = Template.bind({});
 AlertWithTooltip.args = {
+  chiptype: "avatar",
   variant: "alert",
   text: "Avatar Chip",
   disabled: true,
@@ -55,6 +59,7 @@ AlertWithTooltip.args = {
 
 export const Warning = Template.bind({});
 Warning.args = {
+  chiptype: "avatar",
   variant: "warning",
   text: "Avatar Chip",
   smallAvatar,
@@ -86,6 +91,7 @@ export const TooltipTopLeft: Story<AvatarChipProps> = (
   );
 };
 TooltipTopLeft.args = {
+  chiptype: "avatar",
   variant: "alert",
   text: "Avatar Chip",
   disabled: true,

@@ -15,6 +15,7 @@ const Template: Story<IconChipProps> = (props: IconChipProps) => (
 
 export const DefaultWithIcon = Template.bind({});
 DefaultWithIcon.args = {
+  chiptype: "icon",
   icon: "info",
   text: "Icon Default LTR Info",
   dir: "ltr",
@@ -22,6 +23,7 @@ DefaultWithIcon.args = {
 
 export const SuccessWithIconAndTooltip = Template.bind({});
 SuccessWithIconAndTooltip.args = {
+  chiptype: "icon",
   variant: "success",
   icon: "link",
   text: "Success Disabled RTL with Link Icon",
@@ -32,6 +34,7 @@ SuccessWithIconAndTooltip.args = {
 
 export const InfoWithIcon = Template.bind({});
 InfoWithIcon.args = {
+  chiptype: "icon",
   variant: "info",
   icon: "info",
   text: "Info with Info Icon",
@@ -39,6 +42,7 @@ InfoWithIcon.args = {
 
 export const AlertWithIcon = Template.bind({});
 AlertWithIcon.args = {
+  chiptype: "icon",
   variant: "alert",
   icon: "info",
   text: "Alert with Info Icon",
@@ -46,6 +50,7 @@ AlertWithIcon.args = {
 
 export const WarningWithIconOnRight = Template.bind({});
 WarningWithIconOnRight.args = {
+  chiptype: "icon",
   variant: "warning",
   icon: "info",
   dir: "rtl",

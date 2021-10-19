@@ -82,6 +82,42 @@ describe("Container", () => {
       expect(buttons[0]).toHaveTextContent("One");
     });
 
+    it("press Delete on disabled button should not remove it", async () => {
+      expect(document.body).toHaveFocus();
+      userEvent.tab();
+      const chipOne = screen.getByText(/.*one/i);
+      expect(chipOne).toHaveFocus();
+      userEvent.keyboard("{del}");
+      const buttons = await screen.findAllByRole("button");
+      expect(buttons.length).toBe(2);
+    });
+
+    it("press Delete on enabled button should remove it", async () => {
+      expect(document.body).toHaveFocus();
+      userEvent.tab();
+      const chipOne = screen.getByText(/.*one/i);
+      expect(chipOne).toHaveFocus();
+      userEvent.tab();
+      const chipTwo = screen.getByText(/.*two/i);
+      expect(chipTwo).toHaveFocus();
+      userEvent.keyboard("{del}");
+      const buttons = await screen.findAllByRole("button");
+      expect(buttons.length).toBe(1);
+    });
+
+    it("press Space on enabled button should not remove it", async () => {
+      expect(document.body).toHaveFocus();
+      userEvent.tab();
+      const chipOne = screen.getByText(/.*one/i);
+      expect(chipOne).toHaveFocus();
+      userEvent.tab();
+      const chipTwo = screen.getByText(/.*two/i);
+      expect(chipTwo).toHaveFocus();
+      userEvent.keyboard("{space}");
+      const buttons = await screen.findAllByRole("button");
+      expect(buttons.length).toBe(2);
+    });
+
     it("passes basic axe compliance", async () => {
       const { container } = renderResult;
       const results = await axe(container);

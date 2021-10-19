@@ -1,4 +1,9 @@
-import { MouseEventHandler, ReactElement, useState } from "react";
+import {
+  KeyboardEventHandler,
+  MouseEventHandler,
+  ReactElement,
+  useState,
+} from "react";
 import { UnreachableCaseError } from "ts-essentials";
 import { AvatarChip, AvatarChipProps } from "./AvatarChip";
 import { BasicChip, BasicChipProps } from "./BasicChip";
@@ -17,6 +22,7 @@ export interface ChipContainerProps {
   /** Array of ChipProps; Note: ChipContainer will set withinChipContainer to true when passing props to a Chip Component */
   chipProps: Array<AllChipProps>;
 }
+
 export const ChipContainer = ({ chipProps }: ChipContainerProps) => {
   const [chipList, updateChipList] = useState(chipProps);
   const handleClick = (event: React.MouseEvent) => {
@@ -24,6 +30,10 @@ export const ChipContainer = ({ chipProps }: ChipContainerProps) => {
 
     const target = event.target as HTMLElement;
 
+    handleClose(target);
+  };
+
+  const handleClose = (target: HTMLElement) => {
     const classes = target.getAttribute("class");
     if (!!classes && classes.indexOf("disabled") > -1) {
       return;
@@ -31,10 +41,21 @@ export const ChipContainer = ({ chipProps }: ChipContainerProps) => {
     const idToRemove = target.getAttribute("id");
     updateChipList(removeById(chipList, idToRemove));
   };
+
+  const keyDownHandler = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+    // on mac: press Fn + delete to get "Delete" code
+    if (event.code !== "Delete") {
+      return;
+    }
+    const target = event.target as HTMLElement;
+    handleClose(target);
+  };
+
   return (
     <div className="neo-chips">
       {chipList.map((chipProp, index) => {
-        return createChip(chipProp, handleClick, index);
+        return createChip(chipProp, handleClick, keyDownHandler, index);
       })}
     </div>
   );
@@ -49,6 +70,7 @@ function removeById(list: Array<AllChipProps>, idToRemove: string | null) {
 export function createChip<T extends AllChipProps>(
   chipProp: T,
   handleClick: MouseEventHandler,
+  keyDownHandler: KeyboardEventHandler,
   index: number
 ): ReactElement<T> | never {
   const chiptype = chipProp.chiptype;
@@ -57,7 +79,14 @@ export function createChip<T extends AllChipProps>(
       return <AvatarChip key={index} {...chipProp} withinChipContainer />;
     case "closable":
       chipProp.onClick = handleClick;
-      return <ClosableChip key={index} {...chipProp} withinChipContainer />;
+      return (
+        <ClosableChip
+          key={index}
+          onKeyDown={keyDownHandler}
+          {...chipProp}
+          withinChipContainer
+        />
+      );
     case "basic":
       return <BasicChip key={index} {...chipProp} withinChipContainer />;
     case "icon":
