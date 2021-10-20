@@ -11,7 +11,7 @@ export default {
 } as Meta<NativeSelectProps>;
 
 export const ControlledNativeSelect = () => {
-  const [selectedState, updateSelectedState] = useState("");
+  const [selectedState, updateSelectedState] = useState([""]);
   return (
     <>
       <p>
@@ -23,13 +23,13 @@ export const ControlledNativeSelect = () => {
         label="List of States"
         onChange={(event) => {
           console.log("selected value-> ", event.target.value);
-          updateSelectedState(event.target.value);
+          updateSelectedState([event.target.value]);
         }}
         value={selectedState}
         helperText={["Please choose a State"]}
         options={listOfStates}
       />
-      <button onClick={() => updateSelectedState("UT")}>
+      <button onClick={() => updateSelectedState(["UT"])}>
         Set value to "UT"
       </button>
     </>

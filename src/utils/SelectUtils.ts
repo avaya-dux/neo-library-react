@@ -21,11 +21,14 @@ export const getSelectContainerClass = (
   return classArray;
 };
 
-export const getOption = (array: OptionType[], query: string[]) => {
-  return array.filter((item) => {
-    return query.includes(item.value);
+export const getOption = (array: OptionType[], query?: string[]) =>
+  array.filter((item) => {
+    return query
+      ? query
+          .map((queryItem) => queryItem.toLowerCase())
+          .includes(item.value.toLowerCase())
+      : item.defaultChecked;
   });
-};
 
 export const getSelectedItems = (
   isMultipleSelect: boolean,

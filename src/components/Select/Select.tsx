@@ -34,9 +34,10 @@ export const Select: React.FC<SelectProps> = forwardRef(
     const [isOpen, updateIsOpen] = useState(false);
     const [cursor, setCursor] = useState(0);
 
-    const [selectedItems, updateSelectedItems] = useState<OptionType[]>([
-      options[0],
-    ]);
+    const defaultSelected = getOption(options);
+
+    const [selectedItems, updateSelectedItems] =
+      useState<OptionType[]>(defaultSelected);
 
     const selectClassName = useMemo(() => {
       return getSelectClassNames(isOpen, disabled, isLoading);
@@ -84,7 +85,8 @@ export const Select: React.FC<SelectProps> = forwardRef(
 
     const onKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
       const scrollHeight = listBoxRef.current?.scrollHeight;
-      const itemHeight = scrollHeight ? scrollHeight / options.length : 1;
+
+      const itemHeight = scrollHeight ? scrollHeight / options.length : 100;
 
       switch (e.code) {
         case "Space": {
@@ -152,7 +154,7 @@ export const Select: React.FC<SelectProps> = forwardRef(
         wrapperClassName={className}
       >
         <label id={labelId} htmlFor={selectId}>
-          {label}:
+          {label}
         </label>
 
         <div
@@ -190,9 +192,13 @@ export const Select: React.FC<SelectProps> = forwardRef(
         </div>
         <div className="neo-input-hint" id={hintId}>
           {errorText && Array.isArray(errorText)
-            ? errorText.map((item) => <div>{item}</div>)
+            ? errorText.map((item, index) => (
+                <div key={`${item}-${index}`}>{item}</div>
+              ))
             : helperText && Array.isArray(helperText)
-            ? helperText.map((item) => <div>{item}</div>)
+            ? helperText.map((item, index) => (
+                <div key={`${item}-${index}`}>{item}</div>
+              ))
             : null}
         </div>
       </NeoInputWrapper>

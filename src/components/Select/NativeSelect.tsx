@@ -1,32 +1,55 @@
-import { forwardRef, useMemo } from "react";
+import { useState, useEffect, forwardRef, useMemo } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId } from "utils/accessibilityUtils";
+import { getOption } from "utils/SelectUtils";
 
 import { OptionType, NativeSelectProps } from "./SelectTypes";
 
-export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
+export const NativeSelect = forwardRef(
   (
     {
       className,
       disabled,
       errorText,
       helperText,
+      id,
       isLoading,
       label,
+      onChange = (event) => {
+        console.log(event.target.value);
+      },
       options,
       required,
-      ...rest
+      value,
     }: NativeSelectProps,
     ref: React.Ref<HTMLSelectElement>
   ) => {
-    const LabelId = genId();
+    const labelId = genId();
     const hintId = genId();
-    const selectId = rest.id || genId();
+    const selectId = id || genId();
 
     const selectClassName = useMemo(() => {
       return getNativeSelectClassNames(isLoading);
     }, [isLoading]);
+
+    const defaultSelected = getOption(options);
+
+    const [selectedItems, updateSelectedItems] =
+      useState<OptionType[]>(defaultSelected);
+
+    useEffect(() => {
+      if (value) {
+        const selected = getOption(options, value);
+        updateSelectedItems(selected);
+      }
+    }, [value, options]);
+
+    const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const selected = getOption(options, [e.target.value]);
+      updateSelectedItems(selected);
+      onChange(e);
+    };
 
     return (
       <NeoInputWrapper
@@ -35,18 +58,20 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
         required={required}
         wrapperClassName={className}
       >
-        <label id={LabelId} htmlFor={selectId}>
-          {label}:
+        <label id={labelId} htmlFor={selectId}>
+          {label}
         </label>
 
         <div className={selectClassName}>
           <select
             id={selectId}
-            {...rest}
+            onBlur={onChange}
+            onChange={onChangeHandler}
             ref={ref as React.Ref<HTMLSelectElement>}
             className="neo-icon-chevron-down"
-            aria-labelledby={LabelId}
+            aria-labelledby={labelId}
             disabled={disabled}
+            value={selectedItems.map((item) => item.value).join(", ")}
           >
             {isLoading ? (
               <option value={0}>Loading...</option>
@@ -58,9 +83,13 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
 
         <div className="neo-input-hint" id={hintId}>
           {errorText && Array.isArray(errorText)
-            ? errorText.map((item) => <div>{item}</div>)
+            ? errorText.map((item, index) => (
+                <div key={`${item}-${index}`}>{item}</div>
+              ))
             : helperText && Array.isArray(helperText)
-            ? helperText.map((item) => <div>{item}</div>)
+            ? helperText.map((item, index) => (
+                <div key={`${item}-${index}`}>{item}</div>
+              ))
             : null}
         </div>
       </NeoInputWrapper>
@@ -70,10 +99,15 @@ export const NativeSelect: React.FC<NativeSelectProps> = forwardRef(
 
 export const renderOptions = (options: OptionType[]) => {
   return options.map((option, index) => {
-    const { label, value } = option;
+    const { label, value, disabled, placeholder } = option;
 
     return (
-      <option key={`${label}-${value}-${index}`} value={value}>
+      <option
+        key={`${label}-${value}-${index}`}
+        value={value}
+        disabled={disabled}
+        hidden={placeholder}
+      >
         {label}
       </option>
     );

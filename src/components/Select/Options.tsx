@@ -34,7 +34,7 @@ export const Options = forwardRef(
     const renderSingleOptions = () => {
       const roleType = "option";
       return options.map((option, index) => {
-        const { label, value, disabled } = option;
+        const { label, value, disabled, placeholder } = option;
         const itemId = label + index;
 
         const isHover = cursor === index;
@@ -55,7 +55,7 @@ export const Options = forwardRef(
 
         const dataValue = { "data-value": value };
 
-        return (
+        return placeholder ? null : (
           <li
             aria-selected={isHover}
             className={classNames.join(" ")}
@@ -76,7 +76,7 @@ export const Options = forwardRef(
        */
       const roleType = "listitem";
       return options.map((option, index) => {
-        const { label, value, hint, disabled } = option;
+        const { label, value, hint, disabled, placeholder } = option;
         const checkBoxId = `${label}-checkbox-${index}`;
         const checkBoxHintId = `${label}-hint-${index}`;
 
@@ -100,7 +100,7 @@ export const Options = forwardRef(
 
         const dataValue = { "data-value": value };
 
-        return (
+        return placeholder ? null : (
           <li
             aria-label={label}
             className={classNames.join(" ")}

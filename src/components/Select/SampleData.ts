@@ -1,7 +1,14 @@
 export const listOfStates = [
+  {
+    label: "--Please choose an option--",
+    value: "0",
+    disabled: false,
+    defaultChecked: false,
+    placeholder: true,
+  },
   { label: "Alabama", value: "AL" },
   { label: "Alaska", value: "AK" },
-  { label: "Arizona", value: "AZ" },
+  { label: "Arizona", value: "AZ", defaultChecked: true },
   { label: "Arkansas", value: "AR" },
   { label: "California", value: "CA" },
   { label: "Colorado", value: "CO" },

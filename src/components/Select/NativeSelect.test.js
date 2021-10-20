@@ -117,6 +117,13 @@ describe("renderOptions", () => {
     expect(renderOptions(listOfStates)).toMatchInlineSnapshot(`
       Array [
         <option
+          disabled={false}
+          hidden={true}
+          value="0"
+        >
+          --Please choose an option--
+        </option>,
+        <option
           value="AL"
         >
           Alabama

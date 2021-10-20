@@ -3,7 +3,8 @@ export type OptionType = {
   value: string;
   hint?: string;
   disabled?: boolean;
-  defaultSelected?: boolean;
+  defaultChecked?: boolean;
+  placeholder?: boolean;
 };
 
 export type SelectHandlerType = (value: string[]) => void;
@@ -15,7 +16,7 @@ export interface NativeSelectProps
   label: string;
   options: OptionType[];
   required?: boolean;
-  value?: string;
+  value?: string[];
 }
 export interface SelectProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {

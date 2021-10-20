@@ -19,7 +19,7 @@ const optionsWithHint = listOfStates.map((item) => {
 });
 
 export const ControlledSelect = () => {
-  const [selectedStates, updateSelectedStates] = useState(["AL"]);
+  const [selectedStates, updateSelectedStates] = useState(["0"]);
   const [errorText, updateErrorText] = useState<undefined | string[]>(
     undefined
   );
@@ -52,7 +52,7 @@ export const ControlledSelect = () => {
 };
 
 export const ControlledMultipleSelect = () => {
-  const [selectedStates, updateSelectedStates] = useState(["AL"]);
+  const [selectedStates, updateSelectedStates] = useState(["0"]);
   const [errorText, updateErrorText] = useState<undefined | string[]>(
     undefined
   );
