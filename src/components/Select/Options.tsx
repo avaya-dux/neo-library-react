@@ -1,15 +1,6 @@
 import { forwardRef, useEffect, useState } from "react";
 
-import { OptionType } from "./SelectTypes";
-
-export interface OptionsProps {
-  options: OptionType[];
-  isMultipleSelect: boolean;
-  labelledby: string;
-  selectedItems: OptionType[];
-  cursor: number;
-  updateCursor: (cursor: number) => void;
-}
+import { OptionType, OptionsProps } from "./SelectTypes";
 
 export const Options = forwardRef(
   (

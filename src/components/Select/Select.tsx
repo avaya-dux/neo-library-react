@@ -278,9 +278,7 @@ const setMultipleValues = (
   const newValue = selectedItems.find((item) => item.value === value);
   // remove new value if is already there
   if (newValue) {
-    const copy = [...selectedItems];
-    copy.splice(copy.indexOf(newValue), 1);
-    result = copy;
+    result = selectedItems.splice(selectedItems.indexOf(newValue), 1);
   } else {
     // add
     result = [...selectedItems, ...getOption(options, [value])];
