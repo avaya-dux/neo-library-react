@@ -6,6 +6,27 @@ import { getOption } from "utils/SelectUtils";
 
 import { OptionType, NativeSelectProps } from "./SelectTypes";
 
+/**
+ * NativeSelect will use the standard <select> <option> HTML structure.
+ *
+ * @example
+ *  <NativeSelect
+        label="List of States"
+        onChange={(event) => {
+          console.log("selected value-> ", event.target.value);
+        }}
+        helperText={["Please choose a State"]}
+        options={[
+          { label: "Alabama", value: "AL" },
+          { label: "Alaska", value: "AK" },
+          { label: "Arizona", value: "AZ" },
+        ]}
+      />
+ *
+ *
+ * @see https://design.avayacloud.com/components/web/selectbox-web
+ */
+
 export const NativeSelect = forwardRef(
   (
     {

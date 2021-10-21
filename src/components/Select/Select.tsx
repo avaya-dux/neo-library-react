@@ -7,6 +7,27 @@ import { getOption } from "utils/SelectUtils";
 import { Options } from "./Options";
 import { OptionType, SelectProps } from "./SelectTypes";
 
+/**
+ * Select will use the <ul> <li> HTML structure.
+ *
+ * @example
+ *  <Select
+        label="List of States"
+        onChange={(value) => {
+          console.log("select value-> ", value);
+        }}
+        helperText={["Please choose a State"]}
+        options={[
+          { label: "Alabama", value: "AL" },
+          { label: "Alaska", value: "AK" },
+          { label: "Arizona", value: "AZ" },
+        ]}
+      />
+ *
+ *
+ * @see https://design.avayacloud.com/components/web/selectbox-web
+ */
+
 export const Select = forwardRef(
   (
     {
