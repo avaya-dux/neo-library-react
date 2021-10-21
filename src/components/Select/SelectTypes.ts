@@ -3,7 +3,7 @@ export type OptionType = {
   value: string;
   hint?: string;
   disabled?: boolean;
-  defaultChecked?: boolean;
+  defaultSelected?: boolean;
   placeholder?: boolean;
 };
 

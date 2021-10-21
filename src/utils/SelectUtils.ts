@@ -27,7 +27,7 @@ export const getOption = (array: OptionType[], query?: string[]) =>
       ? query
           .map((queryItem) => queryItem.toLowerCase())
           .includes(item.value.toLowerCase())
-      : item.defaultChecked;
+      : item.defaultSelected;
   });
 
 export const getSelectedItems = (
