@@ -71,10 +71,7 @@ export const Select = forwardRef(
       }
     }, [value, options]);
 
-    const addOrRemoveSelectedItems = (
-      isMultipleSelect: boolean,
-      value: string
-    ) => {
+    const setSelectedItems = (isMultipleSelect: boolean, value: string) => {
       const result = getSelectedItems(
         isMultipleSelect,
         value,
@@ -97,9 +94,11 @@ export const Select = forwardRef(
     };
 
     const clickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      // capture the value from `data-value` attribute, this is because the target can  be <li> | <input> | <label>
+
       const value = (e.target as HTMLDivElement).getAttribute("data-value");
       if (value) {
-        addOrRemoveSelectedItems(isMultipleSelect, value);
+        setSelectedItems(isMultipleSelect, value);
       }
 
       expandOrCloseListBox();
@@ -137,7 +136,7 @@ export const Select = forwardRef(
 
         case "Enter": {
           if (!options[cursor].disabled) {
-            addOrRemoveSelectedItems(isMultipleSelect, options[cursor].value);
+            setSelectedItems(isMultipleSelect, options[cursor].value);
           }
 
           expandOrCloseListBox();

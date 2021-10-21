@@ -145,6 +145,7 @@ export const renderSingleOptions = (options: OptionType[], cursor: number) => {
         key={itemId}
         role={roleType}
         tabIndex={-1}
+        value={value}
         {...(disabled ? "" : dataValue)}
       >
         {label}

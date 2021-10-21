@@ -155,6 +155,7 @@ describe("renderSingleOptions and renderMultipleOptions", () => {
           data-value="AL"
           role="option"
           tabIndex={-1}
+          value="AL"
         >
           Alabama
         </li>,
@@ -164,6 +165,7 @@ describe("renderSingleOptions and renderMultipleOptions", () => {
           data-value="AK"
           role="option"
           tabIndex={-1}
+          value="AK"
         >
           Alaska
         </li>,
