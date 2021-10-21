@@ -38,24 +38,33 @@ export const getSelectedItems = (
 ) => {
   let result: OptionType[] = [];
 
-  if (isMultipleSelect) {
-    const newValue = selectedItems.find((item) => item.value === value);
-    // remove new value if is already there
-    if (newValue) {
-      const copy = [...selectedItems];
-      // do not remove if only one item was left
+  // remove placeholder
+  const cleanSelectedItems = selectedItems.filter((item) => !item.placeholder);
 
-      if (copy.length >= 2) {
-        copy.splice(copy.indexOf(newValue), 1);
-        result = copy;
-      }
-    } else {
-      // add
-      result = [...selectedItems, ...getOption(options, [value])];
-    }
+  if (isMultipleSelect) {
+    result = setMultipleValues(cleanSelectedItems, options, value);
   } else {
     result = getOption(options, [value]);
   }
 
+  return result;
+};
+
+const setMultipleValues = (
+  selectedItems: OptionType[],
+  options: OptionType[],
+  value: string
+) => {
+  let result: OptionType[] = [];
+  const newValue = selectedItems.find((item) => item.value === value);
+  // remove new value if is already there
+  if (newValue) {
+    const copy = [...selectedItems];
+    copy.splice(copy.indexOf(newValue), 1);
+    result = copy;
+  } else {
+    // add
+    result = [...selectedItems, ...getOption(options, [value])];
+  }
   return result;
 };

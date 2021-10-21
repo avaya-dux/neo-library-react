@@ -7,7 +7,7 @@ import { getOption, getSelectedItems } from "utils/SelectUtils";
 import { Options } from "./Options";
 import { OptionType, SelectProps } from "./SelectTypes";
 
-export const Select: React.FC<SelectProps> = forwardRef(
+export const Select = forwardRef(
   (
     {
       className,

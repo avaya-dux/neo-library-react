@@ -4,7 +4,8 @@ import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { getSelectClassNames } from "./Select";
-
+import { renderSingleOptions, renderMultipleOptions } from "./Options";
+import { listOfStates } from "./SampleData";
 const {
   UncontrolledSelect,
   ControlledSelect,
@@ -138,5 +139,97 @@ describe("getSelectClassNames", () => {
     expect(getSelectClassNames(true, true, true)).toMatchInlineSnapshot(
       `"neo-multiselect neo-multiselect--active neo-multiselect--disabled neo-select__spinner"`
     );
+  });
+});
+
+describe("renderSingleOptions and renderMultipleOptions", () => {
+  it("renderSingleOptions given a listOfStates and cursor 1, should return a list", () => {
+    expect(renderSingleOptions(listOfStates.slice(0, 3), 1))
+      .toMatchInlineSnapshot(`
+      Array [
+        null,
+        <li
+          aria-selected={true}
+          className=" neo-multiselect__content__item--hover"
+          data-value="AL"
+          role="option"
+          tabIndex={-1}
+        >
+          Alabama
+        </li>,
+        <li
+          aria-selected={false}
+          className=""
+          data-value="AK"
+          role="option"
+          tabIndex={-1}
+        >
+          Alaska
+        </li>,
+      ]
+    `);
+  });
+
+  it("renderMultipleOptions given a listOfStates and cursor 1, should return a list", () => {
+    expect(
+      renderMultipleOptions(
+        listOfStates.slice(0, 3),
+        listOfStates.slice(0, 1),
+        1,
+        () => console.log("test")
+      )
+    ).toMatchInlineSnapshot(`
+      Array [
+        null,
+        <li
+          aria-label="Alabama"
+          className="neo-input-group neo-multiselect__content__item--hover"
+          role="listitem"
+          tabIndex={-1}
+        >
+          <input
+            aria-describedby="Alabama-hint-1"
+            checked={false}
+            className="neo-check"
+            id="Alabama-checkbox-1"
+            onChange={[Function]}
+            onMouseEnter={[Function]}
+            tabIndex={-1}
+            type="checkbox"
+            value="AL"
+          />
+          <label
+            data-value="AL"
+            htmlFor="Alabama-checkbox-1"
+          >
+            Alabama
+          </label>
+        </li>,
+        <li
+          aria-label="Alaska"
+          className="neo-input-group"
+          role="listitem"
+          tabIndex={-1}
+        >
+          <input
+            aria-describedby="Alaska-hint-2"
+            checked={false}
+            className="neo-check"
+            id="Alaska-checkbox-2"
+            onChange={[Function]}
+            onMouseEnter={[Function]}
+            tabIndex={-1}
+            type="checkbox"
+            value="AK"
+          />
+          <label
+            data-value="AK"
+            htmlFor="Alaska-checkbox-2"
+          >
+            Alaska
+          </label>
+        </li>,
+      ]
+    `);
   });
 });
