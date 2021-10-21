@@ -81,6 +81,7 @@ export const Select = forwardRef(
         selectedItems,
         options
       );
+
       updateSelectedItems(result);
       if (!isMultipleSelect) setCursor(options.indexOf(result[0]));
 
@@ -135,7 +136,6 @@ export const Select = forwardRef(
         }
 
         case "Enter": {
-          console.log(options[cursor].disabled, options[cursor].value);
           if (!options[cursor].disabled) {
             addOrRemoveSelectedItems(isMultipleSelect, options[cursor].value);
           }
@@ -278,7 +278,8 @@ const setMultipleValues = (
   const newValue = selectedItems.find((item) => item.value === value);
   // remove new value if is already there
   if (newValue) {
-    result = selectedItems.splice(selectedItems.indexOf(newValue), 1);
+    selectedItems.splice(selectedItems.indexOf(newValue), 1);
+    result = selectedItems;
   } else {
     // add
     result = [...selectedItems, ...getOption(options, [value])];

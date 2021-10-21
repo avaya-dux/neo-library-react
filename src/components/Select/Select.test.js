@@ -271,7 +271,10 @@ describe("getSelectedItems", () => {
   });
 
   it("REMOVE: given value = AL, should remove Alabama from the list of selected states", () => {
-    expect(getSelectedItems(true, "AL", listOfStates.slice(0, 4), listOfStates))
+    const alabamaIshere = listOfStates.slice(1, 5);
+    console.log(alabamaIshere);
+
+    expect(getSelectedItems(true, "AL", alabamaIshere, listOfStates))
       .toMatchInlineSnapshot(`
       Array [
         Object {
@@ -281,6 +284,10 @@ describe("getSelectedItems", () => {
         Object {
           "label": "Arizona",
           "value": "AZ",
+        },
+        Object {
+          "label": "Arkansas",
+          "value": "AR",
         },
       ]
     `);
