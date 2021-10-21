@@ -2,7 +2,7 @@ import { createRef, forwardRef, useEffect, useMemo, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId } from "utils/accessibilityUtils";
-import { getOption, getSelectedItems } from "utils/SelectUtils";
+import { getOption } from "utils/SelectUtils";
 
 import { Options } from "./Options";
 import { OptionType, SelectProps } from "./SelectTypes";
@@ -226,4 +226,43 @@ export const getSelectClassNames = (
   }
 
   return classArray.join(" ");
+};
+
+export const getSelectedItems = (
+  isMultipleSelect: boolean,
+  value: string,
+  selectedItems: OptionType[],
+  options: OptionType[]
+) => {
+  let result: OptionType[] = [];
+
+  // remove placeholder
+  const cleanSelectedItems = selectedItems.filter((item) => !item.placeholder);
+
+  if (isMultipleSelect) {
+    result = setMultipleValues(cleanSelectedItems, options, value);
+  } else {
+    result = getOption(options, [value]);
+  }
+
+  return result;
+};
+
+const setMultipleValues = (
+  selectedItems: OptionType[],
+  options: OptionType[],
+  value: string
+) => {
+  let result: OptionType[] = [];
+  const newValue = selectedItems.find((item) => item.value === value);
+  // remove new value if is already there
+  if (newValue) {
+    const copy = [...selectedItems];
+    copy.splice(copy.indexOf(newValue), 1);
+    result = copy;
+  } else {
+    // add
+    result = [...selectedItems, ...getOption(options, [value])];
+  }
+  return result;
 };

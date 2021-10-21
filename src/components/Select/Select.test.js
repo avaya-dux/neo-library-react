@@ -3,8 +3,9 @@ import * as SelectStories from "./Select.stories";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
-import { getSelectClassNames } from "./Select";
+import { getSelectClassNames, getSelectedItems } from "./Select";
 import { renderSingleOptions, renderMultipleOptions } from "./Options";
+import { getOption } from "utils/SelectUtils";
 import { listOfStates } from "./SampleData";
 const {
   UncontrolledSelect,
@@ -229,6 +230,89 @@ describe("renderSingleOptions and renderMultipleOptions", () => {
             Alaska
           </label>
         </li>,
+      ]
+    `);
+  });
+});
+
+describe("getSelectedItems", () => {
+  it("CLEAN: will remove the placeholder from the list of states", () => {
+    expect(
+      getSelectedItems(
+        true,
+        "",
+        listOfStates.slice(0, 3),
+        listOfStates.slice(0, 3)
+      )
+    ).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "label": "Alabama",
+          "value": "AL",
+        },
+        Object {
+          "label": "Alaska",
+          "value": "AK",
+        },
+      ]
+    `);
+  });
+
+  it("ADD: given value = AL, should return the Alabama from the list of states", () => {
+    expect(getSelectedItems(false, "AL", [], listOfStates))
+      .toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "label": "Alabama",
+          "value": "AL",
+        },
+      ]
+    `);
+  });
+
+  it("REMOVE: given value = AL, should remove Alabama from the list of selected states", () => {
+    expect(getSelectedItems(true, "AL", listOfStates.slice(0, 4), listOfStates))
+      .toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "label": "Alaska",
+          "value": "AK",
+        },
+        Object {
+          "label": "Arizona",
+          "value": "AZ",
+        },
+      ]
+    `);
+  });
+});
+
+describe("getOption", () => {
+  it("given a list of states without a query will returns the default selected", () => {
+    expect(getOption(listOfStates)).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "defaultSelected": true,
+          "disabled": false,
+          "label": "--Please choose an option--",
+          "placeholder": true,
+          "value": "0",
+        },
+      ]
+    `);
+  });
+
+  it("given a list of states with the query (AL, UT) will returns Alabama and Utah", () => {
+    expect(getOption(listOfStates, ["AL", "UT"])).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "label": "Alabama",
+          "value": "AL",
+        },
+        Object {
+          "label": "Utah",
+          "value": "UT",
+        },
       ]
     `);
   });
