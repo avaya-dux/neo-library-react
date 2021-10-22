@@ -11,13 +11,14 @@ const {
   UncontrolledSelect,
   ControlledSelect,
   ControlledMultipleSelect,
+  ValidateValuesSelect,
   SelectError,
   SelectRequired,
   SelectDisabled,
 } = composeStories(SelectStories);
 
 describe("Select: ", () => {
-  describe("Default", () => {
+  describe("UncontrolledSelect", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<UncontrolledSelect />);
@@ -34,7 +35,7 @@ describe("Select: ", () => {
     });
   });
 
-  describe("DemoSelect", () => {
+  describe("ControlledSelect", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<ControlledSelect />);
@@ -51,7 +52,7 @@ describe("Select: ", () => {
     });
   });
 
-  describe("DemoMultipleSelect", () => {
+  describe("ControlledMultipleSelect", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<ControlledMultipleSelect />);
@@ -67,6 +68,24 @@ describe("Select: ", () => {
       expect(results).toHaveNoViolations();
     });
   });
+
+  describe("ValidateValuesSelect", () => {
+    let renderResult;
+    beforeEach(() => {
+      renderResult = render(<ValidateValuesSelect />);
+    });
+    it("should render ok", () => {
+      const { container } = renderResult;
+      expect(container).not.toBe(null);
+    });
+
+    it("passes basic axe compliance", async () => {
+      const { container } = renderResult;
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
+
 
   describe("SelectError", () => {
     let renderResult;

@@ -84,6 +84,48 @@ export const ControlledMultipleSelect = () => {
   );
 };
 
+export const ValidateValuesSelect = () => {
+  const [selectedStates, updateSelectedStates] = useState(["0"]);
+  const [isRequired, updateRequired] = useState(true);
+  const [errorText, updateErrorText] = useState<undefined | string[]>(
+    undefined
+  );
+  const [helperText, updateHelperText] = useState<undefined | string[]>([
+    "Please choose a State",
+  ]);
+
+  const onSubmitHandler = () => {
+    console.log(selectedStates);
+    if (JSON.stringify(selectedStates) === JSON.stringify(["0"])) {
+      updateErrorText(["Field is required"]);
+      updateHelperText(["Please choose a State"]);
+      updateRequired(true);
+    } else {
+      updateHelperText(["success!"]);
+      updateErrorText(undefined);
+      updateRequired(false);
+    }
+  };
+  return (
+    <>
+      <p>This is an example of a select validation and required.</p>
+      <Select
+        label="List of States"
+        required={isRequired}
+        onChange={(value) => {
+          console.log("select value-> ", value);
+          updateSelectedStates(value);
+        }}
+        value={selectedStates}
+        helperText={helperText}
+        errorText={errorText}
+        options={optionsWithHint}
+      />
+      <button onClick={() => onSubmitHandler()}>Submit</button>
+    </>
+  );
+};
+
 const Template: Story<SelectProps> = (props: SelectProps) => {
   return <Select {...props} />;
 };
