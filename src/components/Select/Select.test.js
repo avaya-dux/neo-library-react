@@ -149,26 +149,22 @@ describe("renderSingleOptions and renderMultipleOptions", () => {
       .toMatchInlineSnapshot(`
       Array [
         null,
-        <li
+        <div
           aria-selected={true}
           className=" neo-multiselect__content__item--hover"
           data-value="AL"
           role="option"
-          tabIndex={-1}
-          value="AL"
         >
           Alabama
-        </li>,
-        <li
+        </div>,
+        <div
           aria-selected={false}
           className=""
           data-value="AK"
           role="option"
-          tabIndex={-1}
-          value="AK"
         >
           Alaska
-        </li>,
+        </div>,
       ]
     `);
   });
@@ -184,11 +180,9 @@ describe("renderSingleOptions and renderMultipleOptions", () => {
     ).toMatchInlineSnapshot(`
       Array [
         null,
-        <li
-          aria-label="Alabama"
+        <div
           className="neo-input-group neo-multiselect__content__item--hover"
           role="listitem"
-          tabIndex={-1}
         >
           <input
             aria-describedby="Alabama-hint-1"
@@ -207,12 +201,10 @@ describe("renderSingleOptions and renderMultipleOptions", () => {
           >
             Alabama
           </label>
-        </li>,
-        <li
-          aria-label="Alaska"
+        </div>,
+        <div
           className="neo-input-group"
           role="listitem"
-          tabIndex={-1}
         >
           <input
             aria-describedby="Alaska-hint-2"
@@ -231,7 +223,7 @@ describe("renderSingleOptions and renderMultipleOptions", () => {
           >
             Alaska
           </label>
-        </li>,
+        </div>,
       ]
     `);
   });

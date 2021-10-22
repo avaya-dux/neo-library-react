@@ -11,8 +11,9 @@ export const Options = forwardRef(
       selectedItems,
       cursor,
       updateCursor,
+      id,
     }: OptionsProps,
-    ref: React.Ref<HTMLUListElement>
+    ref: React.Ref<HTMLDivElement>
   ) => {
     const [hovered, setHovered] = useState<OptionType | null>(null);
 
@@ -22,17 +23,44 @@ export const Options = forwardRef(
       }
     }, [hovered]);
 
-    return (
+    /**
+     * TODO
+     * https://jira.forge.avaya.com/browse/NEO-709
+     * the current HTML structure doesn't match with the online documentation
+     * https://design.avayacloud.com/components/web/selectbox-web
+     */
+
+    /**
+     * return isMultipleSelect ? (
       <ul
         ref={ref}
         className="neo-multiselect__content"
         aria-labelledby={labelledby}
+      >
+        {renderMultipleOptions(options, selectedItems, cursor, setHovered)}
+      </ul>
+    ) : (
+      <div className="neo-multiselect__content">
+        <ul aria-labelledby={labelledby}>
+          {renderSingleOptions(options, cursor)}
+        </ul>
+      </div>
+    );
+     */
+
+    return (
+      <div
+        ref={ref}
+        className="neo-multiselect__content"
         role={isMultipleSelect ? "list" : "listbox"}
+        id={id}
+        aria-labelledby={labelledby}
+        tabIndex={-1}
       >
         {isMultipleSelect
           ? renderMultipleOptions(options, selectedItems, cursor, setHovered)
           : renderSingleOptions(options, cursor)}
-      </ul>
+      </div>
     );
   }
 );
@@ -46,7 +74,7 @@ export const renderMultipleOptions = (
   /* multiple select and single select must have same css styles
    * TODO https://jira.forge.avaya.com/browse/NEO-679
    */
-  const roleType = "listitem";
+
   return options.map((option, index) => {
     const { label, value, hint, disabled, placeholder } = option;
     const checkBoxId = `${label}-checkbox-${index}`;
@@ -75,13 +103,7 @@ export const renderMultipleOptions = (
     // remove placeholder form the option list
 
     return placeholder ? null : (
-      <li
-        aria-label={label}
-        className={classNames.join(" ")}
-        key={checkBoxId}
-        role={roleType}
-        tabIndex={-1}
-      >
+      <div className={classNames.join(" ")} key={checkBoxId} role="listitem">
         <input
           className="neo-check"
           type="checkbox"
@@ -107,13 +129,12 @@ export const renderMultipleOptions = (
             {hint}
           </p>
         )}
-      </li>
+      </div>
     );
   });
 };
 
 export const renderSingleOptions = (options: OptionType[], cursor: number) => {
-  const roleType = "option";
   return options.map((option, index) => {
     const { label, value, disabled, placeholder } = option;
     const itemId = `${label}-${index}`;
@@ -139,17 +160,15 @@ export const renderSingleOptions = (options: OptionType[], cursor: number) => {
     // remove placeholder form the option list
 
     return placeholder ? null : (
-      <li
+      <div
         aria-selected={isHover}
         className={classNames.join(" ")}
         key={itemId}
-        role={roleType}
-        tabIndex={-1}
-        value={value}
+        role="option"
         {...(disabled ? "" : dataValue)}
       >
         {label}
-      </li>
+      </div>
     );
   });
 };

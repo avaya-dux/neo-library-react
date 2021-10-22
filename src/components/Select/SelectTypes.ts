@@ -39,4 +39,5 @@ export interface OptionsProps {
   selectedItems: OptionType[];
   cursor: number;
   updateCursor: (cursor: number) => void;
+  id: string;
 }

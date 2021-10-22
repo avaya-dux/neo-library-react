@@ -50,7 +50,7 @@ export const Select = forwardRef(
     const hintId = useMemo(() => genId(), []);
     const selectId = useMemo(() => id || genId(), []);
 
-    const listBoxRef: React.Ref<HTMLUListElement> = createRef();
+    const listBoxRef: React.Ref<HTMLDivElement> = createRef();
 
     const [isOpen, updateIsOpen] = useState(false);
     const [cursor, setCursor] = useState(0);
@@ -157,6 +157,7 @@ export const Select = forwardRef(
       cursor,
       updateCursor: setCursor,
       ref: listBoxRef,
+      id: selectId,
     };
 
     /**
@@ -165,6 +166,8 @@ export const Select = forwardRef(
      * the current HTML structure doesn't match with the online documentation
      * https://design.avayacloud.com/components/web/selectbox-web
      */
+
+    const currentValues = selectedItems?.map((item) => item.label).join(", ");
 
     return (
       <NeoInputWrapper
@@ -178,35 +181,28 @@ export const Select = forwardRef(
         </label>
 
         <div
-          id={selectId}
-          ref={ref}
           className={selectClassName}
-          tabIndex={0}
-          role="combobox"
-          aria-controls="listbox"
+          aria-controls={selectId}
           aria-expanded={isOpen}
           aria-haspopup="listbox"
           aria-labelledby={labelId}
           onClick={clickHandler}
           onKeyDown={onKeyDownHandler}
           onMouseLeave={() => updateIsOpen(false)}
+          role="combobox"
+          tabIndex={0}
+          aria-activedescendant=""
         >
-          <div
-            role="textbox"
-            aria-haspopup="listbox"
-            className="neo-multiselect__header"
-            tabIndex={-1}
-            aria-labelledby={labelId}
-          >
-            {/*
+          {/*
               TODO gap between the spinner icon and the Loading text
               https://jira.forge.avaya.com/browse/NEO-678
               */}
-            {isLoading ? (
-              <span>Loading...</span>
-            ) : (
-              selectedItems?.map((item) => item.label).join(", ")
-            )}
+          <div
+            role="textbox"
+            className="neo-multiselect__header"
+            aria-label={currentValues}
+          >
+            {isLoading ? <span>Loading...</span> : currentValues}
           </div>
           <Options {...optionsProps} />
         </div>
@@ -259,7 +255,7 @@ export const getSelectedItems = (
   // remove placeholder
   const cleanSelectedItems = selectedItems.filter((item) => !item.placeholder);
 
-  if (isMultipleSelect) {
+  if (isMultipleSelect && value !== "0") {
     result = setMultipleValues(cleanSelectedItems, options, value);
   } else {
     result = getOption(options, [value]);
@@ -274,7 +270,9 @@ const setMultipleValues = (
   value: string
 ) => {
   let result: OptionType[] = [];
-  const newValue = selectedItems.find((item) => item.value === value);
+  const newValue = selectedItems.find(
+    (item) => item.value === value && !item.placeholder
+  );
   // remove new value if is already there
   if (newValue) {
     selectedItems.splice(selectedItems.indexOf(newValue), 1);
