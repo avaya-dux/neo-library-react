@@ -17,6 +17,20 @@ import {
 } from "./helpers";
 import { TooltipProps } from "./TooltipTypes";
 
+/**
+ * Wraps any text or element and shows a tooltip when that text/element is hovered.
+ *
+ * @param label Text displayed in the tooltip
+ * @param children Text || JSX.Element || JSX.Element[]
+ *
+ * @example
+ * <Tooltip label="example text">text</Tooltip>
+ *
+ * @example
+ * <Tooltip label="example text"><span>text</span></Tooltip>
+ *
+ * @see https://design.avayacloud.com/components/web/tooltip-web
+ */
 export const Tooltip = ({
   arrow = true,
   children,

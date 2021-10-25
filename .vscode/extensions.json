@@ -12,6 +12,7 @@
     "silvenon.mdx",
     "visualstudioexptteam.vscodeintellicode",
     "vscode-icons-team.vscode-icons",
-    "wayou.vscode-todo-highlight"
+    "wayou.vscode-todo-highlight",
+    "zenclabs.reactpreview"
   ]
 }

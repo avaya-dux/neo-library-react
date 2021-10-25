@@ -383,8 +383,8 @@ describe("Tooltip", () => {
       });
 
       it("returns `left` if the tooltip cannot be displayed above/below it's `rootElement`, but can be displayed left of it's `rootElement` without touching the top, bottom, or left of it's designated container", () => {
-        container.height = 120;
-        rootElementMock.offsetTop = 100;
+        container.height = 60;
+        rootElementMock.offsetTop = 30;
         rootElementMock.offsetLeft = 1000;
         rootElementMock.offsetWidth = 100;
 
@@ -399,7 +399,8 @@ describe("Tooltip", () => {
       });
 
       it("returns `right` if the tooltip cannot be displayed above/below/left it's `rootElement`, but can be displayed right of it's `rootElement` without touching the top, bottom, or right of it's designated container", () => {
-        rootElementMock.offsetTop = 100;
+        container.height = 60;
+        rootElementMock.offsetTop = 30;
 
         const actualResult = getIdealTooltipPosition(
           container,
@@ -407,6 +408,60 @@ describe("Tooltip", () => {
           rootElementMock
         );
         const expectedResult = translatePositionToCSSName("right");
+
+        expect(actualResult).toBe(expectedResult);
+      });
+
+      it("returns `top-left` if the tooltip cannot be displayed evenly above it's `rootElement`, but can be displayed above and to the left of it's `rootElement` without touching the top or left of it's designated container", () => {
+        container.height = 120;
+        rootElementMock.offsetTop = 100;
+        rootElementMock.offsetLeft = 1000;
+        rootElementMock.offsetWidth = 100;
+
+        const actualResult = getIdealTooltipPosition(
+          container,
+          "test",
+          rootElementMock
+        );
+        const expectedResult = translatePositionToCSSName("top-left");
+
+        expect(actualResult).toBe(expectedResult);
+      });
+
+      it("returns `top-right` if the tooltip cannot be displayed evenly above it's `rootElement`, but can be displayed above and to the right of it's `rootElement` without touching the top or right of it's designated container", () => {
+        container.height = 120;
+        rootElementMock.offsetTop = 100;
+
+        const actualResult = getIdealTooltipPosition(
+          container,
+          "test",
+          rootElementMock
+        );
+        const expectedResult = translatePositionToCSSName("top-right");
+
+        expect(actualResult).toBe(expectedResult);
+      });
+
+      it("returns `bottom-left` if the tooltip cannot be displayed above or evenly below it's `rootElement`, but can be displayed below and to the left of it's `rootElement` without touching the bottom or left of it's designated container", () => {
+        rootElementMock.offsetLeft = 1000;
+
+        const actualResult = getIdealTooltipPosition(
+          container,
+          "test",
+          rootElementMock
+        );
+        const expectedResult = translatePositionToCSSName("bottom-left");
+
+        expect(actualResult).toBe(expectedResult);
+      });
+
+      it("returns `bottom-right` if the tooltip cannot be displayed above or evenly below it's `rootElement`, but can be displayed below and to the right of it's `rootElement` without touching the bottom or right of it's designated container", () => {
+        const actualResult = getIdealTooltipPosition(
+          container,
+          "test",
+          rootElementMock
+        );
+        const expectedResult = translatePositionToCSSName("bottom-right");
 
         expect(actualResult).toBe(expectedResult);
       });

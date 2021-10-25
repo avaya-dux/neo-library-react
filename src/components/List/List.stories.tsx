@@ -154,7 +154,6 @@ export const PortalListItemExamples: Story<ListProps> = (props: ListProps) => (
     <ListItem
       showDivider
       tooltip="Tooltip shown on top position"
-      tooltipPosition="top"
       avatar={avatarBD}
       actions={[iconBtnCall2, iconBtnVideoOn]}
       {...props}
