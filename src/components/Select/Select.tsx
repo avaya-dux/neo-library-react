@@ -35,13 +35,14 @@ export const Select = forwardRef(
       disabled,
       errorText,
       helperText,
+      id,
       isLoading,
       isMultipleSelect = false,
       label,
+      loaderText = "Loading...",
       onChange,
       options,
       required,
-      id,
       value,
     }: SelectProps,
     ref: React.Ref<HTMLDivElement>
@@ -202,7 +203,7 @@ export const Select = forwardRef(
             className="neo-multiselect__header"
             aria-label={currentValues}
           >
-            {isLoading ? <span>Loading...</span> : currentValues}
+            {isLoading ? loaderText : currentValues}
           </div>
           <Options {...optionsProps} />
         </div>

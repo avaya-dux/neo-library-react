@@ -8,7 +8,7 @@ import { OptionType, NativeSelectProps } from "./SelectTypes";
 
 /**
  * NativeSelect will use the standard <select> <option> HTML structure.
- *
+ * the NativeSelect do not support multiple, for this use Select component instead.
  * @example
  *  <NativeSelect
         label="List of States"
@@ -37,6 +37,7 @@ export const NativeSelect = forwardRef(
       id,
       isLoading,
       label,
+      loaderText = "Loading...",
       onChange,
       options,
       required,
@@ -79,6 +80,11 @@ export const NativeSelect = forwardRef(
       }
     };
 
+    const memoizedRenderOptions = useMemo(
+      () => renderOptions(options),
+      [options]
+    );
+
     return (
       <NeoInputWrapper
         disabled={disabled}
@@ -102,9 +108,9 @@ export const NativeSelect = forwardRef(
             value={selectedItems.map((item) => item.value).toString()}
           >
             {isLoading ? (
-              <option value={0}>Loading...</option>
+              <option value={0}>{loaderText}</option>
             ) : (
-              renderOptions(options)
+              memoizedRenderOptions
             )}
           </select>
         </div>

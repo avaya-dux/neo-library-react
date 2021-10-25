@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export type OptionType = {
   defaultSelected?: boolean;
   disabled?: boolean;
@@ -9,11 +11,15 @@ export type OptionType = {
 
 export type SelectHandlerType = (values: string[]) => void;
 export interface NativeSelectProps
-  extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>,"onChange" | "multiple"> {
+  extends Omit<
+    React.SelectHTMLAttributes<HTMLSelectElement>,
+    "onChange" | "multiple"
+  > {
   errorText?: string[];
   helperText?: string[];
   isLoading?: boolean;
   label: string;
+  loaderText?: string;
   onChange?: SelectHandlerType;
   options: OptionType[];
   required?: boolean;
@@ -27,6 +33,7 @@ export interface SelectProps
   isLoading?: boolean;
   isMultipleSelect?: boolean;
   label: string;
+  loaderText?: ReactNode;
   onChange?: SelectHandlerType;
   options: OptionType[];
   required?: boolean;

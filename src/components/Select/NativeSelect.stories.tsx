@@ -4,6 +4,7 @@ import { useState } from "react";
 import { NativeSelect } from "./NativeSelect";
 import { NativeSelectProps } from "./SelectTypes";
 import { listOfStates } from "./SampleData";
+import { Icon } from "components/Icon";
 
 export default {
   title: "Components/Select/Native Select",
@@ -47,26 +48,34 @@ UncontrolledNativeSelect.args = {
   options: listOfStates,
 };
 
-export const SelectError = Template.bind({});
-SelectError.args = {
+export const NativeSelectError = Template.bind({});
+NativeSelectError.args = {
   label: "List of States",
   helperText: ["Please choose a State"],
   errorText: ["error 1", "error 2"],
   options: listOfStates,
 };
 
-export const SelectRequired = Template.bind({});
-SelectRequired.args = {
+export const NativeSelectRequired = Template.bind({});
+NativeSelectRequired.args = {
   label: "List of States",
   helperText: ["Please choose a State"],
   required: true,
   options: listOfStates,
 };
 
-export const SelectDisabled = Template.bind({});
-SelectDisabled.args = {
+export const NativeSelectDisabled = Template.bind({});
+NativeSelectDisabled.args = {
   label: "List of States",
   helperText: ["Please choose a State"],
   disabled: true,
+  options: listOfStates,
+};
+
+export const NativeSelectLoading = Template.bind({});
+NativeSelectLoading.args = {
+  label: "List of States",
+  helperText: ["Please choose a State"],
+  isLoading: true,
   options: listOfStates,
 };

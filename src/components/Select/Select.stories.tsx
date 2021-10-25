@@ -160,3 +160,12 @@ SelectDisabled.args = {
   disabled: true,
   options: listOfStates,
 };
+
+export const SelectLoading = Template.bind({});
+SelectLoading.args = {
+  label: "List of States",
+  helperText: ["Please choose a State"],
+  isLoading: true,
+  loaderText: <i>Loading...</i>,
+  options: listOfStates,
+};
