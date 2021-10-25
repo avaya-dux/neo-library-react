@@ -4,7 +4,6 @@ import { useState } from "react";
 import { NativeSelect } from "./NativeSelect";
 import { NativeSelectProps } from "./SelectTypes";
 import { listOfStates } from "./SampleData";
-import { Icon } from "components/Icon";
 
 export default {
   title: "Components/Select/Native Select",

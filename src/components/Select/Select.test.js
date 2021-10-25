@@ -86,7 +86,6 @@ describe("Select: ", () => {
     });
   });
 
-
   describe("SelectError", () => {
     let renderResult;
     beforeEach(() => {
