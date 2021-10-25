@@ -37,18 +37,16 @@ export const NativeSelect = forwardRef(
       id,
       isLoading,
       label,
-      onChange = (event) => {
-        console.log(event.target.value);
-      },
+      onChange,
       options,
       required,
       value,
     }: NativeSelectProps,
     ref: React.Ref<HTMLSelectElement>
   ) => {
-    const labelId = genId();
-    const hintId = genId();
-    const selectId = id || genId();
+    const labelId = useMemo(() => genId(), []);
+    const hintId = useMemo(() => genId(), []);
+    const selectId = useMemo(() => id || genId(), []);
 
     const selectClassName = useMemo(() => {
       return getNativeSelectClassNames(isLoading);
@@ -67,9 +65,18 @@ export const NativeSelect = forwardRef(
     }, [value, options]);
 
     const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const selected = getOption(options, [e.target.value]);
-      updateSelectedItems(selected);
-      onChange(e);
+      const optionList = e.target.options;
+      const values: OptionType[] = [];
+      for (let i = 0, l = options.length; i < l; i++) {
+        if (optionList[i].selected) {
+          values.push(options[i]);
+        }
+      }
+
+      updateSelectedItems(values);
+      if (onChange) {
+        onChange(values.map((item) => item.value));
+      }
     };
 
     return (
@@ -86,13 +93,13 @@ export const NativeSelect = forwardRef(
         <div className={selectClassName}>
           <select
             id={selectId}
-            onBlur={onChange}
+            onBlur={onChangeHandler}
             onChange={onChangeHandler}
             ref={ref as React.Ref<HTMLSelectElement>}
             className="neo-icon-chevron-down"
             aria-labelledby={labelId}
             disabled={disabled}
-            value={selectedItems.map((item) => item.value).join(", ")}
+            value={selectedItems.map((item) => item.value).toString()}
           >
             {isLoading ? (
               <option value={0}>Loading...</option>

@@ -1,19 +1,20 @@
 export type OptionType = {
-  label: string;
-  value: string;
-  hint?: string;
-  disabled?: boolean;
   defaultSelected?: boolean;
+  disabled?: boolean;
+  hint?: string;
+  label: string;
   placeholder?: boolean;
+  value: string;
 };
 
 export type SelectHandlerType = (values: string[]) => void;
 export interface NativeSelectProps
-  extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>,"onChange" | "multiple"> {
   errorText?: string[];
   helperText?: string[];
   isLoading?: boolean;
   label: string;
+  onChange?: SelectHandlerType;
   options: OptionType[];
   required?: boolean;
   value?: string[];
@@ -33,11 +34,11 @@ export interface SelectProps
 }
 
 export interface OptionsProps {
-  options: OptionType[];
+  cursor: number;
+  id: string;
   isMultipleSelect: boolean;
   labelledby: string;
+  options: OptionType[];
   selectedItems: OptionType[];
-  cursor: number;
   updateCursor: (cursor: number) => void;
-  id: string;
 }

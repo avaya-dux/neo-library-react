@@ -21,9 +21,9 @@ export const ControlledNativeSelect = () => {
       </p>
       <NativeSelect
         label="List of States"
-        onChange={(event) => {
-          console.log("selected value-> ", event.target.value);
-          updateSelectedState([event.target.value]);
+        onChange={(values) => {
+          console.log("selected value-> ", values);
+          updateSelectedState(values);
         }}
         value={selectedState}
         helperText={["Please choose a State"]}
