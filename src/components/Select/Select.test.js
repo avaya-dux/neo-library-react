@@ -284,7 +284,7 @@ describe("getSelectedItems", () => {
 
   it("REMOVE: given value = AL, should remove Alabama from the list of selected states", () => {
     const alabamaIshere = listOfStates.slice(1, 5);
-    console.log(alabamaIshere);
+    // console.log(alabamaIshere);
 
     expect(getSelectedItems(true, "AL", alabamaIshere, listOfStates))
       .toMatchInlineSnapshot(`

@@ -9,9 +9,9 @@ import { listOfStates } from "./SampleData";
 const {
   UncontrolledNativeSelect,
   ControlledNativeSelect,
-  SelectError,
-  SelectRequired,
-  SelectDisabled,
+  NativeSelectError,
+  NativeSelectRequired,
+  NativeSelectDisabled,
 } = composeStories(NativeSelectStories);
 
 describe("NativeSelect: ", () => {
@@ -52,7 +52,7 @@ describe("NativeSelect: ", () => {
   describe("Native Select Error", () => {
     let renderResult;
     beforeEach(() => {
-      renderResult = render(<SelectError />);
+      renderResult = render(<NativeSelectError />);
     });
     it("should render ok", () => {
       const { container } = renderResult;
@@ -69,7 +69,7 @@ describe("NativeSelect: ", () => {
   describe("Native Select Required", () => {
     let renderResult;
     beforeEach(() => {
-      renderResult = render(<SelectRequired />);
+      renderResult = render(<NativeSelectRequired />);
     });
     it("should render ok", () => {
       const { container } = renderResult;
@@ -86,7 +86,7 @@ describe("NativeSelect: ", () => {
   describe("Native Select Disabled", () => {
     let renderResult;
     beforeEach(() => {
-      renderResult = render(<SelectDisabled />);
+      renderResult = render(<NativeSelectDisabled />);
     });
     it("should render ok", () => {
       const { container } = renderResult;
