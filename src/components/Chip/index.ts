@@ -1,8 +1,12 @@
 export { BasicChip } from "./BasicChip";
-export { IconChip } from "./IconChip";
 export { ClosableChip } from "./ClosableChip";
+export { ExpandableChip } from "./ExpandableChip";
+export { IconChip } from "./IconChip";
 export { ChipContainer } from "./ChipContainer";
+export { AvatarChip } from "./AvatarChip";
+export type { AvatarChipProps } from "./AvatarChip";
 export type { BasicChipProps } from "./BasicChip";
-export type { IconChipProps } from "./IconChip";
 export type { ClosableChipProps } from "./ClosableChip";
+export type { ExpandableChipProps } from "./ExpandableChip";
+export type { IconChipProps } from "./IconChip";
 export type { ChipContainerProps } from "./ChipContainer";

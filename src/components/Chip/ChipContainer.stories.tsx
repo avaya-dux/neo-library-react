@@ -1,6 +1,7 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 
 import { ChipContainer, ChipContainerProps } from "./";
+import { Avatar } from "../Avatar";
 
 import "@avaya/neo/neo/dist/css/neo/neo.min.css";
 
@@ -12,7 +13,25 @@ export default {
 const Template: Story<ChipContainerProps> = (props: ChipContainerProps) => (
   <ChipContainer {...props} />
 );
-
+const avatarOne = <Avatar label="I" size="sm" />;
+const avatarTwo = <Avatar label="II" size="sm" variant="bot" />;
+export const AvatarChips = Template.bind({});
+AvatarChips.args = {
+  chipProps: [
+    {
+      text: "Avatar with Tooltip",
+      chiptype: "avatar",
+      tooltip: { label: "Avatar Chip with Tooltip" },
+      smallAvatar: avatarOne,
+    },
+    {
+      text: "Avatar Chip Disabled",
+      chiptype: "avatar",
+      disabled: true,
+      smallAvatar: avatarTwo,
+    },
+  ],
+};
 export const BasicChips = Template.bind({});
 BasicChips.args = {
   chipProps: [
@@ -92,6 +111,12 @@ MixedChips.args = {
       chiptype: "icon",
       icon: "link",
       dir: "rtl",
+    },
+    {
+      text: "Avatar with Tooltip",
+      chiptype: "avatar",
+      tooltip: { label: "Avatar Chip with Tooltip" },
+      smallAvatar: avatarOne,
     },
   ],
 };

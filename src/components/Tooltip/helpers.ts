@@ -55,16 +55,29 @@ const tooltipTopAndBottomPadding = 8 + 8;
 
 /**
  * Returns the CSS Position name based on where the container element is inside of the `window`
- * @param rootElement `tooltipContainerRef.current`, a `<div>` element
+ * @param containerDimensions the height and width of the "container" (typically the html document) of the tooltip root element
  * @param label the passed label, used to determine the length+height of the tooltip
+ * @param rootElement `tooltipContainerRef.current`, a `<div>` element; or `null`
+ *
  * @returns the CSS Position name of the ideal (or default) tooltip position
+ *
+ * @example
+ * getIdealTooltipPosition(
+ *  {
+ *    height: document.lastElementChild?.clientHeight || 0,
+ *    width: document.lastElementChild?.clientWidth || 0,
+ *  },
+ *  label,
+ *  tooltipContainerRef.current
+ * )
  */
 export const getIdealTooltipPosition = (
-  container: { height: number; width: number },
+  containerDimensions: { height: number; width: number },
   label: string,
   rootElement: HTMLDivElement | null
 ): TooltipCSSPosition => {
-  const { height: containerHeight, width: containerWidth } = container;
+  const { height: containerHeight, width: containerWidth } =
+    containerDimensions;
 
   let result: TooltipPosition = "top";
   if (rootElement === null) return translatePositionToCSSName(result);
@@ -97,12 +110,30 @@ export const getIdealTooltipPosition = (
     const willTouchScreenRight =
       containerWidth - offsetLeft - tooltipWidthMinusOverlap < 0;
 
-    return !(willTouchScreenTop || willTouchScreenLeft || willTouchScreenRight);
+    return !willTouchScreenTop && !willTouchScreenLeft && !willTouchScreenRight;
+  };
+
+  const canPlaceTopLeft = () => {
+    const willTouchScreenTop = offsetTop < tooltipHeight;
+
+    const willTouchScreenLeft = offsetLeft < tooltipWidth - tooltipSidePadding;
+
+    return !willTouchScreenTop && !willTouchScreenLeft;
+  };
+
+  const canPlaceTopRight = () => {
+    const willTouchScreenTop = offsetTop < tooltipHeight;
+
+    const offsetRight = containerWidth - offsetLeft - offsetWidth;
+    const willTouchScreenRight =
+      offsetRight < tooltipWidth - tooltipSidePadding;
+
+    return !willTouchScreenTop && !willTouchScreenRight;
   };
 
   const canPlaceBottom = () => {
-    const willTouchScreenBottom =
-      containerHeight - offsetTop - offsetHeight - tooltipHeight < 0;
+    const offsetBottom = containerHeight - offsetTop - offsetHeight;
+    const willTouchScreenBottom = offsetBottom < tooltipHeight;
 
     const willTouchScreenLeft =
       offsetLeft - (tooltipWidth - offsetWidth) / 2 < 0;
@@ -118,6 +149,26 @@ export const getIdealTooltipPosition = (
       willTouchScreenLeft ||
       willTouchScreenRight
     );
+  };
+
+  const canPlaceBottomLeft = () => {
+    const offsetBottom = containerHeight - offsetTop - offsetHeight;
+    const willTouchScreenBottom = offsetBottom < tooltipHeight;
+
+    const willTouchScreenLeft = offsetLeft < tooltipWidth - tooltipSidePadding;
+
+    return !willTouchScreenBottom && !willTouchScreenLeft;
+  };
+
+  const canPlaceBottomRight = () => {
+    const offsetBottom = containerHeight - offsetTop - offsetHeight;
+    const willTouchScreenBottom = offsetBottom < tooltipHeight;
+
+    const offsetRight = containerWidth - offsetLeft - offsetWidth;
+    const willTouchScreenRight =
+      offsetRight < tooltipWidth - tooltipSidePadding;
+
+    return !willTouchScreenBottom && !willTouchScreenRight;
   };
 
   const canPlaceLeft = () => {
@@ -158,8 +209,16 @@ export const getIdealTooltipPosition = (
 
   if (canPlaceTop()) {
     result = "top";
+  } else if (canPlaceTopLeft()) {
+    result = "top-left";
+  } else if (canPlaceTopRight()) {
+    result = "top-right";
   } else if (canPlaceBottom()) {
     result = "bottom";
+  } else if (canPlaceBottomLeft()) {
+    result = "bottom-left";
+  } else if (canPlaceBottomRight()) {
+    result = "bottom-right";
   } else if (canPlaceLeft()) {
     result = "left";
   } else if (canPlaceRight()) {

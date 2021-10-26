@@ -272,4 +272,9 @@ describe("Avatar", () => {
       </div>
     `);
   });
+  it("Small Avatar accessibility ok", async () => {
+    const { container } = render(<Avatar size="sm" variant="bot" />);
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
 });

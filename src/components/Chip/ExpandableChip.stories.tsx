@@ -1,60 +1,57 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 
-import { BasicChip, BasicChipProps } from "./";
+import { ExpandableChip, ExpandableChipProps } from "./ExpandableChip";
 
 import "@avaya/neo/neo/dist/css/neo/neo.min.css";
 
 export default {
-  title: "Components/Chips/BasicChip",
-  component: BasicChip,
-} as Meta<BasicChipProps>;
+  title: "Components/Chips/ExpandableChip",
+  component: ExpandableChip,
+} as Meta<ExpandableChipProps>;
 
-const Template: Story<BasicChipProps> = (props: BasicChipProps) => (
-  <BasicChip {...props} />
+const Template: Story<ExpandableChipProps> = (props: ExpandableChipProps) => (
+  <ExpandableChip {...props} />
 );
 
 export const Default = Template.bind({});
 Default.args = {
-  chiptype: "basic",
-  text: "Basic Default",
+  chiptype: "expandable",
+  text: "Expandable Default",
 };
 
 export const Success = Template.bind({});
 Success.args = {
-  chiptype: "basic",
+  chiptype: "expandable",
   variant: "success",
-  text: "Basic Success",
+  text: "Expandable Success",
 };
 
 export const Info = Template.bind({});
 Info.args = {
-  chiptype: "basic",
+  chiptype: "expandable",
   variant: "info",
-  text: "Basic Disabled Right to Left Info",
+  text: "Expandable Disabled Right to Left Info",
   disabled: true,
-  dir: "rtl",
 };
 
 export const AlertWithTooltip = Template.bind({});
 AlertWithTooltip.args = {
-  chiptype: "basic",
   variant: "alert",
-  text: "Basic Chip",
+  text: "Expandable Chip",
   disabled: true,
   tooltip: {
-    label: "Basic Disabled Alert Chip",
+    label: "Expandable Disabled Alert Chip",
   },
 };
 
 export const Warning = Template.bind({});
 Warning.args = {
-  chiptype: "basic",
   variant: "warning",
-  text: "Basic Chip",
+  text: "Expandable Chip",
 };
 
-export const TooltipTopLeft: Story<BasicChipProps> = (
-  props: BasicChipProps
+export const TooltipTopLeft: Story<ExpandableChipProps> = (
+  props: ExpandableChipProps
 ) => {
   return (
     <div
@@ -72,18 +69,18 @@ export const TooltipTopLeft: Story<BasicChipProps> = (
           padding: "3px",
         }}
       >
-        <BasicChip {...props} />
+        <ExpandableChip {...props} />
       </div>
     </div>
   );
 };
 TooltipTopLeft.args = {
-  chiptype: "basic",
+  chiptype: "expandable",
   variant: "alert",
-  text: "Basic Chip",
+  text: "Expandable Chip",
   disabled: true,
   tooltip: {
-    label: "Basic Disabled Alert Chip",
+    label: "Expandable Disabled Alert Chip",
     position: "top-left",
   },
 };
