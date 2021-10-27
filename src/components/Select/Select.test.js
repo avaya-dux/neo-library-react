@@ -1,12 +1,14 @@
 import { composeStories } from "@storybook/testing-react";
-import * as SelectStories from "./Select.stories";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
-import { getSelectClassNames, getSelectedItems } from "./Select";
-import { renderSingleOptions, renderMultipleOptions } from "./Options";
 import { getOption } from "utils/SelectUtils";
+
+import { renderMultipleOptions, renderSingleOptions } from "./Options";
 import { listOfStates } from "./SampleData";
+import { getSelectClassNames, getSelectedItems } from "./Select";
+import * as SelectStories from "./Select.stories";
+
 const {
   UncontrolledSelect,
   ControlledSelect,
@@ -284,8 +286,6 @@ describe("getSelectedItems", () => {
 
   it("REMOVE: given value = AL, should remove Alabama from the list of selected states", () => {
     const alabamaIshere = listOfStates.slice(1, 5);
-
-    // console.log(alabamaIshere);
 
     expect(getSelectedItems(true, "AL", alabamaIshere, listOfStates))
       .toMatchInlineSnapshot(`
