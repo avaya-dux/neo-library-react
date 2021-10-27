@@ -34,7 +34,7 @@ describe("Select: ", () => {
       const { container } = renderResult;
       const results = await axe(container);
       expect(results).toHaveNoViolations();
-    });
+    }, 10000);
   });
 
   describe("ControlledSelect", () => {
@@ -51,7 +51,7 @@ describe("Select: ", () => {
       const { container } = renderResult;
       const results = await axe(container);
       expect(results).toHaveNoViolations();
-    });
+    }, 10000);
   });
 
   describe("ControlledMultipleSelect", () => {
@@ -68,7 +68,7 @@ describe("Select: ", () => {
       const { container } = renderResult;
       const results = await axe(container);
       expect(results).toHaveNoViolations();
-    });
+    }, 10000);
   });
 
   describe("ValidateValuesSelect", () => {
@@ -85,7 +85,7 @@ describe("Select: ", () => {
       const { container } = renderResult;
       const results = await axe(container);
       expect(results).toHaveNoViolations();
-    });
+    }, 10000);
   });
 
   describe("SelectError", () => {
@@ -102,7 +102,7 @@ describe("Select: ", () => {
       const { container } = renderResult;
       const results = await axe(container);
       expect(results).toHaveNoViolations();
-    });
+    }, 10000);
   });
 
   describe("SelectRequired", () => {
@@ -119,7 +119,7 @@ describe("Select: ", () => {
       const { container } = renderResult;
       const results = await axe(container);
       expect(results).toHaveNoViolations();
-    });
+    }, 10000);
   });
 
   describe("SelectDisabled", () => {
@@ -136,7 +136,7 @@ describe("Select: ", () => {
       const { container } = renderResult;
       const results = await axe(container);
       expect(results).toHaveNoViolations();
-    });
+    }, 10000);
   });
 });
 
