@@ -4,7 +4,11 @@ import { axe } from "jest-axe";
 
 import { getOption } from "utils/SelectUtils";
 
-import { getOptionClassNames, renderMultipleOptions, renderSingleOptions } from "./Options";
+import {
+  getOptionClassNames,
+  renderMultipleOptions,
+  renderSingleOptions,
+} from "./Options";
 import { listOfStates } from "./SampleData";
 import { getSelectClassNames, getSelectedItems } from "./Select";
 import * as SelectStories from "./Select.stories";
