@@ -3,6 +3,10 @@ import { HTMLAttributes } from "react";
 
 import { SizeType } from "utils/size";
 
+/**
+ * SpinnerProps
+ * @prop {SizeType} [size] - Size of the spinner.
+ */
 export interface SpinnerProps extends HTMLAttributes<HTMLDivElement> {
   size?: SizeType;
 }
@@ -25,6 +29,18 @@ export const getSizeClass = (size?: SizeType) => {
   }
 };
 
+/**
+ * Displays an animated spinner.
+ * @param {SpinnerProps} props
+ * @param {SizeType} [props.size] The size of the spinner.
+ *
+ * @example
+ * <Spinner />
+ * @example
+ * <Spinner size="lg" />
+ *
+ * @see https://design.avayacloud.com/components/web/spinner-web
+ */
 export const Spinner = ({ className, size, ...rest }: SpinnerProps) => (
   <div
     className={clsx("neo-spinner", getSizeClass(size), className)}

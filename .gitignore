@@ -7,20 +7,21 @@ node_modules
 .rpt2_cache
 build
 coverage
+cypress/integration
 cypress/screenshots
 cypress/videos
-cypress/integration
 dist
+jsdocs
 storybook-static
 
 # misc
-.history
 .DS_Store
-.env.local
 .env.development.local
-.env.test.local
+.env.local
 .env.production.local
+.env.test.local
 .eslintcache
+.history
 
 npm-debug.log*
 yarn-debug.log*

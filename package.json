@@ -17,12 +17,13 @@
     "node": ">=10"
   },
   "scripts": {
+    "jsdocs": "jsdoc -c .jsdoc.json --verbose",
     "lint": "eslint .",
     "start": "rollup -c -w",
     "build": "yarn build:src && yarn build:types",
     "build:src": "rollup -c --environment BUILD:production",
     "build:types": "tsc --emitDeclarationOnly --project tsconfig.build.json",
-    "clean": "rm -rf dist storybook-static",
+    "clean": "rm -rf coverage dist jsdocs storybook-static",
     "test": "react-scripts test --watchAll=false",
     "test:coverage": "react-scripts test --coverage=true --watchAll=false",
     "test:watch": "react-scripts test",
@@ -31,7 +32,7 @@
     "storybook": "start-storybook -p 6006 --no-dll",
     "build-storybook": "build-storybook",
     "github": "yarn && yarn lint && yarn build && yarn test",
-    "all": "yarn && yarn clean && yarn lint && yarn build && yarn test:coverage && yarn test:cypress && yarn build-storybook"
+    "all": "yarn && yarn clean && yarn lint && yarn build && yarn test:coverage && yarn test:cypress && yarn build-storybook && yarn jsdocs"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -81,6 +82,7 @@
     "@typescript-eslint/parser": "^5.3.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.3",
+    "better-docs": "^2.3.2",
     "cross-env": "^7.0.3",
     "cypress": "^8.7.0",
     "cypress-real-events": "^1.5.1",
@@ -98,6 +100,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-standard": "^5.0.0",
     "jest-axe": "^5.0.1",
+    "jsdoc": "^3.6.7",
     "postcss": "^8.3.11",
     "prettier": "^2.4.1",
     "react": "^17.0.2",
