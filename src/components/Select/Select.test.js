@@ -4,7 +4,7 @@ import { axe } from "jest-axe";
 
 import { getOption } from "utils/SelectUtils";
 
-import { renderMultipleOptions, renderSingleOptions } from "./Options";
+import { getOptionClassNames, renderMultipleOptions, renderSingleOptions } from "./Options";
 import { listOfStates } from "./SampleData";
 import { getSelectClassNames, getSelectedItems } from "./Select";
 import * as SelectStories from "./Select.stories";
@@ -163,15 +163,38 @@ describe("getSelectClassNames", () => {
   });
 });
 
+describe("getOptionClassNames", () => {
+  it("default return", () => {
+    expect(getOptionClassNames()).toMatchInlineSnapshot(`"neo-input-group"`);
+  });
+  it("given isHover = true, should return correct css names", () => {
+    expect(getOptionClassNames(true)).toMatchInlineSnapshot(
+      `"neo-input-group neo-multiselect__content__item--hover"`
+    );
+  });
+
+  it("given isHover = true, disabled= true should return correct css names", () => {
+    expect(getOptionClassNames(true, true)).toMatchInlineSnapshot(
+      `"neo-input-group neo-multiselect__content__item--hover neo-multiselect__content__item--disabled"`
+    );
+  });
+
+  it("given isHover = true, disabled= true, isActive true, should return correct css names", () => {
+    expect(getOptionClassNames(true, true, true)).toMatchInlineSnapshot(
+      `"neo-input-group neo-multiselect__content__item--hover neo-multiselect__content__item--disabled neo-multiselect__content__item--focus"`
+    );
+  });
+});
+
 describe("renderSingleOptions and renderMultipleOptions", () => {
   it("renderSingleOptions given a listOfStates and cursor 1, should return a list", () => {
-    expect(renderSingleOptions(listOfStates.slice(0, 3), 1))
+    expect(renderSingleOptions(listOfStates.slice(0, 4), 1))
       .toMatchInlineSnapshot(`
       Array [
         null,
         <div
           aria-selected={true}
-          className=" neo-multiselect__content__item--hover"
+          className="neo-input-group neo-multiselect__content__item--hover"
           data-value="AL"
           role="option"
         >
@@ -179,11 +202,19 @@ describe("renderSingleOptions and renderMultipleOptions", () => {
         </div>,
         <div
           aria-selected={false}
-          className=""
+          className="neo-input-group"
           data-value="AK"
           role="option"
         >
           Alaska
+        </div>,
+        <div
+          aria-selected={false}
+          className="neo-input-group"
+          data-value="AZ"
+          role="option"
+        >
+          Arizona
         </div>,
       ]
     `);

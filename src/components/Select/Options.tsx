@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useState } from "react";
 
-import { OptionType, OptionsProps } from "./SelectTypes";
+import { OptionsProps, OptionType } from "./SelectTypes";
 
 export const Options = forwardRef(
   (
@@ -83,27 +83,16 @@ export const renderMultipleOptions = (
     const isActive = !!selectedItems.find((item) => item.value === value);
     const isHover = cursor === index;
 
-    /*
-     * .active and .hover classNames are missing on the neo.css
-     * TODO https://jira.forge.avaya.com/browse/NEO-683
-     *
-     */
-    const classNames = ["neo-input-group"];
-
-    if (isActive) {
-      classNames.push("neo-multiselect__content__item--focus");
-    }
-
-    if (isHover) {
-      classNames.push("neo-multiselect__content__item--hover");
-    }
-
     const dataValue = { "data-value": value };
 
     // remove placeholder form the option list
 
     return placeholder ? null : (
-      <div className={classNames.join(" ")} key={checkBoxId} role="listitem">
+      <div
+        className={getOptionClassNames(isHover, disabled, isActive)}
+        key={checkBoxId}
+        role="listitem"
+      >
         <input
           className="neo-check"
           type="checkbox"
@@ -141,20 +130,6 @@ export const renderSingleOptions = (options: OptionType[], cursor: number) => {
 
     const isHover = cursor === index;
 
-    const classNames = [""];
-
-    if (isHover) {
-      classNames.push("neo-multiselect__content__item--hover");
-    }
-    if (disabled) {
-      /**
-       * TODO disabled is not a native property from <li> element,
-       * then a new CSS need to be created to support disabled option
-       * https://jira.forge.avaya.com/browse/NEO-699
-       */
-      classNames.push("neo-multiselect__content__item--disabled");
-    }
-
     const dataValue = { "data-value": value };
 
     // remove placeholder form the option list
@@ -162,7 +137,7 @@ export const renderSingleOptions = (options: OptionType[], cursor: number) => {
     return placeholder ? null : (
       <div
         aria-selected={isHover}
-        className={classNames.join(" ")}
+        className={getOptionClassNames(isHover, disabled)}
         key={itemId}
         role="option"
         {...(disabled ? "" : dataValue)}
@@ -171,4 +146,33 @@ export const renderSingleOptions = (options: OptionType[], cursor: number) => {
       </div>
     );
   });
+};
+
+export const getOptionClassNames = (
+  isHover?: boolean,
+  isDisabled?: boolean,
+  isActive?: boolean
+) => {
+  /*
+   * .active and .hover classNames are missing on the neo.css
+   * TODO https://jira.forge.avaya.com/browse/NEO-683
+   *
+   */
+  const classNames = ["neo-input-group"];
+
+  if (isHover) {
+    classNames.push("neo-multiselect__content__item--hover");
+  }
+  if (isDisabled) {
+    /**
+     * TODO disabled is not a native property from <li> element,
+     * then a new CSS need to be created to support disabled option
+     * https://jira.forge.avaya.com/browse/NEO-699
+     */
+    classNames.push("neo-multiselect__content__item--disabled");
+  }
+  if (isActive) {
+    classNames.push("neo-multiselect__content__item--focus");
+  }
+  return classNames.join(" ");
 };
