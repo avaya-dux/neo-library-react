@@ -1,5 +1,5 @@
 {
-  "name": "@avaya-neo/react",
+  "name": "@avaya/neo-react",
   "version": "0.0.2",
   "description": "This is the React version of the shared library called 'NEO' buit by Avaya",
   "author": "joe-s-avaya",
