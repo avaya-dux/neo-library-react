@@ -15,8 +15,8 @@ export interface NativeSelectProps
     React.SelectHTMLAttributes<HTMLSelectElement>,
     "onChange" | "multiple"
   > {
-  errorText?: string[];
-  helperText?: string[];
+  errorMessages?: string[];
+  helperMessages?: string[];
   isLoading?: boolean;
   label: string;
   loaderText?: string;
@@ -28,8 +28,8 @@ export interface NativeSelectProps
 export interface SelectProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   disabled?: boolean;
-  errorText?: string[];
-  helperText?: string[];
+  errorMessages?: string[];
+  helperMessages?: string[];
   isLoading?: boolean;
   isMultipleSelect?: boolean;
   label: string;

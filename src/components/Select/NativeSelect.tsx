@@ -1,10 +1,10 @@
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId } from "utils/accessibilityUtils";
 import { getOption } from "utils/SelectUtils";
 
-import { OptionType, NativeSelectProps } from "./SelectTypes";
+import { NativeSelectProps, OptionType } from "./SelectTypes";
 
 /**
  * NativeSelect will use the standard <select> <option> HTML structure.
@@ -30,8 +30,8 @@ import { OptionType, NativeSelectProps } from "./SelectTypes";
 export const NativeSelect = ({
   className,
   disabled,
-  errorText,
-  helperText,
+  errorMessages,
+  helperMessages,
   id,
   isLoading,
   label,
@@ -84,7 +84,7 @@ export const NativeSelect = ({
   return (
     <NeoInputWrapper
       disabled={disabled}
-      error={!!errorText}
+      error={!!errorMessages}
       required={required}
       wrapperClassName={className}
     >
@@ -111,12 +111,12 @@ export const NativeSelect = ({
       </div>
 
       <div className="neo-input-hint" id={hintId}>
-        {errorText && Array.isArray(errorText)
-          ? errorText.map((item, index) => (
+        {errorMessages && Array.isArray(errorMessages)
+          ? errorMessages.map((item, index) => (
               <div key={`${item}-${index}`}>{item}</div>
             ))
-          : helperText && Array.isArray(helperText)
-          ? helperText.map((item, index) => (
+          : helperMessages && Array.isArray(helperMessages)
+          ? helperMessages.map((item, index) => (
               <div key={`${item}-${index}`}>{item}</div>
             ))
           : null}

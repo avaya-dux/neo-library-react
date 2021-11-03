@@ -31,8 +31,8 @@ import { OptionType, SelectProps } from "./SelectTypes";
 export const Select = ({
   className,
   disabled,
-  errorText,
-  helperText,
+  errorMessages,
+  helperMessages,
   id,
   isLoading,
   isMultipleSelect = false,
@@ -169,7 +169,7 @@ export const Select = ({
   return (
     <NeoInputWrapper
       disabled={disabled}
-      error={!!errorText}
+      error={!!errorMessages}
       required={required}
       wrapperClassName={className}
     >
@@ -204,12 +204,12 @@ export const Select = ({
         <Options {...optionsProps} />
       </div>
       <div className="neo-input-hint" id={hintId}>
-        {errorText && Array.isArray(errorText)
-          ? errorText.map((item, index) => (
+        {errorMessages && Array.isArray(errorMessages)
+          ? errorMessages.map((item, index) => (
               <div key={`${item}-${index}`}>{item}</div>
             ))
-          : helperText && Array.isArray(helperText)
-          ? helperText.map((item, index) => (
+          : helperMessages && Array.isArray(helperMessages)
+          ? helperMessages.map((item, index) => (
               <div key={`${item}-${index}`}>{item}</div>
             ))
           : null}

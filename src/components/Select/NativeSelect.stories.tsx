@@ -2,8 +2,8 @@ import { Meta, Story } from "@storybook/react/types-6-0";
 import { useState } from "react";
 
 import { NativeSelect } from "./NativeSelect";
-import { NativeSelectProps } from "./SelectTypes";
 import { listOfStates } from "./SampleData";
+import { NativeSelectProps } from "./SelectTypes";
 
 export default {
   title: "Components/Select/Native Select",
@@ -26,7 +26,7 @@ export const ControlledNativeSelect = () => {
           updateSelectedState(values);
         }}
         value={selectedState}
-        helperText={["Please choose a State"]}
+        helperMessages={["Please choose a State"]}
         options={listOfStates}
       />
       <button onClick={() => updateSelectedState(["UT"])}>
@@ -69,8 +69,8 @@ export const ValidateValuesNativeSelect = () => {
           updateSelectedStates(value);
         }}
         value={selectedStates}
-        helperText={helperText}
-        errorText={errorText}
+        helperMessages={helperText}
+        errorMessages={errorText}
         options={listOfStates}
       />
       <button onClick={() => onSubmitHandler()}>Submit</button>
@@ -85,22 +85,22 @@ const Template: Story<NativeSelectProps> = (props: NativeSelectProps) => {
 export const UncontrolledNativeSelect = Template.bind({});
 UncontrolledNativeSelect.args = {
   label: "List of States",
-  helperText: ["Please choose a State"],
+  helperMessages: ["Please choose a State"],
   options: listOfStates,
 };
 
 export const NativeSelectError = Template.bind({});
 NativeSelectError.args = {
   label: "List of States",
-  helperText: ["Please choose a State"],
-  errorText: ["error 1", "error 2"],
+  helperMessages: ["Please choose a State"],
+  errorMessages: ["error 1", "error 2"],
   options: listOfStates,
 };
 
 export const NativeSelectRequired = Template.bind({});
 NativeSelectRequired.args = {
   label: "List of States",
-  helperText: ["Please choose a State"],
+  helperMessages: ["Please choose a State"],
   required: true,
   options: listOfStates,
 };
@@ -108,7 +108,7 @@ NativeSelectRequired.args = {
 export const NativeSelectDisabled = Template.bind({});
 NativeSelectDisabled.args = {
   label: "List of States",
-  helperText: ["Please choose a State"],
+  helperMessages: ["Please choose a State"],
   disabled: true,
   options: listOfStates,
 };
@@ -116,7 +116,7 @@ NativeSelectDisabled.args = {
 export const NativeSelectLoading = Template.bind({});
 NativeSelectLoading.args = {
   label: "List of States",
-  helperText: ["Please choose a State"],
+  helperMessages: ["Please choose a State"],
   isLoading: true,
   options: listOfStates,
 };

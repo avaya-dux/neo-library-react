@@ -1,9 +1,9 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { useState } from "react";
 
+import { listOfStates } from "./SampleData";
 import { Select } from "./Select";
 import { SelectProps } from "./SelectTypes";
-import { listOfStates } from "./SampleData";
 
 export default {
   title: "Components/Select/Select",
@@ -37,8 +37,8 @@ export const ControlledSelect = () => {
           updateSelectedStates(value);
         }}
         value={selectedStates}
-        helperText={["Please choose a State"]}
-        errorText={errorText}
+        helperMessages={["Please choose a State"]}
+        errorMessages={errorText}
         options={optionsWithHint}
       />
       <button onClick={() => updateSelectedStates(["UT"])}>
@@ -67,8 +67,8 @@ export const ControlledMultipleSelect = () => {
         }}
         isMultipleSelect={true}
         value={selectedStates}
-        helperText={["Please choose a State"]}
-        errorText={errorText}
+        helperMessages={["Please choose a State"]}
+        errorMessages={errorText}
         options={optionsWithHint}
       />
       <button onClick={() => updateSelectedStates(["UT", "AL"])}>
@@ -117,8 +117,8 @@ export const ValidateValuesSelect = () => {
           updateSelectedStates(value);
         }}
         value={selectedStates}
-        helperText={helperText}
-        errorText={errorText}
+        helperMessages={helperText}
+        errorMessages={errorText}
         options={optionsWithHint}
       />
       <button onClick={() => onSubmitHandler()}>Submit</button>
@@ -133,22 +133,22 @@ const Template: Story<SelectProps> = (props: SelectProps) => {
 export const UncontrolledSelect = Template.bind({});
 UncontrolledSelect.args = {
   label: "List of States",
-  helperText: ["Please choose a State"],
+  helperMessages: ["Please choose a State"],
   options: listOfStates,
 };
 
 export const SelectError = Template.bind({});
 SelectError.args = {
   label: "List of States",
-  helperText: ["Please choose a State"],
-  errorText: ["error 1", "error 2"],
+  helperMessages: ["Please choose a State"],
+  errorMessages: ["error 1", "error 2"],
   options: listOfStates,
 };
 
 export const SelectRequired = Template.bind({});
 SelectRequired.args = {
   label: "List of States",
-  helperText: ["Please choose a State"],
+  helperMessages: ["Please choose a State"],
   required: true,
   options: listOfStates,
 };
@@ -156,7 +156,7 @@ SelectRequired.args = {
 export const SelectDisabled = Template.bind({});
 SelectDisabled.args = {
   label: "List of States",
-  helperText: ["Please choose a State"],
+  helperMessages: ["Please choose a State"],
   disabled: true,
   options: listOfStates,
 };
@@ -164,7 +164,7 @@ SelectDisabled.args = {
 export const SelectLoading = Template.bind({});
 SelectLoading.args = {
   label: "List of States",
-  helperText: ["Please choose a State"],
+  helperMessages: ["Please choose a State"],
   isLoading: true,
   loaderText: <i>Loading...</i>,
   options: listOfStates,
