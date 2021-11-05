@@ -11,7 +11,7 @@ export default {
 } as Meta<NativeSelectProps>;
 
 export const ControlledNativeSelect = () => {
-  const [selectedState, updateSelectedState] = useState([""]);
+  const [selectedState, updateSelectedState] = useState("");
   return (
     <>
       <p>
@@ -21,15 +21,15 @@ export const ControlledNativeSelect = () => {
       </p>
       <NativeSelect
         label="List of States"
-        onChange={(values) => {
-          console.log("selected value-> ", values);
-          updateSelectedState(values);
+        onChange={(value) => {
+          console.log("selected value-> ", value);
+          updateSelectedState(value);
         }}
         value={selectedState}
         helperMessages={["Please choose a State"]}
         options={listOfStates}
       />
-      <button onClick={() => updateSelectedState(["UT"])}>
+      <button onClick={() => updateSelectedState("UT")}>
         Set value to "UT"
       </button>
     </>
@@ -37,7 +37,7 @@ export const ControlledNativeSelect = () => {
 };
 
 export const ValidateValuesNativeSelect = () => {
-  const [selectedStates, updateSelectedStates] = useState(["0"]);
+  const [selectedState, updateSelectedState] = useState("0");
   const [isRequired, updateRequired] = useState(true);
   const [errorText, updateErrorText] = useState<undefined | string[]>(
     undefined
@@ -47,8 +47,8 @@ export const ValidateValuesNativeSelect = () => {
   ]);
 
   const onSubmitHandler = () => {
-    console.log(selectedStates);
-    if (JSON.stringify(selectedStates) === JSON.stringify(["0"])) {
+    console.log(selectedState);
+    if (selectedState === "0") {
       updateErrorText(["Field is required"]);
       updateHelperText(["Please choose a State"]);
       updateRequired(true);
@@ -66,9 +66,9 @@ export const ValidateValuesNativeSelect = () => {
         required={isRequired}
         onChange={(value) => {
           console.log("select value-> ", value);
-          updateSelectedStates(value);
+          updateSelectedState(value);
         }}
-        value={selectedStates}
+        value={selectedState}
         helperMessages={helperText}
         errorMessages={errorText}
         options={listOfStates}

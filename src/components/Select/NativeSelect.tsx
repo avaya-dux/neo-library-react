@@ -51,28 +51,23 @@ export const NativeSelect = ({
 
   const defaultSelected = getOption(options);
 
-  const [selectedItems, updateSelectedItems] =
+  const [selectedItem, updateSelectedItem] =
     useState<OptionType[]>(defaultSelected);
 
   useEffect(() => {
     if (value) {
-      const selected = getOption(options, value);
-      updateSelectedItems(selected);
+      const selected = getOption(options, [value]);
+      updateSelectedItem(selected);
     }
   }, [value, options]);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const optionList = e.target.options;
-    const values: OptionType[] = [];
-    for (let i = 0, l = options.length; i < l; i++) {
-      if (optionList[i].selected) {
-        values.push(options[i]);
-      }
-    }
+    const value = e.target.value;
+    const selected = getOption(options, [value]);
 
-    updateSelectedItems(values);
+    updateSelectedItem(selected);
     if (onChange) {
-      onChange(values.map((item) => item.value));
+      onChange(value);
     }
   };
 
@@ -100,7 +95,7 @@ export const NativeSelect = ({
           className="neo-icon-chevron-down"
           aria-labelledby={labelId}
           disabled={disabled}
-          value={selectedItems.map((item) => item.value).toString()}
+          value={selectedItem.map((item) => item.value).toString()}
         >
           {isLoading ? (
             <option value={0}>{loaderText}</option>

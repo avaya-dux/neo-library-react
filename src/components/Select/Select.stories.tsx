@@ -61,18 +61,18 @@ export const ControlledMultipleSelect = () => {
     <>
       <Select
         label="List of States"
-        onChange={(value) => {
-          console.log("select value-> ", value);
-          updateSelectedStates(value);
+        onChange={(values) => {
+          console.log("select values-> ", values);
+          updateSelectedStates(values);
         }}
         isMultipleSelect={true}
         value={selectedStates}
-        helperMessages={["Please choose a State"]}
+        helperMessages={["Please choose a State or multiple States"]}
         errorMessages={errorText}
         options={optionsWithHint}
       />
       <button onClick={() => updateSelectedStates(["UT", "AL"])}>
-        Set value to "UT", "AL"
+        Set values to "UT", "AL"
       </button>
 
       <button onClick={() => updateErrorText(["Error 1"])}>

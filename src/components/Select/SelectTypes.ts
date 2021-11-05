@@ -20,10 +20,10 @@ export interface NativeSelectProps
   isLoading?: boolean;
   label: string;
   loaderText?: string;
-  onChange?: SelectHandlerType;
+  onChange?: (value: string) => void;
   options: OptionType[];
   required?: boolean;
-  value?: string[];
+  value?: string;
 }
 export interface SelectProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
