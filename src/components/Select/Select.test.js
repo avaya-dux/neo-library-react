@@ -5,7 +5,7 @@ import { axe } from "jest-axe";
 import { getOption } from "utils/SelectUtils";
 
 import { listOfStates } from "./SampleData";
-import { getSelectClassNames, getSelectedItems } from "./Select";
+import { getAriaActiveDescendant, getSelectClassNames, getSelectedItems } from "./Select";
 import * as SelectStories from "./Select.stories";
 
 const {
@@ -248,5 +248,19 @@ describe("getOption", () => {
         },
       ]
     `);
+  });
+});
+
+describe("getAriaActiveDescendant", () => {
+  it("if IsOpen is true will return the active state id", () => {
+    expect(
+      getAriaActiveDescendant(true, listOfStates.slice(1, 2))
+    ).toMatchInlineSnapshot(`"Alabama-AL"`);
+  });
+
+  it("if IsOpen is false, should return empty string", () => {
+    expect(
+      getAriaActiveDescendant(false, listOfStates.slice(1, 2))
+    ).toMatchInlineSnapshot(`""`);
   });
 });

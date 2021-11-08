@@ -172,6 +172,10 @@ export const Select = ({
 
   const currentValues = selectedItems?.map((item) => item.label).join(", ");
 
+  const ariaActivedescendantMemoized = useMemo(() => {
+    return getAriaActiveDescendant(isOpen, selectedItems);
+  }, [isOpen, selectedItems]);
+
   return (
     <NeoInputWrapper
       disabled={disabled}
@@ -194,13 +198,7 @@ export const Select = ({
         onMouseLeave={() => updateIsOpen(false)}
         role="combobox"
         tabIndex={0}
-        aria-activedescendant={
-          isOpen
-            ? selectedItems
-                ?.map((item) => `${item.label}-${item.value}`)
-                .join(", ")
-            : ""
-        }
+        aria-activedescendant={ariaActivedescendantMemoized}
       >
         {/*
               TODO gap between the spinner icon and the Loading text
@@ -290,4 +288,13 @@ const setMultipleValues = (
     result = [...selectedItems, ...getOption(options, [value])];
   }
   return result;
+};
+
+export const getAriaActiveDescendant = (
+  isOpen: boolean,
+  selectedItems: OptionType[]
+) => {
+  return isOpen
+    ? selectedItems?.map((item) => `${item.label}-${item.value}`).join(", ")
+    : "";
 };
