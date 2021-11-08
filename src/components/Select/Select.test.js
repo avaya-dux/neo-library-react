@@ -5,7 +5,11 @@ import { axe } from "jest-axe";
 import { getOption } from "utils/SelectUtils";
 
 import { listOfStates } from "./SampleData";
-import { getAriaActiveDescendant, getSelectClassNames, getSelectedItems } from "./Select";
+import {
+  getAriaActiveDescendant,
+  getSelectClassNames,
+  getSelectedItems,
+} from "./Select";
 import * as SelectStories from "./Select.stories";
 
 const {
