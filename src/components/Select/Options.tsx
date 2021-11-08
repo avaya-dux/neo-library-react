@@ -30,7 +30,6 @@ export const Options = forwardRef(
      * https://design.avayacloud.com/components/web/selectbox-web
      */
 
-
     return (
       <div
         ref={ref}
