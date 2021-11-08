@@ -4,6 +4,7 @@
 node_modules
 
 # builds
+*.tgz
 .rpt2_cache
 build
 coverage
@@ -26,3 +27,4 @@ storybook-static
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+

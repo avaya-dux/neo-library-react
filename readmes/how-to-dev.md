@@ -105,4 +105,8 @@ yarn lint --fix
 
 - our [accessibility guidelines](./accessibility-guidelines.md)
 - our [coding guidelines](./coding-guidelines.md)
-- and the team's [PR best practices](./readmes/pr-best-practices.md)
+- and the team's [PR best practices](./pr-best-practices.md)
+
+## publishing this repo
+
+see [how to publish readme](./how-to-publish.md)
