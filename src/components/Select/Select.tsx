@@ -113,6 +113,12 @@ export const Select = ({
         break;
       }
 
+      case "Escape": {
+        updateIsOpen(false);
+
+        break;
+      }
+
       case "ArrowDown": {
         setCursor((prevState) =>
           prevState < options.length - 1 ? prevState + 1 : prevState
@@ -188,7 +194,13 @@ export const Select = ({
         onMouseLeave={() => updateIsOpen(false)}
         role="combobox"
         tabIndex={0}
-        aria-activedescendant=""
+        aria-activedescendant={
+          isOpen
+            ? selectedItems
+                ?.map((item) => `${item.label}-${item.value}`)
+                .join(", ")
+            : ""
+        }
       >
         {/*
               TODO gap between the spinner icon and the Loading text

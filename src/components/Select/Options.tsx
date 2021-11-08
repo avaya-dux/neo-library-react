@@ -30,23 +30,6 @@ export const Options = forwardRef(
      * https://design.avayacloud.com/components/web/selectbox-web
      */
 
-    /**
-     * return isMultipleSelect ? (
-      <ul
-        ref={ref}
-        className="neo-multiselect__content"
-        aria-labelledby={labelledby}
-      >
-        {renderMultipleOptions(options, selectedItems, cursor, setHovered)}
-      </ul>
-    ) : (
-      <div className="neo-multiselect__content">
-        <ul aria-labelledby={labelledby}>
-          {renderSingleOptions(options, cursor)}
-        </ul>
-      </div>
-    );
-     */
 
     return (
       <div
@@ -93,6 +76,7 @@ export const renderMultipleOptions = (
       <div
         className={getOptionClassNames(isHover, disabled, isActive)}
         key={checkBoxId}
+        id={`${label}-${value}`}
         role="listitem"
       >
         <input
@@ -142,6 +126,7 @@ export const renderSingleOptions = (options: OptionType[], cursor: number) => {
       <div
         aria-selected={isHover}
         className={getOptionClassNames(isHover, disabled)}
+        id={`${label}-${value}`}
         key={itemId}
         role="option"
         {...(disabled ? "" : dataValue)}
