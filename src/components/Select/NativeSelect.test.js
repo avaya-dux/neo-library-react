@@ -1,5 +1,5 @@
 import { composeStories } from "@storybook/testing-react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { getNativeSelectClassNames, renderOptions } from "./NativeSelect";
@@ -140,5 +140,3 @@ describe("renderOptions", () => {
     `);
   });
 });
-
-
