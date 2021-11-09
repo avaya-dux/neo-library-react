@@ -8,29 +8,33 @@ import {
 } from "utils";
 
 export interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
-  label?: string;
-  placeholder?: string;
+  clearable?: boolean;
+  disabled?: boolean;
+  endAdornment?: ReactNode;
   error?: boolean;
   helperText?: string;
-  required?: boolean;
-  clearable?: boolean;
-  startAdornment?: ReactNode;
-  endAdornment?: ReactNode;
+  inline?: boolean;
+  label?: string;
+  placeholder?: string;
   readOnly?: boolean;
-  disabled?: boolean;
+  required?: boolean;
+  startAdornment?: ReactNode;
+  value?: number | string;
 }
 
 export const TextInput: React.FC<TextInputProps> = ({
-  label,
-  placeholder,
+  clearable = true,
+  disabled,
+  endAdornment,
   error,
   helperText,
+  inline,
+  label,
+  placeholder,
+  readOnly,
   required,
   startAdornment,
-  endAdornment,
-  clearable = true,
-  readOnly,
-  disabled,
+  value,
   ...rest
 }) => {
   if (!label && !placeholder) {
@@ -43,7 +47,12 @@ export const TextInput: React.FC<TextInputProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <NeoInputWrapper disabled={disabled} error={error} required={required}>
+    <NeoInputWrapper
+      disabled={disabled}
+      error={error}
+      required={required}
+      inline={inline}
+    >
       <label htmlFor={internalId}>{label}</label>
 
       <div className="neo-input-group--addons">
@@ -60,6 +69,7 @@ export const TextInput: React.FC<TextInputProps> = ({
             placeholder={placeholder}
             disabled={disabled}
             readOnly={readOnly}
+            value={value}
             {...rest}
           />
 
