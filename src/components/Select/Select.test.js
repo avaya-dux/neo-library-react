@@ -1,5 +1,5 @@
 import { composeStories } from "@storybook/testing-react";
-import { render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { getOption } from "utils/SelectUtils";
@@ -266,5 +266,101 @@ describe("getAriaActiveDescendant", () => {
     expect(
       getAriaActiveDescendant(false, listOfStates.slice(1, 2))
     ).toMatchInlineSnapshot(`""`);
+  });
+});
+
+describe("keyDown Escape", () => {
+  it("display default after Escape was triggered", async () => {
+    render(<ControlledSelect />);
+
+    const container = await screen.getByRole("listbox");
+
+    fireEvent.click(container);
+    fireEvent.keyDown(container, {
+      key: "Escape",
+      code: "Escape",
+      keyCode: 27,
+      charCode: 27,
+    });
+    expect(screen.getByRole("textbox")).toMatchInlineSnapshot(`
+      <div
+        aria-label="--Please choose an option--"
+        class="neo-multiselect__header"
+        role="textbox"
+      >
+        --Please choose an option--
+      </div>
+    `);
+  });
+});
+
+describe("keyDown ArrowDown and Enter", () => {
+  it("Should display Alabama, because is the 2nd item of the list ", async () => {
+    render(<ControlledSelect />);
+    const container = screen.getByRole("listbox");
+
+    fireEvent.click(container);
+    fireEvent.keyDown(container, {
+      key: "ArrowDown",
+      code: "ArrowDown",
+      keyCode: 40,
+      charCode: 40,
+    });
+
+    fireEvent.keyDown(container, {
+      key: "Enter",
+      code: "Enter",
+      keyCode: 13,
+      charCode: 13,
+    });
+    const textBox = await screen.getByRole("textbox");
+    expect(textBox).toMatchInlineSnapshot(`
+      <div
+        aria-label="Alabama"
+        class="neo-multiselect__header"
+        role="textbox"
+      >
+        Alabama
+      </div>
+    `);
+  });
+});
+
+describe("keyDown ArrowDown and Enter for Disabled Option", () => {
+  it("Arkansas is the 3rd item of the list but is a disabled option", async () => {
+    render(<ControlledSelect />);
+    const container = screen.getByRole("listbox");
+
+    fireEvent.click(container);
+    fireEvent.keyDown(container, {
+      key: "ArrowDown",
+      code: "ArrowDown",
+      keyCode: 40,
+      charCode: 40,
+    });
+
+    fireEvent.keyDown(container, {
+      key: "ArrowDown",
+      code: "ArrowDown",
+      keyCode: 40,
+      charCode: 40,
+    });
+
+    fireEvent.keyDown(container, {
+      key: "Enter",
+      code: "Enter",
+      keyCode: 13,
+      charCode: 13,
+    });
+    const textBox = await screen.getByRole("textbox");
+    expect(textBox).toMatchInlineSnapshot(`
+      <div
+        aria-label="--Please choose an option--"
+        class="neo-multiselect__header"
+        role="textbox"
+      >
+        --Please choose an option--
+      </div>
+    `);
   });
 });

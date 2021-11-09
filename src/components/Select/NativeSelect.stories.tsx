@@ -10,6 +10,14 @@ export default {
   component: NativeSelect,
 } as Meta<NativeSelectProps>;
 
+const optionsWithHint = listOfStates.map((item) => {
+  const hint = {
+    hint: `state ${item.value}`,
+    disabled: item.value === "AK",
+  };
+  return { ...hint, ...item };
+});
+
 export const ControlledNativeSelect = () => {
   const [selectedState, updateSelectedState] = useState("");
   return (
@@ -27,7 +35,7 @@ export const ControlledNativeSelect = () => {
         }}
         value={selectedState}
         helperMessages={["Please choose a State"]}
-        options={listOfStates}
+        options={optionsWithHint}
       />
       <button onClick={() => updateSelectedState("UT")}>
         Set value to "UT"

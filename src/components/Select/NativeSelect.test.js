@@ -1,9 +1,9 @@
 import { composeStories } from "@storybook/testing-react";
-import * as NativeSelectStories from "./NativeSelect.stories";
-import { render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { getNativeSelectClassNames, renderOptions } from "./NativeSelect";
+import * as NativeSelectStories from "./NativeSelect.stories";
 import { listOfStates } from "./SampleData";
 
 const {
@@ -117,6 +117,7 @@ describe("renderOptions", () => {
     expect(renderOptions(listOfStates.slice(0, 3))).toMatchInlineSnapshot(`
       Array [
         <option
+          data-testid="option---Please choose an option---0"
           disabled={false}
           hidden={true}
           value="0"
@@ -124,11 +125,13 @@ describe("renderOptions", () => {
           --Please choose an option--
         </option>,
         <option
+          data-testid="option-Alabama-AL"
           value="AL"
         >
           Alabama
         </option>,
         <option
+          data-testid="option-Alaska-AK"
           value="AK"
         >
           Alaska
@@ -137,3 +140,5 @@ describe("renderOptions", () => {
     `);
   });
 });
+
+
