@@ -38,6 +38,7 @@ describe("renderSingleOptions and renderMultipleOptions", () => {
           aria-selected={true}
           className="neo-input-group neo-multiselect__content__item--hover"
           data-value="AL"
+          id="Alabama-AL"
           role="option"
         >
           Alabama
@@ -46,6 +47,7 @@ describe("renderSingleOptions and renderMultipleOptions", () => {
           aria-selected={false}
           className="neo-input-group"
           data-value="AK"
+          id="Alaska-AK"
           role="option"
         >
           Alaska
@@ -54,6 +56,7 @@ describe("renderSingleOptions and renderMultipleOptions", () => {
           aria-selected={false}
           className="neo-input-group"
           data-value="AZ"
+          id="Arizona-AZ"
           role="option"
         >
           Arizona
@@ -75,6 +78,7 @@ describe("renderSingleOptions and renderMultipleOptions", () => {
         null,
         <div
           className="neo-input-group neo-multiselect__content__item--hover"
+          id="Alabama-AL"
           role="listitem"
         >
           <input
@@ -97,6 +101,7 @@ describe("renderSingleOptions and renderMultipleOptions", () => {
         </div>,
         <div
           className="neo-input-group"
+          id="Alaska-AK"
           role="listitem"
         >
           <input
