@@ -17,7 +17,8 @@
     "node": ">=10"
   },
   "scripts": {
-    "jsdocs": "jsdoc -c .jsdoc.json --verbose",
+    "jsdocs": "jsdoc -c .jsdoc.json",
+    "jsdocs:verbose": "jsdoc -c .jsdoc.json --verbose",
     "lint": "eslint .",
     "start": "rollup -c -w",
     "build": "yarn build:src && yarn build:types",
