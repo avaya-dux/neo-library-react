@@ -2,9 +2,12 @@ import { composeStories } from "@storybook/testing-react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 
-import { getOption } from "utils/SelectUtils";
-
-import { listOfStates } from "./SampleData";
+import { displayErrorOrHelper, getOption } from "./helper";
+import {
+  ErrorMessagesDemo,
+  HelperMessagesDemo,
+  listOfStates,
+} from "./SampleData";
 import {
   getAriaActiveDescendant,
   getSelectClassNames,
@@ -250,6 +253,62 @@ describe("getOption", () => {
           "label": "Utah",
           "value": "UT",
         },
+      ]
+    `);
+  });
+});
+
+describe("displayErrorOrHelper", () => {
+  it("given a ErrorMessagesDemo and HelperMessagesDemo, should do return the list of errors", () => {
+    expect(displayErrorOrHelper(ErrorMessagesDemo, HelperMessagesDemo))
+      .toMatchInlineSnapshot(`
+      Array [
+        <div
+          className="neo-input-hint"
+        >
+          Error 1 : Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
+        </div>,
+        <div
+          className="neo-input-hint"
+        >
+          Error 2: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
+        </div>,
+      ]
+    `);
+  });
+
+  it("given only ErrorMessagesDemo, should do return the list of errors", () => {
+    expect(displayErrorOrHelper(ErrorMessagesDemo, undefined))
+      .toMatchInlineSnapshot(`
+      Array [
+        <div
+          className="neo-input-hint"
+        >
+          Error 1 : Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
+        </div>,
+        <div
+          className="neo-input-hint"
+        >
+          Error 2: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
+        </div>,
+      ]
+    `);
+  });
+
+  it("given only HelperMessagesDemo, should do return the list of help messages", () => {
+    expect(displayErrorOrHelper(undefined, HelperMessagesDemo))
+      .toMatchInlineSnapshot(`
+      Array [
+        <div
+          className="neo-input-hint"
+        >
+          Helper 1: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
+        </div>,
+        <div
+          className="neo-input-hint"
+        >
+          helper 2: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
+        </div>,
       ]
     `);
   });

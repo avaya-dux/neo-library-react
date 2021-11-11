@@ -1,7 +1,13 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { useState } from "react";
 
-import { listOfStates } from "./SampleData";
+import { Button } from "components/Button";
+
+import {
+  ErrorMessagesDemo,
+  HelperMessagesDemo,
+  listOfStates,
+} from "./SampleData";
 import { Select } from "./Select";
 import { SelectProps } from "./SelectTypes";
 
@@ -10,17 +16,17 @@ export default {
   component: Select,
 } as Meta<SelectProps>;
 
-const optionsWithHint = listOfStates.map((item) => {
-  const hint = {
+const ListOfStatesArkansasDisabledPlusHint = listOfStates.map((item) => {
+  const extraInfo = {
     hint: `state ${item.value}`,
     disabled: item.value === "AK",
   };
-  return { ...hint, ...item };
+  return { ...extraInfo, ...item };
 });
 
 export const ControlledSelect = () => {
   const [selectedStates, updateSelectedStates] = useState(["0"]);
-  const [errorText, updateErrorText] = useState<undefined | string[]>(
+  const [errorTexts, updateErrorTexts] = useState<undefined | string[]>(
     undefined
   );
   return (
@@ -30,6 +36,7 @@ export const ControlledSelect = () => {
         window you will see that the selected element value is being displayed
         via <code>console.log</code>
       </p>
+      <br />
       <Select
         label="List of States"
         onChange={(value) => {
@@ -37,23 +44,41 @@ export const ControlledSelect = () => {
           updateSelectedStates(value);
         }}
         value={selectedStates}
-        helperMessages={["Please choose a State"]}
-        errorMessages={errorText}
-        options={optionsWithHint}
+        helperMessages={HelperMessagesDemo}
+        errorMessages={errorTexts}
+        options={ListOfStatesArkansasDisabledPlusHint}
       />
-      <button onClick={() => updateSelectedStates(["UT"])}>
-        Set value to "UT"
-      </button>
-      <button onClick={() => updateErrorText(["Error 1"])}>
-        Display error
-      </button>
+      <br />
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "300px",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Button
+          onClick={() => updateSelectedStates(["UT"])}
+          label="Set value to UT"
+        />
+        &nbsp;
+        <Button
+          onClick={() => updateErrorTexts(ErrorMessagesDemo)}
+          label=" Display errors"
+        />
+        &nbsp;
+        <Button
+          onClick={() => updateErrorTexts(undefined)}
+          label=" Display Helper"
+        />
+      </div>
     </>
   );
 };
 
 export const ControlledMultipleSelect = () => {
   const [selectedStates, updateSelectedStates] = useState(["0"]);
-  const [errorText, updateErrorText] = useState<undefined | string[]>(
+  const [errorTexts, updateErrorTexts] = useState<undefined | string[]>(
     undefined
   );
 
@@ -67,19 +92,34 @@ export const ControlledMultipleSelect = () => {
         }}
         isMultipleSelect={true}
         value={selectedStates}
-        helperMessages={["Please choose a State or multiple States"]}
-        errorMessages={errorText}
-        options={optionsWithHint}
+        helperMessages={HelperMessagesDemo}
+        errorMessages={errorTexts}
+        options={ListOfStatesArkansasDisabledPlusHint}
       />
-      <button onClick={() => updateSelectedStates(["UT", "AL"])}>
-        Set values to "UT", "AL"
-      </button>
-
-      <button onClick={() => updateErrorText(["Error 1"])}>
-        Display error
-      </button>
-
-      <button onClick={() => updateErrorText(undefined)}>Display Helper</button>
+      <br />
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "300px",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Button
+          onClick={() => updateSelectedStates(["UT", "AL"])}
+          label="Set values to UT, AL"
+        />
+        &nbsp;
+        <Button
+          onClick={() => updateErrorTexts(ErrorMessagesDemo)}
+          label="Display errors"
+        />
+        &nbsp;
+        <Button
+          onClick={() => updateErrorTexts(undefined)}
+          label=" Display Helper"
+        />
+      </div>
     </>
   );
 };
@@ -109,6 +149,7 @@ export const ValidateValuesSelect = () => {
   return (
     <>
       <p>This is an example of a select validation and required.</p>
+      <br />
       <Select
         label="List of States"
         required={isRequired}
@@ -119,7 +160,7 @@ export const ValidateValuesSelect = () => {
         value={selectedStates}
         helperMessages={helperText}
         errorMessages={errorText}
-        options={optionsWithHint}
+        options={ListOfStatesArkansasDisabledPlusHint}
       />
       <button onClick={() => onSubmitHandler()}>Submit</button>
     </>
@@ -133,22 +174,22 @@ const Template: Story<SelectProps> = (props: SelectProps) => {
 export const UncontrolledSelect = Template.bind({});
 UncontrolledSelect.args = {
   label: "List of States",
-  helperMessages: ["Please choose a State"],
+  helperMessages: HelperMessagesDemo,
   options: listOfStates,
 };
 
 export const SelectError = Template.bind({});
 SelectError.args = {
   label: "List of States",
-  helperMessages: ["Please choose a State"],
-  errorMessages: ["error 1", "error 2"],
+  helperMessages: HelperMessagesDemo,
+  errorMessages: ErrorMessagesDemo,
   options: listOfStates,
 };
 
 export const SelectRequired = Template.bind({});
 SelectRequired.args = {
   label: "List of States",
-  helperMessages: ["Please choose a State"],
+  helperMessages: HelperMessagesDemo,
   required: true,
   options: listOfStates,
 };
@@ -156,7 +197,7 @@ SelectRequired.args = {
 export const SelectDisabled = Template.bind({});
 SelectDisabled.args = {
   label: "List of States",
-  helperMessages: ["Please choose a State"],
+  helperMessages: HelperMessagesDemo,
   disabled: true,
   options: listOfStates,
 };
@@ -164,7 +205,7 @@ SelectDisabled.args = {
 export const SelectLoading = Template.bind({});
 SelectLoading.args = {
   label: "List of States",
-  helperMessages: ["Please choose a State"],
+  helperMessages: HelperMessagesDemo,
   isLoading: true,
   loaderText: <i>Loading...</i>,
   options: listOfStates,

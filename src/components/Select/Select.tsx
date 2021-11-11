@@ -2,8 +2,8 @@ import { createRef, useEffect, useMemo, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId } from "utils/accessibilityUtils";
-import { getOption } from "utils/SelectUtils";
 
+import { displayErrorOrHelper, getOption } from "./helper";
 import { Options } from "./Options";
 import { OptionType, SelectProps } from "./SelectTypes";
 
@@ -44,7 +44,6 @@ export const Select = ({
   value,
 }: SelectProps) => {
   const labelId = useMemo(() => genId(), []);
-  const hintId = useMemo(() => genId(), []);
   const selectId = useMemo(() => id || genId(), []);
 
   const listBoxRef: React.Ref<HTMLDivElement> = createRef();
@@ -213,17 +212,7 @@ export const Select = ({
         </div>
         <Options {...optionsProps} />
       </div>
-      <div className="neo-input-hint" id={hintId}>
-        {errorMessages && Array.isArray(errorMessages)
-          ? errorMessages.map((item, index) => (
-              <div key={`${item}-${index}`}>{item}</div>
-            ))
-          : helperMessages && Array.isArray(helperMessages)
-          ? helperMessages.map((item, index) => (
-              <div key={`${item}-${index}`}>{item}</div>
-            ))
-          : null}
-      </div>
+      {displayErrorOrHelper(errorMessages, helperMessages)}
     </NeoInputWrapper>
   );
 };

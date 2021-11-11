@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId } from "utils/accessibilityUtils";
-import { getOption } from "utils/SelectUtils";
 
+import { displayErrorOrHelper, getOption } from "./helper";
 import { NativeSelectProps, OptionType } from "./SelectTypes";
 
 /**
@@ -42,7 +42,7 @@ export const NativeSelect = ({
   value,
 }: NativeSelectProps) => {
   const labelId = useMemo(() => genId(), []);
-  const hintId = useMemo(() => genId(), []);
+
   const selectId = useMemo(() => id || genId(), []);
 
   const selectClassName = useMemo(() => {
@@ -107,17 +107,7 @@ export const NativeSelect = ({
         </select>
       </div>
 
-      <div className="neo-input-hint" id={hintId}>
-        {errorMessages && Array.isArray(errorMessages)
-          ? errorMessages.map((item, index) => (
-              <div key={`${item}-${index}`}>{item}</div>
-            ))
-          : helperMessages && Array.isArray(helperMessages)
-          ? helperMessages.map((item, index) => (
-              <div key={`${item}-${index}`}>{item}</div>
-            ))
-          : null}
-      </div>
+      {displayErrorOrHelper(errorMessages, helperMessages)}
     </NeoInputWrapper>
   );
 };

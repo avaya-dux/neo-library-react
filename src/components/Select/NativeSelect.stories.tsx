@@ -10,12 +10,12 @@ export default {
   component: NativeSelect,
 } as Meta<NativeSelectProps>;
 
-const optionsWithHint = listOfStates.map((item) => {
-  const hint = {
+const ListOfStatesArkansasDisabledPlusHint = listOfStates.map((item) => {
+  const extraInfo = {
     hint: `state ${item.value}`,
     disabled: item.value === "AK",
   };
-  return { ...hint, ...item };
+  return { ...extraInfo, ...item };
 });
 
 export const ControlledNativeSelect = () => {
@@ -27,6 +27,7 @@ export const ControlledNativeSelect = () => {
         console window you will see that the selected element value is being
         displayed via <code>console.log</code>
       </p>
+      <br />
       <NativeSelect
         label="List of States"
         onChange={(value) => {
@@ -35,7 +36,7 @@ export const ControlledNativeSelect = () => {
         }}
         value={selectedState}
         helperMessages={["Please choose a State"]}
-        options={optionsWithHint}
+        options={ListOfStatesArkansasDisabledPlusHint}
       />
       <button onClick={() => updateSelectedState("UT")}>
         Set value to "UT"
@@ -69,6 +70,7 @@ export const ValidateValuesNativeSelect = () => {
   return (
     <>
       <p>This is an example of a select validation and required.</p>
+      <br />
       <NativeSelect
         label="List of States"
         required={isRequired}
