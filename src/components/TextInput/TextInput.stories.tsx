@@ -82,3 +82,5 @@ export const Disabled = () => {
 export const BadAccessibility = () => {
   return <TextInput />;
 };
+
+// TODO: add controlled, uncontrolled, and an "inline" option

@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 
 export interface ListProps {
+  id?: string;
   itemType?: "ListItem" | "ListSection";
 }
 
@@ -23,11 +24,19 @@ export interface ListProps {
 
  * @see https://design.avayacloud.com/components/web/list-web
  */
-export const List: FunctionComponent<ListProps> = ({ children, itemType }) => {
+export const List: FunctionComponent<ListProps> = ({
+  children,
+  id,
+  itemType = "ListItem",
+}) => {
   const ItemClass =
     itemType === "ListItem"
       ? "neo-group-list neo-group-list--hover"
       : "neo-group-list--actions";
 
-  return <ul className={ItemClass}>{children}</ul>;
+  return (
+    <ul className={ItemClass} id={id}>
+      {children}
+    </ul>
+  );
 };
