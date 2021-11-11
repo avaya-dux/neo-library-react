@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { Tooltip } from "components";
+import { Tooltip } from "components/Tooltip";
 
 import { PaginationProps } from "..";
 
@@ -50,5 +50,12 @@ export const PaginationItemDisplay = ({
     return <></>;
   }, [currentPageIndex, itemCount, itemDisplayType, itemsPerPage, totalPages]);
 
-  return <Tooltip label={ariaLabelForCurrentPage}>{display}</Tooltip>;
+  return (
+    <Tooltip
+      id={`pagination-item-display-${ariaLabelForCurrentPage}`}
+      label={ariaLabelForCurrentPage}
+    >
+      {display}
+    </Tooltip>
+  );
 };

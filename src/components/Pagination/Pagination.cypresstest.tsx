@@ -15,8 +15,8 @@ describe("Pagination component", () => {
     // show 5 items per page
     cy.get("select").select("5");
 
-    // should have 20 pages
-    cy.get("ul.neo-pagination__list").find("li").should("have.length", 20);
+    // should have 7 pages
+    cy.get("ul.neo-pagination__list").find("li").should("have.length", 7);
 
     // show 10 items per page
     cy.get("select").select("10");

@@ -7,6 +7,8 @@ import {
 } from "./Nodes/";
 import { PaginationProps } from "./PaginationTypes";
 
+// TODO-565: re-calculate on window size change
+
 /**
  * This component is used to render pagination.
  * It can be used as a standalone component.

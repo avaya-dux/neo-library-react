@@ -11,7 +11,7 @@ export * from "./List";
 export * from "./ListItem";
 export * from "./NeoInputWrapper";
 export * from "./NoContent";
-// export * from "./Pagination";
+export * from "./Pagination";
 export * from "./RadioGroup";
 export * from "./Sheet";
 export * from "./Spinner";

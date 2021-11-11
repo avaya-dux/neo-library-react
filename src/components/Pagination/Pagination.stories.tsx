@@ -11,7 +11,7 @@ export default {
   component: Pagination,
 } as Meta<PaginationProps>;
 
-export const Default = () => {
+const BookOfPages = ({ sectionWidth }: { sectionWidth?: number }) => {
   const paginationId = "default-pagination";
   const logsId = "default-pagination-logs";
 
@@ -51,6 +51,7 @@ export const Default = () => {
         <section>
           <Form inline>
             <TextInput
+              clearable={false}
               label="Number of <p> to generate"
               value={numParagraphs}
               onChange={(e) => setNumParagraphs(Number(e.currentTarget.value))}
@@ -58,44 +59,46 @@ export const Default = () => {
           </Form>
         </section>
 
-        <Sheet title="displayed <p>s">{displayedParagraphs}</Sheet>
+        <section style={{ width: sectionWidth }}>
+          <Sheet title="displayed <p>s">{displayedParagraphs}</Sheet>
 
-        <Pagination
-          id={paginationId}
-          currentPageIndex={pageIndex}
-          itemCount={paragraphArray.length}
-          itemsPerPage={itemsPerPage}
-          itemsPerPageOptions={[1, 2, 5, 10]}
-          onPageChange={(e, newIndex) => {
-            e?.preventDefault();
-            setLogItems([
-              <ListItem key={`${newIndex}-${genId()}`}>
-                setting new page index: {newIndex}
-              </ListItem>,
-              ...logItems,
-            ]);
+          <Pagination
+            id={paginationId}
+            currentPageIndex={pageIndex}
+            itemCount={paragraphArray.length}
+            itemsPerPage={itemsPerPage}
+            itemsPerPageOptions={[1, 2, 5, 10]}
+            onPageChange={(e, newIndex) => {
+              e?.preventDefault();
+              setLogItems([
+                <ListItem key={`${newIndex}-${genId()}`}>
+                  setting new page index: {newIndex}
+                </ListItem>,
+                ...logItems,
+              ]);
 
-            setPageIndex(newIndex);
-          }}
-          onItemsPerPageChange={(e, newItemsPerPage) => {
-            e?.preventDefault();
-            setLogItems([
-              <ListItem key={`${newItemsPerPage}-${genId()}`}>
-                setting new items per page: {newItemsPerPage}
-              </ListItem>,
-              ...logItems,
-            ]);
+              setPageIndex(newIndex);
+            }}
+            onItemsPerPageChange={(e, newItemsPerPage) => {
+              e?.preventDefault();
+              setLogItems([
+                <ListItem key={`${newItemsPerPage}-${genId()}`}>
+                  setting new items per page: {newItemsPerPage}
+                </ListItem>,
+                ...logItems,
+              ]);
 
-            setItemsPerPage(newItemsPerPage);
+              setItemsPerPage(newItemsPerPage);
 
-            const maxPageIndex = Math.ceil(
-              paragraphArray.length / newItemsPerPage
-            );
-            if (pageIndex > maxPageIndex) {
-              setPageIndex(maxPageIndex);
-            }
-          }}
-        />
+              const maxPageIndex = Math.ceil(
+                paragraphArray.length / newItemsPerPage
+              );
+              if (pageIndex > maxPageIndex) {
+                setPageIndex(maxPageIndex);
+              }
+            }}
+          />
+        </section>
       </section>
 
       <section>
@@ -106,6 +109,18 @@ export const Default = () => {
     </main>
   );
 };
+
+export const Default = () => <BookOfPages />;
+
+export const WithSpaceForFiveNavItems = () => (
+  <BookOfPages sectionWidth={500} />
+);
+
+export const WithSpaceForSevenNavItems = () => (
+  <BookOfPages sectionWidth={600} />
+);
+
+export const WithSpaceForTenNavItems = () => <BookOfPages sectionWidth={800} />;
 
 const Template: Story<PaginationProps> = (props: PaginationProps) => (
   <Pagination {...props} />

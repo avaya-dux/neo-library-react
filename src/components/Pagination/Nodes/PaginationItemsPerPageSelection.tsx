@@ -1,4 +1,4 @@
-import { Tooltip } from "components";
+import { Tooltip } from "components/Tooltip";
 
 import { PaginationProps } from "..";
 
@@ -19,7 +19,10 @@ export const PaginationItemsPerPageSelection = ({
   }
 
   return (
-    <Tooltip label={ariaLabelForShownPagesSelect}>
+    <Tooltip
+      id={`pagination-items-per-page-selection-${ariaLabelForShownPagesSelect}`}
+      label={ariaLabelForShownPagesSelect}
+    >
       {/* // TODO-618: use our Select component when it is available */}
       <select
         aria-label={ariaLabelForShownPagesSelect}
