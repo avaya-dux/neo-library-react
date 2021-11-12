@@ -2,12 +2,7 @@ import { composeStories } from "@storybook/testing-react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 
-import { displayErrorOrHelper, getOption } from "./helper";
-import {
-  ErrorMessagesDemo,
-  HelperMessagesDemo,
-  listOfStates,
-} from "./SampleData";
+import { listOfStates } from "./SampleData";
 import {
   getAriaActiveDescendant,
   getSelectClassNames,
@@ -25,7 +20,7 @@ const {
   SelectDisabled,
 } = composeStories(SelectStories);
 
-describe("Select: ", () => {
+describe("Select test ", () => {
   describe("UncontrolledSelect", () => {
     let renderResult;
     beforeEach(() => {
@@ -144,41 +139,40 @@ describe("Select: ", () => {
       expect(results).toHaveNoViolations();
     }, 10000);
   });
-});
 
-describe("getSelectClassNames", () => {
-  it("given isOpen = true, should return correct css names", () => {
-    expect(getSelectClassNames(true)).toMatchInlineSnapshot(
-      `"neo-multiselect neo-multiselect--active"`
-    );
-  });
-  it("given isOpen = false, should return correct css names", () => {
-    expect(getSelectClassNames()).toMatchInlineSnapshot(`"neo-multiselect"`);
+  describe("getSelectClassNames", () => {
+    it("given isOpen = true, should return correct css names", () => {
+      expect(getSelectClassNames(true)).toMatchInlineSnapshot(
+        `"neo-multiselect neo-multiselect--active"`
+      );
+    });
+    it("given isOpen = false, should return correct css names", () => {
+      expect(getSelectClassNames()).toMatchInlineSnapshot(`"neo-multiselect"`);
+    });
+
+    it("given isOpen = true, disabled= true should return correct css names", () => {
+      expect(getSelectClassNames(true, true)).toMatchInlineSnapshot(
+        `"neo-multiselect neo-multiselect--active neo-multiselect--disabled"`
+      );
+    });
+
+    it("given isOpen = true, disabled= true, isLoading= true, should return correct css names", () => {
+      expect(getSelectClassNames(true, true, true)).toMatchInlineSnapshot(
+        `"neo-multiselect neo-multiselect--active neo-multiselect--disabled neo-select__spinner"`
+      );
+    });
   });
 
-  it("given isOpen = true, disabled= true should return correct css names", () => {
-    expect(getSelectClassNames(true, true)).toMatchInlineSnapshot(
-      `"neo-multiselect neo-multiselect--active neo-multiselect--disabled"`
-    );
-  });
-
-  it("given isOpen = true, disabled= true, isLoading= true, should return correct css names", () => {
-    expect(getSelectClassNames(true, true, true)).toMatchInlineSnapshot(
-      `"neo-multiselect neo-multiselect--active neo-multiselect--disabled neo-select__spinner"`
-    );
-  });
-});
-
-describe("getSelectedItems", () => {
-  it("CLEAN: will remove the placeholder from the list of states", () => {
-    expect(
-      getSelectedItems(
-        true,
-        "",
-        listOfStates.slice(0, 3),
-        listOfStates.slice(0, 3)
-      )
-    ).toMatchInlineSnapshot(`
+  describe("getSelectedItems", () => {
+    it("CLEAN: will remove the placeholder from the list of states", () => {
+      expect(
+        getSelectedItems(
+          true,
+          "",
+          listOfStates.slice(0, 3),
+          listOfStates.slice(0, 3)
+        )
+      ).toMatchInlineSnapshot(`
       Array [
         Object {
           "label": "Alabama",
@@ -190,11 +184,11 @@ describe("getSelectedItems", () => {
         },
       ]
     `);
-  });
+    });
 
-  it("ADD: given value = AL, should return the Alabama from the list of states", () => {
-    expect(getSelectedItems(false, "AL", [], listOfStates))
-      .toMatchInlineSnapshot(`
+    it("ADD: given value = AL, should return the Alabama from the list of states", () => {
+      expect(getSelectedItems(false, "AL", [], listOfStates))
+        .toMatchInlineSnapshot(`
       Array [
         Object {
           "label": "Alabama",
@@ -202,13 +196,13 @@ describe("getSelectedItems", () => {
         },
       ]
     `);
-  });
+    });
 
-  it("REMOVE: given value = AL, should remove Alabama from the list of selected states", () => {
-    const alabamaIshere = listOfStates.slice(1, 5);
+    it("REMOVE: given value = AL, should remove Alabama from the list of selected states", () => {
+      const alabamaIshere = listOfStates.slice(1, 5);
 
-    expect(getSelectedItems(true, "AL", alabamaIshere, listOfStates))
-      .toMatchInlineSnapshot(`
+      expect(getSelectedItems(true, "AL", alabamaIshere, listOfStates))
+        .toMatchInlineSnapshot(`
       Array [
         Object {
           "label": "Alaska",
@@ -224,124 +218,37 @@ describe("getSelectedItems", () => {
         },
       ]
     `);
-  });
-});
-
-describe("getOption", () => {
-  it("given a list of states without a query will returns the default selected", () => {
-    expect(getOption(listOfStates)).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "defaultSelected": true,
-          "disabled": false,
-          "label": "--Please choose an option--",
-          "placeholder": true,
-          "value": "0",
-        },
-      ]
-    `);
-  });
-
-  it("given a list of states with the query (AL, UT) will returns Alabama and Utah", () => {
-    expect(getOption(listOfStates, ["AL", "UT"])).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "label": "Alabama",
-          "value": "AL",
-        },
-        Object {
-          "label": "Utah",
-          "value": "UT",
-        },
-      ]
-    `);
-  });
-});
-
-describe("displayErrorOrHelper", () => {
-  it("given a ErrorMessagesDemo and HelperMessagesDemo, should do return the list of errors", () => {
-    expect(displayErrorOrHelper(ErrorMessagesDemo, HelperMessagesDemo))
-      .toMatchInlineSnapshot(`
-      Array [
-        <div
-          className="neo-input-hint"
-        >
-          Error 1: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
-        </div>,
-        <div
-          className="neo-input-hint"
-        >
-          Error 2: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
-        </div>,
-      ]
-    `);
-  });
-
-  it("given only ErrorMessagesDemo, should do return the list of errors", () => {
-    expect(displayErrorOrHelper(ErrorMessagesDemo, undefined))
-      .toMatchInlineSnapshot(`
-      Array [
-        <div
-          className="neo-input-hint"
-        >
-          Error 1: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
-        </div>,
-        <div
-          className="neo-input-hint"
-        >
-          Error 2: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
-        </div>,
-      ]
-    `);
-  });
-
-  it("given only HelperMessagesDemo, should do return the list of help messages", () => {
-    expect(displayErrorOrHelper(undefined, HelperMessagesDemo))
-      .toMatchInlineSnapshot(`
-      Array [
-        <div
-          className="neo-input-hint"
-        >
-          Helper 1: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
-        </div>,
-        <div
-          className="neo-input-hint"
-        >
-          helper 2: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
-        </div>,
-      ]
-    `);
-  });
-});
-
-describe("getAriaActiveDescendant", () => {
-  it("if IsOpen is true will return the active state id", () => {
-    expect(
-      getAriaActiveDescendant(true, listOfStates.slice(1, 2))
-    ).toMatchInlineSnapshot(`"Alabama-AL"`);
-  });
-
-  it("if IsOpen is false, should return empty string", () => {
-    expect(
-      getAriaActiveDescendant(false, listOfStates.slice(1, 2))
-    ).toMatchInlineSnapshot(`""`);
-  });
-});
-
-describe("keyDown Escape", () => {
-  it("display default after Escape was triggered", async () => {
-    render(<ControlledSelect />);
-
-    const container = await screen.getByRole("listbox");
-
-    fireEvent.click(container);
-    fireEvent.keyDown(container, {
-      key: "Escape",
-      code: "Escape",
-      keyCode: 27,
-      charCode: 27,
     });
-    expect(screen.getByRole("textbox")).toMatchInlineSnapshot(`
+  });
+
+  describe("getAriaActiveDescendant", () => {
+    it("if IsOpen is true will return the active state id", () => {
+      expect(
+        getAriaActiveDescendant(true, listOfStates.slice(1, 2))
+      ).toMatchInlineSnapshot(`"Alabama-AL"`);
+    });
+
+    it("if IsOpen is false, should return empty string", () => {
+      expect(
+        getAriaActiveDescendant(false, listOfStates.slice(1, 2))
+      ).toMatchInlineSnapshot(`""`);
+    });
+  });
+
+  describe("keyDown Escape", () => {
+    it("display default after Escape was triggered", async () => {
+      render(<ControlledSelect />);
+
+      const container = await screen.getByRole("listbox");
+
+      fireEvent.click(container);
+      fireEvent.keyDown(container, {
+        key: "Escape",
+        code: "Escape",
+        keyCode: 27,
+        charCode: 27,
+      });
+      expect(screen.getByRole("textbox")).toMatchInlineSnapshot(`
       <div
         aria-label="--Please choose an option--"
         class="neo-multiselect__header"
@@ -350,30 +257,30 @@ describe("keyDown Escape", () => {
         --Please choose an option--
       </div>
     `);
+    });
   });
-});
 
-describe("keyDown ArrowDown and Enter", () => {
-  it("Should display Alabama, because is the 2nd item of the list ", async () => {
-    render(<ControlledSelect />);
-    const container = screen.getByRole("listbox");
+  describe("keyDown ArrowDown and Enter", () => {
+    it("Should display Alabama, because is the 2nd item of the list ", async () => {
+      render(<ControlledSelect />);
+      const container = screen.getByRole("listbox");
 
-    fireEvent.click(container);
-    fireEvent.keyDown(container, {
-      key: "ArrowDown",
-      code: "ArrowDown",
-      keyCode: 40,
-      charCode: 40,
-    });
+      fireEvent.click(container);
+      fireEvent.keyDown(container, {
+        key: "ArrowDown",
+        code: "ArrowDown",
+        keyCode: 40,
+        charCode: 40,
+      });
 
-    fireEvent.keyDown(container, {
-      key: "Enter",
-      code: "Enter",
-      keyCode: 13,
-      charCode: 13,
-    });
-    const textBox = await screen.getByRole("textbox");
-    expect(textBox).toMatchInlineSnapshot(`
+      fireEvent.keyDown(container, {
+        key: "Enter",
+        code: "Enter",
+        keyCode: 13,
+        charCode: 13,
+      });
+      const textBox = await screen.getByRole("textbox");
+      expect(textBox).toMatchInlineSnapshot(`
       <div
         aria-label="Alabama"
         class="neo-multiselect__header"
@@ -382,37 +289,37 @@ describe("keyDown ArrowDown and Enter", () => {
         Alabama
       </div>
     `);
+    });
   });
-});
 
-describe("keyDown ArrowDown and Enter for Disabled Option", () => {
-  it("Arkansas is the 3rd item of the list but is a disabled option", async () => {
-    render(<ControlledSelect />);
-    const container = screen.getByRole("listbox");
+  describe("keyDown ArrowDown and Enter for Disabled Option", () => {
+    it("Arkansas is the 3rd item of the list but is a disabled option", async () => {
+      render(<ControlledSelect />);
+      const container = screen.getByRole("listbox");
 
-    fireEvent.click(container);
-    fireEvent.keyDown(container, {
-      key: "ArrowDown",
-      code: "ArrowDown",
-      keyCode: 40,
-      charCode: 40,
-    });
+      fireEvent.click(container);
+      fireEvent.keyDown(container, {
+        key: "ArrowDown",
+        code: "ArrowDown",
+        keyCode: 40,
+        charCode: 40,
+      });
 
-    fireEvent.keyDown(container, {
-      key: "ArrowDown",
-      code: "ArrowDown",
-      keyCode: 40,
-      charCode: 40,
-    });
+      fireEvent.keyDown(container, {
+        key: "ArrowDown",
+        code: "ArrowDown",
+        keyCode: 40,
+        charCode: 40,
+      });
 
-    fireEvent.keyDown(container, {
-      key: "Enter",
-      code: "Enter",
-      keyCode: 13,
-      charCode: 13,
-    });
-    const textBox = await screen.getByRole("textbox");
-    expect(textBox).toMatchInlineSnapshot(`
+      fireEvent.keyDown(container, {
+        key: "Enter",
+        code: "Enter",
+        keyCode: 13,
+        charCode: 13,
+      });
+      const textBox = await screen.getByRole("textbox");
+      expect(textBox).toMatchInlineSnapshot(`
       <div
         aria-label="--Please choose an option--"
         class="neo-multiselect__header"
@@ -421,5 +328,6 @@ describe("keyDown ArrowDown and Enter for Disabled Option", () => {
         --Please choose an option--
       </div>
     `);
+    });
   });
 });

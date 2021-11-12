@@ -14,7 +14,7 @@ const {
   NativeSelectDisabled,
 } = composeStories(NativeSelectStories);
 
-describe("NativeSelect: test", () => {
+describe("NativeSelect test", () => {
   describe("UncontrolledNativeSelect test", () => {
     let renderResult;
     beforeEach(() => {
