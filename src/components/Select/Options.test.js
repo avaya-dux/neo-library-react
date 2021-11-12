@@ -6,22 +6,22 @@ import {
 import { listOfStates } from "./SampleData";
 
 describe("getOptionClassNames", () => {
-  it("default return", () => {
+  it("getOptionClassNames should return `neo-input-group` when no props are passed", () => {
     expect(getOptionClassNames()).toMatchInlineSnapshot(`"neo-input-group"`);
   });
-  it("given isHover = true, should return correct css names", () => {
+  it("should return correct css names when `isHover = true`", () => {
     expect(getOptionClassNames(true)).toMatchInlineSnapshot(
       `"neo-input-group neo-multiselect__content__item--hover"`
     );
   });
 
-  it("given isHover = true, disabled= true should return correct css names", () => {
+  it("should return correct css names when `isHover = true` and `isDisabled = true`", () => {
     expect(getOptionClassNames(true, true)).toMatchInlineSnapshot(
       `"neo-input-group neo-multiselect__content__item--hover neo-multiselect__content__item--disabled"`
     );
   });
 
-  it("given isHover = true, disabled= true, isActive true, should return correct css names", () => {
+  it("should return correct css names when `isHover = true`, `isDisabled = true` and `isActive = true`", () => {
     expect(getOptionClassNames(true, true, true)).toMatchInlineSnapshot(
       `"neo-input-group neo-multiselect__content__item--hover neo-multiselect__content__item--disabled neo-multiselect__content__item--focus"`
     );
@@ -29,7 +29,43 @@ describe("getOptionClassNames", () => {
 });
 
 describe("renderSingleOptions and renderMultipleOptions", () => {
-  it("renderSingleOptions given a listOfStates and cursor 1, should return a list", () => {
+  it("renderSingleOptions should return array of <div>s if there is an item in the list as the `placeholder = true`, null will be returned for that item, when `options = OptionType[]` and `cursor = 0`", () => {
+    expect(renderSingleOptions(listOfStates.slice(0, 4), 0))
+      .toMatchInlineSnapshot(`
+      Array [
+        null,
+        <div
+          aria-selected={false}
+          className="neo-input-group"
+          data-value="AL"
+          id="Alabama-AL"
+          role="option"
+        >
+          Alabama
+        </div>,
+        <div
+          aria-selected={false}
+          className="neo-input-group"
+          data-value="AK"
+          id="Alaska-AK"
+          role="option"
+        >
+          Alaska
+        </div>,
+        <div
+          aria-selected={false}
+          className="neo-input-group"
+          data-value="AZ"
+          id="Arizona-AZ"
+          role="option"
+        >
+          Arizona
+        </div>,
+      ]
+    `);
+  });
+
+  it("renderSingleOptions should return array of <div>s also the item with the index 1 as selected and hovered when `options = OptionType[]` and `cursor = 1`", () => {
     expect(renderSingleOptions(listOfStates.slice(0, 4), 1))
       .toMatchInlineSnapshot(`
       Array [
@@ -65,7 +101,68 @@ describe("renderSingleOptions and renderMultipleOptions", () => {
     `);
   });
 
-  it("renderMultipleOptions given a listOfStates and cursor 1, should return a list", () => {
+  it("renderMultipleOptions  should return array of <div>s if there is an item in the list as the `placeholder = true`, null will be returned for that item, when `options = OptionType[]`, `selectedItems = OptionType[]` and `cursor = 0`", () => {
+    expect(
+      renderMultipleOptions(
+        listOfStates.slice(0, 3),
+        listOfStates.slice(0, 1),
+        0,
+        () => console.log("test")
+      )
+    ).toMatchInlineSnapshot(`
+      Array [
+        null,
+        <div
+          className="neo-input-group"
+          id="Alabama-AL"
+          role="listitem"
+        >
+          <input
+            aria-describedby="Alabama-hint-1"
+            checked={false}
+            className="neo-check"
+            id="Alabama-checkbox-1"
+            onChange={[Function]}
+            onMouseEnter={[Function]}
+            tabIndex={-1}
+            type="checkbox"
+            value="AL"
+          />
+          <label
+            data-value="AL"
+            htmlFor="Alabama-checkbox-1"
+          >
+            Alabama
+          </label>
+        </div>,
+        <div
+          className="neo-input-group"
+          id="Alaska-AK"
+          role="listitem"
+        >
+          <input
+            aria-describedby="Alaska-hint-2"
+            checked={false}
+            className="neo-check"
+            id="Alaska-checkbox-2"
+            onChange={[Function]}
+            onMouseEnter={[Function]}
+            tabIndex={-1}
+            type="checkbox"
+            value="AK"
+          />
+          <label
+            data-value="AK"
+            htmlFor="Alaska-checkbox-2"
+          >
+            Alaska
+          </label>
+        </div>,
+      ]
+    `);
+  });
+
+  it("renderMultipleOptions  should return array of <div>s also the item with the index 1 as hovered, when `options = OptionType[]`, `selectedItems = OptionType[]` and `cursor = 1`", () => {
     expect(
       renderMultipleOptions(
         listOfStates.slice(0, 3),

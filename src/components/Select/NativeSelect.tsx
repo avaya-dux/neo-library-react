@@ -100,7 +100,7 @@ export const NativeSelect = ({
           data-value={selectedItem}
         >
           {isLoading ? (
-            <option value={0}>{loaderText}</option>
+            <option value={loaderText}>{loaderText}</option>
           ) : (
             memoizedRenderOptions
           )}

@@ -15,13 +15,13 @@ export const Options = forwardRef(
     }: OptionsProps,
     ref: React.Ref<HTMLDivElement>
   ) => {
-    const [hovered, setHovered] = useState<OptionType | null>(null);
+    const [hoveredOption, setHoveredOption] = useState<OptionType | null>(null);
 
     useEffect(() => {
-      if (options.length && hovered) {
-        updateCursor(options.indexOf(hovered));
+      if (options.length && hoveredOption) {
+        updateCursor(options.indexOf(hoveredOption));
       }
-    }, [hovered]);
+    }, [hoveredOption]);
 
     /**
      * TODO
@@ -40,8 +40,18 @@ export const Options = forwardRef(
         tabIndex={-1}
       >
         {isMultipleSelect
-          ? renderMultipleOptions(options, selectedItems, cursor, setHovered)
-          : renderSingleOptions(options, cursor)}
+          ? renderMultipleOptions(
+              options,
+              selectedItems,
+              cursor,
+              setHoveredOption
+            )
+          : renderSingleOptions(
+              options,
+              selectedItems,
+              cursor,
+              setHoveredOption
+            )}
       </div>
     );
   }
@@ -108,7 +118,12 @@ export const renderMultipleOptions = (
   });
 };
 
-export const renderSingleOptions = (options: OptionType[], cursor: number) => {
+export const renderSingleOptions = (
+  options: OptionType[],
+  selectedItems: OptionType[],
+  cursor: number,
+  callback: (option: OptionType) => void
+) => {
   return options.map((option, index) => {
     if (option.placeholder) {
       // remove placeholder form the option list
@@ -117,6 +132,7 @@ export const renderSingleOptions = (options: OptionType[], cursor: number) => {
     const { label, value, disabled } = option;
     const itemId = `${label}-${index}`;
 
+    const isActive = !!selectedItems.find((item) => item.value === value);
     const isHover = cursor === index;
 
     const dataValue = { "data-value": value };
@@ -124,7 +140,9 @@ export const renderSingleOptions = (options: OptionType[], cursor: number) => {
     return (
       <div
         aria-selected={isHover}
-        className={getOptionClassNames(isHover, disabled)}
+        tabIndex={0}
+        className={getOptionClassNames(isHover, disabled, isActive)}
+        onMouseEnter={() => callback(option)}
         id={`${label}-${value}`}
         key={itemId}
         role="option"
