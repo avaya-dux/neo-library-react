@@ -266,7 +266,7 @@ describe("displayErrorOrHelper", () => {
         <div
           className="neo-input-hint"
         >
-          Error 1 : Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
+          Error 1: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
         </div>,
         <div
           className="neo-input-hint"
@@ -284,7 +284,7 @@ describe("displayErrorOrHelper", () => {
         <div
           className="neo-input-hint"
         >
-          Error 1 : Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
+          Error 1: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
         </div>,
         <div
           className="neo-input-hint"
