@@ -59,7 +59,7 @@ export const listOfStates = [
 ];
 
 export const ErrorMessagesDemo = [
-  "Error 1 : Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+  "Error 1: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
   "Error 2: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
 ];
 

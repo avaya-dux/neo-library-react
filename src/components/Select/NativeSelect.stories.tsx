@@ -1,8 +1,14 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { useState } from "react";
 
+import { Button } from "components/Button";
+
 import { NativeSelect } from "./NativeSelect";
-import { listOfStates } from "./SampleData";
+import {
+  ErrorMessagesDemo,
+  HelperMessagesDemo,
+  listOfStates,
+} from "./SampleData";
 import { NativeSelectProps } from "./SelectTypes";
 
 export default {
@@ -20,6 +26,9 @@ const ListOfStatesArkansasDisabledPlusHint = listOfStates.map((item) => {
 
 export const ControlledNativeSelect = () => {
   const [selectedState, updateSelectedState] = useState("");
+  const [errorTexts, updateErrorTexts] = useState<undefined | string[]>(
+    undefined
+  );
   return (
     <>
       <p>
@@ -35,12 +44,24 @@ export const ControlledNativeSelect = () => {
           updateSelectedState(value);
         }}
         value={selectedState}
-        helperMessages={["Please choose a State"]}
+        helperMessages={HelperMessagesDemo}
+        errorMessages={errorTexts}
         options={ListOfStatesArkansasDisabledPlusHint}
       />
-      <button onClick={() => updateSelectedState("UT")}>
-        Set value to "UT"
-      </button>
+      <Button
+        onClick={() => updateSelectedState("UT")}
+        label="Set value to UT"
+      />
+      &nbsp;
+      <Button
+        onClick={() => updateErrorTexts(ErrorMessagesDemo)}
+        label=" Display errors"
+      />
+      &nbsp;
+      <Button
+        onClick={() => updateErrorTexts(undefined)}
+        label=" Display Helper"
+      />
     </>
   );
 };
@@ -55,14 +76,13 @@ export const ValidateValuesNativeSelect = () => {
     "Please choose a State",
   ]);
 
-  const onSubmitHandler = () => {
-    console.log(selectedState);
-    if (selectedState === "0") {
+  const validateSelectValue = (value: string) => {
+    if (value === "0") {
       updateErrorText(["Field is required"]);
       updateHelperText(["Please choose a State"]);
       updateRequired(true);
     } else {
-      updateHelperText(["success!"]);
+      updateHelperText(["Success!"]);
       updateErrorText(undefined);
       updateRequired(false);
     }
@@ -77,13 +97,18 @@ export const ValidateValuesNativeSelect = () => {
         onChange={(value) => {
           console.log("select value-> ", value);
           updateSelectedState(value);
+          validateSelectValue(value);
         }}
         value={selectedState}
         helperMessages={helperText}
         errorMessages={errorText}
         options={listOfStates}
       />
-      <button onClick={() => onSubmitHandler()}>Submit</button>
+
+      <Button
+        onClick={() => validateSelectValue(selectedState)}
+        label="Submit"
+      />
     </>
   );
 };

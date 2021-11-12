@@ -134,14 +134,13 @@ export const ValidateValuesSelect = () => {
     "Please choose a State",
   ]);
 
-  const onSubmitHandler = () => {
-    console.log(selectedStates);
-    if (JSON.stringify(selectedStates) === JSON.stringify(["0"])) {
+  const validateSelectValue = (values: string[]) => {
+    if (JSON.stringify(values) === JSON.stringify(["0"])) {
       updateErrorText(["Field is required"]);
       updateHelperText(["Please choose a State"]);
       updateRequired(true);
     } else {
-      updateHelperText(["success!"]);
+      updateHelperText(["Success!"]);
       updateErrorText(undefined);
       updateRequired(false);
     }
@@ -156,13 +155,17 @@ export const ValidateValuesSelect = () => {
         onChange={(value) => {
           console.log("select value-> ", value);
           updateSelectedStates(value);
+          validateSelectValue(value);
         }}
         value={selectedStates}
         helperMessages={helperText}
         errorMessages={errorText}
         options={ListOfStatesArkansasDisabledPlusHint}
       />
-      <button onClick={() => onSubmitHandler()}>Submit</button>
+      <Button
+        onClick={() => validateSelectValue(selectedStates)}
+        label="Submit"
+      />
     </>
   );
 };
