@@ -14,8 +14,8 @@ const {
   NativeSelectDisabled,
 } = composeStories(NativeSelectStories);
 
-describe("NativeSelect: ", () => {
-  describe("Default", () => {
+describe("NativeSelect: test", () => {
+  describe("UncontrolledNativeSelect test", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<UncontrolledNativeSelect />);
@@ -32,7 +32,7 @@ describe("NativeSelect: ", () => {
     });
   });
 
-  describe("Native Select Demo", () => {
+  describe("ControlledNativeSelect test", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<ControlledNativeSelect />);
@@ -99,44 +99,44 @@ describe("NativeSelect: ", () => {
       expect(results).toHaveNoViolations();
     });
   });
-});
 
-describe("getNativeSelectClassNames", () => {
-  it("given isLoading = true, should return correct css names", () => {
-    expect(getNativeSelectClassNames(true)).toMatchInlineSnapshot(
-      `"neo-select neo-select__spinner"`
-    );
+  describe("getNativeSelectClassNames", () => {
+    it("given isLoading = true, should return correct css names", () => {
+      expect(getNativeSelectClassNames(true)).toMatchInlineSnapshot(
+        `"neo-select neo-select__spinner"`
+      );
+    });
+    it("given isLoading = undefined, should return correct css names", () => {
+      expect(getNativeSelectClassNames()).toMatchInlineSnapshot(`"neo-select"`);
+    });
   });
-  it("given isLoading = undefined, should return correct css names", () => {
-    expect(getNativeSelectClassNames()).toMatchInlineSnapshot(`"neo-select"`);
-  });
-});
 
-describe("renderOptions", () => {
-  it("given options, should return a list of options", () => {
-    expect(renderOptions(listOfStates.slice(0, 3))).toMatchInlineSnapshot(`
-      Array [
-        <option
-          data-testid="option---Please choose an option---0"
-          disabled={false}
-          hidden={true}
-          value="0"
-        >
-          --Please choose an option--
-        </option>,
-        <option
-          data-testid="option-Alabama-AL"
-          value="AL"
-        >
-          Alabama
-        </option>,
-        <option
-          data-testid="option-Alaska-AK"
-          value="AK"
-        >
-          Alaska
-        </option>,
-      ]
-    `);
+  describe("renderOptions", () => {
+    it("given options, should return a list of options", () => {
+      expect(renderOptions(listOfStates.slice(0, 3))).toMatchInlineSnapshot(`
+        Array [
+          <option
+            data-testid="option---Please choose an option---0"
+            disabled={false}
+            hidden={true}
+            value="0"
+          >
+            --Please choose an option--
+          </option>,
+          <option
+            data-testid="option-Alabama-AL"
+            value="AL"
+          >
+            Alabama
+          </option>,
+          <option
+            data-testid="option-Alaska-AK"
+            value="AK"
+          >
+            Alaska
+          </option>,
+        ]
+      `);
+    });
   });
 });
