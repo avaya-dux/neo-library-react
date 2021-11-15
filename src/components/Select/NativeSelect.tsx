@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId } from "utils/accessibilityUtils";
 
-import { displayErrorOrHelper, getOption } from "./Helper";
+import { displayErrorOrHelper, getOption } from "./helper";
 import { NativeSelectProps, OptionType } from "./SelectTypes";
 
 /**
