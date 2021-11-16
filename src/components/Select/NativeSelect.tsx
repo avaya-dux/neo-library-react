@@ -63,7 +63,6 @@ export const NativeSelect = ({
   const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     const selected = getOption(options, [value]);
-    console.log(selected[0].value);
 
     updateSelectedItem(selected[0].value);
     if (onChange) {
