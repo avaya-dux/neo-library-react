@@ -12,7 +12,7 @@ import { Select } from "./Select";
 import { SelectProps } from "./SelectTypes";
 
 export default {
-  title: "Components/Select/Select",
+  title: "Components/Form/Select/Select",
   component: Select,
 } as Meta<SelectProps>;
 

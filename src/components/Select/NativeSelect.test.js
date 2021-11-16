@@ -49,7 +49,7 @@ describe("NativeSelect test", () => {
     });
   });
 
-  describe("Native Select Error", () => {
+  describe("NativeSelectError test", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<NativeSelectError />);
@@ -66,7 +66,7 @@ describe("NativeSelect test", () => {
     });
   });
 
-  describe("Native Select Required", () => {
+  describe("NativeSelectRequired test", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<NativeSelectRequired />);
@@ -83,7 +83,7 @@ describe("NativeSelect test", () => {
     });
   });
 
-  describe("Native Select Disabled", () => {
+  describe("NativeSelectDisabled test", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<NativeSelectDisabled />);
