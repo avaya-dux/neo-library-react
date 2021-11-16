@@ -93,7 +93,8 @@ export const Select = ({
     // capture the value from `data-value` attribute, this is because the target can  be <li> | <input> | <label>
 
     const value = (e.target as HTMLDivElement).getAttribute("data-value");
-    if (value) {
+    // value "0" will be ignored
+    if (value && value !== "0") {
       setSelectedItems(isMultipleSelect, value);
     }
 
@@ -102,19 +103,16 @@ export const Select = ({
 
   const onKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const scrollHeight = listBoxRef.current?.scrollHeight;
-
     const itemHeight = scrollHeight ? scrollHeight / options.length : 100;
 
     switch (e.code) {
       case "Space": {
         updateIsOpen(!isOpen);
-
         break;
       }
 
       case "Escape": {
         updateIsOpen(false);
-
         break;
       }
 
@@ -137,12 +135,12 @@ export const Select = ({
       }
 
       case "Enter": {
-        if (!options[cursor].disabled) {
-          setSelectedItems(isMultipleSelect, options[cursor].value);
+        // value "0" will be ignored
+        const value = options[cursor].value;
+        if (!options[cursor].disabled && value !== "0") {
+          setSelectedItems(isMultipleSelect, value);
         }
-
         expandOrCloseListBox();
-
         break;
       }
 
@@ -250,7 +248,7 @@ export const getSelectedItems = (
   // remove placeholder
   const cleanSelectedItems = selectedItems.filter((item) => !item.placeholder);
 
-  if (isMultipleSelect && value !== "0") {
+  if (isMultipleSelect) {
     result = setMultipleValues(cleanSelectedItems, options, value);
   } else {
     result = getOption(options, [value]);
@@ -259,7 +257,7 @@ export const getSelectedItems = (
   return result;
 };
 
-const setMultipleValues = (
+export const setMultipleValues = (
   selectedItems: OptionType[],
   options: OptionType[],
   value: string

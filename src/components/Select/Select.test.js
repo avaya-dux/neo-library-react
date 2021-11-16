@@ -7,6 +7,7 @@ import {
   getAriaActiveDescendant,
   getSelectClassNames,
   getSelectedItems,
+  setMultipleValues,
 } from "./Select";
 import * as SelectStories from "./Select.stories";
 
@@ -173,29 +174,29 @@ describe("Select test ", () => {
           listOfStates.slice(0, 3)
         )
       ).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "label": "Alabama",
-          "value": "AL",
-        },
-        Object {
-          "label": "Alaska",
-          "value": "AK",
-        },
-      ]
-    `);
+              Array [
+                Object {
+                  "label": "Alabama",
+                  "value": "AL",
+                },
+                Object {
+                  "label": "Alaska",
+                  "value": "AK",
+                },
+              ]
+          `);
     });
 
     it("ADD: given value = AL, should return the Alabama from the list of states", () => {
       expect(getSelectedItems(false, "AL", [], listOfStates))
         .toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "label": "Alabama",
-          "value": "AL",
-        },
-      ]
-    `);
+              Array [
+                Object {
+                  "label": "Alabama",
+                  "value": "AL",
+                },
+              ]
+          `);
     });
 
     it("REMOVE: given value = AL, should remove Alabama from the list of selected states", () => {
@@ -203,21 +204,56 @@ describe("Select test ", () => {
 
       expect(getSelectedItems(true, "AL", alabamaIshere, listOfStates))
         .toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "label": "Alaska",
-          "value": "AK",
-        },
-        Object {
-          "label": "Arizona",
-          "value": "AZ",
-        },
-        Object {
-          "label": "Arkansas",
-          "value": "AR",
-        },
-      ]
-    `);
+              Array [
+                Object {
+                  "label": "Alaska",
+                  "value": "AK",
+                },
+                Object {
+                  "label": "Arizona",
+                  "value": "AZ",
+                },
+                Object {
+                  "label": "Arkansas",
+                  "value": "AR",
+                },
+              ]
+          `);
+    });
+  });
+
+  describe("setMultipleValues", () => {
+    const ALabamaAndAlaska = listOfStates.slice(1, 3);
+    it("Adding Utah to the list of selected states", () => {
+      expect(setMultipleValues(ALabamaAndAlaska, listOfStates, "UT"))
+        .toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "label": "Alabama",
+            "value": "AL",
+          },
+          Object {
+            "label": "Alaska",
+            "value": "AK",
+          },
+          Object {
+            "label": "Utah",
+            "value": "UT",
+          },
+        ]
+      `);
+    });
+
+    it("If you pass a state that is already there, this value will be removed", () => {
+      expect(setMultipleValues(ALabamaAndAlaska, listOfStates, "AL"))
+        .toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "label": "Alaska",
+            "value": "AK",
+          },
+        ]
+      `);
     });
   });
 
@@ -249,14 +285,14 @@ describe("Select test ", () => {
         charCode: 27,
       });
       expect(screen.getByRole("textbox")).toMatchInlineSnapshot(`
-      <div
-        aria-label="--Please choose an option--"
-        class="neo-multiselect__header"
-        role="textbox"
-      >
-        --Please choose an option--
-      </div>
-    `);
+              <div
+                aria-label="--Please choose an option--"
+                class="neo-multiselect__header"
+                role="textbox"
+              >
+                --Please choose an option--
+              </div>
+          `);
     });
   });
 
@@ -281,14 +317,14 @@ describe("Select test ", () => {
       });
       const textBox = await screen.getByRole("textbox");
       expect(textBox).toMatchInlineSnapshot(`
-      <div
-        aria-label="Alabama"
-        class="neo-multiselect__header"
-        role="textbox"
-      >
-        Alabama
-      </div>
-    `);
+              <div
+                aria-label="Alabama"
+                class="neo-multiselect__header"
+                role="textbox"
+              >
+                Alabama
+              </div>
+          `);
     });
   });
 
@@ -320,14 +356,14 @@ describe("Select test ", () => {
       });
       const textBox = await screen.getByRole("textbox");
       expect(textBox).toMatchInlineSnapshot(`
-      <div
-        aria-label="--Please choose an option--"
-        class="neo-multiselect__header"
-        role="textbox"
-      >
-        --Please choose an option--
-      </div>
-    `);
+              <div
+                aria-label="--Please choose an option--"
+                class="neo-multiselect__header"
+                role="textbox"
+              >
+                --Please choose an option--
+              </div>
+          `);
     });
   });
 });
