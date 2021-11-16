@@ -51,12 +51,14 @@ export const NativeSelect = ({
 
   const defaultSelected = getOption(options);
 
-  const [selectedItem, updateSelectedItem] = useState(defaultSelected[0].label);
+  const [selectedItem, updateSelectedItem] = useState(
+    defaultSelected.at(0)?.label
+  );
 
   useEffect(() => {
     if (value) {
       const selected = getOption(options, [value]);
-      updateSelectedItem(selected[0].value);
+      updateSelectedItem(selected.at(0)?.value);
     }
   }, [value, options]);
 
@@ -64,7 +66,7 @@ export const NativeSelect = ({
     const value = e.target.value;
     const selected = getOption(options, [value]);
 
-    updateSelectedItem(selected[0].value);
+    updateSelectedItem(selected.at(0)?.value);
     if (onChange) {
       onChange(value);
     }

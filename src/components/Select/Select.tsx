@@ -76,7 +76,9 @@ export const Select = ({
     );
 
     updateSelectedItems(result);
-    if (!isMultipleSelect) setCursor(options.indexOf(result[0]));
+    const resultValues = result.at(0);
+    if (!isMultipleSelect && resultValues)
+      setCursor(options.indexOf(resultValues));
 
     if (onChange) {
       onChange(result?.map((item) => item.value));
@@ -136,9 +138,13 @@ export const Select = ({
 
       case "Enter": {
         // value "0" will be ignored
-        const value = options[cursor].value;
-        if (!options[cursor].disabled && value !== "0") {
-          setSelectedItems(isMultipleSelect, value);
+        const optionsValues = options.at(cursor);
+        if (
+          optionsValues &&
+          !optionsValues.disabled &&
+          optionsValues.value !== "0"
+        ) {
+          setSelectedItems(isMultipleSelect, optionsValues.value);
         }
         expandOrCloseListBox();
         break;

@@ -271,7 +271,7 @@ describe("Select test ", () => {
     });
   });
 
-  describe("keyDown Escape", () => {
+  describe("keyDown Escape test", () => {
     it("display default after Escape was triggered", async () => {
       render(<ControlledSelect />);
 
@@ -296,7 +296,7 @@ describe("Select test ", () => {
     });
   });
 
-  describe("keyDown ArrowDown and Enter", () => {
+  describe("keyDown ArrowDown and Enter test", () => {
     it("Should display Alabama, because is the 2nd item of the list ", async () => {
       render(<ControlledSelect />);
       const container = screen.getByRole("listbox");
@@ -328,7 +328,7 @@ describe("Select test ", () => {
     });
   });
 
-  describe("keyDown ArrowDown and Enter for Disabled Option", () => {
+  describe("keyDown ArrowDown and Enter for Disabled Option test", () => {
     it("Arkansas is the 3rd item of the list but is a disabled option", async () => {
       render(<ControlledSelect />);
       const container = screen.getByRole("listbox");
