@@ -1,5 +1,9 @@
 import { displayErrorOrHelper, getOption } from "./helper";
-import { ErrorMessagesDemo, HelperMessagesDemo, listOfStates } from "./SampleData";
+import {
+  ErrorMessagesDemo,
+  HelperMessagesDemo,
+  listOfStates,
+} from "./SampleData";
 
 describe("Helper test ", () => {
   describe("getOption", () => {

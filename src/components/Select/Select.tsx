@@ -265,16 +265,17 @@ const setMultipleValues = (
   value: string
 ) => {
   let result: OptionType[] = [];
-  const newValue = selectedItems.find(
+  const selectedItemsCopy = [...selectedItems];
+  const newValue = selectedItemsCopy.find(
     (item) => item.value === value && !item.placeholder
   );
   // remove new value if is already there
   if (newValue) {
-    selectedItems.splice(selectedItems.indexOf(newValue), 1);
-    result = selectedItems;
+    selectedItemsCopy.splice(selectedItemsCopy.indexOf(newValue), 1);
+    result = selectedItemsCopy;
   } else {
     // add
-    result = [...selectedItems, ...getOption(options, [value])];
+    result = [...selectedItemsCopy, ...getOption(options, [value])];
   }
   return result;
 };
