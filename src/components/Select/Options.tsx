@@ -69,7 +69,7 @@ export const renderMultipleOptions = (
 
   return options.map((option, index) => {
     if (option.placeholder) {
-      // remove placeholder form the option list
+      // if placeholder is true, that is mean that will not be render on the list
       return null;
     }
     const { label, value, hint, disabled } = option;
@@ -80,6 +80,7 @@ export const renderMultipleOptions = (
     const isHover = cursor === index;
 
     const dataValue = { "data-value": value };
+    const checkBoxClassNames = ["neo-check"];
 
     return (
       <div
@@ -89,16 +90,16 @@ export const renderMultipleOptions = (
         role="listitem"
       >
         <input
-          className="neo-check"
+          className={checkBoxClassNames.join(" ")}
           type="checkbox"
           id={checkBoxId}
           value={value}
           tabIndex={-1}
           checked={isActive}
           onMouseEnter={() => callback(option)}
-          onChange={() => callback(option)}
           aria-describedby={checkBoxHintId}
           disabled={disabled}
+          readOnly
         />
         <label htmlFor={checkBoxId} {...(disabled ? "" : dataValue)}>
           {label}

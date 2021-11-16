@@ -36,7 +36,7 @@ describe("Options test", () => {
           listOfStates.slice(0, 4),
           listOfStates.slice(0, 1),
           0,
-          () => console.log("test")
+          () => null
         )
       ).toMatchInlineSnapshot(`
         Array [
@@ -84,7 +84,7 @@ describe("Options test", () => {
           listOfStates.slice(0, 4),
           listOfStates.slice(0, 1),
           1,
-          () => console.log("test")
+          () => null
         )
       ).toMatchInlineSnapshot(`
         Array [
@@ -132,7 +132,7 @@ describe("Options test", () => {
           listOfStates.slice(0, 3),
           listOfStates.slice(0, 1),
           0,
-          () => console.log("test")
+          () => null
         )
       ).toMatchInlineSnapshot(`
         Array [
@@ -193,7 +193,7 @@ describe("Options test", () => {
           listOfStates.slice(0, 3),
           listOfStates.slice(0, 1),
           1,
-          () => console.log("test")
+          () => null
         )
       ).toMatchInlineSnapshot(`
         Array [
