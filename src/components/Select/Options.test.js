@@ -1,8 +1,4 @@
-import {
-  getOptionClassNames,
-  renderMultipleOptions,
-  renderSingleOptions,
-} from "./Options";
+import { getOptionClassNames, renderSelectOptions } from "./Options";
 import { listOfStates } from "./SampleData";
 
 describe("Options test", () => {
@@ -29,14 +25,15 @@ describe("Options test", () => {
     });
   });
 
-  describe("renderSingleOptions and renderMultipleOptions", () => {
-    it("renderSingleOptions should return array of <div>s if there is an item in the list as the `placeholder = true`, null will be returned for that item, when `options = OptionType[]` and `cursor = 0`", () => {
+  describe("renderSelectOptions test", () => {
+    it("renderSelectOptions should return an array of <div>s if there is an item in the list with the `placeholder = true`, null will be returned for that item, when `options = OptionType[]`, `cursor = 0` and `isMultiple = false`", () => {
       expect(
-        renderSingleOptions(
+        renderSelectOptions(
           listOfStates.slice(0, 4),
           listOfStates.slice(0, 1),
           0,
-          () => null
+          () => null,
+          false
         )
       ).toMatchInlineSnapshot(`
         Array [
@@ -78,13 +75,14 @@ describe("Options test", () => {
       `);
     });
 
-    it("renderSingleOptions should return array of <div>s also the item with the index 1 as selected and hovered when `options = OptionType[]` and `cursor = 1`", () => {
+    it("renderSelectOptions should return an array of <div>s if there is an item in the list with the `placeholder = true`, null will be returned for that item, also the item with the index 1 will have the class `--hover` when `options = OptionType[]`, `cursor = 1` and `isMultiple = false`", () => {
       expect(
-        renderSingleOptions(
+        renderSelectOptions(
           listOfStates.slice(0, 4),
           listOfStates.slice(0, 1),
           1,
-          () => null
+          () => null,
+          false
         )
       ).toMatchInlineSnapshot(`
         Array [
@@ -126,13 +124,14 @@ describe("Options test", () => {
       `);
     });
 
-    it("renderMultipleOptions  should return array of <div>s if there is an item in the list as the `placeholder = true`, null will be returned for that item, when `options = OptionType[]`, `selectedItems = OptionType[]` and `cursor = 0`", () => {
+    it("renderSelectOptions  should return an array of <div>s if there is an item in the list with the `placeholder = true`, null will be returned for that item, when `options = OptionType[]`, `selectedItems = OptionType[]`, `cursor = 0` and `isMultiple = true`", () => {
       expect(
-        renderMultipleOptions(
+        renderSelectOptions(
           listOfStates.slice(0, 3),
           listOfStates.slice(0, 1),
           0,
-          () => null
+          () => null,
+          true
         )
       ).toMatchInlineSnapshot(`
         Array [
@@ -187,13 +186,14 @@ describe("Options test", () => {
       `);
     });
 
-    it("renderMultipleOptions  should return array of <div>s also the item with the index 1 as hovered, when `options = OptionType[]`, `selectedItems = OptionType[]` and `cursor = 1`", () => {
+    it("renderSelectOptions  should return an array of <div>s if there is an item in the list with the `placeholder = true`, null will be returned for that item, also the item with the index 1 will have the class `--hover`, when `options = OptionType[]`, `selectedItems = OptionType[]`, `cursor = 1` and `isMultiple = true`", () => {
       expect(
-        renderMultipleOptions(
+        renderSelectOptions(
           listOfStates.slice(0, 3),
           listOfStates.slice(0, 1),
           1,
-          () => null
+          () => null,
+          true
         )
       ).toMatchInlineSnapshot(`
         Array [

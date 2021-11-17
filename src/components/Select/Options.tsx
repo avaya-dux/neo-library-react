@@ -56,29 +56,24 @@ export const Options = forwardRef(
         aria-labelledby={labelledby}
         tabIndex={-1}
       >
-        {isMultipleSelect
-          ? renderMultipleOptions(
-              options,
-              selectedItems,
-              cursor,
-              setHoveredOption
-            )
-          : renderSingleOptions(
-              options,
-              selectedItems,
-              cursor,
-              setHoveredOption
-            )}
+        {renderSelectOptions(
+          options,
+          selectedItems,
+          cursor,
+          setHoveredOption,
+          isMultipleSelect
+        )}
       </div>
     );
   }
 );
 
-export const renderMultipleOptions = (
+export const renderSelectOptions = (
   options: OptionType[],
   selectedItems: OptionType[],
   cursor: number,
-  callback: (option: OptionType) => void
+  callback: (option: OptionType) => void,
+  isMultiple: boolean
 ) => {
   /* multiple select and single select must have same css styles
    * TODO https://jira.forge.avaya.com/browse/NEO-679
@@ -92,6 +87,7 @@ export const renderMultipleOptions = (
     const { label, value, hint, disabled } = option;
     const checkBoxId = `${label}-checkbox-${index}`;
     const checkBoxHintId = `${label}-hint-${index}`;
+    const itemId = `${label}-${index}`;
 
     const isActive = !!selectedItems.find((item) => item.value === value);
     const isHover = cursor === index;
@@ -99,7 +95,7 @@ export const renderMultipleOptions = (
     const dataValue = { "data-value": value };
     const checkBoxClassNames = ["neo-check"];
 
-    return (
+    return isMultiple ? (
       <div
         className={getOptionClassNames(isHover, disabled, isActive)}
         key={checkBoxId}
@@ -132,30 +128,7 @@ export const renderMultipleOptions = (
           </p>
         )}
       </div>
-    );
-  });
-};
-
-export const renderSingleOptions = (
-  options: OptionType[],
-  selectedItems: OptionType[],
-  cursor: number,
-  callback: (option: OptionType) => void
-) => {
-  return options.map((option, index) => {
-    if (option.placeholder) {
-      // remove placeholder form the option list
-      return null;
-    }
-    const { label, value, disabled } = option;
-    const itemId = `${label}-${index}`;
-
-    const isActive = !!selectedItems.find((item) => item.value === value);
-    const isHover = cursor === index;
-
-    const dataValue = { "data-value": value };
-
-    return (
+    ) : (
       <div
         aria-selected={isHover}
         tabIndex={0}
