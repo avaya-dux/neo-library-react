@@ -41,9 +41,12 @@ export const NativeSelect = ({
   required,
   value,
 }: NativeSelectProps) => {
-  const labelId = useMemo(() => genId(), []);
+  const labelId = useMemo(() => `neo-native-select-label-id-${genId()}`, []);
 
-  const selectId = useMemo(() => id || genId(), []);
+  const selectId = useMemo(
+    () => id || `neo-native-select-id-${label.replace(/\s/g, "")}`,
+    [id, label]
+  );
 
   const selectClassName = useMemo(() => {
     return getNativeSelectClassNames(isLoading);

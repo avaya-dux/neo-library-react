@@ -2,6 +2,23 @@ import { forwardRef, useEffect, useState } from "react";
 
 import { OptionsProps, OptionType } from "./SelectTypes";
 
+/**
+ * Options will use to render the list of options.
+ *
+ * @example
+ * <Options options={[Array]}
+    isMultipleSelect={Boolean}
+    labelledby={string}
+    labelId={string}
+    selectedItems={[Array]}
+    cursor={number}
+    updateCursor={[Function]}
+    id={string} />
+ *
+ *
+ * @see https://design.avayacloud.com/components/web/selectbox-web
+ */
+
 export const Options = forwardRef(
   (
     {

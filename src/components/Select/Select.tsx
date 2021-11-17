@@ -43,8 +43,11 @@ export const Select = ({
   required,
   value,
 }: SelectProps) => {
-  const labelId = useMemo(() => genId(), []);
-  const selectId = useMemo(() => id || genId(), []);
+  const labelId = useMemo(() => `neo-select-label-id-${genId()}`, []);
+  const selectId = useMemo(
+    () => id || `neo-select-id-${label.replace(/\s/g, "")}`,
+    [id, label]
+  );
 
   const listBoxRef: React.Ref<HTMLDivElement> = createRef();
 
