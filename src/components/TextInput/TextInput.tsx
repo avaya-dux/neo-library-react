@@ -80,6 +80,7 @@ export const TextInput: React.FC<TextInputProps> = ({
               className="neo-input-edit__icon neo-icon-end"
               disabled={disabled}
               onClick={() => {
+                // BUG: clearing is causing the whole page to die
                 dispatchInputOnChangeEvent(inputRef.current!, "");
               }}
             />

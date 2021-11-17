@@ -15,8 +15,8 @@ describe("Pagination component", () => {
     // show 5 items per page
     cy.get("select").select("5");
 
-    // should have 20 pages
-    cy.get("ul.neo-pagination__list").find("li").should("have.length", 20);
+    // should have 7 pages
+    cy.get("ul.neo-pagination__list").find("li").should("have.length", 7);
 
     // show 10 items per page
     cy.get("select").select("10");
@@ -25,7 +25,52 @@ describe("Pagination component", () => {
     cy.get("ul.neo-pagination__list").find("li").should("have.length", 10);
   });
 
-  // TODO-565: more tests
-  // it("should navigate between page via 'left'/'right' buttons", () => {})
-  // it("should navigate between page via nav buttons", () => {})
+  it("should navigate between page via 'left'/'right' buttons", () => {
+    mount(<Default />);
+
+    const leftNavBtn = "button[aria-label='previous']";
+    const rightNavBtn = "button[aria-label='next']";
+
+    cy.get(leftNavBtn).should("be.disabled");
+    cy.get(rightNavBtn).should("not.be.disabled");
+
+    cy.get(rightNavBtn).click();
+
+    cy.get(leftNavBtn).should("not.be.disabled");
+
+    cy.get(leftNavBtn).click();
+
+    cy.get(leftNavBtn).should("be.disabled");
+  });
+
+  it("should navigate between page via nav buttons", () => {
+    mount(<Default />);
+
+    const navItems = "ul.neo-pagination__list button";
+
+    cy.get(navItems).last().click();
+
+    cy.focused().should("have.text", "20");
+
+    cy.get(navItems).first().click();
+
+    cy.focused().should("have.text", "1");
+  });
+
+  it("should navigate smoothly via tabbing", () => {
+    mount(<Default />);
+
+    cy.get("#default-pagination").click();
+    cy.realPress("Tab"); // 1
+    cy.realPress("Tab"); // 2
+    cy.realPress("Tab"); // 3
+    cy.realPress("Enter");
+    cy.focused().should("have.text", "3");
+
+    cy.realPress(["Shift", "Tab"]); // 2
+    cy.realPress(["Shift", "Tab"]); // 1
+    cy.realPress("Enter");
+
+    cy.focused().should("have.text", "1");
+  });
 });

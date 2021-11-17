@@ -29,6 +29,7 @@ export default [
           "react/jsx-runtime": "reactJsxRuntime",
           "react": "react",
           "ts-essentials": "tsEssentials",
+          "loglevel": "log",
         },
       },
     ],

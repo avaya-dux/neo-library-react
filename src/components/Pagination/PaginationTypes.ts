@@ -1,8 +1,9 @@
 interface PaginationTranslations {
   backIconButtonText?: string;
+  itemsPerPageLabel?: string;
   nextIconButtonText?: string;
-  ariaLabelForCurrentPage?: string;
-  ariaLabelForShownPagesSelect?: string;
+  tooltipForCurrentPage?: string;
+  tooltipForShownPagesSelect?: string;
 }
 
 export type PaginationProps = {
@@ -13,6 +14,7 @@ export type PaginationProps = {
   itemsPerPage: number;
   itemsPerPageOptions?: number[];
 
+  alwaysShowPagination?: boolean;
   itemDisplayType?: "count" | "page" | "none";
 
   onPageChange: (
@@ -34,4 +36,7 @@ export type PaginationNavigationProps = {
   totalPages: number;
   paginationRootWidth: number;
 } & Pick<PaginationTranslations, "backIconButtonText" | "nextIconButtonText"> &
-  Pick<PaginationProps, "currentPageIndex" | "onPageChange">;
+  Pick<
+    PaginationProps,
+    "alwaysShowPagination" | "currentPageIndex" | "onPageChange"
+  >;
