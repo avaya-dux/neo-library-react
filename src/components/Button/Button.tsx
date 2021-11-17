@@ -25,7 +25,7 @@ export interface ButtonProps
   iconPosition?: "left" | "right";
 }
 
-export const Button: React.FC<ButtonProps> = forwardRef(
+export const Button = forwardRef(
   (
     {
       label,
