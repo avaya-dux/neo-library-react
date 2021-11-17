@@ -76,7 +76,7 @@ export const Select = ({
     );
 
     updateSelectedItems(result);
-    if (!isMultipleSelect) setCursor(options.indexOf(result[0]));
+    if (!isMultipleSelect && result[0]) setCursor(options.indexOf(result[0]));
 
     if (onChange) {
       onChange(result?.map((item) => item.value));
