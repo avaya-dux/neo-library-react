@@ -9,6 +9,7 @@ export * from "./IconButton";
 export * from "./Image";
 export * from "./List";
 export * from "./ListItem";
+export * from "./Modal";
 export * from "./NeoInputWrapper";
 export * from "./NoContent";
 export * from "./Pagination";
