@@ -20,19 +20,19 @@ import { PaginationProps } from "..";
  * />
  */
 export const PaginationItemDisplay = ({
-  ariaLabelForCurrentPage = "Page count",
   currentPageIndex,
   itemCount,
   itemDisplayType = "count",
   itemsPerPage,
+  tooltipForCurrentPage = "Item count", // TODO: localize
   totalPages,
 }: { totalPages: number } & Pick<
   PaginationProps,
-  | "ariaLabelForCurrentPage"
   | "currentPageIndex"
   | "itemCount"
-  | "itemsPerPage"
   | "itemDisplayType"
+  | "itemsPerPage"
+  | "tooltipForCurrentPage"
 >) => {
   const display = useMemo(() => {
     if (itemDisplayType === "count") {
@@ -52,8 +52,8 @@ export const PaginationItemDisplay = ({
 
   return (
     <Tooltip
-      id={`pagination-item-display-${ariaLabelForCurrentPage}`}
-      label={ariaLabelForCurrentPage}
+      id={`pagination-item-display-${tooltipForCurrentPage}`}
+      label={tooltipForCurrentPage}
     >
       {display}
     </Tooltip>

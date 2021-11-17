@@ -7,8 +7,6 @@ import {
 } from "./Nodes/";
 import { PaginationProps } from "./PaginationTypes";
 
-// TODO-565: re-calculate on window size change
-
 /**
  * This component is used to render pagination.
  * It can be used as a standalone component.
@@ -40,8 +38,10 @@ export const Pagination = ({
   currentPageIndex,
   itemCount,
   itemsPerPage,
+  itemsPerPageLabel,
   itemsPerPageOptions,
 
+  alwaysShowPagination,
   itemDisplayType,
 
   onPageChange,
@@ -50,8 +50,8 @@ export const Pagination = ({
   // translations
   backIconButtonText,
   nextIconButtonText,
-  ariaLabelForCurrentPage,
-  ariaLabelForShownPagesSelect,
+  tooltipForCurrentPage,
+  tooltipForShownPagesSelect,
 
   // default overrides
   centerNode,
@@ -63,16 +63,25 @@ export const Pagination = ({
 
   const [rootWidth, setRootWidth] = useState(0);
   useLayoutEffect(() => {
-    if (rootRef.current) {
-      setRootWidth(rootRef.current.offsetWidth);
-    }
+    // TODO: could add a debounce/throttle here
+    // example: https://github.com/maslianok/react-resize-detector/blob/ccdb602d683e891386302e5436bf599645a16ba6/src/utils.ts#L16
+    const updateRootWidth = () => {
+      if (rootRef.current) {
+        setRootWidth(rootRef.current.offsetWidth);
+      }
+    };
+
+    // update root width on window resize
+    window.addEventListener("resize", updateRootWidth);
+    updateRootWidth();
+    return () => window.removeEventListener("resize", updateRootWidth);
   }, [rootRef]);
 
   return (
     <div className="neo-pagination__row" id={id} ref={rootRef}>
       {leftNode || (
         <PaginationItemDisplay
-          ariaLabelForCurrentPage={ariaLabelForCurrentPage}
+          tooltipForCurrentPage={tooltipForCurrentPage}
           currentPageIndex={currentPageIndex}
           itemCount={itemCount}
           itemDisplayType={itemDisplayType}
@@ -85,6 +94,7 @@ export const Pagination = ({
         <PaginationNavigation
           backIconButtonText={backIconButtonText}
           nextIconButtonText={nextIconButtonText}
+          alwaysShowPagination={alwaysShowPagination}
           currentPageIndex={currentPageIndex}
           totalPages={totalPages}
           onPageChange={onPageChange}
@@ -94,10 +104,11 @@ export const Pagination = ({
 
       {rightNode || (
         <PaginationItemsPerPageSelection
-          ariaLabelForShownPagesSelect={ariaLabelForShownPagesSelect}
           itemsPerPage={itemsPerPage}
+          itemsPerPageLabel={itemsPerPageLabel}
           itemsPerPageOptions={itemsPerPageOptions}
           onItemsPerPageChange={onItemsPerPageChange}
+          tooltipForShownPagesSelect={tooltipForShownPagesSelect}
         />
       )}
     </div>

@@ -4,8 +4,8 @@ import { axe } from "jest-axe";
 
 import { Pagination } from ".";
 import {
-  buildNavItems,
   buildAllNavItems,
+  buildNavItems,
   buildNavItemsWithSeparators,
   calculateMaxNavNodes,
 } from "./Nodes/helpers";
@@ -55,7 +55,7 @@ describe("Pagination", () => {
     expect(tooltips).toHaveLength(1);
   });
 
-  it("shows a single, disabled, nav item when `totalPages === 1`", () => {
+  it("does NOT show any nav items when `totalPages === 1`", () => {
     jest.spyOn(console, "warn").mockImplementation(() => {});
 
     const props = {
@@ -66,13 +66,32 @@ describe("Pagination", () => {
     const { queryAllByRole } = render(<Pagination {...props} />);
 
     const innerNavElement = queryAllByRole("navigation");
+    expect(innerNavElement).toHaveLength(0);
+
+    const navItems = queryAllByRole("button");
+    expect(navItems).toHaveLength(0);
+  });
+
+  it("shows a single, nav item when `totalPages === 1` and prop `alwaysShowPagination` is passed", () => {
+    jest.spyOn(console, "warn").mockImplementation(() => {});
+
+    const props = {
+      ...defaultProps,
+      itemCount: 10,
+      itemsPerPage: 10,
+    };
+    const { queryAllByRole } = render(
+      <Pagination {...props} alwaysShowPagination />
+    );
+
+    const innerNavElement = queryAllByRole("navigation");
     expect(innerNavElement).toHaveLength(1);
 
     const navItems = queryAllByRole("button");
     expect(navItems).toHaveLength(3); // left, 1, right
-    navItems.forEach((navItem) => {
-      expect(navItem).toBeDisabled();
-    });
+    expect(navItems[0]).toBeDisabled();
+    expect(navItems[1]).toBeEnabled();
+    expect(navItems[2]).toBeDisabled();
   });
 
   it("matches it's previous snapshot", () => {
@@ -87,19 +106,19 @@ describe("Pagination", () => {
             class="neo-tooltip neo-tooltip--up neo-tooltip--onhover"
           >
             <div
-              aria-describedby="pagination-item-display-Page count"
+              aria-describedby="pagination-item-display-Item count"
             >
               1-1 / 10
             </div>
             <div
               class="neo-tooltip__content neo-tooltip__content--multiline"
-              id="pagination-item-display-Page count"
+              id="pagination-item-display-Item count"
               role="tooltip"
             >
               <div
                 class="neo-arrow"
               />
-              Page count
+              Item count
             </div>
           </div>
           <nav
@@ -112,6 +131,7 @@ describe("Pagination", () => {
               class="neo-btn-square neo-btn-square--default neo-btn-square-tertiary neo-btn-square-tertiary--default   "
               data-badge=""
               disabled=""
+              style="color: gray;"
             >
               <span
                 class="neo-icon-arrow-left"
@@ -125,7 +145,6 @@ describe("Pagination", () => {
                 <button
                   class="neo-btn neo-btn-icon-left neo-btn--default neo-btn-secondary neo-btn-secondary--default   "
                   data-badge=""
-                  disabled=""
                 >
                   1
                 </button>
@@ -135,6 +154,7 @@ describe("Pagination", () => {
               aria-label="next"
               class="neo-btn-square neo-btn-square--default neo-btn-square-tertiary neo-btn-square-tertiary--default   "
               data-badge=""
+              style="color: black;"
             >
               <span
                 class="neo-icon-arrow-right"
@@ -145,27 +165,33 @@ describe("Pagination", () => {
           <div
             class="neo-tooltip neo-tooltip--up neo-tooltip--onhover"
           >
-            <select
+            <div
               aria-describedby="pagination-items-per-page-selection-items per page"
-              aria-label="items per page"
             >
-              <option
-                selected=""
-                value="1"
+              <label>
+                Show: 
+              </label>
+              <select
+                aria-label="items per page"
               >
-                1
-              </option>
-              <option
-                value="5"
-              >
-                5
-              </option>
-              <option
-                value="10"
-              >
-                10
-              </option>
-            </select>
+                <option
+                  selected=""
+                  value="1"
+                >
+                  1
+                </option>
+                <option
+                  value="5"
+                >
+                  5
+                </option>
+                <option
+                  value="10"
+                >
+                  10
+                </option>
+              </select>
+            </div>
             <div
               class="neo-tooltip__content neo-tooltip__content--multiline"
               id="pagination-items-per-page-selection-items per page"
@@ -316,12 +342,7 @@ describe("Pagination", () => {
 
           navItems.forEach((navItem, index) => {
             expect(navItem).toHaveTextContent(expectedDisplayedText[index]);
-
-            if (expectedDisplayedText[index] === currentPageIndex) {
-              expect(navItem).toBeDisabled();
-            } else {
-              expect(navItem).not.toBeDisabled();
-            }
+            expect(navItem).toBeEnabled();
           });
 
           // unmount to avoid memory leak
@@ -377,15 +398,15 @@ describe("Pagination", () => {
             expect(navItemLeftOfSelected).toHaveTextContent(
               currentPageIndex - 1
             );
-            expect(navItemLeftOfSelected).not.toBeDisabled();
+            expect(navItemLeftOfSelected).toBeEnabled();
             const selectedNavItem = navItems[2];
             expect(selectedNavItem).toHaveTextContent(currentPageIndex);
-            expect(selectedNavItem).toBeDisabled();
+            expect(selectedNavItem).toBeEnabled();
             const navItemRightOfSelected = navItems[3];
             expect(navItemRightOfSelected).toHaveTextContent(
               currentPageIndex + 1
             );
-            expect(navItemRightOfSelected).not.toBeDisabled();
+            expect(navItemRightOfSelected).toBeEnabled();
 
             // unmount to avoid memory leak
             unmount();
@@ -439,7 +460,7 @@ describe("Pagination", () => {
 
             const selectedNavItem = navItems[1];
             expect(selectedNavItem).toHaveTextContent(currentPageIndex);
-            expect(selectedNavItem).toBeDisabled();
+            expect(selectedNavItem).toBeEnabled();
 
             // unmount to avoid memory leak
             unmount();
@@ -447,7 +468,7 @@ describe("Pagination", () => {
         });
       });
 
-      it("when `0 <= maxNodes < 5`, display a single disabled nav item", () => {
+      it("when `0 <= maxNodes < 5`, display a single nav item", () => {
         const spy = jest.spyOn(console, "error").mockImplementation(() => {});
 
         for (let i = 0; i < 5; i++) {
@@ -459,9 +480,9 @@ describe("Pagination", () => {
           const navItems = queryAllByRole("button");
           expect(navItems).toHaveLength(1);
 
-          const navItemLeftOfSelected = navItems[0];
-          expect(navItems[0]).toHaveTextContent(i);
-          expect(navItemLeftOfSelected).toBeDisabled();
+          const navItem = navItems[0];
+          expect(navItem).toHaveTextContent(i);
+          expect(navItem).toBeEnabled();
 
           // unmount to avoid memory leak
           unmount();
@@ -499,6 +520,42 @@ describe("Pagination", () => {
         });
       });
 
+      it("should call `buildAllNavItems` when `totalPages < 5 || maxNavNodes >= totalPages`", () => {
+        const allNavItemsSpy = jest.fn(() => []);
+        const navItemsWithSeperatorsSpy = jest.fn(() => []);
+
+        expect(
+          buildNavItems(
+            pageIndex,
+            1,
+            null,
+            3,
+            allNavItemsSpy,
+            navItemsWithSeperatorsSpy
+          )
+        ).toHaveLength(0);
+        expect(allNavItemsSpy).toHaveBeenCalledTimes(1);
+        expect(navItemsWithSeperatorsSpy).toHaveBeenCalledTimes(0);
+      });
+
+      it("should call `buildNavItemsWithSeparators` when `totalPages >= 5 && maxNavNodes < totalPages`", () => {
+        const allNavItemsSpy = jest.fn(() => []);
+        const navItemsWithSeperatorsSpy = jest.fn(() => []);
+
+        expect(
+          buildNavItems(
+            pageIndex,
+            3,
+            null,
+            10,
+            allNavItemsSpy,
+            navItemsWithSeperatorsSpy
+          )
+        ).toHaveLength(0);
+        expect(allNavItemsSpy).toHaveBeenCalledTimes(0);
+        expect(navItemsWithSeperatorsSpy).toHaveBeenCalledTimes(1);
+      });
+
       it("should create an array of length `7` when `totalPages` and `maxNavNodes` are large and `maxNavNodes < totalPages`", () => {
         expect(buildNavItems(pageIndex, 10, null, 100)).toHaveLength(7);
         expect(buildNavItems(pageIndex, 99, null, 100)).toHaveLength(7);
@@ -508,17 +565,6 @@ describe("Pagination", () => {
         expect(buildNavItems(pageIndex, 6, null, 100)).toHaveLength(5);
         expect(buildNavItems(pageIndex, 5, null, 100)).toHaveLength(5);
       });
-
-      /**
-       * // TODO-565: update `buildNavItems` to take (optional) method overrides so that we can pass
-       * in mocks for both of those methods to test the logic of `buildNavItems`
-       *
-       * NOTE: these are the tests I _actually_ want, but jest doesn't seem capable of doing them
-       * source: https://github.com/facebook/jest/issues/2582#issuecomment-655110424
-       *
-       * it("should call `buildAllNavItems` when `totalPages < 5 || maxNavNodes >= totalPages`", () => {});
-       * it("should call `buildNavItemsWithSeparators` when `totalPages >= 5 && maxNavNodes < totalPages`", () => {});
-       */
     });
   });
 });

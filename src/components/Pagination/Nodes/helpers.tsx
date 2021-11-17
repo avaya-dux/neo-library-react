@@ -294,23 +294,25 @@ export const buildNavItems = (
   currentPageIndex: number,
   maxNavNodes: number,
   onPageChange: PaginationProps["onPageChange"],
-  totalPages: number
+  totalPages: number,
+  buildAllNavItemsOverride?: () => React.ReactNode[], // for testing
+  buildNavItemsWithSeparatorsOverride?: () => React.ReactNode[] // for testing
 ) => {
-  const result = [];
+  let result = [];
 
   if (totalPages < 5 || maxNavNodes >= totalPages) {
-    result.push(
-      ...buildAllNavItems(currentPageIndex, onPageChange, totalPages)
-    );
+    result = buildAllNavItemsOverride
+      ? buildAllNavItemsOverride()
+      : buildAllNavItems(currentPageIndex, onPageChange, totalPages);
   } else {
-    result.push(
-      ...buildNavItemsWithSeparators(
-        currentPageIndex,
-        maxNavNodes,
-        onPageChange,
-        totalPages
-      )
-    );
+    result = buildNavItemsWithSeparatorsOverride
+      ? buildNavItemsWithSeparatorsOverride()
+      : buildNavItemsWithSeparators(
+          currentPageIndex,
+          maxNavNodes,
+          onPageChange,
+          totalPages
+        );
   }
 
   return result;

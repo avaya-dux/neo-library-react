@@ -26,9 +26,8 @@ export const NavListItemButton = ({
   <li>
     <Button
       label={`${pageToNavigateTo}`}
-      variant={isCurrentPage ? "secondary" : "tertiary"}
       onClick={(e) => onPageChange(e, pageToNavigateTo)}
-      disabled={isCurrentPage}
+      variant={isCurrentPage ? "secondary" : "tertiary"}
     />
     {/* TODO-696: update to use `children` instead of `label` when 696 is completed */}
     {/* <Button

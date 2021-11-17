@@ -24,6 +24,7 @@ import { buildNavItems, calculateMaxNavNodes } from "./helpers";
 export const PaginationNavigation = ({
   backIconButtonText = "previous", // TODO: localize
   nextIconButtonText = "next", // TODO: localize
+  alwaysShowPagination,
   currentPageIndex,
   totalPages,
   onPageChange,
@@ -40,14 +41,18 @@ export const PaginationNavigation = ({
     );
   }, [currentPageIndex, totalPages, paginationRootWidth]);
 
-  return (
+  const leftArrowDisabled = currentPageIndex <= 1;
+  const rightArrowDisabled = currentPageIndex >= totalPages;
+
+  return totalPages <= 1 && !alwaysShowPagination ? null : (
     <nav className="neo-pagination" role="navigation" aria-label="pagination">
       <IconButton
         aria-label={backIconButtonText}
-        disabled={currentPageIndex <= 1}
+        disabled={leftArrowDisabled}
         icon="arrow-left"
         shape="square"
         variant="tertiary"
+        style={{ color: leftArrowDisabled ? "gray" : "black" }}
         onClick={(e) => onPageChange(e, currentPageIndex - 1)}
       />
 
@@ -55,10 +60,11 @@ export const PaginationNavigation = ({
 
       <IconButton
         aria-label={nextIconButtonText}
-        disabled={currentPageIndex >= totalPages}
+        disabled={rightArrowDisabled}
         icon="arrow-right"
         shape="square"
         variant="tertiary"
+        style={{ color: rightArrowDisabled ? "gray" : "black" }}
         onClick={(e) => onPageChange(e, currentPageIndex + 1)}
       />
     </nav>
