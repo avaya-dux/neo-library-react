@@ -52,7 +52,7 @@ export const Select = ({
   const listBoxRef: React.Ref<HTMLDivElement> = createRef();
 
   const [isOpen, updateIsOpen] = useState(false);
-  const [cursor, setCursor] = useState(0);
+  const [cursor, setCursor] = useState(1);
 
   const defaultSelected = getOption(options);
 
@@ -106,7 +106,9 @@ export const Select = ({
 
   const onKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const scrollHeight = listBoxRef.current?.scrollHeight;
-    const itemHeight = scrollHeight ? scrollHeight / options.length : 100;
+    const itemHeight = Math.ceil(
+      scrollHeight ? scrollHeight / options.length : 28
+    );
 
     switch (e.code) {
       case "Space": {
@@ -120,30 +122,40 @@ export const Select = ({
       }
 
       case "ArrowDown": {
-        setCursor((prevState) =>
-          prevState < options.length - 1 ? prevState + 1 : prevState
-        );
-        if (scrollHeight && itemHeight) {
-          listBoxRef.current.scrollTop = cursor * itemHeight;
+        if (isOpen) {
+          setCursor((prevState) =>
+            prevState < options.length - 1 ? prevState + 1 : prevState
+          );
+          if (scrollHeight && itemHeight) {
+            listBoxRef.current.scrollTop = cursor * itemHeight;
+          }
+        } else {
+          expandOrCloseListBox();
         }
+
         break;
       }
 
       case "ArrowUp": {
-        setCursor((prevState) => (prevState > 0 ? prevState - 1 : prevState));
+        setCursor((prevState) => (prevState > 1 ? prevState - 1 : prevState));
         if (scrollHeight && itemHeight) {
-          listBoxRef.current.scrollTop = (cursor - 1) * itemHeight;
+          listBoxRef.current.scrollTop = (cursor - 2) * itemHeight;
         }
         break;
       }
 
       case "Enter": {
-        // value "0" will be ignored
-        const value = options[cursor]?.value;
-        if (!options[cursor]?.disabled && value !== "0") {
-          setSelectedItems(isMultipleSelect, value);
+        if (isOpen) {
+          // value "0" will be ignored
+          const value = options[cursor]?.value;
+          if (!options[cursor]?.disabled && value !== "0") {
+            setSelectedItems(isMultipleSelect, value);
+          }
+          expandOrCloseListBox();
+        } else {
+          expandOrCloseListBox();
         }
-        expandOrCloseListBox();
+
         break;
       }
 
