@@ -182,7 +182,10 @@ export const Select = ({
    * https://design.avayacloud.com/components/web/selectbox-web
    */
 
-  const currentValues = selectedItems?.map((item) => item.label).join(", ");
+  const currentValues =
+    selectedItems.length === 0
+      ? defaultSelected.map((item) => item.label).join(", ")
+      : selectedItems?.map((item) => item.label).join(", ");
 
   const ariaActivedescendantMemoized = useMemo(() => {
     return getAriaActiveDescendant(isOpen, selectedItems);
