@@ -296,18 +296,12 @@ describe("Select test ", () => {
     });
   });
 
-  describe("keyDown ArrowDown and Enter test", () => {
-    it("Should display Alabama, because is the 2nd item of the list ", async () => {
+  describe("keyDown and Enter test", () => {
+    it("Should display Alabama, because is the 1st item of the list ", async () => {
       render(<ControlledSelect />);
       const container = screen.getByRole("listbox");
 
       fireEvent.click(container);
-      fireEvent.keyDown(container, {
-        key: "ArrowDown",
-        code: "ArrowDown",
-        keyCode: 40,
-        charCode: 40,
-      });
 
       fireEvent.keyDown(container, {
         key: "Enter",
@@ -317,19 +311,51 @@ describe("Select test ", () => {
       });
       const textBox = await screen.getByRole("textbox");
       expect(textBox).toMatchInlineSnapshot(`
-              <div
-                aria-label="Alabama"
-                class="neo-multiselect__header"
-                role="textbox"
-              >
-                Alabama
-              </div>
-          `);
+        <div
+          aria-label="Alabama"
+          class="neo-multiselect__header"
+          role="textbox"
+        >
+          Alabama
+        </div>
+      `);
     });
   });
 
   describe("keyDown ArrowDown and Enter for Disabled Option test", () => {
-    it("Arkansas is the 3rd item of the list but is a disabled option", async () => {
+    it("Alaska is the 2nd item of the list but is a disabled option", async () => {
+      render(<ControlledSelect />);
+      const container = screen.getByRole("listbox");
+
+      fireEvent.click(container);
+      fireEvent.keyDown(container, {
+        key: "ArrowDown",
+        code: "ArrowDown",
+        keyCode: 40,
+        charCode: 40,
+      });
+
+      fireEvent.keyDown(container, {
+        key: "Enter",
+        code: "Enter",
+        keyCode: 13,
+        charCode: 13,
+      });
+      const textBox = await screen.getByRole("textbox");
+      expect(textBox).toMatchInlineSnapshot(`
+        <div
+          aria-label="--Please choose an option--"
+          class="neo-multiselect__header"
+          role="textbox"
+        >
+          --Please choose an option--
+        </div>
+      `);
+    });
+  });
+
+  describe("keyDown ArrowDown and Enter for Disabled Option test", () => {
+    it("Should display Arizona because is the 3rd item of the list", async () => {
       render(<ControlledSelect />);
       const container = screen.getByRole("listbox");
 
@@ -356,14 +382,14 @@ describe("Select test ", () => {
       });
       const textBox = await screen.getByRole("textbox");
       expect(textBox).toMatchInlineSnapshot(`
-              <div
-                aria-label="--Please choose an option--"
-                class="neo-multiselect__header"
-                role="textbox"
-              >
-                --Please choose an option--
-              </div>
-          `);
+        <div
+          aria-label="Arizona"
+          class="neo-multiselect__header"
+          role="textbox"
+        >
+          Arizona
+        </div>
+      `);
     });
   });
 });
