@@ -7,6 +7,7 @@ import {
   getAriaActiveDescendant,
   getSelectClassNames,
   getSelectedItems,
+  getSelectedValues,
   setMultipleValues,
 } from "./Select";
 import * as SelectStories from "./Select.stories";
@@ -22,7 +23,7 @@ const {
 } = composeStories(SelectStories);
 
 describe("Select test ", () => {
-  describe("UncontrolledSelect", () => {
+  describe("UncontrolledSelect test", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<UncontrolledSelect />);
@@ -39,7 +40,7 @@ describe("Select test ", () => {
     }, 10000);
   });
 
-  describe("ControlledSelect", () => {
+  describe("ControlledSelect test", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<ControlledSelect />);
@@ -56,7 +57,7 @@ describe("Select test ", () => {
     }, 10000);
   });
 
-  describe("ControlledMultipleSelect", () => {
+  describe("ControlledMultipleSelect test", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<ControlledMultipleSelect />);
@@ -73,7 +74,7 @@ describe("Select test ", () => {
     }, 10000);
   });
 
-  describe("ValidateValuesSelect", () => {
+  describe("ValidateValuesSelect test", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<ValidateValuesSelect />);
@@ -90,7 +91,7 @@ describe("Select test ", () => {
     }, 10000);
   });
 
-  describe("SelectError", () => {
+  describe("SelectError test", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<SelectError />);
@@ -107,7 +108,7 @@ describe("Select test ", () => {
     }, 10000);
   });
 
-  describe("SelectRequired", () => {
+  describe("SelectRequired test", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<SelectRequired />);
@@ -124,7 +125,7 @@ describe("Select test ", () => {
     }, 10000);
   });
 
-  describe("SelectDisabled", () => {
+  describe("SelectDisabled test", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<SelectDisabled />);
@@ -141,7 +142,7 @@ describe("Select test ", () => {
     }, 10000);
   });
 
-  describe("getSelectClassNames", () => {
+  describe("getSelectClassNames test", () => {
     it("given isOpen = true, should return correct css names", () => {
       expect(getSelectClassNames(true)).toMatchInlineSnapshot(
         `"neo-multiselect neo-multiselect--active"`
@@ -164,7 +165,7 @@ describe("Select test ", () => {
     });
   });
 
-  describe("getSelectedItems", () => {
+  describe("getSelectedItems test", () => {
     it("CLEAN: will remove the placeholder from the list of states", () => {
       expect(
         getSelectedItems(
@@ -222,7 +223,7 @@ describe("Select test ", () => {
     });
   });
 
-  describe("setMultipleValues", () => {
+  describe("setMultipleValues test", () => {
     const ALabamaAndAlaska = listOfStates.slice(1, 3);
     it("Adding Utah to the list of selected states", () => {
       expect(setMultipleValues(ALabamaAndAlaska, listOfStates, "UT"))
@@ -257,7 +258,7 @@ describe("Select test ", () => {
     });
   });
 
-  describe("getAriaActiveDescendant", () => {
+  describe("getAriaActiveDescendant test", () => {
     it("if IsOpen is true will return the active state id", () => {
       expect(
         getAriaActiveDescendant(true, listOfStates.slice(1, 2))
@@ -268,6 +269,26 @@ describe("Select test ", () => {
       expect(
         getAriaActiveDescendant(false, listOfStates.slice(1, 2))
       ).toMatchInlineSnapshot(`""`);
+    });
+  });
+
+  describe("getSelectedValues test", () => {
+    it("Should display `Alabama` when selectedItems = `Alabama` and  defaultSelected =  `--Please choose an option--`", () => {
+      expect(
+        getSelectedValues(listOfStates.slice(1, 2), listOfStates.slice(0, 1))
+      ).toMatchInlineSnapshot(`"Alabama"`);
+    });
+
+    it("Should display `Alabama, Alaska` when selectedItems = `Alabama, Alaska` and  defaultSelected =  `--Please choose an option--`", () => {
+      expect(
+        getSelectedValues(listOfStates.slice(1, 3), listOfStates.slice(0, 1))
+      ).toMatchInlineSnapshot(`"Alabama, Alaska"`);
+    });
+
+    it("Should display `--Please choose an option--` when selectedItems = `[]` and  defaultSelected =  `--Please choose an option--`", () => {
+      expect(
+        getSelectedValues([], listOfStates.slice(0, 1))
+      ).toMatchInlineSnapshot(`"--Please choose an option--"`);
     });
   });
 

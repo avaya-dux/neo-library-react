@@ -182,10 +182,9 @@ export const Select = ({
    * https://design.avayacloud.com/components/web/selectbox-web
    */
 
-  const currentValues =
-    selectedItems.length === 0
-      ? defaultSelected.map((item) => item.label).join(", ")
-      : selectedItems?.map((item) => item.label).join(", ");
+  const selectedValuesMemoized = useMemo(() => {
+    return getSelectedValues(selectedItems, defaultSelected);
+  }, [selectedItems, defaultSelected]);
 
   const ariaActivedescendantMemoized = useMemo(() => {
     return getAriaActiveDescendant(isOpen, selectedItems);
@@ -215,16 +214,12 @@ export const Select = ({
         tabIndex={0}
         aria-activedescendant={ariaActivedescendantMemoized}
       >
-        {/*
-              TODO gap between the spinner icon and the Loading text
-              https://jira.forge.avaya.com/browse/NEO-678
-              */}
         <div
           role="textbox"
           className="neo-multiselect__header"
-          aria-label={currentValues}
+          aria-label={selectedValuesMemoized}
         >
-          {isLoading ? loaderText : currentValues}
+          {isLoading ? loaderText : selectedValuesMemoized}
         </div>
         <Options {...optionsProps} />
       </div>
@@ -303,4 +298,13 @@ export const getAriaActiveDescendant = (
   return isOpen
     ? selectedItems?.map((item) => `${item.label}-${item.value}`).join(", ")
     : "";
+};
+
+export const getSelectedValues = (
+  selectedItems: OptionType[],
+  defaultSelected: OptionType[]
+) => {
+  return selectedItems.length === 0
+    ? defaultSelected.map((item) => item.label).join(", ")
+    : selectedItems?.map((item) => item.label).join(", ");
 };
