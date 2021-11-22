@@ -4,9 +4,6 @@ import { NeoInputWrapper } from "components/NeoInputWrapper";
 
 import { Radio, RadioProps } from "./Radio";
 
-// TODO-564 Theme (NeoProvider): should not be adding this import in individual components
-import "@avaya/neo/neo/dist/css/neo/neo.min.css";
-
 export interface RadioGroupProps {
   radios: RadioProps[];
   groupName: string;
