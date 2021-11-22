@@ -33,6 +33,16 @@ ClosableSuccess.args = {
   disabled: true,
 };
 
+export const ClosableSuccessWithIcon = Template.bind({});
+ClosableSuccessWithIcon.args = {
+  chiptype: "closable",
+  id: "success",
+  variant: "success",
+  text: "Closable Disabled Success",
+  disabled: true,
+  icon: "info",
+};
+
 export const ClosableInfo = Template.bind({});
 ClosableInfo.args = {
   chiptype: "closable",

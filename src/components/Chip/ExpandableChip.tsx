@@ -1,10 +1,13 @@
 import { Tooltip } from "components/Tooltip";
+import { IconNamesType } from "utils";
 
-import { OneWayChipProps, Variants } from "./ChipTypes";
 import { getBasicChipClassNames } from "./BasicChip";
+import { OneWayChipProps, Variants } from "./ChipTypes";
+
 // Down-pointing arrow should be on the right only
 export interface ExpandableChipProps extends OneWayChipProps {
   chiptype: "expandable";
+  icon?: IconNamesType;
 }
 
 export const ExpandableChip = ({
@@ -13,12 +16,14 @@ export const ExpandableChip = ({
   disabled = false,
   text,
   withinChipContainer = false,
+  icon,
   ...rest
 }: ExpandableChipProps) => {
   const classes = getExpandableChipClassNames(
     variant,
     disabled,
-    withinChipContainer
+    withinChipContainer,
+    icon
   );
   const chipElement = (
     <div className={classes} {...rest}>
@@ -41,7 +46,8 @@ export const ExpandableChip = ({
 export function getExpandableChipClassNames(
   variant: Variants,
   disabled: boolean,
-  withinChipContainer: boolean
+  withinChipContainer: boolean,
+  icon?: IconNamesType
 ) {
   const classNames = [
     getBasicChipClassNames(variant, disabled, withinChipContainer),
@@ -49,6 +55,8 @@ export function getExpandableChipClassNames(
   classNames.push(`neo-chip--expandable`);
 
   classNames.push(`neo-chip--expandable--${variant}`);
+
+  if (icon) classNames.push(`neo-icon-${icon}`);
 
   return classNames.join(" ");
 }

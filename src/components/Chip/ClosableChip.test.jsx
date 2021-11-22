@@ -2,11 +2,7 @@ import { composeStories } from "@storybook/testing-react";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
-import {
-  ClosableChip,
-  getButtonAriaLabel,
-  getClosableChipClassNames,
-} from "./ClosableChip";
+import { ClosableChip, getButtonAriaLabel, getClosableChipClassNames } from "./ClosableChip";
 import * as ClosableChipStories from "./ClosableChip.stories";
 
 jest.spyOn(console, "warn").mockImplementation(() => {});
@@ -131,26 +127,33 @@ describe("Closable Chip: ", () => {
     });
   });
   describe("getClosableChipClassNames", () => {
-    describe("given icon === info ", () => {
-      it("given variant = alert and disabled = false and withinChipContainer = false, should return correct css names", () => {
+    describe("given icon === info", () => {
+      it("given `variant = alert` and `disabled = false` and `withinChipContainer = false`, should return correct css names", () => {
         expect(
           getClosableChipClassNames("alert", false, false)
         ).toMatchInlineSnapshot(
           `"neo-chip neo-chip--alert neo-chip--close neo-chip--close--alert"`
         );
       });
-      it("given variant = alert and disabled = true and withinChipContainer = false, should return correct css names", () => {
+      it("given `variant = alert` and `disabled = true` and `withinChipContainer = false`, should return correct css names", () => {
         expect(
           getClosableChipClassNames("alert", true, false)
         ).toMatchInlineSnapshot(
           `"neo-chip neo-chip--alert neo-chip--alert--disabled neo-chip--close neo-chip--close--alert"`
         );
       });
-      it("given variant = alert and disabled = true and withinChipContainer = true, should return correct css names", () => {
+      it("given `variant = alert` and `disabled = true` and `withinChipContainer = true`, should return correct css names", () => {
         expect(
           getClosableChipClassNames("alert", true, true)
         ).toMatchInlineSnapshot(
           `"neo-chip neo-chip--alert neo-chip--alert--disabled neo-chips__item neo-chip--close neo-chip--close--alert"`
+        );
+      });
+      it("given `variant = alert` and `disabled = true` and `withinChipContainer = true` and `icon = info`, should return correct css names", () => {
+        expect(
+          getClosableChipClassNames("alert", true, true, "info")
+        ).toMatchInlineSnapshot(
+          `"neo-chip neo-chip--alert neo-chip--alert--disabled neo-chips__item neo-chip--close neo-chip--close--alert neo-icon-info"`
         );
       });
     });

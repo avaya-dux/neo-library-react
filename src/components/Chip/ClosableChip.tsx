@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 
 import { Tooltip } from "components/Tooltip";
+import { IconNamesType } from "utils";
 import { genId } from "utils/accessibilityUtils";
 
 import { getBasicChipClassNames } from "./BasicChip";
@@ -11,6 +12,7 @@ export interface ClosableChipProps extends OneWayChipProps {
   onClick?: React.MouseEventHandler;
   chiptype: "closable";
   id: string;
+  icon?: IconNamesType;
 }
 
 export const ClosableChip: React.FC<ClosableChipProps> = forwardRef(
@@ -22,6 +24,7 @@ export const ClosableChip: React.FC<ClosableChipProps> = forwardRef(
       withinChipContainer = false,
       text,
       id,
+      icon,
       ...rest
     }: ClosableChipProps,
     ref: React.Ref<HTMLDivElement>
@@ -29,7 +32,8 @@ export const ClosableChip: React.FC<ClosableChipProps> = forwardRef(
     const classes = getClosableChipClassNames(
       variant,
       disabled,
-      withinChipContainer
+      withinChipContainer,
+      icon
     );
     const buttonAriaLabel = getButtonAriaLabel(text);
 
@@ -40,15 +44,14 @@ export const ClosableChip: React.FC<ClosableChipProps> = forwardRef(
       ...rest,
       tabIndex: 0,
       role: "button",
-      dir: "rtl",
     };
     const chipElement = (
       <div {...attributes}>
+        {text}
         <section // button is interactive so it can not be used when the parent div is interactive due to the "button" role. Section is a landmark element, which can have an aria-label.
           className="neo-close neo-close--clear"
           aria-label={buttonAriaLabel}
         />
-        {text}
       </div>
     );
     return tooltip ? (
@@ -68,13 +71,15 @@ export const ClosableChip: React.FC<ClosableChipProps> = forwardRef(
 export function getClosableChipClassNames(
   variant: Variants,
   disabled: boolean,
-  withinChipContainer: boolean
+  withinChipContainer: boolean,
+  icon?: IconNamesType
 ) {
   const classNames = [
     getBasicChipClassNames(variant, disabled, withinChipContainer),
   ];
   classNames.push("neo-chip--close");
   classNames.push(`neo-chip--close--${variant}`);
+  if (icon) classNames.push(`neo-icon-${icon}`);
   return classNames.join(" ");
 }
 export function getButtonAriaLabel(text: string) {
