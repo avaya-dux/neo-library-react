@@ -1,5 +1,5 @@
+import { listOfStates } from "../SampleData";
 import { getOptionClassNames, renderSelectOptions } from "./Options";
-import { listOfStates } from "./SampleData";
 
 describe("Options test", () => {
   describe("getOptionClassNames", () => {

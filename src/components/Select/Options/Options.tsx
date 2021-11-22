@@ -1,18 +1,18 @@
 import { forwardRef, useEffect, useState } from "react";
 
-import { OptionsProps, OptionType } from "./SelectTypes";
+import { OptionsProps, OptionType } from "../SelectTypes";
 
 /**
  * Options will use to render the list of options.
  *
  * @example
- * <Options options={[Array]}
+ * <Options options={string[]}
     isMultipleSelect={Boolean}
     labelledby={string}
     labelId={string}
-    selectedItems={[Array]}
+    selectedItems={string[]}
     cursor={number}
-    updateCursor={[Function]}
+    updateCursor={Function}
     id={string} />
  *
  *

@@ -3,13 +3,13 @@ import { useState } from "react";
 
 import { Button } from "components/Button";
 
-import { NativeSelect } from "./NativeSelect";
 import {
-  ErrorMessagesDemo,
-  HelperMessagesDemo,
+  errorMessagesDemo,
+  helperMessagesDemo,
   listOfStates,
-} from "./SampleData";
-import { NativeSelectProps } from "./SelectTypes";
+} from "../SampleData";
+import { NativeSelectProps } from "../SelectTypes";
+import { NativeSelect } from "./NativeSelect";
 
 export default {
   title: "Components/Form/Select/Native Select",
@@ -26,25 +26,18 @@ const ListOfStatesArkansasDisabledPlusHint = listOfStates.map((item) => {
 
 export const ControlledNativeSelect = () => {
   const [selectedState, updateSelectedState] = useState("");
-  const [errorTexts, updateErrorTexts] = useState<undefined | string[]>(
-    undefined
-  );
+  const [errorTexts, updateErrorTexts] = useState<string[]>([]);
   return (
     <>
-      <p>
-        This is an example of a controlled Native Select. If you open the
-        console window you will see that the selected element value is being
-        displayed via <code>console.log</code>
-      </p>
+      <p>This is an example of a controlled Native Select.</p>
       <br />
       <NativeSelect
         label="List of States"
-        onChange={(value) => {
-          console.log("selected value-> ", value);
+        onChange={(value: string) => {
           updateSelectedState(value);
         }}
         value={selectedState}
-        helperMessages={HelperMessagesDemo}
+        helperMessages={helperMessagesDemo}
         errorMessages={errorTexts}
         options={ListOfStatesArkansasDisabledPlusHint}
       />
@@ -54,14 +47,11 @@ export const ControlledNativeSelect = () => {
       />
       &nbsp;
       <Button
-        onClick={() => updateErrorTexts(ErrorMessagesDemo)}
+        onClick={() => updateErrorTexts(errorMessagesDemo)}
         label=" Display errors"
       />
       &nbsp;
-      <Button
-        onClick={() => updateErrorTexts(undefined)}
-        label=" Display Helper"
-      />
+      <Button onClick={() => updateErrorTexts([])} label=" Display Helper" />
     </>
   );
 };
@@ -69,10 +59,8 @@ export const ControlledNativeSelect = () => {
 export const ValidateValuesNativeSelect = () => {
   const [selectedState, updateSelectedState] = useState("0");
   const [isRequired, updateRequired] = useState(true);
-  const [errorText, updateErrorText] = useState<undefined | string[]>(
-    undefined
-  );
-  const [helperText, updateHelperText] = useState<undefined | string[]>([
+  const [errorText, updateErrorText] = useState<string[]>([]);
+  const [helperText, updateHelperText] = useState<string[]>([
     "Please choose a State",
   ]);
 
@@ -83,7 +71,7 @@ export const ValidateValuesNativeSelect = () => {
       updateRequired(true);
     } else {
       updateHelperText(["Success!"]);
-      updateErrorText(undefined);
+      updateErrorText([]);
       updateRequired(false);
     }
   };
@@ -94,7 +82,7 @@ export const ValidateValuesNativeSelect = () => {
       <NativeSelect
         label="List of States"
         required={isRequired}
-        onChange={(value) => {
+        onChange={(value: string) => {
           console.log("select value-> ", value);
           updateSelectedState(value);
           validateSelectValue(value);

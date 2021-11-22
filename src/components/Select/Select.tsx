@@ -3,8 +3,8 @@ import { createRef, useEffect, useMemo, useState } from "react";
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId } from "utils/accessibilityUtils";
 
-import { displayErrorOrHelper, getOption } from "./helper";
-import { Options } from "./Options";
+import { displayErrorOrHelper, getOption } from "./helper/helper";
+import { Options } from "./Options/Options";
 import { OptionType, SelectProps } from "./SelectTypes";
 
 /**
@@ -25,7 +25,7 @@ import { OptionType, SelectProps } from "./SelectTypes";
       />
  *
  *
- * @see https://design.avayacloud.com/components/web/selectbox-web
+ * @see https://design.avayacloud.com/components/web/select-web
  */
 
 export const Select = ({
@@ -193,7 +193,7 @@ export const Select = ({
   return (
     <NeoInputWrapper
       disabled={disabled}
-      error={!!errorMessages}
+      error={errorMessages && errorMessages.length > 0}
       required={required}
       wrapperClassName={className}
     >

@@ -4,8 +4,8 @@ import { useState } from "react";
 import { Button } from "components/Button";
 
 import {
-  ErrorMessagesDemo,
-  HelperMessagesDemo,
+  errorMessagesDemo,
+  helperMessagesDemo,
   listOfStates,
 } from "./SampleData";
 import { Select } from "./Select";
@@ -26,25 +26,18 @@ const ListOfStatesArkansasDisabledPlusHint = listOfStates.map((item) => {
 
 export const ControlledSelect = () => {
   const [selectedStates, updateSelectedStates] = useState(["0"]);
-  const [errorTexts, updateErrorTexts] = useState<undefined | string[]>(
-    undefined
-  );
+  const [errorTexts, updateErrorTexts] = useState<string[]>([]);
   return (
     <>
-      <p>
-        This is an example of a controlled Select. If you open the console
-        window you will see that the selected element value is being displayed
-        via <code>console.log</code>
-      </p>
+      <p>This is an example of a controlled Select.</p>
       <br />
       <Select
         label="List of States"
         onChange={(value) => {
-          console.log("select value-> ", value);
           updateSelectedStates(value);
         }}
         value={selectedStates}
-        helperMessages={HelperMessagesDemo}
+        helperMessages={helperMessagesDemo}
         errorMessages={errorTexts}
         options={ListOfStatesArkansasDisabledPlusHint}
       />
@@ -63,14 +56,11 @@ export const ControlledSelect = () => {
         />
         &nbsp;
         <Button
-          onClick={() => updateErrorTexts(ErrorMessagesDemo)}
+          onClick={() => updateErrorTexts(errorMessagesDemo)}
           label=" Display errors"
         />
         &nbsp;
-        <Button
-          onClick={() => updateErrorTexts(undefined)}
-          label=" Display Helper"
-        />
+        <Button onClick={() => updateErrorTexts([])} label=" Display Helper" />
       </div>
     </>
   );
@@ -78,21 +68,18 @@ export const ControlledSelect = () => {
 
 export const ControlledMultipleSelect = () => {
   const [selectedStates, updateSelectedStates] = useState(["0"]);
-  const [errorTexts, updateErrorTexts] = useState<undefined | string[]>(
-    undefined
-  );
+  const [errorTexts, updateErrorTexts] = useState<string[]>([]);
 
   return (
     <>
       <Select
         label="List of States"
         onChange={(values) => {
-          console.log("select values-> ", values);
           updateSelectedStates(values);
         }}
         isMultipleSelect={true}
         value={selectedStates}
-        helperMessages={HelperMessagesDemo}
+        helperMessages={helperMessagesDemo}
         errorMessages={errorTexts}
         options={ListOfStatesArkansasDisabledPlusHint}
       />
@@ -111,14 +98,11 @@ export const ControlledMultipleSelect = () => {
         />
         &nbsp;
         <Button
-          onClick={() => updateErrorTexts(ErrorMessagesDemo)}
+          onClick={() => updateErrorTexts(errorMessagesDemo)}
           label="Display errors"
         />
         &nbsp;
-        <Button
-          onClick={() => updateErrorTexts(undefined)}
-          label=" Display Helper"
-        />
+        <Button onClick={() => updateErrorTexts([])} label=" Display Helper" />
       </div>
     </>
   );
@@ -177,22 +161,22 @@ const Template: Story<SelectProps> = (props: SelectProps) => {
 export const UncontrolledSelect = Template.bind({});
 UncontrolledSelect.args = {
   label: "List of States",
-  helperMessages: HelperMessagesDemo,
+  helperMessages: helperMessagesDemo,
   options: listOfStates,
 };
 
 export const SelectError = Template.bind({});
 SelectError.args = {
   label: "List of States",
-  helperMessages: HelperMessagesDemo,
-  errorMessages: ErrorMessagesDemo,
+  helperMessages: helperMessagesDemo,
+  errorMessages: errorMessagesDemo,
   options: listOfStates,
 };
 
 export const SelectRequired = Template.bind({});
 SelectRequired.args = {
   label: "List of States",
-  helperMessages: HelperMessagesDemo,
+  helperMessages: helperMessagesDemo,
   required: true,
   options: listOfStates,
 };
@@ -200,7 +184,7 @@ SelectRequired.args = {
 export const SelectDisabled = Template.bind({});
 SelectDisabled.args = {
   label: "List of States",
-  helperMessages: HelperMessagesDemo,
+  helperMessages: helperMessagesDemo,
   disabled: true,
   options: listOfStates,
 };
@@ -208,7 +192,7 @@ SelectDisabled.args = {
 export const SelectLoading = Template.bind({});
 SelectLoading.args = {
   label: "List of States",
-  helperMessages: HelperMessagesDemo,
+  helperMessages: helperMessagesDemo,
   isLoading: true,
   loaderText: <i>Loading...</i>,
   options: listOfStates,

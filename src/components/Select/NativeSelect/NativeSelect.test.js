@@ -2,9 +2,9 @@ import { composeStories } from "@storybook/testing-react";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
+import { listOfStates } from "../SampleData";
 import { getNativeSelectClassNames, renderOptions } from "./NativeSelect";
 import * as NativeSelectStories from "./NativeSelect.stories";
-import { listOfStates } from "./SampleData";
 
 const {
   UncontrolledNativeSelect,

@@ -58,12 +58,12 @@ export const listOfStates = [
   { label: "Wyoming", value: "WY" },
 ];
 
-export const ErrorMessagesDemo = [
+export const errorMessagesDemo = [
   "Error 1: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
   "Error 2: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
 ];
 
-export const HelperMessagesDemo = [
+export const helperMessagesDemo = [
   "Helper 1: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
   "helper 2: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
 ];

@@ -21,9 +21,9 @@ export const displayErrorOrHelper = (
   errorMessages?: string[],
   helperMessages?: string[]
 ) => {
-  return errorMessages
+  return errorMessages && errorMessages.length > 0
     ? renderErrorList(errorMessages)
-    : helperMessages
+    : helperMessages && helperMessages.length > 0
     ? renderErrorList(helperMessages)
     : null;
 };

@@ -3,8 +3,8 @@ import { useEffect, useMemo, useState } from "react";
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId } from "utils/accessibilityUtils";
 
-import { displayErrorOrHelper, getOption } from "./helper";
-import { NativeSelectProps, OptionType } from "./SelectTypes";
+import { displayErrorOrHelper, getOption } from "../helper/helper";
+import { NativeSelectProps, OptionType } from "../SelectTypes";
 
 /**
  * NativeSelect will use the standard <select> <option> HTML structure.
@@ -24,7 +24,7 @@ import { NativeSelectProps, OptionType } from "./SelectTypes";
       />
  *
  *
- * @see https://design.avayacloud.com/components/web/selectbox-web
+ * @see https://design.avayacloud.com/components/web/select-web
  */
 
 export const NativeSelect = ({
@@ -83,7 +83,7 @@ export const NativeSelect = ({
   return (
     <NeoInputWrapper
       disabled={disabled}
-      error={!!errorMessages}
+      error={errorMessages && errorMessages.length > 0}
       required={required}
       wrapperClassName={className}
     >

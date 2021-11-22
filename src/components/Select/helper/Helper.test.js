@@ -1,9 +1,9 @@
-import { displayErrorOrHelper, getOption } from "./helper";
 import {
-  ErrorMessagesDemo,
-  HelperMessagesDemo,
+  errorMessagesDemo,
+  helperMessagesDemo,
   listOfStates,
-} from "./SampleData";
+} from "../SampleData";
+import { displayErrorOrHelper, getOption } from "./helper";
 
 describe("Helper test ", () => {
   describe("getOption", () => {
@@ -39,7 +39,7 @@ describe("Helper test ", () => {
 
   describe("displayErrorOrHelper", () => {
     it("given a ErrorMessagesDemo and HelperMessagesDemo, should do return the list of errors", () => {
-      expect(displayErrorOrHelper(ErrorMessagesDemo, HelperMessagesDemo))
+      expect(displayErrorOrHelper(errorMessagesDemo, helperMessagesDemo))
         .toMatchInlineSnapshot(`
       Array [
         <div
@@ -57,7 +57,7 @@ describe("Helper test ", () => {
     });
 
     it("given only ErrorMessagesDemo, should do return the list of errors", () => {
-      expect(displayErrorOrHelper(ErrorMessagesDemo, undefined))
+      expect(displayErrorOrHelper(errorMessagesDemo, undefined))
         .toMatchInlineSnapshot(`
       Array [
         <div
@@ -75,7 +75,7 @@ describe("Helper test ", () => {
     });
 
     it("given only HelperMessagesDemo, should do return the list of help messages", () => {
-      expect(displayErrorOrHelper(undefined, HelperMessagesDemo))
+      expect(displayErrorOrHelper(undefined, helperMessagesDemo))
         .toMatchInlineSnapshot(`
       Array [
         <div
