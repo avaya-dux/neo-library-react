@@ -3,6 +3,7 @@ export * from "./Badge";
 export * from "./Breadcrumbs";
 export * from "./Button";
 export * from "./Chip";
+export * from "./Dropdown";
 export * from "./Form";
 export * from "./Icon";
 export * from "./IconButton";
@@ -17,7 +18,7 @@ export * from "./RadioGroup";
 export * from "./Sheet";
 export * from "./Spinner";
 export * from "./Switch";
+// export * from "./Table"; // TODO-567: uncomment when component it completed
 export * from "./TextInput";
 export * from "./ThemeProvider";
 export * from "./Tooltip";
-export * from "./Dropdown";

@@ -115,25 +115,32 @@ describe("Basic Chip: ", () => {
 });
 
 describe("getExpandableChipClassNames", () => {
-  it("given variant = alert and disabled = false and withinChipContainer = false, should return correct css names", () => {
+  it("given `variant = alert` and `disabled = false` and `withinChipContainer = false`, should return correct css names", () => {
     expect(
       getExpandableChipClassNames("alert", false, false)
     ).toMatchInlineSnapshot(
       `"neo-chip neo-chip--alert neo-chip--expandable neo-chip--expandable--alert"`
     );
   });
-  it("given variant = alert and disabled = true and withinChipContainer = false, should return correct css names", () => {
+  it("given `variant = alert` and `disabled = true` and `withinChipContainer = false`, should return correct css names", () => {
     expect(
       getExpandableChipClassNames("alert", true, false)
     ).toMatchInlineSnapshot(
       `"neo-chip neo-chip--alert neo-chip--alert--disabled neo-chip--expandable neo-chip--expandable--alert"`
     );
   });
-  it("given variant = alert and disabled = true and withinChipContainer = true, should return correct css names", () => {
+  it("given `variant = alert` and `disabled = true` and `withinChipContainer = true`, should return correct css names", () => {
     expect(
       getExpandableChipClassNames("alert", true, true)
     ).toMatchInlineSnapshot(
       `"neo-chip neo-chip--alert neo-chip--alert--disabled neo-chips__item neo-chip--expandable neo-chip--expandable--alert"`
+    );
+  });
+  it("given `variant = alert` and `disabled = true` and `withinChipContainer = true` and `icon = alert`, should return correct css names", () => {
+    expect(
+      getExpandableChipClassNames("alert", true, true, "alert")
+    ).toMatchInlineSnapshot(
+      `"neo-chip neo-chip--alert neo-chip--alert--disabled neo-chips__item neo-chip--expandable neo-chip--expandable--alert neo-icon-alert"`
     );
   });
 });

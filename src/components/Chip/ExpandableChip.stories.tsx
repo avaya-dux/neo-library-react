@@ -34,6 +34,15 @@ Info.args = {
   disabled: true,
 };
 
+export const InfoWithIcon = Template.bind({});
+InfoWithIcon.args = {
+  chiptype: "expandable",
+  variant: "info",
+  text: "Expandable Disabled Right to Left Info",
+  disabled: true,
+  icon: "settings",
+};
+
 export const AlertWithTooltip = Template.bind({});
 AlertWithTooltip.args = {
   variant: "alert",
