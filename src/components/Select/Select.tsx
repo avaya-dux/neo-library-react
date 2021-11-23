@@ -1,7 +1,6 @@
 import { createRef, useEffect, useMemo, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
-import { genId } from "utils/accessibilityUtils";
 
 import { displayErrorOrHelper, getOption } from "./helper/helper";
 import { Options } from "./Options/Options";
@@ -43,7 +42,10 @@ export const Select = ({
   required,
   value,
 }: SelectProps) => {
-  const labelId = useMemo(() => `neo-select-label-id-${genId()}`, []);
+  const labelId = useMemo(
+    () => `neo-select-label-id-${label.replace(/\s/g, "")}`,
+    [label]
+  );
   const selectId = useMemo(
     () => id || `neo-select-id-${label.replace(/\s/g, "")}`,
     [id, label]
@@ -52,7 +54,7 @@ export const Select = ({
   const listBoxRef: React.Ref<HTMLDivElement> = createRef();
 
   const [isOpen, updateIsOpen] = useState(false);
-  const [cursor, setCursor] = useState(1);
+  const [hoveredIndex, updateHoveredIndex] = useState(1);
 
   const defaultSelected = getOption(options);
 
@@ -79,7 +81,8 @@ export const Select = ({
     );
 
     updateSelectedItems(result);
-    if (!isMultipleSelect && result[0]) setCursor(options.indexOf(result[0]));
+    if (!isMultipleSelect && result[0])
+      updateHoveredIndex(options.indexOf(result[0]));
 
     if (onChange) {
       onChange(result?.map((item) => item.value));
@@ -123,11 +126,11 @@ export const Select = ({
 
       case "ArrowDown": {
         if (isOpen) {
-          setCursor((prevState) =>
+          updateHoveredIndex((prevState) =>
             prevState < options.length - 1 ? prevState + 1 : prevState
           );
           if (scrollHeight && itemHeight) {
-            listBoxRef.current.scrollTop = cursor * itemHeight;
+            listBoxRef.current.scrollTop = hoveredIndex * itemHeight;
           }
         } else {
           expandOrCloseListBox();
@@ -137,9 +140,11 @@ export const Select = ({
       }
 
       case "ArrowUp": {
-        setCursor((prevState) => (prevState > 1 ? prevState - 1 : prevState));
+        updateHoveredIndex((prevState) =>
+          prevState > 1 ? prevState - 1 : prevState
+        );
         if (scrollHeight && itemHeight) {
-          listBoxRef.current.scrollTop = (cursor - 2) * itemHeight;
+          listBoxRef.current.scrollTop = (hoveredIndex - 2) * itemHeight;
         }
         break;
       }
@@ -147,8 +152,8 @@ export const Select = ({
       case "Enter": {
         if (isOpen) {
           // value "0" will be ignored
-          const value = options[cursor]?.value;
-          if (!options[cursor]?.disabled && value !== "0") {
+          const value = options[hoveredIndex]?.value;
+          if (!options[hoveredIndex]?.disabled && value !== "0") {
             setSelectedItems(isMultipleSelect, value);
           }
           expandOrCloseListBox();
@@ -169,8 +174,8 @@ export const Select = ({
     isMultipleSelect,
     labelledby: labelId,
     selectedItems,
-    cursor,
-    updateCursor: setCursor,
+    hoveredIndex,
+    updateHoveredIndex,
     ref: listBoxRef,
     id: selectId,
   };
@@ -209,7 +214,7 @@ export const Select = ({
         aria-labelledby={labelId}
         onClick={clickHandler}
         onKeyDown={onKeyDownHandler}
-        onMouseLeave={() => updateIsOpen(false)}
+        onBlur={() => updateIsOpen(false)}
         role="combobox"
         tabIndex={0}
         aria-activedescendant={ariaActivedescendantMemoized}

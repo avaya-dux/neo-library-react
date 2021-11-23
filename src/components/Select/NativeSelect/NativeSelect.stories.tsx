@@ -33,8 +33,8 @@ export const ControlledNativeSelect = () => {
       <br />
       <NativeSelect
         label="List of States"
-        onChange={(value: string) => {
-          updateSelectedState(value);
+        onChange={(e) => {
+          updateSelectedState(e.target.value);
         }}
         value={selectedState}
         helperMessages={helperMessagesDemo}
@@ -82,10 +82,9 @@ export const ValidateValuesNativeSelect = () => {
       <NativeSelect
         label="List of States"
         required={isRequired}
-        onChange={(value: string) => {
-          console.log("select value-> ", value);
-          updateSelectedState(value);
-          validateSelectValue(value);
+        onChange={(e) => {
+          updateSelectedState(e.target.value);
+          validateSelectValue(e.target.value);
         }}
         value={selectedState}
         helperMessages={helperText}

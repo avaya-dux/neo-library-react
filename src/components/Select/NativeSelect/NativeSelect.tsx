@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
-import { genId } from "utils/accessibilityUtils";
 
 import { displayErrorOrHelper, getOption } from "../helper/helper";
 import { NativeSelectProps, OptionType } from "../SelectTypes";
@@ -41,7 +40,10 @@ export const NativeSelect = ({
   required,
   value,
 }: NativeSelectProps) => {
-  const labelId = useMemo(() => `neo-native-select-label-id-${genId()}`, []);
+  const labelId = useMemo(
+    () => `neo-native-select-label-id-${label.replace(/\s/g, "")}`,
+    [label]
+  );
 
   const selectId = useMemo(
     () => id || `neo-native-select-id-${label.replace(/\s/g, "")}`,
@@ -71,7 +73,7 @@ export const NativeSelect = ({
 
     updateSelectedItem(selected[0]?.value);
     if (onChange) {
-      onChange(value);
+      onChange(e);
     }
   };
 
@@ -97,10 +99,8 @@ export const NativeSelect = ({
           onBlur={onChangeHandler}
           onChange={onChangeHandler}
           className="neo-icon-chevron-down"
-          aria-labelledby={labelId}
           disabled={disabled}
           value={selectedItem}
-          data-testid="select-container"
           data-value={selectedItem}
         >
           {isLoading ? (
@@ -122,11 +122,10 @@ export const renderOptions = (options: OptionType[]) => {
 
     return (
       <option
-        key={`${label}-${value}-${index}`}
+        key={`${value}-${index}`}
         value={value}
         disabled={disabled}
         hidden={placeholder}
-        data-testid={`option-${label}-${value}`}
       >
         {label}
       </option>

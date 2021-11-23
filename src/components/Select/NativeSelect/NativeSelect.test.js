@@ -116,7 +116,6 @@ describe("NativeSelect test", () => {
       expect(renderOptions(listOfStates.slice(0, 3))).toMatchInlineSnapshot(`
         Array [
           <option
-            data-testid="option---Please choose an option---0"
             disabled={false}
             hidden={true}
             value="0"
@@ -124,13 +123,11 @@ describe("NativeSelect test", () => {
             --Please choose an option--
           </option>,
           <option
-            data-testid="option-Alabama-AL"
             value="AL"
           >
             Alabama
           </option>,
           <option
-            data-testid="option-Alaska-AK"
             value="AK"
           >
             Alaska

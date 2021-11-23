@@ -11,16 +11,12 @@ export type OptionType = {
 
 export type SelectHandlerType = (values: string[]) => void;
 export interface NativeSelectProps
-  extends Omit<
-    React.SelectHTMLAttributes<HTMLSelectElement>,
-    "onChange" | "multiple"
-  > {
+  extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "multiple"> {
   errorMessages?: string[];
   helperMessages?: string[];
   isLoading?: boolean;
   label: string;
   loaderText?: string;
-  onChange?: (value: string) => void;
   options: OptionType[];
   required?: boolean;
   value?: string;
@@ -41,11 +37,11 @@ export interface SelectProps
 }
 
 export interface OptionsProps {
-  cursor: number;
+  hoveredIndex: number;
   id: string;
-  isMultipleSelect: boolean;
+  isMultipleSelect?: boolean;
   labelledby: string;
   options: OptionType[];
   selectedItems: OptionType[];
-  updateCursor: (cursor: number) => void;
+  updateHoveredIndex: (hoveredIndex: number) => void;
 }

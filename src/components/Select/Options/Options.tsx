@@ -6,28 +6,27 @@ import { OptionsProps, OptionType } from "../SelectTypes";
  * Options will use to render the list of options.
  *
  * @example
- * <Options options={string[]}
-    isMultipleSelect={Boolean}
-    labelledby={string}
-    labelId={string}
-    selectedItems={string[]}
-    cursor={number}
-    updateCursor={Function}
-    id={string} />
+ * <Options
+ *  options={[]}
+    isMultipleSelect={true}
+    selectedItems={[]}
+    hoveredIndex={1}
+    updateHoveredIndex={(index) => { updateCursorIndex(index); }}
+    id={`option-id-${idNumber}`} />
  *
  *
- * @see https://design.avayacloud.com/components/web/selectbox-web
+ * @see https://design.avayacloud.com/components/web/select-web
  */
 
 export const Options = forwardRef(
   (
     {
       options,
-      isMultipleSelect,
+      isMultipleSelect = false,
       labelledby,
       selectedItems,
-      cursor,
-      updateCursor,
+      hoveredIndex,
+      updateHoveredIndex,
       id,
     }: OptionsProps,
     ref: React.Ref<HTMLDivElement>
@@ -36,7 +35,7 @@ export const Options = forwardRef(
 
     useEffect(() => {
       if (options.length && hoveredOption) {
-        updateCursor(options.indexOf(hoveredOption));
+        updateHoveredIndex(options.indexOf(hoveredOption));
       }
     }, [hoveredOption]);
 
@@ -59,7 +58,7 @@ export const Options = forwardRef(
         {renderSelectOptions(
           options,
           selectedItems,
-          cursor,
+          hoveredIndex,
           setHoveredOption,
           isMultipleSelect
         )}
@@ -71,7 +70,7 @@ export const Options = forwardRef(
 export const renderSelectOptions = (
   options: OptionType[],
   selectedItems: OptionType[],
-  cursor: number,
+  hoveredIndex: number,
   callback: (option: OptionType) => void,
   isMultiple: boolean
 ) => {
@@ -90,7 +89,7 @@ export const renderSelectOptions = (
     const itemId = `${label}-${index}`;
 
     const isActive = !!selectedItems.find((item) => item.value === value);
-    const isHover = cursor === index;
+    const isHover = hoveredIndex === index;
 
     const dataValue = { "data-value": value };
     const checkBoxClassNames = ["neo-check"];
