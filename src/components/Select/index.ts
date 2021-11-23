@@ -1,2 +1,2 @@
-export * from "./Select";
-export * from "./NativeSelect/NativeSelect";
+export { Select } from "./Select";
+export { NativeSelect } from "./NativeSelect/NativeSelect";
