@@ -22,4 +22,4 @@ export * from "./Switch";
 export * from "./TextInput";
 export * from "./ThemeProvider";
 export * from "./Tooltip";
-export * from "./Select"
+export * from "./Select";
