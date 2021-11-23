@@ -19,7 +19,7 @@ export default {
 const ListOfStatesArkansasDisabledPlusHint = listOfStates.map((item) => {
   const extraInfo = {
     hint: `state ${item.value}`,
-    disabled: item.value === "AK",
+    isDisabled: item.value === "AK",
   };
   return { ...extraInfo, ...item };
 });

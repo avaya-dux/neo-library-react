@@ -2,9 +2,9 @@ export const listOfStates = [
   {
     label: "--Please choose an option--",
     value: "0",
-    disabled: false,
+    isDisabled: false,
     defaultSelected: true,
-    placeholder: true,
+    isPlaceholder: true,
   },
   { label: "Alabama", value: "AL" },
   { label: "Alaska", value: "AK" },

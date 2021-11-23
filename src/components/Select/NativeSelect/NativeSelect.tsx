@@ -118,14 +118,14 @@ export const NativeSelect = ({
 
 export const renderOptions = (options: OptionType[]) => {
   return options.map((option, index) => {
-    const { label, value, disabled, placeholder } = option;
+    const { label, value, isDisabled, isPlaceholder } = option;
 
     return (
       <option
         key={`${value}-${index}`}
         value={value}
-        disabled={disabled}
-        hidden={placeholder}
+        disabled={isDisabled}
+        hidden={isPlaceholder}
       >
         {label}
       </option>

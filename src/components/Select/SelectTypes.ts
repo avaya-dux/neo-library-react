@@ -2,10 +2,10 @@ import { ReactNode } from "react";
 
 export type OptionType = {
   defaultSelected?: boolean;
-  disabled?: boolean;
+  isDisabled?: boolean;
   hint?: string;
   label: string;
-  placeholder?: boolean;
+  isPlaceholder?: boolean;
   value: string;
 };
 

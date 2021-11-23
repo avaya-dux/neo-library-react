@@ -79,11 +79,11 @@ export const renderSelectOptions = (
    */
 
   return options.map((option, index) => {
-    if (option.placeholder) {
-      // if placeholder is true, that is mean that will not be render on the list
+    if (option.isPlaceholder) {
+      // if isPlaceholder is true, that is mean that will not be render on the list
       return null;
     }
-    const { label, value, hint, disabled } = option;
+    const { label, value, hint, isDisabled } = option;
     const checkBoxId = `${label}-checkbox-${index}`;
     const checkBoxHintId = `${label}-hint-${index}`;
     const itemId = `${label}-${index}`;
@@ -96,7 +96,7 @@ export const renderSelectOptions = (
 
     return isMultiple ? (
       <div
-        className={getOptionClassNames(isHover, disabled, isActive)}
+        className={getOptionClassNames(isHover, isDisabled, isActive)}
         key={checkBoxId}
         id={`${label}-${value}`}
         role="listitem"
@@ -110,10 +110,10 @@ export const renderSelectOptions = (
           checked={isActive}
           onMouseEnter={() => callback(option)}
           aria-describedby={checkBoxHintId}
-          disabled={disabled}
+          disabled={isDisabled}
           readOnly
         />
-        <label htmlFor={checkBoxId} {...(disabled ? "" : dataValue)}>
+        <label htmlFor={checkBoxId} {...(isDisabled ? "" : dataValue)}>
           {label}
         </label>
         {/**
@@ -131,12 +131,12 @@ export const renderSelectOptions = (
       <div
         aria-selected={isHover}
         tabIndex={0}
-        className={getOptionClassNames(isHover, disabled, isActive)}
+        className={getOptionClassNames(isHover, isDisabled, isActive)}
         onMouseEnter={() => callback(option)}
         id={`${label}-${value}`}
         key={itemId}
         role="option"
-        {...(disabled ? "" : dataValue)}
+        {...(isDisabled ? "" : dataValue)}
       >
         {label}
       </div>
