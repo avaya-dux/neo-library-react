@@ -2,11 +2,12 @@ import { composeStories } from "@storybook/testing-react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 
+import { SelectOnBlurHandler } from "./EventHandlers/KeyboardEventHandlers";
 import { listOfStates } from "./SampleData";
 import {
   getAriaActiveDescendant,
   getSelectClassNames,
-  getSelectedItems,
+  getSelectedOptions,
   getSelectedValues,
   setMultipleValues,
 } from "./Select";
@@ -165,61 +166,61 @@ describe("Select test ", () => {
     });
   });
 
-  describe("getSelectedItems test", () => {
+  describe(getSelectedOptions, () => {
     it("CLEAN: will remove the placeholder from the list of states", () => {
       expect(
-        getSelectedItems(
+        getSelectedOptions(
           true,
           "",
           listOfStates.slice(0, 3),
           listOfStates.slice(0, 3)
         )
       ).toMatchInlineSnapshot(`
-              Array [
-                Object {
-                  "label": "Alabama",
-                  "value": "AL",
-                },
-                Object {
-                  "label": "Alaska",
-                  "value": "AK",
-                },
-              ]
-          `);
+        Array [
+          Object {
+            "label": "Alabama",
+            "value": "AL",
+          },
+          Object {
+            "label": "Alaska",
+            "value": "AK",
+          },
+        ]
+      `);
     });
 
     it("ADD: given value = AL, should return the Alabama from the list of states", () => {
-      expect(getSelectedItems(false, "AL", [], listOfStates))
+      expect(getSelectedOptions(false, "AL", [], listOfStates))
         .toMatchInlineSnapshot(`
-              Array [
-                Object {
-                  "label": "Alabama",
-                  "value": "AL",
-                },
-              ]
-          `);
+        Array [
+          Object {
+            "label": "Alabama",
+            "value": "AL",
+          },
+        ]
+      `);
     });
 
     it("REMOVE: given value = AL, should remove Alabama from the list of selected states", () => {
       const alabamaIshere = listOfStates.slice(1, 5);
 
-      expect(getSelectedItems(true, "AL", alabamaIshere, listOfStates))
+      expect(getSelectedOptions(true, "AL", alabamaIshere, listOfStates))
         .toMatchInlineSnapshot(`
-              Array [
-                Object {
-                  "label": "Alaska",
-                  "value": "AK",
-                },
-                Object {
-                  "label": "Arizona",
-                  "value": "AZ",
-                },
-                Object {
-                  "label": "Arkansas",
-                  "value": "AR",
-                },
-              ]
-          `);
+        Array [
+          Object {
+            "label": "Alaska",
+            "value": "AK",
+          },
+          Object {
+            "label": "Arizona",
+            "value": "AZ",
+          },
+          Object {
+            "label": "Arkansas",
+            "value": "AR",
+          },
+        ]
+      `);
     });
   });
 
@@ -411,6 +412,23 @@ describe("Select test ", () => {
           Arizona
         </div>
       `);
+    });
+  });
+
+  describe(SelectOnBlurHandler, () => {
+    let setOpen;
+    beforeEach(() => {
+      setOpen = jest.fn();
+    });
+    it("should close Option list when menu lost focus", () => {
+      const e = { relatedTarget: null };
+      SelectOnBlurHandler(e, setOpen);
+      expect(setOpen).toBeCalledWith(false);
+    });
+    it("should do nothing when Select still has focus", () => {
+      const e = { relatedTarget: {} };
+      SelectOnBlurHandler(e, setOpen);
+      expect(setOpen).not.toBeCalled();
     });
   });
 });

@@ -2,7 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 
-import { displayErrorOrHelper, getOption } from "../helper/helper";
+import {
+  displayErrorOrHelper,
+  getDefaultOption,
+  getOptionValue,
+} from "../helper/helper";
 import { NativeSelectProps, OptionType } from "../SelectTypes";
 
 /**
@@ -21,8 +25,6 @@ import { NativeSelectProps, OptionType } from "../SelectTypes";
           { label: "Arizona", value: "AZ" },
         ]}
       />
- *
- *
  * @see https://design.avayacloud.com/components/web/select-web
  */
 
@@ -54,7 +56,7 @@ export const NativeSelect = ({
     return getNativeSelectClassNames(isLoading);
   }, [isLoading]);
 
-  const defaultSelected = getOption(options);
+  const defaultSelected = getDefaultOption(options);
 
   const [selectedItem, updateSelectedItem] = useState(
     defaultSelected[0]?.label
@@ -62,14 +64,14 @@ export const NativeSelect = ({
 
   useEffect(() => {
     if (value) {
-      const selected = getOption(options, [value]);
+      const selected = getOptionValue(options, [value]);
       updateSelectedItem(selected[0]?.value);
     }
   }, [value, options]);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    const selected = getOption(options, [value]);
+    const selected = getOptionValue(options, [value]);
 
     updateSelectedItem(selected[0]?.value);
     if (onChange) {

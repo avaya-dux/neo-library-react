@@ -42,6 +42,6 @@ export interface OptionsProps {
   isMultipleSelect?: boolean;
   labelledby: string;
   options: OptionType[];
-  selectedItems: OptionType[];
+  selectedOptions: OptionType[];
   updateHoveredIndex: (hoveredIndex: number) => void;
 }

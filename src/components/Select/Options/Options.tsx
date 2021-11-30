@@ -7,14 +7,12 @@ import { OptionsProps, OptionType } from "../SelectTypes";
  *
  * @example
  * <Options
- *  options={[]}
+ *  options={[{ label: "Alabama", value: "AL" }, { label: "Alaska", value: "AK" }]}
     isMultipleSelect={true}
-    selectedItems={[]}
+    selectedOptions={[{ label: "Alaska", value: "AK" }]}
     hoveredIndex={1}
     updateHoveredIndex={(index) => { updateCursorIndex(index); }}
     id={`option-id-${idNumber}`} />
- *
- *
  * @see https://design.avayacloud.com/components/web/select-web
  */
 
@@ -24,7 +22,7 @@ export const Options = forwardRef(
       options,
       isMultipleSelect = false,
       labelledby,
-      selectedItems,
+      selectedOptions,
       hoveredIndex,
       updateHoveredIndex,
       id,
@@ -57,7 +55,7 @@ export const Options = forwardRef(
       >
         {renderSelectOptions(
           options,
-          selectedItems,
+          selectedOptions,
           hoveredIndex,
           setHoveredOption,
           isMultipleSelect
@@ -69,7 +67,7 @@ export const Options = forwardRef(
 
 export const renderSelectOptions = (
   options: OptionType[],
-  selectedItems: OptionType[],
+  selectedOptions: OptionType[],
   hoveredIndex: number,
   callback: (option: OptionType) => void,
   isMultiple: boolean
@@ -88,7 +86,7 @@ export const renderSelectOptions = (
     const checkBoxHintId = `${label}-hint-${index}`;
     const itemId = `${label}-${index}`;
 
-    const isActive = !!selectedItems.find((item) => item.value === value);
+    const isActive = !!selectedOptions.find((item) => item.value === value);
     const isHover = hoveredIndex === index;
 
     const dataValue = { "data-value": value };
@@ -132,7 +130,9 @@ export const renderSelectOptions = (
         aria-selected={isHover}
         tabIndex={0}
         className={getOptionClassNames(isHover, isDisabled, isActive)}
-        onMouseEnter={() => callback(option)}
+        onMouseEnter={() => {
+          callback(option);
+        }}
         id={`${label}-${value}`}
         key={itemId}
         role="option"

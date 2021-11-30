@@ -3,12 +3,16 @@ import {
   helperMessagesDemo,
   listOfStates,
 } from "../SampleData";
-import { displayErrorOrHelper, getOption } from "./helper";
+import {
+  displayErrorOrHelper,
+  getDefaultOption,
+  getOptionValue,
+} from "./helper";
 
 describe("Helper test ", () => {
-  describe("getOption", () => {
+  describe("getDefaultOption", () => {
     it("given a list of states without a query will returns the default selected", () => {
-      expect(getOption(listOfStates)).toMatchInlineSnapshot(`
+      expect(getDefaultOption(listOfStates)).toMatchInlineSnapshot(`
         Array [
           Object {
             "defaultSelected": true,
@@ -22,7 +26,7 @@ describe("Helper test ", () => {
     });
 
     it("given a list of states with the query (AL, UT) will returns Alabama and Utah", () => {
-      expect(getOption(listOfStates, ["AL", "UT"])).toMatchInlineSnapshot(`
+      expect(getOptionValue(listOfStates, ["AL", "UT"])).toMatchInlineSnapshot(`
               Array [
                 Object {
                   "label": "Alabama",

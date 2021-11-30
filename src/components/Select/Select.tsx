@@ -2,7 +2,15 @@ import { createRef, useEffect, useMemo, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 
-import { displayErrorOrHelper, getOption } from "./helper/helper";
+import {
+  SelectOnBlurHandler,
+  SelectOnKeyDownHandler,
+} from "./EventHandlers/KeyboardEventHandlers";
+import {
+  displayErrorOrHelper,
+  getDefaultOption,
+  getOptionValue,
+} from "./helper/helper";
 import { Options } from "./Options/Options";
 import { OptionType, SelectProps } from "./SelectTypes";
 
@@ -22,8 +30,6 @@ import { OptionType, SelectProps } from "./SelectTypes";
           { label: "Arizona", value: "AZ" },
         ]}
       />
- *
- *
  * @see https://design.avayacloud.com/components/web/select-web
  */
 
@@ -56,9 +62,9 @@ export const Select = ({
   const [isOpen, updateIsOpen] = useState(false);
   const [hoveredIndex, updateHoveredIndex] = useState(1);
 
-  const defaultSelected = getOption(options);
+  const defaultSelected = getDefaultOption(options);
 
-  const [selectedItems, updateSelectedItems] =
+  const [selectedOptions, updateSelectedOptions] =
     useState<OptionType[]>(defaultSelected);
 
   const selectClassName = useMemo(() => {
@@ -67,20 +73,20 @@ export const Select = ({
 
   useEffect(() => {
     if (value) {
-      const selected = getOption(options, value);
-      updateSelectedItems(selected);
+      const selected = getOptionValue(options, value);
+      updateSelectedOptions(selected);
     }
   }, [value, options]);
 
-  const setSelectedItems = (isMultipleSelect: boolean, value: string) => {
-    const result = getSelectedItems(
+  const setSelectedOptions = (isMultipleSelect: boolean, value: string) => {
+    const result = getSelectedOptions(
       isMultipleSelect,
       value,
-      selectedItems,
+      selectedOptions,
       options
     );
 
-    updateSelectedItems(result);
+    updateSelectedOptions(result);
     if (!isMultipleSelect && result[0])
       updateHoveredIndex(options.indexOf(result[0]));
 
@@ -99,81 +105,40 @@ export const Select = ({
     // capture the value from `data-value` attribute, this is because the target can  be <li> | <input> | <label>
 
     const value = (e.target as HTMLDivElement).getAttribute("data-value");
+
     // value "0" will be ignored
     if (value && value !== "0") {
-      setSelectedItems(isMultipleSelect, value);
+      setSelectedOptions(isMultipleSelect, value);
     }
 
     expandOrCloseListBox();
   };
 
   const onKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    const scrollHeight = listBoxRef.current?.scrollHeight;
-    const itemHeight = Math.ceil(
-      scrollHeight ? scrollHeight / options.length : 28
+    SelectOnKeyDownHandler(
+      e,
+      isOpen,
+      options,
+      listBoxRef,
+      hoveredIndex,
+      isMultipleSelect,
+      expandOrCloseListBox,
+      updateIsOpen,
+      updateHoveredIndex,
+      setSelectedOptions
     );
+  };
 
-    switch (e.code) {
-      case "Space": {
-        updateIsOpen(!isOpen);
-        break;
-      }
-
-      case "Escape": {
-        updateIsOpen(false);
-        break;
-      }
-
-      case "ArrowDown": {
-        if (isOpen) {
-          updateHoveredIndex((prevState) =>
-            prevState < options.length - 1 ? prevState + 1 : prevState
-          );
-          if (scrollHeight && itemHeight) {
-            listBoxRef.current.scrollTop = hoveredIndex * itemHeight;
-          }
-        } else {
-          expandOrCloseListBox();
-        }
-
-        break;
-      }
-
-      case "ArrowUp": {
-        updateHoveredIndex((prevState) =>
-          prevState > 1 ? prevState - 1 : prevState
-        );
-        if (scrollHeight && itemHeight) {
-          listBoxRef.current.scrollTop = (hoveredIndex - 2) * itemHeight;
-        }
-        break;
-      }
-
-      case "Enter": {
-        if (isOpen) {
-          // value "0" will be ignored
-          const value = options[hoveredIndex]?.value;
-          if (!options[hoveredIndex]?.isDisabled && value !== "0") {
-            setSelectedItems(isMultipleSelect, value);
-          }
-          expandOrCloseListBox();
-        } else {
-          expandOrCloseListBox();
-        }
-
-        break;
-      }
-
-      default:
-        break;
-    }
+  const onBlurHandler = (e: React.FocusEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    return SelectOnBlurHandler(e, updateIsOpen);
   };
 
   const optionsProps = {
     options,
     isMultipleSelect,
     labelledby: labelId,
-    selectedItems,
+    selectedOptions,
     hoveredIndex,
     updateHoveredIndex,
     ref: listBoxRef,
@@ -188,12 +153,12 @@ export const Select = ({
    */
 
   const selectedValuesMemoized = useMemo(() => {
-    return getSelectedValues(selectedItems, defaultSelected);
-  }, [selectedItems, defaultSelected]);
+    return getSelectedValues(selectedOptions, defaultSelected);
+  }, [selectedOptions, defaultSelected]);
 
   const ariaActivedescendantMemoized = useMemo(() => {
-    return getAriaActiveDescendant(isOpen, selectedItems);
-  }, [isOpen, selectedItems]);
+    return getAriaActiveDescendant(isOpen, selectedOptions);
+  }, [isOpen, selectedOptions]);
 
   return (
     <NeoInputWrapper
@@ -214,7 +179,7 @@ export const Select = ({
         aria-labelledby={labelId}
         onClick={clickHandler}
         onKeyDown={onKeyDownHandler}
-        onBlur={() => updateIsOpen(false)}
+        onBlur={onBlurHandler}
         role="combobox"
         tabIndex={0}
         aria-activedescendant={ariaActivedescendantMemoized}
@@ -255,7 +220,7 @@ export const getSelectClassNames = (
   return classArray.join(" ");
 };
 
-export const getSelectedItems = (
+export const getSelectedOptions = (
   isMultipleSelect: boolean,
   value: string,
   selectedItems: OptionType[],
@@ -271,7 +236,7 @@ export const getSelectedItems = (
   if (isMultipleSelect) {
     result = setMultipleValues(cleanSelectedItems, options, value);
   } else {
-    result = getOption(options, [value]);
+    result = getOptionValue(options, [value]);
   }
 
   return result;
@@ -293,7 +258,7 @@ export const setMultipleValues = (
     result = selectedItemsCopy;
   } else {
     // add
-    result = [...selectedItemsCopy, ...getOption(options, [value])];
+    result = [...selectedItemsCopy, ...getOptionValue(options, [value])];
   }
   return result;
 };
