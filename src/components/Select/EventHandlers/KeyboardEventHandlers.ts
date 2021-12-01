@@ -81,7 +81,7 @@ export const SelectOnKeyDownHandler = (
       if (isOpen) {
         // value "0" will be ignored
         const value = options[hoveredIndex]?.value;
-        if (!options[hoveredIndex]?.isDisabled && value !== "0") {
+        if (!options[hoveredIndex]?.isDisabled && value && value !== "0") {
           setSelectedOptions(isMultipleSelect, value);
         }
         expandOrCloseOptionList();
@@ -99,9 +99,9 @@ export const SelectOnKeyDownHandler = (
 
 export const SelectOnBlurHandler = (
   e: FocusEvent<HTMLDivElement>,
-  setOpen: Dispatch<SetStateAction<boolean>>
+  updateIsOpen: Dispatch<SetStateAction<boolean>>
 ) => {
   if (e.relatedTarget === null) {
-    setOpen(false);
+    updateIsOpen(false);
   }
 };

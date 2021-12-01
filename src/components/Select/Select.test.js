@@ -2,7 +2,6 @@ import { composeStories } from "@storybook/testing-react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 
-import { SelectOnBlurHandler } from "./EventHandlers/KeyboardEventHandlers";
 import { listOfStates } from "./SampleData";
 import {
   getAriaActiveDescendant,
@@ -433,23 +432,6 @@ describe("Select test ", () => {
           Arizona
         </div>
       `);
-    });
-  });
-
-  describe(SelectOnBlurHandler, () => {
-    let setOpen;
-    beforeEach(() => {
-      setOpen = jest.fn();
-    });
-    it("should close Option list when menu lost focus", () => {
-      const e = { relatedTarget: null };
-      SelectOnBlurHandler(e, setOpen);
-      expect(setOpen).toBeCalledWith(false);
-    });
-    it("should do nothing when Select still has focus", () => {
-      const e = { relatedTarget: {} };
-      SelectOnBlurHandler(e, setOpen);
-      expect(setOpen).not.toBeCalled();
     });
   });
 });
