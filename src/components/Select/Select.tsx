@@ -60,7 +60,7 @@ export const Select = ({
   const listBoxRef: React.Ref<HTMLDivElement> = createRef();
 
   const [isOpen, updateIsOpen] = useState(false);
-  const [hoveredIndex, updateHoveredIndex] = useState(1);
+  const [hoveredIndex, updateHoveredIndex] = useState(0);
 
   const defaultSelected = getDefaultOption(options);
 
@@ -95,10 +95,14 @@ export const Select = ({
     }
   };
 
-  const expandOrCloseListBox = () => {
+  const expandOrCloseOptionList = () => {
     if (!disabled && !isLoading) {
       isMultipleSelect ? updateIsOpen(true) : updateIsOpen(!isOpen);
     }
+  };
+
+  const forceExpandOrCloseOptionList = (isOpen: boolean) => {
+    updateIsOpen(isOpen);
   };
 
   const clickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -111,7 +115,7 @@ export const Select = ({
       setSelectedOptions(isMultipleSelect, value);
     }
 
-    expandOrCloseListBox();
+    expandOrCloseOptionList();
   };
 
   const onKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -122,8 +126,8 @@ export const Select = ({
       listBoxRef,
       hoveredIndex,
       isMultipleSelect,
-      expandOrCloseListBox,
-      updateIsOpen,
+      expandOrCloseOptionList,
+      forceExpandOrCloseOptionList,
       updateHoveredIndex,
       setSelectedOptions
     );

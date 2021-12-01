@@ -17,8 +17,8 @@ export const SelectOnKeyDownHandler = (
   listBoxRef: RefObject<HTMLDivElement>,
   hoveredIndex: number,
   isMultipleSelect: boolean,
-  expandOrCloseListBox: () => void,
-  updateIsOpen: Dispatch<SetStateAction<boolean>>,
+  expandOrCloseOptionList: () => void,
+  forceExpandOrCloseOptionList: (isOpen: boolean) => void,
   updateHoveredIndex: Dispatch<SetStateAction<number>>,
   setSelectedOptions: (isMultipleSelect: boolean, value: string) => void
 ) => {
@@ -29,36 +29,50 @@ export const SelectOnKeyDownHandler = (
 
   switch (e.key) {
     case Keys.SPACE: {
-      updateIsOpen(!isOpen);
+      forceExpandOrCloseOptionList(!isOpen);
       break;
     }
 
     case Keys.ESC: {
-      updateIsOpen(false);
+      forceExpandOrCloseOptionList(false);
       break;
     }
 
     case Keys.DOWN: {
       if (isOpen) {
-        updateHoveredIndex((prevState) =>
-          prevState < options.length - 1 ? prevState + 1 : prevState
-        );
+        const currentIndex = hoveredIndex + 1;
+        let resetIndex = 1;
+        if (currentIndex >= options.length) {
+          updateHoveredIndex(resetIndex);
+        } else {
+          resetIndex = currentIndex;
+          updateHoveredIndex(resetIndex);
+        }
+
         if (scrollHeight && itemHeight) {
-          listBoxRef.current.scrollTop = hoveredIndex * itemHeight;
+          listBoxRef.current.scrollTop = (resetIndex - 1) * itemHeight;
         }
       } else {
-        expandOrCloseListBox();
+        expandOrCloseOptionList();
       }
 
       break;
     }
 
     case Keys.UP: {
-      updateHoveredIndex((prevState) =>
-        prevState > 1 ? prevState - 1 : prevState
-      );
-      if (scrollHeight && itemHeight) {
-        listBoxRef.current.scrollTop = (hoveredIndex - 2) * itemHeight;
+      if (isOpen) {
+        const currentIndex = hoveredIndex - 1;
+        let resetIndex = options.length - 1;
+        if (currentIndex <= 0) {
+          updateHoveredIndex(resetIndex);
+        } else {
+          resetIndex = currentIndex;
+          updateHoveredIndex(resetIndex);
+        }
+
+        if (scrollHeight && itemHeight) {
+          listBoxRef.current.scrollTop = (resetIndex - 1) * itemHeight;
+        }
       }
       break;
     }
@@ -70,9 +84,9 @@ export const SelectOnKeyDownHandler = (
         if (!options[hoveredIndex]?.isDisabled && value !== "0") {
           setSelectedOptions(isMultipleSelect, value);
         }
-        expandOrCloseListBox();
+        expandOrCloseOptionList();
       } else {
-        expandOrCloseListBox();
+        expandOrCloseOptionList();
       }
 
       break;

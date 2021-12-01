@@ -165,6 +165,13 @@ UncontrolledSelect.args = {
   options: listOfStates,
 };
 
+export const EmptySelect = Template.bind({});
+EmptySelect.args = {
+  label: "Empty Select",
+  helperMessages: [],
+  options: [],
+};
+
 export const SelectError = Template.bind({});
 SelectError.args = {
   label: "List of States",

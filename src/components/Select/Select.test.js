@@ -307,14 +307,14 @@ describe("Select test ", () => {
         charCode: 27,
       });
       expect(screen.getByRole("textbox")).toMatchInlineSnapshot(`
-              <div
-                aria-label="--Please choose an option--"
-                class="neo-multiselect__header"
-                role="textbox"
-              >
-                --Please choose an option--
-              </div>
-          `);
+        <div
+          aria-label="--Please choose an option--"
+          class="neo-multiselect__header"
+          role="textbox"
+        >
+          --Please choose an option--
+        </div>
+      `);
     });
   });
 
@@ -324,6 +324,13 @@ describe("Select test ", () => {
       const container = screen.getByRole("listbox");
 
       fireEvent.click(container);
+
+      fireEvent.keyDown(container, {
+        key: "ArrowDown",
+        code: "ArrowDown",
+        keyCode: 40,
+        charCode: 40,
+      });
 
       fireEvent.keyDown(container, {
         key: "Enter",
@@ -358,6 +365,13 @@ describe("Select test ", () => {
       });
 
       fireEvent.keyDown(container, {
+        key: "ArrowDown",
+        code: "ArrowDown",
+        keyCode: 40,
+        charCode: 40,
+      });
+
+      fireEvent.keyDown(container, {
         key: "Enter",
         code: "Enter",
         keyCode: 13,
@@ -382,6 +396,13 @@ describe("Select test ", () => {
       const container = screen.getByRole("listbox");
 
       fireEvent.click(container);
+      fireEvent.keyDown(container, {
+        key: "ArrowDown",
+        code: "ArrowDown",
+        keyCode: 40,
+        charCode: 40,
+      });
+
       fireEvent.keyDown(container, {
         key: "ArrowDown",
         code: "ArrowDown",
