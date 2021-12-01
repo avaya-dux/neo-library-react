@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import {
   useGlobalFilter,
   usePagination,
+  useRowSelect,
   useSortBy,
   useTable,
 } from "react-table";
@@ -54,11 +55,12 @@ export const Table = <T extends Record<string, any>>({
   caption,
   summary,
   itemsPerPageOptions,
+  defaultSelectedRowIds, // TODO-567: implement
 
   containerClassName = "",
   // handleCreate, // TODO-567: implement
   handleRefresh,
-  handleRowSelected = () => {}, // TODO-567: implement
+  handleRowSelected,
   readonly = false,
   selectableRows = "none",
   translations,
@@ -69,13 +71,22 @@ export const Table = <T extends Record<string, any>>({
     {
       columns,
       data,
-      initialState: { pageSize: itemsPerPageOptions?.[0] || 10 },
+      initialState: {
+        pageSize: itemsPerPageOptions?.[0] || 10,
+
+        // TODO-567: implement
+        // selectedRowIds: defaultSelectedRowIds?.reduce((_, curr, index) => {
+        //   curr[defaultSelectedRowIds[index]] = true;
+        //   return curr;
+        // }),
+      },
 
       ...rest,
     },
     useGlobalFilter,
     useSortBy,
-    usePagination
+    usePagination,
+    useRowSelect
   );
 
   const {

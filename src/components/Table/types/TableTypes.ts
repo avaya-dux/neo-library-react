@@ -9,6 +9,7 @@ import {
 } from ".";
 
 interface ToolbarSharedProps {
+  handleCreate?: () => Promise<void> | void;
   handleRefresh?: () => Promise<void> | void;
   readonly?: boolean;
   selectableRows?: "none" | "single" | "multiple";
@@ -29,7 +30,7 @@ export type PaginationProps<T extends Record<string, any>> = {
 };
 
 export type TableBodyProps<T extends Record<string, any>> = {
-  handleRowSelected?: (row: T | null) => void;
+  handleRowSelected?: (row: T, selectedRowIds: string[]) => void; // TODO-567: not sure I like the `selectedRowIds` param
   instance: TableInstance<T>;
   selectableRows: "none" | "single" | "multiple";
   translations: IBodyTranslations;
@@ -39,7 +40,7 @@ export type TableProps<T extends Record<string, any>> = {
   caption?: string;
   id?: string;
   itemsPerPageOptions?: number[];
-  preSelectedRowIds?: string[];
+  defaultSelectedRowIds?: string[];
   summary?: string;
   containerClassName?: string;
   translations?: ITableTranslations;
