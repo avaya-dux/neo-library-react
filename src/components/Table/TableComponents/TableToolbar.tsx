@@ -115,6 +115,13 @@ export const TableToolbar = <T extends Record<string, any>>({
           />
         </div>
 
+        <IconButton
+          aria-label={translations.filter || "Filter"}
+          icon="filter"
+          shape="square"
+          onClick={handleFilter}
+        />
+
         {handleRefresh && (
           <IconButton
             aria-label={translations.refresh || "Refresh"}
