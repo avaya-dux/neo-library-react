@@ -15,7 +15,7 @@ export * from "./NeoInputWrapper";
 export * from "./NoContent";
 export * from "./Pagination";
 export * from "./RadioGroup";
-export * from "./Select";
+// export * from "./Select"; // TODO-709, TODO-683 : uncomment when component it completed
 export * from "./Sheet";
 export * from "./Spinner";
 export * from "./Switch";

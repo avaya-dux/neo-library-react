@@ -98,7 +98,7 @@ describe("Keyboard event handlers", () => {
         expect(setSelectedOptions).not.toBeCalled();
       });
 
-      it("should do reset  the hoverIndex to 1 when `isOpen = true and hoverIndex >= options.length`.", () => {
+      it("should do reset  the hoverIndex to 1 when `isOpen = true and hoverIndex > options.length`.", () => {
         const e = { key: Keys.DOWN };
         isOpen = true;
         hoveredIndex = 3;
@@ -236,7 +236,7 @@ describe("Keyboard event handlers", () => {
         expect(setSelectedOptions).not.toBeCalled();
       });
 
-      it("should close the option list  when `isOpen = true and hoverIndex > options.length`", () => {
+      it("should close the option list when `isOpen = true and hoverIndex > options.length`", () => {
         const e = { key: Keys.ENTER };
         isOpen = true;
         hoveredIndex = 20;

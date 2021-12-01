@@ -12,6 +12,8 @@ import {
 } from "./Select";
 import * as SelectStories from "./Select.stories";
 
+import { KeyboardEventTypes } from "utils";
+
 const {
   UncontrolledSelect,
   ControlledSelect,
@@ -166,7 +168,7 @@ describe("Select test ", () => {
   });
 
   describe(getSelectedOptions, () => {
-    it("CLEAN: will remove the placeholder from the list of states", () => {
+    it("will remove the placeholder from the list of states", () => {
       expect(
         getSelectedOptions(
           true,
@@ -201,9 +203,9 @@ describe("Select test ", () => {
     });
 
     it("REMOVE: given value = AL, should remove Alabama from the list of selected states", () => {
-      const alabamaIshere = listOfStates.slice(1, 5);
+      const alabamaIsHere = listOfStates.slice(1, 5);
 
-      expect(getSelectedOptions(true, "AL", alabamaIshere, listOfStates))
+      expect(getSelectedOptions(true, "AL", alabamaIsHere, listOfStates))
         .toMatchInlineSnapshot(`
         Array [
           Object {
@@ -224,9 +226,9 @@ describe("Select test ", () => {
   });
 
   describe("setMultipleValues test", () => {
-    const ALabamaAndAlaska = listOfStates.slice(1, 3);
+    const AlabamaAndAlaska = listOfStates.slice(1, 3);
     it("Adding Utah to the list of selected states", () => {
-      expect(setMultipleValues(ALabamaAndAlaska, listOfStates, "UT"))
+      expect(setMultipleValues(AlabamaAndAlaska, listOfStates, "UT"))
         .toMatchInlineSnapshot(`
         Array [
           Object {
@@ -246,7 +248,7 @@ describe("Select test ", () => {
     });
 
     it("If you pass a state that is already there, this value will be removed", () => {
-      expect(setMultipleValues(ALabamaAndAlaska, listOfStates, "AL"))
+      expect(setMultipleValues(AlabamaAndAlaska, listOfStates, "AL"))
         .toMatchInlineSnapshot(`
         Array [
           Object {
@@ -273,19 +275,19 @@ describe("Select test ", () => {
   });
 
   describe("getSelectedValues test", () => {
-    it("Should display `Alabama` when selectedItems = `Alabama` and  defaultSelected =  `--Please choose an option--`", () => {
+    it("Should display `Alabama` when selectedItems = `Alabama` and defaultSelected = `--Please choose an option--`", () => {
       expect(
         getSelectedValues(listOfStates.slice(1, 2), listOfStates.slice(0, 1))
       ).toMatchInlineSnapshot(`"Alabama"`);
     });
 
-    it("Should display `Alabama, Alaska` when selectedItems = `Alabama, Alaska` and  defaultSelected =  `--Please choose an option--`", () => {
+    it("Should display `Alabama, Alaska` when selectedItems = `Alabama, Alaska` and defaultSelected = `--Please choose an option--`", () => {
       expect(
         getSelectedValues(listOfStates.slice(1, 3), listOfStates.slice(0, 1))
       ).toMatchInlineSnapshot(`"Alabama, Alaska"`);
     });
 
-    it("Should display `--Please choose an option--` when selectedItems = `[]` and  defaultSelected =  `--Please choose an option--`", () => {
+    it("Should display `--Please choose an option--` when selectedItems = `[]` and defaultSelected = `--Please choose an option--`", () => {
       expect(
         getSelectedValues([], listOfStates.slice(0, 1))
       ).toMatchInlineSnapshot(`"--Please choose an option--"`);
@@ -299,12 +301,7 @@ describe("Select test ", () => {
       const container = await screen.getByRole("listbox");
 
       fireEvent.click(container);
-      fireEvent.keyDown(container, {
-        key: "Escape",
-        code: "Escape",
-        keyCode: 27,
-        charCode: 27,
-      });
+      fireEvent.keyDown(container, KeyboardEventTypes.ESC);
       expect(screen.getByRole("textbox")).toMatchInlineSnapshot(`
         <div
           aria-label="--Please choose an option--"
@@ -324,12 +321,7 @@ describe("Select test ", () => {
 
       fireEvent.click(container);
 
-      fireEvent.keyDown(container, {
-        key: "ArrowDown",
-        code: "ArrowDown",
-        keyCode: 40,
-        charCode: 40,
-      });
+      fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
 
       fireEvent.keyDown(container, {
         key: "Enter",
@@ -351,31 +343,17 @@ describe("Select test ", () => {
   });
 
   describe("keyDown ArrowDown and Enter for Disabled Option test", () => {
-    it("Alaska is the 2nd item of the list but is a disabled option", async () => {
+    it("does not allow the selection of disabled options", async () => {
+      // the 2nd item of the list and is a disabled option
       render(<ControlledSelect />);
       const container = screen.getByRole("listbox");
 
       fireEvent.click(container);
-      fireEvent.keyDown(container, {
-        key: "ArrowDown",
-        code: "ArrowDown",
-        keyCode: 40,
-        charCode: 40,
-      });
+      fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
 
-      fireEvent.keyDown(container, {
-        key: "ArrowDown",
-        code: "ArrowDown",
-        keyCode: 40,
-        charCode: 40,
-      });
+      fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
 
-      fireEvent.keyDown(container, {
-        key: "Enter",
-        code: "Enter",
-        keyCode: 13,
-        charCode: 13,
-      });
+      fireEvent.keyDown(container, KeyboardEventTypes.ENTER);
       const textBox = await screen.getByRole("textbox");
       expect(textBox).toMatchInlineSnapshot(`
         <div
@@ -395,33 +373,14 @@ describe("Select test ", () => {
       const container = screen.getByRole("listbox");
 
       fireEvent.click(container);
-      fireEvent.keyDown(container, {
-        key: "ArrowDown",
-        code: "ArrowDown",
-        keyCode: 40,
-        charCode: 40,
-      });
+      fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
 
-      fireEvent.keyDown(container, {
-        key: "ArrowDown",
-        code: "ArrowDown",
-        keyCode: 40,
-        charCode: 40,
-      });
+      fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
 
-      fireEvent.keyDown(container, {
-        key: "ArrowDown",
-        code: "ArrowDown",
-        keyCode: 40,
-        charCode: 40,
-      });
+      fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
 
-      fireEvent.keyDown(container, {
-        key: "Enter",
-        code: "Enter",
-        keyCode: 13,
-        charCode: 13,
-      });
+      fireEvent.keyDown(container, KeyboardEventTypes.ENTER);
+
       const textBox = await screen.getByRole("textbox");
       expect(textBox).toMatchInlineSnapshot(`
         <div

@@ -72,10 +72,6 @@ export const renderSelectOptions = (
   callback: (option: OptionType) => void,
   isMultiple: boolean
 ) => {
-  /* multiple select and single select must have same css styles
-   * TODO https://jira.forge.avaya.com/browse/NEO-679
-   */
-
   return options.map((option, index) => {
     if (option.isPlaceholder) {
       // if isPlaceholder is true, that is mean that will not be render on the list
@@ -114,11 +110,6 @@ export const renderSelectOptions = (
         <label htmlFor={checkBoxId} {...(isDisabled ? "" : dataValue)}>
           {label}
         </label>
-        {/**
-         * TODO
-         * Select Box Multiple Select -> Hint text helper is not aligned properly when is disabled
-         * https://jira.forge.avaya.com/browse/NEO-700
-         */}
         {hint && (
           <p className="neo-input-hint" id={checkBoxHintId}>
             {hint}
@@ -160,11 +151,6 @@ export const getOptionClassNames = (
     classNames.push("neo-multiselect__content__item--hover");
   }
   if (isDisabled) {
-    /**
-     * TODO disabled is not a native property from <li> element,
-     * then a new CSS need to be created to support disabled option
-     * https://jira.forge.avaya.com/browse/NEO-699
-     */
     classNames.push("neo-multiselect__content__item--disabled");
   }
   if (isActive) {
