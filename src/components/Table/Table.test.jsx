@@ -6,7 +6,8 @@ import { Table } from ".";
 import { FilledFields } from "./mock-data";
 import * as TableStories from "./Table.stories";
 
-const { Default, EmptyDataSet } = composeStories(TableStories);
+const { Default, EmptyDataSet, BareBones, Templated } =
+  composeStories(TableStories);
 
 describe("Table", () => {
   jest.spyOn(console, "warn").mockImplementation(() => {}); // ignore tooltip warnings
@@ -49,6 +50,44 @@ describe("Table", () => {
 
       beforeEach(() => {
         renderResult = render(<EmptyDataSet />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("BareBones", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<BareBones />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("Templated", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<Templated />);
       });
 
       it("should render ok", () => {

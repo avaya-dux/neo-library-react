@@ -1,5 +1,7 @@
 import { Column } from "react-table";
-import { TableProps } from "./TableTypes";
+
+import { translations } from "./default-data";
+import { TableProps } from "./types";
 
 export interface IDataTableMockData {
   id: number;
@@ -31,10 +33,13 @@ const dataExample: IDataTableMockData[] = [
 export const FilledFields: TableProps<IDataTableMockData> = {
   columns: columnsExample,
   data: dataExample,
+  caption: "table caption",
+  summary: "table summary",
   itemsPerPageOptions: [1, 2, 5, 10, 20, 50, 100],
 
   handleCreate: () => {},
   handleRefresh: () => {},
   handleRowSelected: () => {},
   readonly: false,
+  translations,
 };
