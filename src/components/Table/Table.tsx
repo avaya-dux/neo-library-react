@@ -1,9 +1,16 @@
-import { usePagination, useTable } from "react-table";
+import { useMemo } from "react";
+import {
+  useGlobalFilter,
+  usePagination,
+  useSortBy,
+  useTable,
+} from "react-table";
 
 import { Pagination } from "components/Pagination";
 
 import { TableProps } from ".";
-import { TableBody } from "./TableComponents";
+import { translations as defaultTranslations } from "./default-data";
+import { TableBody, TableHeader, TableToolbar } from "./TableComponents";
 
 /**
  * The Table is used to organize and display data within rows and columns.
@@ -45,11 +52,16 @@ export const Table = <T extends Record<string, any>>({
   data,
   columns,
   caption,
+  summary,
   itemsPerPageOptions,
 
-  handleRowSelected = () => {},
+  containerClassName = "",
+  // handleCreate, // TODO-567: implement
+  handleRefresh,
+  handleRowSelected = () => {}, // TODO-567: implement
   readonly = false,
   selectableRows = "none",
+  translations,
 
   ...rest
 }: TableProps<T>) => {
@@ -61,42 +73,86 @@ export const Table = <T extends Record<string, any>>({
 
       ...rest,
     },
+    useGlobalFilter,
+    useSortBy,
     usePagination
   );
 
   const {
     rows,
     getTableProps,
-    headers,
     state: { pageIndex, pageSize },
     gotoPage,
     setPageSize,
   } = instance;
   const rowCount = rows.length;
 
+  const tableCaptionId = useMemo(
+    () => `table-caption-${caption || "caption"}`,
+    [caption]
+  );
+  const tableSummaryId = useMemo(
+    () => `table-summary-${caption || "summary"}`,
+    [caption]
+  );
+
+  const toolbarTranslations = useMemo(() => {
+    return {
+      ...defaultTranslations.toolbar,
+      ...translations?.toolbar,
+    };
+  }, [translations]);
+
+  const headerTranslations = useMemo(() => {
+    return {
+      ...defaultTranslations.header,
+      ...translations?.header,
+    };
+  }, [translations]);
+
+  const bodyTranslations = useMemo(() => {
+    return {
+      ...defaultTranslations.body,
+      ...translations?.body,
+    };
+  }, [translations]);
+
+  const paginationTranslations = useMemo(() => {
+    return {
+      ...defaultTranslations.pagination,
+      ...translations?.pagination,
+    };
+  }, [translations]);
+
   return (
-    <div id={id} data-testid={id}>
-      {/* <div>TODO-567: toolbar</div> */}
+    <div id={id} data-testid={id} className={containerClassName}>
+      {(caption || summary) && (
+        <>
+          {caption && <h4 id={tableCaptionId}>{caption}</h4>}
+          {summary && <p id={tableSummaryId}>{summary}</p>}
+        </>
+      )}
 
-      <table {...getTableProps()} className="neo-table">
-        {caption && <caption>{caption}</caption>}
+      <TableToolbar
+        handleRefresh={handleRefresh}
+        instance={instance}
+        readonly={readonly}
+        translations={toolbarTranslations}
+      />
 
-        {rows.length > 0 && (
-          <thead>
-            <tr>
-              {headers.map((column) => (
-                <th {...column.getHeaderProps()} scope="col">
-                  {column.render("Header")}
-                </th>
-              ))}
-            </tr>
-          </thead>
-        )}
+      <table
+        {...getTableProps()}
+        className="neo-table"
+        aria-labelledby={tableCaptionId}
+        aria-describedby={tableSummaryId}
+      >
+        <TableHeader instance={instance} translations={headerTranslations} />
 
         <TableBody
           instance={instance}
           handleRowSelected={handleRowSelected}
           selectableRows={selectableRows}
+          translations={bodyTranslations}
         />
       </table>
 
@@ -114,6 +170,13 @@ export const Table = <T extends Record<string, any>>({
             e?.preventDefault();
             setPageSize(newItemsPerPage);
           }}
+          backIconButtonText={paginationTranslations.backIconButtonText}
+          itemsPerPageLabel={paginationTranslations.itemsPerPageLabel}
+          nextIconButtonText={paginationTranslations.nextIconButtonText}
+          tooltipForCurrentPage={paginationTranslations.tooltipForCurrentPage}
+          tooltipForShownPagesSelect={
+            paginationTranslations.tooltipForShownPagesSelect
+          }
         />
       )}
     </div>

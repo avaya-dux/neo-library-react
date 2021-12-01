@@ -49,7 +49,7 @@ const BookOfPages = ({ sectionWidth }: { sectionWidth?: number }) => {
         <h3>Pagination example for paging through a "book" of pages</h3>
 
         <section>
-          <Form inline>
+          <Form inline onSubmit={(e) => e.preventDefault()}>
             <TextInput
               clearable={false}
               label="Number of <p> to generate"

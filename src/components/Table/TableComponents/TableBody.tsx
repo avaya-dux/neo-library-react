@@ -1,4 +1,4 @@
-import { TableBodyProps } from "../TableTypes";
+import { TableBodyProps } from "../types";
 
 /**
  * TableBody is used by the Table component to render the table body (<tr>s and <td>s)

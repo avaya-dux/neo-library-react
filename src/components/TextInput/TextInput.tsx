@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { HTMLAttributes, ReactNode, useMemo, useRef } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
@@ -5,12 +6,14 @@ import {
   dispatchInputOnChangeEvent,
   genId,
   handleAccessbilityError,
+  IconNamesType,
 } from "utils";
 
 export interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
   clearable?: boolean;
   disabled?: boolean;
   endAdornment?: ReactNode;
+  endIcon?: IconNamesType;
   error?: boolean;
   helperText?: string;
   inline?: boolean;
@@ -19,6 +22,7 @@ export interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
   readOnly?: boolean;
   required?: boolean;
   startAdornment?: ReactNode;
+  startIcon?: IconNamesType;
   value?: number | string;
 }
 
@@ -26,6 +30,7 @@ export const TextInput: React.FC<TextInputProps> = ({
   clearable = true,
   disabled,
   endAdornment,
+  endIcon,
   error,
   helperText,
   inline,
@@ -34,6 +39,7 @@ export const TextInput: React.FC<TextInputProps> = ({
   readOnly,
   required,
   startAdornment,
+  startIcon,
   value,
   ...rest
 }) => {
@@ -48,6 +54,7 @@ export const TextInput: React.FC<TextInputProps> = ({
 
   return (
     <NeoInputWrapper
+      wrapperClassName={startIcon || endIcon ? "neo-input-icon" : ""}
       disabled={disabled}
       error={error}
       required={required}
@@ -60,7 +67,14 @@ export const TextInput: React.FC<TextInputProps> = ({
           <div className="neo-input-group__addon">{startAdornment}</div>
         )}
 
-        <div className="neo-input-editable__wrapper">
+        <div
+          className={clsx(
+            "neo-input-editable__wrapper",
+            startIcon || endIcon ? "neo-input-icon__wrapper" : undefined
+          )}
+        >
+          {startIcon && <span className={`neo-icon-${startIcon}`} />}
+
           <input
             {...getInputProps({ readOnly })}
             id={internalId}
@@ -73,6 +87,9 @@ export const TextInput: React.FC<TextInputProps> = ({
             {...rest}
           />
 
+          {/* BUG: `clearable` icon overrides `endIcon` */}
+          {endIcon && <span className={`neo-icon-${endIcon}`} />}
+
           {!!clearable && (
             <button
               aria-label="clear input"
@@ -80,7 +97,6 @@ export const TextInput: React.FC<TextInputProps> = ({
               className="neo-input-edit__icon neo-icon-end"
               disabled={disabled}
               onClick={() => {
-                // BUG: clearing is causing the whole page to die
                 dispatchInputOnChangeEvent(inputRef.current!, "");
               }}
             />
