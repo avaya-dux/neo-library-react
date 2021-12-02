@@ -127,7 +127,7 @@ describe("Select test ", () => {
     }, 10000);
   });
 
-  describe("SelectDisabled test", () => {
+  describe(SelectDisabled, () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<SelectDisabled />);
@@ -144,7 +144,7 @@ describe("Select test ", () => {
     }, 10000);
   });
 
-  describe("getSelectClassNames test", () => {
+  describe(getSelectClassNames, () => {
     it("given isOpen = true, should return correct css names", () => {
       expect(getSelectClassNames(true)).toMatchInlineSnapshot(
         `"neo-multiselect neo-multiselect--active"`
@@ -225,7 +225,7 @@ describe("Select test ", () => {
     });
   });
 
-  describe("setMultipleValues test", () => {
+  describe(setMultipleValues, () => {
     const AlabamaAndAlaska = listOfStates.slice(1, 3);
     it("Adding Utah to the list of selected states", () => {
       expect(setMultipleValues(AlabamaAndAlaska, listOfStates, "UT"))
@@ -260,7 +260,7 @@ describe("Select test ", () => {
     });
   });
 
-  describe("getAriaActiveDescendant test", () => {
+  describe(getAriaActiveDescendant, () => {
     it("if IsOpen is true will return the active state id", () => {
       expect(
         getAriaActiveDescendant(true, listOfStates.slice(1, 2))
@@ -274,7 +274,7 @@ describe("Select test ", () => {
     });
   });
 
-  describe("getSelectedValues test", () => {
+  describe(getSelectedValues, () => {
     it("Should display `Alabama` when selectedItems = `Alabama` and defaultSelected = `--Please choose an option--`", () => {
       expect(
         getSelectedValues(listOfStates.slice(1, 2), listOfStates.slice(0, 1))
@@ -330,6 +330,16 @@ describe("Select test ", () => {
         charCode: 13,
       });
       const textBox = await screen.getByRole("textbox");
+      const hiddenInput = await screen.getByPlaceholderText("hidden-input");
+      expect(textBox).toMatchInlineSnapshot(`
+        <div
+          aria-label="Alabama"
+          class="neo-multiselect__header"
+          role="textbox"
+        >
+          Alabama
+        </div>
+      `);
       expect(textBox).toMatchInlineSnapshot(`
         <div
           aria-label="Alabama"
@@ -355,6 +365,7 @@ describe("Select test ", () => {
 
       fireEvent.keyDown(container, KeyboardEventTypes.ENTER);
       const textBox = await screen.getByRole("textbox");
+      const hiddenInput = await screen.getByPlaceholderText("hidden-input");
       expect(textBox).toMatchInlineSnapshot(`
         <div
           aria-label="--Please choose an option--"
@@ -363,6 +374,13 @@ describe("Select test ", () => {
         >
           --Please choose an option--
         </div>
+      `);
+      expect(hiddenInput).toMatchInlineSnapshot(`
+        <input
+          placeholder="hidden-input"
+          type="hidden"
+          value="0"
+        />
       `);
     });
   });
@@ -382,6 +400,7 @@ describe("Select test ", () => {
       fireEvent.keyDown(container, KeyboardEventTypes.ENTER);
 
       const textBox = await screen.getByRole("textbox");
+      const hiddenInput = await screen.getByPlaceholderText("hidden-input");
       expect(textBox).toMatchInlineSnapshot(`
         <div
           aria-label="Arizona"
@@ -390,6 +409,14 @@ describe("Select test ", () => {
         >
           Arizona
         </div>
+      `);
+
+      expect(hiddenInput).toMatchInlineSnapshot(`
+        <input
+          placeholder="hidden-input"
+          type="hidden"
+          value="AZ"
+        />
       `);
     });
   });

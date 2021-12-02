@@ -188,6 +188,11 @@ export const Select = ({
         tabIndex={0}
         aria-activedescendant={ariaActivedescendantMemoized}
       >
+        <input
+          type="hidden"
+          placeholder="hidden-input"
+          value={selectedOptions.map((item) => item.value).join(", ")}
+        />
         <div
           role="textbox"
           className="neo-multiselect__header"
