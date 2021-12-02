@@ -34,6 +34,7 @@ export interface SelectProps
   options: OptionType[];
   required?: boolean;
   value?: string[];
+  name?: string;
 }
 
 export interface OptionsProps {

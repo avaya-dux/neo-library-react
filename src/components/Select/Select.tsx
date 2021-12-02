@@ -47,6 +47,7 @@ export const Select = ({
   options,
   required,
   value,
+  name,
 }: SelectProps) => {
   const labelId = useMemo(
     () => `neo-select-label-id-${label.replace(/\s/g, "")}`,
@@ -55,6 +56,11 @@ export const Select = ({
   const selectId = useMemo(
     () => id || `neo-select-id-${label.replace(/\s/g, "")}`,
     [id, label]
+  );
+
+  const internalName = useMemo(
+    () => name || `neo-select-name-${label.replace(/\s/g, "")}`,
+    [name, label]
   );
 
   const listBoxRef: React.Ref<HTMLDivElement> = createRef();
@@ -164,6 +170,14 @@ export const Select = ({
     return getAriaActiveDescendant(isOpen, selectedOptions);
   }, [isOpen, selectedOptions]);
 
+  const renderInputValuesMemoized = useMemo(() => {
+    return renderInputValues(selectedOptions, internalName);
+  }, [selectedOptions, internalName]);
+
+  /**
+   * TODO expand UP direction when the Select is on the bottom of the screen view
+   */
+
   return (
     <NeoInputWrapper
       disabled={disabled}
@@ -188,11 +202,8 @@ export const Select = ({
         tabIndex={0}
         aria-activedescendant={ariaActivedescendantMemoized}
       >
-        <input
-          type="hidden"
-          placeholder="hidden-input"
-          value={selectedOptions.map((item) => item.value).join(", ")}
-        />
+        {renderInputValuesMemoized}
+
         <div
           role="textbox"
           className="neo-multiselect__header"
@@ -288,4 +299,18 @@ export const getSelectedValues = (
   return selectedItems.length === 0
     ? defaultSelected.map((item) => item.label).join(", ")
     : selectedItems?.map((item) => item.label).join(", ");
+};
+
+export const renderInputValues = (
+  selectedOptions: OptionType[],
+  name: string
+) => {
+  return selectedOptions.map((option) => (
+    <input
+      key={`input-hidden-${option.value}`}
+      type="hidden"
+      name={name}
+      value={option.value}
+    />
+  ));
 };

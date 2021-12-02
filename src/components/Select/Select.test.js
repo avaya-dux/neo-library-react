@@ -9,6 +9,7 @@ import {
   getSelectedOptions,
   getSelectedValues,
   setMultipleValues,
+  renderInputValues,
 } from "./Select";
 import * as SelectStories from "./Select.stories";
 
@@ -293,6 +294,46 @@ describe("Select test ", () => {
       ).toMatchInlineSnapshot(`"--Please choose an option--"`);
     });
   });
+
+  describe(renderInputValues, () => {
+    it("should return 2 inputs with values = `AL`, `AK` and hidden type", () => {
+      expect(renderInputValues(listOfStates.slice(1, 3), "test-name-001"))
+        .toMatchInlineSnapshot(`
+        Array [
+          <input
+            name="test-name-001"
+            type="hidden"
+            value="AL"
+          />,
+          <input
+            name="test-name-001"
+            type="hidden"
+            value="AK"
+          />,
+        ]
+      `);
+    });
+
+    it("should return an input with value = `AL` and hidden type", () => {
+      expect(renderInputValues(listOfStates.slice(1, 2), "test-name-002"))
+        .toMatchInlineSnapshot(`
+        Array [
+          <input
+            name="test-name-002"
+            type="hidden"
+            value="AL"
+          />,
+        ]
+      `);
+    });
+
+    it("should return an empty Array", () => {
+      expect(renderInputValues([], "test-name-003")).toMatchInlineSnapshot(
+        `Array []`
+      );
+    });
+  });
+
   describe("Keyboard events", () => {
     describe("keyDown Escape test", () => {
       it("display default after Escape was triggered", () => {
@@ -325,7 +366,7 @@ describe("Select test ", () => {
         fireEvent.keyDown(container, KeyboardEventTypes.ENTER);
 
         const textBox = screen.getByRole("textbox");
-        const hiddenInput = screen.getByPlaceholderText("hidden-input");
+        const hiddenInput = screen.getByDisplayValue("AL");
         expect(textBox).toMatchInlineSnapshot(`
                   <div
                     aria-label="Alabama"
@@ -336,12 +377,12 @@ describe("Select test ", () => {
                   </div>
               `);
         expect(hiddenInput).toMatchInlineSnapshot(`
-                  <input
-                    placeholder="hidden-input"
-                    type="hidden"
-                    value="AL"
-                  />
-              `);
+          <input
+            name="neo-select-name-ListofStates"
+            type="hidden"
+            value="AL"
+          />
+        `);
       });
     });
 
@@ -359,7 +400,7 @@ describe("Select test ", () => {
         fireEvent.keyDown(container, KeyboardEventTypes.ENTER);
 
         const textBox = screen.getByRole("textbox");
-        const hiddenInput = screen.getByPlaceholderText("hidden-input");
+        const hiddenInput = screen.getByDisplayValue("0");
         expect(textBox).toMatchInlineSnapshot(`
                   <div
                     aria-label="--Please choose an option--"
@@ -370,12 +411,12 @@ describe("Select test ", () => {
                   </div>
               `);
         expect(hiddenInput).toMatchInlineSnapshot(`
-                  <input
-                    placeholder="hidden-input"
-                    type="hidden"
-                    value="0"
-                  />
-              `);
+          <input
+            name="neo-select-name-ListofStates"
+            type="hidden"
+            value="0"
+          />
+        `);
       });
     });
 
@@ -393,7 +434,7 @@ describe("Select test ", () => {
         fireEvent.keyDown(container, KeyboardEventTypes.ENTER);
 
         const textBox = screen.getByRole("textbox");
-        const hiddenInput = screen.getByPlaceholderText("hidden-input");
+        const hiddenInput = screen.getByDisplayValue("AZ");
         expect(textBox).toMatchInlineSnapshot(`
                   <div
                     aria-label="Arizona"
@@ -405,12 +446,12 @@ describe("Select test ", () => {
               `);
 
         expect(hiddenInput).toMatchInlineSnapshot(`
-                  <input
-                    placeholder="hidden-input"
-                    type="hidden"
-                    value="AZ"
-                  />
-              `);
+          <input
+            name="neo-select-name-ListofStates"
+            type="hidden"
+            value="AZ"
+          />
+        `);
       });
     });
 
@@ -426,7 +467,7 @@ describe("Select test ", () => {
         fireEvent.keyDown(container, KeyboardEventTypes.ENTER);
 
         const textBox = screen.getByRole("textbox");
-        const hiddenInput = screen.getByPlaceholderText("hidden-input");
+        const hiddenInput = screen.getByDisplayValue("WY");
         expect(textBox).toMatchInlineSnapshot(`
           <div
             aria-label="Wyoming"
@@ -439,7 +480,7 @@ describe("Select test ", () => {
 
         expect(hiddenInput).toMatchInlineSnapshot(`
           <input
-            placeholder="hidden-input"
+            name="neo-select-name-ListofStates"
             type="hidden"
             value="WY"
           />
