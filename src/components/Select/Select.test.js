@@ -293,131 +293,158 @@ describe("Select test ", () => {
       ).toMatchInlineSnapshot(`"--Please choose an option--"`);
     });
   });
+  describe("Keyboard events", () => {
+    describe("keyDown Escape test", () => {
+      it("display default after Escape was triggered", () => {
+        render(<ControlledSelect />);
 
-  describe("keyDown Escape test", () => {
-    it("display default after Escape was triggered", async () => {
-      render(<ControlledSelect />);
+        const container = screen.getByRole("listbox");
 
-      const container = await screen.getByRole("listbox");
-
-      fireEvent.click(container);
-      fireEvent.keyDown(container, KeyboardEventTypes.ESC);
-      expect(screen.getByRole("textbox")).toMatchInlineSnapshot(`
-        <div
-          aria-label="--Please choose an option--"
-          class="neo-multiselect__header"
-          role="textbox"
-        >
-          --Please choose an option--
-        </div>
-      `);
-    });
-  });
-
-  describe("keyDown and Enter test", () => {
-    it("Should display Alabama, because is the 1st item of the list ", async () => {
-      render(<ControlledSelect />);
-      const container = screen.getByRole("listbox");
-
-      fireEvent.click(container);
-
-      fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
-
-      fireEvent.keyDown(container, {
-        key: "Enter",
-        code: "Enter",
-        keyCode: 13,
-        charCode: 13,
+        fireEvent.click(container);
+        fireEvent.keyDown(container, KeyboardEventTypes.ESC);
+        expect(screen.getByRole("textbox")).toMatchInlineSnapshot(`
+                  <div
+                    aria-label="--Please choose an option--"
+                    class="neo-multiselect__header"
+                    role="textbox"
+                  >
+                    --Please choose an option--
+                  </div>
+              `);
       });
-      const textBox = await screen.getByRole("textbox");
-      const hiddenInput = await screen.getByPlaceholderText("hidden-input");
-      expect(textBox).toMatchInlineSnapshot(`
-        <div
-          aria-label="Alabama"
-          class="neo-multiselect__header"
-          role="textbox"
-        >
-          Alabama
-        </div>
-      `);
-      expect(textBox).toMatchInlineSnapshot(`
-        <div
-          aria-label="Alabama"
-          class="neo-multiselect__header"
-          role="textbox"
-        >
-          Alabama
-        </div>
-      `);
     });
-  });
 
-  describe("keyDown ArrowDown and Enter for Disabled Option test", () => {
-    it("does not allow the selection of disabled options", async () => {
-      // the 2nd item of the list and is a disabled option
-      render(<ControlledSelect />);
-      const container = screen.getByRole("listbox");
+    describe("keyDown and Enter test", () => {
+      it("Should display Alabama, because is the 1st item from the list ", () => {
+        render(<ControlledSelect />);
+        const container = screen.getByRole("listbox");
 
-      fireEvent.click(container);
-      fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
+        fireEvent.click(container);
 
-      fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
+        fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
+        fireEvent.keyDown(container, KeyboardEventTypes.ENTER);
 
-      fireEvent.keyDown(container, KeyboardEventTypes.ENTER);
-      const textBox = await screen.getByRole("textbox");
-      const hiddenInput = await screen.getByPlaceholderText("hidden-input");
-      expect(textBox).toMatchInlineSnapshot(`
-        <div
-          aria-label="--Please choose an option--"
-          class="neo-multiselect__header"
-          role="textbox"
-        >
-          --Please choose an option--
-        </div>
-      `);
-      expect(hiddenInput).toMatchInlineSnapshot(`
-        <input
-          placeholder="hidden-input"
-          type="hidden"
-          value="0"
-        />
-      `);
+        const textBox = screen.getByRole("textbox");
+        const hiddenInput = screen.getByPlaceholderText("hidden-input");
+        expect(textBox).toMatchInlineSnapshot(`
+                  <div
+                    aria-label="Alabama"
+                    class="neo-multiselect__header"
+                    role="textbox"
+                  >
+                    Alabama
+                  </div>
+              `);
+        expect(hiddenInput).toMatchInlineSnapshot(`
+                  <input
+                    placeholder="hidden-input"
+                    type="hidden"
+                    value="AL"
+                  />
+              `);
+      });
     });
-  });
 
-  describe("keyDown ArrowDown and Enter for Disabled Option test", () => {
-    it("Should display Arizona because is the 3rd item of the list", async () => {
-      render(<ControlledSelect />);
-      const container = screen.getByRole("listbox");
+    describe("keyDown ArrowDown and Enter for Disabled Option test", () => {
+      it("does not allow the selection of disabled options", () => {
+        // the 2nd item from the list and is a disabled option
+        render(<ControlledSelect />);
+        const container = screen.getByRole("listbox");
 
-      fireEvent.click(container);
-      fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
+        fireEvent.click(container);
 
-      fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
+        fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
+        fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
 
-      fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
+        fireEvent.keyDown(container, KeyboardEventTypes.ENTER);
 
-      fireEvent.keyDown(container, KeyboardEventTypes.ENTER);
+        const textBox = screen.getByRole("textbox");
+        const hiddenInput = screen.getByPlaceholderText("hidden-input");
+        expect(textBox).toMatchInlineSnapshot(`
+                  <div
+                    aria-label="--Please choose an option--"
+                    class="neo-multiselect__header"
+                    role="textbox"
+                  >
+                    --Please choose an option--
+                  </div>
+              `);
+        expect(hiddenInput).toMatchInlineSnapshot(`
+                  <input
+                    placeholder="hidden-input"
+                    type="hidden"
+                    value="0"
+                  />
+              `);
+      });
+    });
 
-      const textBox = await screen.getByRole("textbox");
-      const hiddenInput = await screen.getByPlaceholderText("hidden-input");
-      expect(textBox).toMatchInlineSnapshot(`
-        <div
-          aria-label="Arizona"
-          class="neo-multiselect__header"
-          role="textbox"
-        >
-          Arizona
-        </div>
-      `);
+    describe("keyDown ArrowDown and Enter for Disabled Option test", () => {
+      it("Should display Arizona because is the 3rd item from the list", () => {
+        render(<ControlledSelect />);
+        const container = screen.getByRole("listbox");
 
-      expect(hiddenInput).toMatchInlineSnapshot(`
-        <input
-          placeholder="hidden-input"
-          type="hidden"
-          value="AZ"
-        />
-      `);
+        fireEvent.click(container);
+
+        fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
+        fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
+        fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
+
+        fireEvent.keyDown(container, KeyboardEventTypes.ENTER);
+
+        const textBox = screen.getByRole("textbox");
+        const hiddenInput = screen.getByPlaceholderText("hidden-input");
+        expect(textBox).toMatchInlineSnapshot(`
+                  <div
+                    aria-label="Arizona"
+                    class="neo-multiselect__header"
+                    role="textbox"
+                  >
+                    Arizona
+                  </div>
+              `);
+
+        expect(hiddenInput).toMatchInlineSnapshot(`
+                  <input
+                    placeholder="hidden-input"
+                    type="hidden"
+                    value="AZ"
+                  />
+              `);
+      });
+    });
+
+    describe("keyDown ArrowUp and Enter test", () => {
+      it("Should display Wyoming because is the last item from the list", () => {
+        render(<ControlledSelect />);
+        const container = screen.getByRole("listbox");
+
+        fireEvent.click(container);
+
+        fireEvent.keyDown(container, KeyboardEventTypes.UP);
+
+        fireEvent.keyDown(container, KeyboardEventTypes.ENTER);
+
+        const textBox = screen.getByRole("textbox");
+        const hiddenInput = screen.getByPlaceholderText("hidden-input");
+        expect(textBox).toMatchInlineSnapshot(`
+          <div
+            aria-label="Wyoming"
+            class="neo-multiselect__header"
+            role="textbox"
+          >
+            Wyoming
+          </div>
+        `);
+
+        expect(hiddenInput).toMatchInlineSnapshot(`
+          <input
+            placeholder="hidden-input"
+            type="hidden"
+            value="WY"
+          />
+        `);
+      });
     });
   });
 });
