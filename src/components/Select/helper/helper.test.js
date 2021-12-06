@@ -11,7 +11,11 @@ import {
 
 describe("Helper test ", () => {
   describe("getDefaultOption", () => {
-    it("given a list of states without a query will returns the default selected", () => {
+    it("given an empty array should return an empty array", () => {
+      expect(getDefaultOption([])).toMatchInlineSnapshot(`Array []`);
+    });
+
+    it("given a list of states without a query should return the default selected", () => {
       expect(getDefaultOption(listOfStates)).toMatchInlineSnapshot(`
         Array [
           Object {
@@ -25,7 +29,7 @@ describe("Helper test ", () => {
       `);
     });
 
-    it("given a list of states with the query (AL, UT) will returns Alabama and Utah", () => {
+    it("given a list of states with the query (AL, UT) should return Alabama and Utah", () => {
       expect(getOptionValue(listOfStates, ["AL", "UT"])).toMatchInlineSnapshot(`
               Array [
                 Object {
@@ -42,7 +46,13 @@ describe("Helper test ", () => {
   });
 
   describe("displayErrorOrHelper", () => {
-    it("given a ErrorMessagesDemo and HelperMessagesDemo, should do return the list of errors", () => {
+    it("given undefined values, should return null", () => {
+      expect(displayErrorOrHelper(undefined, undefined)).toMatchInlineSnapshot(
+        `null`
+      );
+    });
+
+    it("given a ErrorMessagesDemo and HelperMessagesDemo, should return the list of errors", () => {
       expect(displayErrorOrHelper(errorMessagesDemo, helperMessagesDemo))
         .toMatchInlineSnapshot(`
               Array [
@@ -60,7 +70,7 @@ describe("Helper test ", () => {
           `);
     });
 
-    it("given only ErrorMessagesDemo, should do return the list of errors", () => {
+    it("given only ErrorMessagesDemo, should return the list of errors", () => {
       expect(displayErrorOrHelper(errorMessagesDemo, undefined))
         .toMatchInlineSnapshot(`
               Array [
@@ -78,7 +88,7 @@ describe("Helper test ", () => {
           `);
     });
 
-    it("given only HelperMessagesDemo, should do return the list of help messages", () => {
+    it("given only HelperMessagesDemo, should return the list of help messages", () => {
       expect(displayErrorOrHelper(undefined, helperMessagesDemo))
         .toMatchInlineSnapshot(`
               Array [

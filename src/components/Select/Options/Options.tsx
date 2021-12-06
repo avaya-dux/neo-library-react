@@ -74,7 +74,7 @@ export const renderSelectOptions = (
 ) => {
   return options.map((option, index) => {
     if (option.isPlaceholder) {
-      // if isPlaceholder is true, that is mean that will not be render on the list
+      // placeholder options are not selectable, and thus are not rendered in the dropdown
       return null;
     }
     const { label, value, hint, isDisabled } = option;
@@ -110,6 +110,10 @@ export const renderSelectOptions = (
         <label htmlFor={checkBoxId} {...(isDisabled ? "" : dataValue)}>
           {label}
         </label>
+        {/**
+         * TODO Nested neo-input-hint CSS class
+         * https://jira.forge.avaya.com/browse/NEO-755
+         */}
         {hint && (
           <p className="neo-input-hint" id={checkBoxHintId}>
             {hint}

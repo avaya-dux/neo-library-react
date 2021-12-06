@@ -9,14 +9,13 @@ const renderMessages = (errorList: string[]) => {
 };
 
 /**
- * Returns OptionType[] based on Value
  * @param {OptionType[]} array
  * @param {string[]} query
+ * @returns {OptionType[]} Selected value or values if it/they exist
+ *
  * @example
- * // returns [{ label: "Alabama", value: "AL" }]
- * getOptionValue([{ label: "Alabama", value: "AL" }, { label: "Alaska", value: "AK" }]
- * ,["AL"]);
- * @returns {OptionType[]} Selected value or values.
+ * getOptionValue([{ label: "Alabama", value: "AL" }, { label: "Alaska", value: "AK" }], ["AL"]); // result: [{ label: "Alabama", value: "AL" }]
+ * getOptionValue([{ label: "Alabama", value: "AL" }, { label: "Alaska", value: "AK" }], ["WA"]); // result: []
  */
 export const getOptionValue = (
   array: OptionType[],

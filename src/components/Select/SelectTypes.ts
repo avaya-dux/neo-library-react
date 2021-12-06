@@ -22,7 +22,10 @@ export interface NativeSelectProps
   value?: string;
 }
 export interface SelectProps
-  extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "onChange" | "onSelect"> {
+  extends Omit<
+    React.SelectHTMLAttributes<HTMLSelectElement>,
+    "onChange" | "onSelect"
+  > {
   disabled?: boolean;
   errorMessages?: string[];
   helperMessages?: string[];

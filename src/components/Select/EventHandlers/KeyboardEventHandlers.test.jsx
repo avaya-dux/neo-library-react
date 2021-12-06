@@ -4,8 +4,8 @@ import { Keys } from "utils";
 
 import { SelectOnBlurHandler, SelectOnKeyDownHandler } from "./KeyboardEventHandlers";
 
-describe("Keyboard event handlers", () => {
-  describe(SelectOnKeyDownHandler, () => {
+describe("Select Keyboard event handlers", () => {
+  describe("SelectOnKeyDownHandler", () => {
     let isOpen;
     let options;
     let listBoxRef;
@@ -54,7 +54,7 @@ describe("Keyboard event handlers", () => {
       expect(setSelectedOptions).not.toBeCalled();
     });
 
-    describe(Keys.DOWN, () => {
+    describe("Keys.DOWN", () => {
       it("should expand the option list when `isOpen = false`.", () => {
         const e = { key: Keys.DOWN };
 
@@ -121,7 +121,7 @@ describe("Keyboard event handlers", () => {
         expect(setSelectedOptions).not.toBeCalled();
       });
     });
-    describe(Keys.UP, () => {
+    describe("Keys.UP", () => {
       it("should decrease the hoverIndex by 1 when `isOpen = true`.", () => {
         const e = { key: Keys.UP };
         isOpen = true;
@@ -168,7 +168,7 @@ describe("Keyboard event handlers", () => {
         expect(setSelectedOptions).not.toBeCalled();
       });
     });
-    describe(Keys.ENTER, () => {
+    describe("Keys.ENTER", () => {
       it("should expand the option list when `isOpen = false`.", () => {
         const e = { key: Keys.ENTER };
 
@@ -260,7 +260,7 @@ describe("Keyboard event handlers", () => {
       });
     });
 
-    describe(SelectOnBlurHandler, () => {
+    describe("SelectOnBlurHandler", () => {
       let updateIsOpen;
       beforeEach(() => {
         updateIsOpen = jest.fn();

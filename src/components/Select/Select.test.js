@@ -128,7 +128,7 @@ describe("Select test ", () => {
     }, 10000);
   });
 
-  describe(SelectDisabled, () => {
+  describe("SelectDisabled", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<SelectDisabled />);
@@ -145,7 +145,7 @@ describe("Select test ", () => {
     }, 10000);
   });
 
-  describe(getSelectClassNames, () => {
+  describe("getSelectClassNames", () => {
     it("given isOpen = true, should return correct css names", () => {
       expect(getSelectClassNames(true)).toMatchInlineSnapshot(
         `"neo-multiselect neo-multiselect--active"`
@@ -168,7 +168,7 @@ describe("Select test ", () => {
     });
   });
 
-  describe(getSelectedOptions, () => {
+  describe("getSelectedOptions", () => {
     it("will remove the placeholder from the list of states", () => {
       expect(
         getSelectedOptions(
@@ -226,7 +226,7 @@ describe("Select test ", () => {
     });
   });
 
-  describe(setMultipleValues, () => {
+  describe("setMultipleValues", () => {
     const AlabamaAndAlaska = listOfStates.slice(1, 3);
     it("Adding Utah to the list of selected states", () => {
       expect(setMultipleValues(AlabamaAndAlaska, listOfStates, "UT"))
@@ -261,7 +261,7 @@ describe("Select test ", () => {
     });
   });
 
-  describe(getAriaActiveDescendant, () => {
+  describe("getAriaActiveDescendant", () => {
     it("if IsOpen is true will return the active state id", () => {
       expect(
         getAriaActiveDescendant(true, listOfStates.slice(1, 2))
@@ -275,7 +275,7 @@ describe("Select test ", () => {
     });
   });
 
-  describe(getSelectedValues, () => {
+  describe("getSelectedValues", () => {
     it("Should display `Alabama` when selectedItems = `Alabama` and defaultSelected = `--Please choose an option--`", () => {
       expect(
         getSelectedValues(listOfStates.slice(1, 2), listOfStates.slice(0, 1))
@@ -295,7 +295,7 @@ describe("Select test ", () => {
     });
   });
 
-  describe(renderInputValues, () => {
+  describe("renderInputValues", () => {
     it("should return 2 inputs with values = `AL`, `AK` and hidden type", () => {
       expect(renderInputValues(listOfStates.slice(1, 3), "test-name-001"))
         .toMatchInlineSnapshot(`
