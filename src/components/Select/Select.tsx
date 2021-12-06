@@ -1,4 +1,4 @@
-import { createRef, useEffect, useMemo, useState } from "react";
+import { createRef, useEffect, useMemo, useState, useCallback } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 
@@ -84,7 +84,17 @@ export const Select = ({
     }
   }, [value, options]);
 
-  const setSelectedOptions = (isMultipleSelect: boolean, value: string) => {
+  const onSelectionChangeMemoizedCallback = useCallback(
+    (isMultipleSelect, value) => {
+      onSelectionChangeHandler(isMultipleSelect, value);
+    },
+    [isMultipleSelect, value]
+  );
+
+  const onSelectionChangeHandler = (
+    isMultipleSelect: boolean,
+    value: string
+  ) => {
     const newSelectedOptions = computeNewSelectedOptions(
       isMultipleSelect,
       value,
@@ -95,7 +105,7 @@ export const Select = ({
     updateSelectedOptions(newSelectedOptions);
     if (!isMultipleSelect && newSelectedOptions[0])
       updateHoveredIndex(options.indexOf(newSelectedOptions[0]));
-
+    // dispatch event onSelectionChange(values)
     if (onSelectionChange) {
       onSelectionChange(newSelectedOptions?.map((item) => item.value));
     }
@@ -114,7 +124,7 @@ export const Select = ({
 
     // value "0" will be ignored
     if (value && value !== "0") {
-      setSelectedOptions(isMultipleSelect, value);
+      onSelectionChangeMemoizedCallback(isMultipleSelect, value);
     }
 
     expandOrCloseOptionList();
@@ -131,7 +141,7 @@ export const Select = ({
       expandOrCloseOptionList,
       updateIsOpen,
       updateHoveredIndex,
-      setSelectedOptions
+      onSelectionChangeMemoizedCallback
     );
   };
 
