@@ -6,9 +6,9 @@ import { listOfStates } from "./SampleData";
 import {
   getAriaActiveDescendant,
   getSelectClassNames,
-  getSelectedOptions,
-  getSelectedValues,
-  computeNewSelectedValues,
+  computeNewSelectedOptions,
+  formatSelectedValuesToString,
+  getOptionByValueMultiple,
   renderInputValues,
 } from "./Select";
 import * as SelectStories from "./Select.stories";
@@ -145,7 +145,7 @@ describe("Select test ", () => {
     }, 10000);
   });
 
-  describe("getSelectClassNames", () => {
+  describe(getSelectClassNames, () => {
     it("given isOpen = true, should return correct css names", () => {
       expect(getSelectClassNames(true)).toMatchInlineSnapshot(
         `"neo-multiselect neo-multiselect--active"`
@@ -168,10 +168,10 @@ describe("Select test ", () => {
     });
   });
 
-  describe("getSelectedOptions", () => {
+  describe(computeNewSelectedOptions, () => {
     it("will remove the placeholder from the list of states", () => {
       expect(
-        getSelectedOptions(
+        computeNewSelectedOptions(
           true,
           "",
           listOfStates.slice(0, 3),
@@ -192,7 +192,7 @@ describe("Select test ", () => {
     });
 
     it("ADD: given value = AL, should return the Alabama from the list of states", () => {
-      expect(getSelectedOptions(false, "AL", [], listOfStates))
+      expect(computeNewSelectedOptions(false, "AL", [], listOfStates))
         .toMatchInlineSnapshot(`
         Array [
           Object {
@@ -206,7 +206,7 @@ describe("Select test ", () => {
     it("REMOVE: given value = AL, should remove Alabama from the list of selected states", () => {
       const alabamaIsHere = listOfStates.slice(1, 5);
 
-      expect(getSelectedOptions(true, "AL", alabamaIsHere, listOfStates))
+      expect(computeNewSelectedOptions(true, "AL", alabamaIsHere, listOfStates))
         .toMatchInlineSnapshot(`
         Array [
           Object {
@@ -226,10 +226,10 @@ describe("Select test ", () => {
     });
   });
 
-  describe("computeNewSelectedValues ", () => {
+  describe(getOptionByValueMultiple, () => {
     const AlabamaAndAlaska = listOfStates.slice(1, 3);
     it("Adding Utah to the list of selected states", () => {
-      expect(computeNewSelectedValues(AlabamaAndAlaska, listOfStates, "UT"))
+      expect(getOptionByValueMultiple(AlabamaAndAlaska, listOfStates, "UT"))
         .toMatchInlineSnapshot(`
         Array [
           Object {
@@ -249,7 +249,7 @@ describe("Select test ", () => {
     });
 
     it("If you pass a state that is already there, this value will be removed", () => {
-      expect(computeNewSelectedValues(AlabamaAndAlaska, listOfStates, "AL"))
+      expect(getOptionByValueMultiple(AlabamaAndAlaska, listOfStates, "AL"))
         .toMatchInlineSnapshot(`
         Array [
           Object {
@@ -261,7 +261,7 @@ describe("Select test ", () => {
     });
   });
 
-  describe("getAriaActiveDescendant", () => {
+  describe(getAriaActiveDescendant, () => {
     it("if IsOpen is true will return the active state id", () => {
       expect(
         getAriaActiveDescendant(true, listOfStates.slice(1, 2))
@@ -275,27 +275,37 @@ describe("Select test ", () => {
     });
   });
 
-  describe("getSelectedValues", () => {
+  describe(formatSelectedValuesToString, () => {
+    it("Should display `empty string` when selectedItems = `[]` and defaultSelected = []", () => {
+      expect(formatSelectedValuesToString([], [])).toMatchInlineSnapshot(`""`);
+    });
+
     it("Should display `Alabama` when selectedItems = `Alabama` and defaultSelected = `--Please choose an option--`", () => {
       expect(
-        getSelectedValues(listOfStates.slice(1, 2), listOfStates.slice(0, 1))
+        formatSelectedValuesToString(
+          listOfStates.slice(1, 2),
+          listOfStates.slice(0, 1)
+        )
       ).toMatchInlineSnapshot(`"Alabama"`);
     });
 
     it("Should display `Alabama, Alaska` when selectedItems = `Alabama, Alaska` and defaultSelected = `--Please choose an option--`", () => {
       expect(
-        getSelectedValues(listOfStates.slice(1, 3), listOfStates.slice(0, 1))
+        formatSelectedValuesToString(
+          listOfStates.slice(1, 3),
+          listOfStates.slice(0, 1)
+        )
       ).toMatchInlineSnapshot(`"Alabama, Alaska"`);
     });
 
     it("Should display `--Please choose an option--` when selectedItems = `[]` and defaultSelected = `--Please choose an option--`", () => {
       expect(
-        getSelectedValues([], listOfStates.slice(0, 1))
+        formatSelectedValuesToString([], listOfStates.slice(0, 1))
       ).toMatchInlineSnapshot(`"--Please choose an option--"`);
     });
   });
 
-  describe("renderInputValues", () => {
+  describe(renderInputValues, () => {
     it("should return 2 inputs with values = `AL`, `AK` and hidden type", () => {
       expect(renderInputValues(listOfStates.slice(1, 3), "test-name-001"))
         .toMatchInlineSnapshot(`

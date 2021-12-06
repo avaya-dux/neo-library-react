@@ -85,19 +85,19 @@ export const Select = ({
   }, [value, options]);
 
   const setSelectedOptions = (isMultipleSelect: boolean, value: string) => {
-    const result = getSelectedOptions(
+    const newSelectedOptions = computeNewSelectedOptions(
       isMultipleSelect,
       value,
       selectedOptions,
       options
     );
 
-    updateSelectedOptions(result);
-    if (!isMultipleSelect && result[0])
-      updateHoveredIndex(options.indexOf(result[0]));
+    updateSelectedOptions(newSelectedOptions);
+    if (!isMultipleSelect && newSelectedOptions[0])
+      updateHoveredIndex(options.indexOf(newSelectedOptions[0]));
 
     if (onSelectionChange) {
-      onSelectionChange(result?.map((item) => item.value));
+      onSelectionChange(newSelectedOptions?.map((item) => item.value));
     }
   };
 
@@ -162,8 +162,8 @@ export const Select = ({
    * https://design.avayacloud.com/components/web/selectbox-web
    */
 
-  const selectedValuesMemoized = useMemo(() => {
-    return getSelectedValues(selectedOptions, defaultSelected);
+  const formattedSelectedValuesMemoized = useMemo(() => {
+    return formatSelectedValuesToString(selectedOptions, defaultSelected);
   }, [selectedOptions, defaultSelected]);
 
   const ariaActivedescendantMemoized = useMemo(() => {
@@ -207,9 +207,9 @@ export const Select = ({
         <div
           role="textbox"
           className="neo-multiselect__header"
-          aria-label={selectedValuesMemoized}
+          aria-label={formattedSelectedValuesMemoized}
         >
-          {isLoading ? loaderText : selectedValuesMemoized}
+          {isLoading ? loaderText : formattedSelectedValuesMemoized}
         </div>
         <Options {...optionsProps} />
       </div>
@@ -240,7 +240,7 @@ export const getSelectClassNames = (
   return classArray.join(" ");
 };
 
-export const getSelectedOptions = (
+export const computeNewSelectedOptions = (
   isMultipleSelect: boolean,
   value: string,
   selectedItems: OptionType[],
@@ -254,7 +254,7 @@ export const getSelectedOptions = (
   );
 
   if (isMultipleSelect) {
-    result = computeNewSelectedValues(cleanSelectedItems, options, value);
+    result = getOptionByValueMultiple(cleanSelectedItems, options, value);
   } else {
     result = getOptionByValue(options, [value]);
   }
@@ -262,7 +262,7 @@ export const getSelectedOptions = (
   return result;
 };
 
-export const computeNewSelectedValues = (
+export const getOptionByValueMultiple = (
   alreadySelectedOptions: OptionType[],
   options: OptionType[],
   query: string
@@ -284,7 +284,7 @@ export const getAriaActiveDescendant = (
     : "";
 };
 
-export const getSelectedValues = (
+export const formatSelectedValuesToString = (
   selectedItems: OptionType[],
   defaultSelected: OptionType[]
 ) => {
