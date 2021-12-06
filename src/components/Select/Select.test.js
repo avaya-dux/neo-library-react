@@ -8,7 +8,7 @@ import {
   getSelectClassNames,
   getSelectedOptions,
   getSelectedValues,
-  setMultipleValues,
+  computeNewSelectedValues,
   renderInputValues,
 } from "./Select";
 import * as SelectStories from "./Select.stories";
@@ -226,10 +226,10 @@ describe("Select test ", () => {
     });
   });
 
-  describe("setMultipleValues", () => {
+  describe("computeNewSelectedValues ", () => {
     const AlabamaAndAlaska = listOfStates.slice(1, 3);
     it("Adding Utah to the list of selected states", () => {
-      expect(setMultipleValues(AlabamaAndAlaska, listOfStates, "UT"))
+      expect(computeNewSelectedValues(AlabamaAndAlaska, listOfStates, "UT"))
         .toMatchInlineSnapshot(`
         Array [
           Object {
@@ -249,7 +249,7 @@ describe("Select test ", () => {
     });
 
     it("If you pass a state that is already there, this value will be removed", () => {
-      expect(setMultipleValues(AlabamaAndAlaska, listOfStates, "AL"))
+      expect(computeNewSelectedValues(AlabamaAndAlaska, listOfStates, "AL"))
         .toMatchInlineSnapshot(`
         Array [
           Object {

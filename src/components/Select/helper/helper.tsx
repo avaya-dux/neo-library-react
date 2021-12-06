@@ -14,10 +14,10 @@ const renderMessages = (errorList: string[]) => {
  * @returns {OptionType[]} Selected value or values if it/they exist
  *
  * @example
- * getOptionValue([{ label: "Alabama", value: "AL" }, { label: "Alaska", value: "AK" }], ["AL"]); // result: [{ label: "Alabama", value: "AL" }]
- * getOptionValue([{ label: "Alabama", value: "AL" }, { label: "Alaska", value: "AK" }], ["WA"]); // result: []
+ * getOptionByValue([{ label: "Alabama", value: "AL" }, { label: "Alaska", value: "AK" }], ["AL"]); // result: [{ label: "Alabama", value: "AL" }]
+ * getOptionByValue([{ label: "Alabama", value: "AL" }, { label: "Alaska", value: "AK" }], ["WA"]); // result: []
  */
-export const getOptionValue = (
+export const getOptionByValue = (
   array: OptionType[],
   query: string[]
 ): OptionType[] =>

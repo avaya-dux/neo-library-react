@@ -6,7 +6,7 @@ import {
 import {
   displayErrorOrHelper,
   getDefaultOption,
-  getOptionValue,
+  getOptionByValue,
 } from "./helper";
 
 describe("Helper test ", () => {
@@ -30,7 +30,8 @@ describe("Helper test ", () => {
     });
 
     it("given a list of states with the query (AL, UT) should return Alabama and Utah", () => {
-      expect(getOptionValue(listOfStates, ["AL", "UT"])).toMatchInlineSnapshot(`
+      expect(getOptionByValue(listOfStates, ["AL", "UT"]))
+        .toMatchInlineSnapshot(`
               Array [
                 Object {
                   "label": "Alabama",

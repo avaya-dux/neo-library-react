@@ -9,7 +9,7 @@ import {
 import {
   displayErrorOrHelper,
   getDefaultOption,
-  getOptionValue,
+  getOptionByValue,
 } from "./helper/helper";
 import { Options } from "./Options/Options";
 import { OptionType, SelectProps } from "./SelectTypes";
@@ -79,7 +79,7 @@ export const Select = ({
 
   useEffect(() => {
     if (value) {
-      const selected = getOptionValue(options, value);
+      const selected = getOptionByValue(options, value);
       updateSelectedOptions(selected);
     }
   }, [value, options]);
@@ -254,33 +254,25 @@ export const getSelectedOptions = (
   );
 
   if (isMultipleSelect) {
-    result = setMultipleValues(cleanSelectedItems, options, value);
+    result = computeNewSelectedValues(cleanSelectedItems, options, value);
   } else {
-    result = getOptionValue(options, [value]);
+    result = getOptionByValue(options, [value]);
   }
 
   return result;
 };
 
-export const setMultipleValues = (
-  selectedItems: OptionType[],
+export const computeNewSelectedValues = (
+  alreadySelectedOptions: OptionType[],
   options: OptionType[],
-  value: string
+  query: string
 ) => {
-  let result: OptionType[] = [];
-  const selectedItemsCopy = [...selectedItems];
-  const newValue = selectedItemsCopy.find(
-    (item) => item.value === value && !item.isPlaceholder
+  const newValue = alreadySelectedOptions.find(
+    (item) => item.value === query && !item.isPlaceholder
   );
-  // remove new value if is already there
-  if (newValue) {
-    selectedItemsCopy.splice(selectedItemsCopy.indexOf(newValue), 1);
-    result = selectedItemsCopy;
-  } else {
-    // add
-    result = [...selectedItemsCopy, ...getOptionValue(options, [value])];
-  }
-  return result;
+  return newValue
+    ? alreadySelectedOptions.filter((option) => option.value !== query) // remove value if exists (unselect)
+    : [...alreadySelectedOptions, ...getOptionByValue(options, [query])]; // else, add it
 };
 
 export const getAriaActiveDescendant = (

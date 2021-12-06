@@ -5,7 +5,7 @@ import { NeoInputWrapper } from "components/NeoInputWrapper";
 import {
   displayErrorOrHelper,
   getDefaultOption,
-  getOptionValue,
+  getOptionByValue,
 } from "../helper/helper";
 import { NativeSelectProps, OptionType } from "../SelectTypes";
 
@@ -64,14 +64,14 @@ export const NativeSelect = ({
 
   useEffect(() => {
     if (value) {
-      const selected = getOptionValue(options, [value]);
+      const selected = getOptionByValue(options, [value]);
       updateSelectedItem(selected[0]?.value);
     }
   }, [value, options]);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    const selected = getOptionValue(options, [value]);
+    const selected = getOptionByValue(options, [value]);
 
     updateSelectedItem(selected[0]?.value);
     if (onChange) {
