@@ -22,7 +22,7 @@ export interface NativeSelectProps
   value?: string;
 }
 export interface SelectProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
+  extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "onChange" | "onSelect"> {
   disabled?: boolean;
   errorMessages?: string[];
   helperMessages?: string[];
@@ -30,7 +30,7 @@ export interface SelectProps
   isMultipleSelect?: boolean;
   label: string;
   loaderText?: ReactNode;
-  onChange?: SelectHandlerType;
+  onSelect?: SelectHandlerType;
   options: OptionType[];
   required?: boolean;
   value?: string[];

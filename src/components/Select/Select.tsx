@@ -43,7 +43,7 @@ export const Select = ({
   isMultipleSelect = false,
   label,
   loaderText = "Loading...",
-  onChange,
+  onSelect,
   options,
   required,
   value,
@@ -96,8 +96,8 @@ export const Select = ({
     if (!isMultipleSelect && result[0])
       updateHoveredIndex(options.indexOf(result[0]));
 
-    if (onChange) {
-      onChange(result?.map((item) => item.value));
+    if (onSelect) {
+      onSelect(result?.map((item) => item.value));
     }
   };
 
