@@ -107,11 +107,7 @@ export const Select = ({
     }
   };
 
-  const forceExpandOrCloseOptionList = (isOpen: boolean) => {
-    updateIsOpen(isOpen);
-  };
-
-  const clickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const onClickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     // capture the value from `data-value` attribute, this is because the target can  be <li> | <input> | <label>
 
     const value = (e.target as HTMLDivElement).getAttribute("data-value");
@@ -133,7 +129,7 @@ export const Select = ({
       hoveredIndex,
       isMultipleSelect,
       expandOrCloseOptionList,
-      forceExpandOrCloseOptionList,
+      updateIsOpen,
       updateHoveredIndex,
       setSelectedOptions
     );
@@ -195,7 +191,7 @@ export const Select = ({
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         aria-labelledby={labelId}
-        onClick={clickHandler}
+        onClick={onClickHandler}
         onKeyDown={onKeyDownHandler}
         onBlur={onBlurHandler}
         role="combobox"
@@ -243,23 +239,17 @@ export const getSelectClassNames = (
 export const computeNewSelectedOptions = (
   isMultipleSelect: boolean,
   value: string,
-  selectedItems: OptionType[],
+  selectedOptions: OptionType[],
   options: OptionType[]
 ) => {
-  let result: OptionType[] = [];
-
   // remove placeholder
-  const cleanSelectedItems = selectedItems.filter(
+  const cleanSelectedOptions = selectedOptions.filter(
     (item) => !item.isPlaceholder
   );
 
-  if (isMultipleSelect) {
-    result = getOptionByValueMultiple(cleanSelectedItems, options, value);
-  } else {
-    result = getOptionByValue(options, [value]);
-  }
-
-  return result;
+  return isMultipleSelect
+    ? getOptionByValueMultiple(cleanSelectedOptions, options, value)
+    : getOptionByValue(options, [value]);
 };
 
 export const getOptionByValueMultiple = (
