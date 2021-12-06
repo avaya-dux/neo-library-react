@@ -33,7 +33,7 @@ export interface SelectProps
   isMultipleSelect?: boolean;
   label: string;
   loaderText?: ReactNode;
-  onSelect?: SelectHandlerType;
+  onSelectionChange?: SelectHandlerType;
   options: OptionType[];
   required?: boolean;
   value?: string[];

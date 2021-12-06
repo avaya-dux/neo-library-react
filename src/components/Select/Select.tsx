@@ -20,7 +20,7 @@ import { OptionType, SelectProps } from "./SelectTypes";
  * @example
  *  <Select
         label="List of States"
-        onChange={(value) => {
+        onSelectionChange={(value) => {
           console.log("select value-> ", value);
         }}
         helperText={["Please choose a State"]}
@@ -43,7 +43,7 @@ export const Select = ({
   isMultipleSelect = false,
   label,
   loaderText = "Loading...",
-  onSelect,
+  onSelectionChange,
   options,
   required,
   value,
@@ -96,8 +96,8 @@ export const Select = ({
     if (!isMultipleSelect && result[0])
       updateHoveredIndex(options.indexOf(result[0]));
 
-    if (onSelect) {
-      onSelect(result?.map((item) => item.value));
+    if (onSelectionChange) {
+      onSelectionChange(result?.map((item) => item.value));
     }
   };
 

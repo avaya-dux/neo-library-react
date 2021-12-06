@@ -33,7 +33,7 @@ export const ControlledSelect = () => {
       <br />
       <Select
         label="List of States"
-        onSelect={(value) => {
+        onSelectionChange={(value) => {
           updateSelectedStates(value);
         }}
         value={selectedStates}
@@ -74,7 +74,7 @@ export const ControlledMultipleSelect = () => {
     <>
       <Select
         label="List of States"
-        onSelect={(values) => {
+        onSelectionChange={(values) => {
           updateSelectedStates(values);
         }}
         isMultipleSelect={true}
@@ -145,7 +145,7 @@ export const ValidateValuesSelect = () => {
           name="state"
           label="List of States"
           required={isRequired}
-          onSelect={(value) => {
+          onSelectionChange={(value) => {
             console.log("select value-> ", value);
             updateSelectedStates(value);
             validateSelectValue(value);
