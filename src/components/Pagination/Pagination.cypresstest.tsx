@@ -1,9 +1,6 @@
 import { mount } from "@cypress/react";
-import { composeStories } from "@storybook/testing-react";
 
-import * as PaginationStories from "./Pagination.stories";
-
-const { Default } = composeStories(PaginationStories);
+import { Default } from "./Pagination.stories";
 
 describe("Pagination component", () => {
   it("should update the page count based on how many items are shown per page", () => {
