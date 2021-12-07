@@ -2,7 +2,7 @@ import {
   errorMessagesDemo,
   helperMessagesDemo,
   listOfStates,
-} from "../SampleData";
+} from "components/Select/SampleData";
 import {
   displayErrorOrHelper,
   getDefaultOption,

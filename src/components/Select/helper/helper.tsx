@@ -33,16 +33,16 @@ export const getDefaultOption = (array: OptionType[]) =>
   });
 
 /**
- * Evaluate which list will be displayed (Errors | Helpers).
- * @param {string[]} errorMessages
- * @param {string[]} helperMessages
+ * Builds error messages JSX if they exist, otherwise builds helper messages JSX
+ *
+ * @param {string[]} [errorMessages]
+ * @param {string[]} [helperMessages]
+ * @returns {JSX.Element[] | null}
+ *
  * @example
- * // returns Error list
- * displayErrorOrHelper(["Error 1", "Error 2"],[]);
- * @example
- * // returns Helper list
- * displayErrorOrHelper([],["Helper 1", "Helper 2"]);
- * @returns {JSX.Element[] | null} Returns a list of messages.
+ * displayErrorOrHelper(["Error 1", "Error 2"],[]); // result: error messages as JSX[]
+ *
+ * displayErrorOrHelper([],["Helper 1", "Helper 2"]); // result: helper messages as JSX[]
  */
 export const displayErrorOrHelper = (
   errorMessages?: string[],

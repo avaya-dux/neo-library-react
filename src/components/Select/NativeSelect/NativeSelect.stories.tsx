@@ -7,8 +7,8 @@ import {
   errorMessagesDemo,
   helperMessagesDemo,
   listOfStates,
-} from "../SampleData";
-import { NativeSelectProps } from "../SelectTypes";
+} from "components/Select/SampleData";
+import { NativeSelectProps } from "components/Select/SelectTypes";
 import { NativeSelect } from "./NativeSelect";
 
 export default {

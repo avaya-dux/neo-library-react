@@ -6,8 +6,8 @@ import {
   displayErrorOrHelper,
   getDefaultOption,
   getOptionByValue,
-} from "../helper/helper";
-import { NativeSelectProps, OptionType } from "../SelectTypes";
+} from "components/Select/helper";
+import { NativeSelectProps, OptionType } from "components/Select/SelectTypes";
 
 /**
  * NativeSelect will use the standard <select> <option> HTML structure.

@@ -1,4 +1,4 @@
-import { listOfStates } from "../SampleData";
+import { listOfStates } from "components/Select/SampleData";
 import { getOptionClassNames, renderSelectOptions } from "./Options";
 
 describe("Options test", () => {

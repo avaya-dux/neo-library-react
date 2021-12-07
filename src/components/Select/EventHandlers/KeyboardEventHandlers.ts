@@ -8,7 +8,7 @@ import {
 
 import { Keys } from "utils";
 
-import { OptionType } from "../SelectTypes";
+import { OptionType } from "components/Select/SelectTypes";
 
 export const SelectOnKeyDownHandler = (
   e: KeyboardEvent<HTMLDivElement>,

@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useState } from "react";
 
-import { OptionsProps, OptionType } from "../SelectTypes";
+import { OptionsProps, OptionType } from "components/Select/SelectTypes";
 
 /**
  * Options will use to render the list of options.

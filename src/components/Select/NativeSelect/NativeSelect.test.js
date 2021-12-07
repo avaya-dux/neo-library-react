@@ -2,7 +2,7 @@ import { composeStories } from "@storybook/testing-react";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
-import { listOfStates } from "../SampleData";
+import { listOfStates } from "components/Select/SampleData";
 import { getNativeSelectClassNames, renderOptions } from "./NativeSelect";
 import * as NativeSelectStories from "./NativeSelect.stories";
 

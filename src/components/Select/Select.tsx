@@ -10,7 +10,7 @@ import {
   displayErrorOrHelper,
   getDefaultOption,
   getOptionByValue,
-} from "./helper/helper";
+} from "./helper";
 import { Options } from "./Options/Options";
 import { OptionType, SelectProps } from "./SelectTypes";
 
