@@ -228,6 +228,28 @@ describe("Select test ", () => {
 
   describe(getOptionByValueMultiple, () => {
     const AlabamaAndAlaska = listOfStates.slice(1, 3);
+    it("Should return empty array for undefined values", () => {
+      expect(getOptionByValueMultiple([], [], "")).toMatchInlineSnapshot(
+        `Array []`
+      );
+    });
+
+    it("Should return Alabama and Alaska when the query is an empty string", () => {
+      expect(getOptionByValueMultiple(AlabamaAndAlaska, listOfStates, ""))
+        .toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "label": "Alabama",
+            "value": "AL",
+          },
+          Object {
+            "label": "Alaska",
+            "value": "AK",
+          },
+        ]
+      `);
+    });
+
     it("Adding Utah to the list of selected states", () => {
       expect(getOptionByValueMultiple(AlabamaAndAlaska, listOfStates, "UT"))
         .toMatchInlineSnapshot(`
@@ -262,6 +284,10 @@ describe("Select test ", () => {
   });
 
   describe(getAriaActiveDescendant, () => {
+    it("if IsOpen is true and options = [], will return empty string", () => {
+      expect(getAriaActiveDescendant(true, [])).toMatchInlineSnapshot(`""`);
+    });
+
     it("if IsOpen is true will return the active state id", () => {
       expect(
         getAriaActiveDescendant(true, listOfStates.slice(1, 2))

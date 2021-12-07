@@ -2,31 +2,37 @@ import { listOfStates } from "components/Select/SampleData";
 import { getOptionClassNames, renderSelectOptions } from "./Options";
 
 describe("Options test", () => {
-  describe("getOptionClassNames", () => {
-    it("getOptionClassNames should return `neo-input-group` when no props are passed", () => {
+  describe(getOptionClassNames, () => {
+    it("Should return `neo-input-group` when no props are passed", () => {
       expect(getOptionClassNames()).toMatchInlineSnapshot(`"neo-input-group"`);
     });
-    it("should return correct css names when `isHover = true`", () => {
+    it("Should return correct css names when `isHover = true`", () => {
       expect(getOptionClassNames(true)).toMatchInlineSnapshot(
         `"neo-input-group neo-multiselect__content__item--hover"`
       );
     });
 
-    it("should return correct css names when `isHover = true` and `isDisabled = true`", () => {
+    it("Should return correct css names when `isHover = true` and `isDisabled = true`", () => {
       expect(getOptionClassNames(true, true)).toMatchInlineSnapshot(
         `"neo-input-group neo-multiselect__content__item--hover neo-multiselect__content__item--disabled"`
       );
     });
 
-    it("should return correct css names when `isHover = true`, `isDisabled = true` and `isActive = true`", () => {
+    it("Should return correct css names when `isHover = true`, `isDisabled = true` and `isActive = true`", () => {
       expect(getOptionClassNames(true, true, true)).toMatchInlineSnapshot(
         `"neo-input-group neo-multiselect__content__item--hover neo-multiselect__content__item--disabled neo-multiselect__content__item--focus"`
       );
     });
   });
 
-  describe("renderSelectOptions test", () => {
-    it("renderSelectOptions should return an array of <div>s if there is an item in the list with the `placeholder = true`, null will be returned for that item, when `options = OptionType[]`, `cursor = 0` and `isMultiple = false`", () => {
+  describe(renderSelectOptions, () => {
+    it("Should return an empty array when `options = [], selectedOptions = [], cursor = 0 and isMultiple = false`", () => {
+      expect(
+        renderSelectOptions([], [], 0, () => null, false)
+      ).toMatchInlineSnapshot(`Array []`);
+    });
+
+    it("Should return an array of <div>s if there is an item in the list with the `placeholder = true`, null will be returned for that item, when `options = OptionType[]`, `cursor = 0` and `isMultiple = false`", () => {
       expect(
         renderSelectOptions(
           listOfStates.slice(0, 4),
@@ -75,7 +81,7 @@ describe("Options test", () => {
       `);
     });
 
-    it("renderSelectOptions should return an array of <div>s if there is an item in the list with the `placeholder = true`, null will be returned for that item, also the item with the index 1 will have the class `--hover` when `options = OptionType[]`, `cursor = 1` and `isMultiple = false`", () => {
+    it("Should return an array of <div>s if there is an item in the list with the `placeholder = true`, null will be returned for that item, also the item with the index 1 will have the class `--hover` when `options = OptionType[]`, `cursor = 1` and `isMultiple = false`", () => {
       expect(
         renderSelectOptions(
           listOfStates.slice(0, 4),
@@ -124,7 +130,7 @@ describe("Options test", () => {
       `);
     });
 
-    it("renderSelectOptions  should return an array of <div>s if there is an item in the list with the `placeholder = true`, null will be returned for that item, when `options = OptionType[]`, `selectedItems = OptionType[]`, `cursor = 0` and `isMultiple = true`", () => {
+    it("Should return an array of <div>s if there is an item in the list with the `placeholder = true`, null will be returned for that item, when `options = OptionType[]`, `selectedItems = OptionType[]`, `cursor = 0` and `isMultiple = true`", () => {
       expect(
         renderSelectOptions(
           listOfStates.slice(0, 3),
@@ -186,7 +192,7 @@ describe("Options test", () => {
       `);
     });
 
-    it("renderSelectOptions  should return an array of <div>s if there is an item in the list with the `placeholder = true`, null will be returned for that item, also the item with the index 1 will have the class `--hover`, when `options = OptionType[]`, `selectedItems = OptionType[]`, `cursor = 1` and `isMultiple = true`", () => {
+    it("Should return an array of <div>s if there is an item in the list with the `placeholder = true`, null will be returned for that item, also the item with the index 1 will have the class `--hover`, when `options = OptionType[]`, `selectedItems = OptionType[]`, `cursor = 1` and `isMultiple = true`", () => {
       expect(
         renderSelectOptions(
           listOfStates.slice(0, 3),

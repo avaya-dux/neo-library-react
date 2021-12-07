@@ -277,20 +277,20 @@ export const getOptionByValueMultiple = (
 
 export const getAriaActiveDescendant = (
   isOpen: boolean,
-  selectedItems: OptionType[]
+  options: OptionType[]
 ) => {
   return isOpen
-    ? selectedItems?.map((item) => `${item.label}-${item.value}`).join(", ")
+    ? options?.map((item) => `${item.label}-${item.value}`).join(", ")
     : "";
 };
 
 export const formatSelectedValuesToString = (
-  selectedItems: OptionType[],
+  selectedOptions: OptionType[],
   defaultSelected: OptionType[]
 ) => {
-  return selectedItems.length === 0
+  return selectedOptions.length === 0
     ? defaultSelected.map((item) => item.label).join(", ")
-    : selectedItems?.map((item) => item.label).join(", ");
+    : selectedOptions?.map((item) => item.label).join(", ");
 };
 
 export const renderInputValues = (

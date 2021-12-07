@@ -100,19 +100,22 @@ describe("NativeSelect test", () => {
     });
   });
 
-  describe("getNativeSelectClassNames", () => {
-    it("given isLoading = true, should return correct css names", () => {
+  describe(getNativeSelectClassNames, () => {
+    it("Given isLoading = true, should return correct css names", () => {
       expect(getNativeSelectClassNames(true)).toMatchInlineSnapshot(
         `"neo-select neo-select__spinner"`
       );
     });
-    it("given isLoading = undefined, should return correct css names", () => {
+    it("Given isLoading = undefined, should return correct css names", () => {
       expect(getNativeSelectClassNames()).toMatchInlineSnapshot(`"neo-select"`);
     });
   });
 
-  describe("renderOptions", () => {
-    it("given options, should return a list of options", () => {
+  describe(renderOptions, () => {
+    it("Given an empty array, should return an empty array", () => {
+      expect(renderOptions([])).toMatchInlineSnapshot(`Array []`);
+    });
+    it("Given options, should return a list of options", () => {
       expect(renderOptions(listOfStates.slice(0, 3))).toMatchInlineSnapshot(`
         Array [
           <option

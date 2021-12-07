@@ -10,12 +10,12 @@ import {
 } from "./helper";
 
 describe("Helper test ", () => {
-  describe("getDefaultOption", () => {
-    it("given an empty array should return an empty array", () => {
+  describe(getDefaultOption, () => {
+    it("Given an empty array should return an empty array", () => {
       expect(getDefaultOption([])).toMatchInlineSnapshot(`Array []`);
     });
 
-    it("given a list of states without a query should return the default selected", () => {
+    it("Given a list of states without a query should return the default selected", () => {
       expect(getDefaultOption(listOfStates)).toMatchInlineSnapshot(`
         Array [
           Object {
@@ -29,7 +29,7 @@ describe("Helper test ", () => {
       `);
     });
 
-    it("given a list of states with the query (AL, UT) should return Alabama and Utah", () => {
+    it("Given a list of states with the query (AL, UT) should return Alabama and Utah", () => {
       expect(getOptionByValue(listOfStates, ["AL", "UT"]))
         .toMatchInlineSnapshot(`
               Array [
@@ -46,14 +46,14 @@ describe("Helper test ", () => {
     });
   });
 
-  describe("displayErrorOrHelper", () => {
-    it("given undefined values, should return null", () => {
+  describe(displayErrorOrHelper, () => {
+    it("Given undefined values, should return null", () => {
       expect(displayErrorOrHelper(undefined, undefined)).toMatchInlineSnapshot(
         `null`
       );
     });
 
-    it("given a ErrorMessagesDemo and HelperMessagesDemo, should return the list of errors", () => {
+    it("Given a ErrorMessagesDemo and HelperMessagesDemo, should return the list of errors messages", () => {
       expect(displayErrorOrHelper(errorMessagesDemo, helperMessagesDemo))
         .toMatchInlineSnapshot(`
               Array [
@@ -71,7 +71,7 @@ describe("Helper test ", () => {
           `);
     });
 
-    it("given only ErrorMessagesDemo, should return the list of errors", () => {
+    it("Given only ErrorMessagesDemo, should return the list of errors messages", () => {
       expect(displayErrorOrHelper(errorMessagesDemo, undefined))
         .toMatchInlineSnapshot(`
               Array [
@@ -89,7 +89,7 @@ describe("Helper test ", () => {
           `);
     });
 
-    it("given only HelperMessagesDemo, should return the list of help messages", () => {
+    it("Given only HelperMessagesDemo, should return the list of help messages", () => {
       expect(displayErrorOrHelper(undefined, helperMessagesDemo))
         .toMatchInlineSnapshot(`
               Array [
