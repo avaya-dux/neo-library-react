@@ -27,10 +27,12 @@ export const getOptionByValue = (
       .includes(item.value.toLowerCase());
   });
 
-export const getDefaultOption = (array: OptionType[]) =>
-  array.filter((item) => {
-    return item.defaultSelected;
-  });
+export const getDefaultOption = (array: OptionType[], placeholder: string) => {
+  const defaultValue = array.filter((item) => item.defaultSelected);
+  return defaultValue.length > 0
+    ? defaultValue
+    : [{ label: placeholder, value: "0" }];
+};
 
 /**
  * Builds error messages JSX if they exist, otherwise builds helper messages JSX

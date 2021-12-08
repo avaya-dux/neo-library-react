@@ -3,6 +3,7 @@ import {
   helperMessagesDemo,
   listOfStates,
 } from "components/Select/SampleData";
+
 import {
   displayErrorOrHelper,
   getDefaultOption,
@@ -11,8 +12,16 @@ import {
 
 describe("Helper test ", () => {
   describe(getDefaultOption, () => {
-    it("Given an empty array should return an empty array", () => {
-      expect(getDefaultOption([])).toMatchInlineSnapshot(`Array []`);
+    it("Given an empty array should return the default placeholder", () => {
+      expect(getDefaultOption([], "This is the default placeholder"))
+        .toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "label": "This is the default placeholder",
+            "value": "0",
+          },
+        ]
+      `);
     });
 
     it("Given a list of states without a query should return the default selected", () => {

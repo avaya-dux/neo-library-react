@@ -244,40 +244,6 @@ export const OptionListPositionDynamicShort = () => {
   );
 };
 
-export const PlaceholderBug = () => {
-  const AlabamaAndAlaska = listOfStates.slice(1, 3);
-
-  return (
-    <>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <Select label="List of States" options={AlabamaAndAlaska} />
-      <br />
-    </>
-  );
-};
 const Template: Story<SelectProps> = (props: SelectProps) => {
   return <Select {...props} />;
 };

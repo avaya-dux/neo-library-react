@@ -48,6 +48,7 @@ export const Select = ({
   required,
   value,
   name,
+  placeholder = "--Please choose an option--",
 }: SelectProps) => {
   const labelId = useMemo(
     () => `neo-select-label-id-${label.replace(/\s/g, "")}`,
@@ -68,7 +69,7 @@ export const Select = ({
   const [isOpen, updateIsOpen] = useState(false);
   const [hoveredIndex, updateHoveredIndex] = useState(0);
 
-  const defaultSelected = getDefaultOption(options);
+  const defaultSelected = getDefaultOption(options, placeholder);
 
   const [selectedOptions, updateSelectedOptions] =
     useState<OptionType[]>(defaultSelected);

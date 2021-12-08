@@ -38,6 +38,7 @@ export interface SelectProps
   required?: boolean;
   value?: string[];
   name?: string;
+  placeholder?: string;
 }
 
 export interface OptionsProps {
