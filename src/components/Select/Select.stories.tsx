@@ -267,7 +267,7 @@ CustomPlaceholder.args = {
   label: "List of States",
   helperMessages: helperMessagesDemo,
   options: listOfStates.slice(1, 3),
-  placeholder: "this is a custom placeholder",
+  placeholder: "This is a custom placeholder",
 };
 
 export const SelectError = Template.bind({});
