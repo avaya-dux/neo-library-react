@@ -15,14 +15,13 @@ import { Options } from "./Options/Options";
 import { OptionType, SelectProps } from "./SelectTypes";
 
 /**
- * Select will use the <ul> <li> HTML structure.
- *
  * @example
  *  <Select
         label="List of States"
         onSelectionChange={(value) => {
           console.log("select value-> ", value);
         }}
+        placeholder="this value will be ignored if it was already a placeholder defined on the option list"
         helperText={["Please choose a State"]}
         options={[
           { label: "Alabama", value: "AL" },
@@ -51,16 +50,16 @@ export const Select = ({
   placeholder = "--Please choose an option--",
 }: SelectProps) => {
   const labelId = useMemo(
-    () => `neo-select-label-id-${label.replace(/\s/g, "")}`,
+    () => `neo-select-label-id-${label?.replace(/\s/g, "")}`,
     [label]
   );
   const selectId = useMemo(
-    () => id || `neo-select-id-${label.replace(/\s/g, "")}`,
+    () => id || `neo-select-id-${label?.replace(/\s/g, "")}`,
     [id, label]
   );
 
   const internalName = useMemo(
-    () => name || `neo-select-name-${label.replace(/\s/g, "")}`,
+    () => name || `neo-select-name-${label?.replace(/\s/g, "")}`,
     [name, label]
   );
 

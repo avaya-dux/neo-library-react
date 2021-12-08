@@ -28,7 +28,9 @@ export const getOptionByValue = (
   });
 
 export const getDefaultOption = (array: OptionType[], placeholder: string) => {
-  const defaultValue = array.filter((item) => item.defaultSelected);
+  const defaultValue = array
+    ? array.filter((item) => item.defaultSelected)
+    : [];
   return defaultValue.length > 0
     ? defaultValue
     : [{ label: placeholder, value: "0" }];

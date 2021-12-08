@@ -33,7 +33,7 @@ export const Options = forwardRef(
     const [hoveredOption, setHoveredOption] = useState<OptionType | null>(null);
 
     useEffect(() => {
-      if (options.length && hoveredOption) {
+      if (options && options.length && hoveredOption) {
         updateHoveredIndex(options.indexOf(hoveredOption));
       }
     }, [hoveredOption]);
@@ -68,77 +68,79 @@ export const Options = forwardRef(
 );
 
 export const renderSelectOptions = (
-  options: OptionType[],
+  options: OptionType[] = [],
   selectedOptions: OptionType[],
   hoveredIndex: number,
   callback: (option: OptionType) => void,
   isMultiple: boolean
 ) => {
-  return options.map((option, index) => {
-    if (option.isPlaceholder) {
-      // placeholder options are not selectable, and thus are not rendered in the dropdown
-      return null;
-    }
-    const { label, value, hint, isDisabled } = option;
-    const checkBoxId = `${label}-checkbox-${index}`;
-    const checkBoxHintId = `${label}-hint-${index}`;
-    const itemId = `${label}-${index}`;
+  return options
+    ? options.map((option, index) => {
+        if (option.isPlaceholder) {
+          // placeholder options are not selectable, and thus are not rendered in the dropdown
+          return null;
+        }
+        const { label, value, hint, isDisabled } = option;
+        const checkBoxId = `${label}-checkbox-${index}`;
+        const checkBoxHintId = `${label}-hint-${index}`;
+        const itemId = `${label}-${index}`;
 
-    const isActive = !!selectedOptions.find((item) => item.value === value);
-    const isHover = hoveredIndex === index;
+        const isActive = !!selectedOptions.find((item) => item.value === value);
+        const isHover = hoveredIndex === index;
 
-    const dataValue = { "data-value": value };
-    const checkBoxClassNames = ["neo-check"];
+        const dataValue = { "data-value": value };
+        const checkBoxClassNames = ["neo-check"];
 
-    return isMultiple ? (
-      <div
-        className={getOptionClassNames(isHover, isDisabled, isActive)}
-        key={checkBoxId}
-        id={`${label}-${value}`}
-        role="listitem"
-      >
-        <input
-          className={checkBoxClassNames.join(" ")}
-          type="checkbox"
-          id={checkBoxId}
-          value={value}
-          tabIndex={-1}
-          checked={isActive}
-          onMouseEnter={() => callback(option)}
-          aria-describedby={checkBoxHintId}
-          disabled={isDisabled}
-          readOnly
-        />
-        <label htmlFor={checkBoxId} {...(isDisabled ? "" : dataValue)}>
-          {label}
-        </label>
-        {/**
-         * TODO Nested neo-input-hint CSS class
-         * https://jira.forge.avaya.com/browse/NEO-755
-         */}
-        {hint && (
-          <p className="neo-input-hint" id={checkBoxHintId}>
-            {hint}
-          </p>
-        )}
-      </div>
-    ) : (
-      <div
-        aria-selected={isHover}
-        tabIndex={0}
-        className={getOptionClassNames(isHover, isDisabled, isActive)}
-        onMouseEnter={() => {
-          callback(option);
-        }}
-        id={`${label}-${value}`}
-        key={itemId}
-        role="option"
-        {...(isDisabled ? "" : dataValue)}
-      >
-        {label}
-      </div>
-    );
-  });
+        return isMultiple ? (
+          <div
+            className={getOptionClassNames(isHover, isDisabled, isActive)}
+            key={checkBoxId}
+            id={`${label}-${value}`}
+            role="listitem"
+          >
+            <input
+              className={checkBoxClassNames.join(" ")}
+              type="checkbox"
+              id={checkBoxId}
+              value={value}
+              tabIndex={-1}
+              checked={isActive}
+              onMouseEnter={() => callback(option)}
+              aria-describedby={checkBoxHintId}
+              disabled={isDisabled}
+              readOnly
+            />
+            <label htmlFor={checkBoxId} {...(isDisabled ? "" : dataValue)}>
+              {label}
+            </label>
+            {/**
+             * TODO Nested neo-input-hint CSS class
+             * https://jira.forge.avaya.com/browse/NEO-755
+             */}
+            {hint && (
+              <p className="neo-input-hint" id={checkBoxHintId}>
+                {hint}
+              </p>
+            )}
+          </div>
+        ) : (
+          <div
+            aria-selected={isHover}
+            tabIndex={0}
+            className={getOptionClassNames(isHover, isDisabled, isActive)}
+            onMouseEnter={() => {
+              callback(option);
+            }}
+            id={`${label}-${value}`}
+            key={itemId}
+            role="option"
+            {...(isDisabled ? "" : dataValue)}
+          >
+            {label}
+          </div>
+        );
+      })
+    : null;
 };
 
 export const getOptionClassNames = (
