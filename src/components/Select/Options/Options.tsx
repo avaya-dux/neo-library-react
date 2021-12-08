@@ -26,6 +26,7 @@ export const Options = forwardRef(
       hoveredIndex,
       updateHoveredIndex,
       id,
+      topPosition,
     }: OptionsProps,
     ref: React.Ref<HTMLDivElement>
   ) => {
@@ -52,6 +53,7 @@ export const Options = forwardRef(
         id={id}
         aria-labelledby={labelledby}
         tabIndex={-1}
+        style={{ top: topPosition }}
       >
         {renderSelectOptions(
           options,

@@ -48,4 +48,5 @@ export interface OptionsProps {
   options: OptionType[];
   selectedOptions: OptionType[];
   updateHoveredIndex: (hoveredIndex: number) => void;
+  topPosition: number;
 }

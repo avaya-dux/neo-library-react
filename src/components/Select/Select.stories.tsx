@@ -156,18 +156,128 @@ export const ValidateValuesSelect = () => {
           options={ListOfStatesArkansasDisabledPlusHint}
           isMultipleSelect={true}
         />
-        <Button
-          type="button"
-          onClick={() => validateSelectValue(selectedStates)}
-          label="Validate"
-        />
-
-        <Button type="submit" disabled={isDisabled} label="Submit" />
+        <div
+          style={{
+            width: "100%",
+            maxWidth: "300px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Button
+            type="button"
+            onClick={() => validateSelectValue(selectedStates)}
+            label="Validate"
+          />
+          &nbsp;
+          <Button type="submit" disabled={isDisabled} label="Submit" />
+        </div>
       </form>
     </>
   );
 };
 
+export const OptionListPositionDynamic = () => {
+  return (
+    <>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <Select label="List of States" options={listOfStates} />
+      <br />
+    </>
+  );
+};
+export const OptionListPositionDynamicShort = () => {
+  const AlabamaAndAlaska = listOfStates.slice(0, 3);
+
+  return (
+    <>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <Select label="List of States" options={AlabamaAndAlaska} />
+      <br />
+    </>
+  );
+};
+
+export const PlaceholderBug = () => {
+  const AlabamaAndAlaska = listOfStates.slice(1, 3);
+
+  return (
+    <>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <Select label="List of States" options={AlabamaAndAlaska} />
+      <br />
+    </>
+  );
+};
 const Template: Story<SelectProps> = (props: SelectProps) => {
   return <Select {...props} />;
 };

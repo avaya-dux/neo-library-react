@@ -1,4 +1,4 @@
-import { createRef, useEffect, useMemo, useState, useCallback } from "react";
+import { createRef, useCallback, useEffect, useMemo, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 
@@ -72,6 +72,7 @@ export const Select = ({
 
   const [selectedOptions, updateSelectedOptions] =
     useState<OptionType[]>(defaultSelected);
+  const [topPosition, updateTopPosition] = useState(40);
 
   const selectClassName = useMemo(() => {
     return getSelectClassNames(isOpen, disabled, isLoading);
@@ -83,6 +84,19 @@ export const Select = ({
       updateSelectedOptions(selected);
     }
   }, [value, options]);
+
+  useEffect(() => {
+    const listBoxRect = listBoxRef.current?.getBoundingClientRect();
+    if (listBoxRect) {
+      const { height, y } = listBoxRect;
+      const borderCalculation = height + y;
+      const calculatedTopPosition =
+        borderCalculation <= innerHeight && borderCalculation > 0
+          ? 40
+          : -height;
+      updateTopPosition(calculatedTopPosition);
+    }
+  }, [isOpen]);
 
   const onSelectionChangeMemoizedCallback = useCallback(
     (isMultipleSelect, value) => {
@@ -159,6 +173,7 @@ export const Select = ({
     updateHoveredIndex,
     ref: listBoxRef,
     id: selectId,
+    topPosition,
   };
 
   /**
