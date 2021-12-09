@@ -25,6 +25,12 @@ describe("Table", () => {
     expect(results).toHaveNoViolations();
   });
 
+  // TODO-567: implement
+  // it("matches it's previous snapshot", () => {
+  //   const { container } = render(<Table {...defaultProps} />);
+  //   expect(container).toMatchInlineSnapshot();
+  // });
+
   describe("storybook tests", () => {
     describe("Default", () => {
       let renderResult;
@@ -102,4 +108,6 @@ describe("Table", () => {
       });
     });
   });
+
+  // describe("helpers", () => {}); // TODO-567: implement
 });
