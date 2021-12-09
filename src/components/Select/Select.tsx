@@ -8,7 +8,7 @@ import {
 } from "./EventHandlers/KeyboardEventHandlers";
 import {
   displayErrorOrHelper,
-  getDefaultOption,
+  getPlaceholder,
   getOptionByValue,
 } from "./helper";
 import { Options } from "./Options/Options";
@@ -34,6 +34,7 @@ import { OptionType, SelectProps } from "./SelectTypes";
 
 export const Select = ({
   className,
+  defaultValue,
   disabled,
   errorMessages,
   helperMessages,
@@ -42,12 +43,11 @@ export const Select = ({
   isMultipleSelect = false,
   label,
   loaderText = "Loading...",
+  name,
   onSelectionChange,
   options,
-  required,
-  value,
-  name,
   placeholder = "--Please choose an option--",
+  required,
 }: SelectProps) => {
   const labelId = useMemo(
     () => `neo-select-label-id-${label?.replace(/\s/g, "")}`,
@@ -67,11 +67,10 @@ export const Select = ({
 
   const [isOpen, updateIsOpen] = useState(false);
   const [hoveredIndex, updateHoveredIndex] = useState(0);
-
-  const defaultSelected = getDefaultOption(options, placeholder);
+  const defaultPlaceholder = getPlaceholder(options, placeholder);
 
   const [selectedOptions, updateSelectedOptions] =
-    useState<OptionType[]>(defaultSelected);
+    useState<OptionType[]>(defaultPlaceholder);
   const [topPosition, updateTopPosition] = useState(40);
 
   const selectClassName = useMemo(() => {
@@ -79,11 +78,11 @@ export const Select = ({
   }, [isOpen, disabled, isLoading]);
 
   useEffect(() => {
-    if (value) {
-      const selected = getOptionByValue(options, value);
+    if (defaultValue) {
+      const selected = getOptionByValue(options, defaultValue as string[]);
       updateSelectedOptions(selected);
     }
-  }, [value, options]);
+  }, [defaultValue, options]);
 
   useEffect(() => {
     const listBoxRect = listBoxRef.current?.getBoundingClientRect();
@@ -102,27 +101,28 @@ export const Select = ({
     (isMultipleSelect, value) => {
       onSelectionChangeHandler(isMultipleSelect, value);
     },
-    [isMultipleSelect, value]
+    [isMultipleSelect, defaultValue]
   );
 
   const onSelectionChangeHandler = (
     isMultipleSelect: boolean,
     value: string
   ) => {
-    const newSelectedOptions = computeNewSelectedOptions(
-      isMultipleSelect,
-      value,
-      selectedOptions,
-      options
-    );
-
-    updateSelectedOptions(newSelectedOptions);
-    if (!isMultipleSelect && newSelectedOptions[0])
-      updateHoveredIndex(options.indexOf(newSelectedOptions[0]));
-    // dispatch event onSelectionChange(values)
-    if (onSelectionChange) {
-      onSelectionChange(newSelectedOptions?.map((item) => item.value));
-    }
+    updateSelectedOptions((prevState) => {
+      const newSelectedOptions = computeNewSelectedOptions(
+        isMultipleSelect,
+        value,
+        prevState,
+        options
+      );
+      if (!isMultipleSelect && newSelectedOptions[0])
+        updateHoveredIndex(options.indexOf(newSelectedOptions[0]));
+      // dispatch event onSelectionChange(values)
+      if (onSelectionChange) {
+        onSelectionChange(newSelectedOptions?.map((item) => item.value));
+      }
+      return newSelectedOptions;
+    });
   };
 
   const expandOrCloseOptionList = () => {
@@ -184,8 +184,8 @@ export const Select = ({
    */
 
   const formattedSelectedValuesMemoized = useMemo(() => {
-    return formatSelectedValuesToString(selectedOptions, defaultSelected);
-  }, [selectedOptions, defaultSelected]);
+    return formatSelectedValuesToString(selectedOptions, defaultPlaceholder);
+  }, [selectedOptions, defaultPlaceholder]);
 
   const ariaActivedescendantMemoized = useMemo(() => {
     return getAriaActiveDescendant(isOpen, selectedOptions);

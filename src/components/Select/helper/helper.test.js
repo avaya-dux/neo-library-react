@@ -6,38 +6,27 @@ import {
 
 import {
   displayErrorOrHelper,
-  getDefaultOption,
+  getPlaceholder,
   getOptionByValue,
 } from "./helper";
 
 describe("Helper test ", () => {
-  describe(getDefaultOption, () => {
+  describe(getPlaceholder, () => {
     it("Given an empty array should return the default placeholder", () => {
-      expect(getDefaultOption([], "This is the default placeholder"))
+      expect(getPlaceholder([], "This is the default placeholder"))
         .toMatchInlineSnapshot(`
         Array [
           Object {
+            "isPlaceholder": true,
             "label": "This is the default placeholder",
             "value": "0",
           },
         ]
       `);
     });
+  });
 
-    it("Given a list of states without a query should return the default selected", () => {
-      expect(getDefaultOption(listOfStates)).toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "defaultSelected": true,
-            "isDisabled": false,
-            "isPlaceholder": true,
-            "label": "--Please choose an option--",
-            "value": "0",
-          },
-        ]
-      `);
-    });
-
+  describe(getOptionByValue, () => {
     it("Given a list of states with the query (AL, UT) should return Alabama and Utah", () => {
       expect(getOptionByValue(listOfStates, ["AL", "UT"]))
         .toMatchInlineSnapshot(`

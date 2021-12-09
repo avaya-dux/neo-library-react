@@ -36,7 +36,7 @@ export const ControlledSelect = () => {
         onSelectionChange={(value) => {
           updateSelectedStates(value);
         }}
-        value={selectedStates}
+        defaultValue={selectedStates}
         helperMessages={helperMessagesDemo}
         errorMessages={errorTexts}
         options={ListOfStatesArkansasDisabledPlusHint}
@@ -78,7 +78,7 @@ export const ControlledMultipleSelect = () => {
           updateSelectedStates(values);
         }}
         isMultipleSelect={true}
-        value={selectedStates}
+        defaultValue={selectedStates}
         helperMessages={helperMessagesDemo}
         errorMessages={errorTexts}
         options={ListOfStatesArkansasDisabledPlusHint}
@@ -104,6 +104,19 @@ export const ControlledMultipleSelect = () => {
         &nbsp;
         <Button onClick={() => updateErrorTexts([])} label=" Display Helper" />
       </div>
+    </>
+  );
+};
+
+export const UncontrolledMultipleSelect = () => {
+  return (
+    <>
+      <Select
+        label="List of States"
+        isMultipleSelect={true}
+        options={ListOfStatesArkansasDisabledPlusHint}
+      />
+      <br />
     </>
   );
 };
@@ -150,7 +163,7 @@ export const ValidateValuesSelect = () => {
             updateSelectedStates(value);
             validateSelectValue(value);
           }}
-          value={selectedStates}
+          defaultValue={selectedStates}
           helperMessages={helperText}
           errorMessages={errorText}
           options={ListOfStatesArkansasDisabledPlusHint}
@@ -268,6 +281,26 @@ CustomPlaceholder.args = {
   helperMessages: helperMessagesDemo,
   options: listOfStates.slice(1, 3),
   placeholder: "This is a custom placeholder",
+};
+
+export const defaultValueSelected = Template.bind({});
+
+defaultValueSelected.args = {
+  label: "List of States",
+  helperMessages: helperMessagesDemo,
+  options: listOfStates,
+  placeholder: "This is a custom placeholder",
+  defaultValue: ["AL"],
+};
+
+export const defaultValueSelectedMultiple = Template.bind({});
+
+defaultValueSelectedMultiple.args = {
+  label: "List of States",
+  helperMessages: helperMessagesDemo,
+  options: listOfStates,
+  isMultipleSelect: true,
+  defaultValue: ["AL", "UT"],
 };
 
 export const SelectError = Template.bind({});

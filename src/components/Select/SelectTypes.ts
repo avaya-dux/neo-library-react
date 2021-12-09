@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 
 export type OptionType = {
-  defaultSelected?: boolean;
   isDisabled?: boolean;
   hint?: string;
   label: string;
@@ -18,8 +17,8 @@ export interface NativeSelectProps
   label: string;
   loaderText?: string;
   options: OptionType[];
+  placeholder?: string;
   required?: boolean;
-  value?: string;
 }
 export interface SelectProps
   extends Omit<
@@ -33,12 +32,11 @@ export interface SelectProps
   isMultipleSelect?: boolean;
   label: string;
   loaderText?: ReactNode;
+  name?: string;
   onSelectionChange?: SelectHandlerType;
   options: OptionType[];
-  required?: boolean;
-  value?: string[];
-  name?: string;
   placeholder?: string;
+  required?: boolean;
 }
 
 export interface OptionsProps {

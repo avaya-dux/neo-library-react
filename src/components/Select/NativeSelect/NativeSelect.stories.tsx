@@ -2,13 +2,13 @@ import { Meta, Story } from "@storybook/react/types-6-0";
 import { useState } from "react";
 
 import { Button } from "components/Button";
-
 import {
   errorMessagesDemo,
   helperMessagesDemo,
   listOfStates,
 } from "components/Select/SampleData";
 import { NativeSelectProps } from "components/Select/SelectTypes";
+
 import { NativeSelect } from "./NativeSelect";
 
 export default {
@@ -36,7 +36,7 @@ export const ControlledNativeSelect = () => {
         onChange={(e) => {
           updateSelectedState(e.target.value);
         }}
-        value={selectedState}
+        defaultValue={selectedState}
         helperMessages={helperMessagesDemo}
         errorMessages={errorTexts}
         options={ListOfStatesArkansasDisabledPlusHint}
@@ -86,7 +86,7 @@ export const ValidateValuesNativeSelect = () => {
           updateSelectedState(e.target.value);
           validateSelectValue(e.target.value);
         }}
-        value={selectedState}
+        defaultValue={selectedState}
         helperMessages={helperText}
         errorMessages={errorText}
         options={listOfStates}
@@ -141,4 +141,12 @@ NativeSelectLoading.args = {
   helperMessages: ["Please choose a State"],
   isLoading: true,
   options: listOfStates,
+};
+
+export const NativeSelectCustomPlaceholder = Template.bind({});
+NativeSelectCustomPlaceholder.args = {
+  label: "List of States",
+  helperMessages: ["Please choose a State"],
+  options: listOfStates.slice(1, 3),
+  placeholder: "This is a custom placeholder",
 };

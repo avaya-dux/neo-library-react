@@ -3,6 +3,7 @@ import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { listOfStates } from "components/Select/SampleData";
+
 import { getNativeSelectClassNames, renderOptions } from "./NativeSelect";
 import * as NativeSelectStories from "./NativeSelect.stories";
 
@@ -113,11 +114,27 @@ describe("NativeSelect test", () => {
 
   describe(renderOptions, () => {
     it("Given an empty array, should return an empty array", () => {
-      expect(renderOptions([])).toMatchInlineSnapshot(`Array []`);
+      expect(renderOptions([], "this is a placeholder")).toMatchInlineSnapshot(`
+        Array [
+          <option
+            hidden={true}
+            value="0"
+          >
+            this is a placeholder
+          </option>,
+        ]
+      `);
     });
     it("Given options, should return a list of options", () => {
       expect(renderOptions(listOfStates.slice(0, 3))).toMatchInlineSnapshot(`
         Array [
+          <option
+            disabled={false}
+            hidden={true}
+            value="0"
+          >
+            --Please choose an option--
+          </option>,
           <option
             disabled={false}
             hidden={true}

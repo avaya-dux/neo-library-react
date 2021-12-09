@@ -4,7 +4,7 @@ import { NeoInputWrapper } from "components/NeoInputWrapper";
 
 import {
   displayErrorOrHelper,
-  getDefaultOption,
+  getPlaceholder,
   getOptionByValue,
 } from "components/Select/helper";
 import { NativeSelectProps, OptionType } from "components/Select/SelectTypes";
@@ -30,6 +30,7 @@ import { NativeSelectProps, OptionType } from "components/Select/SelectTypes";
 
 export const NativeSelect = ({
   className,
+  defaultValue,
   disabled,
   errorMessages,
   helperMessages,
@@ -39,8 +40,8 @@ export const NativeSelect = ({
   loaderText = "Loading...",
   onChange,
   options,
+  placeholder = "--Please choose an option--",
   required,
-  value,
 }: NativeSelectProps) => {
   const labelId = useMemo(
     () => `neo-native-select-label-id-${label.replace(/\s/g, "")}`,
@@ -56,18 +57,18 @@ export const NativeSelect = ({
     return getNativeSelectClassNames(isLoading);
   }, [isLoading]);
 
-  const defaultSelected = getDefaultOption(options);
+  const defaultSelected = getPlaceholder(options, placeholder);
 
   const [selectedItem, updateSelectedItem] = useState(
     defaultSelected[0]?.label
   );
 
   useEffect(() => {
-    if (value) {
-      const selected = getOptionByValue(options, [value]);
+    if (defaultValue) {
+      const selected = getOptionByValue(options, [defaultValue as string]);
       updateSelectedItem(selected[0]?.value);
     }
-  }, [value, options]);
+  }, [defaultValue, options]);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
@@ -80,8 +81,8 @@ export const NativeSelect = ({
   };
 
   const memoizedRenderOptions = useMemo(
-    () => renderOptions(options),
-    [options]
+    () => renderOptions(options, placeholder),
+    [options, placeholder]
   );
 
   return (
@@ -118,8 +119,9 @@ export const NativeSelect = ({
   );
 };
 
-export const renderOptions = (options: OptionType[]) => {
-  return options.map((option, index) => {
+export const renderOptions = (options: OptionType[], placeholder: string) => {
+  const defaultPlaceholder = getPlaceholder(options, placeholder);
+  return [...defaultPlaceholder, ...options].map((option, index) => {
     const { label, value, isDisabled, isPlaceholder } = option;
 
     return (
