@@ -68,9 +68,9 @@ export const SelectableRows = () => {
         <h3>`onChange` logs:</h3>
 
         <List>
-          {logItems.map((item) => {
-            return <ListItem key={item}>{item}</ListItem>;
-          })}
+          {logItems.map((item, index) => (
+            <ListItem key={`${item}-${index}`}>{item}</ListItem>
+          ))}
         </List>
       </section>
     </section>

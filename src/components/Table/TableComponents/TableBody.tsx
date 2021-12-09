@@ -38,11 +38,8 @@ export const TableBody = <T extends Record<string, any>>({
 
           return (
             <tr
-              // className={
-              //   selectableRows === "none" ? cursorDefault : cursorPointer
-              // }
+              className={row.isSelected ? "active" : ""}
               {...row.getRowProps()}
-              // selected={row.isSelected}
               onClick={() => {
                 toggleRowSelected(row.id);
 
