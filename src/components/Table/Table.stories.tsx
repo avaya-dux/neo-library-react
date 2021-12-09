@@ -33,8 +33,7 @@ export const SelectableRows = () => {
   const [selectedRows, setSelectedRows] = useState<IDataTableMockData[]>([]);
   const [logItems, setLogItems] = useState<string[]>([]);
 
-  const handleSelect = (row: IDataTableMockData, selectedRowIds: string[]) => {
-    console.log(selectedRowIds);
+  const handleSelect = (row: IDataTableMockData) => {
     const rowExists = !!selectedRows.find((r) => r.id === row.id);
     setSelectedRows(
       rowExists
