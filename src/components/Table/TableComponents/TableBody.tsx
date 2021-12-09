@@ -13,7 +13,7 @@ import { TableBodyProps } from "../types";
 export const TableBody = <T extends Record<string, any>>({
   handleRowSelected = (_1: T, _2: string[]) => {},
   instance,
-  // selectableRows,
+  selectableRows,
   translations,
 }: TableBodyProps<T>) => {
   const {
@@ -22,7 +22,7 @@ export const TableBody = <T extends Record<string, any>>({
     page,
     prepareRow,
     toggleRowSelected,
-    // toggleAllRowsSelected,
+    toggleAllRowsSelected,
     state: { selectedRowIds },
   } = instance;
 
@@ -41,10 +41,25 @@ export const TableBody = <T extends Record<string, any>>({
               className={row.isSelected ? "active" : ""}
               {...row.getRowProps()}
               onClick={() => {
-                toggleRowSelected(row.id);
-
                 const selectedRows = Object.keys(selectedRowIds);
-                handleRowSelected(row.original, selectedRows);
+
+                if (selectableRows === "single") {
+                  toggleAllRowsSelected(false); // set all rows `selected = false`
+
+                  const userIsDeselectingRow = Object.keys(
+                    selectedRowIds
+                  ).includes(row.id);
+
+                  if (userIsDeselectingRow) {
+                    handleRowSelected({} as T, selectedRows);
+                    return;
+                  }
+                }
+                if (selectableRows !== "none") {
+                  toggleRowSelected(row.id);
+
+                  handleRowSelected(row.original, selectedRows);
+                }
               }}
             >
               {row.cells.map((cell) => {
