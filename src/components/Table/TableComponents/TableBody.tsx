@@ -36,31 +36,33 @@ export const TableBody = <T extends Record<string, any>>({
         page.map((row) => {
           prepareRow(row);
 
+          const handleRowSelectedInternal = () => {
+            const selectedRows = Object.keys(selectedRowIds);
+
+            if (selectableRows === "single") {
+              toggleAllRowsSelected(false); // set all rows `selected = false`
+
+              const userIsDeselectingRow = Object.keys(selectedRowIds).includes(
+                row.id
+              );
+
+              if (userIsDeselectingRow) {
+                handleRowSelected({} as T, selectedRows);
+                return;
+              }
+            }
+            if (selectableRows !== "none") {
+              toggleRowSelected(row.id);
+
+              handleRowSelected(row.original, selectedRows);
+            }
+          };
+
           return (
             <tr
               className={row.isSelected ? "active" : ""}
               {...row.getRowProps()}
-              onClick={() => {
-                const selectedRows = Object.keys(selectedRowIds);
-
-                if (selectableRows === "single") {
-                  toggleAllRowsSelected(false); // set all rows `selected = false`
-
-                  const userIsDeselectingRow = Object.keys(
-                    selectedRowIds
-                  ).includes(row.id);
-
-                  if (userIsDeselectingRow) {
-                    handleRowSelected({} as T, selectedRows);
-                    return;
-                  }
-                }
-                if (selectableRows !== "none") {
-                  toggleRowSelected(row.id);
-
-                  handleRowSelected(row.original, selectedRows);
-                }
-              }}
+              onClick={handleRowSelectedInternal}
             >
               {row.cells.map((cell) => {
                 return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
