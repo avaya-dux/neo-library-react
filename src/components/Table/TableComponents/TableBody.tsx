@@ -36,6 +36,8 @@ export const TableBody = <T extends Record<string, any>>({
         page.map((row) => {
           prepareRow(row);
 
+          // TODO-567: gotta add row checkmark inputs and NOT allow the click of the full row
+          // optionally gotta add a header checkmark if `selectableRows === 'multiple'`
           const handleRowSelectedInternal = () => {
             const selectedRows = Object.keys(selectedRowIds);
 
