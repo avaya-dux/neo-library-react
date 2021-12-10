@@ -34,7 +34,6 @@ export const ControlledSelect = () => {
       <Select
         label="List of States"
         onSelectionChange={(value) => {
-          console.log(value);
           updateSelectedStates(value);
         }}
         defaultValue={selectedStates}
@@ -76,7 +75,6 @@ export const ControlledMultipleSelect = () => {
       <Select
         label="List of States"
         onSelectionChange={(values) => {
-          console.log(values);
           updateSelectedStates(values);
         }}
         isMultipleSelect={true}

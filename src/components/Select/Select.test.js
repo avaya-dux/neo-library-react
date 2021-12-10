@@ -441,12 +441,11 @@ describe("Select test ", () => {
         fireEvent.click(container);
 
         fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
-        fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
 
         fireEvent.keyDown(container, KeyboardEventTypes.ENTER);
 
         const textBox = screen.getByRole("textbox");
-        const hiddenInput = screen.getByDisplayValue("0");
+
         expect(textBox).toMatchInlineSnapshot(`
                   <div
                     aria-label="--Please choose an option--"
@@ -456,13 +455,6 @@ describe("Select test ", () => {
                     --Please choose an option--
                   </div>
               `);
-        expect(hiddenInput).toMatchInlineSnapshot(`
-          <input
-            name="neo-select-name-ListofStates"
-            type="hidden"
-            value="0"
-          />
-        `);
       });
     });
 
@@ -473,7 +465,6 @@ describe("Select test ", () => {
 
         fireEvent.click(container);
 
-        fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
         fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
         fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
 

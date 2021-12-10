@@ -20,7 +20,7 @@ import {
   getPlaceholder,
 } from "./helper";
 import { Options } from "./Options/Options";
-import { OptionType, SelectProps, SelectHandlerType } from "./SelectTypes";
+import { OptionType, SelectHandlerType, SelectProps } from "./SelectTypes";
 
 /**
  * @example
@@ -274,7 +274,6 @@ export const computeMultipleSelectedValues = (
   newValue: OptionType[],
   value: string
 ) => {
-  console.log(alreadySelectedOptions);
   return alreadySelectedOptions.map((item) => item.value).includes(value)
     ? alreadySelectedOptions.filter((item) => item.value !== value) // remove
     : [...alreadySelectedOptions, ...newValue]; // add
