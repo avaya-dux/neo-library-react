@@ -2,18 +2,17 @@ import { composeStories } from "@storybook/testing-react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 
+import { KeyboardEventTypes } from "utils";
+
 import { listOfStates } from "./SampleData";
 import {
+  computeMultipleSelectedValues,
+  formatSelectedValuesToString,
   getAriaActiveDescendant,
   getSelectClassNames,
-  computeNewSelectedOptions,
-  formatSelectedValuesToString,
-  getOptionByValueMultiple,
   renderInputValues,
 } from "./Select";
 import * as SelectStories from "./Select.stories";
-
-import { KeyboardEventTypes } from "utils";
 
 const {
   UncontrolledSelect,
@@ -167,7 +166,7 @@ describe("Select test ", () => {
       );
     });
   });
-
+  /*
   describe(computeNewSelectedOptions, () => {
     it("will remove the placeholder from the list of states", () => {
       expect(
@@ -225,17 +224,18 @@ describe("Select test ", () => {
       `);
     });
   });
-
-  describe(getOptionByValueMultiple, () => {
+*/
+  describe(computeMultipleSelectedValues, () => {
     const AlabamaAndAlaska = listOfStates.slice(1, 3);
+    const Alabama = listOfStates.slice(1, 2);
     it("Should return empty array for undefined values", () => {
-      expect(getOptionByValueMultiple([], [], "")).toMatchInlineSnapshot(
+      expect(computeMultipleSelectedValues([], [], "")).toMatchInlineSnapshot(
         `Array []`
       );
     });
 
     it("Should return Alabama and Alaska when the query is an empty string", () => {
-      expect(getOptionByValueMultiple(AlabamaAndAlaska, listOfStates, ""))
+      expect(computeMultipleSelectedValues(AlabamaAndAlaska, [], ""))
         .toMatchInlineSnapshot(`
         Array [
           Object {
@@ -251,8 +251,13 @@ describe("Select test ", () => {
     });
 
     it("Adding Utah to the list of selected states", () => {
-      expect(getOptionByValueMultiple(AlabamaAndAlaska, listOfStates, "UT"))
-        .toMatchInlineSnapshot(`
+      expect(
+        computeMultipleSelectedValues(
+          AlabamaAndAlaska,
+          [{ label: "Utah", value: "UT" }],
+          "UT"
+        )
+      ).toMatchInlineSnapshot(`
         Array [
           Object {
             "label": "Alabama",
@@ -271,8 +276,13 @@ describe("Select test ", () => {
     });
 
     it("If you pass a state that is already there, this value will be removed", () => {
-      expect(getOptionByValueMultiple(AlabamaAndAlaska, listOfStates, "AL"))
-        .toMatchInlineSnapshot(`
+      expect(
+        computeMultipleSelectedValues(
+          AlabamaAndAlaska,
+          [{ label: "Alabama", value: "AL" }],
+          "AL"
+        )
+      ).toMatchInlineSnapshot(`
         Array [
           Object {
             "label": "Alaska",
@@ -398,7 +408,7 @@ describe("Select test ", () => {
 
         fireEvent.click(container);
 
-        fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
+        // fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
         fireEvent.keyDown(container, KeyboardEventTypes.ENTER);
 
         const textBox = screen.getByRole("textbox");

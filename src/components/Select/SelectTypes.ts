@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 
 export type OptionType = {
   isDisabled?: boolean;
@@ -9,6 +9,16 @@ export type OptionType = {
 };
 
 export type SelectHandlerType = (values: string[]) => void;
+
+export type setSelectedOptionsType = (
+  isMultipleSelect: boolean,
+  options: OptionType[],
+  selectedOptions: OptionType[],
+  updateHoveredIndex: (index: number) => void,
+  updateSelectedOptions: Dispatch<SetStateAction<OptionType[]>>,
+  value: string,
+  onSelectionChange?: SelectHandlerType
+) => void;
 export interface NativeSelectProps
   extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "multiple"> {
   errorMessages?: string[];

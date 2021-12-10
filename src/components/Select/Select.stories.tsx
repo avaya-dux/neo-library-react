@@ -34,6 +34,7 @@ export const ControlledSelect = () => {
       <Select
         label="List of States"
         onSelectionChange={(value) => {
+          console.log(value);
           updateSelectedStates(value);
         }}
         defaultValue={selectedStates}
@@ -75,6 +76,7 @@ export const ControlledMultipleSelect = () => {
       <Select
         label="List of States"
         onSelectionChange={(values) => {
+          console.log(values);
           updateSelectedStates(values);
         }}
         isMultipleSelect={true}
@@ -278,8 +280,15 @@ EmptySelect.args = {
 export const CustomPlaceholder = Template.bind({});
 CustomPlaceholder.args = {
   label: "List of States",
-  helperMessages: helperMessagesDemo,
   options: listOfStates.slice(1, 3),
+  placeholder: "This is a custom placeholder",
+};
+
+export const CustomPlaceholderMultiple = Template.bind({});
+CustomPlaceholderMultiple.args = {
+  label: "List of States",
+  options: listOfStates.slice(1, 3),
+  isMultipleSelect: true,
   placeholder: "This is a custom placeholder",
 };
 

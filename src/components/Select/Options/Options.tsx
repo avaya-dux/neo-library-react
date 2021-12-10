@@ -53,7 +53,7 @@ export const Options = forwardRef(
         id={id}
         aria-labelledby={labelledby}
         tabIndex={-1}
-        style={{ top: topPosition }}
+        style={{ top: topPosition || "" }}
       >
         {renderSelectOptions(
           options,

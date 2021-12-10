@@ -1,4 +1,12 @@
-import { createRef, useCallback, useEffect, useMemo, useState } from "react";
+import {
+  createRef,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 
@@ -8,11 +16,11 @@ import {
 } from "./EventHandlers/KeyboardEventHandlers";
 import {
   displayErrorOrHelper,
-  getPlaceholder,
   getOptionByValue,
+  getPlaceholder,
 } from "./helper";
 import { Options } from "./Options/Options";
-import { OptionType, SelectProps } from "./SelectTypes";
+import { OptionType, SelectProps, SelectHandlerType } from "./SelectTypes";
 
 /**
  * @example
@@ -68,10 +76,10 @@ export const Select = ({
   const [isOpen, updateIsOpen] = useState(false);
   const [hoveredIndex, updateHoveredIndex] = useState(0);
   const defaultPlaceholder = getPlaceholder(options, placeholder);
+  const optionList = useMemo(() => removePlaceholder(options), options);
 
-  const [selectedOptions, updateSelectedOptions] =
-    useState<OptionType[]>(defaultPlaceholder);
-  const [topPosition, updateTopPosition] = useState(40);
+  const [selectedOptions, updateSelectedOptions] = useState<OptionType[]>([]);
+  const [topPosition, updateTopPosition] = useState(0);
 
   const selectClassName = useMemo(() => {
     return getSelectClassNames(isOpen, disabled, isLoading);
@@ -79,10 +87,10 @@ export const Select = ({
 
   useEffect(() => {
     if (defaultValue) {
-      const selected = getOptionByValue(options, defaultValue as string[]);
+      const selected = getOptionByValue(optionList, defaultValue as string[]);
       updateSelectedOptions(selected);
     }
-  }, [defaultValue, options]);
+  }, [defaultValue, optionList]);
 
   useEffect(() => {
     const listBoxRect = listBoxRef.current?.getBoundingClientRect();
@@ -90,40 +98,33 @@ export const Select = ({
       const { height, y } = listBoxRect;
       const borderCalculation = height + y;
       const calculatedTopPosition =
-        borderCalculation <= innerHeight && borderCalculation > 0
-          ? 40
-          : -height;
+        borderCalculation <= innerHeight && borderCalculation > 0 ? 0 : -height;
       updateTopPosition(calculatedTopPosition);
     }
   }, [isOpen]);
 
   const onSelectionChangeMemoizedCallback = useCallback(
-    (isMultipleSelect, value) => {
-      onSelectionChangeHandler(isMultipleSelect, value);
-    },
-    [isMultipleSelect, defaultValue]
-  );
-
-  const onSelectionChangeHandler = (
-    isMultipleSelect: boolean,
-    value: string
-  ) => {
-    updateSelectedOptions((prevState) => {
-      const newSelectedOptions = computeNewSelectedOptions(
+    (
+      isMultipleSelect,
+      options,
+      selectedOptions,
+      updateHoveredIndex,
+      updateSelectedOptions,
+      value,
+      onSelectionChange
+    ) => {
+      onSelectionChangeHandler(
         isMultipleSelect,
+        options,
+        selectedOptions,
+        updateHoveredIndex,
+        updateSelectedOptions,
         value,
-        prevState,
-        options
+        onSelectionChange
       );
-      if (!isMultipleSelect && newSelectedOptions[0])
-        updateHoveredIndex(options.indexOf(newSelectedOptions[0]));
-      // dispatch event onSelectionChange(values)
-      if (onSelectionChange) {
-        onSelectionChange(newSelectedOptions?.map((item) => item.value));
-      }
-      return newSelectedOptions;
-    });
-  };
+    },
+    [isMultipleSelect, selectedOptions]
+  );
 
   const expandOrCloseOptionList = () => {
     if (!disabled && !isLoading) {
@@ -138,7 +139,15 @@ export const Select = ({
 
     // value "0" will be ignored
     if (value && value !== "0") {
-      onSelectionChangeMemoizedCallback(isMultipleSelect, value);
+      onSelectionChangeMemoizedCallback(
+        isMultipleSelect,
+        optionList,
+        selectedOptions,
+        updateHoveredIndex,
+        updateSelectedOptions,
+        value,
+        onSelectionChange
+      );
     }
 
     expandOrCloseOptionList();
@@ -148,14 +157,17 @@ export const Select = ({
     SelectOnKeyDownHandler(
       e,
       isOpen,
-      options,
+      optionList,
       listBoxRef,
       hoveredIndex,
       isMultipleSelect,
       expandOrCloseOptionList,
       updateIsOpen,
       updateHoveredIndex,
-      onSelectionChangeMemoizedCallback
+      onSelectionChangeMemoizedCallback,
+      updateSelectedOptions,
+      selectedOptions,
+      onSelectionChange
     );
   };
 
@@ -165,7 +177,7 @@ export const Select = ({
   };
 
   const optionsProps = {
-    options,
+    options: optionList,
     isMultipleSelect,
     labelledby: labelId,
     selectedOptions,
@@ -194,10 +206,6 @@ export const Select = ({
   const renderInputValuesMemoized = useMemo(() => {
     return renderInputValues(selectedOptions, internalName);
   }, [selectedOptions, internalName]);
-
-  /**
-   * TODO expand UP direction when the Select is on the bottom of the screen view
-   */
 
   return (
     <NeoInputWrapper
@@ -261,33 +269,15 @@ export const getSelectClassNames = (
   return classArray.join(" ");
 };
 
-export const computeNewSelectedOptions = (
-  isMultipleSelect: boolean,
-  value: string,
-  selectedOptions: OptionType[],
-  options: OptionType[]
-) => {
-  // remove placeholder
-  const cleanSelectedOptions = selectedOptions.filter(
-    (item) => !item.isPlaceholder
-  );
-
-  return isMultipleSelect
-    ? getOptionByValueMultiple(cleanSelectedOptions, options, value)
-    : getOptionByValue(options, [value]);
-};
-
-export const getOptionByValueMultiple = (
+export const computeMultipleSelectedValues = (
   alreadySelectedOptions: OptionType[],
-  options: OptionType[],
-  query: string
+  newValue: OptionType[],
+  value: string
 ) => {
-  const newValue = alreadySelectedOptions.find(
-    (item) => item.value === query && !item.isPlaceholder
-  );
-  return newValue
-    ? alreadySelectedOptions.filter((option) => option.value !== query) // remove value if exists (unselect)
-    : [...alreadySelectedOptions, ...getOptionByValue(options, [query])]; // else, add it
+  console.log(alreadySelectedOptions);
+  return alreadySelectedOptions.map((item) => item.value).includes(value)
+    ? alreadySelectedOptions.filter((item) => item.value !== value) // remove
+    : [...alreadySelectedOptions, ...newValue]; // add
 };
 
 export const getAriaActiveDescendant = (
@@ -320,4 +310,31 @@ export const renderInputValues = (
       value={option.value}
     />
   ));
+};
+export const removePlaceholder = (options: OptionType[]) => {
+  return options.filter((option) => !option.isPlaceholder);
+};
+export const onSelectionChangeHandler = (
+  isMultipleSelect: boolean,
+  options: OptionType[],
+  selectedOptions: OptionType[],
+  updateHoveredIndex: Dispatch<SetStateAction<number>>,
+  updateSelectedOptions: Dispatch<SetStateAction<OptionType[]>>,
+  value: string,
+  onSelectionChange: SelectHandlerType
+) => {
+  let newValue: OptionType[] = getOptionByValue(options, [value]);
+
+  if (isMultipleSelect) {
+    newValue = computeMultipleSelectedValues(selectedOptions, newValue, value);
+  }
+
+  if (!isMultipleSelect) {
+    updateHoveredIndex(options.indexOf(newValue[0]));
+  }
+
+  // dispatch event onSelectionChange(values)
+  onSelectionChange(newValue.map((item) => item.value));
+
+  updateSelectedOptions(newValue);
 };

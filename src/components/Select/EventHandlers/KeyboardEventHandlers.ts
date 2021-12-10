@@ -6,9 +6,12 @@ import {
   SetStateAction,
 } from "react";
 
+import {
+  OptionType,
+  SelectHandlerType,
+  setSelectedOptionsType,
+} from "components/Select/SelectTypes";
 import { Keys } from "utils";
-
-import { OptionType } from "components/Select/SelectTypes";
 
 export const SelectOnKeyDownHandler = (
   e: KeyboardEvent<HTMLDivElement>,
@@ -20,7 +23,10 @@ export const SelectOnKeyDownHandler = (
   expandOrCloseOptionList: () => void,
   forceExpandOrCloseOptionList: (isOpen: boolean) => void,
   updateHoveredIndex: Dispatch<SetStateAction<number>>,
-  setSelectedOptions: (isMultipleSelect: boolean, value: string) => void
+  setSelectedOptions: setSelectedOptionsType,
+  updateSelectedOptions: Dispatch<SetStateAction<OptionType[]>>,
+  selectedOptions: OptionType[],
+  onSelectionChange?: SelectHandlerType
 ) => {
   const scrollHeight = listBoxRef.current?.scrollHeight;
   const itemHeight = Math.ceil(
@@ -41,7 +47,7 @@ export const SelectOnKeyDownHandler = (
     case Keys.DOWN: {
       if (isOpen) {
         const currentIndex = hoveredIndex + 1;
-        let resetIndex = 1;
+        let resetIndex = 0;
         if (currentIndex >= options.length) {
           updateHoveredIndex(resetIndex);
         } else {
@@ -50,7 +56,7 @@ export const SelectOnKeyDownHandler = (
         }
 
         if (scrollHeight && itemHeight) {
-          listBoxRef.current.scrollTop = (resetIndex - 1) * itemHeight;
+          listBoxRef.current.scrollTop = resetIndex * itemHeight;
         }
       } else {
         expandOrCloseOptionList();
@@ -63,16 +69,17 @@ export const SelectOnKeyDownHandler = (
       if (isOpen) {
         const currentIndex = hoveredIndex - 1;
         let resetIndex = options.length - 1;
-        if (currentIndex <= 0) {
+        if (currentIndex < 0) {
           updateHoveredIndex(resetIndex);
         } else {
           resetIndex = currentIndex;
           updateHoveredIndex(resetIndex);
         }
-
         if (scrollHeight && itemHeight) {
-          listBoxRef.current.scrollTop = (resetIndex - 1) * itemHeight;
+          listBoxRef.current.scrollTop = resetIndex * itemHeight;
         }
+      } else {
+        expandOrCloseOptionList();
       }
       break;
     }
@@ -82,7 +89,15 @@ export const SelectOnKeyDownHandler = (
         // value "0" will be ignored
         const value = options[hoveredIndex]?.value;
         if (!options[hoveredIndex]?.isDisabled && value && value !== "0") {
-          setSelectedOptions(isMultipleSelect, value);
+          setSelectedOptions(
+            isMultipleSelect,
+            options,
+            selectedOptions,
+            updateHoveredIndex,
+            updateSelectedOptions,
+            value,
+            onSelectionChange
+          );
         }
         expandOrCloseOptionList();
       } else {
