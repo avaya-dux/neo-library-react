@@ -35,7 +35,6 @@ export const TableHeader = <T extends Record<string, any>>({
     : selectedRows.length === 0
     ? false
     : "indeterminate";
-  console.log(`checkboxCheckedValue: ${checkboxCheckedValue}`);
 
   return (
     <thead>
