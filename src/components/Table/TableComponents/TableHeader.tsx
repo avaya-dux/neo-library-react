@@ -1,5 +1,6 @@
 import { AriaAttributes } from "react";
 
+import { Checkbox } from "components/CheckboxGroup";
 import { Keys } from "utils";
 
 import { TableHeaderProps } from "../types";
@@ -15,13 +16,47 @@ import { TableHeaderProps } from "../types";
  */
 export const TableHeader = <T extends Record<string, any>>({
   instance,
+  selectableRows,
   translations,
 }: TableHeaderProps<T>) => {
-  const { headers } = instance;
+  const {
+    headers,
+    page,
+    toggleAllRowsSelected,
+    state: { selectedRowIds },
+  } = instance;
+
+  const selectedRows = Object.keys(selectedRowIds);
+  const allRowsAreSelected = selectedRows.length === page.length;
+  const shouldHaveCheckboxColumn = selectableRows !== "none";
+  const shouldHaveCheckbox = selectableRows === "multiple";
+  const checkboxCheckedValue = allRowsAreSelected
+    ? true
+    : selectedRows.length === 0
+    ? false
+    : "indeterminate";
+  console.log(`checkboxCheckedValue: ${checkboxCheckedValue}`);
 
   return (
     <thead>
       <tr>
+        {shouldHaveCheckboxColumn && (
+          <th style={{ width: 50 }}>
+            {shouldHaveCheckbox && (
+              <Checkbox
+                label="" // BUG: need an aria-label maybe? but certainly not a `label` here
+                checked={checkboxCheckedValue}
+                onChange={() => {
+                  toggleAllRowsSelected();
+
+                  // TODO-567:need this!
+                  // handleRowSelected(row.original, selectedRows);
+                }}
+                value={""}
+              />
+            )}
+          </th>
+        )}
         {headers.map((column) => {
           const {
             canSort,

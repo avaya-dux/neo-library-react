@@ -1,3 +1,5 @@
+import { Checkbox } from "components/CheckboxGroup";
+
 import { TableBodyProps } from "../types";
 
 /**
@@ -26,6 +28,8 @@ export const TableBody = <T extends Record<string, any>>({
     state: { selectedRowIds },
   } = instance;
 
+  const shouldShowCheckbox = selectableRows !== "none";
+
   return (
     <tbody {...getTableBodyProps()}>
       {page.length === 0 ? (
@@ -36,8 +40,6 @@ export const TableBody = <T extends Record<string, any>>({
         page.map((row) => {
           prepareRow(row);
 
-          // TODO-567: gotta add row checkmark inputs and NOT allow the click of the full row
-          // optionally gotta add a header checkmark if `selectableRows === 'multiple'`
           const handleRowSelectedInternal = () => {
             const selectedRows = Object.keys(selectedRowIds);
 
@@ -64,11 +66,21 @@ export const TableBody = <T extends Record<string, any>>({
             <tr
               className={row.isSelected ? "active" : ""}
               {...row.getRowProps()}
-              onClick={handleRowSelectedInternal}
             >
-              {row.cells.map((cell) => {
-                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
-              })}
+              {shouldShowCheckbox && (
+                <td>
+                  <Checkbox
+                    label="" // BUG: need an aria-label maybe? but certainly not a `label` here
+                    checked={row.isSelected}
+                    onChange={handleRowSelectedInternal}
+                    value={row.id}
+                  />
+                </td>
+              )}
+
+              {row.cells.map((cell) => (
+                <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+              ))}
             </tr>
           );
         })

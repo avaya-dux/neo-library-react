@@ -157,7 +157,11 @@ export const Table = <T extends Record<string, any>>({
         aria-labelledby={tableCaptionId}
         aria-describedby={tableSummaryId}
       >
-        <TableHeader instance={instance} translations={headerTranslations} />
+        <TableHeader
+          instance={instance}
+          selectableRows={selectableRows}
+          translations={headerTranslations}
+        />
 
         <TableBody
           instance={instance}

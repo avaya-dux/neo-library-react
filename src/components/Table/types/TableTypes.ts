@@ -21,6 +21,7 @@ export type TableToolbarProps<T extends Record<string, any>> = {
 
 export interface TableHeaderProps<T extends Record<string, any>> {
   instance: TableInstance<T>;
+  selectableRows: "none" | "single" | "multiple";
   translations?: ITableHeaderTranslations;
 }
 
