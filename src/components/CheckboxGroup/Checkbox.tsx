@@ -4,9 +4,12 @@ import { Tooltip, TooltipPosition } from "components/Tooltip";
 import { genId } from "utils/accessibilityUtils";
 
 export interface CheckboxProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type"> {
+  extends Omit<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    "type" | "checked"
+  > {
   describedBy?: string;
-  indeterminate?: boolean;
+  checked?: boolean | "indeterminate";
   tooltip?: string;
   position?: TooltipPosition;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -26,7 +29,6 @@ export interface CheckboxProps
 export const Checkbox = ({
   describedBy,
   checked,
-  indeterminate,
   id,
   tooltip,
   position,
@@ -41,14 +43,14 @@ export const Checkbox = ({
   const computeInputJSX = () => {
     return (
       <input
-        {...getCheckboxClassName({ indeterminate })}
-        type="checkbox"
-        id={internalId}
-        checked={checked}
         aria-describedby={describedBy}
-        value={value}
+        checked={!!checked}
+        id={internalId}
         name={name}
         onChange={onChange}
+        type="checkbox"
+        value={value}
+        {...getCheckboxClassName(checked === "indeterminate")}
         {...rest}
       />
     );
@@ -75,12 +77,10 @@ const Label = ({ htmlFor, label }: { htmlFor: string; label: string }) => {
   return <label htmlFor={htmlFor}>{label}</label>;
 };
 
-export function getCheckboxClassName(
-  props?: Pick<CheckboxProps, "indeterminate">
-) {
+export function getCheckboxClassName(isIndeterminate: boolean) {
   const classNames = ["neo-check"];
 
-  if (props?.indeterminate) {
+  if (isIndeterminate) {
     classNames.push("neo-check--indeterminate");
   }
 
