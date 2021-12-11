@@ -13,7 +13,7 @@ export interface CheckboxProps
   tooltip?: string;
   position?: TooltipPosition;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  label: string;
+  label: string; // BUG: must be optional for Table row selection
   value: string;
 }
 
