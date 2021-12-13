@@ -29,7 +29,7 @@ export const Example = () => {
 
 ## Adding to this library
 
-If you would like to contribute to this project, you can start in our [how to dev doc](./readmes/how-to-dev.md)
+If you would like to contribute to this project, you can start in our [how to dev doc](https://github.com/avaya-dux/neo-library-react/blob/main/readmes/how-to-dev.md)
 
 ## License
 
