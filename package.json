@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "This is the React version of the shared library called 'NEO' buit by Avaya",
   "author": "joe-s-avaya",
-  "license": "Copyright 2020-2021 Avaya Inc. All Rights Reserved.",
+  "license": "SEE LICENSE IN LICENSE.md",
   "repository": "neo-library-react",
   "main": "dist/avaya-neo-react.cjs.js",
   "module": "dist/avaya-neo-react.esm.js",

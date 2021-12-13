@@ -26,10 +26,11 @@ export default [
 
         // prettier-ignore
         globals: {
-          "react/jsx-runtime": "reactJsxRuntime",
-          "react": "react",
-          "ts-essentials": "tsEssentials",
           "loglevel": "log",
+          "react": "react",
+          "react/jsx-runtime": "reactJsxRuntime",
+          "ts-essentials": "tsEssentials",
+          'react-dom': 'ReactDOM',
         },
       },
     ],

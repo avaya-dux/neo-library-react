@@ -1,17 +1,17 @@
 # Neo React Component Library
 
-> This is the react version of the shared library called "NEO" buit by Avaya
+> This is the react version of the shared library called "NEO" buit by Avaya ([storybook site](https://neo-library-react-storybook.netlify.app/))
 
 ## Install
 
 ```bash
-npm i @avaya/neo-react
+npm i @avaya/neo-react @avaya/neo
 ```
 
 or
 
 ```bash
-yarn add @avaya/neo-react
+yarn add @avaya/neo-react @avaya/neo
 ```
 
 ## Example Usage
@@ -29,7 +29,7 @@ export const Example = () => {
 
 ## Adding to this library
 
-If you would like to contribute to this project, you can start in our [how to dev doc](./readmes/how-to-dev.md)
+If you would like to contribute to this project, you can start in our [how to dev doc](https://github.com/avaya-dux/neo-library-react/blob/main/readmes/how-to-dev.md)
 
 ## License
 
