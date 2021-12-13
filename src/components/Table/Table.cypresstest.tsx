@@ -1,21 +1,72 @@
 import { mount } from "@cypress/react";
 
-import { Table } from ".";
-import { FilledFields } from "./mock-data";
+import { Table, TableProps } from ".";
+import { FilledFields, IDataTableMockData } from "./mock-data";
 
 import "@avaya/neo/neo/dist/css/neo/neo.min.css";
 
 describe("Table component", () => {
-  it("renders without exploding", () => {
-    const datatestid = "Table-root";
-    const rootElement = `[data-testid='${datatestid}']`;
-    const captionText = "cypress table caption";
+  const headerCheckbox = "table thead th input[type='checkbox']";
+  const headerCheckboxLabel = "table thead th label";
+  const tableBodyCheckboxes = "table tbody td input[type='checkbox']";
+  const tableBodyCheckboxLabels = "table tbody td label";
+  const tableprops: TableProps<IDataTableMockData> = {
+    ...FilledFields,
+    caption: "",
+    itemsPerPageOptions: [100],
+    selectableRows: "multiple",
+    summary: "",
+  };
 
-    mount(<Table {...FilledFields} caption={captionText} id={datatestid} />);
+  it("always shows th checkbox, but only shows td checkbox on hover or when checked", () => {
+    mount(<Table {...tableprops} />);
 
-    cy.get(rootElement).should("contain.text", captionText);
+    // visible th checkbox label
+    cy.get(headerCheckboxLabel).should("be.visible");
+
+    // NONE of the body checkboxes or their labels are visible
+    cy.get(tableBodyCheckboxes).should("not.be.visible");
+    cy.get(tableBodyCheckboxLabels).should("not.be.visible");
+
+    // td label (checkbox) is visible on row hover
+    cy.get("table tbody tr")
+      .first()
+      .realHover()
+      .find("td label")
+      .first()
+      .should("be.visible");
+
+    /**
+     * need to "force" the click as our checkboxes are only visible on hover,
+     * and that's a tricky to do with cypress, so just "force" it and it all
+     * works happy honky-dory
+     */
+    cy.get(tableBodyCheckboxLabels).first().click({ force: true });
+
+    // visible th checkbox label
+    cy.get(headerCheckbox).should("have.class", "neo-check");
+    cy.get(headerCheckboxLabel).should("be.visible");
+
+    // visible td checkbox label
+    cy.get("table tbody tr").first().should("be.visible");
   });
 
-  // TODO-567: implement
-  // it("should transition to and from an `<th>` checked='indeterminate' state to `true` and `false` properly", () =>{})
+  it("should transition to and from header checkbox 'indeterminate' state properly", () => {
+    mount(<Table {...tableprops} />);
+
+    cy.get(headerCheckbox).should("have.class", "neo-check");
+
+    cy.get(tableBodyCheckboxLabels).first().click({ force: true });
+    cy.get(headerCheckbox).should(
+      "have.class",
+      "neo-check neo-check--indeterminate"
+    );
+
+    cy.get(tableBodyCheckboxLabels).first().click({ force: true });
+    cy.get(headerCheckbox).should("have.class", "neo-check");
+
+    // if all checkboxes are checked, the header checkbox has _only_ the 'neo-check' class
+    cy.get(tableBodyCheckboxLabels).click({ force: true, multiple: true });
+    cy.get(headerCheckbox).should("have.class", "neo-check");
+  });
 });
