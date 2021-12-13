@@ -10,6 +10,8 @@ import {
   formatSelectedValuesToString,
   getAriaActiveDescendant,
   getSelectClassNames,
+  onSelectionChangeHandler,
+  removePlaceholder,
   renderInputValues,
 } from "./Select";
 import * as SelectStories from "./Select.stories";
@@ -166,68 +168,9 @@ describe("Select test ", () => {
       );
     });
   });
-  /*
-  describe(computeNewSelectedOptions, () => {
-    it("will remove the placeholder from the list of states", () => {
-      expect(
-        computeNewSelectedOptions(
-          true,
-          "",
-          listOfStates.slice(0, 3),
-          listOfStates.slice(0, 3)
-        )
-      ).toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "label": "Alabama",
-            "value": "AL",
-          },
-          Object {
-            "label": "Alaska",
-            "value": "AK",
-          },
-        ]
-      `);
-    });
 
-    it("ADD: given value = AL, should return the Alabama from the list of states", () => {
-      expect(computeNewSelectedOptions(false, "AL", [], listOfStates))
-        .toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "label": "Alabama",
-            "value": "AL",
-          },
-        ]
-      `);
-    });
-
-    it("REMOVE: given value = AL, should remove Alabama from the list of selected states", () => {
-      const alabamaIsHere = listOfStates.slice(1, 5);
-
-      expect(computeNewSelectedOptions(true, "AL", alabamaIsHere, listOfStates))
-        .toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "label": "Alaska",
-            "value": "AK",
-          },
-          Object {
-            "label": "Arizona",
-            "value": "AZ",
-          },
-          Object {
-            "label": "Arkansas",
-            "value": "AR",
-          },
-        ]
-      `);
-    });
-  });
-*/
   describe(computeMultipleSelectedValues, () => {
     const AlabamaAndAlaska = listOfStates.slice(1, 3);
-    const Alabama = listOfStates.slice(1, 2);
     it("Should return empty array for undefined values", () => {
       expect(computeMultipleSelectedValues([], [], "")).toMatchInlineSnapshot(
         `Array []`
@@ -439,9 +382,7 @@ describe("Select test ", () => {
         const container = screen.getByRole("listbox");
 
         fireEvent.click(container);
-
         fireEvent.keyDown(container, KeyboardEventTypes.DOWN);
-
         fireEvent.keyDown(container, KeyboardEventTypes.ENTER);
 
         const textBox = screen.getByRole("textbox");
@@ -498,9 +439,7 @@ describe("Select test ", () => {
         const container = screen.getByRole("listbox");
 
         fireEvent.click(container);
-
         fireEvent.keyDown(container, KeyboardEventTypes.UP);
-
         fireEvent.keyDown(container, KeyboardEventTypes.ENTER);
 
         const textBox = screen.getByRole("textbox");
@@ -523,6 +462,53 @@ describe("Select test ", () => {
           />
         `);
       });
+    });
+  });
+
+  describe(removePlaceholder, () => {
+    it("should remove the placeholder item from the option list", () => {
+      expect(removePlaceholder(listOfStates.slice(0, 2)))
+        .toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "label": "Alabama",
+            "value": "AL",
+          },
+        ]
+      `);
+    });
+  });
+
+  describe(onSelectionChangeHandler, () => {
+    let isMultipleSelect;
+    let options;
+    let selectedOptions;
+    let updateHoveredIndex;
+    let updateSelectedOptions;
+    let value;
+    let onSelectionChange;
+    beforeEach(() => {
+      isMultipleSelect = false;
+      options = listOfStates;
+      selectedOptions = listOfStates.slice(1, 2);
+      updateHoveredIndex = jest.fn();
+      updateSelectedOptions = jest.fn();
+      value = "AL";
+      onSelectionChange = jest.fn();
+    });
+
+    it("should close Option list when Select lost focus", () => {
+      onSelectionChangeHandler(
+        isMultipleSelect,
+        options,
+        selectedOptions,
+        updateHoveredIndex,
+        updateSelectedOptions,
+        value,
+        onSelectionChange
+      );
+      expect(updateHoveredIndex).toBeCalledWith(1);
+      // expect(onSelectionChange).toBeCalledWith([""]);
     });
   });
 });
