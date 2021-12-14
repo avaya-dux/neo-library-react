@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d59de19f-79ec-4c57-8282-cd07357a66cc/deploy-status)](https://app.netlify.com/sites/neo-library-react-storybook/deploys)
+
 # Neo React Component Library
 
 > This is the react version of the shared library called "NEO" buit by Avaya ([storybook site](https://neo-library-react-storybook.netlify.app/))
