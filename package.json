@@ -32,7 +32,8 @@
     "test:cypress-open": "cypress open-ct",
     "storybook": "start-storybook -p 6006 --no-dll",
     "build-storybook": "build-storybook",
-    "github": "yarn && yarn lint && yarn build && yarn test && yarn build-storybook",
+    "github": "yarn && yarn lint && yarn build && yarn test && yarn build-storybook && yarn jsdocs",
+    "netlify": "yarn && yarn build && yarn build-storybook",
     "all": "yarn && yarn clean && yarn lint && yarn build && yarn test:coverage && yarn test:cypress && yarn build-storybook && yarn jsdocs"
   },
   "jest": {
