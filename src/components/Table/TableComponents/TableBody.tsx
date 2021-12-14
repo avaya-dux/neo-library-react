@@ -68,7 +68,7 @@ export const TableBody = <T extends Record<string, any>>({
               {...row.getRowProps()}
             >
               {shouldShowCheckbox && (
-                <td>
+                <td style={{ padding: "0 0 0 5px" }}>
                   <Checkbox
                     label="" // BUG: need an aria-label maybe? but certainly not a `label` here
                     checked={row.isSelected}
