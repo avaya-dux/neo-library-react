@@ -11,6 +11,7 @@ import {
   getOptionByValue,
   getPlaceholder,
 } from "./helper";
+import { stringCapper } from "utils";
 import { Options } from "./Options/Options";
 import { OptionType, SelectProps, setSelectedOptionsType } from "./SelectTypes";
 
@@ -63,6 +64,7 @@ export const Select = ({
     [name, label]
   );
 
+  const selectContainer: React.Ref<HTMLDivElement> = createRef();
   const listBoxRef: React.Ref<HTMLDivElement> = createRef();
 
   const [isOpen, updateIsOpen] = useState(false);
@@ -72,6 +74,7 @@ export const Select = ({
 
   const [selectedOptions, updateSelectedOptions] = useState<OptionType[]>([]);
   const [topPosition, updateTopPosition] = useState(0);
+  const [selectWidth, updateSelectWidth] = useState(0);
 
   const selectClassName = useMemo(() => {
     return getSelectClassNames(isOpen, disabled, isLoading);
@@ -188,9 +191,21 @@ export const Select = ({
    * https://design.avayacloud.com/components/web/selectbox-web
    */
 
+  useEffect(() => {
+    const rect = selectContainer.current?.getBoundingClientRect();
+    if (rect) {
+      updateSelectWidth(rect.width);
+    }
+  }, [selectContainer]);
+
   const formattedSelectedValuesMemoized = useMemo(() => {
-    return formatSelectedValuesToString(selectedOptions, defaultPlaceholder);
-  }, [selectedOptions, defaultPlaceholder]);
+    const limit = computeTextCappingLimit(selectWidth);
+    return formatSelectedValuesToString(
+      selectedOptions,
+      defaultPlaceholder,
+      limit
+    );
+  }, [selectedOptions, defaultPlaceholder, selectWidth]);
 
   const ariaActivedescendantMemoized = useMemo(() => {
     return getAriaActiveDescendant(isOpen, selectedOptions);
@@ -212,17 +227,18 @@ export const Select = ({
       </label>
 
       <div
-        className={selectClassName}
+        aria-activedescendant={ariaActivedescendantMemoized}
         aria-controls={selectId}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         aria-labelledby={labelId}
+        className={selectClassName}
+        onBlur={onBlurHandler}
         onClick={onClickHandler}
         onKeyDown={onKeyDownHandler}
-        onBlur={onBlurHandler}
+        ref={selectContainer}
         role="combobox"
         tabIndex={0}
-        aria-activedescendant={ariaActivedescendantMemoized}
       >
         {renderInputValuesMemoized}
 
@@ -283,11 +299,14 @@ export const getAriaActiveDescendant = (
 
 export const formatSelectedValuesToString = (
   selectedOptions: OptionType[],
-  defaultSelected: OptionType[]
+  defaultSelected: OptionType[],
+  limit: number
 ) => {
   return selectedOptions.length === 0
     ? defaultSelected.map((item) => item.label).join(", ")
-    : selectedOptions?.map((item) => item.label).join(", ");
+    : selectedOptions
+        ?.map((item) => stringCapper(item.label, limit))
+        .join(", ");
 };
 
 export const renderInputValues = (
@@ -332,4 +351,7 @@ export const onSelectionChangeHandler: setSelectedOptionsType = (
   }
 
   updateSelectedOptions(updatedValue);
+};
+export const computeTextCappingLimit = (width: number) => {
+  return width === 0 ? 20 : Math.round(width / 10.5);
 };

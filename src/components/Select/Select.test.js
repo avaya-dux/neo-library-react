@@ -4,7 +4,7 @@ import { axe } from "jest-axe";
 
 import { KeyboardEventTypes } from "utils";
 
-import { listOfStates } from "./SampleData";
+import { listOfStates, longTextOptions } from "./SampleData";
 import {
   computeMultipleSelectedValues,
   formatSelectedValuesToString,
@@ -254,14 +254,17 @@ describe("Select test ", () => {
 
   describe(formatSelectedValuesToString, () => {
     it("Should display `empty string` when selectedItems = `[]` and defaultSelected = []", () => {
-      expect(formatSelectedValuesToString([], [])).toMatchInlineSnapshot(`""`);
+      expect(formatSelectedValuesToString([], [], 10)).toMatchInlineSnapshot(
+        `""`
+      );
     });
 
     it("Should display `Alabama` when selectedItems = `Alabama` and defaultSelected = `--Please choose an option--`", () => {
       expect(
         formatSelectedValuesToString(
           listOfStates.slice(1, 2),
-          listOfStates.slice(0, 1)
+          listOfStates.slice(0, 1),
+          10
         )
       ).toMatchInlineSnapshot(`"Alabama"`);
     });
@@ -270,15 +273,26 @@ describe("Select test ", () => {
       expect(
         formatSelectedValuesToString(
           listOfStates.slice(1, 3),
-          listOfStates.slice(0, 1)
+          listOfStates.slice(0, 1),
+          10
         )
       ).toMatchInlineSnapshot(`"Alabama, Alaska"`);
     });
 
     it("Should display `--Please choose an option--` when selectedItems = `[]` and defaultSelected = `--Please choose an option--`", () => {
       expect(
-        formatSelectedValuesToString([], listOfStates.slice(0, 1))
+        formatSelectedValuesToString([], listOfStates.slice(0, 1), 10)
       ).toMatchInlineSnapshot(`"--Please choose an option--"`);
+    });
+
+    it("Should display `This is a ...` capping the long text", () => {
+      expect(
+        formatSelectedValuesToString(
+          longTextOptions.slice(1, 2),
+          listOfStates.slice(0, 1),
+          10
+        )
+      ).toMatchInlineSnapshot(`"This is a ..."`);
     });
   });
 
@@ -526,7 +540,7 @@ describe("Select test ", () => {
       expect(onSelectionChange).toBeCalledWith(["UT"]);
     });
 
-    it("Should set `AL` `UT` as selected values", () => {
+    it("Should set `AL`,`UT` as selected values", () => {
       isMultipleSelect = true;
       value = [{ label: "Utah", value: "UT" }];
       onSelectionChangeHandler(

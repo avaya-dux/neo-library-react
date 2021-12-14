@@ -7,6 +7,7 @@ import {
   errorMessagesDemo,
   helperMessagesDemo,
   listOfStates,
+  longTextOptions,
 } from "./SampleData";
 import { Select } from "./Select";
 import { SelectProps } from "./SelectTypes";
@@ -341,4 +342,12 @@ SelectLoading.args = {
   isLoading: true,
   loaderText: <i>Loading...</i>,
   options: listOfStates,
+};
+
+export const SelectLongText = Template.bind({});
+SelectLongText.args = {
+  label: "Long text",
+  helperMessages: helperMessagesDemo,
+  options: longTextOptions,
+  isMultipleSelect: true,
 };

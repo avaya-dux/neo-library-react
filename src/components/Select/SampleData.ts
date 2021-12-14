@@ -66,3 +66,21 @@ export const helperMessagesDemo = [
   "Helper 1: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
   "helper 2: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
 ];
+
+export const longTextOptions = [
+  {
+    label: "--Please choose an option--",
+    value: "0",
+    isDisabled: false,
+    isPlaceholder: true,
+  },
+  {
+    label: "This is a very very very very very very very very very long text",
+    value: "200",
+  },
+  {
+    label:
+      "100000000000000000000000000000000000000000000000000000000000000000000000000",
+    value: "201",
+  },
+];
