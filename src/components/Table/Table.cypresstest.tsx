@@ -18,7 +18,7 @@ describe("Table component", () => {
     summary: "",
   };
 
-  it("always shows th checkbox, but only shows td checkbox on hover or when checked", () => {
+  it("always shows header checkbox, but only shows body checkboxes on hover or when checked", () => {
     mount(<Table {...tableprops} />);
 
     // visible th checkbox label

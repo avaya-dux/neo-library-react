@@ -55,7 +55,7 @@ export const Table = <T extends Record<string, any>>({
   caption,
   summary,
   itemsPerPageOptions,
-  defaultSelectedRowIds, // TODO-567: implement
+  defaultSelectedRowIds,
 
   containerClassName = "",
   // handleCreate, // TODO-567: implement
@@ -73,8 +73,7 @@ export const Table = <T extends Record<string, any>>({
       data,
       initialState: {
         pageSize: itemsPerPageOptions?.[0] || 10,
-
-        // TODO-567: implement
+        selectedRowIds: defaultSelectedRowIds, // TODO-567: simplify
         // selectedRowIds: defaultSelectedRowIds?.reduce((_, curr, index) => {
         //   curr[defaultSelectedRowIds[index]] = true;
         //   return curr;

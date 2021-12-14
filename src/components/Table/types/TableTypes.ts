@@ -1,4 +1,4 @@
-import { TableInstance, TableOptions } from "react-table";
+import { IdType, TableInstance, TableOptions } from "react-table";
 
 import {
   IBodyTranslations,
@@ -41,7 +41,7 @@ export type TableProps<T extends Record<string, any>> = {
   caption?: string;
   id?: string;
   itemsPerPageOptions?: number[];
-  defaultSelectedRowIds?: string[];
+  defaultSelectedRowIds?: Record<IdType<T>, boolean>;
   summary?: string;
   containerClassName?: string;
   translations?: ITableTranslations;

@@ -60,7 +60,10 @@ export const SelectableRows = () => {
         data={FilledFields.data}
         handleRowSelected={handleSelect}
         selectableRows="multiple"
-        // selectedRows={selectedRows} // TODO-567: implement
+        defaultSelectedRowIds={{
+          [FilledFields.data[1].id]: true,
+          [FilledFields.data[3].id]: true,
+        }}
       />
 
       <section style={{ paddingTop: 20 }}>
