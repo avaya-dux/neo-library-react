@@ -62,22 +62,18 @@ export const TableBody = <T extends Record<string, any>>({
             }
           };
 
-          // BUG-567: can't unselect
-          const rowIsSelected =
-            row.isSelected || selectedRowIds[row.original.id] === true;
-
           return (
             <tr
-              className={rowIsSelected ? "active" : ""}
+              className={row.isSelected ? "active" : ""}
               {...row.getRowProps()}
             >
               {shouldShowCheckbox && (
                 <td style={{ padding: "0 0 0 5px" }}>
                   <Checkbox
                     label="" // BUG: need an aria-label maybe? but certainly not a `label` here
-                    checked={rowIsSelected}
+                    checked={row.isSelected}
                     onChange={handleRowSelectedInternal}
-                    value={row.original.id}
+                    value={row.id}
                   />
                 </td>
               )}

@@ -30,7 +30,10 @@ export const BareBones = () => (
 );
 
 export const SelectableRows = () => {
-  const [selectedRows, setSelectedRows] = useState<IDataTableMockData[]>([]);
+  const defaultSelectedRowIds = [FilledFields.data[1], FilledFields.data[3]];
+  const [selectedRows, setSelectedRows] = useState<IDataTableMockData[]>(
+    defaultSelectedRowIds
+  );
   const [logItems, setLogItems] = useState<string[]>([]);
 
   const handleSelect = (row: IDataTableMockData) => {
@@ -60,10 +63,7 @@ export const SelectableRows = () => {
         data={FilledFields.data}
         handleRowSelected={handleSelect}
         selectableRows="multiple"
-        defaultSelectedRowIds={{
-          [FilledFields.data[1].id]: true,
-          [FilledFields.data[3].id]: true,
-        }}
+        defaultSelectedRowIds={defaultSelectedRowIds.map((r) => r.id)}
       />
 
       <section style={{ paddingTop: 20 }}>

@@ -71,15 +71,11 @@ export const Table = <T extends Record<string, any>>({
     {
       columns,
       data,
+      getRowId: (row: T) => row.id, // set the row id to be the passed data's id
       initialState: {
         pageSize: itemsPerPageOptions?.[0] || 10,
-        selectedRowIds: defaultSelectedRowIds, // TODO-567: simplify
-        // selectedRowIds: defaultSelectedRowIds?.reduce((_, curr, index) => {
-        //   curr[defaultSelectedRowIds[index]] = true;
-        //   return curr;
-        // }),
+        selectedRowIds: convertRowIdsArrayToObject(defaultSelectedRowIds || []),
       },
-
       ...rest,
     },
     useGlobalFilter,
@@ -195,4 +191,13 @@ export const Table = <T extends Record<string, any>>({
       )}
     </div>
   );
+};
+
+const convertRowIdsArrayToObject = (rowIds: string[] | number[]) => {
+  const result: Record<string, boolean> = {};
+  rowIds.forEach((rowId) => {
+    result[rowId] = true;
+  });
+
+  return result;
 };
