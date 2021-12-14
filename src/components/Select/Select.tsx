@@ -1,12 +1,4 @@
-import {
-  createRef,
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { createRef, useCallback, useEffect, useMemo, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 
@@ -20,7 +12,7 @@ import {
   getPlaceholder,
 } from "./helper";
 import { Options } from "./Options/Options";
-import { OptionType, SelectHandlerType, SelectProps } from "./SelectTypes";
+import { OptionType, SelectProps, setSelectedOptionsType } from "./SelectTypes";
 
 /**
  * @example
@@ -103,7 +95,7 @@ export const Select = ({
     }
   }, [isOpen]);
 
-  const onSelectionChangeMemoizedCallback = useCallback(
+  const onSelectionChangeMemoizedCallback: setSelectedOptionsType = useCallback(
     (
       isMultipleSelect,
       options,
@@ -139,13 +131,14 @@ export const Select = ({
 
     // value "0" will be ignored
     if (value && value !== "0") {
+      const newValue = getOptionByValue(optionList, [value]);
       onSelectionChangeMemoizedCallback(
         isMultipleSelect,
         optionList,
         selectedOptions,
         updateHoveredIndex,
         updateSelectedOptions,
-        value,
+        newValue,
         onSelectionChange
       );
     }
@@ -271,9 +264,9 @@ export const getSelectClassNames = (
 
 export const computeMultipleSelectedValues = (
   alreadySelectedOptions: OptionType[],
-  newValue: OptionType[],
-  value: string
-) => {
+  newValue: OptionType[]
+): OptionType[] => {
+  const value = newValue.map((item) => item.value).join();
   return alreadySelectedOptions.map((item) => item.value).includes(value)
     ? alreadySelectedOptions.filter((item) => item.value !== value) // remove
     : [...alreadySelectedOptions, ...newValue]; // add
@@ -313,27 +306,30 @@ export const renderInputValues = (
 export const removePlaceholder = (options: OptionType[]) => {
   return options.filter((option) => !option.isPlaceholder);
 };
-export const onSelectionChangeHandler = (
-  isMultipleSelect: boolean,
-  options: OptionType[],
-  selectedOptions: OptionType[],
-  updateHoveredIndex: Dispatch<SetStateAction<number>>,
-  updateSelectedOptions: Dispatch<SetStateAction<OptionType[]>>,
-  value: string,
-  onSelectionChange: SelectHandlerType
+export const onSelectionChangeHandler: setSelectedOptionsType = (
+  isMultipleSelect,
+  options,
+  selectedOptions,
+  updateHoveredIndex,
+  updateSelectedOptions,
+  newValue,
+  onSelectionChange
 ) => {
-  let newValue: OptionType[] = getOptionByValue(options, [value]);
-
+  let updatedValue: OptionType[] = newValue;
   if (isMultipleSelect) {
-    newValue = computeMultipleSelectedValues(selectedOptions, newValue, value);
+    updatedValue = computeMultipleSelectedValues(selectedOptions, newValue);
   }
 
   if (!isMultipleSelect) {
-    updateHoveredIndex(options.indexOf(newValue[0]));
+    const value = newValue.map((item) => item.value).join();
+    const index = options.map((item) => item.value).indexOf(value);
+    updateHoveredIndex(index);
   }
 
   // dispatch event onSelectionChange(values)
-  onSelectionChange(newValue.map((item) => item.value));
+  if (onSelectionChange) {
+    onSelectionChange(updatedValue.map((item) => item.value));
+  }
 
-  updateSelectedOptions(newValue);
+  updateSelectedOptions(updatedValue);
 };

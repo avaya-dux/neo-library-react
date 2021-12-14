@@ -87,6 +87,7 @@ export const SelectOnKeyDownHandler = (
     case Keys.ENTER: {
       if (isOpen) {
         // value "0" will be ignored
+        const newValue = [options[hoveredIndex]];
         const value = options[hoveredIndex]?.value;
         if (!options[hoveredIndex]?.isDisabled && value && value !== "0") {
           setSelectedOptions(
@@ -95,7 +96,7 @@ export const SelectOnKeyDownHandler = (
             selectedOptions,
             updateHoveredIndex,
             updateSelectedOptions,
-            value,
+            newValue,
             onSelectionChange
           );
         }

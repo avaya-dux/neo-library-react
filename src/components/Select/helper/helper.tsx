@@ -1,4 +1,7 @@
-import { OptionType } from "components/Select/SelectTypes";
+import {
+  getOptionByValueType,
+  OptionType,
+} from "components/Select/SelectTypes";
 
 const renderMessages = (errorList: string[]) => {
   return errorList.map((text, index) => (
@@ -17,7 +20,7 @@ const renderMessages = (errorList: string[]) => {
  * getOptionByValue([{ label: "Alabama", value: "AL" }, { label: "Alaska", value: "AK" }], ["AL"]); // result: [{ label: "Alabama", value: "AL" }]
  * getOptionByValue([{ label: "Alabama", value: "AL" }, { label: "Alaska", value: "AK" }], ["WA"]); // result: []
  */
-export const getOptionByValue = (
+export const getOptionByValue: getOptionByValueType = (
   array: OptionType[],
   query: string[]
 ): OptionType[] =>

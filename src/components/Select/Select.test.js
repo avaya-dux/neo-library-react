@@ -172,13 +172,13 @@ describe("Select test ", () => {
   describe(computeMultipleSelectedValues, () => {
     const AlabamaAndAlaska = listOfStates.slice(1, 3);
     it("Should return empty array for undefined values", () => {
-      expect(computeMultipleSelectedValues([], [], "")).toMatchInlineSnapshot(
+      expect(computeMultipleSelectedValues([], [])).toMatchInlineSnapshot(
         `Array []`
       );
     });
 
     it("Should return Alabama and Alaska when the query is an empty string", () => {
-      expect(computeMultipleSelectedValues(AlabamaAndAlaska, [], ""))
+      expect(computeMultipleSelectedValues(AlabamaAndAlaska, []))
         .toMatchInlineSnapshot(`
         Array [
           Object {
@@ -195,11 +195,9 @@ describe("Select test ", () => {
 
     it("Adding Utah to the list of selected states", () => {
       expect(
-        computeMultipleSelectedValues(
-          AlabamaAndAlaska,
-          [{ label: "Utah", value: "UT" }],
-          "UT"
-        )
+        computeMultipleSelectedValues(AlabamaAndAlaska, [
+          { label: "Utah", value: "UT" },
+        ])
       ).toMatchInlineSnapshot(`
         Array [
           Object {
@@ -493,11 +491,12 @@ describe("Select test ", () => {
       selectedOptions = listOfStates.slice(1, 2);
       updateHoveredIndex = jest.fn();
       updateSelectedOptions = jest.fn();
-      value = "AL";
+      value = [{ label: "Wyoming", value: "WY" }];
       onSelectionChange = jest.fn();
     });
 
-    it("should close Option list when Select lost focus", () => {
+    it("Should set `WY` as selected value", () => {
+      isMultipleSelect = false;
       onSelectionChangeHandler(
         isMultipleSelect,
         options,
@@ -507,8 +506,40 @@ describe("Select test ", () => {
         value,
         onSelectionChange
       );
-      expect(updateHoveredIndex).toBeCalledWith(1);
-      // expect(onSelectionChange).toBeCalledWith([""]);
+      expect(updateHoveredIndex).toBeCalledWith(50); // 50 is the index for `WY`
+      expect(onSelectionChange).toBeCalledWith(["WY"]);
+    });
+
+    it("Should set `UT` as selected value", () => {
+      isMultipleSelect = false;
+      value = [{ label: "Utah", value: "UT" }];
+      onSelectionChangeHandler(
+        isMultipleSelect,
+        options,
+        selectedOptions,
+        updateHoveredIndex,
+        updateSelectedOptions,
+        value,
+        onSelectionChange
+      );
+      expect(updateHoveredIndex).toBeCalledWith(44); // 44 is the index for `UT`
+      expect(onSelectionChange).toBeCalledWith(["UT"]);
+    });
+
+    it("Should set `AL` `UT` as selected values", () => {
+      isMultipleSelect = true;
+      value = [{ label: "Utah", value: "UT" }];
+      onSelectionChangeHandler(
+        isMultipleSelect,
+        options,
+        selectedOptions,
+        updateHoveredIndex,
+        updateSelectedOptions,
+        value,
+        onSelectionChange
+      );
+      expect(updateHoveredIndex).not.toBeCalled();
+      expect(onSelectionChange).toBeCalledWith(["AL", "UT"]);
     });
   });
 });

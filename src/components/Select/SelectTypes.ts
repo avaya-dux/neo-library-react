@@ -9,16 +9,6 @@ export type OptionType = {
 };
 
 export type SelectHandlerType = (values: string[]) => void;
-
-export type setSelectedOptionsType = (
-  isMultipleSelect: boolean,
-  options: OptionType[],
-  selectedOptions: OptionType[],
-  updateHoveredIndex: (index: number) => void,
-  updateSelectedOptions: Dispatch<SetStateAction<OptionType[]>>,
-  value: string,
-  onSelectionChange?: SelectHandlerType
-) => void;
 export interface NativeSelectProps
   extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "multiple"> {
   errorMessages?: string[];
@@ -59,3 +49,18 @@ export interface OptionsProps {
   updateHoveredIndex: (hoveredIndex: number) => void;
   topPosition: number;
 }
+
+export type setSelectedOptionsType = (
+  isMultipleSelect: boolean,
+  options: OptionType[],
+  selectedOptions: OptionType[],
+  updateHoveredIndex: Dispatch<SetStateAction<number>>,
+  updateSelectedOptions: Dispatch<SetStateAction<OptionType[]>>,
+  newValue: OptionType[],
+  onSelectionChange?: SelectHandlerType
+) => void;
+
+export type getOptionByValueType = (
+  array: OptionType[],
+  query: string[]
+) => OptionType[];
