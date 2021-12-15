@@ -258,6 +258,39 @@ export const OptionListPositionDynamicShort = () => {
   );
 };
 
+export const SelectLongText = () => {
+  return (
+    <div
+      style={{ display: "flex", width: "100%", justifyContent: "space-around" }}
+    >
+      <div style={{ width: 100 }}>
+        <Select
+          label="Long text"
+          placeholder="Long text"
+          isMultipleSelect={true}
+          options={longTextOptions}
+        />
+      </div>
+      <div style={{ width: 200 }}>
+        <Select
+          label="Long text"
+          placeholder="Long text"
+          isMultipleSelect={true}
+          options={longTextOptions}
+        />
+      </div>
+      <div style={{ width: 300 }}>
+        <Select
+          label="Long text"
+          placeholder="Long text"
+          isMultipleSelect={true}
+          options={longTextOptions}
+        />
+      </div>
+    </div>
+  );
+};
+
 const Template: Story<SelectProps> = (props: SelectProps) => {
   return <Select {...props} />;
 };
@@ -342,12 +375,4 @@ SelectLoading.args = {
   isLoading: true,
   loaderText: <i>Loading...</i>,
   options: listOfStates,
-};
-
-export const SelectLongText = Template.bind({});
-SelectLongText.args = {
-  label: "Long text",
-  helperMessages: helperMessagesDemo,
-  options: longTextOptions,
-  isMultipleSelect: true,
 };

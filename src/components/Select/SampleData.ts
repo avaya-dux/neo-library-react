@@ -69,7 +69,7 @@ export const helperMessagesDemo = [
 
 export const longTextOptions = [
   {
-    label: "--Please choose an option--",
+    label: "Long text",
     value: "0",
     isDisabled: false,
     isPlaceholder: true,

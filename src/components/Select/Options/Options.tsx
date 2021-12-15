@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useState } from "react";
 
 import { OptionsProps, OptionType } from "components/Select/SelectTypes";
+import { genId } from "utils/accessibilityUtils";
 
 /**
  * Options will use to render the list of options.
@@ -80,10 +81,11 @@ export const renderSelectOptions = (
           // placeholder options are not selectable, and thus are not rendered in the dropdown
           return null;
         }
+        const randomId = genId();
         const { label, value, hint, isDisabled } = option;
-        const checkBoxId = `${label}-checkbox-${index}`;
-        const checkBoxHintId = `${label}-hint-${index}`;
-        const itemId = `${label}-${index}`;
+        const checkBoxId = `${label}-checkbox-${index}-${randomId}`;
+        const checkBoxHintId = `${label}-hint-${index}-${randomId}`;
+        const itemId = `${label}-${index}-${randomId}`;
 
         const isActive = !!selectedOptions.find((item) => item.value === value);
         const isHover = hoveredIndex === index;

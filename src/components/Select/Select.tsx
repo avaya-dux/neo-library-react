@@ -1,6 +1,8 @@
 import { createRef, useCallback, useEffect, useMemo, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
+import { stringCapper } from "utils";
+import { genId } from "utils/accessibilityUtils";
 
 import {
   SelectOnBlurHandler,
@@ -11,7 +13,6 @@ import {
   getOptionByValue,
   getPlaceholder,
 } from "./helper";
-import { stringCapper } from "utils";
 import { Options } from "./Options/Options";
 import { OptionType, SelectProps, setSelectedOptionsType } from "./SelectTypes";
 
@@ -50,17 +51,11 @@ export const Select = ({
   placeholder = "--Please choose an option--",
   required,
 }: SelectProps) => {
-  const labelId = useMemo(
-    () => `neo-select-label-id-${label?.replace(/\s/g, "")}`,
-    [label]
-  );
-  const selectId = useMemo(
-    () => id || `neo-select-id-${label?.replace(/\s/g, "")}`,
-    [id, label]
-  );
+  const labelId = useMemo(() => `neo-select-label-id-${genId()}`, [label]);
+  const selectId = useMemo(() => id || `neo-select-id-${genId()}`, [id, label]);
 
   const internalName = useMemo(
-    () => name || `neo-select-name-${label?.replace(/\s/g, "")}`,
+    () => name || `neo-select-name-${genId()}`,
     [name, label]
   );
 
@@ -169,7 +164,7 @@ export const Select = ({
 
   const onBlurHandler = (e: React.FocusEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    return SelectOnBlurHandler(e, updateIsOpen);
+    return SelectOnBlurHandler(e, updateIsOpen, selectId);
   };
 
   const optionsProps = {
