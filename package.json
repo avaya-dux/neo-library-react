@@ -16,6 +16,12 @@
   "engines": {
     "node": ">=10"
   },
+  "browserslist": [
+    "> 0.5%",
+    "last 2 versions",
+    "not dead",
+    "not ie <= 11"
+  ],
   "scripts": {
     "jsdocs": "jsdoc -c .jsdoc.json",
     "jsdocs:verbose": "jsdoc -c .jsdoc.json --verbose",
