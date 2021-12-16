@@ -45,8 +45,9 @@ export const TableHeader = <T extends Record<string, any>>({
           <th style={{ padding: "0 0 0 5px", width: 30 }}>
             {shouldHaveCheckbox && (
               <Checkbox
-                label="" // BUG: need an aria-label maybe? but certainly not a `label` here
                 checked={checkboxCheckedValue}
+                isLabelHidden
+                label={translations.selectAll}
                 onChange={() => {
                   toggleAllRowsSelected();
 

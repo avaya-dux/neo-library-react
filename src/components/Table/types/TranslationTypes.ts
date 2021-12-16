@@ -19,7 +19,8 @@ export interface IPaginationTranslations {
 }
 
 export interface ITableHeaderTranslations {
-  sortBy?: string;
+  selectAll: string;
+  sortBy: string;
 }
 
 export interface ITableTranslations {

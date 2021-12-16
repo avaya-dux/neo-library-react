@@ -26,7 +26,7 @@ interface TableHeaderBodySharedProps<T extends Record<string, any>> {
 }
 
 export type TableHeaderProps<T extends Record<string, any>> = {
-  translations?: ITableHeaderTranslations;
+  translations: ITableHeaderTranslations;
 } & TableHeaderBodySharedProps<T>;
 
 export type TableBodyProps<T extends Record<string, any>> = {

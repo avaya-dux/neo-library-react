@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { useMemo } from "react";
 
 import { Tooltip, TooltipPosition } from "components/Tooltip";
@@ -94,11 +93,8 @@ const Label = ({
   isLabelHidden: boolean;
 }) => {
   return (
-    <label
-      className={clsx(isLabelHidden && "neo-display-none")}
-      htmlFor={htmlFor}
-    >
-      {label}
+    <label htmlFor={htmlFor}>
+      {isLabelHidden ? <div className="neo-display-none">{label}</div> : label}
     </label>
   );
 };
