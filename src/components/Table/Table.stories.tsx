@@ -34,17 +34,11 @@ export const SelectableRows = () => {
     FilledFields.data[1].id,
     FilledFields.data[3].id,
   ];
-  const [selectedRows, setSelectedRows] = useState<IDataTableMockData["id"][]>(
-    defaultSelectedRowIds
-  );
+  const [selectedRows, setSelectedRows] = useState(defaultSelectedRowIds);
   const [logItems, setLogItems] = useState<string[]>([]);
 
-  const handleToggle = (
-    // selectedRowIds: IDataTableMockData["id"][],
-    selectedRowIds: (string | number)[], // HACK-567: not cool
-    row?: IDataTableMockData
-  ) => {
-    setSelectedRows(selectedRowIds as number[]);
+  const handleToggle = (selectedRowIds: string[], row?: IDataTableMockData) => {
+    setSelectedRows(selectedRowIds);
 
     if (row) {
       const rowExists = selectedRowIds.find((id) => id === row.id);

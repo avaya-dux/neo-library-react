@@ -15,7 +15,7 @@ import { TableBodyProps } from "../types";
  * />
  */
 export const TableBody = <T extends Record<string, any>>({
-  handleRowToggled,
+  handleRowToggled = (_1: string[], _2?: T) => {},
   instance,
   selectableRows,
   translations,
