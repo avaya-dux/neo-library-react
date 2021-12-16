@@ -6,6 +6,7 @@ This is the "living document" that describes the teams agreed upon bets practice
 
 - `>=2` dev approvals before merging
 - `>=1` UX approval if any UX has changed
+- `<1000` lines of code per PR
 - keep the repo clean by **deleting your branch after merging**
 - if you've added tests, show the output of the tests (image)
 - if you've added functionality, show it (eg, [with a GIF](https://gifox.io/)/recording)
