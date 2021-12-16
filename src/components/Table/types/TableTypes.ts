@@ -20,7 +20,7 @@ export type TableToolbarProps<T extends Record<string, any>> = {
 } & ToolbarSharedProps;
 
 interface TableHeaderBodySharedProps<T extends Record<string, any>> {
-  handleRowToggled?: (selectedRowIds: (number | string)[], row?: T) => void;
+  handleRowToggled?: (selectedRowIds: string[], row?: T) => void;
   instance: TableInstance<T>;
   selectableRows: "none" | "single" | "multiple";
 }
