@@ -194,6 +194,7 @@ export const Table = <T extends Record<string, any>>({
   );
 };
 
+// TODO-567: add unit tests
 const convertRowIdsArrayToObject = (rowIds: string[] | number[]) => {
   const result: Record<string, boolean> = {};
   rowIds.forEach((rowId) => {

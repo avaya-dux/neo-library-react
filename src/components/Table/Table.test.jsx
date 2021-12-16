@@ -26,6 +26,9 @@ describe("Table", () => {
   });
 
   // TODO-567: implement
+  // it("properly selects 'all' and 'none' of the checkboxes", () => {});
+
+  // TODO-567: implement
   // it("matches it's previous snapshot", () => {
   //   const { container } = render(<Table {...defaultProps} />);
   //   expect(container).toMatchInlineSnapshot();
@@ -109,5 +112,9 @@ describe("Table", () => {
     });
   });
 
-  // describe("helpers", () => {}); // TODO-567: implement
+  // TODO-567: implement
+  // describe("helpers", () => {
+  //   // calculateAriaSortValue
+  //   // convertRowIdsArrayToObject
+  // });
 });
