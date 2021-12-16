@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { useMemo } from "react";
 
 import { Tooltip, TooltipPosition } from "components/Tooltip";
@@ -8,12 +9,13 @@ export interface CheckboxProps
     React.InputHTMLAttributes<HTMLInputElement>,
     "type" | "checked"
   > {
-  describedBy?: string;
   checked?: boolean | "indeterminate";
-  tooltip?: string;
-  position?: TooltipPosition;
+  describedBy?: string;
+  isLabelHidden?: boolean;
+  label: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  label: string; // BUG: must be optional for Table row selection
+  position?: TooltipPosition;
+  tooltip?: string;
   value: string;
 }
 
@@ -27,15 +29,16 @@ export interface CheckboxProps
  */
 
 export const Checkbox = ({
-  describedBy,
   checked,
+  describedBy,
   id,
-  tooltip,
-  position,
+  isLabelHidden = false,
   label,
-  value,
   name,
   onChange,
+  position,
+  tooltip,
+  value,
   ...rest
 }: CheckboxProps) => {
   const internalId = useMemo(() => id || genId(), []);
@@ -43,13 +46,13 @@ export const Checkbox = ({
   const computeInputJSX = () => {
     return (
       <input
-        aria-describedby={describedBy}
-        checked={!!checked}
-        id={internalId}
-        name={name}
-        onChange={onChange}
-        type="checkbox"
         value={value}
+        type="checkbox"
+        onChange={onChange}
+        name={name}
+        id={internalId}
+        checked={!!checked}
+        aria-describedby={describedBy}
         {...getCheckboxClassName(checked === "indeterminate")}
         {...rest}
       />
@@ -61,20 +64,43 @@ export const Checkbox = ({
       {tooltip ? (
         <Tooltip label={tooltip} position={position}>
           {computeInputJSX()}
-          <Label htmlFor={internalId} label={label} />
+          <Label
+            htmlFor={internalId}
+            label={label}
+            isLabelHidden={isLabelHidden}
+          />
         </Tooltip>
       ) : (
         <>
           {computeInputJSX()}
-          <Label htmlFor={internalId} label={label} />
+          <Label
+            htmlFor={internalId}
+            label={label}
+            isLabelHidden={isLabelHidden}
+          />
         </>
       )}
     </>
   );
 };
 
-const Label = ({ htmlFor, label }: { htmlFor: string; label: string }) => {
-  return <label htmlFor={htmlFor}>{label}</label>;
+const Label = ({
+  htmlFor,
+  label,
+  isLabelHidden,
+}: {
+  htmlFor: string;
+  label: string;
+  isLabelHidden: boolean;
+}) => {
+  return (
+    <label
+      className={clsx(isLabelHidden && "neo-display-none")}
+      htmlFor={htmlFor}
+    >
+      {label}
+    </label>
+  );
 };
 
 export function getCheckboxClassName(isIndeterminate: boolean) {

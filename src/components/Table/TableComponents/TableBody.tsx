@@ -9,8 +9,8 @@ import { TableBodyProps } from "../types";
  *
  * @example
  * <TableBody
- *  instance={instance}
  *  handleRowToggled={(selectedRowIds, toggledRow) => { ... }}
+ *  instance={instance}
  *  selectableRows={selectableRows}
  * />
  */
@@ -61,6 +61,7 @@ export const TableBody = <T extends Record<string, any>>({
       ) : (
         page.map((row) => {
           prepareRow(row);
+          const rowLabel = row.original.label || row.id;
 
           return (
             <tr
@@ -70,8 +71,9 @@ export const TableBody = <T extends Record<string, any>>({
               {shouldShowCheckbox && (
                 <td style={{ padding: "0 0 0 5px" }}>
                   <Checkbox
-                    label="" // BUG: need an aria-label maybe? but certainly not a `label` here
                     checked={row.isSelected}
+                    isLabelHidden
+                    label={rowLabel}
                     onChange={() => handleRowToggledInternal(row)}
                     value={row.id}
                   />
