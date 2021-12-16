@@ -15,6 +15,7 @@ import { TableHeaderProps } from "../types";
  * />
  */
 export const TableHeader = <T extends Record<string, any>>({
+  handleRowToggled,
   instance,
   selectableRows,
   translations,
@@ -48,10 +49,11 @@ export const TableHeader = <T extends Record<string, any>>({
                 onChange={() => {
                   toggleAllRowsSelected();
 
-                  // TODO-567:need this!
-                  // handleRowSelected(row.original, selectedRows);
+                  if (handleRowToggled) {
+                    handleRowToggled(selectedRows);
+                  }
                 }}
-                value={""}
+                value="all"
               />
             )}
           </th>

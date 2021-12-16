@@ -1,3 +1,5 @@
+import { Row } from "react-table";
+
 import { Checkbox } from "components/CheckboxGroup";
 
 import { TableBodyProps } from "../types";
@@ -8,12 +10,12 @@ import { TableBodyProps } from "../types";
  * @example
  * <TableBody
  *  instance={instance}
- *  handleRowSelected={handleRowSelected}
+ *  handleRowToggled={(selectedRowIds, toggledRow) => { ... }}
  *  selectableRows={selectableRows}
  * />
  */
 export const TableBody = <T extends Record<string, any>>({
-  handleRowSelected = (_1: T, _2: string[]) => {},
+  handleRowToggled,
   instance,
   selectableRows,
   translations,
@@ -28,6 +30,26 @@ export const TableBody = <T extends Record<string, any>>({
     state: { selectedRowIds },
   } = instance;
 
+  const handleRowToggledInternal = (row: Row<T>) => {
+    const previouslySelectedRows = Object.keys(selectedRowIds);
+    const userIsDeselectingRow = Object.keys(selectedRowIds).includes(row.id);
+    const newlySelectedRowIds = userIsDeselectingRow
+      ? previouslySelectedRows.filter((id) => id !== row.id)
+      : [...previouslySelectedRows, row.id];
+
+    if (selectableRows === "single") {
+      toggleAllRowsSelected(false); // set all rows `selected = false`
+    }
+
+    if (selectableRows !== "none") {
+      toggleRowSelected(row.id);
+
+      if (handleRowToggled) {
+        handleRowToggled(newlySelectedRowIds, row.original);
+      }
+    }
+  };
+
   const shouldShowCheckbox = selectableRows !== "none";
 
   return (
@@ -40,28 +62,6 @@ export const TableBody = <T extends Record<string, any>>({
         page.map((row) => {
           prepareRow(row);
 
-          const handleRowSelectedInternal = () => {
-            const selectedRows = Object.keys(selectedRowIds);
-
-            if (selectableRows === "single") {
-              toggleAllRowsSelected(false); // set all rows `selected = false`
-
-              const userIsDeselectingRow = Object.keys(selectedRowIds).includes(
-                row.id
-              );
-
-              if (userIsDeselectingRow) {
-                handleRowSelected({} as T, selectedRows);
-                return;
-              }
-            }
-            if (selectableRows !== "none") {
-              toggleRowSelected(row.id);
-
-              handleRowSelected(row.original, selectedRows);
-            }
-          };
-
           return (
             <tr
               className={row.isSelected ? "active" : ""}
@@ -72,7 +72,7 @@ export const TableBody = <T extends Record<string, any>>({
                   <Checkbox
                     label="" // BUG: need an aria-label maybe? but certainly not a `label` here
                     checked={row.isSelected}
-                    onChange={handleRowSelectedInternal}
+                    onChange={() => handleRowToggledInternal(row)}
                     value={row.id}
                   />
                 </td>

@@ -30,23 +30,34 @@ export const BareBones = () => (
 );
 
 export const SelectableRows = () => {
-  const defaultSelectedRowIds = [FilledFields.data[1], FilledFields.data[3]];
-  const [selectedRows, setSelectedRows] = useState<IDataTableMockData[]>(
+  const defaultSelectedRowIds = [
+    FilledFields.data[1].id,
+    FilledFields.data[3].id,
+  ];
+  const [selectedRows, setSelectedRows] = useState<IDataTableMockData["id"][]>(
     defaultSelectedRowIds
   );
   const [logItems, setLogItems] = useState<string[]>([]);
 
-  const handleSelect = (row: IDataTableMockData) => {
-    const rowExists = !!selectedRows.find((r) => r.id === row.id);
-    setSelectedRows(
-      rowExists
-        ? selectedRows.filter((r) => r.id !== row.id)
-        : [...selectedRows, row]
-    );
-    setLogItems([
-      `Row '${row.name}' was ${rowExists ? "toggled off" : "toggled on"}`,
-      ...logItems,
-    ]);
+  const handleToggle = (
+    // selectedRowIds: IDataTableMockData["id"][],
+    selectedRowIds: (string | number)[], // HACK-567: not cool
+    row?: IDataTableMockData
+  ) => {
+    setSelectedRows(selectedRowIds as number[]);
+
+    if (row) {
+      const rowExists = selectedRowIds.find((id) => id === row.id);
+      setLogItems([
+        `Row '${row.name}' was toggled ${rowExists ? "ON" : "OFF"}`,
+        ...logItems,
+      ]);
+    } else {
+      setLogItems([
+        `All rows were toggled ${selectedRowIds.length ? "ON" : "OFF"}`,
+        ...logItems,
+      ]);
+    }
   };
 
   return (
@@ -61,9 +72,9 @@ export const SelectableRows = () => {
         caption="Storybook Selectable Rows Table Example"
         columns={FilledFields.columns}
         data={FilledFields.data}
-        handleRowSelected={handleSelect}
+        handleRowToggled={handleToggle}
         selectableRows="multiple"
-        defaultSelectedRowIds={defaultSelectedRowIds.map((r) => r.id)}
+        defaultSelectedRowIds={defaultSelectedRowIds}
       />
 
       <section style={{ paddingTop: 20 }}>

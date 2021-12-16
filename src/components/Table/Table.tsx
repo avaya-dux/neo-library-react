@@ -60,7 +60,7 @@ export const Table = <T extends Record<string, any>>({
   containerClassName = "",
   // handleCreate, // TODO-567: implement
   handleRefresh,
-  handleRowSelected,
+  handleRowToggled,
   readonly = false,
   selectableRows = "none",
   translations,
@@ -153,14 +153,15 @@ export const Table = <T extends Record<string, any>>({
         aria-describedby={tableSummaryId}
       >
         <TableHeader
+          handleRowToggled={handleRowToggled}
           instance={instance}
           selectableRows={selectableRows}
           translations={headerTranslations}
         />
 
         <TableBody
+          handleRowToggled={handleRowToggled}
           instance={instance}
-          handleRowSelected={handleRowSelected}
           selectableRows={selectableRows}
           translations={bodyTranslations}
         />

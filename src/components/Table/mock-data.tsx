@@ -39,7 +39,7 @@ export const FilledFields: TableProps<IDataTableMockData> = {
 
   handleCreate: () => {},
   handleRefresh: () => {},
-  handleRowSelected: () => {},
+  handleRowToggled: () => {},
   readonly: false,
   translations,
 };

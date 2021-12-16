@@ -1,4 +1,4 @@
-import { IdType, TableInstance, TableOptions } from "react-table";
+import { TableInstance, TableOptions } from "react-table";
 
 import {
   IBodyTranslations,
@@ -19,23 +19,19 @@ export type TableToolbarProps<T extends Record<string, any>> = {
   translations: IToolbarTranslations;
 } & ToolbarSharedProps;
 
-export interface TableHeaderProps<T extends Record<string, any>> {
+interface TableHeaderBodySharedProps<T extends Record<string, any>> {
+  handleRowToggled?: (selectedRowIds: (number | string)[], row?: T) => void;
   instance: TableInstance<T>;
   selectableRows: "none" | "single" | "multiple";
-  translations?: ITableHeaderTranslations;
 }
 
-export type PaginationProps<T extends Record<string, any>> = {
-  instance: TableInstance<T>;
-  translations: IPaginationTranslations;
-};
+export type TableHeaderProps<T extends Record<string, any>> = {
+  translations?: ITableHeaderTranslations;
+} & TableHeaderBodySharedProps<T>;
 
 export type TableBodyProps<T extends Record<string, any>> = {
-  handleRowSelected?: (row: T, selectedRowIds: string[]) => void; // TODO-567: not sure I like the `selectedRowIds` param
-  instance: TableInstance<T>;
-  selectableRows: "none" | "single" | "multiple";
   translations: IBodyTranslations;
-};
+} & TableHeaderBodySharedProps<T>;
 
 export type TableProps<T extends Record<string, any>> = {
   caption?: string;
@@ -47,4 +43,9 @@ export type TableProps<T extends Record<string, any>> = {
   translations?: ITableTranslations;
 } & ToolbarSharedProps &
   TableOptions<T> &
-  Pick<TableBodyProps<T>, "handleRowSelected">;
+  Pick<TableBodyProps<T>, "handleRowToggled">;
+
+export type PaginationProps<T extends Record<string, any>> = {
+  instance: TableInstance<T>;
+  translations: IPaginationTranslations;
+};
