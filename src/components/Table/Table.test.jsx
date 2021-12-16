@@ -25,6 +25,28 @@ describe("Table", () => {
     expect(results).toHaveNoViolations();
   });
 
+  it("allows the passing of default selected rows", () => {
+    const { getByLabelText } = render(
+      <Table
+        {...FilledFields}
+        selectableRows="multiple"
+        itemsPerPageOptions={[50]}
+        defaultSelectedRowIds={[
+          FilledFields.data[0].id,
+          FilledFields.data[1].id,
+        ]}
+      />
+    );
+
+    const checkedCheckbox0 = getByLabelText(FilledFields.data[0].label);
+    const checkedCheckbox1 = getByLabelText(FilledFields.data[1].label);
+    expect(checkedCheckbox0).toHaveAttribute("checked");
+    expect(checkedCheckbox1).toHaveAttribute("checked");
+
+    const checkedCheckbox2 = getByLabelText(FilledFields.data[2].label);
+    expect(checkedCheckbox2).not.toHaveAttribute("checked");
+  });
+
   // TODO-567: implement
   // it("properly selects 'all' and 'none' of the checkboxes", () => {});
 
