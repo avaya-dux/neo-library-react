@@ -13,7 +13,7 @@ import { NativeSelectProps } from "components/Select/SelectTypes";
 import { NativeSelect } from "./NativeSelect";
 
 export default {
-  title: "Components/Form/Select/Native Select",
+  title: "Components/Native Select",
   component: NativeSelect,
 } as Meta<NativeSelectProps>;
 
@@ -122,15 +122,15 @@ const Template: Story<NativeSelectProps> = (props: NativeSelectProps) => {
 export const UncontrolledNativeSelect = Template.bind({});
 UncontrolledNativeSelect.args = {
   label: "List of States",
-  helperMessages: ["Please choose a State"],
+  helperMessages: helperMessagesDemo,
   options: listOfStates,
 };
 
 export const NativeSelectError = Template.bind({});
 NativeSelectError.args = {
   label: "List of States",
-  helperMessages: ["Please choose a State"],
-  errorMessages: ["error 1", "error 2"],
+  helperMessages: helperMessagesDemo,
+  errorMessages: errorMessagesDemo,
   options: listOfStates,
 };
 

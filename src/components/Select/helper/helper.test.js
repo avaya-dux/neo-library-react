@@ -15,13 +15,22 @@ describe("Helper test ", () => {
     it("Given an empty array should return the default placeholder", () => {
       expect(getPlaceholder([], "This is the default placeholder"))
         .toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "isPlaceholder": true,
-            "label": "This is the default placeholder",
-            "value": "0",
-          },
-        ]
+        Object {
+          "isPlaceholder": true,
+          "label": "This is the default placeholder",
+          "value": "0",
+        }
+      `);
+    });
+    it("Should return the placeholder located at the option list instead of default", () => {
+      expect(getPlaceholder(listOfStates, "This is the default placeholder"))
+        .toMatchInlineSnapshot(`
+        Object {
+          "isDisabled": false,
+          "isPlaceholder": true,
+          "label": "--Please choose an option--",
+          "value": "0",
+        }
       `);
     });
   });
@@ -30,24 +39,24 @@ describe("Helper test ", () => {
     it("Given a list of states with the query (AL, UT) should return Alabama and Utah", () => {
       expect(getOptionByValue(listOfStates, ["AL", "UT"]))
         .toMatchInlineSnapshot(`
-              Array [
-                Object {
-                  "label": "Alabama",
-                  "value": "AL",
-                },
-                Object {
-                  "label": "Utah",
-                  "value": "UT",
-                },
-              ]
-          `);
+        Array [
+          Object {
+            "label": "Alabama",
+            "value": "AL",
+          },
+          Object {
+            "label": "Utah",
+            "value": "UT",
+          },
+        ]
+      `);
     });
   });
 
   describe(displayErrorOrHelper, () => {
-    it("Given undefined values, should return null", () => {
+    it("Given undefined values, should return undefined", () => {
       expect(displayErrorOrHelper(undefined, undefined)).toMatchInlineSnapshot(
-        `null`
+        `undefined`
       );
     });
 

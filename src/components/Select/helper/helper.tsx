@@ -30,12 +30,15 @@ export const getOptionByValue: getOptionByValueType = (
       .includes(item.value.toLowerCase());
   });
 
-export const getPlaceholder = (array: OptionType[], placeholder: string) => {
-  const hasPlaceholder = array.filter((item) => item.isPlaceholder);
-
-  return hasPlaceholder.length > 0
-    ? hasPlaceholder
-    : [{ label: placeholder, value: "0", isPlaceholder: true }];
+export const getPlaceholder = (options: OptionType[], placeholder: string) => {
+  const currentPlaceholder = options.find((item) => item.isPlaceholder);
+  return (
+    currentPlaceholder || {
+      label: placeholder,
+      value: "0",
+      isPlaceholder: true,
+    }
+  );
 };
 
 /**
@@ -53,10 +56,10 @@ export const getPlaceholder = (array: OptionType[], placeholder: string) => {
 export const displayErrorOrHelper = (
   errorMessages?: string[],
   helperMessages?: string[]
-): JSX.Element[] | null => {
+): JSX.Element[] | undefined => {
   return errorMessages && errorMessages.length > 0
     ? renderMessages(errorMessages)
     : helperMessages && helperMessages.length > 0
     ? renderMessages(helperMessages)
-    : null;
+    : undefined;
 };
