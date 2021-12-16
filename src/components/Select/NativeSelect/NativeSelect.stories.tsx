@@ -13,7 +13,7 @@ import { NativeSelectProps } from "components/Select/SelectTypes";
 import { NativeSelect } from "./NativeSelect";
 
 export default {
-  title: "Components/Native Select",
+  title: "Components/Form/Native Select",
   component: NativeSelect,
 } as Meta<NativeSelectProps>;
 

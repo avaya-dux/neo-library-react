@@ -10,7 +10,7 @@ import {
 import { NativeSelectProps, OptionType } from "components/Select/SelectTypes";
 
 /**
- * NativeSelect will use the standard <select> <option> HTML structure.
+ * NativeSelect is built using native HTML elements `<select> <option>`.
  * the NativeSelect do not support multiple, for this use Select component instead.
  * @example
  *  <NativeSelect
