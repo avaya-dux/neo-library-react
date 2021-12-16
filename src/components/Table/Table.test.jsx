@@ -38,13 +38,13 @@ describe("Table", () => {
       />
     );
 
-    const checkedCheckbox0 = getByLabelText(FilledFields.data[0].label);
-    const checkedCheckbox1 = getByLabelText(FilledFields.data[1].label);
-    expect(checkedCheckbox0).toHaveAttribute("checked");
-    expect(checkedCheckbox1).toHaveAttribute("checked");
+    const checkbox0 = getByLabelText(FilledFields.data[0].label);
+    const checkbox1 = getByLabelText(FilledFields.data[1].label);
+    expect(checkbox0).toHaveAttribute("checked");
+    expect(checkbox1).toHaveAttribute("checked");
 
-    const checkedCheckbox2 = getByLabelText(FilledFields.data[2].label);
-    expect(checkedCheckbox2).not.toHaveAttribute("checked");
+    const checkbox2 = getByLabelText(FilledFields.data[2].label);
+    expect(checkbox2).not.toHaveAttribute("checked");
   });
 
   // TODO-567: implement
