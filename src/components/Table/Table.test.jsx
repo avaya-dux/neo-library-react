@@ -3,7 +3,7 @@ import { fireEvent, render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { Table } from ".";
-import { convertRowIdsArrayToObject } from "./helpers";
+import { calculateAriaSortValue, convertRowIdsArrayToObject } from "./helpers";
 import { FilledFields } from "./mock-data";
 import * as TableStories from "./Table.stories";
 
@@ -96,6 +96,26 @@ describe("Table", () => {
   // });
 
   describe("helpers", () => {
+    describe("calculateAriaSortValue", () => {
+      it("should return 'none' when `isSorted === false`", () => {
+        expect(calculateAriaSortValue(false, undefined)).toBe("none");
+        expect(calculateAriaSortValue(false, "ascending")).toBe("none");
+        expect(calculateAriaSortValue(false, "descending")).toBe("none");
+      });
+
+      it("should return 'other' when `isSorted === true && sortedDir === undefined`", () => {
+        expect(calculateAriaSortValue(true, undefined)).toBe("other");
+      });
+
+      it("should return 'ascending' when `isSorted === true && sortedDir === 'ascending'`", () => {
+        expect(calculateAriaSortValue(true, "ascending")).toBe("ascending");
+      });
+
+      it("should return 'descending' when `isSorted === true && sortedDir === 'descending'`", () => {
+        expect(calculateAriaSortValue(true, "descending")).toBe("descending");
+      });
+    });
+
     describe("convertRowIdsArrayToObject", () => {
       it("should return empty object if passed empty array", () => {
         const result = convertRowIdsArrayToObject([]);
