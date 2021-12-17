@@ -81,8 +81,8 @@ export const Table = <T extends Record<string, any>>({
     },
     useGlobalFilter,
     useSortBy,
-    useRowSelect,
-    usePagination
+    usePagination,
+    useRowSelect
   );
 
   const {
