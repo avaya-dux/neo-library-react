@@ -1,6 +1,5 @@
 import { composeStories } from "@storybook/testing-react";
-import { render } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { fireEvent, render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { Table } from ".";
@@ -70,23 +69,23 @@ describe("Table", () => {
     const checkbox2 = getByLabelText(FilledFields.data[2].label);
 
     // header checkbox is in "indeterminate" state
-    expect(headerCheckbox).toHaveAttribute("checked");
+    expect(headerCheckbox.checked).toBeTruthy();
     expect(headerCheckbox).toHaveClass("neo-check--indeterminate");
-    expect(checkbox2).not.toHaveAttribute("checked");
+    expect(checkbox2.checked).toBeFalsy();
 
-    userEvent.click(headerCheckboxLabel);
+    fireEvent.click(headerCheckboxLabel);
 
     // header checkbox is in `true` state
-    expect(headerCheckbox).toHaveAttribute("checked");
+    expect(headerCheckbox.checked).toBeTruthy();
     expect(headerCheckbox).not.toHaveClass("neo-check--indeterminate");
-    expect(checkbox2).toHaveAttribute("checked"); // BUG-567: failing... but it shouldn't be...
+    expect(checkbox2.checked).toBeTruthy();
 
-    userEvent.click(headerCheckboxLabel);
+    fireEvent.click(headerCheckboxLabel);
 
     // header checkbox is in `false` state
-    expect(headerCheckbox).toHaveAttribute("checked");
+    expect(headerCheckbox.checked).toBeFalsy();
     expect(headerCheckbox).not.toHaveClass("neo-check--indeterminate");
-    expect(checkbox2).not.toHaveAttribute("checked");
+    expect(checkbox2.checked).toBeFalsy();
   });
 
   // TODO-567: implement
