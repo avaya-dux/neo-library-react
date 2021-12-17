@@ -56,6 +56,7 @@ export const Checkbox = ({
           {...getCheckboxClassName(checked === "indeterminate")}
           {...rest}
         />
+
         <Label
           htmlFor={internalId}
           label={label}
