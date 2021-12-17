@@ -90,8 +90,8 @@ describe("Table", () => {
   });
 
   // TODO-770: implement
-  // it("matches it's previous snapshot", () => {
-  //   const { container } = render(<Table {...defaultProps} />);
+  // it("matches it's previous default snapshot", () => {
+  //   const { container } = render(<Table {...FilledFields} />);
   //   expect(container).toMatchInlineSnapshot();
   // });
 

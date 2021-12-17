@@ -18,7 +18,7 @@ describe("Table component", () => {
     summary: "",
   };
 
-  it("always shows header checkbox, but only shows body checkboxes on hover or when checked", () => {
+  it("if `selectableRows: 'multiple'`, always shows header checkbox, but only shows body checkboxes on hover or when checked", () => {
     mount(<Table {...tableprops} />);
 
     // visible th checkbox label

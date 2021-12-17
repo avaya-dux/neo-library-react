@@ -61,7 +61,7 @@ export const TableBody = <T extends Record<string, any>>({
       ) : (
         page.map((row) => {
           prepareRow(row);
-          const rowLabel = row.original.label || row.id;
+          const checkboxLabel = row.original.label || row.id;
 
           return (
             <tr
@@ -73,7 +73,7 @@ export const TableBody = <T extends Record<string, any>>({
                   <Checkbox
                     checked={row.isSelected}
                     isLabelHidden
-                    label={rowLabel}
+                    label={checkboxLabel}
                     onChange={() => handleRowToggledInternal(row)}
                     value={row.id}
                   />
