@@ -3,6 +3,8 @@ import { useMemo } from "react";
 import { Tooltip, TooltipPosition } from "components/Tooltip";
 import { genId } from "utils/accessibilityUtils";
 
+import { getCheckboxClassName } from "./helper";
+
 export interface CheckboxProps
   extends Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
@@ -90,13 +92,3 @@ const Label = ({
     </label>
   );
 };
-
-export function getCheckboxClassName(isIndeterminate: boolean) {
-  const classNames = ["neo-check"];
-
-  if (isIndeterminate) {
-    classNames.push("neo-check--indeterminate");
-  }
-
-  return { className: classNames.join(" ") };
-}

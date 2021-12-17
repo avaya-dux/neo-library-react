@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { Checkbox, CheckboxProps } from "components/Checkbox";
 import { NeoInputWrapper } from "components/NeoInputWrapper";
-
-import { Checkbox, CheckboxProps } from "./Checkbox";
 
 export interface CheckboxGroupProps {
   checkboxes: CheckboxProps[];
@@ -38,7 +37,6 @@ export interface CheckboxGroupProps {
     />
  *
  */
-
 export const CheckboxGroup = ({
   checkboxes,
   groupName,
