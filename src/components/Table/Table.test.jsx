@@ -115,6 +115,20 @@ describe("Table", () => {
         const idObj3 = convertRowIdsArrayToObject(idArr3);
         expect(Object.keys(idObj3)).toHaveLength(idArr3.length);
       });
+
+      it("should return an object whose keys (if they exist) are all `true`", () => {
+        const idArr1 = [];
+        const idObj1 = convertRowIdsArrayToObject(idArr1);
+        expect(Object.values(idObj1)).toEqual([]);
+
+        const idArr2 = [1, 2, 3];
+        const idObj2 = convertRowIdsArrayToObject(idArr2);
+        expect(Object.values(idObj2)).toEqual([true, true, true]);
+
+        const idArr3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        const idObj3 = convertRowIdsArrayToObject(idArr3);
+        expect(Object.values(idObj3)).toEqual(Array(idArr3.length).fill(true));
+      });
     });
   });
 
