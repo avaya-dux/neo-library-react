@@ -50,7 +50,7 @@ export const Checkbox = ({
         onChange={onChange}
         name={name}
         id={internalId}
-        checked={!!checked}
+        checked={checked === true || checked === "indeterminate"}
         aria-describedby={describedBy}
         {...getCheckboxClassName(checked === "indeterminate")}
         {...rest}
