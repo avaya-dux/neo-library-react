@@ -1,4 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useState,
+  Dispatch,
+  ChangeEvent,
+  ChangeEventHandler,
+  SetStateAction,
+} from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId } from "utils/accessibilityUtils";
@@ -7,7 +15,11 @@ import {
   displayErrorOrHelper,
   getOptionByValue,
 } from "components/Select/helper";
-import { NativeSelectProps, OptionType } from "components/Select/SelectTypes";
+import {
+  NativeSelectProps,
+  OptionType,
+  getOptionByValueType,
+} from "components/Select/SelectTypes";
 
 /**
  * NativeSelect is built using native HTML elements `<select> <option>`.
@@ -67,16 +79,6 @@ export const NativeSelect = ({
     }
   }, [defaultValue, options]);
 
-  const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-    const selected = getOptionByValue(options, [value]);
-
-    updateSelectedItem(selected[0]?.value);
-    if (onChange) {
-      onChange(e);
-    }
-  };
-
   const memoizedRenderOptions = useMemo(
     () => renderOptions(options, placeholder),
     [options, placeholder]
@@ -96,8 +98,24 @@ export const NativeSelect = ({
       <div className={selectClassName}>
         <select
           id={selectId}
-          onBlur={onChangeHandler}
-          onChange={onChangeHandler}
+          onBlur={(e) =>
+            onChangeHandler(
+              e,
+              options,
+              getOptionByValue,
+              updateSelectedItem,
+              onChange
+            )
+          }
+          onChange={(e) =>
+            onChangeHandler(
+              e,
+              options,
+              getOptionByValue,
+              updateSelectedItem,
+              onChange
+            )
+          }
           className="neo-icon-chevron-down"
           disabled={disabled}
           value={selectedItem}
@@ -152,4 +170,20 @@ export const getNativeSelectClassNames = (isLoading?: boolean) => {
   }
 
   return classArray.join(" ");
+};
+
+export const onChangeHandler = (
+  e: ChangeEvent<HTMLSelectElement>,
+  options: OptionType[],
+  getOptionByValue: getOptionByValueType,
+  updateSelectedItem: Dispatch<SetStateAction<string>>,
+  onChange?: ChangeEventHandler<HTMLSelectElement>
+) => {
+  const value = e.target.value;
+  const selected = getOptionByValue(options, [value]);
+
+  updateSelectedItem(selected?.map((option) => option.value).join(""));
+  if (onChange) {
+    onChange(e);
+  }
 };
