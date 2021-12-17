@@ -169,13 +169,13 @@ export const Table = <T extends Record<string, any>>({
 
       {rows.length > 0 && (
         <Pagination
-          currentPageIndex={pageIndex + 1} // TODO-567: may want to go and update Pagination.tsx to be zero-based
+          currentPageIndex={pageIndex + 1} // TODO: may want to go and update Pagination.tsx to be zero-based
           itemCount={rowCount}
           itemsPerPage={pageSize}
           itemsPerPageOptions={itemsPerPageOptions}
           onPageChange={(e, newIndex) => {
             e?.preventDefault();
-            gotoPage(newIndex - 1); // TODO-567: may want to go and update Pagination.tsx to be zero-based
+            gotoPage(newIndex - 1); // TODO: may want to go and update Pagination.tsx to be zero-based
           }}
           onItemsPerPageChange={(e, newItemsPerPage) => {
             e?.preventDefault();
