@@ -24,8 +24,8 @@ export interface ITableHeaderTranslations {
 }
 
 export interface ITableTranslations {
-  toolbar?: IToolbarTranslations;
-  header?: ITableHeaderTranslations;
-  body?: IBodyTranslations;
-  pagination?: IPaginationTranslations;
+  toolbar: IToolbarTranslations;
+  header: ITableHeaderTranslations;
+  body: IBodyTranslations;
+  pagination: IPaginationTranslations;
 }
