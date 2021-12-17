@@ -1,8 +1,12 @@
+import { composeStories } from "@storybook/testing-react";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { Checkbox } from "./";
+import * as CheckboxStories from "./Checkbox.stories";
 import { getCheckboxClassName } from "./helper";
+
+const { Default, Templated } = composeStories(CheckboxStories);
 
 const DefaultProps = {
   label: "example label",
@@ -42,6 +46,46 @@ describe("Checkbox", () => {
     it("returns the correct class name when passed `false`", () => {
       expect(getCheckboxClassName(false)).toEqual({
         className: "neo-check",
+      });
+    });
+  });
+
+  describe("storybook tests", () => {
+    describe("Default", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<Default />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("Templated", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<Templated />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
       });
     });
   });
