@@ -88,7 +88,7 @@ describe("Table", () => {
     expect(checkbox2.checked).toBeFalsy();
   });
 
-  // TODO-567: implement
+  // TODO-770: implement
   // it("matches it's previous snapshot", () => {
   //   const { container } = render(<Table {...defaultProps} />);
   //   expect(container).toMatchInlineSnapshot();

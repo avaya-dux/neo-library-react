@@ -58,7 +58,7 @@ export const Table = <T extends Record<string, any>>({
   defaultSelectedRowIds,
 
   containerClassName = "",
-  // handleCreate, // TODO-567: implement
+  // handleCreate, // TODO-769: implement
   handleRefresh,
   handleRowToggled,
   readonly = false,
