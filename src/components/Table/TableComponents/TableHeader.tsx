@@ -1,8 +1,7 @@
-import { AriaAttributes } from "react";
-
 import { Checkbox } from "components/CheckboxGroup";
 import { Keys } from "utils";
 
+import { calculateAriaSortValue } from "../helpers";
 import { TableHeaderProps } from "../types";
 
 /**
@@ -120,22 +119,4 @@ export const TableHeader = <T extends Record<string, any>>({
       </tr>
     </thead>
   );
-};
-
-// TODO-567: add unit tests
-export const calculateAriaSortValue = (
-  isSorted: boolean,
-  sortedDir?: "descending" | "ascending"
-): AriaAttributes["aria-sort"] => {
-  let result: AriaAttributes["aria-sort"] = "none";
-
-  if (isSorted && sortedDir === "descending") {
-    result = "descending";
-  } else if (isSorted && sortedDir === "ascending") {
-    result = "ascending";
-  } else if (isSorted) {
-    result = "other";
-  }
-
-  return result;
 };

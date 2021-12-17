@@ -11,6 +11,7 @@ import { Pagination } from "components/Pagination";
 
 import { TableProps } from ".";
 import { translations as defaultTranslations } from "./default-data";
+import { convertRowIdsArrayToObject } from "./helpers";
 import { TableBody, TableHeader, TableToolbar } from "./TableComponents";
 
 /**
@@ -192,14 +193,4 @@ export const Table = <T extends Record<string, any>>({
       )}
     </div>
   );
-};
-
-// TODO-567: add unit tests
-const convertRowIdsArrayToObject = (rowIds: string[] | number[]) => {
-  const result: Record<string, boolean> = {};
-  rowIds.forEach((rowId) => {
-    result[rowId] = true;
-  });
-
-  return result;
 };

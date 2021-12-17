@@ -37,7 +37,7 @@ export type TableProps<T extends Record<string, any>> = {
   caption?: string;
   id?: string;
   itemsPerPageOptions?: number[];
-  defaultSelectedRowIds?: string[] | number[];
+  defaultSelectedRowIds?: string[];
   summary?: string;
   containerClassName?: string;
   translations?: ITableTranslations;

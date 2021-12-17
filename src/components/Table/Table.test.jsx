@@ -3,6 +3,7 @@ import { fireEvent, render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { Table } from ".";
+import { convertRowIdsArrayToObject } from "./helpers";
 import { FilledFields } from "./mock-data";
 import * as TableStories from "./Table.stories";
 
@@ -93,6 +94,29 @@ describe("Table", () => {
   //   const { container } = render(<Table {...defaultProps} />);
   //   expect(container).toMatchInlineSnapshot();
   // });
+
+  describe("helpers", () => {
+    describe("convertRowIdsArrayToObject", () => {
+      it("should return empty array if passed empty array", () => {
+        const result = convertRowIdsArrayToObject([]);
+        expect(result).toEqual({});
+      });
+
+      it("should return an object whose length matches input array length", () => {
+        const idArr1 = [];
+        const idObj1 = convertRowIdsArrayToObject(idArr1);
+        expect(Object.keys(idObj1)).toHaveLength(idArr1.length);
+
+        const idArr2 = [1, 2, 3];
+        const idObj2 = convertRowIdsArrayToObject(idArr2);
+        expect(Object.keys(idObj2)).toHaveLength(idArr2.length);
+
+        const idArr3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        const idObj3 = convertRowIdsArrayToObject(idArr3);
+        expect(Object.keys(idObj3)).toHaveLength(idArr3.length);
+      });
+    });
+  });
 
   describe("storybook tests", () => {
     describe("Default", () => {
@@ -190,10 +214,4 @@ describe("Table", () => {
       });
     });
   });
-
-  // TODO-567: implement
-  // describe("helpers", () => {
-  //   // calculateAriaSortValue
-  //   // convertRowIdsArrayToObject
-  // });
 });
