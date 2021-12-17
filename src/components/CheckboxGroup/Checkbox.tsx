@@ -44,42 +44,33 @@ export const Checkbox = ({
 
   const computeInputJSX = () => {
     return (
-      <input
-        value={value}
-        type="checkbox"
-        onChange={onChange}
-        name={name}
-        id={internalId}
-        checked={checked === true || checked === "indeterminate"}
-        aria-describedby={describedBy}
-        {...getCheckboxClassName(checked === "indeterminate")}
-        {...rest}
-      />
+      <>
+        <input
+          value={value}
+          type="checkbox"
+          onChange={onChange}
+          name={name}
+          id={internalId}
+          checked={checked === true || checked === "indeterminate"}
+          aria-describedby={describedBy}
+          {...getCheckboxClassName(checked === "indeterminate")}
+          {...rest}
+        />
+        <Label
+          htmlFor={internalId}
+          label={label}
+          isLabelHidden={isLabelHidden}
+        />
+      </>
     );
   };
 
-  return (
-    <>
-      {tooltip ? (
-        <Tooltip label={tooltip} position={position}>
-          {computeInputJSX()}
-          <Label
-            htmlFor={internalId}
-            label={label}
-            isLabelHidden={isLabelHidden}
-          />
-        </Tooltip>
-      ) : (
-        <>
-          {computeInputJSX()}
-          <Label
-            htmlFor={internalId}
-            label={label}
-            isLabelHidden={isLabelHidden}
-          />
-        </>
-      )}
-    </>
+  return tooltip ? (
+    <Tooltip label={tooltip} position={position}>
+      {computeInputJSX()}
+    </Tooltip>
+  ) : (
+    computeInputJSX()
   );
 };
 
