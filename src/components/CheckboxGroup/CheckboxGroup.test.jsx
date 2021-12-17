@@ -40,8 +40,7 @@ const DefaultCheckboxArray = [
     label: "Check 6",
     value: "Check 6",
     disabled: true,
-    indeterminate: true,
-    checked: true,
+    checked: "indeterminate",
     onChange: () => {},
   },
 ];

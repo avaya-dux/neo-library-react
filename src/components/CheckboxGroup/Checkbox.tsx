@@ -4,13 +4,17 @@ import { Tooltip, TooltipPosition } from "components/Tooltip";
 import { genId } from "utils/accessibilityUtils";
 
 export interface CheckboxProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type"> {
+  extends Omit<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    "type" | "checked"
+  > {
+  checked?: boolean | "indeterminate";
   describedBy?: string;
-  indeterminate?: boolean;
-  tooltip?: string;
-  position?: TooltipPosition;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  isLabelHidden?: boolean;
   label: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  position?: TooltipPosition;
+  tooltip?: string;
   value: string;
 }
 
@@ -24,63 +28,73 @@ export interface CheckboxProps
  */
 
 export const Checkbox = ({
-  describedBy,
   checked,
-  indeterminate,
+  describedBy,
   id,
-  tooltip,
-  position,
+  isLabelHidden = false,
   label,
-  value,
   name,
   onChange,
+  position,
+  tooltip,
+  value,
   ...rest
 }: CheckboxProps) => {
   const internalId = useMemo(() => id || genId(), []);
 
   const computeInputJSX = () => {
     return (
-      <input
-        {...getCheckboxClassName({ indeterminate })}
-        type="checkbox"
-        id={internalId}
-        checked={checked}
-        aria-describedby={describedBy}
-        value={value}
-        name={name}
-        onChange={onChange}
-        {...rest}
-      />
+      <>
+        <input
+          value={value}
+          type="checkbox"
+          onChange={onChange}
+          name={name}
+          id={internalId}
+          checked={checked === true || checked === "indeterminate"}
+          aria-describedby={describedBy}
+          {...getCheckboxClassName(checked === "indeterminate")}
+          {...rest}
+        />
+
+        <Label
+          htmlFor={internalId}
+          label={label}
+          isLabelHidden={isLabelHidden}
+        />
+      </>
     );
   };
 
-  return (
-    <>
-      {tooltip ? (
-        <Tooltip label={tooltip} position={position}>
-          {computeInputJSX()}
-          <Label htmlFor={internalId} label={label} />
-        </Tooltip>
-      ) : (
-        <>
-          {computeInputJSX()}
-          <Label htmlFor={internalId} label={label} />
-        </>
-      )}
-    </>
+  return tooltip ? (
+    <Tooltip label={tooltip} position={position}>
+      {computeInputJSX()}
+    </Tooltip>
+  ) : (
+    computeInputJSX()
   );
 };
 
-const Label = ({ htmlFor, label }: { htmlFor: string; label: string }) => {
-  return <label htmlFor={htmlFor}>{label}</label>;
+const Label = ({
+  htmlFor,
+  label,
+  isLabelHidden,
+}: {
+  htmlFor: string;
+  label: string;
+  isLabelHidden: boolean;
+}) => {
+  return (
+    <label htmlFor={htmlFor}>
+      {isLabelHidden ? <div className="neo-display-none">{label}</div> : label}
+    </label>
+  );
 };
 
-export function getCheckboxClassName(
-  props?: Pick<CheckboxProps, "indeterminate">
-) {
+export function getCheckboxClassName(isIndeterminate: boolean) {
   const classNames = ["neo-check"];
 
-  if (props?.indeterminate) {
+  if (isIndeterminate) {
     classNames.push("neo-check--indeterminate");
   }
 
