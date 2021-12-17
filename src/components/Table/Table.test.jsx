@@ -97,7 +97,7 @@ describe("Table", () => {
 
   describe("helpers", () => {
     describe("convertRowIdsArrayToObject", () => {
-      it("should return empty array if passed empty array", () => {
+      it("should return empty object if passed empty array", () => {
         const result = convertRowIdsArrayToObject([]);
         expect(result).toEqual({});
       });
