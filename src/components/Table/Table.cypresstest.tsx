@@ -50,23 +50,4 @@ describe("Table component", () => {
     // visible td checkbox label
     cy.get("table tbody tr").first().should("be.visible");
   });
-
-  it("should transition to and from header checkbox 'indeterminate' state properly", () => {
-    mount(<Table {...tableprops} />);
-
-    cy.get(headerCheckbox).should("have.class", "neo-check");
-
-    cy.get(tableBodyCheckboxLabels).first().click({ force: true });
-    cy.get(headerCheckbox).should(
-      "have.class",
-      "neo-check neo-check--indeterminate"
-    );
-
-    cy.get(tableBodyCheckboxLabels).first().click({ force: true });
-    cy.get(headerCheckbox).should("have.class", "neo-check");
-
-    // if all checkboxes are checked, the header checkbox has _only_ the 'neo-check' class
-    cy.get(tableBodyCheckboxLabels).click({ force: true, multiple: true });
-    cy.get(headerCheckbox).should("have.class", "neo-check");
-  });
 });
