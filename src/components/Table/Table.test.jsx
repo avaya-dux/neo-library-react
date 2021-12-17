@@ -6,7 +6,7 @@ import { Table } from ".";
 import { FilledFields } from "./mock-data";
 import * as TableStories from "./Table.stories";
 
-const { Default, EmptyDataSet, BareBones, Templated } =
+const { BareBones, Default, EmptyDataSet, SelectableRows, Templated } =
   composeStories(TableStories);
 
 describe("Table", () => {
@@ -138,6 +138,25 @@ describe("Table", () => {
 
       beforeEach(() => {
         renderResult = render(<BareBones />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("SelectableRows", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<SelectableRows />);
       });
 
       it("should render ok", () => {
