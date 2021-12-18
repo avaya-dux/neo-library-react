@@ -1,6 +1,6 @@
 import { Row } from "react-table";
 
-import { Checkbox } from "components/CheckboxGroup";
+import { Checkbox } from "components/Checkbox";
 
 import { TableBodyProps } from "../types";
 

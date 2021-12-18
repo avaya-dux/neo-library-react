@@ -1,4 +1,4 @@
-import { Checkbox } from "components/CheckboxGroup";
+import { Checkbox } from "components/Checkbox";
 import { Keys } from "utils";
 
 import { calculateAriaSortValue } from "../helpers";
