@@ -90,7 +90,6 @@ export const CheckboxGroup = ({
                   id={checkbox.id}
                   checked={checkbox.checked}
                   tooltip={checkbox.tooltip}
-                  position={checkbox.position}
                   describedBy={helperText}
                   disabled={checkbox.disabled}
                   onChange={onChangeHandler}

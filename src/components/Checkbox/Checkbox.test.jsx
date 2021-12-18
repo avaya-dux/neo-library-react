@@ -4,7 +4,7 @@ import { axe } from "jest-axe";
 
 import { Checkbox } from "./";
 import * as CheckboxStories from "./Checkbox.stories";
-import { getCheckboxClassName } from "./helper";
+import { getCheckboxClassName } from "./helpers";
 
 const { Default, Templated } = composeStories(CheckboxStories);
 
