@@ -2,6 +2,8 @@ export * from "./Avatar";
 export * from "./Badge";
 export * from "./Breadcrumbs";
 export * from "./Button";
+export * from "./Checkbox";
+export * from "./CheckboxGroup";
 export * from "./Chip";
 export * from "./Dropdown";
 export * from "./Form";
