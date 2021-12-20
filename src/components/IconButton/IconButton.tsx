@@ -16,11 +16,10 @@ export interface IconButtonProps
   animation?: "none" | "spinner" | "pulse";
   badge?: string;
   icon: IconNamesType;
-  size?: "default" | "compact";
   shape: "circle" | "square";
+  size?: "default" | "compact";
   status?: "default" | "success" | "alert" | "warning" | "info" | "event";
   variant?: "primary" | "secondary" | "tertiary";
-  "aria-label": string;
 }
 
 export const IconButton: React.FC<IconButtonProps> = forwardRef(
@@ -28,13 +27,12 @@ export const IconButton: React.FC<IconButtonProps> = forwardRef(
     {
       animation = "none",
       badge,
-      children,
+      className,
       icon,
       shape = "square",
       size = "default",
       status = "default",
       variant = "primary",
-      className,
       ...rest
     }: IconButtonProps,
     ref: React.Ref<HTMLButtonElement>
@@ -56,7 +54,7 @@ export const IconButton: React.FC<IconButtonProps> = forwardRef(
         ...getAnimationClass(animation),
         ...[className],
       ].join(" ");
-    }, [animation, size, variant, status, badge, shape]);
+    }, [animation, badge, shape, size, status, variant]);
 
     return (
       <button
