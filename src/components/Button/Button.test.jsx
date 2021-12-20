@@ -11,7 +11,7 @@ const { AnimationPulse, AnimationSpinner, Badge, BadgeLongText } =
 describe("Button", () => {
   it("fully renders without exploding", () => {
     const { getByTestId } = render(
-      <Button data-testid="neo-button" label="Test" />
+      <Button data-testid="neo-button">Text</Button>
     );
 
     const rootElement = getByTestId("neo-button");
@@ -20,12 +20,9 @@ describe("Button", () => {
 
   it("passes basic axe compliance", async () => {
     const { container } = render(
-      <Button
-        data-testid="neo-button"
-        id="test-axe"
-        aria-label="test-axe-name"
-        label="Button"
-      />
+      <Button data-testid="neo-button" id="test-axe">
+        Button
+      </Button>
     );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
@@ -34,7 +31,9 @@ describe("Button", () => {
   it("should respect the 'badge' prop", () => {
     const badgeText = "100k";
     const { getByTestId } = render(
-      <Button data-testid="neo-button" badge={badgeText} label="badge test" />
+      <Button data-testid="neo-button" badge={badgeText}>
+        badge test
+      </Button>
     );
     const rootElement = getByTestId("neo-button");
     expect(rootElement).toHaveAttribute("data-badge", badgeText);
@@ -43,7 +42,9 @@ describe("Button", () => {
   it("cuts off 'badge' text at 12 characters", () => {
     const badgeText = "12345678901234567";
     const { getByTestId } = render(
-      <Button data-testid="neo-button" badge={badgeText} label="test" />
+      <Button data-testid="neo-button" badge={badgeText}>
+        test
+      </Button>
     );
     const rootElement = getByTestId("neo-button");
 
