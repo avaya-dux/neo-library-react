@@ -9,7 +9,9 @@ expect.extend(toHaveNoViolations);
 
 describe("Button", () => {
   it("fully renders without exploding", () => {
-    const { getByTestId } = render(<Button data-testid="neo-button" label="Test" />);
+    const { getByTestId } = render(
+      <Button data-testid="neo-button" label="Test" />
+    );
 
     const rootElement = getByTestId("neo-button");
     expect(rootElement).toBeTruthy();
@@ -17,7 +19,12 @@ describe("Button", () => {
 
   it("passes basic axe compliance", async () => {
     const { container } = render(
-      <Button data-testid="neo-button" id="test-axe" aria-label="test-axe-name" label="Button" />
+      <Button
+        data-testid="neo-button"
+        id="test-axe"
+        aria-label="test-axe-name"
+        label="Button"
+      />
     );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
@@ -34,7 +41,9 @@ describe("Button", () => {
 
   it("cuts off 'badge' text at 12 characters", () => {
     const badgeText = "12345678901234567";
-    const { getByTestId } = render(<Button data-testid="neo-button" badge={badgeText} label="test" />);
+    const { getByTestId } = render(
+      <Button data-testid="neo-button" badge={badgeText} label="test" />
+    );
     const rootElement = getByTestId("neo-button");
 
     expect(badgeText.length).toBe(17);

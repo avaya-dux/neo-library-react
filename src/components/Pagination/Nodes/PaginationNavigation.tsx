@@ -22,8 +22,8 @@ import { buildNavItems, calculateMaxNavNodes } from "./helpers";
  * />
  */
 export const PaginationNavigation = ({
-  backIconButtonText = "previous", // TODO: localize
-  nextIconButtonText = "next", // TODO: localize
+  backIconButtonText = "previous",
+  nextIconButtonText = "next",
   alwaysShowPagination,
   currentPageIndex,
   totalPages,
