@@ -7,8 +7,8 @@ import {
   getBadgeClass,
   getSizeClass,
   getVariantClass,
-  showSpinner,
   IconNamesType,
+  showSpinner,
 } from "utils";
 
 export interface IconButtonProps
@@ -22,7 +22,7 @@ export interface IconButtonProps
   variant?: "primary" | "secondary" | "tertiary";
 }
 
-export const IconButton: React.FC<IconButtonProps> = forwardRef(
+export const IconButton = forwardRef(
   (
     {
       animation = "none",
