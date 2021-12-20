@@ -6,7 +6,7 @@ import { List } from "components/List";
 import { ListItem, ListItemProps, ListSection, ListSectionProps } from ".";
 
 export default {
-  title: "Components/ListItem",
+  title: "Components/List Item",
   component: ListItem,
 } as Meta<ListItemProps>;
 
