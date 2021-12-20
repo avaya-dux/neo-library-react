@@ -25,6 +25,7 @@ export interface IconButtonProps
 export const IconButton = forwardRef(
   (
     {
+      "aria-label": ariaLabel,
       animation = "none",
       badge,
       className,
@@ -37,6 +38,10 @@ export const IconButton = forwardRef(
     }: IconButtonProps,
     ref: React.Ref<HTMLButtonElement>
   ) => {
+    if (ariaLabel) {
+      console.error("`aria-label` is REQUIRED by accessibility standards.");
+    }
+
     const shapeClass = useMemo(() => {
       return [`neo-btn-${shape}`];
     }, [shape]);
