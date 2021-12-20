@@ -1,11 +1,12 @@
+import { composeStories } from "@storybook/testing-react";
 import { render } from "@testing-library/react";
-import { axe, toHaveNoViolations } from "jest-axe";
+import { axe } from "jest-axe";
 
 import { Button } from "./Button";
+import * as ButtonStories from "./Button.stories";
 
-import "@testing-library/jest-dom/extend-expect";
-
-expect.extend(toHaveNoViolations);
+const { AnimationPulse, AnimationSpinner, Badge, BadgeLongText } =
+  composeStories(ButtonStories);
 
 describe("Button", () => {
   it("fully renders without exploding", () => {
@@ -48,5 +49,83 @@ describe("Button", () => {
 
     expect(badgeText.length).toBe(17);
     expect(rootElement).toHaveAttribute("data-badge", badgeText.slice(0, 12));
+  });
+
+  describe("storybook tests", () => {
+    describe("AnimationSpinner", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<AnimationSpinner />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("AnimationPulse", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<AnimationPulse />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("Badge", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<Badge />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("BadgeLongText", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<BadgeLongText />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
   });
 });
