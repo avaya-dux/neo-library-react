@@ -12,7 +12,8 @@ import {
 } from "utils";
 
 export interface IconButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "aria-label"> {
+  "aria-label": string;
   animation?: "none" | "spinner" | "pulse";
   badge?: string;
   icon: IconNamesType;
@@ -38,7 +39,7 @@ export const IconButton = forwardRef(
     }: IconButtonProps,
     ref: React.Ref<HTMLButtonElement>
   ) => {
-    if (ariaLabel) {
+    if (!ariaLabel) {
       console.error("`aria-label` is REQUIRED by accessibility standards.");
     }
 
@@ -63,6 +64,7 @@ export const IconButton = forwardRef(
 
     return (
       <button
+        aria-label={ariaLabel}
         ref={ref}
         {...rest}
         className={buttonClasses}
