@@ -31,8 +31,8 @@ export const BareBones = () => (
 
 export const SelectableRows = () => {
   const defaultSelectedRowIds = [
-    FilledFields.data[1].id,
-    FilledFields.data[3].id,
+    FilledFields.data[1].id.toString(),
+    FilledFields.data[3].id.toString(),
   ];
   const [selectedRows, setSelectedRows] = useState(defaultSelectedRowIds);
   const [logItems, setLogItems] = useState<string[]>([]);
@@ -41,7 +41,7 @@ export const SelectableRows = () => {
     setSelectedRows(selectedRowIds);
 
     if (row) {
-      const rowExists = selectedRowIds.find((id) => id === row.id);
+      const rowExists = selectedRowIds.find((id) => id === row.id.toString());
       setLogItems([
         `Row '${row.name}' was toggled ${rowExists ? "ON" : "OFF"}`,
         ...logItems,
