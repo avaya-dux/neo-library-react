@@ -14,13 +14,19 @@ export default {
 const currentPageLink = { href: "#current_page", text: "Current Page" };
 const description = "Breadcrumb Example page description";
 const button1 = (
-  <Button data-testid="neo-button1" id="test-axe1" label="Save" />
+  <Button data-testid="neo-button1" id="test-axe1">
+    Save
+  </Button>
 );
 const button2 = (
-  <Button data-testid="neo-button2" id="test-axe2" label="Edit" />
+  <Button data-testid="neo-button2" id="test-axe2">
+    Edit
+  </Button>
 );
 const button3 = (
-  <Button data-testid="neo-button3" id="test-axe3" label="Update" />
+  <Button data-testid="neo-button3" id="test-axe3">
+    Update
+  </Button>
 );
 
 const Template: Story<BreadcrumbsProps> = (props: BreadcrumbsProps) => (
