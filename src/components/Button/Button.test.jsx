@@ -11,7 +11,7 @@ const { AnimationPulse, AnimationSpinner, Badge, BadgeLongText } =
 describe("Button", () => {
   it("fully renders without exploding", () => {
     const { getByTestId } = render(
-      <Button data-testid="neo-button">Text</Button>
+      <Button data-testid="neo-button">Test</Button>
     );
 
     const rootElement = getByTestId("neo-button");
