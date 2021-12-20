@@ -21,5 +21,9 @@ Templated.args = {
   isLabelHidden: false,
   label: "example label",
   onChange: () => {},
+  tooltip: {
+    label: "Tooltip for Check",
+    position: "right",
+  },
   value: "1",
 };

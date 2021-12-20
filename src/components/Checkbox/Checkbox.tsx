@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { Tooltip, TooltipPosition } from "components/Tooltip";
 import { genId } from "utils/accessibilityUtils";
 
-import { getCheckboxClassName } from "./helper";
+import { getCheckboxClassName } from "./helpers";
 
 export interface CheckboxProps
   extends Omit<
@@ -15,8 +15,7 @@ export interface CheckboxProps
   isLabelHidden?: boolean;
   label: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  position?: TooltipPosition;
-  tooltip?: string;
+  tooltip?: { label: string; position?: TooltipPosition };
   value: string;
 }
 
@@ -37,7 +36,6 @@ export const Checkbox = ({
   label,
   name,
   onChange,
-  position,
   tooltip,
   value,
   ...rest
@@ -69,7 +67,7 @@ export const Checkbox = ({
   };
 
   return tooltip ? (
-    <Tooltip label={tooltip} position={position}>
+    <Tooltip label={tooltip.label} position={tooltip.position}>
       {computeInputJSX()}
     </Tooltip>
   ) : (
