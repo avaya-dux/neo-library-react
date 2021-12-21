@@ -5,8 +5,15 @@ import { axe } from "jest-axe";
 import { Button } from "./Button";
 import * as ButtonStories from "./Button.stories";
 
-const { AnimationPulse, AnimationSpinner, Badge, BadgeLongText } =
-  composeStories(ButtonStories);
+const {
+  AnimationPulse,
+  AnimationSpinner,
+  Badge,
+  BadgeLongText,
+  LeftIconExample,
+  RightIconExample,
+  WithMultipleChildren,
+} = composeStories(ButtonStories);
 
 describe("Button", () => {
   it("fully renders without exploding", () => {
@@ -115,6 +122,63 @@ describe("Button", () => {
 
       beforeEach(() => {
         renderResult = render(<BadgeLongText />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("LeftIconExample", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<LeftIconExample />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("RightIconExample", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<RightIconExample />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("WithMultipleChildren", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<WithMultipleChildren />);
       });
 
       it("should render ok", () => {
