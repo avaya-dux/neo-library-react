@@ -59,6 +59,22 @@ describe("Button", () => {
     expect(rootElement).toHaveAttribute("data-badge", badgeText.slice(0, 12));
   });
 
+  it("sets `dir='ltr'` when passed an icon without a position", () => {
+    const { getByTestId } = render(
+      <Button data-testid="neo-button" icon="settings" />
+    );
+    const rootElement = getByTestId("neo-button");
+    expect(rootElement).toHaveAttribute("dir", "ltr");
+  });
+
+  it("sets `dir='rtl'` when passed an icon with a position", () => {
+    const { getByTestId } = render(
+      <Button data-testid="neo-button" icon="settings" iconPosition="right" />
+    );
+    const rootElement = getByTestId("neo-button");
+    expect(rootElement).toHaveAttribute("dir", "rtl");
+  });
+
   describe("storybook tests", () => {
     describe("AnimationSpinner", () => {
       let renderResult;
