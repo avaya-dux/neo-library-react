@@ -1,4 +1,5 @@
 import { listOfStates } from "components/Select/SampleData";
+
 import { getOptionClassNames, renderSelectOptions } from "./Options";
 
 describe("Options test", () => {
@@ -32,7 +33,7 @@ describe("Options test", () => {
       ).toMatchInlineSnapshot(`Array []`);
     });
 
-    it("Should return an array of <div>s if there is an item in the list with the `placeholder = true`, null will be returned for that item, when `options = OptionType[]`, `cursor = 0` and `isMultiple = false`", () => {
+    it("Should return the option list for Single Select, without the placeholder", () => {
       expect(
         renderSelectOptions(
           listOfStates.slice(0, 4),
@@ -81,7 +82,7 @@ describe("Options test", () => {
       `);
     });
 
-    it("Should return an array of <div>s if there is an item in the list with the `placeholder = true`, null will be returned for that item, also the item with the index 1 will have the class `--hover` when `options = OptionType[]`, `cursor = 1` and `isMultiple = false`", () => {
+    it("Should return the option list for Single Select, without the placeholder with the first item activated or hovered", () => {
       expect(
         renderSelectOptions(
           listOfStates.slice(0, 4),
@@ -130,7 +131,7 @@ describe("Options test", () => {
       `);
     });
 
-    it("Should return an array of <div>s if there is an item in the list with the `placeholder = true`, null will be returned for that item, when `options = OptionType[]`, `selectedItems = OptionType[]`, `cursor = 0` and `isMultiple = true`", () => {
+    it("Should return the option list for Multiple Select, without the placeholder", () => {
       expect(
         renderSelectOptions(
           listOfStates.slice(0, 3),
@@ -192,7 +193,7 @@ describe("Options test", () => {
       `);
     });
 
-    it("Should return an array of <div>s if there is an item in the list with the `placeholder = true`, null will be returned for that item, also the item with the index 1 will have the class `--hover`, when `options = OptionType[]`, `selectedItems = OptionType[]`, `cursor = 1` and `isMultiple = true`", () => {
+    it("Should return the option list for Multiple Select, without the placeholder, with the first item hovered or activated", () => {
       expect(
         renderSelectOptions(
           listOfStates.slice(0, 3),
