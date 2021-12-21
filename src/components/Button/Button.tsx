@@ -5,9 +5,11 @@ import {
   computeBadge,
   getAnimationClass,
   getBadgeClass,
+  getIconClass,
   getSizeClass,
-  getVariantClass,
+  getVariantClasses,
   IconNamesType,
+  rootBtnClass,
   showSpinner,
 } from "utils";
 
@@ -15,16 +17,11 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   animation?: "none" | "spinner" | "pulse";
   badge?: string;
+  icon?: IconNamesType;
+  iconPosition?: "left" | "right";
   size?: "default" | "compact" | "wide";
   status?: "default" | "success" | "alert" | "warning" | "info" | "event";
   variant?: "primary" | "secondary" | "tertiary";
-
-  // TODO-696: implement
-  icon?: IconNamesType;
-  iconPosition: "left" | "right"; // defaults to left
-  // or
-  leftIcon?: IconNamesType;
-  rightIcon?: IconNamesType;
 }
 
 export const Button = forwardRef(
@@ -35,6 +32,7 @@ export const Button = forwardRef(
       children,
       className,
       icon,
+      iconPosition = "left",
       size = "default",
       status = "default",
       variant = "primary",
@@ -42,29 +40,43 @@ export const Button = forwardRef(
     }: ButtonProps,
     ref: React.Ref<HTMLButtonElement>
   ) => {
-    const shapeClass = ["neo-btn"];
-
-    const displaySpinner = useMemo(() => {
-      return showSpinner(animation);
-    }, [animation]);
+    const displaySpinner = useMemo(() => showSpinner(animation), [animation]);
 
     const buttonClasses = useMemo(() => {
-      return [
-        ...shapeClass,
-        ...getSizeClass(shapeClass, size),
-        ...getVariantClass(shapeClass, variant, status),
-        ...getBadgeClass(badge),
-        ...getAnimationClass(animation),
-        ...[className],
-      ].join(" ");
+      const result = [
+        rootBtnClass,
+        getSizeClass(size),
+        ...getVariantClasses(variant, status),
+      ];
+
+      const animationClass = getAnimationClass(animation);
+      if (animationClass) {
+        result.push(animationClass);
+      }
+
+      const badgeClass = getBadgeClass(badge);
+      if (badgeClass) {
+        result.push(badgeClass);
+      }
+
+      if (icon) {
+        result.push(getIconClass(icon));
+      }
+
+      if (className) {
+        result.push(className);
+      }
+
+      return result.join(" ");
     }, [animation, badge, size, status, variant]);
 
     return (
       <button
-        ref={ref}
-        {...rest}
         className={buttonClasses}
         data-badge={computeBadge(badge)}
+        dir={iconPosition === "left" ? "ltr" : "rtl"}
+        ref={ref}
+        {...rest}
       >
         {displaySpinner && <Spinner />}
         {children}

@@ -1,7 +1,7 @@
 import { ComponentStory } from "@storybook/react";
 import { Meta } from "@storybook/react/types-6-0";
 
-import { Icon } from "components/Icon";
+import { Avatar, BasicChip } from "components";
 
 import { Button, ButtonProps } from "./Button";
 
@@ -39,12 +39,20 @@ BadgeLongText.args = {
   children: "badge",
 };
 
-export const WithIconsInButton = () => {
+export const LeftIconExample = () => (
+  <Button icon="settings">Left/Default Example</Button>
+);
+
+export const RightIconExample = () => (
+  <Button icon="settings" iconPosition="right">
+    Right Example
+  </Button>
+);
+
+export const WithMultipleChildren = () => {
   return (
     <Button>
-      <Icon icon="add" />
-      Button
-      <Icon icon="minus" />
+      <Avatar /> <BasicChip chiptype="basic" text="text" />
     </Button>
   );
 };

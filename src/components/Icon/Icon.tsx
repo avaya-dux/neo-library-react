@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { IconNamesType } from "utils/icons";
+import { getIconClass, IconNamesType } from "utils/icons";
 
 // import { SizeType } from "utils/size"; TODO https://jira.forge.avaya.com/browse/NEO-645
 type SizeType = "sm" | "lg";
@@ -30,46 +30,44 @@ export const Icon: React.FC<IconProps> = ({
   ...rest
 }: IconProps) => {
   if (!rest["aria-label"]) {
-    console.warn(
+    console.error(
       "A descriptive label is required for screen readers to identify the button's purpose"
     );
   }
 
   const componentClasses = useMemo(() => {
-    /*
-     * When status is defined, the font-size will be change to 26px for the icon, this is a expected behavior
-     * Feature request to standardize the size of the Icons
-     * https://jira.forge.avaya.com/browse/NEO-645
-     */
-    const getStatusClass = (status?: string) => {
-      return status ? [`neo-icon-state`, `neo-icon-state--${status}`] : [""];
-    };
+    const result = [className];
 
-    const getIconClass = (icon?: IconNamesType) => {
-      return icon ? [`neo-icon-${icon}`] : [""];
-    };
+    if (status) {
+      result.push("neo-icon-state");
+      result.push(`neo-icon-state--${status}`);
+    }
 
     const getSizeClass = (size?: SizeType) => {
-      // TODO-NEO-645: css class name are missing
-      // https://jira.forge.avaya.com/browse/NEO-645
+      // TODO-645: css class names to be updated
       switch (size) {
         case undefined:
         case "sm":
-          return [""];
+          return undefined;
         case "lg":
-          return ["neo-icon-state--large"];
+          return "neo-icon-state--large";
         default:
           console.warn(`Unknown size encountered: ${size}`);
-          return [""];
+          return undefined;
       }
     };
 
-    return [
-      ...getStatusClass(status),
-      ...getIconClass(icon),
-      ...getSizeClass(size),
-      ...[className],
-    ].join(" ");
+    const sizeClass = getSizeClass(size);
+    if (sizeClass) {
+      result.push(sizeClass);
+    }
+
+    const iconClass = getIconClass(icon);
+    if (iconClass) {
+      result.push(iconClass);
+    }
+
+    return result.join(" ");
   }, [status, icon, size]);
 
   return <span {...rest} className={componentClasses} />;

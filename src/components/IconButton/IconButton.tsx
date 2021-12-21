@@ -6,8 +6,9 @@ import {
   getAnimationClass,
   getBadgeClass,
   getSizeClass,
-  getVariantClass,
+  getVariantClasses,
   IconNamesType,
+  rootBtnClass,
   showSpinner,
 } from "utils";
 
@@ -43,32 +44,40 @@ export const IconButton = forwardRef(
       console.error("`aria-label` is REQUIRED by accessibility standards.");
     }
 
-    const shapeClass = useMemo(() => {
-      return [`neo-btn-${shape}`];
-    }, [shape]);
-
-    const displaySpinner = useMemo(() => {
-      return showSpinner(animation);
-    }, [animation]);
+    const displaySpinner = useMemo(() => showSpinner(animation), [animation]);
 
     const buttonClasses = useMemo(() => {
-      return [
-        ...shapeClass,
-        ...getSizeClass(shapeClass, size),
-        ...getVariantClass(shapeClass, variant, status),
-        ...getBadgeClass(badge),
-        ...getAnimationClass(animation),
-        ...[className],
-      ].join(" ");
+      const result = [
+        rootBtnClass,
+        `${rootBtnClass}-${shape}`,
+        getSizeClass(size),
+        ...getVariantClasses(variant, status),
+      ];
+
+      const animationClass = getAnimationClass(animation);
+      if (animationClass) {
+        result.push(animationClass);
+      }
+
+      const badgeClass = getBadgeClass(badge);
+      if (badgeClass) {
+        result.push(badgeClass);
+      }
+
+      if (className) {
+        result.push(className);
+      }
+
+      return result.join(" ");
     }, [animation, badge, shape, size, status, variant]);
 
     return (
       <button
         aria-label={ariaLabel}
-        ref={ref}
-        {...rest}
         className={buttonClasses}
         data-badge={computeBadge(badge)}
+        ref={ref}
+        {...rest}
       >
         {displaySpinner ? (
           <Spinner style={{ color: "inherit" }} />
