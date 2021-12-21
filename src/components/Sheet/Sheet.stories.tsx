@@ -1,5 +1,7 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 
+import { Button } from "components/Button";
+
 import { Sheet, SheetProps } from "./";
 
 export default {
@@ -13,8 +15,8 @@ export const Default = () => {
       <Sheet
         title="Sheet title"
         buttons={[
-          <button key="btn1">button 1</button>,
-          <button key="btn2">second btn</button>,
+          <Button key="btn1">button 1</Button>,
+          <Button key="btn2">second btn</Button>,
         ]}
       >
         <p>sheet content</p>
@@ -36,8 +38,8 @@ Templated.args = {
   id: "example",
   title: "Sheet title",
   buttons: [
-    <button key="btn1">button 1</button>,
-    <button key="btn2">second btn</button>,
+    <Button key="btn1">button 1</Button>,
+    <Button key="btn2">second btn</Button>,
   ],
   children: <p>sheet content</p>,
 };

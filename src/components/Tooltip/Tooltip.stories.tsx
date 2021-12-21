@@ -1,6 +1,7 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 
 import { Avatar } from "components/Avatar";
+import { Button } from "components/Button";
 
 import { Tooltip, TooltipProps } from "./";
 
@@ -13,24 +14,16 @@ export const Default = () => {
   const id = "tooltiplabelid";
   return (
     <Tooltip label="default tooltip text" id={id}>
-      <button
-        className="neo-btn neo-btn-primary neo-btn-primary--primary"
-        aria-describedby={id}
-      >
+      <Button aria-describedby={id} variant="primary">
         button text
-      </button>
+      </Button>
     </Tooltip>
   );
 };
 
 const Template: Story<TooltipProps> = ({ children, ...rest }: TooltipProps) => (
   <Tooltip {...rest}>
-    {children || (
-      // TODO-696: use <Button>button text</Button>
-      <button className="neo-btn neo-btn-primary neo-btn-primary--primary">
-        button text
-      </button>
-    )}
+    {children || <Button variant="primary">button text</Button>}
   </Tooltip>
 );
 

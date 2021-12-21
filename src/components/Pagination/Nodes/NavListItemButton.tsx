@@ -25,16 +25,10 @@ export const NavListItemButton = ({
 } & Pick<PaginationNavigationProps, "onPageChange">) => (
   <li>
     <Button
-      label={`${pageToNavigateTo}`}
       onClick={(e) => onPageChange(e, pageToNavigateTo)}
       variant={isCurrentPage ? "secondary" : "tertiary"}
-    />
-    {/* TODO-696: update to use `children` instead of `label` when 696 is completed */}
-    {/* <Button
-      variant="tertiary"
-      onClick={(e) => onPageChange(e, pageToNavigateTo)}
     >
       {pageToNavigateTo}
-    </Button> */}
+    </Button>
   </li>
 );
