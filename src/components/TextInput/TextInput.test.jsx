@@ -64,7 +64,7 @@ describe("TextInput", () => {
       expect(rootElement.tabIndex).toBe(0);
     });
 
-    it("for the `readOnly` usecasem, has an extra class name and `tabIndex === -1`", () => {
+    it("for the `readOnly` usecase, has an extra class name and `tabIndex === -1`", () => {
       const testid = "testid";
       const { getByTestId } = render(
         <InternalTextInputElement data-testid={testid} readOnly />
