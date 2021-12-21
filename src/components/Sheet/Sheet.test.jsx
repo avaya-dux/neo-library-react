@@ -2,6 +2,8 @@ import { composeStories } from "@storybook/testing-react";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
+import { Button } from "components/Button";
+
 import { Sheet } from ".";
 import * as SheetStories from "./Sheet.stories";
 
@@ -26,7 +28,7 @@ describe("Sheet", () => {
   it("throws a `console.error` if buttons are passed without a title", () => {
     const spy = jest.spyOn(console, "error").mockImplementation(() => {});
     const { getByRole } = render(
-      <Sheet buttons={[<button key="example1">example</button>]} />
+      <Sheet buttons={[<Button key="example1">example</Button>]} />
     );
 
     const rootElement = getByRole("dialog");

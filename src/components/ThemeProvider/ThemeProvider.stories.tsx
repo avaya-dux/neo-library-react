@@ -1,15 +1,14 @@
-import { Meta } from "@storybook/react/types-6-0";
-
 import {
   Button,
-  Switch,
   NeoThemeProvider,
   NeoThemeProviderProps,
+  Switch,
   useNeoTheme,
 } from "@avaya-neo/react";
+import { Meta } from "@storybook/react/types-6-0";
 
 export default {
-  title: "Components/NeoThemeProvider",
+  title: "Components/Neo Theme Provider",
   component: NeoThemeProvider,
 } as Meta<NeoThemeProviderProps>;
 
@@ -29,12 +28,24 @@ const ChildDemoComponent = () => {
         onChange={(_, checked) => setMode(checked ? "dark" : "light")}
       />
 
-      <Button variant="primary" status="default" label="Primary Default" />
-      <Button variant="primary" status="success" label="Primary Success" />
-      <Button variant="secondary" status="info" label="Secondary Info" />
-      <Button variant="secondary" status="warning" label="Secondary Warning" />
-      <Button variant="tertiary" status="alert" label="Tertiary Alert" />
-      <Button variant="tertiary" status="event" label="Tertiary Event" />
+      <Button variant="primary" status="default">
+        Primary Default
+      </Button>
+      <Button variant="primary" status="success">
+        Primary Success
+      </Button>
+      <Button variant="secondary" status="info">
+        Secondary Info
+      </Button>
+      <Button variant="secondary" status="warning">
+        Secondary Warning
+      </Button>
+      <Button variant="tertiary" status="alert">
+        Tertiary Alert
+      </Button>
+      <Button variant="tertiary" status="event">
+        Tertiary Event
+      </Button>
     </>
   );
 };

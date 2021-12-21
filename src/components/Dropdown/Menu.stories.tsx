@@ -1,13 +1,16 @@
-import "@avaya/neo/neo/dist/css/neo/neo.min.css";
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { Button } from "components";
 import log from "loglevel";
 import { createRef, RefObject } from "react";
+
+import { Button } from "components";
+
 import { Menu } from "./Menu";
 import { MenuItem } from "./MenuItem";
 import { MenuSeparator } from "./MenuSeparator";
 import { MenuProps } from "./MenuTypes";
 import { SubMenu } from "./SubMenu";
+
+import "@avaya/neo/neo/dist/css/neo/neo.min.css";
 
 const menuLogger = log.getLogger("menu");
 menuLogger.enableAll();
@@ -28,11 +31,9 @@ const refButton = createRef<HTMLButtonElement>();
 const button = createButton(refButton, "Action");
 function createButton(refButton: RefObject<HTMLButtonElement>, label: string) {
   return (
-    <Button
-      ref={refButton}
-      label={label}
-      className="neo-dropdown__link-header"
-    />
+    <Button ref={refButton} className="neo-dropdown__link-header">
+      {label}
+    </Button>
   );
 }
 

@@ -1,6 +1,8 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 
-import { Button, Icon } from "components";
+import { Button } from "components/Button";
+import { Icon } from "components/Icon";
+
 import { InfoModal, InfoModalProps } from "./";
 import useModal from "./useModal";
 
@@ -14,15 +16,15 @@ export const PortalInfoModalExample = () => {
   return (
     <div>
       <Button
-        label="Show"
-        aria-label="show"
         data-testid="neo-button-show"
         id="btn-show"
         variant="primary"
         onClick={() => {
           toggle();
         }}
-      />
+      >
+        Show
+      </Button>
 
       <InfoModal open={isOpen} onClose={toggle} title="This is the title">
         <p>
@@ -65,15 +67,15 @@ export const InfoModalWithCompositeTitle = () => {
   return (
     <div>
       <Button
-        label="Show"
-        aria-label="show"
         data-testid="neo-button-show"
         id="btn-show"
         variant="primary"
         onClick={() => {
           toggle();
         }}
-      />
+      >
+        Show
+      </Button>
 
       <InfoModal open={isOpen} onClose={toggle} title={titleWithIcon}>
         <p>
@@ -90,15 +92,15 @@ export const InfoModalWithCompositeContent = () => {
   return (
     <div>
       <Button
-        label="Show"
-        aria-label="show"
         data-testid="neo-button-show"
         id="btn-show"
         variant="primary"
         onClick={() => {
           toggle();
         }}
-      />
+      >
+        Show
+      </Button>
 
       <InfoModal open={isOpen} onClose={toggle} title="This is the title">
         <div className="vertical">

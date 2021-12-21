@@ -7,38 +7,32 @@ import {
   getBadgeClass,
   getSizeClass,
   getVariantClass,
-  showSpinner,
   IconNamesType,
+  showSpinner,
 } from "utils";
 
-import "./style.css";
-
 export interface ButtonProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "aria-label"> {
-  label: string;
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   animation?: "none" | "spinner" | "pulse";
   badge?: string;
   icon?: IconNamesType;
   size?: "default" | "compact" | "wide";
   status?: "default" | "success" | "alert" | "warning" | "info" | "event";
   variant?: "primary" | "secondary" | "tertiary";
-  iconPosition?: "left" | "right";
 }
 
 export const Button = forwardRef(
   (
     {
-      label,
       animation = "none",
       badge,
       children,
+      className,
       icon,
       size = "default",
       status = "default",
       variant = "primary",
-      iconPosition = "left",
-      className,
-      ...props
+      ...rest
     }: ButtonProps,
     ref: React.Ref<HTMLButtonElement>
   ) => {
@@ -51,29 +45,23 @@ export const Button = forwardRef(
     const buttonClasses = useMemo(() => {
       return [
         ...shapeClass,
-        ...[`neo-btn-icon-${iconPosition}`], // TODO Class name is missing https://jira.forge.avaya.com/browse/NEO-644
         ...getSizeClass(shapeClass, size),
         ...getVariantClass(shapeClass, variant, status),
         ...getBadgeClass(badge),
         ...getAnimationClass(animation),
         ...[className],
       ].join(" ");
-    }, [animation, size, variant, status, badge, iconPosition]);
+    }, [animation, badge, size, status, variant]);
 
     return (
       <button
         ref={ref}
-        {...props}
+        {...rest}
         className={buttonClasses}
         data-badge={computeBadge(badge)}
       >
-        {displaySpinner ? (
-          <Spinner />
-        ) : icon ? (
-          <span className={`neo-icon-${icon}`} /> // TODO replace with Icon component
-        ) : null}
-        {icon ? <div> &nbsp; </div> : null}
-        {label}
+        {displaySpinner && <Spinner />}
+        {children}
       </button>
     );
   }

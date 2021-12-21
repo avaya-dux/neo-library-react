@@ -7,12 +7,13 @@ import {
   getBadgeClass,
   getSizeClass,
   getVariantClass,
-  showSpinner,
   IconNamesType,
+  showSpinner,
 } from "utils";
 
 export interface IconButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "aria-label"> {
+  "aria-label": string;
   animation?: "none" | "spinner" | "pulse";
   badge?: string;
   icon: IconNamesType;
@@ -22,9 +23,10 @@ export interface IconButtonProps
   variant?: "primary" | "secondary" | "tertiary";
 }
 
-export const IconButton: React.FC<IconButtonProps> = forwardRef(
+export const IconButton = forwardRef(
   (
     {
+      "aria-label": ariaLabel,
       animation = "none",
       badge,
       className,
@@ -37,6 +39,10 @@ export const IconButton: React.FC<IconButtonProps> = forwardRef(
     }: IconButtonProps,
     ref: React.Ref<HTMLButtonElement>
   ) => {
+    if (!ariaLabel) {
+      console.error("`aria-label` is REQUIRED by accessibility standards.");
+    }
+
     const shapeClass = useMemo(() => {
       return [`neo-btn-${shape}`];
     }, [shape]);
@@ -58,6 +64,7 @@ export const IconButton: React.FC<IconButtonProps> = forwardRef(
 
     return (
       <button
+        aria-label={ariaLabel}
         ref={ref}
         {...rest}
         className={buttonClasses}

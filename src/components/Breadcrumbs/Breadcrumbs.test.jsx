@@ -7,7 +7,15 @@ import { Button } from "components/Button";
 import { Breadcrumbs, getNavCssName } from "./Breadcrumbs";
 import * as BreadcrumbsStories from "./Breadcrumbs.stories";
 
-import "@testing-library/jest-dom";
+const {
+  CurrentPageAndOneButton,
+  CurrentPageOnly,
+  HavingOneLink,
+  HavingOneLinkAndTwoButtons,
+  HavingTwoLinks,
+  HavingTwoLinksAndThreeButtons,
+  HavingTwoLinksAndTwoButtons,
+} = composeStories(BreadcrumbsStories);
 
 describe("Breadcrumbs: ", () => {
   describe("getNavCssName", () => {
@@ -115,8 +123,9 @@ describe("Breadcrumbs: ", () => {
         data-testid="neo-button1"
         id="test-axe1"
         aria-label="test-axe-name1"
-        label="button1"
-      />
+      >
+        button1
+      </Button>
     );
     const props = {
       links,
@@ -144,10 +153,14 @@ describe("Breadcrumbs: ", () => {
     const currentPageLink = { href: "#current", text: "Current Page" };
     const links = [{ href: "#parent1", text: "parent1", color: "red" }];
     const button1 = (
-      <Button data-testid="neo-button1" id="test-axe1" label="Save" />
+      <Button data-testid="neo-button1" id="test-axe1">
+        Save
+      </Button>
     );
     const button2 = (
-      <Button data-testid="neo-button2" id="test-axe2" label="Edit" />
+      <Button data-testid="neo-button2" id="test-axe2">
+        Edit
+      </Button>
     );
     const props = {
       links,
@@ -214,7 +227,7 @@ describe("Breadcrumbs: ", () => {
               class="neo-breadcrumbs__actions"
             >
               <button
-                class="neo-btn neo-btn-icon-left neo-btn--default neo-btn-primary neo-btn-primary--default   "
+                class="neo-btn neo-btn--default neo-btn-primary neo-btn-primary--default   "
                 data-badge=""
                 data-testid="neo-button1"
                 id="test-axe1"
@@ -222,7 +235,7 @@ describe("Breadcrumbs: ", () => {
                 Save
               </button>
               <button
-                class="neo-btn neo-btn-icon-left neo-btn--default neo-btn-primary neo-btn-primary--default   "
+                class="neo-btn neo-btn--default neo-btn-primary neo-btn-primary--default   "
                 data-badge=""
                 data-testid="neo-button2"
                 id="test-axe2"
@@ -236,54 +249,134 @@ describe("Breadcrumbs: ", () => {
     });
   });
 
-  describe("CurrentPageOnly story: ", () => {
-    const { CurrentPageOnly } = composeStories(BreadcrumbsStories);
-    let renderResult;
+  describe("storybook tests", () => {
+    describe("CurrentPageAndOneButton story: ", () => {
+      let renderResult;
 
-    beforeEach(() => {
-      renderResult = render(<CurrentPageOnly />);
+      beforeEach(() => {
+        renderResult = render(<CurrentPageAndOneButton />);
+      });
+
+      it("renders ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        await axeTest(renderResult);
+      });
     });
 
-    it("renders ok", () => {
-      const { container } = renderResult;
-      expect(container).not.toBe(null);
-    });
-  });
+    describe("CurrentPageOnly story: ", () => {
+      let renderResult;
 
-  describe("HavingOneLink story: ", () => {
-    const { HavingOneLink } = composeStories(BreadcrumbsStories);
-    let renderResult;
+      beforeEach(() => {
+        renderResult = render(<CurrentPageOnly />);
+      });
 
-    beforeEach(() => {
-      renderResult = render(<HavingOneLink />);
-    });
+      it("renders ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
 
-    it("renders ok", () => {
-      const { container } = renderResult;
-      expect(container).not.toBe(null);
-    });
-  });
-
-  describe("HavingTwoLinks story: ", () => {
-    const { HavingTwoLinks } = composeStories(BreadcrumbsStories);
-    let renderResult;
-
-    beforeEach(() => {
-      renderResult = render(<HavingTwoLinks />);
+      it("passes basic axe compliance", async () => {
+        await axeTest(renderResult);
+      });
     });
 
-    it("renders ok", () => {
-      const { container } = renderResult;
-      expect(container).not.toBe(null);
+    describe("HavingOneLink story: ", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<HavingOneLink />);
+      });
+
+      it("renders ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        await axeTest(renderResult);
+      });
     });
 
-    it("it renders three links", () => {
-      const { getAllByRole } = renderResult;
-      const allListItems = getAllByRole("listitem");
-      expect(allListItems).toHaveLength(3);
+    describe("HavingOneLinkAndTwoButtons story: ", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<HavingOneLinkAndTwoButtons />);
+      });
+
+      it("renders ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        await axeTest(renderResult);
+      });
+    });
+
+    describe("HavingTwoLinks story: ", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<HavingTwoLinks />);
+      });
+
+      it("renders ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        await axeTest(renderResult);
+      });
+
+      it("it renders three links", () => {
+        const { getAllByRole } = renderResult;
+        const allListItems = getAllByRole("listitem");
+        expect(allListItems).toHaveLength(3);
+      });
+    });
+
+    describe("HavingTwoLinksAndThreeButtons story: ", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<HavingTwoLinksAndThreeButtons />);
+      });
+
+      it("renders ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        await axeTest(renderResult);
+      });
+    });
+
+    describe("HavingTwoLinksAndTwoButtons story: ", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<HavingTwoLinksAndTwoButtons />);
+      });
+
+      it("renders ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        await axeTest(renderResult);
+      });
     });
   });
 });
+
 async function axeTest(renderResult) {
   const { container } = renderResult;
   const results = await axe(container);

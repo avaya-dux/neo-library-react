@@ -37,10 +37,21 @@ describe("Button", () => {
     expect(results).toHaveNoViolations();
   });
 
+  it("throws a `console.error` if `aria-label` is not passed", () => {
+    const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+    render(<IconButton icon="save" shape="square" />);
+
+    expect(spy.mock.calls.length).toBe(1);
+  });
+
   it("should respect the 'badge' prop", () => {
     const badgeText = "100k";
     const { getByTestId } = render(
-      <IconButton data-testid="neo-icon-button" badge={badgeText} />
+      <IconButton
+        aria-label="description test"
+        badge={badgeText}
+        data-testid="neo-icon-button"
+      />
     );
     const rootElement = getByTestId("neo-icon-button");
     expect(rootElement).toHaveAttribute("data-badge", badgeText);
@@ -49,7 +60,11 @@ describe("Button", () => {
   it("cuts off 'badge' text at 12 characters", () => {
     const badgeText = "12345678901234567";
     const { getByTestId } = render(
-      <IconButton data-testid="neo-icon-button" badge={badgeText} />
+      <IconButton
+        aria-label="description test"
+        badge={badgeText}
+        data-testid="neo-icon-button"
+      />
     );
     const rootElement = getByTestId("neo-icon-button");
 
