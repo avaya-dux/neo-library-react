@@ -15,10 +15,16 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   animation?: "none" | "spinner" | "pulse";
   badge?: string;
-  icon?: IconNamesType;
   size?: "default" | "compact" | "wide";
   status?: "default" | "success" | "alert" | "warning" | "info" | "event";
   variant?: "primary" | "secondary" | "tertiary";
+
+  // TODO-696: implement
+  icon?: IconNamesType;
+  iconPosition: "left" | "right"; // defaults to left
+  // or
+  leftIcon?: IconNamesType;
+  rightIcon?: IconNamesType;
 }
 
 export const Button = forwardRef(

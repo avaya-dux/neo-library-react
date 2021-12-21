@@ -1,6 +1,8 @@
 import { ComponentStory } from "@storybook/react";
 import { Meta } from "@storybook/react/types-6-0";
 
+import { Icon } from "components/Icon";
+
 import { Button, ButtonProps } from "./Button";
 
 import "@avaya/neo/neo/dist/css/neo/neo.min.css";
@@ -35,4 +37,14 @@ export const BadgeLongText = Template.bind({});
 BadgeLongText.args = {
   badge: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet",
   children: "badge",
+};
+
+export const WithIconsInButton = () => {
+  return (
+    <Button>
+      <Icon icon="add" />
+      Button
+      <Icon icon="minus" />
+    </Button>
+  );
 };
