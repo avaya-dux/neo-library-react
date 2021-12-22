@@ -984,3 +984,6 @@ export type IconNamesType =
   | "workflow"
   | "zoom-in"
   | "zoom-out";
+
+export const getIconClass = (icon?: IconNamesType) =>
+  icon ? `neo-icon-${icon}` : "";

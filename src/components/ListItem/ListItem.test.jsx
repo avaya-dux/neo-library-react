@@ -215,7 +215,7 @@ describe("ListSection: ", () => {
               >
                 <span
                   aria-label="chat icon"
-                  class=" neo-icon-chat  "
+                  class=" neo-icon-chat"
                   data-testid="neo-icon-chat"
                   id="icon-chat"
                   role="img"
@@ -227,7 +227,7 @@ describe("ListSection: ", () => {
               >
                 <button
                   aria-label="transfer call"
-                  class="neo-btn-circle neo-btn-circle--default neo-btn-circle-tertiary neo-btn-circle-tertiary--default   "
+                  class="neo-btn neo-btn-circle neo-btn--default neo-btn-tertiary neo-btn-tertiary--default"
                   data-badge=""
                   data-testid="neo-button-transfer"
                   id="btn-transfer-call"
@@ -247,7 +247,7 @@ describe("ListSection: ", () => {
               >
                 <span
                   aria-label="star icon"
-                  class=" neo-icon-star  "
+                  class=" neo-icon-star"
                   data-testid="neo-icon-star"
                   id="icon-star"
                   role="img"
