@@ -12,12 +12,12 @@ export interface IDataTableMockData {
 
 const columnsExample: Array<Column<IDataTableMockData>> = [
   {
-    Header: "name header",
+    Header: "Name Header",
     accessor: "name",
     width: 100,
   },
   {
-    Header: "other header",
+    Header: "Other Header",
     accessor: "other",
   },
 ];
