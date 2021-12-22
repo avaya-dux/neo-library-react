@@ -25,9 +25,10 @@ describe("InfoModal: ", () => {
         <div>
           <div>
             <button
-              class="neo-btn neo-btn--default neo-btn-primary neo-btn-primary--default   "
+              class="neo-btn neo-btn--default neo-btn-primary neo-btn-primary--default"
               data-badge=""
               data-testid="neo-button-show"
+              dir="ltr"
               id="btn-show"
             >
               Show
@@ -61,9 +62,10 @@ describe("InfoModal: ", () => {
         <div>
           <div>
             <button
-              class="neo-btn neo-btn--default neo-btn-primary neo-btn-primary--default   "
+              class="neo-btn neo-btn--default neo-btn-primary neo-btn-primary--default"
               data-badge=""
               data-testid="neo-button-show"
+              dir="ltr"
               id="btn-show"
             >
               Show
@@ -97,9 +99,10 @@ describe("InfoModal: ", () => {
         <div>
           <div>
             <button
-              class="neo-btn neo-btn--default neo-btn-primary neo-btn-primary--default   "
+              class="neo-btn neo-btn--default neo-btn-primary neo-btn-primary--default"
               data-badge=""
               data-testid="neo-button-show"
+              dir="ltr"
               id="btn-show"
             >
               Show

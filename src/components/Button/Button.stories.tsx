@@ -1,6 +1,8 @@
 import { ComponentStory } from "@storybook/react";
 import { Meta } from "@storybook/react/types-6-0";
 
+import { Avatar, BasicChip } from "components";
+
 import { Button, ButtonProps } from "./Button";
 
 import "@avaya/neo/neo/dist/css/neo/neo.min.css";
@@ -35,4 +37,22 @@ export const BadgeLongText = Template.bind({});
 BadgeLongText.args = {
   badge: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet",
   children: "badge",
+};
+
+export const LeftIconExample = () => (
+  <Button icon="settings">Left/Default Example</Button>
+);
+
+export const RightIconExample = () => (
+  <Button icon="settings" iconPosition="right">
+    Right Example
+  </Button>
+);
+
+export const WithMultipleChildren = () => {
+  return (
+    <Button>
+      <Avatar /> <BasicChip chiptype="basic" text="text" />
+    </Button>
+  );
 };

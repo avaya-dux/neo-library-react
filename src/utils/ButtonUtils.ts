@@ -1,28 +1,20 @@
-export const getAnimationClass = (animation: string) => {
-  return animation !== "pulse" ? [""] : ["neo-pulse"];
-};
+export const rootBtnClass = "neo-btn";
 
-export const getBadgeClass = (badge?: string) => {
-  return badge ? ["neo-badge"] : [""];
-};
+export const getAnimationClass = (animation: string) =>
+  animation !== "pulse" ? "" : "neo-pulse";
 
-export const getVariantClass = (
-  shapeClass: string[],
-  variant: string,
-  status: string
-) => {
-  return [`${shapeClass}-${variant}`, `${shapeClass}-${variant}--${status}`];
-};
+export const getBadgeClass = (badge?: string) => (badge ? "neo-badge" : "");
 
-export const getSizeClass = (shapeClass: string[], size: string) => {
-  return [`${shapeClass}--${size}`];
-};
+export const getVariantClasses = (variant: string, status: string) => [
+  `${rootBtnClass}-${variant}`,
+  `${rootBtnClass}-${variant}--${status}`,
+];
 
-export const showSpinner = (animation: string) => {
-  return animation === "spinner";
-};
+export const getSizeClass = (size: string) => `${rootBtnClass}--${size}`;
+
+export const showSpinner = (animation: string) => animation === "spinner";
 
 export const computeBadge = (txt?: string) => {
-  // badge limit to 12  as the maximum length of characters
+  // limit badge string length to 12
   return txt ? txt.replace(/\s/g, "").substring(0, 12) : "";
 };

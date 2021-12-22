@@ -128,7 +128,7 @@ describe("Pagination", () => {
           >
             <button
               aria-label="previous"
-              class="neo-btn-square neo-btn-square--default neo-btn-square-tertiary neo-btn-square-tertiary--default   "
+              class="neo-btn neo-btn-square neo-btn--default neo-btn-tertiary neo-btn-tertiary--default"
               data-badge=""
               disabled=""
               style="color: gray;"
@@ -143,8 +143,9 @@ describe("Pagination", () => {
             >
               <li>
                 <button
-                  class="neo-btn neo-btn--default neo-btn-secondary neo-btn-secondary--default   "
+                  class="neo-btn neo-btn--default neo-btn-secondary neo-btn-secondary--default"
                   data-badge=""
+                  dir="ltr"
                 >
                   1
                 </button>
@@ -152,7 +153,7 @@ describe("Pagination", () => {
             </ul>
             <button
               aria-label="next"
-              class="neo-btn-square neo-btn-square--default neo-btn-square-tertiary neo-btn-square-tertiary--default   "
+              class="neo-btn neo-btn-square neo-btn--default neo-btn-tertiary neo-btn-tertiary--default"
               data-badge=""
               style="color: black;"
             >
