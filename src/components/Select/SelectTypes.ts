@@ -18,6 +18,17 @@ export interface NativeSelectProps
   required?: boolean;
 }
 
+export interface OptionsProps {
+  hoveredIndex: number;
+  id: string;
+  isMultipleSelect?: boolean;
+  labelledby: string;
+  options: OptionType[];
+  selectedOptions: OptionType[];
+  updateHoveredIndex: (hoveredIndex: number) => void;
+  topPosition: number;
+}
+
 export type getOptionByValueType = (
   options: OptionType[],
   value: string[]
