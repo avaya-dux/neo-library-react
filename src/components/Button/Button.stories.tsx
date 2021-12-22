@@ -8,52 +8,31 @@ import "@avaya/neo/neo/dist/css/neo/neo.min.css";
 export default {
   title: "Components/Button",
   component: Button,
-  argTypes: {
-    type: {
-      control: { type: "select", options: ["button", "submit", "reset"] },
-    },
-  },
 } as Meta<ButtonProps>;
 
 const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
 
-export const ButtonAnimationSpinner = Template.bind({});
-ButtonAnimationSpinner.args = {
+export const AnimationSpinner = Template.bind({});
+AnimationSpinner.args = {
   animation: "spinner",
-  label: "Test",
+  children: "Test",
   className: "ha-ha",
 };
 
-export const ButtonAnimationPulse = Template.bind({});
-ButtonAnimationPulse.args = {
+export const AnimationPulse = Template.bind({});
+AnimationPulse.args = {
   animation: "pulse",
-  label: "Test",
-};
-
-export const AriaLabel = Template.bind({});
-AriaLabel.args = {
-  label: "Test",
-};
-
-export const Type = Template.bind({});
-Type.args = {
-  type: "button",
-  label: "Test",
-};
-
-export const LargeLabelText = Template.bind({});
-LargeLabelText.args = {
-  label: "Large label text test",
+  children: "Test",
 };
 
 export const Badge = Template.bind({});
 Badge.args = {
   badge: "100k",
-  label: "badge",
+  children: "badge",
 };
 
 export const BadgeLongText = Template.bind({});
 BadgeLongText.args = {
   badge: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet",
-  label: "badge",
+  children: "badge",
 };

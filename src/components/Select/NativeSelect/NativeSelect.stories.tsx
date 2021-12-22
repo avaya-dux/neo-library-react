@@ -42,17 +42,13 @@ export const ControlledNativeSelect = () => {
         errorMessages={errorTexts}
         options={ListOfStatesArkansasDisabledPlusHint}
       />
-      <Button
-        onClick={() => updateSelectedState("UT")}
-        label="Set value to UT"
-      />
+      <Button onClick={() => updateSelectedState("UT")}>Set value to UT</Button>
       &nbsp;
-      <Button
-        onClick={() => updateErrorTexts(errorMessagesDemo)}
-        label=" Display errors"
-      />
+      <Button onClick={() => updateErrorTexts(errorMessagesDemo)}>
+        Display errors
+      </Button>
       &nbsp;
-      <Button onClick={() => updateErrorTexts([])} label=" Display Helper" />
+      <Button onClick={() => updateErrorTexts([])}>Display Helper</Button>
     </>
   );
 };
@@ -93,10 +89,7 @@ export const ValidateValuesNativeSelect = () => {
         options={listOfStates}
       />
 
-      <Button
-        onClick={() => validateSelectValue(selectedState)}
-        label="Submit"
-      />
+      <Button onClick={() => validateSelectValue(selectedState)}>Submit</Button>
     </>
   );
 };

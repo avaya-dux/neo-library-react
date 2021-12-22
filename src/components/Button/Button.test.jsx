@@ -1,15 +1,18 @@
+import { composeStories } from "@storybook/testing-react";
 import { render } from "@testing-library/react";
-import { axe, toHaveNoViolations } from "jest-axe";
+import { axe } from "jest-axe";
 
 import { Button } from "./Button";
+import * as ButtonStories from "./Button.stories";
 
-import "@testing-library/jest-dom/extend-expect";
-
-expect.extend(toHaveNoViolations);
+const { AnimationPulse, AnimationSpinner, Badge, BadgeLongText } =
+  composeStories(ButtonStories);
 
 describe("Button", () => {
   it("fully renders without exploding", () => {
-    const { getByTestId } = render(<Button data-testid="neo-button" label="Test" />);
+    const { getByTestId } = render(
+      <Button data-testid="neo-button">Test</Button>
+    );
 
     const rootElement = getByTestId("neo-button");
     expect(rootElement).toBeTruthy();
@@ -17,7 +20,9 @@ describe("Button", () => {
 
   it("passes basic axe compliance", async () => {
     const { container } = render(
-      <Button data-testid="neo-button" id="test-axe" aria-label="test-axe-name" label="Button" />
+      <Button data-testid="neo-button" id="test-axe">
+        Button
+      </Button>
     );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
@@ -26,7 +31,9 @@ describe("Button", () => {
   it("should respect the 'badge' prop", () => {
     const badgeText = "100k";
     const { getByTestId } = render(
-      <Button data-testid="neo-button" badge={badgeText} label="badge test" />
+      <Button data-testid="neo-button" badge={badgeText}>
+        badge test
+      </Button>
     );
     const rootElement = getByTestId("neo-button");
     expect(rootElement).toHaveAttribute("data-badge", badgeText);
@@ -34,10 +41,92 @@ describe("Button", () => {
 
   it("cuts off 'badge' text at 12 characters", () => {
     const badgeText = "12345678901234567";
-    const { getByTestId } = render(<Button data-testid="neo-button" badge={badgeText} label="test" />);
+    const { getByTestId } = render(
+      <Button data-testid="neo-button" badge={badgeText}>
+        test
+      </Button>
+    );
     const rootElement = getByTestId("neo-button");
 
     expect(badgeText.length).toBe(17);
     expect(rootElement).toHaveAttribute("data-badge", badgeText.slice(0, 12));
+  });
+
+  describe("storybook tests", () => {
+    describe("AnimationSpinner", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<AnimationSpinner />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("AnimationPulse", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<AnimationPulse />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("Badge", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<Badge />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("BadgeLongText", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<BadgeLongText />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
   });
 });

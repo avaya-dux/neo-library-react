@@ -11,11 +11,11 @@ describe("Button", () => {
   it("fully renders without exploding", () => {
     const { getByTestId } = render(
       <IconButton
-      data-testid="neo-icon-button"
+        aria-label="description test"
+        data-testid="neo-icon-button"
         dir="rtl"
         icon="save"
         shape="square"
-        aria-label="description test"
       />
     );
 
@@ -26,28 +26,46 @@ describe("Button", () => {
   it("passes basic axe compliance", async () => {
     const { container } = render(
       <IconButton
-      data-testid="neo-icon-button"
-        id="test-axe"
         aria-label="test-axe-name"
+        data-testid="neo-icon-button"
         icon="save"
+        id="test-axe"
         shape="square"
-        aria-label="description test"
       />
     );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
+  it("throws a `console.error` if `aria-label` is not passed", () => {
+    const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+    render(<IconButton icon="save" shape="square" />);
+
+    expect(spy.mock.calls.length).toBe(1);
+  });
+
   it("should respect the 'badge' prop", () => {
     const badgeText = "100k";
-    const { getByTestId } = render(<IconButton data-testid="neo-icon-button" badge={badgeText} />);
+    const { getByTestId } = render(
+      <IconButton
+        aria-label="description test"
+        badge={badgeText}
+        data-testid="neo-icon-button"
+      />
+    );
     const rootElement = getByTestId("neo-icon-button");
     expect(rootElement).toHaveAttribute("data-badge", badgeText);
   });
 
   it("cuts off 'badge' text at 12 characters", () => {
     const badgeText = "12345678901234567";
-    const { getByTestId } = render(<IconButton data-testid="neo-icon-button" badge={badgeText} />);
+    const { getByTestId } = render(
+      <IconButton
+        aria-label="description test"
+        badge={badgeText}
+        data-testid="neo-icon-button"
+      />
+    );
     const rootElement = getByTestId("neo-icon-button");
 
     expect(badgeText.length).toBe(17);

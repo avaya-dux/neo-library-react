@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { HTMLAttributes, ReactNode, useMemo, useRef } from "react";
+import { HTMLAttributes, ReactNode, RefObject, useMemo, useRef } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import {
@@ -62,51 +62,61 @@ export const TextInput: React.FC<TextInputProps> = ({
     >
       <label htmlFor={internalId}>{label}</label>
 
-      <div className="neo-input-group--addons">
-        {!!startAdornment && (
-          <div className="neo-input-group__addon">{startAdornment}</div>
-        )}
-
-        <div
-          className={clsx(
-            "neo-input-editable__wrapper",
-            startIcon || endIcon ? "neo-input-icon__wrapper" : undefined
+      {readOnly ? (
+        <InternalTextInputElement
+          disabled={disabled}
+          inputRef={inputRef}
+          internalId={internalId}
+          placeholder={placeholder}
+          readOnly={readOnly}
+          value={value}
+          {...rest}
+        />
+      ) : (
+        <div className="neo-input-group--addons">
+          {!!startAdornment && (
+            <div className="neo-input-group__addon">{startAdornment}</div>
           )}
-        >
-          {startIcon && <span className={`neo-icon-${startIcon}`} />}
 
-          <input
-            {...getInputProps({ readOnly })}
-            id={internalId}
-            aria-describedby={`${internalId}-description`}
-            ref={inputRef}
-            placeholder={placeholder}
-            disabled={disabled}
-            readOnly={readOnly}
-            value={value}
-            {...rest}
-          />
+          <div
+            className={clsx(
+              "neo-input-editable__wrapper",
+              startIcon || endIcon ? "neo-input-icon__wrapper" : undefined
+            )}
+          >
+            {startIcon && <span className={`neo-icon-${startIcon}`} />}
 
-          {/* BUG: `clearable` icon overrides `endIcon` */}
-          {endIcon && <span className={`neo-icon-${endIcon}`} />}
-
-          {!!clearable && (
-            <button
-              aria-label="clear input"
-              tabIndex={-1}
-              className="neo-input-edit__icon neo-icon-end"
+            <InternalTextInputElement
               disabled={disabled}
-              onClick={() => {
-                dispatchInputOnChangeEvent(inputRef.current!, "");
-              }}
+              inputRef={inputRef}
+              internalId={internalId}
+              placeholder={placeholder}
+              readOnly={readOnly}
+              value={value}
+              {...rest}
             />
+
+            {/* BUG: `clearable` icon overrides `endIcon` */}
+            {endIcon && <span className={`neo-icon-${endIcon}`} />}
+
+            {!!clearable && (
+              <button
+                aria-label="clear input"
+                tabIndex={-1}
+                className="neo-input-edit__icon neo-icon-end"
+                disabled={disabled}
+                onClick={() => {
+                  dispatchInputOnChangeEvent(inputRef.current!, "");
+                }}
+              />
+            )}
+          </div>
+
+          {!!endAdornment && (
+            <div className="neo-input-group__addon">{endAdornment}</div>
           )}
         </div>
-
-        {!!endAdornment && (
-          <div className="neo-input-group__addon">{endAdornment}</div>
-        )}
-      </div>
+      )}
 
       {!!helperText && (
         <div className="neo-input-hint" id={`${internalId}-description`}>
@@ -117,12 +127,28 @@ export const TextInput: React.FC<TextInputProps> = ({
   );
 };
 
-export function getInputProps(props?: Partial<TextInputProps>) {
-  const classNames = ["neo-input"];
-
-  if (props?.readOnly) {
-    classNames.push("neo-input-readonly");
-  }
-
-  return { className: classNames.join(" ") };
-}
+export const InternalTextInputElement = ({
+  readOnly,
+  disabled,
+  internalId,
+  placeholder,
+  inputRef,
+  value,
+  ...rest
+}: Pick<TextInputProps, "readOnly" | "disabled" | "placeholder" | "value"> & {
+  internalId: string;
+  inputRef: RefObject<HTMLInputElement>;
+}) => (
+  <input
+    aria-describedby={`${internalId}-description`}
+    className={clsx("neo-input", readOnly && "neo-input-readonly")}
+    disabled={disabled}
+    id={internalId}
+    placeholder={placeholder}
+    readOnly={readOnly}
+    ref={inputRef}
+    tabIndex={readOnly ? -1 : 0}
+    value={value}
+    {...rest}
+  />
+);

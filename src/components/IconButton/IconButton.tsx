@@ -7,38 +7,42 @@ import {
   getBadgeClass,
   getSizeClass,
   getVariantClass,
-  showSpinner,
   IconNamesType,
+  showSpinner,
 } from "utils";
 
 export interface IconButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "aria-label"> {
+  "aria-label": string;
   animation?: "none" | "spinner" | "pulse";
   badge?: string;
   icon: IconNamesType;
-  size?: "default" | "compact";
   shape: "circle" | "square";
+  size?: "default" | "compact";
   status?: "default" | "success" | "alert" | "warning" | "info" | "event";
   variant?: "primary" | "secondary" | "tertiary";
-  "aria-label": string;
 }
 
-export const IconButton: React.FC<IconButtonProps> = forwardRef(
+export const IconButton = forwardRef(
   (
     {
+      "aria-label": ariaLabel,
       animation = "none",
       badge,
-      children,
+      className,
       icon,
       shape = "square",
       size = "default",
       status = "default",
       variant = "primary",
-      className,
       ...rest
     }: IconButtonProps,
     ref: React.Ref<HTMLButtonElement>
   ) => {
+    if (!ariaLabel) {
+      console.error("`aria-label` is REQUIRED by accessibility standards.");
+    }
+
     const shapeClass = useMemo(() => {
       return [`neo-btn-${shape}`];
     }, [shape]);
@@ -56,10 +60,11 @@ export const IconButton: React.FC<IconButtonProps> = forwardRef(
         ...getAnimationClass(animation),
         ...[className],
       ].join(" ");
-    }, [animation, size, variant, status, badge, shape]);
+    }, [animation, badge, shape, size, status, variant]);
 
     return (
       <button
+        aria-label={ariaLabel}
         ref={ref}
         {...rest}
         className={buttonClasses}
