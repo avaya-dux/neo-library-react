@@ -10,6 +10,7 @@ export const translations: ITableTranslations = {
   },
   header: {
     sortBy: "sort by",
+    selectAll: "select all",
   },
   body: {
     noDataAvailable: "no data available",

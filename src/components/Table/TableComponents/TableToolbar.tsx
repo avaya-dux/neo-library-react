@@ -42,7 +42,7 @@ export const TableToolbar = <T extends Record<string, any>>({
     <div className="neo-table__actions">
       {readonly === false && (
         <div className="neo-table__actions--left">
-          {/* TODO-567: action buttons */}
+          {/* TODO-769: action buttons or summary+/caption */}
         </div>
       )}
 

@@ -19,12 +19,13 @@ export interface IPaginationTranslations {
 }
 
 export interface ITableHeaderTranslations {
-  sortBy?: string;
+  selectAll: string;
+  sortBy: string;
 }
 
 export interface ITableTranslations {
-  toolbar?: IToolbarTranslations;
-  header?: ITableHeaderTranslations;
-  body?: IBodyTranslations;
-  pagination?: IPaginationTranslations;
+  toolbar: IToolbarTranslations;
+  header: ITableHeaderTranslations;
+  body: IBodyTranslations;
+  pagination: IPaginationTranslations;
 }

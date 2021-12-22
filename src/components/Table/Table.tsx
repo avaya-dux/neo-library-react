@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import {
   useGlobalFilter,
   usePagination,
+  useRowSelect,
   useSortBy,
   useTable,
 } from "react-table";
@@ -10,6 +11,7 @@ import { Pagination } from "components/Pagination";
 
 import { TableProps } from ".";
 import { translations as defaultTranslations } from "./default-data";
+import { convertRowIdsArrayToObject } from "./helpers";
 import { TableBody, TableHeader, TableToolbar } from "./TableComponents";
 
 /**
@@ -54,11 +56,12 @@ export const Table = <T extends Record<string, any>>({
   caption,
   summary,
   itemsPerPageOptions,
+  defaultSelectedRowIds,
 
   containerClassName = "",
-  // handleCreate, // TODO-567: implement
+  // handleCreate, // TODO-769: implement
   handleRefresh,
-  handleRowSelected = () => {}, // TODO-567: implement
+  handleRowToggled,
   readonly = false,
   selectableRows = "none",
   translations,
@@ -69,13 +72,17 @@ export const Table = <T extends Record<string, any>>({
     {
       columns,
       data,
-      initialState: { pageSize: itemsPerPageOptions?.[0] || 10 },
-
+      getRowId: (row: T) => row.id, // set the row id to be the passed data's id
+      initialState: {
+        pageSize: itemsPerPageOptions?.[0] || 10,
+        selectedRowIds: convertRowIdsArrayToObject(defaultSelectedRowIds || []),
+      },
       ...rest,
     },
     useGlobalFilter,
     useSortBy,
-    usePagination
+    usePagination,
+    useRowSelect
   );
 
   const {
@@ -146,11 +153,16 @@ export const Table = <T extends Record<string, any>>({
         aria-labelledby={tableCaptionId}
         aria-describedby={tableSummaryId}
       >
-        <TableHeader instance={instance} translations={headerTranslations} />
+        <TableHeader
+          handleRowToggled={handleRowToggled}
+          instance={instance}
+          selectableRows={selectableRows}
+          translations={headerTranslations}
+        />
 
         <TableBody
+          handleRowToggled={handleRowToggled}
           instance={instance}
-          handleRowSelected={handleRowSelected}
           selectableRows={selectableRows}
           translations={bodyTranslations}
         />
@@ -158,13 +170,13 @@ export const Table = <T extends Record<string, any>>({
 
       {rows.length > 0 && (
         <Pagination
-          currentPageIndex={pageIndex + 1} // TODO-567: may want to go and update Pagination.tsx to be zero-based
+          currentPageIndex={pageIndex + 1} // TODO: may want to go and update Pagination.tsx to be zero-based
           itemCount={rowCount}
           itemsPerPage={pageSize}
           itemsPerPageOptions={itemsPerPageOptions}
           onPageChange={(e, newIndex) => {
             e?.preventDefault();
-            gotoPage(newIndex - 1); // TODO-567: may want to go and update Pagination.tsx to be zero-based
+            gotoPage(newIndex - 1); // TODO: may want to go and update Pagination.tsx to be zero-based
           }}
           onItemsPerPageChange={(e, newItemsPerPage) => {
             e?.preventDefault();

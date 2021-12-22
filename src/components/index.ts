@@ -21,7 +21,7 @@ export * from "./Select/";
 export * from "./Sheet";
 export * from "./Spinner";
 export * from "./Switch";
-// export * from "./Table"; // TODO-567: uncomment when component it completed
+export * from "./Table";
 export * from "./TextInput";
 export * from "./ThemeProvider";
 export * from "./Tooltip";
