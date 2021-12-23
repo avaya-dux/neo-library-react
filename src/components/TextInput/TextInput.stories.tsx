@@ -27,7 +27,7 @@ export const DifferentHTMLOutputExamples = () => {
       <TextInput
         label="With start adorment icon"
         placeholder="Placeholder text"
-        startAdornment={<Icon icon="star-filled" />}
+        startAddon={<Icon icon="star-filled" />}
       />
 
       <TextInput
@@ -59,14 +59,14 @@ export const AdornmentIcons = () => {
     <TextInput
       label="Icon Add Ons"
       // TODO eventually pass <Icon icon="call" /> or something like this...
-      startAdornment={<div className="neo-icon-call" />}
-      endAdornment={<div className="neo-icon-call" />}
+      startAddon={<div className="neo-icon-call" />}
+      endAddon={<div className="neo-icon-call" />}
     />
   );
 };
 
 export const AdornmentStrings = () => {
-  return <TextInput label="Domain" startAdornment="www." endAdornment=".com" />;
+  return <TextInput label="Domain" startAddon="www." endAddon=".com" />;
 };
 
 export const Clearable = () => {
@@ -88,7 +88,7 @@ export const ReadOnly = () => {
       <TextInput
         label="Read Only"
         defaultValue="8881112222"
-        startAdornment="+1"
+        startAddon="+1"
         readOnly
       />
     </>
@@ -102,8 +102,8 @@ export const Disabled = () => {
       <TextInput
         label="Clearable But Disabled"
         defaultValue="Try To Clear Me"
-        endAdornment={<div className="neo-icon-call" />}
-        startAdornment="+1"
+        endAddon={<div className="neo-icon-call" />}
+        startAddon="+1"
         disabled
       />
     </>

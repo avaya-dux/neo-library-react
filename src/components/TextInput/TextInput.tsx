@@ -13,7 +13,7 @@ import {
 export interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
   clearable?: boolean;
   disabled?: boolean;
-  endAdornment?: ReactNode;
+  endAddon?: ReactNode;
   endIcon?: IconNamesType;
   error?: boolean;
   helperText?: string;
@@ -22,7 +22,7 @@ export interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
   placeholder?: string;
   readOnly?: boolean;
   required?: boolean;
-  startAdornment?: ReactNode;
+  startAddon?: ReactNode;
   startIcon?: IconNamesType;
   value?: number | string;
 }
@@ -30,7 +30,7 @@ export interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
 export const TextInput: React.FC<TextInputProps> = ({
   clearable = true,
   disabled,
-  endAdornment,
+  endAddon,
   endIcon,
   error,
   helperText,
@@ -39,7 +39,7 @@ export const TextInput: React.FC<TextInputProps> = ({
   placeholder,
   readOnly,
   required,
-  startAdornment,
+  startAddon,
   startIcon,
   value,
   ...rest
@@ -75,14 +75,14 @@ export const TextInput: React.FC<TextInputProps> = ({
         />
       ) : (
         <ConditionalWrapper
-          condition={!!startAdornment || !!endAdornment}
+          condition={!!startAddon || !!endAddon}
           wrapper={(child) => (
             <div className="neo-input-group--addons">{child}</div>
           )}
         >
           <>
-            {!!startAdornment && (
-              <div className="neo-input-group__addon">{startAdornment}</div>
+            {!!startAddon && (
+              <div className="neo-input-group__addon">{startAddon}</div>
             )}
 
             <div
@@ -119,8 +119,8 @@ export const TextInput: React.FC<TextInputProps> = ({
               )}
             </div>
 
-            {!!endAdornment && (
-              <div className="neo-input-group__addon">{endAdornment}</div>
+            {!!endAddon && (
+              <div className="neo-input-group__addon">{endAddon}</div>
             )}
           </>
         </ConditionalWrapper>
