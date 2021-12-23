@@ -58,9 +58,8 @@ export const AdornmentIcons = () => {
   return (
     <TextInput
       label="Icon Add Ons"
-      // TODO eventually pass <Icon icon="call" /> or something like this...
-      startAddon={<div className="neo-icon-call" />}
-      endAddon={<div className="neo-icon-call" />}
+      startAddon={<Icon icon="call" />}
+      endAddon={<Icon icon="call" />}
     />
   );
 };
@@ -102,7 +101,7 @@ export const Disabled = () => {
       <TextInput
         label="Clearable But Disabled"
         defaultValue="Try To Clear Me"
-        endAddon={<div className="neo-icon-call" />}
+        endAddon={<Icon icon="call" />}
         startAddon="+1"
         disabled
       />
