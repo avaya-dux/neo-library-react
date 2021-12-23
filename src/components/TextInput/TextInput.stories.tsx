@@ -39,6 +39,13 @@ export const DifferentHTMLOutputExamples = () => {
       <TextInput defaultValue="Try To Change Me" disabled label="Disabled" />
 
       <TextInput
+        defaultValue="Try To Change Me"
+        disabled
+        label="Disabled with ending icon"
+        startIcon="do-not-disturb-filled"
+      />
+
+      <TextInput
         defaultValue="readonly value"
         label="Read Only"
         placeholder="Placeholder text"
