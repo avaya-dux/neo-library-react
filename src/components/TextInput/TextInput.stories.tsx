@@ -1,5 +1,7 @@
 import { Meta } from "@storybook/react/types-6-0";
 
+import { Icon } from "components";
+
 import { TextInput, TextInputProps } from "./TextInput";
 
 export default {
@@ -14,6 +16,35 @@ export const Default = () => {
       placeholder="Hello World..."
       helperText="Some helper text."
     />
+  );
+};
+
+export const DifferentHTMLOutputExamples = () => {
+  return (
+    <section>
+      <TextInput label="Just a Label" />
+
+      <TextInput
+        label="With start adorment icon"
+        placeholder="Placeholder text"
+        startAdornment={<Icon icon="star-filled" />}
+      />
+
+      <TextInput
+        label="With start icon"
+        placeholder="Placeholder text"
+        startIcon="star-filled"
+      />
+
+      <TextInput defaultValue="Try To Change Me" disabled label="Disabled" />
+
+      <TextInput
+        defaultValue="readonly value"
+        label="Read Only"
+        placeholder="Placeholder text"
+        readOnly
+      />
+    </section>
   );
 };
 

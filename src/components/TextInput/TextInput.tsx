@@ -3,6 +3,7 @@ import { HTMLAttributes, ReactNode, RefObject, useMemo, useRef } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import {
+  ConditionalWrapper,
   dispatchInputOnChangeEvent,
   genId,
   handleAccessbilityError,
@@ -73,49 +74,56 @@ export const TextInput: React.FC<TextInputProps> = ({
           {...rest}
         />
       ) : (
-        <div className="neo-input-group--addons">
-          {!!startAdornment && (
-            <div className="neo-input-group__addon">{startAdornment}</div>
+        <ConditionalWrapper
+          condition={!!startAdornment || !!endAdornment}
+          wrapper={(child) => (
+            <div className="neo-input-group--addons">{child}</div>
           )}
-
-          <div
-            className={clsx(
-              "neo-input-editable__wrapper",
-              startIcon || endIcon ? "neo-input-icon__wrapper" : undefined
+        >
+          <>
+            {!!startAdornment && (
+              <div className="neo-input-group__addon">{startAdornment}</div>
             )}
-          >
-            {startIcon && <span className={`neo-icon-${startIcon}`} />}
 
-            <InternalTextInputElement
-              disabled={disabled}
-              inputRef={inputRef}
-              internalId={internalId}
-              placeholder={placeholder}
-              readOnly={readOnly}
-              value={value}
-              {...rest}
-            />
+            <div
+              className={clsx(
+                "neo-input-editable__wrapper",
+                startIcon || endIcon ? "neo-input-icon__wrapper" : undefined
+              )}
+            >
+              {startIcon && <span className={`neo-icon-${startIcon}`} />}
 
-            {/* BUG: `clearable` icon overrides `endIcon` */}
-            {endIcon && <span className={`neo-icon-${endIcon}`} />}
-
-            {!!clearable && (
-              <button
-                aria-label="clear input"
-                tabIndex={-1}
-                className="neo-input-edit__icon neo-icon-end"
+              <InternalTextInputElement
                 disabled={disabled}
-                onClick={() => {
-                  dispatchInputOnChangeEvent(inputRef.current!, "");
-                }}
+                inputRef={inputRef}
+                internalId={internalId}
+                placeholder={placeholder}
+                readOnly={readOnly}
+                value={value}
+                {...rest}
               />
-            )}
-          </div>
 
-          {!!endAdornment && (
-            <div className="neo-input-group__addon">{endAdornment}</div>
-          )}
-        </div>
+              {/* BUG: `clearable` icon overrides `endIcon` */}
+              {endIcon && <span className={`neo-icon-${endIcon}`} />}
+
+              {!!clearable && (
+                <button
+                  aria-label="clear input"
+                  tabIndex={-1}
+                  className="neo-input-edit__icon neo-icon-end"
+                  disabled={disabled}
+                  onClick={() => {
+                    dispatchInputOnChangeEvent(inputRef.current!, "");
+                  }}
+                />
+              )}
+            </div>
+
+            {!!endAdornment && (
+              <div className="neo-input-group__addon">{endAdornment}</div>
+            )}
+          </>
+        </ConditionalWrapper>
       )}
 
       {!!helperText && (
