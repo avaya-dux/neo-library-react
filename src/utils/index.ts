@@ -6,3 +6,4 @@ export * from "./isString";
 export * from "./keys";
 export * from "./nativeDomUtils";
 export * from "./size";
+export * from "./stringCapper";
