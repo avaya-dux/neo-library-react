@@ -1,13 +1,13 @@
-import {
-  SelectOnBlurHandler,
-  SelectOnKeyDownHandler,
-} from "./EventHandlers/KeyboardEventHandlers";
 import { createRef, useCallback, useEffect, useMemo, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { stringCapper } from "utils";
 import { genId } from "utils/accessibilityUtils";
 
+import {
+  SelectOnBlurHandler,
+  SelectOnKeyDownHandler,
+} from "./EventHandlers/KeyboardEventHandlers";
 import {
   displayErrorOrHelper,
   getOptionByValue,
@@ -51,12 +51,12 @@ export const Select = ({
   placeholder = "--Please choose an option--",
   required,
 }: SelectProps) => {
-  const labelId = useMemo(() => `neo-select-label-id-${genId()}`, [label]);
-  const selectId = useMemo(() => id || `neo-select-id-${genId()}`, [id, label]);
+  const labelId = useMemo(() => `neo-select-label-id-${genId()}`, []);
+  const selectId = useMemo(() => id || `neo-select-id-${genId()}`, [id]);
 
   const internalName = useMemo(
     () => name || `neo-select-name-${genId()}`,
-    [name, label]
+    [name]
   );
 
   const selectContainer: React.Ref<HTMLDivElement> = createRef();
@@ -127,9 +127,9 @@ export const Select = ({
 
     const value = (e.target as HTMLDivElement).getAttribute("data-value");
 
-    // value "0" will be ignored
-    if (value && value !== "0") {
+    if (value) {
       const newValue = getOptionByValue(optionList, [value]);
+      console.log(newValue);
       onSelectionChangeMemoizedCallback(
         isMultipleSelect,
         optionList,
@@ -164,7 +164,7 @@ export const Select = ({
 
   const onBlurHandler = (e: React.FocusEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    return SelectOnBlurHandler(e, updateIsOpen, selectId);
+    SelectOnBlurHandler(e, updateIsOpen);
   };
 
   const optionsProps = {

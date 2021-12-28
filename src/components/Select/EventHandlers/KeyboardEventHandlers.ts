@@ -115,10 +115,11 @@ export const SelectOnKeyDownHandler = (
 
 export const SelectOnBlurHandler = (
   e: FocusEvent<HTMLDivElement>,
-  updateIsOpen: Dispatch<SetStateAction<boolean>>,
-  currentId: string
+  updateIsOpen: Dispatch<SetStateAction<boolean>>
 ) => {
-  if (e.relatedTarget === null || currentId !== e.relatedTarget?.id) {
+  const value = (e.relatedTarget as HTMLDivElement)?.getAttribute("data-value");
+
+  if (!value) {
     updateIsOpen(false);
   }
 };
