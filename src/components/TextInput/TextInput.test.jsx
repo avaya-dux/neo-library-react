@@ -7,6 +7,7 @@ import * as TextInputStories from "./TextInput.stories";
 
 const {
   Default,
+  DifferentHTMLOutputExamples,
   ErrorState,
   AdornmentIcons,
   AdornmentStrings,
@@ -97,6 +98,25 @@ describe("TextInput", () => {
 
       beforeEach(() => {
         renderResult = render(<Default />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("DifferentHTMLOutputExamples", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<DifferentHTMLOutputExamples />);
       });
 
       it("should render ok", () => {

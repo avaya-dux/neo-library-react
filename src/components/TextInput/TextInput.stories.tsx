@@ -1,5 +1,7 @@
 import { Meta } from "@storybook/react/types-6-0";
 
+import { Icon } from "components";
+
 import { TextInput, TextInputProps } from "./TextInput";
 
 export default {
@@ -17,6 +19,42 @@ export const Default = () => {
   );
 };
 
+export const DifferentHTMLOutputExamples = () => {
+  return (
+    <section>
+      <TextInput label="Just a Label" />
+
+      <TextInput
+        label="With start adorment icon"
+        placeholder="Placeholder text"
+        startAddon={<Icon icon="star-filled" />}
+      />
+
+      <TextInput
+        label="With start icon"
+        placeholder="Placeholder text"
+        startIcon="star-filled"
+      />
+
+      <TextInput defaultValue="Try To Change Me" disabled label="Disabled" />
+
+      <TextInput
+        defaultValue="Try To Change Me"
+        disabled
+        label="Disabled with ending icon"
+        startIcon="do-not-disturb-filled"
+      />
+
+      <TextInput
+        defaultValue="readonly value"
+        label="Read Only"
+        placeholder="Placeholder text"
+        readOnly
+      />
+    </section>
+  );
+};
+
 export const ErrorState = () => {
   return (
     <TextInput error label="Name" helperText="Name is required." required />
@@ -27,15 +65,14 @@ export const AdornmentIcons = () => {
   return (
     <TextInput
       label="Icon Add Ons"
-      // TODO eventually pass <Icon icon="call" /> or something like this...
-      startAdornment={<div className="neo-icon-call" />}
-      endAdornment={<div className="neo-icon-call" />}
+      startAddon={<Icon icon="call" />}
+      endAddon={<Icon icon="call" />}
     />
   );
 };
 
 export const AdornmentStrings = () => {
-  return <TextInput label="Domain" startAdornment="www." endAdornment=".com" />;
+  return <TextInput label="Domain" startAddon="www." endAddon=".com" />;
 };
 
 export const Clearable = () => {
@@ -57,7 +94,7 @@ export const ReadOnly = () => {
       <TextInput
         label="Read Only"
         defaultValue="8881112222"
-        startAdornment="+1"
+        startAddon="+1"
         readOnly
       />
     </>
@@ -71,8 +108,8 @@ export const Disabled = () => {
       <TextInput
         label="Clearable But Disabled"
         defaultValue="Try To Clear Me"
-        endAdornment={<div className="neo-icon-call" />}
-        startAdornment="+1"
+        endAddon={<Icon icon="call" />}
+        startAddon="+1"
         disabled
       />
     </>

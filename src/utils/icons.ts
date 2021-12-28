@@ -493,6 +493,7 @@ export const IconNames = [
 ];
 
 export type IconNamesType =
+  | "accept"
   | "add"
   | "add-circle"
   | "address"

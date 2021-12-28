@@ -14,7 +14,7 @@ const Template: Story<FormProps> = (props) => (
     <TextInput
       label="Read Only"
       defaultValue="8881112222"
-      startAdornment="+1"
+      startAddon="+1"
       readOnly
     />
 
