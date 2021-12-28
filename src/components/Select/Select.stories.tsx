@@ -51,17 +51,15 @@ export const ControlledSelect = () => {
           justifyContent: "center",
         }}
       >
-        <Button
-          onClick={() => updateSelectedStates(["UT"])}
-          label="Set value to UT"
-        />
+        <Button onClick={() => updateSelectedStates(["UT"])}>
+          Set value to UT
+        </Button>
         &nbsp;
-        <Button
-          onClick={() => updateErrorTexts(errorMessagesDemo)}
-          label=" Display errors"
-        />
+        <Button onClick={() => updateErrorTexts(errorMessagesDemo)}>
+          Display errors
+        </Button>
         &nbsp;
-        <Button onClick={() => updateErrorTexts([])} label=" Display Helper" />
+        <Button onClick={() => updateErrorTexts([])}>Display Helper</Button>
       </div>
     </>
   );
@@ -93,17 +91,15 @@ export const ControlledMultipleSelect = () => {
           justifyContent: "center",
         }}
       >
-        <Button
-          onClick={() => updateSelectedStates(["UT", "AL"])}
-          label="Set values to UT, AL"
-        />
+        <Button onClick={() => updateSelectedStates(["UT", "AL"])}>
+          Set values to UT, AL
+        </Button>
         &nbsp;
-        <Button
-          onClick={() => updateErrorTexts(errorMessagesDemo)}
-          label="Display errors"
-        />
+        <Button onClick={() => updateErrorTexts(errorMessagesDemo)}>
+          Display errors
+        </Button>
         &nbsp;
-        <Button onClick={() => updateErrorTexts([])} label=" Display Helper" />
+        <Button onClick={() => updateErrorTexts([])}>Display Helper</Button>
       </div>
     </>
   );
@@ -181,10 +177,13 @@ export const ValidateValuesSelect = () => {
           <Button
             type="button"
             onClick={() => validateSelectValue(selectedStates)}
-            label="Validate"
-          />
+          >
+            Validate
+          </Button>
           &nbsp;
-          <Button type="submit" disabled={isDisabled} label="Submit" />
+          <Button type="submit" disabled={isDisabled}>
+            Submit
+          </Button>
         </div>
       </form>
     </>
