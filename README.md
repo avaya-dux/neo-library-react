@@ -1,4 +1,10 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/d59de19f-79ec-4c57-8282-cd07357a66cc/deploy-status)](https://app.netlify.com/sites/neo-library-react-storybook/deploys)
+![github workflow status](https://github.com/avaya-dux/neo-library-react/actions/workflows/run-yarn.yml/badge.svg)
+
+![Coverage lines](./badges/badge-lines.svg)
+![Coverage functions](./badges/badge-functions.svg)
+![Coverage branches](./badges/badge-branches.svg)
+![Coverage statements](./badges/badge-statements.svg)
 
 # Neo React Component Library
 
