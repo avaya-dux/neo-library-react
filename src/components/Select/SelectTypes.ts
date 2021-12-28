@@ -1,3 +1,6 @@
+import { Dispatch, ReactNode, SetStateAction } from "react";
+
+export type SelectHandlerType = (values: string[]) => void;
 export type OptionType = {
   isDisabled?: boolean;
   hint?: string;
@@ -33,3 +36,32 @@ export type getOptionByValueType = (
   options: OptionType[],
   value: string[]
 ) => OptionType[];
+
+export interface SelectProps
+  extends Omit<
+    React.SelectHTMLAttributes<HTMLSelectElement>,
+    "onChange" | "onSelect" | "onBlur"
+  > {
+  disabled?: boolean;
+  errorMessages?: string[];
+  helperMessages?: string[];
+  isLoading?: boolean;
+  isMultipleSelect?: boolean;
+  label: string;
+  loaderText?: ReactNode;
+  name?: string;
+  onSelectionChange?: SelectHandlerType;
+  options: OptionType[];
+  placeholder?: string;
+  required?: boolean;
+}
+
+export type setSelectedOptionsType = (
+  isMultipleSelect: boolean,
+  options: OptionType[],
+  selectedOptions: OptionType[],
+  updateHoveredIndex: Dispatch<SetStateAction<number>>,
+  updateSelectedOptions: Dispatch<SetStateAction<OptionType[]>>,
+  newValue: OptionType[],
+  onSelectionChange?: SelectHandlerType
+) => void;
