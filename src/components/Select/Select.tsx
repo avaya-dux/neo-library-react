@@ -129,7 +129,7 @@ export const Select = ({
 
     if (value) {
       const newValue = getOptionByValue(optionList, [value]);
-      console.log(newValue);
+
       onSelectionChangeMemoizedCallback(
         isMultipleSelect,
         optionList,
@@ -164,7 +164,7 @@ export const Select = ({
 
   const onBlurHandler = (e: React.FocusEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    SelectOnBlurHandler(e, updateIsOpen);
+    SelectOnBlurHandler(e, updateIsOpen, selectId);
   };
 
   const optionsProps = {

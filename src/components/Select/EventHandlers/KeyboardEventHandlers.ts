@@ -11,7 +11,7 @@ import {
   SelectHandlerType,
   setSelectedOptionsType,
 } from "components/Select/SelectTypes";
-import { Keys } from "utils";
+import { Keys, findId } from "utils";
 
 export const SelectOnKeyDownHandler = (
   e: KeyboardEvent<HTMLDivElement>,
@@ -115,11 +115,16 @@ export const SelectOnKeyDownHandler = (
 
 export const SelectOnBlurHandler = (
   e: FocusEvent<HTMLDivElement>,
-  updateIsOpen: Dispatch<SetStateAction<boolean>>
+  updateIsOpen: Dispatch<SetStateAction<boolean>>,
+  currentId: string
 ) => {
-  const value = (e.relatedTarget as HTMLDivElement)?.getAttribute("data-value");
+  const { relatedTarget } = e;
+  const id = findId(
+    currentId,
+    relatedTarget?.parentElement?.parentElement as HTMLDivElement
+  );
 
-  if (!value) {
+  if (!id || currentId !== id) {
     updateIsOpen(false);
   }
 };

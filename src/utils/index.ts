@@ -1,6 +1,7 @@
 export * from "./ButtonUtils";
 export * from "./ConditionalWrapper";
 export * from "./accessibilityUtils";
+export * from "./findId";
 export * from "./icons";
 export * from "./isString";
 export * from "./keys";
