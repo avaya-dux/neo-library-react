@@ -1,4 +1,4 @@
-import { createRef, useCallback, useEffect, useMemo, useState } from "react";
+import { createRef, useEffect, useMemo, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { stringCapper } from "utils";
@@ -93,29 +93,6 @@ export const Select = ({
     }
   }, [isOpen]);
 
-  const onSelectionChangeMemoizedCallback: setSelectedOptionsType = useCallback(
-    (
-      isMultipleSelect,
-      options,
-      selectedOptions,
-      updateHoveredIndex,
-      updateSelectedOptions,
-      value,
-      onSelectionChange
-    ) => {
-      onSelectionChangeHandler(
-        isMultipleSelect,
-        options,
-        selectedOptions,
-        updateHoveredIndex,
-        updateSelectedOptions,
-        value,
-        onSelectionChange
-      );
-    },
-    [isMultipleSelect, selectedOptions]
-  );
-
   const expandOrCloseOptionList = () => {
     if (!disabled && !isLoading) {
       isMultipleSelect ? updateIsOpen(true) : updateIsOpen(!isOpen);
@@ -130,7 +107,7 @@ export const Select = ({
     if (value) {
       const newValue = getOptionByValue(optionList, [value]);
 
-      onSelectionChangeMemoizedCallback(
+      onSelectionChangeHandler(
         isMultipleSelect,
         optionList,
         selectedOptions,
@@ -155,7 +132,7 @@ export const Select = ({
       expandOrCloseOptionList,
       updateIsOpen,
       updateHoveredIndex,
-      onSelectionChangeMemoizedCallback,
+      onSelectionChangeHandler,
       updateSelectedOptions,
       selectedOptions,
       onSelectionChange
@@ -332,15 +309,12 @@ export const onSelectionChangeHandler: setSelectedOptionsType = (
   let updatedValue: OptionType[] = newValue;
   if (isMultipleSelect) {
     updatedValue = computeMultipleSelectedValues(selectedOptions, newValue);
-  }
-
-  if (!isMultipleSelect) {
+  } else {
     const value = newValue.map((item) => item.value).join();
     const index = options.map((item) => item.value).indexOf(value);
     updateHoveredIndex(index);
   }
 
-  // dispatch event onSelectionChange(values)
   if (onSelectionChange) {
     onSelectionChange(updatedValue.map((item) => item.value));
   }

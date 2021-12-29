@@ -1,2 +1,3 @@
 export { NativeSelect } from "./NativeSelect/NativeSelect";
-export type { NativeSelectProps } from "./SelectTypes";
+// export {Select} from "./Select" //todo;
+export type { NativeSelectProps, SelectProps } from "./SelectTypes";
