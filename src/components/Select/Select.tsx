@@ -256,8 +256,8 @@ export const computeMultipleSelectedValues = (
 ): OptionType[] => {
   const value = newValue.map((item) => item.value).join();
   return alreadySelectedOptions.map((item) => item.value).includes(value)
-    ? alreadySelectedOptions.filter((item) => item.value !== value) // remove
-    : [...alreadySelectedOptions, ...newValue]; // add
+    ? alreadySelectedOptions.filter((item) => item.value !== value)
+    : [...alreadySelectedOptions, ...newValue];
 };
 
 export const getAriaActiveDescendant = (

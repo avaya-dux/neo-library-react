@@ -193,30 +193,7 @@ export const ValidateValuesSelect = () => {
 export const OptionListPositionDynamic = () => {
   return (
     <>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+      <div style={{ height: "80vh" }}></div>
       <Select label="List of States" options={listOfStates} />
       <br />
     </>
@@ -227,30 +204,7 @@ export const OptionListPositionDynamicShort = () => {
 
   return (
     <>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+      <div style={{ height: "80vh" }}></div>
       <Select label="List of States" options={AlabamaAndAlaska} />
       <br />
     </>
@@ -324,7 +278,6 @@ CustomPlaceholderMultiple.args = {
 };
 
 export const defaultValueSelected = Template.bind({});
-
 defaultValueSelected.args = {
   label: "List of States",
   helperMessages: helperMessagesDemo,
@@ -334,7 +287,6 @@ defaultValueSelected.args = {
 };
 
 export const defaultValueSelectedMultiple = Template.bind({});
-
 defaultValueSelectedMultiple.args = {
   label: "List of States",
   helperMessages: helperMessagesDemo,
