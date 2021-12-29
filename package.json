@@ -33,6 +33,7 @@
     "clean": "rm -rf coverage dist jsdocs storybook-static",
     "test": "react-scripts test --watchAll=false",
     "test:coverage": "react-scripts test --coverage=true --watchAll=false",
+    "test:badges": "yarn test:coverage  && jest-coverage-badges --output ./badges",
     "test:watch": "react-scripts test",
     "test:cypress": "cypress run-ct",
     "test:cypress-open": "cypress open-ct",
@@ -40,9 +41,14 @@
     "build-storybook": "build-storybook",
     "github": "yarn && yarn lint && yarn build && yarn test && yarn test:cypress && yarn build-storybook && yarn jsdocs",
     "netlify": "yarn && yarn build && yarn build-storybook",
-    "all": "yarn && yarn clean && yarn lint && yarn build && yarn test:coverage && yarn test:cypress && yarn build-storybook && yarn jsdocs"
+    "all": "yarn && yarn clean && yarn lint && yarn build && yarn test:badges && yarn test:cypress && yarn build-storybook && yarn jsdocs"
   },
   "jest": {
+    "coverageReporters": [
+      "json-summary",
+      "text",
+      "lcov"
+    ],
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!src/**/*.d.ts",
@@ -111,6 +117,7 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-standard": "^5.0.0",
     "jest-axe": "^5.0.1",
+    "jest-coverage-badges": "^1.1.2",
     "jsdoc": "^3.6.7",
     "postcss": "^8.4.5",
     "prettier": "^2.5.1",
