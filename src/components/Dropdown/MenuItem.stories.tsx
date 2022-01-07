@@ -4,7 +4,7 @@ import { MenuItem } from "./MenuItem";
 import { MenuItemProps } from "./MenuTypes";
 
 export default {
-  title: "Components/Layout/Dropdown/MenuItem",
+  title: "Components/Dropdown/Menu Item",
   component: MenuItem,
 } as Meta<MenuItemProps>;
 

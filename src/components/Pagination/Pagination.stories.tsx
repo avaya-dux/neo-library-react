@@ -7,7 +7,7 @@ import { genId } from "utils";
 import { Pagination, PaginationProps } from "./";
 
 export default {
-  title: "Components/Layout/Pagination",
+  title: "Components/Pagination",
   component: Pagination,
 } as Meta<PaginationProps>;
 

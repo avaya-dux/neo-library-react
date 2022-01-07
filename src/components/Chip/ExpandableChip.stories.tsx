@@ -5,7 +5,7 @@ import { ExpandableChip, ExpandableChipProps } from "./ExpandableChip";
 import "@avaya/neo/neo/dist/css/neo/neo.min.css";
 
 export default {
-  title: "Components/Chips/ExpandableChip",
+  title: "Components/Chips/Expandable Chip",
   component: ExpandableChip,
 } as Meta<ExpandableChipProps>;
 

@@ -7,7 +7,7 @@ import { SmallAvatarProps, Avatar } from "../Avatar";
 import "@avaya/neo/neo/dist/css/neo/neo.min.css";
 
 export default {
-  title: "Components/Chips/AvatarChip",
+  title: "Components/Chips/Avatar Chip",
   component: AvatarChip,
 } as Meta<AvatarChipProps>;
 
