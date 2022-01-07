@@ -22,3 +22,10 @@ Templated.args = {
   helperText: "example of helper text",
   errorList: ["error one", "error two"],
 };
+
+// TODO: form example (with dynamic error text)
+// TODO: loading to new options
+// TODO: value controlled (buttons to update value)
+// TODO: default value
+
+// TODO: add updated stories to tests
