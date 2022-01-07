@@ -42,4 +42,4 @@ If you would like to contribute to this project, you can start in our [how to de
 
 ## License
 
-Copyright 2020-2021 Avaya Inc. All Rights Reserved.
+Copyright 2020-2022 Avaya Inc. All Rights Reserved.
