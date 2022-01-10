@@ -9,12 +9,14 @@ import {
 } from ".";
 
 interface ToolbarSharedProps {
-  handleCreate?: () => Promise<void> | void;
-  handleRefresh?: () => Promise<void> | void;
   readonly?: boolean;
   selectableRows?: "none" | "single" | "multiple";
 }
 export type TableToolbarProps<T extends Record<string, any>> = {
+  handleCreate?: () => Promise<void> | void;
+  handleDelete?: (selectedRowIds: string[]) => Promise<void> | void;
+  handleEdit?: (selectedRow: T) => Promise<void> | void;
+  handleRefresh?: () => Promise<void> | void;
   instance: TableInstance<T>;
   translations: IToolbarTranslations;
 } & ToolbarSharedProps;

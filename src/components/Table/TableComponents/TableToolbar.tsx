@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
+import { Button } from "components/Button";
 import { IconButton } from "components/IconButton";
 import { TextInput } from "components/TextInput";
 
@@ -17,14 +18,27 @@ import { TableToolbarProps } from "../types";
  * />
  */
 export const TableToolbar = <T extends Record<string, any>>({
+  handleCreate,
+  handleDelete,
+  handleEdit,
   handleRefresh,
   instance,
   readonly = false,
   translations,
 }: TableToolbarProps<T>) => {
-  const { data, setGlobalFilter, state } = instance;
+  const {
+    data,
+    setGlobalFilter,
+    rowsById,
+    state: { globalFilter, selectedRowIds },
+  } = instance;
 
-  const [search, setSearch] = useState<string>(state.globalFilter || "");
+  const selectedRowIdsStringArray = useMemo(
+    () => Object.keys(selectedRowIds),
+    [selectedRowIds]
+  );
+
+  const [search, setSearch] = useState<string>(globalFilter || "");
   const setSearches = useCallback(
     (searchString) => {
       setSearch(searchString);
@@ -42,7 +56,43 @@ export const TableToolbar = <T extends Record<string, any>>({
     <div className="neo-table__actions">
       {readonly === false && (
         <div className="neo-table__actions--left">
-          {/* TODO-769: action buttons or summary+/caption */}
+          {handleCreate && (
+            <Button
+              disabled={selectedRowIdsStringArray.length > 0}
+              icon="add"
+              variant="tertiary"
+              onClick={handleCreate}
+            >
+              {translations.create}
+            </Button>
+          )}
+          {handleEdit && (
+            <Button
+              disabled={selectedRowIdsStringArray.length !== 1}
+              icon="edit"
+              variant="tertiary"
+              onClick={() => {
+                const selectedRowId = selectedRowIdsStringArray[0];
+                const selectedRow = rowsById[selectedRowId].original;
+                handleEdit(selectedRow);
+              }}
+            >
+              {translations.edit}
+            </Button>
+          )}
+          {handleDelete && (
+            <Button
+              disabled={selectedRowIdsStringArray.length === 0}
+              icon="trash"
+              variant="tertiary"
+              status="alert"
+              onClick={() => {
+                handleDelete(selectedRowIdsStringArray);
+              }}
+            >
+              {translations.delete}
+            </Button>
+          )}
         </div>
       )}
 

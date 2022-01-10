@@ -7,8 +7,14 @@ import { calculateAriaSortValue, convertRowIdsArrayToObject } from "./helpers";
 import { FilledFields } from "./mock-data";
 import * as TableStories from "./Table.stories";
 
-const { BareBones, Default, EmptyDataSet, SelectableRows, Templated } =
-  composeStories(TableStories);
+const {
+  BareBones,
+  Default,
+  EditableData,
+  EmptyDataSet,
+  SelectableRows,
+  Templated,
+} = composeStories(TableStories);
 
 describe("Table", () => {
   jest.spyOn(console, "warn").mockImplementation(() => {}); // ignore tooltip warnings
@@ -158,6 +164,25 @@ describe("Table", () => {
 
       beforeEach(() => {
         renderResult = render(<Default />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("EditableData", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<EditableData />);
       });
 
       it("should render ok", () => {
