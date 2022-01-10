@@ -1,5 +1,5 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Button, Form } from "components";
 
@@ -84,4 +84,38 @@ export const FormSubmission = () => {
   );
 };
 
-// TODO: loading to new options
+export const LoadOptions = () => {
+  const [loading, setLoading] = useState(false);
+  const [options, setOptions] = useState<string[]>([]);
+
+  const fakeLoad = useCallback(() => {
+    setLoading(true);
+    setOptions([]);
+    setTimeout(() => {
+      setOptions(["volvo", "saab", "mercedes", "audi"]);
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  useEffect(fakeLoad, [fakeLoad]);
+
+  return (
+    <>
+      <SelectNative
+        label="Choose a car:"
+        loading={loading}
+        onChange={(e) => setOptions([(e.target as any).value])}
+      >
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </SelectNative>
+
+      <Button disabled={loading} onClick={fakeLoad}>
+        Fake load options
+      </Button>
+    </>
+  );
+};

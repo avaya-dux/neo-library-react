@@ -5,7 +5,8 @@ import { axe } from "jest-axe";
 import { SelectNative } from ".";
 import * as SelectNativeStories from "./SelectNative.stories";
 
-const { FormSubmission, Templated } = composeStories(SelectNativeStories);
+const { FormSubmission, LoadOptions, Templated } =
+  composeStories(SelectNativeStories);
 
 describe("SelectNative", () => {
   const defaultLabel = "jest test label";
@@ -113,6 +114,25 @@ describe("SelectNative", () => {
 
       beforeEach(() => {
         renderResult = render(<FormSubmission />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("LoadOptions", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<LoadOptions />);
       });
 
       it("should render ok", () => {
