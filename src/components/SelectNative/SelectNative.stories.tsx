@@ -1,4 +1,7 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
+import { useEffect, useState } from "react";
+
+import { Button, Form } from "components";
 
 import { SelectNative, SelectNativeProps } from ".";
 
@@ -23,9 +26,62 @@ Templated.args = {
   errorList: ["error one", "error two"],
 };
 
-// TODO: form example (with dynamic error text)
-// TODO: loading to new options
-// TODO: value controlled (buttons to update value)
-// TODO: default value
+export const FormSubmission = () => {
+  const helperTextExample = "example of helper text";
+  const [helperText, setHelperText] = useState(helperTextExample);
+  const [errorList, setErrorList] = useState<string[]>([]);
+  const [chosenCar, setChosenCar] = useState("");
 
-// TODO: add updated stories to tests
+  useEffect(() => {
+    if (chosenCar !== "") {
+      setHelperText(helperTextExample);
+      setErrorList([]);
+    }
+  }, [chosenCar]);
+
+  return (
+    <Form
+      inline
+      onSubmit={(e) => {
+        e.preventDefault();
+        alert(`you successfully submitted: ${chosenCar}`);
+      }}
+    >
+      <SelectNative
+        defaultValue=""
+        errorList={errorList}
+        helperText={helperText}
+        label="Choose a car:"
+        onChange={(e) => setChosenCar((e.target as any).value)}
+        required
+      >
+        <option value="" disabled hidden>
+          select an option
+        </option>
+        <option value="volvo">Volvo</option>
+        <option value="saab">Saab</option>
+        <option value="mercedes">Mercedes</option>
+        <option value="audi">Audi</option>
+      </SelectNative>
+
+      <Button
+        style={{ marginRight: 10 }}
+        type="submit"
+        onClick={() => {
+          if (chosenCar === "") {
+            setHelperText("");
+            setErrorList(["you must select an option"]);
+          }
+        }}
+      >
+        Submit
+      </Button>
+
+      <Button type="reset" onClick={() => setChosenCar("")}>
+        Reset
+      </Button>
+    </Form>
+  );
+};
+
+// TODO: loading to new options
