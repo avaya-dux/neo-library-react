@@ -1,8 +1,7 @@
 import { FunctionComponent } from "react";
 
-import { NavbarLogo, NavbarLogoProps } from "./NavbarLogo";
-import { Form } from "components";
 import { TextInput, TextInputProps } from "../../TextInput";
+import { NavbarLogo, NavbarLogoProps } from "./NavbarLogo";
 
 export interface LeftContentProps {
   logo: NavbarLogoProps;
