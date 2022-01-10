@@ -18,6 +18,7 @@ export const Default = () => (
 
 export const EditableData = () => {
   const [data, setData] = useState(FilledFields.data);
+  const [readonly, setReadonly] = useState(false);
 
   const [logItems, setLogItems] = useState<string[]>([]);
 
@@ -31,6 +32,7 @@ export const EditableData = () => {
         caption="Editable Rows Table Example"
         columns={FilledFields.columns}
         data={data}
+        readonly={readonly}
         selectableRows="multiple"
         handleCreate={() => {
           const newRow: IDataTableMockData = {
@@ -49,12 +51,17 @@ export const EditableData = () => {
           const dataCopy = [...data];
           dataCopy[
             rowToEditIndex
-          ].label = `${dataCopy[rowToEditIndex]?.label} (edited)`;
+          ].name = `${dataCopy[rowToEditIndex]?.name} (edited)`;
 
           setData(dataCopy);
         }}
         handleRefresh={() => {
-          setData(FilledFields.data);
+          setReadonly(true);
+          setData([]);
+          setTimeout(() => {
+            setData(FilledFields.data);
+            setReadonly(false);
+          }, 1000);
         }}
       />
 

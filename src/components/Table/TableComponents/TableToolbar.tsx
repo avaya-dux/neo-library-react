@@ -54,47 +54,45 @@ export const TableToolbar = <T extends Record<string, any>>({
 
   return (
     <div className="neo-table__actions">
-      {readonly === false && (
-        <div className="neo-table__actions--left">
-          {handleCreate && (
-            <Button
-              disabled={selectedRowIdsStringArray.length > 0}
-              icon="add"
-              variant="tertiary"
-              onClick={handleCreate}
-            >
-              {translations.create}
-            </Button>
-          )}
-          {handleEdit && (
-            <Button
-              disabled={selectedRowIdsStringArray.length !== 1}
-              icon="edit"
-              variant="tertiary"
-              onClick={() => {
-                const selectedRowId = selectedRowIdsStringArray[0];
-                const selectedRow = rowsById[selectedRowId].original;
-                handleEdit(selectedRow);
-              }}
-            >
-              {translations.edit}
-            </Button>
-          )}
-          {handleDelete && (
-            <Button
-              disabled={selectedRowIdsStringArray.length === 0}
-              icon="trash"
-              variant="tertiary"
-              status="alert"
-              onClick={() => {
-                handleDelete(selectedRowIdsStringArray);
-              }}
-            >
-              {translations.delete}
-            </Button>
-          )}
-        </div>
-      )}
+      <div className="neo-table__actions--left">
+        {handleCreate && (
+          <Button
+            disabled={readonly || selectedRowIdsStringArray.length > 0}
+            icon="add"
+            variant="tertiary"
+            onClick={handleCreate}
+          >
+            {translations.create}
+          </Button>
+        )}
+        {handleEdit && (
+          <Button
+            disabled={readonly || selectedRowIdsStringArray.length !== 1}
+            icon="edit"
+            variant="tertiary"
+            onClick={() => {
+              const selectedRowId = selectedRowIdsStringArray[0];
+              const selectedRow = rowsById[selectedRowId].original;
+              handleEdit(selectedRow);
+            }}
+          >
+            {translations.edit}
+          </Button>
+        )}
+        {handleDelete && (
+          <Button
+            disabled={readonly || selectedRowIdsStringArray.length === 0}
+            icon="trash"
+            variant="tertiary"
+            status="alert"
+            onClick={() => {
+              handleDelete(selectedRowIdsStringArray);
+            }}
+          >
+            {translations.delete}
+          </Button>
+        )}
+      </div>
 
       <div className="neo-table__actions--right">
         <div className="neo-form">
@@ -117,6 +115,7 @@ export const TableToolbar = <T extends Record<string, any>>({
             icon="refresh"
             onClick={handleRefresh}
             shape="square"
+            style={{ color: "blue" }}
             variant="tertiary"
           />
         )}
