@@ -16,45 +16,21 @@ export const Default = () => (
 );
 
 export const CustomActions = () => (
-  <section>
-    <Table
-      {...FilledFields}
-      caption="One Custom Action"
-      customActionsNode={
-        <Button onClick={() => alert("custom action")}>Example</Button>
-      }
-    />
-
-    <hr />
-
-    <Table
-      {...FilledFields}
-      caption="Two Custom Actions"
-      customActionsNode={
-        <section>
-          <Button onClick={() => alert("custom action number one")}>
-            Example One
-          </Button>
-          <Button onClick={() => alert("custom action number two")}>
-            Example Two
-          </Button>
-        </section>
-      }
-    />
-
-    <hr />
-
-    <Table
-      {...FilledFields}
-      caption="A Custom Action and Create"
-      handleCreate={() => alert("create")}
-      customActionsNode={
+  <Table
+    {...FilledFields}
+    caption="Two Custom Actions and Create"
+    handleCreate={() => alert("create")}
+    customActionsNode={
+      <section>
         <Button onClick={() => alert("custom action number one")}>
           Example One
         </Button>
-      }
-    />
-  </section>
+        <Button onClick={() => alert("custom action number two")}>
+          Example Two
+        </Button>
+      </section>
+    }
+  />
 );
 
 export const EditableData = () => {
