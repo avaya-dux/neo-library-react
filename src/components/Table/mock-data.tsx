@@ -42,15 +42,11 @@ const dataExample: IDataTableMockData[] = [
 ];
 
 export const FilledFields: TableProps<IDataTableMockData> = {
+  caption: "table caption",
   columns: columnsExample,
   data: dataExample,
-  caption: "table caption",
-  summary: "table summary",
   itemsPerPageOptions: [1, 2, 5, 10, 20, 50, 100],
-
-  handleCreate: () => {},
-  handleRefresh: () => {},
-  handleRowToggled: () => {},
   readonly: false,
+  summary: "table summary",
   translations,
 };

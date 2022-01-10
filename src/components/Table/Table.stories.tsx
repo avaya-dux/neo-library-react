@@ -1,8 +1,7 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { useEffect, useState } from "react";
 
-import { List } from "components/List";
-import { ListItem } from "components/ListItem";
+import { Button, List, ListItem } from "components";
 
 import { Table, TableProps } from "./";
 import { FilledFields, IDataTableMockData } from "./mock-data";
@@ -14,6 +13,48 @@ export default {
 
 export const Default = () => (
   <Table {...FilledFields} caption="Storybook Default Table Example" />
+);
+
+export const CustomActions = () => (
+  <section>
+    <Table
+      {...FilledFields}
+      caption="One Custom Action"
+      customActionsNode={
+        <Button onClick={() => alert("custom action")}>Example</Button>
+      }
+    />
+
+    <hr />
+
+    <Table
+      {...FilledFields}
+      caption="Two Custom Actions"
+      customActionsNode={
+        <section>
+          <Button onClick={() => alert("custom action number one")}>
+            Example One
+          </Button>
+          <Button onClick={() => alert("custom action number two")}>
+            Example Two
+          </Button>
+        </section>
+      }
+    />
+
+    <hr />
+
+    <Table
+      {...FilledFields}
+      caption="A Custom Action and Create"
+      handleCreate={() => alert("create")}
+      customActionsNode={
+        <Button onClick={() => alert("custom action number one")}>
+          Example One
+        </Button>
+      }
+    />
+  </section>
 );
 
 export const EditableData = () => {

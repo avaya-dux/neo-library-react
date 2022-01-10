@@ -9,6 +9,7 @@ import * as TableStories from "./Table.stories";
 
 const {
   BareBones,
+  CustomActions,
   Default,
   EditableData,
   EmptyDataSet,
@@ -159,6 +160,25 @@ describe("Table", () => {
   });
 
   describe("storybook tests", () => {
+    describe("CustomActions", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<CustomActions />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
     describe("Default", () => {
       let renderResult;
 

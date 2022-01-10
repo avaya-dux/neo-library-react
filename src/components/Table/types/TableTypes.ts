@@ -13,6 +13,7 @@ interface ToolbarSharedProps {
   selectableRows?: "none" | "single" | "multiple";
 }
 export type TableToolbarProps<T extends Record<string, any>> = {
+  customActionsNode?: React.ReactNode;
   handleCreate?: () => Promise<void> | void;
   handleDelete?: (selectedRowIds: string[]) => Promise<void> | void;
   handleEdit?: (selectedRow: T) => Promise<void> | void;

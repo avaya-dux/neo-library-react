@@ -18,6 +18,7 @@ import { TableToolbarProps } from "../types";
  * />
  */
 export const TableToolbar = <T extends Record<string, any>>({
+  customActionsNode,
   handleCreate,
   handleDelete,
   handleEdit,
@@ -55,6 +56,8 @@ export const TableToolbar = <T extends Record<string, any>>({
   return (
     <div className="neo-table__actions">
       <div className="neo-table__actions--left">
+        {customActionsNode}
+
         {handleCreate && (
           <Button
             disabled={readonly || selectedRowIdsStringArray.length > 0}

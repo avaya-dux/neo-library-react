@@ -59,6 +59,7 @@ export const Table = <T extends Record<string, any>>({
   defaultSelectedRowIds,
 
   containerClassName = "",
+  customActionsNode,
   handleCreate,
   handleDelete,
   handleEdit,
@@ -143,6 +144,7 @@ export const Table = <T extends Record<string, any>>({
       )}
 
       <TableToolbar
+        customActionsNode={customActionsNode}
         handleCreate={handleCreate}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
