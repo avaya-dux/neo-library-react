@@ -10,18 +10,25 @@ export default {
 } as Meta<NavbarProps>;
 
 const exampleLeftContent: LeftContentProps = {
-  logo: { link: "", src: "" },
+  logo: {
+    link: "",
+    src: "http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png",
+  },
   search: {
     clearable: false,
     disabled: false,
     placeholder: "Search",
     startIcon: "search",
+    "aria-label": "search",
   },
   productName: "Product Name",
 };
 
 const exampleRightContent: RightContentProps = {
-  navButtons: [{ navButton: { badge: "0", icon: "accept" } }],
+  navButtons: [
+    { navButton: { badge: "", icon: "info" }, "aria-label": "Info" },
+    { navButton: { badge: "", icon: "settings" }, "aria-label": "Settings" },
+  ],
 };
 
 export const NavbarExample: Story<NavbarProps> = () => {

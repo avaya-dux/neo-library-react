@@ -8,6 +8,15 @@ export interface NavbarProps {
   rightContent: RightContentProps;
 }
 
+/**
+ * Navbar are used when several choices are available and multiple selections are allowed.
+ *
+ * @example
+ * <Checkbox label="Checkbox 1" value="Checkbox 1" name="Checkbox Group Name"/>
+ *
+ * @see https://design.avayacloud.com/components/web/checkbox-web
+ */
+
 export const Navbar: FunctionComponent<NavbarProps> = ({
   leftContent,
   rightContent,

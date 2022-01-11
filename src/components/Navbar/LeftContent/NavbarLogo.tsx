@@ -9,13 +9,11 @@ export const NavbarLogo: FunctionComponent<NavbarLogoProps> = ({
   link,
   src,
 }) => {
-  if (link) {
-    return (
-      <a href={link}>
-        <img src={src} alt="" />
-      </a>
-    );
-  } else {
-    return <img src={src} alt="" />;
-  }
+  return link ? (
+    <a href={link}>
+      <img src={src} alt="" />
+    </a>
+  ) : (
+    <img src={src} alt="" />
+  );
 };
