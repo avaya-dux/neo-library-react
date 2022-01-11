@@ -5,7 +5,6 @@ import { IconButton } from "components/IconButton";
 import { TextInput } from "components/TextInput";
 
 import { TableToolbarProps } from "../types";
-import clsx from "clsx";
 
 /**
  * TableToolbar is used by the Table component to render the search and action inputs for the table
@@ -75,7 +74,8 @@ export const TableToolbar = <T extends Record<string, any>>({
         {handleEdit && (
           <Button
             disabled={editDisabled}
-            className={clsx(editDisabled && "neo-visibility-hidden")}
+            style={editDisabled ? { display: "none" } : {}}
+            // className={clsx(editDisabled && "neo-display-none")} // TODO-783: use this once CSS Library is updated
             icon="edit"
             variant="tertiary"
             onClick={() => {
@@ -90,7 +90,8 @@ export const TableToolbar = <T extends Record<string, any>>({
         {handleDelete && (
           <Button
             disabled={deleteDisabled}
-            className={clsx(deleteDisabled && "neo-visibility-hidden")}
+            style={deleteDisabled ? { display: "none" } : {}}
+            // className={clsx(deleteDisabled && "neo-display-none")} // TODO-783: use this once CSS Library is updated
             icon="trash"
             variant="tertiary"
             status="alert"
