@@ -6,7 +6,7 @@ import { Avatar } from "../Avatar";
 import "@avaya/neo/neo/dist/css/neo/neo.min.css";
 
 export default {
-  title: "Components/ChipContainer",
+  title: "Components/Chips/Chip Container",
   component: ChipContainer,
 } as Meta<ChipContainerProps>;
 

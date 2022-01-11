@@ -5,7 +5,7 @@ import { IconChip, IconChipProps } from "./";
 import "@avaya/neo/neo/dist/css/neo/neo.min.css";
 
 export default {
-  title: "Components/Chips/IconChip",
+  title: "Components/Chips/Icon Chip",
   component: IconChip,
 } as Meta<IconChipProps>;
 
