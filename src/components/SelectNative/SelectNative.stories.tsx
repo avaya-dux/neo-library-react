@@ -19,6 +19,6 @@ const Template: Story<SelectNativeProps> = (props) => (
 export const Templated = Template.bind({});
 Templated.args = {
   label: "Choose a car:",
-  helperText: "example of helper text",
-  errorList: ["error one", "error two"],
+  helperText: "Example of helper text",
+  errorList: ["Error One", "Error Two"],
 };
