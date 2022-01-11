@@ -62,7 +62,7 @@ export const TableToolbar = <T extends Record<string, any>>({
           <Button
             disabled={readonly || selectedRowIdsStringArray.length > 0}
             icon="add"
-            variant="tertiary"
+            variant="primary"
             onClick={handleCreate}
           >
             {translations.create}

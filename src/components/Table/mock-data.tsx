@@ -22,21 +22,21 @@ const columnsExample: Array<Column<IDataTableMockData>> = [
   },
 ];
 const dataExample: IDataTableMockData[] = [
-  { id: "10", label: "Fred", name: "sir Fred", other: "Lorem Ipsum" },
-  { id: "20", label: "Daniel", name: "sir Daniel", other: "Lorem Ipsum" },
-  { id: "30", label: "Tif", name: "madam Tif", other: "Lorem Ipsum" },
-  { id: "40", label: "Hailey", name: "madam Hailey", other: "Lorem Ipsum" },
-  { id: "50", label: "Alex", name: "intersex Alex", other: "Lorem Ipsum" },
+  { id: "10", label: "Fred", name: "Sir Fred", other: "Lorem Ipsum" },
+  { id: "20", label: "Daniel", name: "Sir Daniel", other: "Lorem Ipsum" },
+  { id: "30", label: "Tif", name: "Madam Tif", other: "Lorem Ipsum" },
+  { id: "40", label: "Hailey", name: "Madam Hailey", other: "Lorem Ipsum" },
+  { id: "50", label: "Alex", name: "Intersex Alex", other: "Lorem Ipsum" },
   {
     id: "60",
     label: "Skyler",
-    name: "androgynous Skyler",
+    name: "Androgynous Skyler",
     other: "Lorem Ipsum",
   },
   {
     id: "70",
     label: "Frank",
-    name: <a href="#frank">fancy Frank</a>,
+    name: <a href="#frank">Fancy Frank</a>,
     other: "Lorem Ipsum",
   },
 ];
