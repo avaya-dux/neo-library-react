@@ -5,7 +5,7 @@ import { ClosableChip, ClosableChipProps } from "./";
 import "@avaya/neo/neo/dist/css/neo/neo.min.css";
 
 export default {
-  title: "Components/Chips/ClosableChip",
+  title: "Components/Chips/Closable Chip",
   component: ClosableChip,
 } as Meta<ClosableChipProps>;
 
