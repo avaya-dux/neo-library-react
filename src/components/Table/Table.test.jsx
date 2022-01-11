@@ -126,6 +126,20 @@ describe("Table", () => {
   });
 
   describe("toolbar functionality", () => {
+    it("properly calls it's `refresh` method", () => {
+      const mock = jest.fn();
+      const { getByLabelText } = render(
+        <Table {...FilledFields} handleRefresh={mock} />
+      );
+
+      const refreshButton = getByLabelText(
+        FilledFields.translations.toolbar.refresh
+      );
+
+      fireEvent.click(refreshButton);
+      expect(mock).toHaveBeenCalled();
+    });
+
     it("properly calls it's `create` method", () => {
       const mock = jest.fn();
       const { getByText, queryAllByRole } = render(
