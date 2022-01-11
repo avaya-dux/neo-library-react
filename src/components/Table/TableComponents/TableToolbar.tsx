@@ -5,6 +5,7 @@ import { IconButton } from "components/IconButton";
 import { TextInput } from "components/TextInput";
 
 import { TableToolbarProps } from "../types";
+import clsx from "clsx";
 
 /**
  * TableToolbar is used by the Table component to render the search and action inputs for the table
@@ -53,6 +54,9 @@ export const TableToolbar = <T extends Record<string, any>>({
     setSearches(search);
   }, [data, setSearches]);
 
+  const editDisabled = readonly || selectedRowIdsStringArray.length !== 1;
+  const deleteDisabled = readonly || selectedRowIdsStringArray.length === 0;
+
   return (
     <div className="neo-table__actions">
       <div className="neo-table__actions--left">
@@ -70,7 +74,8 @@ export const TableToolbar = <T extends Record<string, any>>({
         )}
         {handleEdit && (
           <Button
-            disabled={readonly || selectedRowIdsStringArray.length !== 1}
+            disabled={editDisabled}
+            className={clsx(editDisabled && "neo-visibility-hidden")}
             icon="edit"
             variant="tertiary"
             onClick={() => {
@@ -84,7 +89,8 @@ export const TableToolbar = <T extends Record<string, any>>({
         )}
         {handleDelete && (
           <Button
-            disabled={readonly || selectedRowIdsStringArray.length === 0}
+            disabled={deleteDisabled}
+            className={clsx(deleteDisabled && "neo-visibility-hidden")}
             icon="trash"
             variant="tertiary"
             status="alert"
