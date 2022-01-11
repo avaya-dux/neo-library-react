@@ -5,7 +5,7 @@ import { Button } from "components/Button";
 import { Sheet, SheetProps } from "./";
 
 export default {
-  title: "Components/Layout/Sheet",
+  title: "Components/Sheet",
   component: Sheet,
 } as Meta<SheetProps>;
 

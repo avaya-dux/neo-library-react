@@ -53,6 +53,9 @@ export const TableToolbar = <T extends Record<string, any>>({
     setSearches(search);
   }, [data, setSearches]);
 
+  const editDisabled = readonly || selectedRowIdsStringArray.length !== 1;
+  const deleteDisabled = readonly || selectedRowIdsStringArray.length === 0;
+
   return (
     <div className="neo-table__actions">
       <div className="neo-table__actions--left">
@@ -62,7 +65,7 @@ export const TableToolbar = <T extends Record<string, any>>({
           <Button
             disabled={readonly || selectedRowIdsStringArray.length > 0}
             icon="add"
-            variant="tertiary"
+            variant="primary"
             onClick={handleCreate}
           >
             {translations.create}
@@ -70,7 +73,9 @@ export const TableToolbar = <T extends Record<string, any>>({
         )}
         {handleEdit && (
           <Button
-            disabled={readonly || selectedRowIdsStringArray.length !== 1}
+            disabled={editDisabled}
+            style={editDisabled ? { display: "none" } : {}}
+            // className={clsx(editDisabled && "neo-display-none")} // TODO-783: use this once CSS Library is updated
             icon="edit"
             variant="tertiary"
             onClick={() => {
@@ -84,7 +89,9 @@ export const TableToolbar = <T extends Record<string, any>>({
         )}
         {handleDelete && (
           <Button
-            disabled={readonly || selectedRowIdsStringArray.length === 0}
+            disabled={deleteDisabled}
+            style={deleteDisabled ? { display: "none" } : {}}
+            // className={clsx(deleteDisabled && "neo-display-none")} // TODO-783: use this once CSS Library is updated
             icon="trash"
             variant="tertiary"
             status="alert"
