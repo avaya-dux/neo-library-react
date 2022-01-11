@@ -5,8 +5,6 @@ import { Avatar } from "components/Avatar";
 import { Tooltip, TooltipPosition } from ".";
 import { translatePositionToCSSName } from "./helpers";
 
-import "@avaya/neo/neo/dist/css/neo/neo.min.css";
-
 describe("Tooltip component", () => {
   it("renders without exploding", () => {
     const datatestid = "Tooltip-root";

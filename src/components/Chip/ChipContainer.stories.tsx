@@ -3,8 +3,6 @@ import { Meta, Story } from "@storybook/react/types-6-0";
 import { ChipContainer, ChipContainerProps } from "./";
 import { Avatar } from "../Avatar";
 
-import "@avaya/neo/neo/dist/css/neo/neo.min.css";
-
 export default {
   title: "Components/Chips/Chip Container",
   component: ChipContainer,

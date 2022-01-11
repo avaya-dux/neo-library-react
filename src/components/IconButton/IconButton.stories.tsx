@@ -3,8 +3,6 @@ import { Meta } from "@storybook/react/types-6-0";
 
 import { IconButton, IconButtonProps } from "./IconButton";
 
-import "@avaya/neo/neo/dist/css/neo/neo.min.css";
-
 export default {
   title: "Components/IconButton",
   component: IconButton,
