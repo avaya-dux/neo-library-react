@@ -96,11 +96,34 @@ describe("Table", () => {
     expect(checkbox2.checked).toBeFalsy();
   });
 
-  // TODO-770: implement
-  // it("matches it's previous default snapshot", () => {
-  //   const { container } = render(<Table {...FilledFields} />);
-  //   expect(container).toMatchInlineSnapshot();
-  // });
+  it("properly selects and deselects a body row", () => {
+    const { queryAllByRole } = render(
+      <Table {...FilledFields} selectableRows="multiple" />
+    );
+
+    const alltrs = queryAllByRole("row");
+    expect(alltrs.length).toBeTruthy();
+
+    const firstBodyRow = alltrs[1];
+    expect(firstBodyRow.classList.length).toBe(0);
+    expect(firstBodyRow).not.toHaveClass("active");
+
+    const firstRowCheckbox = firstBodyRow.querySelector("input");
+    expect(firstRowCheckbox.checked).toBeFalsy();
+
+    const firstRowCheckboxLabel = firstBodyRow.querySelector("label");
+    fireEvent.click(firstRowCheckboxLabel);
+
+    expect(firstRowCheckbox.checked).toBeTruthy();
+    expect(firstBodyRow.classList.length).toBe(1);
+    expect(firstBodyRow).toHaveClass("active");
+
+    fireEvent.click(firstRowCheckboxLabel);
+
+    expect(firstRowCheckbox.checked).toBeFalsy();
+    expect(firstBodyRow.classList.length).toBe(0);
+    expect(firstBodyRow).not.toHaveClass("active");
+  });
 
   describe("helpers", () => {
     describe("calculateAriaSortValue", () => {
