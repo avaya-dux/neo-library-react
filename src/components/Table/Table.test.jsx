@@ -217,6 +217,25 @@ describe("Table", () => {
       fireEvent.click(deleteButton);
       expect(mock).toHaveBeenCalledTimes(2);
     });
+
+    it("properly utilizes it's `search` method", () => {
+      const { getByLabelText, queryAllByRole } = render(
+        <Table {...FilledFields} itemsPerPageOptions={[50]} />
+      );
+
+      const alltrs = queryAllByRole("row");
+      expect(alltrs).toHaveLength(FilledFields.data.length + 1);
+
+      const searchInput = getByLabelText(
+        FilledFields.translations.toolbar.searchInputPlaceholder
+      );
+      fireEvent.change(searchInput, {
+        target: { value: FilledFields.data[0].label },
+      });
+
+      const filteredtrs = queryAllByRole("row");
+      expect(filteredtrs).toHaveLength(2);
+    });
   });
 
   describe("helpers", () => {
