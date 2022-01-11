@@ -147,6 +147,42 @@ describe("Table", () => {
       fireEvent.click(createButton);
       expect(mock).not.toHaveBeenCalled();
     });
+
+    it("properly calls it's `edit` method", () => {
+      const mock = jest.fn();
+      const { getByText, queryAllByRole } = render(
+        <Table
+          {...FilledFields}
+          handleEdit={mock}
+          itemsPerPageOptions={[50]}
+          selectableRows="multiple"
+        />
+      );
+
+      const editButton = getByText(FilledFields.translations.toolbar.edit);
+
+      fireEvent.click(editButton);
+      expect(mock).not.toHaveBeenCalled();
+
+      // select first two body rows
+      const firstRowCheckboxLabel =
+        queryAllByRole("row")[1].querySelector("label");
+      const secondRowCheckboxLabel =
+        queryAllByRole("row")[2].querySelector("label");
+      fireEvent.click(firstRowCheckboxLabel);
+      fireEvent.click(secondRowCheckboxLabel);
+
+      // `edit` button should be disabled, and thus not called
+      fireEvent.click(editButton);
+      expect(mock).not.toHaveBeenCalled();
+
+      // deselect first row
+      fireEvent.click(firstRowCheckboxLabel);
+
+      // `edit` button should be enabled, and thus callable
+      fireEvent.click(editButton);
+      expect(mock).toHaveBeenCalled();
+    });
   });
 
   describe("helpers", () => {
