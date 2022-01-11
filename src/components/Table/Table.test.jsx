@@ -183,6 +183,40 @@ describe("Table", () => {
       fireEvent.click(editButton);
       expect(mock).toHaveBeenCalled();
     });
+
+    it("properly calls it's `delete` method", () => {
+      const mock = jest.fn();
+      const { getByText, queryAllByRole } = render(
+        <Table
+          {...FilledFields}
+          handleDelete={mock}
+          itemsPerPageOptions={[50]}
+          selectableRows="multiple"
+        />
+      );
+
+      const deleteButton = getByText(FilledFields.translations.toolbar.delete);
+
+      // not callable when zero rows are selected
+      fireEvent.click(deleteButton);
+      expect(mock).not.toHaveBeenCalled();
+
+      const firstRowCheckboxLabel =
+        queryAllByRole("row")[1].querySelector("label");
+      fireEvent.click(firstRowCheckboxLabel);
+
+      // callable when one row is selected
+      fireEvent.click(deleteButton);
+      expect(mock).toHaveBeenCalledTimes(1);
+
+      const secondRowCheckboxLabel =
+        queryAllByRole("row")[2].querySelector("label");
+      fireEvent.click(secondRowCheckboxLabel);
+
+      // callable when multiple rows are selected
+      fireEvent.click(deleteButton);
+      expect(mock).toHaveBeenCalledTimes(2);
+    });
   });
 
   describe("helpers", () => {
