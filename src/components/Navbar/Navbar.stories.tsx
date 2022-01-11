@@ -11,8 +11,9 @@ export default {
 
 const exampleLeftContent: LeftContentProps = {
   logo: {
-    link: "",
+    link: "https://design.avayacloud.com",
     src: "http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png",
+    alt: "Link to Avaya",
   },
   search: {
     clearable: false,

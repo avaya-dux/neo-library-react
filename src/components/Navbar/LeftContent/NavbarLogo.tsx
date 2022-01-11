@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 
-export interface NavbarLogoProps {
+export interface NavbarLogoProps
+  extends React.ImgHTMLAttributes<HTMLImageElement> {
   link?: string;
   src: string;
 }
@@ -8,12 +9,13 @@ export interface NavbarLogoProps {
 export const NavbarLogo: FunctionComponent<NavbarLogoProps> = ({
   link,
   src,
+  alt,
 }) => {
   return link ? (
     <a href={link}>
-      <img src={src} alt="" />
+      <img src={src} alt={alt} />
     </a>
   ) : (
-    <img src={src} alt="" />
+    <img src={src} alt={alt} />
   );
 };

@@ -9,10 +9,37 @@ export interface NavbarProps {
 }
 
 /**
- * Navbar are used when several choices are available and multiple selections are allowed.
+ * Navbars are used to orient users, and to access different areas within an interface.
  *
+ * This Component receives props for the left and right content areas
  * @example
- * <Checkbox label="Checkbox 1" value="Checkbox 1" name="Checkbox Group Name"/>
+ * const exampleLeftContent: LeftContentProps = {
+  logo: {
+    link: "https://design.avayacloud.com",
+    src: "http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png",
+    alt: "Link to Avaya",
+  },
+  search: {
+    clearable: false,
+    disabled: false,
+    placeholder: "Search",
+    startIcon: "search",
+    "aria-label": "search",
+  },
+  productName: "Product Name",
+};
+
+const exampleRightContent: RightContentProps = {
+  navButtons: [
+    { navButton: { badge: "", icon: "info" }, "aria-label": "Info" },
+    { navButton: { badge: "", icon: "settings" }, "aria-label": "Settings" },
+  ],
+};
+ * @example
+ * <Navbar
+      leftContent={exampleLeftContent}
+      rightContent={exampleRightContent}
+    />
  *
  * @see https://design.avayacloud.com/components/web/checkbox-web
  */
