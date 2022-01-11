@@ -7,7 +7,7 @@ import { SubMenuProps } from "./MenuTypes";
 import { SubMenu } from "./SubMenu";
 
 export default {
-  title: "Components/Layout/Dropdown/SubMenu",
+  title: "Components/Dropdown/Sub Menu",
   component: SubMenu,
 } as Meta<SubMenuProps>;
 
