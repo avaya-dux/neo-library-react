@@ -22,10 +22,19 @@ export const CustomActions = () => (
     handleCreate={() => alert("create")}
     customActionsNode={
       <section>
-        <Button onClick={() => alert("custom action number one")}>
+        <Button
+          onClick={() => alert("custom action number one")}
+          variant="tertiary"
+          style={{ marginRight: 5 }}
+        >
           Example One
         </Button>
-        <Button onClick={() => alert("custom action number two")}>
+
+        <Button
+          onClick={() => alert("custom action number two")}
+          variant="tertiary"
+          style={{ marginRight: 5 }}
+        >
           Example Two
         </Button>
       </section>

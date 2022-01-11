@@ -59,8 +59,6 @@ export const TableToolbar = <T extends Record<string, any>>({
   return (
     <div className="neo-table__actions">
       <div className="neo-table__actions--left">
-        {customActionsNode}
-
         {handleCreate && (
           <Button
             disabled={readonly || selectedRowIdsStringArray.length > 0}
@@ -72,6 +70,9 @@ export const TableToolbar = <T extends Record<string, any>>({
           </Button>
         )}
         {handleEdit && (
+
+        {customActionsNode}
+
           <Button
             disabled={editDisabled}
             style={editDisabled ? { display: "none" } : {}}
