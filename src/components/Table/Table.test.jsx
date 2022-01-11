@@ -56,7 +56,7 @@ describe("Table", () => {
   });
 
   it("properly selects 'all' and 'none' of the checkboxes", () => {
-    const { getByLabelText, getByText } = render(
+    const { getByLabelText, container } = render(
       <Table
         {...FilledFields}
         selectableRows="multiple"
@@ -71,9 +71,7 @@ describe("Table", () => {
     const headerCheckbox = getByLabelText(
       FilledFields.translations.header.selectAll
     );
-    const headerCheckboxLabel = getByText(
-      FilledFields.translations.header.selectAll
-    ).closest("label");
+    const headerCheckboxLabel = container.querySelector("tr th label");
     const checkbox2 = getByLabelText(FilledFields.data[2].label);
 
     // header checkbox is in "indeterminate" state
