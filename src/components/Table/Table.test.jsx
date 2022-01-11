@@ -125,6 +125,30 @@ describe("Table", () => {
     expect(firstBodyRow).not.toHaveClass("active");
   });
 
+  describe("toolbar functionality", () => {
+    it("properly calls it's `create` method", () => {
+      const mock = jest.fn();
+      const { getByText, queryAllByRole } = render(
+        <Table {...FilledFields} handleCreate={mock} selectableRows="single" />
+      );
+
+      const createButton = getByText(FilledFields.translations.toolbar.create);
+
+      fireEvent.click(createButton);
+      expect(mock).toHaveBeenCalled();
+
+      mock.mockClear();
+      expect(mock).not.toHaveBeenCalled();
+
+      const firstRowCheckboxLabel =
+        queryAllByRole("row")[1].querySelector("label");
+      fireEvent.click(firstRowCheckboxLabel);
+
+      fireEvent.click(createButton);
+      expect(mock).not.toHaveBeenCalled();
+    });
+  });
+
   describe("helpers", () => {
     describe("calculateAriaSortValue", () => {
       it("should return 'none' when `isSorted === false`", () => {
