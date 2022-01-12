@@ -5,8 +5,6 @@ import { Icon } from "components/Icon";
 
 import { Image, ImageProps } from "./Image";
 
-import "@avaya/neo/neo/dist/css/neo/neo.min.css";
-
 export default {
   title: "Components/Image",
   component: Image,
