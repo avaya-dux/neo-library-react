@@ -10,12 +10,11 @@ export const NavbarLogo: FunctionComponent<NavbarLogoProps> = ({
   link,
   src,
   alt,
-}) => {
-  return link ? (
+}) =>
+  link ? (
     <a href={link}>
       <img src={src} alt={alt} />
     </a>
   ) : (
     <img src={src} alt={alt} />
   );
-};

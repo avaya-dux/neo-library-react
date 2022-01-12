@@ -22,7 +22,7 @@ const exampleLeftContent: LeftContentProps = {
     startIcon: "search",
     "aria-label": "search",
   },
-  productName: "Product Name",
+  title: "Product Name",
 };
 
 const exampleRightContent: RightContentProps = {
