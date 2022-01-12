@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { FunctionComponent, useEffect, useState } from "react";
 
 import { dispatchInputOnChangeEvent } from "utils";
@@ -109,9 +110,10 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
           return (
             <div
               key={key}
-              className={`neo-badge__navbutton${
-                activeId === ids[key] ? " neo-badge__navbutton--active" : ""
-              }`}
+              className={clsx(
+                "neo-badge__navbutton",
+                activeId === ids[key] && "neo-badge__navbutton--active"
+              )}
             >
               <NavbarButton
                 {...navButton}

@@ -15,16 +15,19 @@ describe("NavbarButton", () => {
       />
     );
   });
+
   it("renders without exploding", () => {
     const { container } = renderResult;
     expect(container).not.toBe(null);
   });
+
   it("fires click event correctly", () => {
     const { getByRole } = renderResult;
     const button = getByRole("button");
     fireEvent.click(button);
     expect(mockCallBack).toHaveBeenCalledTimes(1);
   });
+
   it("passes basic axe compliance", async () => {
     const { container } = renderResult;
     const results = await axe(container);

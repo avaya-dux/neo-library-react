@@ -10,10 +10,12 @@ describe("Logo", () => {
     );
     expect(container).not.toBe(null);
   });
+
   it("does not render link when not passed", () => {
-    const { getByRole } = render(<Navbar {...stuff} />);
+    const { getByRole } = render(<Logo src="http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png" />);
     expect(() => getByRole("link")).toThrow();
   });
+
   it("passes basic axe compliance", async () => {
     const { container } = render(
       <Logo src="http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png" />
@@ -21,6 +23,7 @@ describe("Logo", () => {
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
+
   describe("Behaviour when acting as link", () => {
     let renderResult;
     beforeEach(() => {
@@ -31,13 +34,9 @@ describe("Logo", () => {
         />
       );
     });
-    it("warns when alt text not included with link", () => {
-      const spy = jest.spyOn(console, "warn").mockImplementation(() => {});
-      expect(spy.mock.calls.length).toBe(1);
-    });
+    
     it("renders link correctly", () => {
-      const { getByRole } = renderResult
-      );
+      const { getByRole } = renderResult;
       const linkElement = getByRole("link");
       expect(linkElement).toBeTruthy();
     });
