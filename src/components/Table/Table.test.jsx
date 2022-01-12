@@ -171,10 +171,8 @@ describe("Table", () => {
         />
       );
 
-      const editButton = getByText(FilledFields.translations.toolbar.edit);
-
-      fireEvent.click(editButton);
-      expect(mock).not.toHaveBeenCalled();
+      // expect button to not be rendered
+      expect(() => getByText(FilledFields.translations.toolbar.edit)).toThrow();
 
       // select first two body rows
       const firstRowCheckboxLabel =
@@ -184,14 +182,14 @@ describe("Table", () => {
       fireEvent.click(firstRowCheckboxLabel);
       fireEvent.click(secondRowCheckboxLabel);
 
-      // `edit` button should be disabled, and thus not called
-      fireEvent.click(editButton);
-      expect(mock).not.toHaveBeenCalled();
+      // expect button _still_ not to be rendered
+      expect(() => getByText(FilledFields.translations.toolbar.edit)).toThrow();
 
       // deselect first row
       fireEvent.click(firstRowCheckboxLabel);
 
-      // `edit` button should be enabled, and thus callable
+      // `edit` button should NOW be rendered and enabled, and thus callable
+      const editButton = getByText(FilledFields.translations.toolbar.edit);
       fireEvent.click(editButton);
       expect(mock).toHaveBeenCalled();
     });
@@ -207,17 +205,17 @@ describe("Table", () => {
         />
       );
 
-      const deleteButton = getByText(FilledFields.translations.toolbar.delete);
-
-      // not callable when zero rows are selected
-      fireEvent.click(deleteButton);
-      expect(mock).not.toHaveBeenCalled();
+      // expect button to not be rendered when zero rows are selected
+      expect(() =>
+        getByText(FilledFields.translations.toolbar.delete)
+      ).toThrow();
 
       const firstRowCheckboxLabel =
         queryAllByRole("row")[1].querySelector("label");
       fireEvent.click(firstRowCheckboxLabel);
 
       // callable when one row is selected
+      const deleteButton = getByText(FilledFields.translations.toolbar.delete);
       fireEvent.click(deleteButton);
       expect(mock).toHaveBeenCalledTimes(1);
 
