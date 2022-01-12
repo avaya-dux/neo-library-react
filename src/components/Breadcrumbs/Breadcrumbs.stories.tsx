@@ -4,8 +4,6 @@ import { Button } from "components/Button";
 
 import { Breadcrumbs, BreadcrumbsProps } from "./Breadcrumbs";
 
-import "@avaya/neo/neo/dist/css/neo/neo.min.css";
-
 export default {
   title: "Components/Breadcrumbs",
   component: Breadcrumbs,

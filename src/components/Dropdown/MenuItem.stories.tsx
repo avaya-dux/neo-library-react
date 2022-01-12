@@ -1,4 +1,3 @@
-import "@avaya/neo/neo/dist/css/neo/neo.min.css";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { MenuItem } from "./MenuItem";
 import { MenuItemProps } from "./MenuTypes";

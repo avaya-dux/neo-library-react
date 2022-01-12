@@ -3,8 +3,6 @@ import { mount } from "@cypress/react";
 import { Table, TableProps } from ".";
 import { FilledFields, IDataTableMockData } from "./mock-data";
 
-import "@avaya/neo/neo/dist/css/neo/neo.min.css";
-
 describe("Table component", () => {
   const headerCheckbox = "table thead th input[type='checkbox']";
   const headerCheckboxLabel = "table thead th label";

@@ -3,8 +3,6 @@ import { Meta } from "@storybook/react/types-6-0";
 
 import { Icon, IconProps } from ".";
 
-import "@avaya/neo/neo/dist/css/neo/neo.min.css";
-
 export default {
   title: "Components/Icon",
   component: Icon,
