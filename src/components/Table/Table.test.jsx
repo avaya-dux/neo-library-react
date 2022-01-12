@@ -138,7 +138,7 @@ describe("Table", () => {
       expect(mock).toHaveBeenCalled();
     });
 
-    it("properly calls it's `create` method", () => {
+    it("it's `create` method can be called at any time", () => {
       const mock = jest.fn();
       const { getByText, queryAllByRole } = render(
         <Table {...FilledFields} handleCreate={mock} selectableRows="single" />
@@ -147,17 +147,14 @@ describe("Table", () => {
       const createButton = getByText(FilledFields.translations.toolbar.create);
 
       fireEvent.click(createButton);
-      expect(mock).toHaveBeenCalled();
-
-      mock.mockClear();
-      expect(mock).not.toHaveBeenCalled();
+      expect(mock).toHaveBeenCalledTimes(1);
 
       const firstRowCheckboxLabel =
         queryAllByRole("row")[1].querySelector("label");
       fireEvent.click(firstRowCheckboxLabel);
 
       fireEvent.click(createButton);
-      expect(mock).not.toHaveBeenCalled();
+      expect(mock).toHaveBeenCalledTimes(2);
     });
 
     it("properly calls it's `edit` method", () => {
