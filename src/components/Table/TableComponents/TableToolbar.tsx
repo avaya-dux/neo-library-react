@@ -74,7 +74,6 @@ export const TableToolbar = <T extends Record<string, any>>({
 
         {handleEdit && editDisabled === false && (
           <Button
-            disabled={editDisabled}
             icon="edit"
             variant="tertiary"
             onClick={() => {
@@ -89,7 +88,6 @@ export const TableToolbar = <T extends Record<string, any>>({
 
         {handleDelete && deleteDisabled === false && (
           <Button
-            disabled={deleteDisabled}
             icon="trash"
             variant="tertiary"
             status="alert"
