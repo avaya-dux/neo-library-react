@@ -4,7 +4,6 @@ import { axe } from "jest-axe";
 
 import { Navbar } from ".";
 import * as NavbarStories from "./Navbar.stories";
-import { NavbarButton } from "./RightContent/NavbarButton";
 
 const { NavbarExample } = composeStories(NavbarStories);
 
@@ -40,26 +39,24 @@ describe("basic unit tests", () => {
   });
 });
 
-// describe("storybook tests", () => {
-//   it("renders link when passed", () => {
-//     const { getByRole } = render(<Navbar />);
-//     const linkElement = getByRole("link");
-//     expect(linkElement).toBeTruthy();
-//   });
-
-//   it("toggles active state correctly", () => {
-//     const { getAllByRole } = render(<Navbar />);
-//     const buttonElements = getAllByRole("button");
-//     buttonElements.forEach((button) => {
-//       fireEvent.click(button);
-//       expect(
-//         button.closest("div").classList.contains("neo-badge__navbutton--active")
-//       );
-//     });
-//   });
-
-//   it("passes basic axe compliance", async () => {
-//     const { container } = render(<Navbar />);
-//     const results = await axe(container);
-//     expect(results).toHaveNoViolations();
-//   });
+describe("storybook tests", () => {
+  let renderResult;
+  beforeEach(() => {
+    renderResult = render(<NavbarExample />);
+  });
+  it("toggles active states correctly", () => {
+    const { getAllByRole } = renderResult;
+    const buttonElements = getAllByRole("button");
+    buttonElements.forEach((button) => {
+      fireEvent.click(button);
+      expect(button.closest("div")).toHaveClass("neo-badge__navbutton--active");
+      fireEvent.click(button.closest("button"));
+      expect(button.closest("div")).not.toHaveClass("neo-badge__navbutton--active");
+    });
+  });
+  it("passes basic axe compliance", async () => {
+    const { container } = renderResult;
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+});
