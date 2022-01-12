@@ -4,41 +4,62 @@ import { axe } from "jest-axe";
 
 import { Navbar } from ".";
 import * as NavbarStories from "./Navbar.stories";
+import { NavbarButton } from "./RightContent/NavbarButton";
 
 const { NavbarExample } = composeStories(NavbarStories);
 
-describe("navbar", () => {
-  it("renders without exploding", () => {
-    const { getByRole } = render(<NavbarExample />);
-    const navElement = getByRole("navigation");
-    expect(navElement).toBeTruthy();
-  });
-  it("renders with the correct class heirarchy", () => {
-    const { container } = render(<NavbarExample />);
-    const parentElement = container.firstChild;
-    expect(parentElement.firstChild.classList.contains("neo-nav--left")).toBe(
-      true
-    );
-    expect(parentElement.lastChild.classList.contains("neo-nav")).toBe(true);
-  });
-  it("renders link when passed", () => {
-    const { getByRole } = render(<NavbarExample/>);
-    const linkElement = getByRole("link");
-    expect(linkElement).toBeTruthy();
-  })
-  it("toggles active state correctly", () => {
-    const { getAllByRole } = render(<NavbarExample />);
-    const buttonElements = getAllByRole("button");
-    buttonElements.forEach((button) => {
-      fireEvent.click(button);
-      expect(
-        button.closest("div").classList.contains("neo-badge__navbutton--active")
+describe("basic unit tests", () => {
+  describe("Navbar", () => {
+    let renderResult;
+    beforeEach(() => {
+      renderResult = render(
+        <Navbar
+          logo={{
+            src:
+              "http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png",
+            alt: "Link to Avaya",
+          }}
+        />
       );
     });
-  });
-  it("passes basic axe compliance", async () => {
-    const { container } = render(<NavbarExample />);
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
+    it("renders without exploding", () => {
+      const { container } = renderResult;
+      expect(container).not.toBe(null);
+    });
+    it("renders with the correct class heirarchy", () => {
+      const { container } = renderResult;
+      const navElement = container.firstChild;
+      expect(navElement.firstChild).toHaveClass("neo-nav--left");
+      expect(navElement.lastChild).toHaveClass("neo-nav");
+    });
+    it("passes basic axe compliance", async () => {
+      const { container } = render(<Navbar />);
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
   });
 });
+
+// describe("storybook tests", () => {
+//   it("renders link when passed", () => {
+//     const { getByRole } = render(<Navbar />);
+//     const linkElement = getByRole("link");
+//     expect(linkElement).toBeTruthy();
+//   });
+
+//   it("toggles active state correctly", () => {
+//     const { getAllByRole } = render(<Navbar />);
+//     const buttonElements = getAllByRole("button");
+//     buttonElements.forEach((button) => {
+//       fireEvent.click(button);
+//       expect(
+//         button.closest("div").classList.contains("neo-badge__navbutton--active")
+//       );
+//     });
+//   });
+
+//   it("passes basic axe compliance", async () => {
+//     const { container } = render(<Navbar />);
+//     const results = await axe(container);
+//     expect(results).toHaveNoViolations();
+//   });
