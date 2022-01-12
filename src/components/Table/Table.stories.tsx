@@ -25,7 +25,6 @@ export const CustomActions = () => (
         <Button
           onClick={() => alert("custom action number one")}
           variant="tertiary"
-          style={{ marginRight: 5 }}
         >
           Example One
         </Button>
@@ -33,7 +32,6 @@ export const CustomActions = () => (
         <Button
           onClick={() => alert("custom action number two")}
           variant="tertiary"
-          style={{ marginRight: 5 }}
         >
           Example Two
         </Button>
