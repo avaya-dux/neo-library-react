@@ -2,8 +2,6 @@ import { Meta, Story } from "@storybook/react/types-6-0";
 
 import { IconChip, IconChipProps } from "./";
 
-import "@avaya/neo/neo/dist/css/neo/neo.min.css";
-
 export default {
   title: "Components/Chips/Icon Chip",
   component: IconChip,

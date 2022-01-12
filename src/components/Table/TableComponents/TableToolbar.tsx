@@ -59,8 +59,6 @@ export const TableToolbar = <T extends Record<string, any>>({
   return (
     <div className="neo-table__actions">
       <div className="neo-table__actions--left">
-        {customActionsNode}
-
         {handleCreate && (
           <Button
             disabled={readonly || selectedRowIdsStringArray.length > 0}
@@ -71,11 +69,12 @@ export const TableToolbar = <T extends Record<string, any>>({
             {translations.create}
           </Button>
         )}
-        {handleEdit && (
+
+        {customActionsNode}
+
+        {handleEdit && editDisabled === false && (
           <Button
             disabled={editDisabled}
-            style={editDisabled ? { display: "none" } : {}}
-            // className={clsx(editDisabled && "neo-display-none")} // TODO-783: use this once CSS Library is updated
             icon="edit"
             variant="tertiary"
             onClick={() => {
@@ -87,11 +86,10 @@ export const TableToolbar = <T extends Record<string, any>>({
             {translations.edit}
           </Button>
         )}
-        {handleDelete && (
+
+        {handleDelete && deleteDisabled === false && (
           <Button
             disabled={deleteDisabled}
-            style={deleteDisabled ? { display: "none" } : {}}
-            // className={clsx(deleteDisabled && "neo-display-none")} // TODO-783: use this once CSS Library is updated
             icon="trash"
             variant="tertiary"
             status="alert"

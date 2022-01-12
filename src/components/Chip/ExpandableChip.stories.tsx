@@ -2,8 +2,6 @@ import { Meta, Story } from "@storybook/react/types-6-0";
 
 import { ExpandableChip, ExpandableChipProps } from "./ExpandableChip";
 
-import "@avaya/neo/neo/dist/css/neo/neo.min.css";
-
 export default {
   title: "Components/Chips/Expandable Chip",
   component: ExpandableChip,
