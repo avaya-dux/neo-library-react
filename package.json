@@ -33,7 +33,7 @@
     "clean": "rm -rf coverage dist jsdocs storybook-static",
     "test": "react-scripts test --watchAll=false",
     "test:coverage": "react-scripts test --coverage=true --watchAll=false",
-    "test:badges": "yarn test:coverage  && jest-coverage-badges --output ./badges",
+    "test:badges": "yarn test:coverage && jest-coverage-badges --output ./badges",
     "test:watch": "react-scripts test",
     "test:cypress": "cypress run-ct",
     "test:cypress-open": "cypress open-ct",

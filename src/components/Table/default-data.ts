@@ -2,6 +2,9 @@ import { ITableTranslations } from "./types";
 
 export const translations: ITableTranslations = {
   toolbar: {
+    create: "Create",
+    delete: "Delete",
+    edit: "Edit",
     filter: "filter",
     noDataAvailable: "no data available",
     refresh: "refresh",

@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
+import { Button } from "components/Button";
 import { IconButton } from "components/IconButton";
 import { TextInput } from "components/TextInput";
 
@@ -17,14 +18,28 @@ import { TableToolbarProps } from "../types";
  * />
  */
 export const TableToolbar = <T extends Record<string, any>>({
+  customActionsNode,
+  handleCreate,
+  handleDelete,
+  handleEdit,
   handleRefresh,
   instance,
   readonly = false,
   translations,
 }: TableToolbarProps<T>) => {
-  const { data, setGlobalFilter, state } = instance;
+  const {
+    data,
+    setGlobalFilter,
+    rowsById,
+    state: { globalFilter, selectedRowIds },
+  } = instance;
 
-  const [search, setSearch] = useState<string>(state.globalFilter || "");
+  const selectedRowIdsStringArray = useMemo(
+    () => Object.keys(selectedRowIds),
+    [selectedRowIds]
+  );
+
+  const [search, setSearch] = useState<string>(globalFilter || "");
   const setSearches = useCallback(
     (searchString) => {
       setSearch(searchString);
@@ -38,13 +53,52 @@ export const TableToolbar = <T extends Record<string, any>>({
     setSearches(search);
   }, [data, setSearches]);
 
+  const editDisabled = readonly || selectedRowIdsStringArray.length !== 1;
+  const deleteDisabled = readonly || selectedRowIdsStringArray.length === 0;
+
   return (
     <div className="neo-table__actions">
-      {readonly === false && (
-        <div className="neo-table__actions--left">
-          {/* TODO-769: action buttons or summary+/caption */}
-        </div>
-      )}
+      <div className="neo-table__actions--left neo-table__actions--links">
+        {handleCreate && (
+          <Button
+            disabled={readonly}
+            icon="add"
+            variant="primary"
+            onClick={handleCreate}
+          >
+            {translations.create}
+          </Button>
+        )}
+
+        {customActionsNode}
+
+        {handleEdit && editDisabled === false && (
+          <Button
+            icon="edit"
+            variant="tertiary"
+            onClick={() => {
+              const selectedRowId = selectedRowIdsStringArray[0];
+              const selectedRow = rowsById[selectedRowId].original;
+              handleEdit(selectedRow);
+            }}
+          >
+            {translations.edit}
+          </Button>
+        )}
+
+        {handleDelete && deleteDisabled === false && (
+          <Button
+            icon="trash"
+            variant="tertiary"
+            status="alert"
+            onClick={() => {
+              handleDelete(selectedRowIdsStringArray);
+            }}
+          >
+            {translations.delete}
+          </Button>
+        )}
+      </div>
 
       <div className="neo-table__actions--right">
         <div className="neo-form">
@@ -67,6 +121,7 @@ export const TableToolbar = <T extends Record<string, any>>({
             icon="refresh"
             onClick={handleRefresh}
             shape="square"
+            style={{ color: "blue" }}
             variant="tertiary"
           />
         )}

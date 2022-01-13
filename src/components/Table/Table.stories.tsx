@@ -1,8 +1,7 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { List } from "components/List";
-import { ListItem } from "components/ListItem";
+import { Button, List, ListItem } from "components";
 
 import { Table, TableProps } from "./";
 import { FilledFields, IDataTableMockData } from "./mock-data";
@@ -15,6 +14,93 @@ export default {
 export const Default = () => (
   <Table {...FilledFields} caption="Storybook Default Table Example" />
 );
+
+export const CustomActions = () => (
+  <Table
+    {...FilledFields}
+    caption="Two Custom Actions and Create"
+    handleCreate={() => alert("create")}
+    customActionsNode={
+      <section>
+        <Button
+          onClick={() => alert("custom action number one")}
+          variant="tertiary"
+        >
+          Example One
+        </Button>
+
+        <Button
+          onClick={() => alert("custom action number two")}
+          variant="tertiary"
+        >
+          Example Two
+        </Button>
+      </section>
+    }
+  />
+);
+
+export const EditableData = () => {
+  const [data, setData] = useState(FilledFields.data);
+  const [readonly, setReadonly] = useState(false);
+
+  const [logItems, setLogItems] = useState<string[]>([]);
+
+  useEffect(() => {
+    setLogItems(["data modified, new length: " + data.length, ...logItems]);
+  }, [data]);
+
+  return (
+    <section>
+      <Table
+        caption="Editable Rows Table Example"
+        columns={FilledFields.columns}
+        data={data}
+        readonly={readonly}
+        selectableRows="multiple"
+        handleCreate={() => {
+          const newRow: IDataTableMockData = {
+            id: "new-row-" + Math.random(),
+            name: "New Row",
+            label: "New Row",
+            other: "Lorem Ipsum",
+          };
+          setData([...data, newRow]);
+        }}
+        handleDelete={(rowIds: string[]) => {
+          setData(data.filter((row) => !rowIds.includes(row.id)));
+        }}
+        handleEdit={(row: IDataTableMockData) => {
+          const rowToEditIndex = data.findIndex((r) => r.id === row.id);
+          const dataCopy = [...data];
+          dataCopy[
+            rowToEditIndex
+          ].name = `${dataCopy[rowToEditIndex]?.name} (edited)`;
+
+          setData(dataCopy);
+        }}
+        handleRefresh={() => {
+          setReadonly(true);
+          setData([]);
+          setTimeout(() => {
+            setData(FilledFields.data);
+            setReadonly(false);
+          }, 1000);
+        }}
+      />
+
+      <section style={{ paddingTop: 20 }}>
+        <h3>data modifications:</h3>
+
+        <List>
+          {logItems.map((item, index) => (
+            <ListItem key={`${item}-${index}`}>{item}</ListItem>
+          ))}
+        </List>
+      </section>
+    </section>
+  );
+};
 
 export const EmptyDataSet = () => (
   <Table

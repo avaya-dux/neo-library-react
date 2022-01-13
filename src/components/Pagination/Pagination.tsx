@@ -1,5 +1,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 
+import { genId } from "utils";
+
 import {
   PaginationItemDisplay,
   PaginationItemsPerPageSelection,
@@ -33,7 +35,7 @@ import { PaginationProps } from "./PaginationTypes";
  * @see https://design.avayacloud.com/components/web/tables-web
  */
 export const Pagination = ({
-  id = "pagination",
+  id = `pagination-${genId()}`,
 
   currentPageIndex,
   itemCount,
