@@ -25,6 +25,8 @@ export interface NavbarProps {
   navButtons?: NavbarButtonProps[];
 }
 
+// NOTE: COMPONENT IS NOT READY FOR CUSTOMERS TO USE, AND WILL BE EXPORTED IN SUBSEQUENT PRS
+
 /**
  * Navbars are used to orient users, and to access different areas within an interface.
  *
