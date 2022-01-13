@@ -72,8 +72,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
 
   useEffect(() => {
     navButtons?.forEach(() => {
-      const internalId = genId();
-      setIds((ids) => (ids = [...ids, internalId]));
+      setIds((ids) => (ids = [...ids, genId()]));
     });
   }, [navButtons]);
 
