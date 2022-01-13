@@ -37,7 +37,7 @@
     "build": "yarn build:src && yarn build:types",
     "build:src": "rollup -c --environment BUILD:production",
     "build:types": "tsc --emitDeclarationOnly --project tsconfig.build.json",
-    "clean": "rm -rf coverage dist jsdocs storybook-static",
+    "clean": "rm -rf coverage dist jsdocs storybook-static package *.tgz",
     "test": "react-scripts test --watchAll=false",
     "test:coverage": "react-scripts test --coverage=true --watchAll=false",
     "test:badges": "yarn test:coverage && jest-coverage-badges --output ./badges",
