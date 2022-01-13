@@ -5,6 +5,7 @@ from the root of the directory
 - `npm login`: to ensure that you are properly logged in to the NPM network
 - `yarn all`: this will clean out all build artifacts, rebuild everything, run all tests, and "pack" the tarball if everything was successful
 - `yarn publish`: publishes the generated tarball to our registry
+- - note: to skip the "version" prompt, you can use: `yarn publish --new-version <version to publish>`
 
 
 You can check that the package was properly published by viewing it on NPMJS
