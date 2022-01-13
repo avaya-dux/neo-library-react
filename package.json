@@ -12,6 +12,7 @@
   "types": "dist/index.d.ts",
   "source": "src/index.ts",
   "files": [
+    "dist",
     "README.md",
     "LICENSE.md",
     "LICENSE-3rd-party.html"
