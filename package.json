@@ -4,7 +4,8 @@
   "description": "This is the React version of the shared library called 'NEO' buit by Avaya",
   "author": "joe-s-avaya",
   "license": "SEE LICENSE IN LICENSE.md",
-  "repository": "neo-library-react",
+  "repository": "github:avaya-dux/neo-library-react",
+  "homepage": "https://design.avayacloud.com/components/web/setup-web#InstallReactviaNodePackageManager",
   "main": "dist/avaya-neo-react.cjs.js",
   "module": "dist/avaya-neo-react.esm.js",
   "browser": "dist/avaya-neo-react.umd.js",
@@ -13,6 +14,11 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "pack-destination": "dist"
+  },
   "engines": {
     "node": ">=10"
   },
