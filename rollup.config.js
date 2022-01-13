@@ -40,7 +40,7 @@ export default [
       peerDepsExternal(),
       resolve(),
       commonjs(),
-      typescript({ tsconfig: "./tsconfig.build.json" }),
+      typescript({ tsconfig: "./tsconfig.build-rollup.json" }),
       postcss(),
       // minify all prod builds
       isProdBuild && terser(),
