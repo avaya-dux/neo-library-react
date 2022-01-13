@@ -13,8 +13,8 @@
   "source": "src/index.ts",
   "files": [
     "dist",
-    "README.md",
     "badges",
+    "README.md",
     "LICENSE.md",
     "LICENSE-3rd-party.html"
   ],
