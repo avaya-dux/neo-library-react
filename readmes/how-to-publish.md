@@ -2,12 +2,10 @@
 
 from the root of the directory
 
-- `yarn clean`
-- `yarn build`
-- - **TEMP** ([NEO-728](https://jira.forge.avaya.com/browse/NEO-728)): move license files into `dist`
-- `npm pack`
-- `npm login` (_optional_, but good to ensure that you are properly logged in)
-- `npm publish <generated .tgz file> --access public`
-- - [link to npmjs page](https://www.npmjs.com/package/@avaya/neo-react)
+- `npm login`: to ensure that you are properly logged in to the NPM network
+- `yarn all`: this will clean out all build artifacts, rebuild everything, run all tests, and "pack" the tarball if everything was successful
+- `yarn publish --new-version <version to publish>`: publishes the generated tarball to our registry as `<version to publish>`
 
-Further details can be found in [this confluence doc](https://confluence.forge.avaya.com/display/NEO/Guide+to+publishing+new+versions+of+our+React+Component+library+to+npm)
+You can check that the package was properly published by viewing it on NPMJS
+- [link to registry](https://registry.npmjs.org/@avaya%2fneo-react): api call, returns JSON, no cache
+- [link to npmjs page](https://www.npmjs.com/package/@avaya/neo-react): our page on NPMJS, is on a 60min cache
