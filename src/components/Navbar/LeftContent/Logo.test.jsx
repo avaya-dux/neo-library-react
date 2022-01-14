@@ -1,7 +1,7 @@
-import { fireEvent, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
-import { Logo } from "./Logo";
+import { LinkLogo, Logo } from "./Logo";
 
 const logoImageSrc =
   "http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png";
@@ -26,7 +26,7 @@ describe("Logo", () => {
   describe("Behaviour when acting as link", () => {
     let renderResult;
     beforeEach(() => {
-      renderResult = render(<Logo src={logoImageSrc} link="#" />);
+      renderResult = render(<LinkLogo src={logoImageSrc} link="#" alt="Avaya link" />);
     });
 
     it("does render anchor element when link prop passed", () => {

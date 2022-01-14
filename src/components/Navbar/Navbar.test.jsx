@@ -16,7 +16,6 @@ describe("Navbar", () => {
           logo={{
             src:
               "http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png",
-            alt: "Link to Avaya",
           }}
         />
       );
@@ -35,7 +34,7 @@ describe("Navbar", () => {
     });
 
     it("passes basic axe compliance", async () => {
-      const { container } = render(<Navbar />);
+      const { container } = renderResult;
       const results = await axe(container);
       expect(results).toHaveNoViolations();
     });
