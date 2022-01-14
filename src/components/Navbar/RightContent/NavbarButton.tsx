@@ -6,7 +6,7 @@ import { computeBadge, IconNamesType } from "utils";
 export interface NavbarButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "aria-label"> {
   "aria-label": string;
-  active: boolean;
+  active?: boolean;
   badge?: string;
   icon: IconNamesType;
   handleClick?: () => Promise<void> | void;
@@ -16,7 +16,7 @@ export const NavbarButton: FunctionComponent<NavbarButtonProps> = forwardRef(
   (
     {
       "aria-label": ariaLabel,
-      active,
+      active = false,
       badge,
       icon,
       ...rest

@@ -113,6 +113,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
         {navButtons?.map((navButton, key) => {
           return (
             <NavbarButton
+              key={key}
               {...navButton}
               active={ids[key] === activeId}
               id={ids[key]}
