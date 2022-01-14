@@ -7,9 +7,8 @@ import * as NavbarStories from "./Navbar.stories";
 
 const { NavbarExample } = composeStories(NavbarStories);
 
-describe("basic unit tests", () => {
-
-  describe("Navbar", () => {
+describe("Navbar", () => {
+  describe("basic unit tests", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(
@@ -61,7 +60,7 @@ describe("storybook tests", () => {
       "neo-badge__navbutton--active"
     );
   });
-  
+
   it("passes basic axe compliance", async () => {
     const { container } = renderResult;
     const results = await axe(container);

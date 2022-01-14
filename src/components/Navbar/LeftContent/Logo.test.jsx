@@ -3,23 +3,22 @@ import { axe } from "jest-axe";
 
 import { Logo } from "./Logo";
 
+const logoImageSrc =
+  "http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png";
+
 describe("Logo", () => {
   it("renders without exploding", () => {
-    const { container } = render(
-      <Logo src="http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png" />
-    );
+    const { container } = render(<Logo src={logoImageSrc} />);
     expect(container).not.toBe(null);
   });
 
-  it("does not render link when not passed", () => {
-    const { getByRole } = render(<Logo src="http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png" />);
+  it("does not render anchor element when link prop not passed", () => {
+    const { getByRole } = render(<Logo src={logoImageSrc} />);
     expect(() => getByRole("link")).toThrow();
   });
 
   it("passes basic axe compliance", async () => {
-    const { container } = render(
-      <Logo src="http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png" />
-    );
+    const { container } = render(<Logo src={logoImageSrc} />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -27,15 +26,10 @@ describe("Logo", () => {
   describe("Behaviour when acting as link", () => {
     let renderResult;
     beforeEach(() => {
-      renderResult = render(
-        <Logo
-          src="http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png"
-          link="#"
-        />
-      );
+      renderResult = render(<Logo src={logoImageSrc} link="#" />);
     });
-    
-    it("renders link correctly", () => {
+
+    it("does render anchor element when link prop passed", () => {
       const { getByRole } = renderResult;
       const linkElement = getByRole("link");
       expect(linkElement).toBeTruthy();

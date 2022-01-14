@@ -1,22 +1,24 @@
 import { FunctionComponent } from "react";
 
 export interface LogoProps extends React.ImgHTMLAttributes<HTMLImageElement> {
-  link?: string;
   src: string;
 }
 
-export const Logo: FunctionComponent<LogoProps> = ({ link, src, alt = "" }) => {
-  if (link && !alt) {
-    console.warn(
-      "Note that anchor elements with images as content require alt text for accessibility compliance"
-    );
-  }
+export interface LinkLogoProps extends LogoProps {
+  link: string;
+  alt: string;
+}
 
-  return link ? (
-    <a href={link}>
-      <img src={src} alt={alt} />
-    </a>
-  ) : (
+export const Logo: FunctionComponent<LogoProps> = ({ src, alt = "" }) => (
+  <img src={src} alt={alt} />
+);
+
+export const LinkLogo: FunctionComponent<LinkLogoProps> = ({
+  src,
+  link,
+  alt,
+}) => (
+  <a href={link}>
     <img src={src} alt={alt} />
-  );
-};
+  </a>
+);

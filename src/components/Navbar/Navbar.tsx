@@ -1,15 +1,14 @@
-import clsx from "clsx";
 import { FunctionComponent, useEffect, useState } from "react";
 
 import { dispatchInputOnChangeEvent } from "utils";
 import { genId } from "utils/accessibilityUtils";
 
 import { TextInput, TextInputProps } from "../TextInput";
-import { Logo, LogoProps } from "./LeftContent/Logo";
+import { LinkLogo, LinkLogoProps, Logo, LogoProps } from "./LeftContent/Logo";
 import { NavbarButton, NavbarButtonProps } from "./RightContent/NavbarButton";
 
 export interface NavbarProps {
-  logo: LogoProps;
+  logo: LogoProps | LinkLogoProps;
   // TO:DO: NEO-731 - add Search Component to Design System
   search?: Pick<
     TextInputProps,
@@ -78,10 +77,14 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
     });
   }, [navButtons]);
 
+  const isLink = (props: NavbarProps["logo"]): props is LinkLogoProps => {
+    return "link" in props;
+  };
+
   return (
     <nav className="neo-navbar">
       <div className="neo-nav--left">
-        <Logo {...logo} />
+        {isLink(logo) ? <LinkLogo {...logo} /> : <Logo {...logo} />}
 
         {title && (
           <p
@@ -109,22 +112,15 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
       <div className="neo-nav">
         {navButtons?.map((navButton, key) => {
           return (
-            <div
-              key={key}
-              className={clsx(
-                "neo-badge__navbutton",
-                activeId === ids[key] && "neo-badge__navbutton--active"
-              )}
-            >
-              <NavbarButton
-                {...navButton}
-                id={ids[key]}
-                onClick={() => {
-                  if (navButton.handleClick) navButton.handleClick();
-                  setActiveId(ids[key]);
-                }}
-              />
-            </div>
+            <NavbarButton
+              {...navButton}
+              active={ids[key] === activeId}
+              id={ids[key]}
+              onClick={() => {
+                if (navButton.handleClick) navButton.handleClick();
+                setActiveId(ids[key]);
+              }}
+            />
           );
         })}
       </div>
