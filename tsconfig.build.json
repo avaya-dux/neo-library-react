@@ -12,6 +12,6 @@
     "src/**/*.cypresstest.tsx",
     "src/**/*.stories.tsx",
     "src/**/*.test.tsx",
-    "src/**/*mock*",
+    "src/**/*mock-data.*",
   ]
 }
