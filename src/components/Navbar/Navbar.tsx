@@ -8,7 +8,7 @@ import { LinkLogo, LinkLogoProps, Logo, LogoProps } from "./LeftContent/Logo";
 import { NavbarButton, NavbarButtonProps } from "./RightContent/NavbarButton";
 
 export interface NavbarProps {
-  logo: LogoProps | LinkLogoProps;
+  logo: LogoProps;
   // TO:DO: NEO-731 - add Search Component to Design System
   search?: Pick<
     TextInputProps,
@@ -72,12 +72,13 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
   const [activeId, setActiveId] = useState("");
 
   useEffect(() => {
+    setIds([]);
     navButtons?.forEach(() => {
       setIds((ids) => (ids = [...ids, genId()]));
     });
   }, [navButtons]);
 
-  const isLink = (props: NavbarProps["logo"]): props is LinkLogoProps => {
+  const isLink = (props: LogoProps): props is LinkLogoProps => {
     return "link" in props;
   };
 
