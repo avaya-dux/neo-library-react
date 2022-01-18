@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useCallback, useEffect, useState } from "react";
 
 import { dispatchInputOnChangeEvent } from "utils";
 import { genId } from "utils/accessibilityUtils";
@@ -8,7 +8,7 @@ import { LinkLogo, LinkLogoProps, Logo, LogoProps } from "./LeftContent/Logo";
 import { NavbarButton, NavbarButtonProps } from "./RightContent/NavbarButton";
 
 export interface NavbarProps {
-  logo: LogoProps;
+  logo: LogoProps | LinkLogoProps;
   // TO:DO: NEO-731 - add Search Component to Design System
   search?: Pick<
     TextInputProps,
@@ -82,6 +82,14 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
     return "link" in props;
   };
 
+  const navButtonOnClickCallback = useCallback(
+    (clickHandler, id) => {
+      if (clickHandler) clickHandler();
+      setActiveId(ids[id]);
+    },
+    [ids]
+  );
+
   return (
     <nav className="neo-navbar">
       <div className="neo-nav--left">
@@ -118,10 +126,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
               {...navButton}
               active={ids[key] === activeId}
               id={ids[key]}
-              onClick={() => {
-                if (navButton.handleClick) navButton.handleClick();
-                setActiveId(ids[key]);
-              }}
+              onClick={() => navButtonOnClickCallback(navButton.onClick, key)}
             />
           );
         })}
