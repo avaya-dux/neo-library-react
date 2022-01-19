@@ -1,9 +1,13 @@
-export interface IToolbarTranslations {
+export interface ITableFilterTranslations {
+  clear?: string;
+  close?: string;
+  filter?: string;
+  filterBy?: string;
+}
+export interface IToolbarTranslations extends ITableFilterTranslations {
   create?: string;
   delete?: string;
   edit?: string;
-  filter?: string;
-  filterBy?: string;
   noDataAvailable?: string;
   refresh?: string;
   rowsPerPage?: string;
