@@ -9,6 +9,7 @@ import {
 } from ".";
 
 interface ToolbarSharedProps {
+  advancedFilters?: boolean;
   readonly?: boolean;
   selectableRows?: "none" | "single" | "multiple";
 }

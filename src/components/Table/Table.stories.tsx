@@ -15,6 +15,15 @@ export const Default = () => (
   <Table {...FilledFields} caption="Storybook Default Table Example" />
 );
 
+export const AdvancedFilters = () => (
+  <Table
+    advancedFilters
+    caption="Advanced Filters"
+    columns={FilledFields.columns}
+    data={FilledFields.data}
+  />
+);
+
 export const CustomActions = () => (
   <Table
     {...FilledFields}

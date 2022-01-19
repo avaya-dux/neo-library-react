@@ -8,6 +8,7 @@ import { FilledFields } from "./mock-data";
 import * as TableStories from "./Table.stories";
 
 const {
+  AdvancedFilters,
   BareBones,
   CustomActions,
   Default,
@@ -303,6 +304,25 @@ describe("Table", () => {
   });
 
   describe("storybook tests", () => {
+    describe("AdvancedFilters", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<AdvancedFilters />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
     describe("CustomActions", () => {
       let renderResult;
 

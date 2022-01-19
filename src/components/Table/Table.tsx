@@ -58,6 +58,7 @@ export const Table = <T extends Record<string, any>>({
   itemsPerPageOptions,
   defaultSelectedRowIds,
 
+  advancedFilters,
   containerClassName = "",
   customActionsNode,
   handleCreate,
@@ -144,6 +145,7 @@ export const Table = <T extends Record<string, any>>({
       )}
 
       <TableToolbar
+        advancedFilters={advancedFilters}
         customActionsNode={customActionsNode}
         handleCreate={handleCreate}
         handleDelete={handleDelete}

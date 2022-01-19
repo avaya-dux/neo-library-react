@@ -19,6 +19,7 @@ import { TableFilter } from "./TableFilter";
  * />
  */
 export const TableToolbar = <T extends Record<string, any>>({
+  advancedFilters,
   customActionsNode,
   handleCreate,
   handleDelete,
@@ -101,7 +102,10 @@ export const TableToolbar = <T extends Record<string, any>>({
         )}
       </div>
 
-      <div className="neo-table__actions--right">
+      <div
+        className="neo-table__actions--right"
+        style={{ position: "relative" }}
+      >
         <div className="neo-form">
           <TextInput
             aria-label={translations.searchInputPlaceholder}
@@ -116,7 +120,9 @@ export const TableToolbar = <T extends Record<string, any>>({
           />
         </div>
 
-        <TableFilter instance={instance} title={translations.filterBy} />
+        {advancedFilters && (
+          <TableFilter translations={translations} instance={instance} />
+        )}
 
         {handleRefresh && (
           <IconButton
