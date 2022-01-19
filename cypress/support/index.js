@@ -20,3 +20,5 @@ import "./commands";
 // require('./commands')
 
 import "cypress-real-events/support";
+
+import "@avaya/neo/neo/dist/css/neo/neo.min.css";

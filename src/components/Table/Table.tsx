@@ -59,7 +59,10 @@ export const Table = <T extends Record<string, any>>({
   defaultSelectedRowIds,
 
   containerClassName = "",
-  // handleCreate, // TODO-769: implement
+  customActionsNode,
+  handleCreate,
+  handleDelete,
+  handleEdit,
   handleRefresh,
   handleRowToggled,
   readonly = false,
@@ -141,6 +144,10 @@ export const Table = <T extends Record<string, any>>({
       )}
 
       <TableToolbar
+        customActionsNode={customActionsNode}
+        handleCreate={handleCreate}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
         handleRefresh={handleRefresh}
         instance={instance}
         readonly={readonly}

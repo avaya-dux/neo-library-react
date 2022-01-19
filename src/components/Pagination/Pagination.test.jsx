@@ -95,12 +95,14 @@ describe("Pagination", () => {
   });
 
   it("matches it's previous snapshot", () => {
-    const { container } = render(<Pagination {...defaultProps} />);
+    const { container } = render(
+      <Pagination {...defaultProps} id="pagination-test" />
+    );
     expect(container).toMatchInlineSnapshot(`
       <div>
         <div
           class="neo-pagination__row"
-          id="pagination"
+          id="pagination-test"
         >
           <div
             class="neo-tooltip neo-tooltip--up neo-tooltip--onhover"

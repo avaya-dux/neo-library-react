@@ -7,8 +7,15 @@ import { calculateAriaSortValue, convertRowIdsArrayToObject } from "./helpers";
 import { FilledFields } from "./mock-data";
 import * as TableStories from "./Table.stories";
 
-const { BareBones, Default, EmptyDataSet, SelectableRows, Templated } =
-  composeStories(TableStories);
+const {
+  BareBones,
+  CustomActions,
+  Default,
+  EditableData,
+  EmptyDataSet,
+  SelectableRows,
+  Templated,
+} = composeStories(TableStories);
 
 describe("Table", () => {
   jest.spyOn(console, "warn").mockImplementation(() => {}); // ignore tooltip warnings
@@ -49,7 +56,7 @@ describe("Table", () => {
   });
 
   it("properly selects 'all' and 'none' of the checkboxes", () => {
-    const { getByLabelText, getByText } = render(
+    const { getByLabelText, container } = render(
       <Table
         {...FilledFields}
         selectableRows="multiple"
@@ -64,9 +71,7 @@ describe("Table", () => {
     const headerCheckbox = getByLabelText(
       FilledFields.translations.header.selectAll
     );
-    const headerCheckboxLabel = getByText(
-      FilledFields.translations.header.selectAll
-    ).closest("label");
+    const headerCheckboxLabel = container.querySelector("tr th label");
     const checkbox2 = getByLabelText(FilledFields.data[2].label);
 
     // header checkbox is in "indeterminate" state
@@ -89,11 +94,156 @@ describe("Table", () => {
     expect(checkbox2.checked).toBeFalsy();
   });
 
-  // TODO-770: implement
-  // it("matches it's previous default snapshot", () => {
-  //   const { container } = render(<Table {...FilledFields} />);
-  //   expect(container).toMatchInlineSnapshot();
-  // });
+  it("properly selects and deselects a body row", () => {
+    const { queryAllByRole } = render(
+      <Table {...FilledFields} selectableRows="multiple" />
+    );
+
+    const alltrs = queryAllByRole("row");
+    expect(alltrs.length).toBeTruthy();
+
+    const firstBodyRow = alltrs[1];
+    expect(firstBodyRow.classList.length).toBe(0);
+    expect(firstBodyRow).not.toHaveClass("active");
+
+    const firstRowCheckbox = firstBodyRow.querySelector("input");
+    expect(firstRowCheckbox.checked).toBeFalsy();
+
+    const firstRowCheckboxLabel = firstBodyRow.querySelector("label");
+    fireEvent.click(firstRowCheckboxLabel);
+
+    expect(firstRowCheckbox.checked).toBeTruthy();
+    expect(firstBodyRow.classList.length).toBe(1);
+    expect(firstBodyRow).toHaveClass("active");
+
+    fireEvent.click(firstRowCheckboxLabel);
+
+    expect(firstRowCheckbox.checked).toBeFalsy();
+    expect(firstBodyRow.classList.length).toBe(0);
+    expect(firstBodyRow).not.toHaveClass("active");
+  });
+
+  describe("toolbar functionality", () => {
+    it("properly calls it's `refresh` method", () => {
+      const mock = jest.fn();
+      const { getByLabelText } = render(
+        <Table {...FilledFields} handleRefresh={mock} />
+      );
+
+      const refreshButton = getByLabelText(
+        FilledFields.translations.toolbar.refresh
+      );
+
+      fireEvent.click(refreshButton);
+      expect(mock).toHaveBeenCalled();
+    });
+
+    it("it's `create` method can be called at any time", () => {
+      const mock = jest.fn();
+      const { getByText, queryAllByRole } = render(
+        <Table {...FilledFields} handleCreate={mock} selectableRows="single" />
+      );
+
+      const createButton = getByText(FilledFields.translations.toolbar.create);
+
+      fireEvent.click(createButton);
+      expect(mock).toHaveBeenCalledTimes(1);
+
+      const firstRowCheckboxLabel =
+        queryAllByRole("row")[1].querySelector("label");
+      fireEvent.click(firstRowCheckboxLabel);
+
+      fireEvent.click(createButton);
+      expect(mock).toHaveBeenCalledTimes(2);
+    });
+
+    it("properly calls it's `edit` method", () => {
+      const mock = jest.fn();
+      const { getByText, queryAllByRole } = render(
+        <Table
+          {...FilledFields}
+          handleEdit={mock}
+          itemsPerPageOptions={[50]}
+          selectableRows="multiple"
+        />
+      );
+
+      // expect button to not be rendered
+      expect(() => getByText(FilledFields.translations.toolbar.edit)).toThrow();
+
+      // select first two body rows
+      const firstRowCheckboxLabel =
+        queryAllByRole("row")[1].querySelector("label");
+      const secondRowCheckboxLabel =
+        queryAllByRole("row")[2].querySelector("label");
+      fireEvent.click(firstRowCheckboxLabel);
+      fireEvent.click(secondRowCheckboxLabel);
+
+      // expect button _still_ not to be rendered
+      expect(() => getByText(FilledFields.translations.toolbar.edit)).toThrow();
+
+      // deselect first row
+      fireEvent.click(firstRowCheckboxLabel);
+
+      // `edit` button should NOW be rendered and enabled, and thus callable
+      const editButton = getByText(FilledFields.translations.toolbar.edit);
+      fireEvent.click(editButton);
+      expect(mock).toHaveBeenCalled();
+    });
+
+    it("properly calls it's `delete` method", () => {
+      const mock = jest.fn();
+      const { getByText, queryAllByRole } = render(
+        <Table
+          {...FilledFields}
+          handleDelete={mock}
+          itemsPerPageOptions={[50]}
+          selectableRows="multiple"
+        />
+      );
+
+      // expect button to not be rendered when zero rows are selected
+      expect(() =>
+        getByText(FilledFields.translations.toolbar.delete)
+      ).toThrow();
+
+      const firstRowCheckboxLabel =
+        queryAllByRole("row")[1].querySelector("label");
+      fireEvent.click(firstRowCheckboxLabel);
+
+      // callable when one row is selected
+      const deleteButton = getByText(FilledFields.translations.toolbar.delete);
+      fireEvent.click(deleteButton);
+      expect(mock).toHaveBeenCalledTimes(1);
+
+      const secondRowCheckboxLabel =
+        queryAllByRole("row")[2].querySelector("label");
+      fireEvent.click(secondRowCheckboxLabel);
+
+      // callable when multiple rows are selected
+      fireEvent.click(deleteButton);
+      expect(mock).toHaveBeenCalledTimes(2);
+    });
+
+    it("properly utilizes it's `search` method", () => {
+      const { getByLabelText, queryAllByRole } = render(
+        <Table {...FilledFields} itemsPerPageOptions={[50]} />
+      );
+
+      const alltrs = queryAllByRole("row");
+      expect(alltrs).toHaveLength(FilledFields.data.length + 1);
+
+      const searchInput = getByLabelText(
+        FilledFields.translations.toolbar.searchInputPlaceholder
+      );
+      fireEvent.change(searchInput, {
+        target: { value: FilledFields.data[0].label },
+      });
+
+      const filteredtrs = queryAllByRole("row");
+      expect(filteredtrs).toHaveLength(2);
+    });
+  });
 
   describe("helpers", () => {
     describe("calculateAriaSortValue", () => {
@@ -153,11 +303,49 @@ describe("Table", () => {
   });
 
   describe("storybook tests", () => {
+    describe("CustomActions", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<CustomActions />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
     describe("Default", () => {
       let renderResult;
 
       beforeEach(() => {
         renderResult = render(<Default />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("EditableData", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<EditableData />);
       });
 
       it("should render ok", () => {

@@ -10,8 +10,6 @@ import { MenuSeparator } from "./MenuSeparator";
 import { MenuProps } from "./MenuTypes";
 import { SubMenu } from "./SubMenu";
 
-import "@avaya/neo/neo/dist/css/neo/neo.min.css";
-
 const menuLogger = log.getLogger("menu");
 menuLogger.enableAll();
 const subMenuLogger = log.getLogger("submenu");
@@ -22,7 +20,7 @@ const mouseLogger = log.getLogger("menu-mouse-event-handler");
 mouseLogger.enableAll();
 
 export default {
-  title: "Components/Layout/Dropdown/Menu",
+  title: "Components/Dropdown/Menu",
   component: Menu,
 } as Meta<MenuProps>;
 

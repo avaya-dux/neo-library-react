@@ -43,16 +43,25 @@ export const Checkbox = ({
   const internalId = useMemo(() => id || genId(), []);
 
   const computeInputJSX = () => {
+    const inputProps = {
+      value,
+      type: "checkbox",
+      onChange,
+      name,
+      id: internalId,
+      checked: checked === true || checked === "indeterminate",
+    };
+
+    if (isLabelHidden) {
+      inputProps["aria-label"] = label;
+    } else {
+      inputProps["aria-describedby"] = describedBy;
+    }
+
     return (
       <>
         <input
-          value={value}
-          type="checkbox"
-          onChange={onChange}
-          name={name}
-          id={internalId}
-          checked={checked === true || checked === "indeterminate"}
-          aria-describedby={describedBy}
+          {...inputProps}
           {...getCheckboxClassName(checked === "indeterminate")}
           {...rest}
         />
@@ -83,10 +92,4 @@ const Label = ({
   htmlFor: string;
   label: string;
   isLabelHidden: boolean;
-}) => {
-  return (
-    <label htmlFor={htmlFor}>
-      {isLabelHidden ? <div className="neo-display-none">{label}</div> : label}
-    </label>
-  );
-};
+}) => <label htmlFor={htmlFor}>{isLabelHidden ? "" : label}</label>;

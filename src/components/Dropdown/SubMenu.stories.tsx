@@ -1,4 +1,3 @@
-import "@avaya/neo/neo/dist/css/neo/neo.min.css";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { MouseEvent, MouseEventHandler } from "react";
 import { MenuItem } from "./MenuItem";
@@ -7,7 +6,7 @@ import { SubMenuProps } from "./MenuTypes";
 import { SubMenu } from "./SubMenu";
 
 export default {
-  title: "Components/Layout/Dropdown/SubMenu",
+  title: "Components/Dropdown/Sub Menu",
   component: SubMenu,
 } as Meta<SubMenuProps>;
 

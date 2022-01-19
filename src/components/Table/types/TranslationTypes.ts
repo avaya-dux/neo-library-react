@@ -1,4 +1,7 @@
 export interface IToolbarTranslations {
+  create?: string;
+  delete?: string;
+  edit?: string;
   filter?: string;
   noDataAvailable?: string;
   refresh?: string;

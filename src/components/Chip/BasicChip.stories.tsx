@@ -2,10 +2,8 @@ import { Meta, Story } from "@storybook/react/types-6-0";
 
 import { BasicChip, BasicChipProps } from "./";
 
-import "@avaya/neo/neo/dist/css/neo/neo.min.css";
-
 export default {
-  title: "Components/Chips/BasicChip",
+  title: "Components/Chips/Basic Chip",
   component: BasicChip,
 } as Meta<BasicChipProps>;
 

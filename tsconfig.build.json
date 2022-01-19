@@ -1,13 +1,17 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "noEmit": false,
+    "outDir": "dist",
+    "declaration": true,
+    "declarationDir": "."
   },
   "exclude": [
-    "node_modules",
     "dist",
     "example",
-    "src/**/*.test.tsx",
+    "node_modules",
+    "src/**/*.cypresstest.tsx",
     "src/**/*.stories.tsx",
+    "src/**/*.test.tsx",
+    "src/**/*mock-data.*",
   ]
 }
