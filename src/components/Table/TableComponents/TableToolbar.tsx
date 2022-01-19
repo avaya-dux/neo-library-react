@@ -5,6 +5,7 @@ import { IconButton } from "components/IconButton";
 import { TextInput } from "components/TextInput";
 
 import { TableToolbarProps } from "../types";
+import { TableFilter } from "./TableFilter";
 
 /**
  * TableToolbar is used by the Table component to render the search and action inputs for the table
@@ -115,12 +116,7 @@ export const TableToolbar = <T extends Record<string, any>>({
           />
         </div>
 
-        <IconButton
-          aria-label={translations.filter || "Filter"}
-          icon="filter"
-          shape="square"
-          onClick={handleFilter}
-        />
+        <TableFilter instance={instance} title={translations.filterBy} />
 
         {handleRefresh && (
           <IconButton

@@ -3,6 +3,7 @@ export interface IToolbarTranslations {
   delete?: string;
   edit?: string;
   filter?: string;
+  filterBy?: string;
   noDataAvailable?: string;
   refresh?: string;
   rowsPerPage?: string;
