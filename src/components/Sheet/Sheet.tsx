@@ -30,10 +30,12 @@ export const Sheet: FC<SheetProps> = ({
   className,
   id = genId(),
   title,
+
+  ...rest
 }) => {
   if (!title && !buttons) {
     return (
-      <BasicSheet className={className} id={id}>
+      <BasicSheet className={className} id={id} {...rest}>
         {children}
       </BasicSheet>
     );
@@ -46,6 +48,7 @@ export const Sheet: FC<SheetProps> = ({
       aria-labelledby={id}
       className={clsx("neo-sheet sheet--custom", className)}
       role="dialog"
+      {...rest}
     >
       <div className="neo-sheet__header">
         <div className="neo-sheet__header--left">
@@ -64,9 +67,16 @@ const BasicSheet: FC<{ id: string; className?: string }> = ({
   children,
   className,
   id,
+
+  ...rest
 }) => {
   return (
-    <div className={clsx("neo-sheet", className)} id={id} data-testid={id}>
+    <div
+      className={clsx("neo-sheet", className)}
+      id={id}
+      data-testid={id}
+      {...rest}
+    >
       {children}
     </div>
   );
