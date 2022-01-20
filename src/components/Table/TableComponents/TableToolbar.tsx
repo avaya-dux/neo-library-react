@@ -58,7 +58,7 @@ export const TableToolbar = <T extends Record<string, any>>({
 
   return (
     <div className="neo-table__actions">
-      <div className="neo-table__actions--left">
+      <div className="neo-table__actions--left neo-table__actions--links">
         {handleCreate && (
           <Button
             disabled={readonly}
