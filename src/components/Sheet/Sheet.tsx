@@ -66,15 +66,8 @@ export const Sheet: FC<SheetProps> = ({
 };
 
 const BasicSheet: FC<{ id: string; className?: string }> = ({
-  children,
   className,
-  id,
-
   ...rest
 }) => {
-  return (
-    <div className={clsx("neo-sheet", className)} id={id} {...rest}>
-      {children}
-    </div>
-  );
+  return <div className={clsx("neo-sheet", className)} {...rest}></div>;
 };
