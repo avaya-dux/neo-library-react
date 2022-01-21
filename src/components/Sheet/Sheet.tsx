@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { FC } from "react";
 
-import { genId } from "utils";
+import { genId, handleAccessbilityError } from "utils";
 
 export interface SheetProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
@@ -40,7 +40,9 @@ export const Sheet: FC<SheetProps> = ({
       </BasicSheet>
     );
   } else if (!title && buttons) {
-    console.error("If you add buttons, you must also provide a title");
+    handleAccessbilityError(
+      "If you add buttons, you must also provide a title"
+    );
   }
 
   return (
@@ -73,8 +75,8 @@ const BasicSheet: FC<{ id: string; className?: string }> = ({
   return (
     <div
       className={clsx("neo-sheet", className)}
-      id={id}
       data-testid={id}
+      id={id}
       {...rest}
     >
       {children}
