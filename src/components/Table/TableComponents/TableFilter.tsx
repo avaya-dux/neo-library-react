@@ -21,10 +21,11 @@ export const TableFilter = <T extends Record<string, any>>({
   // translations
   const clear = translations.clear || defaultTranslations.toolbar.clear;
   const close =
-    translations.close || (defaultTranslations.toolbar.close as string);
-  const filter = translations.filter || defaultTranslations.toolbar.filter;
-  const filterBy =
-    translations.filterBy || defaultTranslations.toolbar.filterBy;
+    translations.close || defaultTranslations.toolbar.close || "Close";
+  const filterColumns =
+    translations.filterColumns ||
+    defaultTranslations.toolbar.filterColumns ||
+    "Filter Columns";
 
   const { allColumns, setHiddenColumns } = instance;
 
@@ -46,7 +47,7 @@ export const TableFilter = <T extends Record<string, any>>({
   return (
     <>
       <IconButton
-        aria-label={filter || "Filter"}
+        aria-label={filterColumns}
         icon="filter"
         shape="square"
         onClick={toggleFilter}
@@ -55,8 +56,7 @@ export const TableFilter = <T extends Record<string, any>>({
       {sheetVisible && (
         <Sheet
           className="neo-table__filters--sheet"
-          style={{ width: 200 }}
-          title={filterBy}
+          title={filterColumns}
           buttons={buttons}
         >
           <section>
