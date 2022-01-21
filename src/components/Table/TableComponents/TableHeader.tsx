@@ -1,3 +1,5 @@
+import { CSSProperties } from "react";
+
 import { Checkbox } from "components/Checkbox";
 import { Keys } from "utils";
 
@@ -123,8 +125,11 @@ export const TableHeader = <T extends Record<string, any>>({
             );
           }
 
-          const styles = {
+          const styles: CSSProperties = {
             display: isVisible ? "table-cell" : "none",
+            width: column.width,
+            minWidth: column.minWidth,
+            maxWidth: column.maxWidth,
           };
 
           return (

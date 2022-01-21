@@ -23,7 +23,7 @@ const columnsExample: Array<Column<IDataTableMockData>> = [
     Header: "Name",
     accessor: "name",
     disableFilters: true,
-    width: 100,
+    maxWidth: 200,
   },
   {
     Header: "Color",
