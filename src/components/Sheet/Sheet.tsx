@@ -73,12 +73,7 @@ const BasicSheet: FC<{ id: string; className?: string }> = ({
   ...rest
 }) => {
   return (
-    <div
-      className={clsx("neo-sheet", className)}
-      data-testid={id}
-      id={id}
-      {...rest}
-    >
+    <div className={clsx("neo-sheet", className)} id={id} {...rest}>
       {children}
     </div>
   );

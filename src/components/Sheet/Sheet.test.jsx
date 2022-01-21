@@ -12,7 +12,7 @@ const { Default, Templated } = composeStories(SheetStories);
 describe("Sheet", () => {
   it("fully renders without exploding", () => {
     const id = "sheet-test";
-    const { getByTestId } = render(<Sheet id={id}>content</Sheet>);
+    const { getByTestId } = render(<Sheet data-testid={id}>content</Sheet>);
 
     const rootElement = getByTestId(id);
     expect(rootElement).toBeTruthy();
