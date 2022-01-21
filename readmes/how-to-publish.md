@@ -15,3 +15,14 @@ You can check that the package was properly published by viewing it on NPMJS
 If you made a mistake, you can simply `unpublish` the package via
 - `npm unpublish @avaya/neo-react@<version>`
 - - [see NPMJS docs](https://docs.npmjs.com/cli/v8/commands/npm-unpublish) for further details on unpublishing
+
+
+Once that is complete, the next step is to add the release to our GitHub
+- navigate to our [GitHub releases page](https://github.com/avaya-dux/neo-library-react/releases)
+- click: "Draft a new release" (top right corner)
+- choose tag (or create a new tag on publish), using format `vX.X.X`
+- target `main` branch
+- add title using format: "v0.2.0 (Jan 18th 2022)"
+- click: "Auto-generate release notes"
+- attach the binary generated from `yarn all` (tgz file)
+- click: "Publish release"
