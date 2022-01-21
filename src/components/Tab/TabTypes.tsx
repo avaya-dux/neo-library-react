@@ -52,8 +52,8 @@ export interface TabsInterface {
 
 export interface InternalTabProps extends React.HTMLAttributes<HTMLLIElement> {
   id: string;
-  disabled: boolean;
   name: string;
+  disabled: boolean;
   content: ReactNode;
 }
 

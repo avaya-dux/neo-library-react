@@ -22,7 +22,7 @@ import {
 } from "./TabTypes";
 
 const logger = log.getLogger("tabs-logger");
-logger.disableAll();
+logger.enableAll();
 
 export const Tabs = forwardRef(
   (
@@ -34,7 +34,7 @@ export const Tabs = forwardRef(
     logger.debug(`Is tab vertical? ${isVertical}`);
 
     function disableActiveTab() {
-      log.debug(`active tab ${activeTabId} disabled`);
+      logger.debug(`disable active tab ${activeTabId}`);
       const updated = tabs.map((t) => {
         if (t.id === activeTabId) {
           return { ...t, disabled: true };
@@ -45,7 +45,7 @@ export const Tabs = forwardRef(
     }
 
     function enableActiveTab() {
-      log.debug(`active tab ${activeTabId} enabled`);
+      logger.debug(`enable active tab ${activeTabId}`);
       const updated = tabs.map((t) => {
         if (t.id === activeTabId) {
           return { ...t, disabled: false };
@@ -73,13 +73,17 @@ export const Tabs = forwardRef(
     const [activeTabId, setActiveTabId] = useState(defaultTabId);
     const [activePanelId, setActivePanelId] = useState(defaultTabId);
 
-    useImperativeHandle(ref, () => ({
-      disableActiveTab,
-      enableActiveTab,
-      disableAllTabs,
-      enableAllTabs,
-      activeTabId,
-    }));
+    useImperativeHandle(
+      ref,
+      () => ({
+        disableActiveTab,
+        enableActiveTab,
+        disableAllTabs,
+        enableAllTabs,
+        activeTabId,
+      }),
+      [activeTabId]
+    );
 
     return (
       <div
@@ -132,10 +136,13 @@ export const buildTabProps = (
   return tabs.map((tab, index) => {
     const props = tab.props;
     const panel = panels[index].props as TabPanelProps;
+    const { id, children, ...rest } = props;
+    const disabled = !!props?.disabled;
     return {
-      id: props.id || genId(),
-      name: props.children.toString(),
-      disabled: false,
+      ...rest,
+      disabled,
+      id: id || genId(),
+      name: children.toString(),
       content: panel.children,
     };
   });
@@ -151,13 +158,21 @@ export const createTab = (
 ) => {
   const tabId = tabProps.id;
   const active = tabId === activeTabId;
+  const { className, id, name, disabled, ...rest } = tabProps;
+  logger.debug(`${tabId} disabled is ${tabProps.disabled}`);
   return (
-    <li key={index} className={getHeadClasses({ ...tabProps, active: active })}>
+    <li
+      key={index}
+      className={getHeadClasses({ ...tabProps, active: active })}
+      {...rest}
+    >
       <InternalTab
         {...tabProps}
         active={active}
         tabs={tabs}
         activeTabId={activeTabId}
+        aria-disabled={disabled}
+        disabled={disabled}
         setActiveTabId={setActiveTabId}
         setActivePanelId={setActivePanelTabId}
       />

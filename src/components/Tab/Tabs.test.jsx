@@ -62,8 +62,12 @@ describe("Tab", () => {
       const tabs = (
         <Tabs defaultTabId="tab1">
           <TabList>
-            <Tab id="tab1">tab1</Tab>
-            <Tab id="tab2">tab2</Tab>
+            <Tab id="tab1" dir="ltr">
+              tab1
+            </Tab>
+            <Tab id="tab2" disabled>
+              tab2
+            </Tab>
             <Tab id="tab3">tab3</Tab>
           </TabList>
           <TabPanels>
@@ -77,34 +81,35 @@ describe("Tab", () => {
         </Tabs>
       );
       expect(buildTabProps(tabs.props.children)).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "content": Array [
-            <h2>
-              content1
-            </h2>,
-            <p>
-              paragraph 1
-            </p>,
-          ],
-          "disabled": false,
-          "id": "tab1",
-          "name": "tab1",
-        },
-        Object {
-          "content": "content 2",
-          "disabled": false,
-          "id": "tab2",
-          "name": "tab2",
-        },
-        Object {
-          "content": "content 3",
-          "disabled": false,
-          "id": "tab3",
-          "name": "tab3",
-        },
-      ]
-    `);
+        Array [
+          Object {
+            "content": Array [
+              <h2>
+                content1
+              </h2>,
+              <p>
+                paragraph 1
+              </p>,
+            ],
+            "dir": "ltr",
+            "disabled": false,
+            "id": "tab1",
+            "name": "tab1",
+          },
+          Object {
+            "content": "content 2",
+            "disabled": true,
+            "id": "tab2",
+            "name": "tab2",
+          },
+          Object {
+            "content": "content 3",
+            "disabled": false,
+            "id": "tab3",
+            "name": "tab3",
+          },
+        ]
+      `);
     });
   });
 });

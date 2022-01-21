@@ -38,11 +38,13 @@ const Template: Story<TabsProps> = (props) => {
       <Button onClick={() => ref.current?.enableAllTabs()}>
         Enable All Tabs
       </Button>
-      <Tabs defaultTabId={props.defaultTabId}>
+      <Tabs defaultTabId={props.defaultTabId} ref={ref}>
         <TabList>
           <Tab id="tab1">tab1</Tab>
           <Tab id="tab2">tab2</Tab>
-          <Tab id="tab3">tab3</Tab>
+          <Tab id="tab3" disabled>
+            tab3
+          </Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
