@@ -15,6 +15,7 @@ export interface IDataTableMockData {
   other: string;
   date: Date;
   status: "active" | "inactive" | "awc" | "in call";
+  hexValue: string;
 }
 
 const columnsExample: Array<Column<IDataTableMockData>> = [
@@ -23,6 +24,12 @@ const columnsExample: Array<Column<IDataTableMockData>> = [
     accessor: "name",
     disableFilters: true,
     width: 100,
+  },
+  {
+    Header: "Color",
+    accessor: "hexValue",
+    disableFilters: true,
+    sortType: "alphanumeric",
   },
   {
     Header: "Other",
@@ -87,6 +94,7 @@ const columnsExample: Array<Column<IDataTableMockData>> = [
         </SelectNative>
       );
     },
+    Header: "Status",
     accessor: "status",
     disableSortBy: true,
   },
@@ -99,6 +107,7 @@ const dataExample: IDataTableMockData[] = [
     other: "Lorem Ipsum",
     date: new Date(2001, 1, 1),
     status: "active",
+    hexValue: "FF0000",
   },
   {
     id: "20",
@@ -107,6 +116,7 @@ const dataExample: IDataTableMockData[] = [
     other: "Delor Itum",
     date: new Date(2000, 2, 1),
     status: "inactive",
+    hexValue: "00FF00",
   },
   {
     id: "30",
@@ -115,6 +125,7 @@ const dataExample: IDataTableMockData[] = [
     other: "Asdf Fded",
     date: new Date(2010, 2, 12),
     status: "in call",
+    hexValue: "0000FF",
   },
   {
     id: "40",
@@ -123,6 +134,7 @@ const dataExample: IDataTableMockData[] = [
     other: "Consectetur Adipiscing",
     date: new Date(2020, 1, 21),
     status: "awc",
+    hexValue: "FFFF00",
   },
   {
     id: "50",
@@ -131,6 +143,7 @@ const dataExample: IDataTableMockData[] = [
     other: "Duis aute",
     date: new Date(2000, 2, 11),
     status: "awc",
+    hexValue: "FF00FF",
   },
   {
     id: "60",
@@ -139,6 +152,7 @@ const dataExample: IDataTableMockData[] = [
     other: "Excepteur sint",
     date: new Date(2000, 2, 26),
     status: "in call",
+    hexValue: "00FFFF",
   },
   {
     id: "70",
@@ -147,6 +161,25 @@ const dataExample: IDataTableMockData[] = [
     other: "Nulla pariatur",
     date: new Date(2000, 3, 11),
     status: "awc",
+    hexValue: "FF0000",
+  },
+  {
+    id: "70",
+    label: "Frank",
+    name: <a href="#frank">Fancy Frank</a>,
+    other: "Nulla pariatur",
+    date: new Date(2000, 3, 11),
+    status: "awc",
+    hexValue: "FF0000",
+  },
+  {
+    id: "80",
+    label: "Scott",
+    name: <a href="#scott">Fancy Frank</a>,
+    other: "Etora platurude",
+    date: new Date(2000, 3, 15),
+    status: "active",
+    hexValue: "AA0000",
   },
 ];
 
