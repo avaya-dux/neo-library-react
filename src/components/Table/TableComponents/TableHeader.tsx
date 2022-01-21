@@ -78,6 +78,7 @@ export const TableHeader = <T extends Record<string, any>>({
             getSortByToggleProps,
             isSorted,
             isSortedDesc,
+            isVisible,
             render,
           } = column;
 
@@ -122,8 +123,17 @@ export const TableHeader = <T extends Record<string, any>>({
             );
           }
 
+          const styles = {
+            display: isVisible ? "table-cell" : "none",
+          };
+
           return (
-            <th {...getHeaderProps()} scope="col" aria-sort={ariasort}>
+            <th
+              style={styles}
+              {...getHeaderProps()}
+              scope="col"
+              aria-sort={ariasort}
+            >
               {content}
             </th>
           );
