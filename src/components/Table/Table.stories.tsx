@@ -32,12 +32,27 @@ export const AdvancedFilteringAndSorting = () => {
       accessor: "level",
       disableFilters: true,
 
-      sortType: (row) => {
-        return row.original.level === "low"
-          ? 1
-          : row.original.level === "medium"
-          ? -1
-          : 0;
+      sortType: (rowA, rowB) => {
+        const {
+          original: { level: levelA },
+        } = rowA;
+        const {
+          original: { level: levelB },
+        } = rowB;
+        let result = 0;
+
+        if (levelA === levelB) {
+          result = 0;
+        } else if (
+          (levelA === "high" && levelB !== "high") ||
+          (levelA === "medium" && levelB === "low")
+        ) {
+          result = 1;
+        } else {
+          result = -1;
+        }
+
+        return result;
       },
     },
     {
@@ -116,6 +131,7 @@ export const AdvancedFilteringAndSorting = () => {
       Header: "Status",
       accessor: "status",
       disableSortBy: true,
+      filter: "exactTextCase",
     },
   ];
 
