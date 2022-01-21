@@ -3,7 +3,6 @@ import { Meta, Story } from "@storybook/react/types-6-0";
 import { MenuItem, SubMenu } from "components";
 
 import { Navbar, NavbarProps } from ".";
-import { NavbarButtonProps } from "./RightContent/NavbarButton";
 
 export default {
   title: "Components/Navbar",
