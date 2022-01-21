@@ -9,6 +9,7 @@ import {
   List,
   ListItem,
   SelectNative,
+  Tooltip,
 } from "components";
 import { IconNamesType } from "utils";
 
@@ -58,13 +59,17 @@ export const AdvancedFilteringAndSorting = () => {
     {
       Cell: ({ value }) => {
         let icon: IconNamesType = "undo";
+        let label = "unknown";
+
         if (value === true) {
           icon = "check";
+          label = "Yes";
         } else if (value === false) {
           icon = "close";
+          label = "No";
         }
 
-        return <Icon icon={icon} />;
+        return <Icon icon={icon} aria-label={label} />;
       },
       Header: "Has On Call Beeper",
       accessor: "hasOnCallBeeper",
@@ -132,6 +137,28 @@ export const AdvancedFilteringAndSorting = () => {
       accessor: "status",
       disableSortBy: true,
       filter: "exactTextCase",
+    },
+    {
+      Cell: ({ value }) =>
+        value ? (
+          <Tooltip label={value}>
+            <div
+              style={{
+                whiteSpace: "nowrap",
+                width: 50,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {value}
+            </div>
+          </Tooltip>
+        ) : (
+          <>---</>
+        ),
+      Header: "Long Text",
+      accessor: "longText",
+      disableFilters: true,
     },
   ];
 

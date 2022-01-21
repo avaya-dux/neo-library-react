@@ -13,6 +13,7 @@ export interface IDataTableMockData {
   hexValue: string;
   level?: "low" | "medium" | "high";
   hasOnCallBeeper?: boolean;
+  longText?: string;
 }
 
 const columnsExample: Array<Column<IDataTableMockData>> = [
@@ -46,6 +47,8 @@ const dataExample: IDataTableMockData[] = [
     hexValue: "FF0000",
     level: "low",
     hasOnCallBeeper: true,
+    longText:
+      "Emojis! 😀 😎 😱 😈 And a buncha text to test the ellipsis. Oh yeah, and a buncha rando special characters: \n\"<>&'{}[]!@#$%^&*()_+-=|\\/?.~`",
   },
   {
     id: "20",
