@@ -20,7 +20,6 @@ export const TableFilter = <T extends Record<string, any>>({
 }: TableFilterProps<T>) => {
   const {
     state: { filters, globalFilter },
-    // setGlobalFilter,
   } = instance;
   console.log("filters", filters);
   console.log("globalFilter", globalFilter);
@@ -35,7 +34,6 @@ export const TableFilter = <T extends Record<string, any>>({
   const [filtersVisible, setFiltersVisible] = useState(false);
   const toggleFilter = () => {
     setFiltersVisible(!filtersVisible);
-    // setSearches(event.target.value);
   };
 
   const buttons = [

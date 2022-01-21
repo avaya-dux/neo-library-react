@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import {
+  useFilters,
   useGlobalFilter,
   usePagination,
   useRowSelect,
@@ -83,6 +84,7 @@ export const Table = <T extends Record<string, any>>({
       },
       ...rest,
     },
+    useFilters,
     useGlobalFilter,
     useSortBy,
     usePagination,
@@ -179,13 +181,13 @@ export const Table = <T extends Record<string, any>>({
 
       {rows.length > 0 && (
         <Pagination
-          currentPageIndex={pageIndex + 1} // TODO: may want to go and update Pagination.tsx to be zero-based
+          currentPageIndex={pageIndex + 1}
           itemCount={rowCount}
           itemsPerPage={pageSize}
           itemsPerPageOptions={itemsPerPageOptions}
           onPageChange={(e, newIndex) => {
             e?.preventDefault();
-            gotoPage(newIndex - 1); // TODO: may want to go and update Pagination.tsx to be zero-based
+            gotoPage(newIndex - 1);
           }}
           onItemsPerPageChange={(e, newItemsPerPage) => {
             e?.preventDefault();

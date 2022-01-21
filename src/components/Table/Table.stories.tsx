@@ -73,6 +73,8 @@ export const EditableData = () => {
             name: "New Row",
             label: "New Row",
             other: "Lorem Ipsum",
+            date: new Date(),
+            status: "inactive",
           };
           setData([...data, newRow]);
         }}

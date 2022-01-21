@@ -5,6 +5,11 @@ import { calculateAriaSortValue } from "../helpers";
 import { TableHeaderProps } from "../types";
 
 /**
+ * There are more filtering examples to be found here:
+ * https://codesandbox.io/s/github/tannerlinsley/react-table/tree/master/examples/filtering?file=/src/App.js
+ */
+
+/**
  * TableHeader is used by the Table component to render the `<thead>` table content
  *
  * @example
@@ -67,6 +72,7 @@ export const TableHeader = <T extends Record<string, any>>({
         )}
         {headers.map((column) => {
           const {
+            canFilter,
             canSort,
             getHeaderProps,
             getSortByToggleProps,
@@ -77,42 +83,48 @@ export const TableHeader = <T extends Record<string, any>>({
 
           const sortedDir = isSortedDesc ? "descending" : "ascending";
           const ariasort = calculateAriaSortValue(isSorted, sortedDir);
-          const thDivProps = getSortByToggleProps({
-            title: translations?.sortBy,
-          });
+
+          let content = column.render("Header");
+          if (canFilter) {
+            content = column.render("Filter");
+          } else if (canSort) {
+            const thDivProps = getSortByToggleProps({
+              title: translations?.sortBy,
+            });
+
+            content = (
+              <div
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  switch (e.key) {
+                    case Keys.ENTER:
+                    case Keys.SPACE:
+                    case Keys.DOWN:
+                      (thDivProps as any).onClick(e); // BUG: can't figure out the proper typing of thDivProps
+                      break;
+                  }
+                }}
+                {...thDivProps}
+              >
+                {render("Header")}
+
+                {isSorted && (
+                  <span
+                    className={
+                      ariasort === "descending"
+                        ? "neo-icon-arrow-up"
+                        : "neo-icon-arrow-down"
+                    }
+                  />
+                )}
+              </div>
+            );
+          }
 
           return (
             <th {...getHeaderProps()} scope="col" aria-sort={ariasort}>
-              {canSort ? (
-                <div
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    switch (e.key) {
-                      case Keys.ENTER:
-                      case Keys.SPACE:
-                      case Keys.DOWN:
-                        (thDivProps as any).onClick(e); // BUG: can't figure out the proper typing of thDivProps
-                        break;
-                    }
-                  }}
-                  {...thDivProps}
-                >
-                  {render("Header")}
-
-                  {isSorted && (
-                    <span
-                      className={
-                        ariasort === "descending"
-                          ? "neo-icon-arrow-up"
-                          : "neo-icon-arrow-down"
-                      }
-                    />
-                  )}
-                </div>
-              ) : (
-                column.render("Header")
-              )}
+              {content}
             </th>
           );
         })}
