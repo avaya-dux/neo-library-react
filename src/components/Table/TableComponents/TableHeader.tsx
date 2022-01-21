@@ -95,6 +95,8 @@ export const TableHeader = <T extends Record<string, any>>({
               title: translations?.sortBy,
             });
 
+            // TODO: update to open menu on click, and use `toggleSortBy`
+            // https://react-table.tanstack.com/docs/api/useSortBy
             content = (
               <div
                 role="button"
