@@ -3,18 +3,46 @@ import { Meta, Story } from "@storybook/react/types-6-0";
 import { MenuItem, SubMenu } from "components";
 
 import { Navbar, NavbarProps } from ".";
+import { NavbarButtonProps } from "./RightContent/NavbarButton";
 
 export default {
   title: "Components/Navbar",
   component: Navbar,
 } as Meta<NavbarProps>;
 
-const exampleNavbarProps: NavbarProps = {
-  logo: {
-    link: "https://design.avayacloud.com",
-    src: "http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png",
-    alt: "Link to Avaya",
+const logo = {
+  link: "https://design.avayacloud.com",
+  src: "http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png",
+  alt: "Link to Avaya",
+};
+
+const Template: Story<NavbarProps> = (props: NavbarProps) => {
+  return <Navbar {...props} />;
+};
+
+export const BasicNavbar = Template.bind({});
+BasicNavbar.args = {
+  logo: logo,
+};
+
+export const NavbarWithLeftNavigationToggle = Template.bind({});
+NavbarWithLeftNavigationToggle.args = {
+  logo: logo,
+  leftNavigationToggle: {
+    "aria-label": "Toggle Menu",
+    onClick: () => console.log("Menu toggle clicked"),
   },
+};
+
+export const NavbarWithTitle = Template.bind({});
+NavbarWithTitle.args = {
+  logo: logo,
+  title: "Product Name",
+};
+
+export const NavbarWithSearch = Template.bind({});
+NavbarWithSearch.args = {
+  logo: logo,
   search: {
     clearable: false,
     disabled: false,
@@ -22,12 +50,38 @@ const exampleNavbarProps: NavbarProps = {
     startIcon: "search",
     "aria-label": "search",
   },
-  title: "Product Name",
+};
+
+export const NavbarWithNavButtons = Template.bind({});
+NavbarWithNavButtons.args = {
+  logo: logo,
   navButtons: [
     { badge: "", icon: "info", "aria-label": "Info" },
     { badge: "", icon: "settings", "aria-label": "Settings" },
   ],
+};
+
+export const NavbarWithAvatar = Template.bind({});
+NavbarWithAvatar.args = {
+  logo: logo,
   navbarAvatar: {
+    avatar: {
+      initials: "MD",
+    },
+  },
+  navButtons: [
+    { badge: "", icon: "info", "aria-label": "Info" },
+    { badge: "", icon: "settings", "aria-label": "Settings" },
+  ],
+};
+
+export const NavbarWithAvatarAndDropdown = Template.bind({});
+NavbarWithAvatarAndDropdown.args = {
+  logo: logo,
+  navbarAvatar: {
+    avatar: {
+      variant: "generic",
+    },
     dropdown: {
       children: [
         <MenuItem key={"1"} text="Item1" />,
@@ -41,6 +95,12 @@ const exampleNavbarProps: NavbarProps = {
   },
 };
 
-export const NavbarExample: Story<NavbarProps> = () => {
-  return <Navbar {...exampleNavbarProps} />;
+export const StickyNavbar: Story<NavbarProps> = () => {
+  return (
+    <div style={{ height: "400px", overflowY: "auto" }}>
+      <div style={{ height: "500px" }}>
+        <Navbar logo={logo} sticky />
+      </div>
+    </div>
+  );
 };

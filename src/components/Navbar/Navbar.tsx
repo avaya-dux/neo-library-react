@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 
 import { dispatchInputOnChangeEvent } from "utils";
@@ -24,6 +25,8 @@ export interface NavbarProps {
   title?: string;
   navButtons?: NavbarButtonProps[];
   navbarAvatar?: NavbarAvatarProps;
+  leftNavigationToggle?: Pick<NavbarButtonProps, "aria-label" | "onClick">;
+  sticky?: boolean;
 }
 
 // NOTE: COMPONENT IS NOT READY FOR CUSTOMERS TO USE, AND WILL BE EXPORTED IN SUBSEQUENT PRS
@@ -64,11 +67,14 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
   title,
   navButtons,
   navbarAvatar,
+  leftNavigationToggle,
+  sticky,
 }) => {
   // TO-DO: NEO-616 - create Tabs Component
-  // TO-DO: Implement Button to control collapsible Left Navigation
-  // TO-DO: Replace inline styles on line 80 with updated CSS rules to avoid use of <form> element in Navbar
-  // TO-DO: Replace inline styles on line 76 with updated CSS rules for correct styling of 'title' prop
+  // TO-DO: NEO-558 - create Left Navigation Component
+  // TO-DO: NEO-786 - Replace inline styles on line 80 with updated CSS rules to avoid use of <form> element in Navbar
+  // TO-DO: NEO-785 - Replace inline styles on line 76 with updated CSS rules for correct styling of 'title' prop
+  // TO-DO: NEO-794 - Confirm use-case for Avatar in Navbar without Dropdown and resulting need for inline styles on line 132
   const [ids, setIds] = useState<string[]>([]);
   const [activeId, setActiveId] = useState("");
 
@@ -92,8 +98,12 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
   );
 
   return (
-    <nav className="neo-navbar">
+    <nav className={clsx("neo-navbar", sticky && "neo-navbar--sticky")}>
       <div className="neo-nav--left">
+        {leftNavigationToggle && (
+          <NavbarButton {...leftNavigationToggle} icon={"menu"} />
+        )}
+
         {isLink(logo) ? <LinkLogo {...logo} /> : <Logo {...logo} />}
 
         {title && (
@@ -119,7 +129,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
         )}
       </div>
 
-      <div className="neo-nav">
+      <div className="neo-nav" style={{ alignItems: "center" }}>
         {navButtons?.map((navButton, key) => {
           return (
             <NavbarButton
