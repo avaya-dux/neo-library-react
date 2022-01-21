@@ -27,7 +27,6 @@ export const Default = () => (
 export const AdvancedFilteringAndSorting = () => {
   const columns: Array<Column<IDataTableMockData>> = [
     ...FilledFields.columns,
-
     {
       Header: "Level",
       accessor: "level",
@@ -58,7 +57,7 @@ export const AdvancedFilteringAndSorting = () => {
       sortType: (row) => (row.original.hasOnCallBeeper ? 1 : -1), // `boolean` is not supported by default
     },
     {
-      Cell: ({ value }) => <span>{value.toLocaleDateString()}</span>,
+      Cell: ({ value }) => <>{value?.toLocaleDateString()}</>,
       Header: "Date",
       accessor: "date",
       disableFilters: true,
@@ -86,7 +85,7 @@ export const AdvancedFilteringAndSorting = () => {
             break;
         }
 
-        return <IconChip icon={icon} text={value.toUpperCase()} />;
+        return <IconChip icon={icon} text={value?.toUpperCase() || ""} />;
       },
       Filter: ({ column: { setFilter, preFilteredRows, id } }) => {
         const options = useMemo(() => {

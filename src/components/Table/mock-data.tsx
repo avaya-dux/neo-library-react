@@ -1,10 +1,4 @@
-import { useMemo } from "react";
 import { Column } from "react-table";
-
-import { IconChip } from "components/Chip";
-import { Icon } from "components/Icon";
-import { SelectNative } from "components/SelectNative";
-import { IconNamesType } from "utils";
 
 import { translations } from "./default-data";
 import { TableProps } from "./types";
@@ -14,11 +8,11 @@ export interface IDataTableMockData {
   label: string;
   name: string | JSX.Element;
   other: string;
-  date: Date;
-  status: "active" | "inactive" | "awc" | "in call";
+  date?: Date;
+  status?: "active" | "inactive" | "awc" | "in call";
   hexValue: string;
-  level: "low" | "medium" | "high";
-  hasOnCallBeeper: boolean;
+  level?: "low" | "medium" | "high";
+  hasOnCallBeeper?: boolean;
 }
 
 const columnsExample: Array<Column<IDataTableMockData>> = [
