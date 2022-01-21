@@ -7,6 +7,7 @@ import { ChipProps, Variants } from "./ChipTypes";
 // Icon can be right or left
 export interface IconChipProps extends ChipProps {
   icon: IconNamesType;
+  chiptype: "icon";
 }
 
 export const IconChip: React.FC<IconChipProps> = ({
