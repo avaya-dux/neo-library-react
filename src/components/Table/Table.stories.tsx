@@ -20,7 +20,7 @@ export const AdvancedFilters = () => (
     allowColumnFilter
     caption="Advanced Filters"
     columns={FilledFields.columns}
-    data={FilledFields.data}
+      data={[...FilledFields.data]}
   />
 );
 
@@ -126,7 +126,7 @@ export const EmptyDataSet = () => (
 );
 
 export const BareBones = () => (
-  <Table columns={FilledFields.columns} data={FilledFields.data} />
+  <Table columns={FilledFields.columns} data={[...FilledFields.data]} />
 );
 
 export const SelectableRows = () => {
@@ -165,7 +165,7 @@ export const SelectableRows = () => {
       <Table
         caption="Storybook Selectable Rows Table Example"
         columns={FilledFields.columns}
-        data={FilledFields.data}
+        data={[...FilledFields.data]}
         handleRowToggled={handleToggle}
         selectableRows="multiple"
         defaultSelectedRowIds={defaultSelectedRowIds}
@@ -193,6 +193,6 @@ Templated.args = {
   id: "templated-table",
 
   columns: FilledFields.columns,
-  data: FilledFields.data,
+  data: [...FilledFields.data],
   selectableRows: "none",
 };
