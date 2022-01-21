@@ -8,7 +8,7 @@ import { FilledFields } from "./mock-data";
 import * as TableStories from "./Table.stories";
 
 const {
-  AdvancedFilters,
+  AdvancedFilteringAndSorting,
   BareBones,
   CustomActions,
   Default,
@@ -304,11 +304,11 @@ describe("Table", () => {
   });
 
   describe("storybook tests", () => {
-    describe("AdvancedFilters", () => {
+    describe("AdvancedFilteringAndSorting", () => {
       let renderResult;
 
       beforeEach(() => {
-        renderResult = render(<AdvancedFilters />);
+        renderResult = render(<AdvancedFilteringAndSorting />);
       });
 
       it("should render ok", () => {

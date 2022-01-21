@@ -1,7 +1,16 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Column } from "react-table";
 
-import { Button, List, ListItem } from "components";
+import {
+  Button,
+  Icon,
+  IconChip,
+  List,
+  ListItem,
+  SelectNative,
+} from "components";
+import { IconNamesType } from "utils";
 
 import { Table, TableProps } from "./";
 import { FilledFields, IDataTableMockData } from "./mock-data";
@@ -15,14 +24,111 @@ export const Default = () => (
   <Table {...FilledFields} caption="Storybook Default Table Example" />
 );
 
-export const AdvancedFilters = () => (
-  <Table
-    allowColumnFilter
-    caption="Advanced Filters"
-    columns={FilledFields.columns}
+export const AdvancedFilteringAndSorting = () => {
+  const columns: Array<Column<IDataTableMockData>> = [
+    ...FilledFields.columns,
+
+    {
+      Header: "Level",
+      accessor: "level",
+      disableFilters: true,
+
+      sortType: (row) => {
+        return row.original.level === "low"
+          ? 1
+          : row.original.level === "medium"
+          ? -1
+          : 0;
+      },
+    },
+    {
+      Cell: ({ value }) => {
+        let icon: IconNamesType = "undo";
+        if (value === true) {
+          icon = "check";
+        } else if (value === false) {
+          icon = "close";
+        }
+
+        return <Icon icon={icon} />;
+      },
+      Header: "Has On Call Beeper",
+      accessor: "hasOnCallBeeper",
+      disableFilters: true,
+      sortType: (row) => (row.original.hasOnCallBeeper ? 1 : -1), // `boolean` is not supported by default
+    },
+    {
+      Cell: ({ value }) => <span>{value.toLocaleDateString()}</span>,
+      Header: "Date",
+      accessor: "date",
+      disableFilters: true,
+      sortType: "datetime",
+    },
+    {
+      Cell: ({ value }) => {
+        let icon: IconNamesType = "add-circle";
+
+        switch (value) {
+          case "active":
+            icon = "check";
+            break;
+          case "inactive":
+            icon = "close";
+            break;
+          case "awc":
+            icon = "away";
+            break;
+          case "in call":
+            icon = "agents";
+            break;
+          default:
+            icon = "queue";
+            break;
+        }
+
+        return <IconChip icon={icon} text={value.toUpperCase()} />;
+      },
+      Filter: ({ column: { setFilter, preFilteredRows, id } }) => {
+        const options = useMemo(() => {
+          const options = new Set();
+          preFilteredRows.forEach((row) => {
+            options.add(row.values[id]);
+          });
+          return Array.from(options.values());
+        }, [id, preFilteredRows]);
+
+        return (
+          <SelectNative
+            label="Status"
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+              setFilter(e.target.value || undefined);
+            }}
+          >
+            <option value="">All</option>
+
+            {options.map((option, i) => (
+              <option key={i} value={option as string}>
+                {option as string}
+              </option>
+            ))}
+          </SelectNative>
+        );
+      },
+      Header: "Status",
+      accessor: "status",
+      disableSortBy: true,
+    },
+  ];
+
+  return (
+    <Table
+      allowColumnFilter
+      caption="Advanced Filtering and Sorting"
+      columns={columns}
       data={[...FilledFields.data]}
-  />
-);
+    />
+  );
+};
 
 export const CustomActions = () => (
   <Table
