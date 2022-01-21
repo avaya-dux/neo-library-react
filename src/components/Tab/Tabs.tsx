@@ -6,9 +6,10 @@ import {
   useImperativeHandle,
   useState,
   FC,
+  Fragment,
 } from "react";
 import { genId } from "utils";
-import { TabHead } from "./TabHead";
+import { InternalTab } from "./InternalTab";
 import {
   InternalTabProps,
   TabsInterface,
@@ -20,7 +21,7 @@ import {
   VerticalTabsProps,
 } from "./TabTypes";
 
-const logger = log.getLogger("tab");
+const logger = log.getLogger("tabs-logger");
 logger.disableAll();
 
 export const Tabs = forwardRef(
@@ -28,7 +29,10 @@ export const Tabs = forwardRef(
     { defaultTabId, children, ...rest }: TabsProps | VerticalTabsProps,
     ref: React.Ref<TabsInterface>
   ) => {
-    const tabItems = buildTabProps(defaultTabId, children);
+    const tabItems = buildTabProps(children);
+    const isVertical = "isVertical" in rest;
+    logger.debug(`Is tab vertical? ${isVertical}`);
+
     function disableActiveTab() {
       log.debug(`active tab ${activeTabId} disabled`);
       const updated = tabs.map((t) => {
@@ -105,21 +109,20 @@ export const Tabs = forwardRef(
 export function getAllTabIdsInString(tabProps: InternalTabProps[]): string {
   return tabProps.map((tab) => tab.id).join(" ");
 }
-export const TabList: FC<TabListProps> = ({ children, ...rest }) => {
-  return <>{children}</>;
+export const TabList: FC<TabListProps> = (props) => {
+  return <Fragment {...props} />;
 };
-export const Tab: FC<TabProps> = ({ children, ...rest }) => {
-  return <>{children}</>;
+export const Tab: FC<TabProps> = (props) => {
+  return <Fragment {...props} />;
 };
-export const TabPanels: FC<TabPanelsProps> = ({ children, ...rest }) => {
-  return <>{children}</>;
+export const TabPanels: FC<TabPanelsProps> = (props) => {
+  return <Fragment {...props} />;
 };
-export const TabPanel: FC<TabPanelProps> = ({ children, ...rest }) => {
-  return <>{children}</>;
+export const TabPanel: FC<TabPanelProps> = (props) => {
+  return <Fragment {...props} />;
 };
 
 export const buildTabProps = (
-  defaultTabId: string,
   children: TabsProps["children"]
 ): InternalTabProps[] => {
   const tablist = children[0];
@@ -150,7 +153,7 @@ export const createHead = (
   const active = tabId === activeTabId;
   return (
     <li key={index} className={getHeadClasses({ ...tabProps, active: active })}>
-      <TabHead
+      <InternalTab
         {...tabProps}
         active={active}
         tabs={tabs}
