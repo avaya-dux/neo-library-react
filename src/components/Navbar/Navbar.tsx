@@ -5,6 +5,7 @@ import { genId } from "utils/accessibilityUtils";
 
 import { TextInput, TextInputProps } from "../TextInput";
 import { LinkLogo, LinkLogoProps, Logo, LogoProps } from "./LeftContent/Logo";
+import { NavbarAvatar, NavbarAvatarProps } from "./RightContent/NavbarAvatar";
 import { NavbarButton, NavbarButtonProps } from "./RightContent/NavbarButton";
 
 export interface NavbarProps {
@@ -22,6 +23,7 @@ export interface NavbarProps {
   >;
   title?: string;
   navButtons?: NavbarButtonProps[];
+  navbarAvatar?: NavbarAvatarProps;
 }
 
 // NOTE: COMPONENT IS NOT READY FOR CUSTOMERS TO USE, AND WILL BE EXPORTED IN SUBSEQUENT PRS
@@ -61,10 +63,9 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
   search,
   title,
   navButtons,
+  navbarAvatar,
 }) => {
   // TO-DO: NEO-616 - create Tabs Component
-  // TO-DO: Implement Avatar
-  // TO-DO: Implement Dropdown
   // TO-DO: Implement Button to control collapsible Left Navigation
   // TO-DO: Replace inline styles on line 80 with updated CSS rules to avoid use of <form> element in Navbar
   // TO-DO: Replace inline styles on line 76 with updated CSS rules for correct styling of 'title' prop
@@ -130,6 +131,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
             />
           );
         })}
+        {navbarAvatar && <NavbarAvatar {...navbarAvatar} />}
       </div>
     </nav>
   );
