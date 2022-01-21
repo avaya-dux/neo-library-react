@@ -18,12 +18,6 @@ export const TableFilter = <T extends Record<string, any>>({
   translations,
   instance,
 }: TableFilterProps<T>) => {
-  const { allColumns, getToggleHideAllColumnsProps, setHiddenColumns } =
-    instance;
-
-  const allCheckboxProps = { ...getToggleHideAllColumnsProps() };
-  console.log("allCheckboxProps", allCheckboxProps);
-
   // translations
   const clear = translations.clear || defaultTranslations.toolbar.clear;
   const close =
@@ -31,6 +25,8 @@ export const TableFilter = <T extends Record<string, any>>({
   const filter = translations.filter || defaultTranslations.toolbar.filter;
   const filterBy =
     translations.filterBy || defaultTranslations.toolbar.filterBy;
+
+  const { allColumns, setHiddenColumns } = instance;
 
   const [sheetVisible, setSheetVisible] = useState(false);
   const toggleFilter = () => setSheetVisible((v) => !v);

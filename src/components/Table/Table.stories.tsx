@@ -17,7 +17,7 @@ export const Default = () => (
 
 export const AdvancedFilters = () => (
   <Table
-    advancedFilters
+    allowColumnFilter
     caption="Advanced Filters"
     columns={FilledFields.columns}
     data={FilledFields.data}
@@ -75,6 +75,7 @@ export const EditableData = () => {
             other: "Lorem Ipsum",
             date: new Date(),
             status: "inactive",
+            hexValue: "#003300",
           };
           setData([...data, newRow]);
         }}

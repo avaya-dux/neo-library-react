@@ -19,7 +19,7 @@ import { TableFilter } from "./TableFilter";
  * />
  */
 export const TableToolbar = <T extends Record<string, any>>({
-  advancedFilters,
+  allowColumnFilter,
   customActionsNode,
   handleCreate,
   handleDelete,
@@ -120,7 +120,7 @@ export const TableToolbar = <T extends Record<string, any>>({
           />
         </div>
 
-        {advancedFilters && (
+        {allowColumnFilter && (
           <TableFilter translations={translations} instance={instance} />
         )}
 
