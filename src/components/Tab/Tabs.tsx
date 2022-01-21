@@ -89,7 +89,7 @@ export const Tabs = forwardRef(
       >
         <ul className="neo-tabs__nav">
           {tabs.map((tab, index) => {
-            return createHead(
+            return createTab(
               index,
               tab,
               tabs,
@@ -100,7 +100,7 @@ export const Tabs = forwardRef(
           })}
         </ul>
         {tabs.map((tabItem, index) => {
-          return createContent(index, tabItem, activePanelId);
+          return createPanel(index, tabItem, activePanelId);
         })}
       </div>
     );
@@ -141,7 +141,7 @@ export const buildTabProps = (
   });
 };
 
-export const createHead = (
+export const createTab = (
   index: number,
   tabProps: InternalTabProps,
   tabs: InternalTabProps[],
@@ -165,7 +165,7 @@ export const createHead = (
   );
 };
 
-export const createContent = (
+export const createPanel = (
   key: number,
   tabProps: InternalTabProps,
   activePanelId: string
