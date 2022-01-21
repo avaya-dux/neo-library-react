@@ -36,6 +36,7 @@ export interface TabPanelsProps {
 export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
   defaultTabId: string;
   children: [ReactElement<TabListProps>, ReactElement<TabPanelsProps>];
+  onTabChange?: (tabId: string) => void;
 }
 
 export interface VerticalTabsProps extends TabsProps {

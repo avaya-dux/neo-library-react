@@ -7,6 +7,7 @@ import {
   useState,
   FC,
   Fragment,
+  useEffect,
 } from "react";
 import { genId } from "utils";
 import { InternalTab } from "./InternalTab";
@@ -26,7 +27,12 @@ logger.enableAll();
 
 export const Tabs = forwardRef(
   (
-    { defaultTabId, children, ...rest }: TabsProps | VerticalTabsProps,
+    {
+      defaultTabId,
+      children,
+      onTabChange,
+      ...rest
+    }: TabsProps | VerticalTabsProps,
     ref: React.Ref<TabsInterface>
   ) => {
     const tabItems = buildTabProps(children);
@@ -73,17 +79,19 @@ export const Tabs = forwardRef(
     const [activeTabId, setActiveTabId] = useState(defaultTabId);
     const [activePanelId, setActivePanelId] = useState(defaultTabId);
 
-    useImperativeHandle(
-      ref,
-      () => ({
-        disableActiveTab,
-        enableActiveTab,
-        disableAllTabs,
-        enableAllTabs,
-        activeTabId,
-      }),
-      [activeTabId]
-    );
+    useImperativeHandle(ref, () => ({
+      disableActiveTab,
+      enableActiveTab,
+      disableAllTabs,
+      enableAllTabs,
+      activeTabId,
+    }));
+
+    useEffect(() => {
+      if (onTabChange) {
+        onTabChange(activeTabId);
+      }
+    }, [onTabChange, activeTabId]);
 
     return (
       <div
