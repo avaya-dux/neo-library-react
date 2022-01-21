@@ -70,12 +70,14 @@ export const EditableData = () => {
         handleCreate={() => {
           const newRow: IDataTableMockData = {
             id: "new-row-" + Math.random(),
-            name: "New Row",
+            name: "The new guy",
             label: "New Row",
             other: "Lorem Ipsum",
             date: new Date(),
             status: "inactive",
-            hexValue: "#003300",
+            hexValue: "003300",
+            level: "high",
+            hasOnCallBeeper: false,
           };
           setData([...data, newRow]);
         }}

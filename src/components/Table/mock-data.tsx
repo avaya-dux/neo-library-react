@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Column } from "react-table";
 
 import { IconChip } from "components/Chip";
+import { Icon } from "components/Icon";
 import { SelectNative } from "components/SelectNative";
 import { IconNamesType } from "utils";
 
@@ -16,6 +17,8 @@ export interface IDataTableMockData {
   date: Date;
   status: "active" | "inactive" | "awc" | "in call";
   hexValue: string;
+  level: "low" | "medium" | "high";
+  hasOnCallBeeper: boolean;
 }
 
 const columnsExample: Array<Column<IDataTableMockData>> = [
@@ -36,6 +39,34 @@ const columnsExample: Array<Column<IDataTableMockData>> = [
     accessor: "other",
     disableFilters: true,
     disableSortBy: true,
+  },
+  {
+    Header: "Level",
+    accessor: "level",
+    disableFilters: true,
+
+    sortType: (row) =>
+      row.original.level === "low"
+        ? 1
+        : row.original.level === "medium"
+        ? -1
+        : 0,
+  },
+  {
+    Cell: ({ value }) => {
+      let icon: IconNamesType = "undo";
+      if (value === true) {
+        icon = "check";
+      } else if (value === false) {
+        icon = "close";
+      }
+
+      return <Icon icon={icon} />;
+    },
+    Header: "Has On Call Beeper",
+    accessor: "hasOnCallBeeper",
+    disableFilters: true,
+    sortType: (row) => (row.original.hasOnCallBeeper ? 1 : -1), // `boolean` is not supported by default
   },
   {
     Cell: ({ value }) => <span>{value.toLocaleDateString()}</span>,
@@ -108,6 +139,8 @@ const dataExample: IDataTableMockData[] = [
     date: new Date(2001, 1, 1),
     status: "active",
     hexValue: "FF0000",
+    level: "low",
+    hasOnCallBeeper: true,
   },
   {
     id: "20",
@@ -117,6 +150,8 @@ const dataExample: IDataTableMockData[] = [
     date: new Date(2000, 2, 1),
     status: "inactive",
     hexValue: "00FF00",
+    level: "low",
+    hasOnCallBeeper: false,
   },
   {
     id: "30",
@@ -126,6 +161,8 @@ const dataExample: IDataTableMockData[] = [
     date: new Date(2010, 2, 12),
     status: "in call",
     hexValue: "0000FF",
+    level: "high",
+    hasOnCallBeeper: true,
   },
   {
     id: "40",
@@ -135,6 +172,8 @@ const dataExample: IDataTableMockData[] = [
     date: new Date(2020, 1, 21),
     status: "awc",
     hexValue: "FFFF00",
+    level: "medium",
+    hasOnCallBeeper: false,
   },
   {
     id: "50",
@@ -144,6 +183,8 @@ const dataExample: IDataTableMockData[] = [
     date: new Date(2000, 2, 11),
     status: "awc",
     hexValue: "FF00FF",
+    level: "low",
+    hasOnCallBeeper: true,
   },
   {
     id: "60",
@@ -153,6 +194,8 @@ const dataExample: IDataTableMockData[] = [
     date: new Date(2000, 2, 26),
     status: "in call",
     hexValue: "00FFFF",
+    level: "medium",
+    hasOnCallBeeper: false,
   },
   {
     id: "70",
@@ -162,6 +205,8 @@ const dataExample: IDataTableMockData[] = [
     date: new Date(2000, 3, 11),
     status: "awc",
     hexValue: "FF0000",
+    level: "low",
+    hasOnCallBeeper: true,
   },
   {
     id: "70",
@@ -171,6 +216,8 @@ const dataExample: IDataTableMockData[] = [
     date: new Date(2000, 3, 11),
     status: "awc",
     hexValue: "FF0000",
+    level: "low",
+    hasOnCallBeeper: true,
   },
   {
     id: "80",
@@ -180,6 +227,8 @@ const dataExample: IDataTableMockData[] = [
     date: new Date(2000, 3, 15),
     status: "active",
     hexValue: "AA0000",
+    level: "medium",
+    hasOnCallBeeper: false,
   },
 ];
 
