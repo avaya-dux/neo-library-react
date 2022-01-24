@@ -1,4 +1,4 @@
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { Meta } from "@storybook/react/types-6-0";
 import { Button } from "components";
 import { useState } from "react";
 import { tabMouseEventHandlerLogger } from "./EventHandlers";
