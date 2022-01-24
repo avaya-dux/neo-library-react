@@ -3,7 +3,7 @@ import { ReactNode, Dispatch, SetStateAction, ReactElement } from "react";
 
 export interface TabProps extends React.HTMLAttributes<HTMLLIElement> {
   id?: string;
-  children: string;
+  children: ReactNode;
   disabled?: boolean;
 }
 
@@ -46,7 +46,7 @@ export interface VerticalTabsProps extends TabsProps {
 
 export interface InternalTabProps extends React.HTMLAttributes<HTMLLIElement> {
   id: string;
-  name: string;
+  name: ReactNode;
   disabled: boolean;
   content: TabPanelProps;
 }

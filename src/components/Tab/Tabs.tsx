@@ -4,13 +4,15 @@ import {
   SetStateAction,
   useState,
   useMemo,
-  FC,
   Fragment,
   useEffect,
 } from "react";
 import { genId } from "utils";
 import { InternalTab } from "./InternalTab";
 import {
+  ClosableIconTabProps,
+  ClosableTabProps,
+  IconTabProps,
   InternalTabProps,
   TabListProps,
   TabPanelProps,
@@ -23,12 +25,12 @@ import {
 const logger = log.getLogger("tabs-logger");
 logger.disableAll();
 
-export const Tabs: FC<TabsProps | VerticalTabsProps> = ({
+export const Tabs = ({
   defaultTabId,
   children,
   onTabChange,
   ...rest
-}) => {
+}: TabsProps | VerticalTabsProps) => {
   const tabs = useMemo(() => buildTabProps(children), children);
   if (logger.getLevel() < log.levels.INFO) {
     tabs.forEach((tab) => {
@@ -76,16 +78,18 @@ export const Tabs: FC<TabsProps | VerticalTabsProps> = ({
 export function getAllTabIdsInString(tabProps: InternalTabProps[]): string {
   return tabProps.map((tab) => tab.id).join(" ");
 }
-export const TabList: FC<TabListProps> = (props) => {
+export const TabList = (props: TabListProps) => {
   return <Fragment {...props} />;
 };
-export const Tab: FC<TabProps> = (props) => {
+export const Tab = (
+  props: TabProps | IconTabProps | ClosableTabProps | ClosableIconTabProps
+) => {
   return <Fragment {...props} />;
 };
-export const TabPanels: FC<TabPanelsProps> = (props) => {
+export const TabPanels = (props: TabPanelsProps) => {
   return <Fragment {...props} />;
 };
-export const TabPanel: FC<TabPanelProps> = (props) => {
+export const TabPanel = (props: TabPanelProps) => {
   return <Fragment {...props} />;
 };
 
@@ -106,7 +110,7 @@ export const buildTabProps = (
       ...rest,
       disabled,
       id: id || genId(),
-      name: children.toString(),
+      name: children,
       content: panel,
     };
   });

@@ -12,8 +12,8 @@ export default {
   component: Tab,
 } as Meta<TabsProps>;
 
-const Template: Story<TabsProps> = (props) => {
-  const [activeTabId, setActiveTabId] = useState(props.defaultTabId);
+export const BasicTabs = () => {
+  const [activeTabId, setActiveTabId] = useState("tab2");
   const onTabChange = (activeTabId: string) => {
     setActiveTabId(activeTabId);
   };
@@ -85,9 +85,4 @@ const Template: Story<TabsProps> = (props) => {
       </Tabs>
     </div>
   );
-};
-
-export const BasicTabs = Template.bind({});
-BasicTabs.args = {
-  defaultTabId: "tab2",
 };
