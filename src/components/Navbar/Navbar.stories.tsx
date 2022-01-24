@@ -26,8 +26,8 @@ BasicNavbar.args = {
   logo: logo,
 };
 
-export const NavbarWithLeftNavigationToggle = Template.bind({});
-NavbarWithLeftNavigationToggle.args = {
+export const NavbarWithNavigationToggle = Template.bind({});
+NavbarWithNavigationToggle.args = {
   logo: logo,
   navMenuToggleBtn: {
     "aria-label": "Toggle Menu",

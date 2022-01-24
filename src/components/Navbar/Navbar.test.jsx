@@ -6,7 +6,7 @@ import { Navbar } from ".";
 import * as NavbarStories from "./Navbar.stories";
 
 const {
-  NavbarWithLeftNavigationToggle,
+  NavbarWithNavigationToggle,
   NavbarWithTitle,
   NavbarWithNavButtons,
   NavbarWithAvatarAndDropdown,
@@ -93,16 +93,16 @@ describe("Navbar", () => {
       });
     });
 
-    describe("Navbar With Left Navigation Toggle", () => {
+    describe("Navbar With Navigation Toggle", () => {
       it("correctly passes onClick handler to button as props", () => {
         const spy = jest.spyOn(console, "log").mockImplementation(() => {});
-        const { getByRole } = render(<NavbarWithLeftNavigationToggle />);
+        const { getByRole } = render(<NavbarWithNavigationToggle />);
         const leftNavToggleButton = getByRole("button");
         fireEvent.click(leftNavToggleButton);
         expect(spy).toHaveBeenCalled();
       });
       it("passes basic axe compliance", async () => {
-        const { container } = render(<NavbarWithLeftNavigationToggle />);
+        const { container } = render(<NavbarWithNavigationToggle />);
         const results = await axe(container);
         expect(results).toHaveNoViolations();
       });
