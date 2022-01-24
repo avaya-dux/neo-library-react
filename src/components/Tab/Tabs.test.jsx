@@ -4,7 +4,7 @@ import { axe } from "jest-axe";
 import { internalTabLogger } from "./InternalTab";
 import {
   buildTabProps,
-  getHeadClasses,
+  getTabItemClasses,
   Tab,
   TabList,
   TabPanel,
@@ -14,7 +14,7 @@ import {
 import * as TabStories from "./Tabs.stories";
 
 internalTabLogger.disableAll();
-const { BasicTabs } = composeStories(TabStories);
+const { BasicTabs, DeclarativeBasicTabs } = composeStories(TabStories);
 
 describe("Tab", () => {
   describe("Storybook tests", () => {
@@ -34,26 +34,42 @@ describe("Tab", () => {
         expect(results).toHaveNoViolations();
       });
     });
+    describe(DeclarativeBasicTabs, () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<DeclarativeBasicTabs />);
+      });
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).toBeDefined();
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
   });
 
-  describe(getHeadClasses, () => {
+  describe(getTabItemClasses, () => {
     it("when active = true and disabled = true, class is returned", () => {
-      const result = getHeadClasses({ active: true, disabled: true });
+      const result = getTabItemClasses({ active: true, disabled: true });
       expect(result).toContain("neo-tabs__item--active-disabled");
       expect(result).toContain("neo-tabs__item");
     });
     it("when active = true and disabled = false, class is returned", () => {
-      const result = getHeadClasses({ active: true, disabled: false });
+      const result = getTabItemClasses({ active: true, disabled: false });
       expect(result).toContain("neo-tabs__item--active");
       expect(result).toContain("neo-tabs__item");
     });
     it("when active = false and disabled = true, class is returned", () => {
-      const result = getHeadClasses({ active: false, disabled: true });
+      const result = getTabItemClasses({ active: false, disabled: true });
       expect(result).toContain("neo-tabs__item--disabled");
       expect(result).toContain("neo-tabs__item");
     });
     it("when active = false and disabled = false, class is returned", () => {
-      const result = getHeadClasses({ active: false, disabled: false });
+      const result = getTabItemClasses({ active: false, disabled: false });
       expect(result).toContain("neo-tabs__item");
     });
   });

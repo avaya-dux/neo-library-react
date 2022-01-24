@@ -23,7 +23,7 @@ import {
 } from "./TabTypes";
 
 const logger = log.getLogger("tabs-logger");
-logger.enableAll();
+logger.disableAll();
 
 export const Tabs = forwardRef(
   (
@@ -36,6 +36,9 @@ export const Tabs = forwardRef(
     ref: React.Ref<TabsInterface>
   ) => {
     const tabItems = buildTabProps(children);
+    tabItems.forEach((tab) => {
+      logger.debug(`${tab.id} disabled= ${tab.disabled}`);
+    });
     const isVertical = "isVertical" in rest;
     logger.debug(`Is tab vertical? ${isVertical}`);
 
@@ -79,6 +82,10 @@ export const Tabs = forwardRef(
     const [activeTabId, setActiveTabId] = useState(defaultTabId);
     const [activePanelId, setActivePanelId] = useState(defaultTabId);
 
+    useEffect(() => {
+      setTabs(tabItems);
+    }, [tabItems]);
+
     useImperativeHandle(ref, () => ({
       disableActiveTab,
       enableActiveTab,
@@ -101,6 +108,7 @@ export const Tabs = forwardRef(
       >
         <ul className="neo-tabs__nav">
           {tabs.map((tab, index) => {
+            logger.debug(`calling createTab with tabItem ${tab.disabled}`);
             return createTab(
               index,
               tab,
@@ -146,6 +154,7 @@ export const buildTabProps = (
     const panel = panels[index].props as TabPanelProps;
     const { id, children, ...rest } = props;
     const disabled = !!props?.disabled;
+    logger.debug(`${id} disabled = ${disabled}`);
     return {
       ...rest,
       disabled,
@@ -171,7 +180,7 @@ export const createTab = (
   return (
     <li
       key={index}
-      className={getHeadClasses({ ...tabProps, active: active })}
+      className={getTabItemClasses({ ...tabProps, active: active })}
       {...rest}
     >
       <InternalTab
@@ -205,7 +214,7 @@ export const getContentClasses = (active: boolean) => {
   return active ? "neo-tabs__container--active" : "neo-tabs__container";
 };
 
-export const getHeadClasses = ({
+export const getTabItemClasses = ({
   active = false,
   disabled = false,
 }: InternalTabProps & { active: boolean }) => {
