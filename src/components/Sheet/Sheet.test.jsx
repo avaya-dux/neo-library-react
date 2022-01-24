@@ -12,7 +12,7 @@ const { Default, Templated } = composeStories(SheetStories);
 describe("Sheet", () => {
   it("fully renders without exploding", () => {
     const id = "sheet-test";
-    const { getByTestId } = render(<Sheet id={id}>content</Sheet>);
+    const { getByTestId } = render(<Sheet data-testid={id}>content</Sheet>);
 
     const rootElement = getByTestId(id);
     expect(rootElement).toBeTruthy();
@@ -25,15 +25,26 @@ describe("Sheet", () => {
     expect(rootElement).toBeTruthy();
   });
 
-  it("throws a `console.error` if buttons are passed without a title", () => {
-    const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+  it("allows the passing of `<div>` props", () => {
+    const text = "content example";
+    const { getByText } = render(<Sheet style={{ width: 100 }}>{text}</Sheet>);
     const { getByRole } = render(
-      <Sheet buttons={[<Button key="example1">example</Button>]} />
+      <Sheet title="full sheet" style={{ width: 100 }} />
     );
 
-    const rootElement = getByRole("dialog");
-    expect(rootElement).toBeTruthy();
-    expect(spy.mock.calls.length).toBe(1);
+    const basicSheetRootElement = getByText(text);
+    const sheetRootElement = getByRole("dialog");
+
+    expect(basicSheetRootElement).toHaveStyle("width: 100px");
+    expect(sheetRootElement).toHaveStyle("width: 100px");
+  });
+
+  it("throws error if buttons are passed without a title", () => {
+    const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+    expect(() =>
+      render(<Sheet buttons={[<Button key="example1">example</Button>]} />)
+    ).toThrow();
+    expect(spy).toHaveBeenCalled();
   });
 
   it("passes basic axe compliance", async () => {

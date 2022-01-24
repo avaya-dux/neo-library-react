@@ -13,19 +13,21 @@ export const Default = () => {
   return (
     <main>
       <Sheet
-        title="Sheet title"
+        title="Sheet one"
         buttons={[
           <Button key="btn1">button 1</Button>,
           <Button key="btn2">second btn</Button>,
         ]}
       >
-        <p>sheet content</p>
+        <p>sheet one content</p>
       </Sheet>
+
       <Sheet>
-        <p>sheet content</p>
+        <p>sheet two content</p>
       </Sheet>
+
       <Sheet>
-        <p>sheet content</p>
+        <p>sheet two content</p>
       </Sheet>
     </main>
   );
