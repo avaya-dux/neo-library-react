@@ -54,11 +54,11 @@ NavbarWithSearch.args = {
 };
 NavbarWithSearch.decorators = [
   (Story) => {
-    const [searchString, getSearchString] = useState("");
+    const [searchString, setSearchString] = useState("");
 
     const inputListener = useCallback((e) => {
       const inputData = e.target.value;
-      getSearchString(searchString + inputData);
+      setSearchString(searchString + inputData);
     }, []);
 
     useEffect(() => {
