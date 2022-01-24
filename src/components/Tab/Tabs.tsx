@@ -30,9 +30,12 @@ export const Tabs: FC<TabsProps | VerticalTabsProps> = ({
   ...rest
 }) => {
   const tabs = useMemo(() => buildTabProps(children), children);
-  tabs.forEach((tab) => {
-    logger.debug(`${tab.id} disabled= ${tab.disabled}`);
-  });
+  if (logger.getLevel() < log.levels.INFO) {
+    tabs.forEach((tab) => {
+      logger.debug(`${tab.id} disabled= ${tab.disabled}`);
+    });
+  }
+
   const isVertical = "isVertical" in rest;
   logger.debug(`Is tab vertical? ${isVertical}`);
 
