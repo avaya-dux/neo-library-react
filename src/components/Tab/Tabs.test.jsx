@@ -34,22 +34,6 @@ describe("Tab", () => {
         expect(results).toHaveNoViolations();
       });
     });
-    describe(DeclarativeBasicTabs, () => {
-      let renderResult;
-      beforeEach(() => {
-        renderResult = render(<DeclarativeBasicTabs />);
-      });
-      it("should render ok", () => {
-        const { container } = renderResult;
-        expect(container).toBeDefined();
-      });
-
-      it("passes basic axe compliance", async () => {
-        const { container } = renderResult;
-        const results = await axe(container);
-        expect(results).toHaveNoViolations();
-      });
-    });
   });
 
   describe(getTabItemClasses, () => {
@@ -91,7 +75,9 @@ describe("Tab", () => {
               <h2>content1</h2>
               <p>paragraph 1</p>
             </TabPanel>
-            <TabPanel>content 2</TabPanel>
+            <TabPanel className="customClass" dir="ltr">
+              content 2
+            </TabPanel>
             <TabPanel>content 3</TabPanel>
           </TabPanels>
         </Tabs>
@@ -99,27 +85,35 @@ describe("Tab", () => {
       expect(buildTabProps(tabs.props.children)).toMatchInlineSnapshot(`
         Array [
           Object {
-            "content": Array [
-              <h2>
-                content1
-              </h2>,
-              <p>
-                paragraph 1
-              </p>,
-            ],
+            "content": Object {
+              "children": Array [
+                <h2>
+                  content1
+                </h2>,
+                <p>
+                  paragraph 1
+                </p>,
+              ],
+            },
             "dir": "ltr",
             "disabled": false,
             "id": "tab1",
             "name": "tab1",
           },
           Object {
-            "content": "content 2",
+            "content": Object {
+              "children": "content 2",
+              "className": "customClass",
+              "dir": "ltr",
+            },
             "disabled": true,
             "id": "tab2",
             "name": "tab2",
           },
           Object {
-            "content": "content 3",
+            "content": Object {
+              "children": "content 3",
+            },
             "disabled": false,
             "id": "tab3",
             "name": "tab3",

@@ -1,10 +1,9 @@
 import log from "loglevel";
 import {
   Dispatch,
-  forwardRef,
   SetStateAction,
-  useImperativeHandle,
   useState,
+  useMemo,
   FC,
   Fragment,
   useEffect,
@@ -13,7 +12,6 @@ import { genId } from "utils";
 import { InternalTab } from "./InternalTab";
 import {
   InternalTabProps,
-  TabsInterface,
   TabListProps,
   TabPanelProps,
   TabPanelsProps,
@@ -25,107 +23,53 @@ import {
 const logger = log.getLogger("tabs-logger");
 logger.disableAll();
 
-export const Tabs = forwardRef(
-  (
-    {
-      defaultTabId,
-      children,
-      onTabChange,
-      ...rest
-    }: TabsProps | VerticalTabsProps,
-    ref: React.Ref<TabsInterface>
-  ) => {
-    const tabItems = buildTabProps(children);
-    tabItems.forEach((tab) => {
-      logger.debug(`${tab.id} disabled= ${tab.disabled}`);
-    });
-    const isVertical = "isVertical" in rest;
-    logger.debug(`Is tab vertical? ${isVertical}`);
+export const Tabs: FC<TabsProps | VerticalTabsProps> = ({
+  defaultTabId,
+  children,
+  onTabChange,
+  ...rest
+}) => {
+  const tabs = useMemo(() => buildTabProps(children), children);
+  tabs.forEach((tab) => {
+    logger.debug(`${tab.id} disabled= ${tab.disabled}`);
+  });
+  const isVertical = "isVertical" in rest;
+  logger.debug(`Is tab vertical? ${isVertical}`);
 
-    function disableActiveTab() {
-      logger.debug(`disable active tab ${activeTabId}`);
-      const updated = tabs.map((t) => {
-        if (t.id === activeTabId) {
-          return { ...t, disabled: true };
-        }
-        return { ...t };
-      });
-      setTabs(updated);
+  const [activeTabId, setActiveTabId] = useState(defaultTabId);
+  const [activePanelId, setActivePanelId] = useState(defaultTabId);
+
+  useEffect(() => {
+    if (onTabChange) {
+      onTabChange(activeTabId);
     }
+  }, [onTabChange, activeTabId]);
 
-    function enableActiveTab() {
-      logger.debug(`enable active tab ${activeTabId}`);
-      const updated = tabs.map((t) => {
-        if (t.id === activeTabId) {
-          return { ...t, disabled: false };
-        }
-        return { ...t };
-      });
-      setTabs(updated);
-    }
-
-    function disableAllTabs() {
-      const updated = tabs.map((t) => {
-        return { ...t, disabled: true };
-      });
-      setTabs(updated);
-    }
-
-    function enableAllTabs() {
-      const updated = tabs.map((t) => {
-        return { ...t, disabled: false };
-      });
-      setTabs(updated);
-    }
-
-    const [tabs, setTabs] = useState(tabItems);
-    const [activeTabId, setActiveTabId] = useState(defaultTabId);
-    const [activePanelId, setActivePanelId] = useState(defaultTabId);
-
-    useEffect(() => {
-      setTabs(tabItems);
-    }, [tabItems]);
-
-    useImperativeHandle(ref, () => ({
-      disableActiveTab,
-      enableActiveTab,
-      disableAllTabs,
-      enableAllTabs,
-      activeTabId,
-    }));
-
-    useEffect(() => {
-      if (onTabChange) {
-        onTabChange(activeTabId);
-      }
-    }, [onTabChange, activeTabId]);
-
-    return (
-      <div
-        className="neo-tabs"
-        role="tablist"
-        aria-owns={getAllTabIdsInString(tabs)}
-      >
-        <ul className="neo-tabs__nav">
-          {tabs.map((tab, index) => {
-            logger.debug(`calling createTab with tabItem ${tab.disabled}`);
-            return createTab(
-              index,
-              tab,
-              tabs,
-              activeTabId,
-              setActiveTabId,
-              setActivePanelId
-            );
-          })}
-        </ul>
-        {tabs.map((tabItem, index) => {
-          return createPanel(index, tabItem, activePanelId);
+  return (
+    <div
+      className="neo-tabs"
+      role="tablist"
+      aria-owns={getAllTabIdsInString(tabs)}
+    >
+      <ul className="neo-tabs__nav">
+        {tabs.map((tab, index) => {
+          logger.debug(`calling createTab with tabItem ${tab.disabled}`);
+          return createTab(
+            index,
+            tab,
+            tabs,
+            activeTabId,
+            setActiveTabId,
+            setActivePanelId
+          );
         })}
-      </div>
-    );
-  }
-);
+      </ul>
+      {tabs.map((tabItem, index) => {
+        return createPanel(index, tabItem, activePanelId);
+      })}
+    </div>
+  );
+};
 export function getAllTabIdsInString(tabProps: InternalTabProps[]): string {
   return tabProps.map((tab) => tab.id).join(" ");
 }
@@ -160,7 +104,7 @@ export const buildTabProps = (
       disabled,
       id: id || genId(),
       name: children.toString(),
-      content: panel.children,
+      content: panel,
     };
   });
 };
@@ -203,15 +147,18 @@ export const createPanel = (
   activePanelId: string
 ) => {
   const active = tabProps.id === activePanelId;
+  const { children, className, ...rest } = tabProps.content;
   return (
-    <div key={key} className={getContentClasses(active)}>
-      {tabProps.content}
+    <div key={key} className={getContentClasses(active, className)} {...rest}>
+      {children}
     </div>
   );
 };
 
-export const getContentClasses = (active: boolean) => {
-  return active ? "neo-tabs__container--active" : "neo-tabs__container";
+export const getContentClasses = (active: boolean, className?: string) => {
+  const classes = className ? [className] : [];
+  classes.push(active ? "neo-tabs__container--active" : "neo-tabs__container");
+  return classes.join(" ");
 };
 
 export const getTabItemClasses = ({

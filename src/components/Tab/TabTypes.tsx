@@ -25,7 +25,7 @@ export interface TabListProps extends React.HTMLAttributes<HTMLUListElement> {
   >[];
 }
 
-export interface TabPanelProps {
+export interface TabPanelProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
 }
 
@@ -43,19 +43,12 @@ export interface VerticalTabsProps extends TabsProps {
   isVertical: true;
   isScrollable?: boolean;
 }
-export interface TabsInterface {
-  activeTabId: string;
-  disableActiveTab: () => void;
-  enableActiveTab: () => void;
-  disableAllTabs: () => void;
-  enableAllTabs: () => void;
-}
 
 export interface InternalTabProps extends React.HTMLAttributes<HTMLLIElement> {
   id: string;
   name: string;
   disabled: boolean;
-  content: ReactNode;
+  content: TabPanelProps;
 }
 
 export interface InteractiveTabProps {
