@@ -29,7 +29,7 @@ export const Tabs: FC<TabsProps | VerticalTabsProps> = ({
   onTabChange,
   ...rest
 }) => {
-  const tabs = useMemo(() => buildTabProps(children), children);
+  const tabs = useMemo(() => buildTabProps(children), [children]);
   if (logger.getLevel() < log.levels.INFO) {
     tabs.forEach((tab) => {
       logger.debug(`${tab.id} disabled= ${tab.disabled}`);
