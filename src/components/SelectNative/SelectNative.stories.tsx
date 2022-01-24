@@ -52,7 +52,9 @@ export const FormSubmission = () => {
         errorList={errorList}
         helperText={helperText}
         label="Choose a car:"
-        onChange={(e) => setChosenCar((e.target as any).value)}
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+          setChosenCar(e.target.value)
+        }
         required
       >
         <option value="" disabled hidden>
@@ -104,7 +106,9 @@ export const LoadOptions = () => {
       <SelectNative
         label="Choose a car:"
         loading={loading}
-        onChange={(e) => setOptions([(e.target as any).value])}
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+          setOptions([e.target.value])
+        }
       >
         {options.map((option) => (
           <option key={option} value={option}>
