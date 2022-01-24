@@ -53,6 +53,11 @@ describe("Navbar", () => {
         const navBarParent = getByRole("navigation");
         expect(navBarParent).toHaveClass("neo-navbar--sticky");
       });
+      it("passes basic axe compliance", async () => {
+        const { container } = render(<StickyNavbar />);
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
     });
 
     describe("Navbar With NavButtons", () => {
@@ -68,6 +73,11 @@ describe("Navbar", () => {
           "neo-badge__navbutton--active"
         );
       });
+      it("passes basic axe compliance", async () => {
+        const { container } = render(<NavbarWithNavButtons />);
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
     });
 
     describe("Navbar With Title", () => {
@@ -75,6 +85,11 @@ describe("Navbar", () => {
         const { getByText } = render(<NavbarWithTitle />);
         const titleElement = getByText("Product Name");
         expect(titleElement).toBeTruthy();
+      });
+      it("passes basic axe compliance", async () => {
+        const { container } = render(<NavbarWithTitle />);
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
       });
     });
 
@@ -86,16 +101,26 @@ describe("Navbar", () => {
         fireEvent.click(leftNavToggleButton);
         expect(spy).toHaveBeenCalled();
       });
+      it("passes basic axe compliance", async () => {
+        const { container } = render(<NavbarWithLeftNavigationToggle />);
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
     });
 
     describe("Navbar With Avatar and Dropdown", () => {
-      it("", () => {
+      it("adds appropriate class to toggle Dropdown when clicked", () => {
         const { getByRole } = render(<NavbarWithAvatarAndDropdown />);
         const avatar = getByRole("figure");
         const avatarDropdown = getByRole("figure").closest("div");
         expect(avatarDropdown).not.toHaveClass("neo-dropdown--active");
         fireEvent.click(avatar);
         expect(avatarDropdown).toHaveClass("neo-dropdown--active");
+      });
+      it("passes basic axe compliance", async () => {
+        const { container } = render(<NavbarWithAvatarAndDropdown />);
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
       });
     });
   });

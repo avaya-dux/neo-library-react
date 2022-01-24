@@ -25,7 +25,7 @@ export interface NavbarProps {
   title?: string;
   navButtons?: NavbarButtonProps[];
   navbarAvatar?: NavbarAvatarProps;
-  leftNavigationToggle?: Pick<NavbarButtonProps, "aria-label" | "onClick">;
+  navMenuToggleBtn?: Pick<NavbarButtonProps, "aria-label" | "onClick">;
   sticky?: boolean;
 }
 
@@ -67,7 +67,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
   title,
   navButtons,
   navbarAvatar,
-  leftNavigationToggle,
+  navMenuToggleBtn,
   sticky,
 }) => {
   // TO-DO: NEO-616 - create Tabs Component
@@ -100,9 +100,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
   return (
     <nav className={clsx("neo-navbar", sticky && "neo-navbar--sticky")}>
       <div className="neo-nav--left">
-        {leftNavigationToggle && (
-          <NavbarButton {...leftNavigationToggle} icon={"menu"} />
-        )}
+        {navMenuToggleBtn && <NavbarButton {...navMenuToggleBtn} icon="menu" />}
 
         {isLink(logo) ? <LinkLogo {...logo} /> : <Logo {...logo} />}
 

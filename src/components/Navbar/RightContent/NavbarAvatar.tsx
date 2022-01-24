@@ -4,7 +4,7 @@ import { Avatar, AvatarProps, Menu, MenuProps } from "components";
 
 export interface NavbarAvatarProps {
   avatar?: Omit<AvatarProps, "size" | "border" | "status">;
-  dropdown?: Pick<MenuProps, "children">;
+  dropdown?: Partial<MenuProps>;
 }
 
 export const NavbarAvatar: FunctionComponent<NavbarAvatarProps> = ({
