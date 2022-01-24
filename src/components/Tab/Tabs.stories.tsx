@@ -62,7 +62,7 @@ const Template: Story<TabsProps> = (props) => {
       </Button>
       <Button onClick={() => disableAllTabs()}>Disable All Tabs</Button>
       <Button onClick={() => enableAllTabs()}>Enable All Tabs</Button>
-      <Tabs defaultTabId={props.defaultTabId} onTabChange={onTabChange}>
+      <Tabs defaultTabId={activeTabId} onTabChange={onTabChange}>
         <TabList>
           <Tab id="tab1" disabled={disabledFlags.tab1}>
             tab1
