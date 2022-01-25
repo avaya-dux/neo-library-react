@@ -1,4 +1,4 @@
-import { Meta } from "@storybook/react/types-6-0";
+import { Meta, Story } from "@storybook/react/types-6-0";
 import { Button } from "components";
 import { useState } from "react";
 import { tabMouseEventHandlerLogger } from "./EventHandlers";
@@ -12,9 +12,10 @@ export default {
   component: Tab,
 } as Meta<TabsProps>;
 
-export const BasicTabs = () => {
+export const ControlledActiveTabProp = () => {
   const [activeTabId, setActiveTabId] = useState("tab2");
   const onTabChange = (activeTabId: string) => {
+    console.log(`tab changed to ${activeTabId}`);
     setActiveTabId(activeTabId);
   };
 
@@ -62,7 +63,11 @@ export const BasicTabs = () => {
       </Button>
       <Button onClick={() => disableAllTabs()}>Disable All Tabs</Button>
       <Button onClick={() => enableAllTabs()}>Enable All Tabs</Button>
-      <Tabs defaultTabId={activeTabId} onTabChange={onTabChange}>
+      <Tabs
+        defaultTabId={activeTabId}
+        controlled={true}
+        onTabChange={onTabChange}
+      >
         <TabList>
           <Tab id="tab1" disabled={disabledFlags.tab1}>
             tab1
@@ -83,6 +88,89 @@ export const BasicTabs = () => {
           <TabPanel>content 3</TabPanel>
         </TabPanels>
       </Tabs>
+    </div>
+  );
+};
+const Template: Story<{ defaultTabId: string }> = ({ defaultTabId }) => {
+  const [activeTabId, setActiveTabId] = useState(defaultTabId);
+  const onTabChange = (newActiveTabId: string) => {
+    console.log(`tab changed to ${activeTabId}`);
+    setActiveTabId(newActiveTabId);
+  };
+  return (
+    <div>
+      <Tabs defaultTabId={defaultTabId} onTabChange={onTabChange}>
+        <TabList>
+          <Tab id="tab1" disabled>
+            tab1
+          </Tab>
+          <Tab id="tab2">tab2</Tab>
+          <Tab id="tab3">tab3</Tab>
+          <Tab id="tab4" disabled>
+            tab4
+          </Tab>
+          <Tab id="tab5">tab5</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <h2>content1</h2>
+            <p>paragraph 1</p>
+          </TabPanel>
+          <TabPanel>content 2</TabPanel>
+          <TabPanel>content 3</TabPanel>
+          <TabPanel>content 4</TabPanel>
+          <TabPanel>content 5</TabPanel>
+        </TabPanels>
+      </Tabs>
+      <hr></hr>
+      <p>Active Tab is {activeTabId}</p>
+    </div>
+  );
+};
+export const UncontrolledActiveTabProp = Template.bind({});
+UncontrolledActiveTabProp.args = {
+  defaultTabId: "tab2",
+};
+
+export const IconTabs = () => {
+  const [activeTabId, setActiveTabId] = useState("tab2");
+  const onTabChange = (newActiveTabId: string) => {
+    console.log(`tab changed to ${activeTabId}`);
+    setActiveTabId(newActiveTabId);
+  };
+  return (
+    <div>
+      <Tabs defaultTabId="tab2" onTabChange={onTabChange}>
+        <TabList>
+          <Tab id="tab1" icon="settings">
+            tab1
+          </Tab>
+          <Tab id="tab2" icon="chat" dir="rtl">
+            tab2
+          </Tab>
+          <Tab id="tab3" icon="info">
+            tab3
+          </Tab>
+          <Tab id="tab4" disabled icon="agents">
+            tab4
+          </Tab>
+          <Tab id="tab5" icon="email" dir="rtl">
+            tab5
+          </Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <h2>content1</h2>
+            <p>paragraph 1</p>
+          </TabPanel>
+          <TabPanel>content 2</TabPanel>
+          <TabPanel>content 3</TabPanel>
+          <TabPanel>content 4</TabPanel>
+          <TabPanel>content 5</TabPanel>
+        </TabPanels>
+      </Tabs>
+      <hr></hr>
+      <p>Active Tab is {activeTabId}</p>
     </div>
   );
 };
