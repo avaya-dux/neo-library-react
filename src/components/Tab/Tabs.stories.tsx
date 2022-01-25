@@ -172,10 +172,32 @@ const IconTabsTemplate: Story<{
             <h2>content1</h2>
             <p>paragraph 1</p>
           </TabPanel>
-          <TabPanel>content 2</TabPanel>
+          <TabPanel>
+            content 2
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe aut
+              harum quae aliquid laboriosam reiciendis sit tenetur, minima
+              itaque quos deserunt eos fuga voluptatibus, qui expedita maiores
+              porro inventore odio.
+            </p>
+          </TabPanel>
           <TabPanel>content 3</TabPanel>
-          <TabPanel>content 4</TabPanel>
-          <TabPanel>content 5</TabPanel>
+          <TabPanel>
+            content 4
+            <p>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic,
+              necessitatibus.
+            </p>
+          </TabPanel>
+          <TabPanel>
+            content 5
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil hic
+              quod consequatur eum commodi dolorum, molestiae odio cumque
+              cupiditate! Impedit illo sint iusto recusandae rem optio
+              reprehenderit ipsum ab aut.
+            </p>
+          </TabPanel>
         </TabPanels>
       </Tabs>
       <hr></hr>
