@@ -30,7 +30,6 @@ export const MenuItem = ({
     <a
       id={internalId}
       tabIndex={tabIndex}
-      href="fixme"
       className={getClassNames(isActive)}
       role="menuitem"
       ref={ref}
