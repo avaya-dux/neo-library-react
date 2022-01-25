@@ -35,6 +35,7 @@ export interface TabPanelsProps {
 
 export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
   defaultTabId: string;
+  controlled?: boolean;
   children: [ReactElement<TabListProps>, ReactElement<TabPanelsProps>];
   onTabChange?: (tabId: string) => void;
 }

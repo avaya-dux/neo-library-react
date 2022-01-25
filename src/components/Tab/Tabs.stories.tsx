@@ -15,6 +15,7 @@ export default {
 export const BasicTabs = () => {
   const [activeTabId, setActiveTabId] = useState("tab2");
   const onTabChange = (activeTabId: string) => {
+    console.log(`tab changed to ${activeTabId}`);
     setActiveTabId(activeTabId);
   };
 
@@ -62,7 +63,11 @@ export const BasicTabs = () => {
       </Button>
       <Button onClick={() => disableAllTabs()}>Disable All Tabs</Button>
       <Button onClick={() => enableAllTabs()}>Enable All Tabs</Button>
-      <Tabs defaultTabId={activeTabId} onTabChange={onTabChange}>
+      <Tabs
+        defaultTabId={activeTabId}
+        controlled={true}
+        onTabChange={onTabChange}
+      >
         <TabList>
           <Tab id="tab1" disabled={disabledFlags.tab1}>
             tab1
