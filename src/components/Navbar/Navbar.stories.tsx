@@ -1,5 +1,5 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { useCallback, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 
 import { MenuItem, SubMenu } from "components";
 
@@ -52,24 +52,20 @@ NavbarWithSearch.args = {
   },
 };
 NavbarWithSearch.decorators = [
-  (Story) => {
+  (Story, context) => {
     const [searchString, setSearchString] = useState("");
 
-    const inputListener = useCallback((e) => {
-      const inputData = e.target.value;
-      setSearchString(searchString + inputData);
-    }, []);
+    const captureSearchString = (e: FormEvent) => {
+      setSearchString((e.target as HTMLInputElement).value);
+    };
 
-    useEffect(() => {
-      document.addEventListener("input", inputListener);
-      return () => {
-        document.removeEventListener("input", inputListener);
-      };
-    }, [inputListener]);
+    const args = { ...context.args };
+
+    args.search!.onChange = captureSearchString;
 
     return (
       <>
-        <Story />
+        <Story args={{ ...args }} />
         <p>You are searching for: {searchString}</p>
       </>
     );

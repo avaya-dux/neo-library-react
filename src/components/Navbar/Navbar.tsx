@@ -118,12 +118,15 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
           <div style={{ marginLeft: "16px", alignSelf: "center" }}>
             <TextInput
               {...search}
-              onChange={(e) =>
+              onChange={(e) => {
+                if (search.onChange) {
+                  search.onChange(e);
+                }
                 dispatchInputOnChangeEvent(
                   e.target as HTMLInputElement,
                   (e.target as HTMLInputElement).value
-                )
-              }
+                );
+              }}
             />
           </div>
         )}
