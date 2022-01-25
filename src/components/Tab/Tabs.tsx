@@ -4,9 +4,7 @@ import { genId } from "utils";
 import useControlled from "utils/useControlled";
 import { InternalTab } from "./InternalTab";
 import {
-  ClosableIconTabProps,
   ClosableTabProps,
-  IconTabProps,
   InternalTabProps,
   TabListProps,
   TabPanelProps,
@@ -81,9 +79,7 @@ export function getAllTabIdsInString(tabProps: InternalTabProps[]): string {
 export const TabList = (props: TabListProps) => {
   return <Fragment {...props} />;
 };
-export const Tab = (
-  props: TabProps | IconTabProps | ClosableTabProps | ClosableIconTabProps
-) => {
+export const Tab = (props: TabProps | ClosableTabProps) => {
   return <Fragment {...props} />;
 };
 export const TabPanels = (props: TabPanelsProps) => {
