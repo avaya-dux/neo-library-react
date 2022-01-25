@@ -32,8 +32,9 @@ export const Tabs = ({
     });
   }
 
-  const isVertical = "isVertical" in rest;
-  logger.debug(`Is tab vertical? ${isVertical}`);
+  const isVertical = "vertical" in rest;
+  const isScrollable = "scrollable" in rest;
+  logger.debug(`Is tab vertical? ${isVertical} scrollable? ${isScrollable}`);
 
   const [activeTabId, setUncontrolledActiveTabId] = useControlled({
     ...(controlled ? { controlled: defaultTabId } : {}),
@@ -48,19 +49,31 @@ export const Tabs = ({
 
   const [activePanelId, setActivePanelId] = useState(defaultTabId);
 
-  return (
+  const content = (
     <div
       className="neo-tabs"
       role="tablist"
       aria-owns={getAllTabIdsInString(tabs)}
+      {...(isVertical
+        ? {
+            style: {
+              display: "flex",
+            },
+          }
+        : {})}
     >
-      <ul className="neo-tabs__nav">
+      <ul
+        className={
+          isVertical ? "neo-tabs__nav neo-tabs__nav--vertical" : "neo-tabs__nav"
+        }
+      >
         {tabs.map((tab, index) => {
           logger.debug(`calling createTab with tabItem ${tab.disabled}`);
           return createTab(
             index,
             tab,
             tabs,
+            isVertical,
             activeTabId,
             setActiveTabId,
             setActivePanelId
@@ -71,6 +84,11 @@ export const Tabs = ({
         return createPanel(index, tabItem, activePanelId);
       })}
     </div>
+  );
+  return isScrollable ? (
+    <div className="neo-tabs--wrapper">{content}</div>
+  ) : (
+    <>{content}</>
   );
 };
 export function getAllTabIdsInString(tabProps: InternalTabProps[]): string {
@@ -118,6 +136,7 @@ export const createTab = (
   index: number,
   tabProps: InternalTabProps,
   tabs: InternalTabProps[],
+  isVertical: boolean,
   activeTabId: string,
   setActiveTabId: Dispatch<SetStateAction<string>>,
   setActivePanelTabId: Dispatch<SetStateAction<string>>
@@ -135,6 +154,7 @@ export const createTab = (
       <InternalTab
         {...tabProps}
         active={active}
+        vertical={isVertical}
         tabs={tabs}
         activeTabId={activeTabId}
         aria-disabled={disabled}

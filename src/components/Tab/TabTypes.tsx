@@ -33,8 +33,8 @@ export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export interface VerticalTabsProps extends TabsProps {
-  isVertical: true;
-  isScrollable?: boolean;
+  vertical: true;
+  scrollable?: boolean;
 }
 
 export interface InternalTabProps extends React.HTMLAttributes<HTMLLIElement> {
@@ -46,6 +46,7 @@ export interface InternalTabProps extends React.HTMLAttributes<HTMLLIElement> {
 }
 
 export interface InteractiveTabProps {
+  vertical: boolean;
   active: boolean;
   tabs: InternalTabProps[];
   activeTabId: string;

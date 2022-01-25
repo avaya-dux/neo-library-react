@@ -132,7 +132,10 @@ UncontrolledActiveTabProp.args = {
   defaultTabId: "tab2",
 };
 
-export const IconTabs = () => {
+const IconTabsTemplate: Story<{
+  vertical: boolean;
+  scrollable: boolean;
+}> = ({ vertical, scrollable }) => {
   const [activeTabId, setActiveTabId] = useState("tab2");
   const onTabChange = (newActiveTabId: string) => {
     console.log(`tab changed to ${activeTabId}`);
@@ -140,7 +143,12 @@ export const IconTabs = () => {
   };
   return (
     <div>
-      <Tabs defaultTabId="tab2" onTabChange={onTabChange}>
+      <Tabs
+        defaultTabId="tab2"
+        scrollable={scrollable}
+        onTabChange={onTabChange}
+        {...(vertical ? { vertical } : {})}
+      >
         <TabList>
           <Tab id="tab1" icon="settings">
             tab1
@@ -173,4 +181,20 @@ export const IconTabs = () => {
       <p>Active Tab is {activeTabId}</p>
     </div>
   );
+};
+
+export const IconTabs = IconTabsTemplate.bind({});
+IconTabs.args = {
+  vertical: false,
+  scrollable: false,
+};
+export const VerticalTabs = IconTabsTemplate.bind({});
+VerticalTabs.args = {
+  vertical: true,
+  scrollable: false,
+};
+export const ScrollableVerticalTabs = IconTabsTemplate.bind({});
+ScrollableVerticalTabs.args = {
+  vertical: true,
+  scrollable: true,
 };

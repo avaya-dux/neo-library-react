@@ -28,6 +28,7 @@ export const InternalTab = ({
   icon,
   className = "",
   tabs,
+  vertical,
   activeTabId,
   setActiveTabId,
   setActivePanelId,
@@ -43,7 +44,7 @@ export const InternalTab = ({
   ) => {
     return handleKeyDownEvent(
       e,
-      false, // todo: pass in isVertical
+      vertical,
       tabs,
       activeTabId,
       setActiveTabId,
