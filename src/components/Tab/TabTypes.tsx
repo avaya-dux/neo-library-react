@@ -5,11 +5,7 @@ export interface TabProps extends React.HTMLAttributes<HTMLLIElement> {
   id?: string;
   children: ReactNode;
   disabled?: boolean;
-}
-
-export interface IconTabProps extends TabProps {
-  icon: IconNamesType;
-  isIconOnRight?: boolean;
+  icon?: IconNamesType;
 }
 
 export interface ClosableTabProps extends TabProps {
@@ -17,12 +13,8 @@ export interface ClosableTabProps extends TabProps {
   onClose?: () => {};
 }
 
-export interface ClosableIconTabProps extends IconTabProps, ClosableTabProps {}
-
 export interface TabListProps extends React.HTMLAttributes<HTMLUListElement> {
-  children: ReactElement<
-    TabProps | IconTabProps | ClosableTabProps | ClosableIconTabProps
-  >[];
+  children: ReactElement<TabProps | ClosableTabProps>[];
 }
 
 export interface TabPanelProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -35,6 +27,7 @@ export interface TabPanelsProps {
 
 export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
   defaultTabId: string;
+  controlled?: boolean;
   children: [ReactElement<TabListProps>, ReactElement<TabPanelsProps>];
   onTabChange?: (tabId: string) => void;
 }
@@ -49,6 +42,7 @@ export interface InternalTabProps extends React.HTMLAttributes<HTMLLIElement> {
   name: ReactNode;
   disabled: boolean;
   content: TabPanelProps;
+  icon?: IconNamesType;
 }
 
 export interface InteractiveTabProps {

@@ -9,6 +9,7 @@ import {
   useRef,
   FocusEventHandler,
 } from "react";
+import { IconNamesType } from "utils";
 import {
   handleKeyDownEvent,
   handleMouseClickEvent,
@@ -24,6 +25,8 @@ export const InternalTab = ({
   disabled,
   id,
   name,
+  icon,
+  className = "",
   tabs,
   activeTabId,
   setActiveTabId,
@@ -75,6 +78,7 @@ export const InternalTab = ({
       tabIndex={active && !disabled ? 0 : -1}
       href="#fixme"
       aria-disabled={disabled}
+      className={getClassNames(className, icon)}
       onClick={handleAnchorMouseClickEvent}
       onKeyDown={handleAnchorKeyDownEvent}
       onFocus={handleAnchorFocusEvent}
@@ -85,3 +89,10 @@ export const InternalTab = ({
     </a>
   );
 };
+export function getClassNames(className: string, icon?: IconNamesType) {
+  const classes = [className];
+  if (icon) {
+    classes.push(`neo-icon-${icon}`);
+  }
+  return classes.join(" ");
+}

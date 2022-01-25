@@ -1,18 +1,10 @@
 import log from "loglevel";
-import {
-  Dispatch,
-  SetStateAction,
-  useState,
-  useMemo,
-  Fragment,
-  useEffect,
-} from "react";
+import { Dispatch, SetStateAction, useState, useMemo, Fragment } from "react";
 import { genId } from "utils";
+import useControlled from "utils/useControlled";
 import { InternalTab } from "./InternalTab";
 import {
-  ClosableIconTabProps,
   ClosableTabProps,
-  IconTabProps,
   InternalTabProps,
   TabListProps,
   TabPanelProps,
@@ -27,11 +19,13 @@ logger.disableAll();
 
 export const Tabs = ({
   defaultTabId,
+  controlled = false,
   children,
   onTabChange,
   ...rest
 }: TabsProps | VerticalTabsProps) => {
   const tabs = useMemo(() => buildTabProps(children), [children]);
+
   if (logger.getLevel() < log.levels.INFO) {
     tabs.forEach((tab) => {
       logger.debug(`${tab.id} disabled= ${tab.disabled}`);
@@ -41,14 +35,18 @@ export const Tabs = ({
   const isVertical = "isVertical" in rest;
   logger.debug(`Is tab vertical? ${isVertical}`);
 
-  const [activeTabId, setActiveTabId] = useState(defaultTabId);
-  const [activePanelId, setActivePanelId] = useState(defaultTabId);
+  const [activeTabId, setUncontrolledActiveTabId] = useControlled({
+    ...(controlled ? { controlled: defaultTabId } : {}),
+    default: defaultTabId,
+    name: "activeTabId",
+  });
 
-  useEffect(() => {
-    if (onTabChange) {
-      onTabChange(activeTabId);
-    }
-  }, [onTabChange, activeTabId]);
+  const setActiveTabId = (newActiveTabId: any) => {
+    setUncontrolledActiveTabId(newActiveTabId);
+    onTabChange?.(newActiveTabId);
+  };
+
+  const [activePanelId, setActivePanelId] = useState(defaultTabId);
 
   return (
     <div
@@ -81,9 +79,7 @@ export function getAllTabIdsInString(tabProps: InternalTabProps[]): string {
 export const TabList = (props: TabListProps) => {
   return <Fragment {...props} />;
 };
-export const Tab = (
-  props: TabProps | IconTabProps | ClosableTabProps | ClosableIconTabProps
-) => {
+export const Tab = (props: TabProps | ClosableTabProps) => {
   return <Fragment {...props} />;
 };
 export const TabPanels = (props: TabPanelsProps) => {
@@ -106,12 +102,14 @@ export const buildTabProps = (
     const { id, children, ...rest } = props;
     const disabled = !!props?.disabled;
     logger.debug(`${id} disabled = ${disabled}`);
+    const icon = "icon" in props ? props!.icon : undefined;
     return {
       ...rest,
       disabled,
       id: id || genId(),
       name: children,
       content: panel,
+      ...(icon ? { icon } : {}),
     };
   });
 };
