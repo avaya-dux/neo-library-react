@@ -1,7 +1,8 @@
 import { CSSProperties } from "react";
 
+import { Icon, Menu, MenuItem } from "components";
 import { Checkbox } from "components/Checkbox";
-import { Keys } from "utils";
+import { IconNamesType, Keys } from "utils";
 
 import { calculateAriaSortValue } from "../helpers";
 import { TableHeaderProps } from "../types";
@@ -27,11 +28,12 @@ export const TableHeader = <T extends Record<string, any>>({
   translations,
 }: TableHeaderProps<T>) => {
   const {
-    rowsById,
     headers,
     page,
-    toggleAllRowsSelected,
+    rowsById,
     state: { selectedRowIds },
+    toggleAllRowsSelected,
+    toggleSortBy,
   } = instance;
 
   const selectedRows = Object.keys(selectedRowIds);
@@ -93,37 +95,73 @@ export const TableHeader = <T extends Record<string, any>>({
           } else if (canSort) {
             const thDivProps = getSortByToggleProps({
               title: translations?.sortBy,
+              onClick: (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+              },
             });
 
-            // TODO: update to open menu on click, and use `toggleSortBy`
-            // https://react-table.tanstack.com/docs/api/useSortBy
+            const sortIcon: IconNamesType =
+              isSorted === false
+                ? "sort"
+                : ariasort === "descending"
+                ? "arrow-up"
+                : "arrow-down";
+
             content = (
-              <div
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  switch (e.key) {
-                    case Keys.ENTER:
-                    case Keys.SPACE:
-                    case Keys.DOWN:
-                      (thDivProps as any).onClick(e); // BUG: can't figure out the proper typing of thDivProps
-                      break;
-                  }
-                }}
+              <Menu
+                button={
+                  <div
+                    className="neo-multiselect"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      switch (e.key) {
+                        case Keys.ENTER:
+                        case Keys.SPACE:
+                        case Keys.DOWN:
+                          (thDivProps as any).onClick(e); // BUG: can't figure out the proper typing of thDivProps
+                          break;
+                      }
+                    }}
+                  >
+                    {render("Header")}
+
+                    <Icon
+                      icon={sortIcon}
+                      aria-label={sortIcon.replaceAll("-", " ")}
+                    />
+
+                    <Icon icon="chevron-down" aria-label="menu icon" />
+                  </div>
+                }
                 {...thDivProps}
               >
-                {render("Header")}
-
-                {isSorted && (
-                  <span
-                    className={
-                      ariasort === "descending"
-                        ? "neo-icon-arrow-up"
-                        : "neo-icon-arrow-down"
-                    }
-                  />
-                )}
-              </div>
+                <MenuItem
+                  text="A - Z"
+                  onClick={(e) => {
+                    toggleSortBy(column.id, false, false);
+                    e.stopPropagation();
+                    e.preventDefault();
+                  }}
+                />
+                <MenuItem
+                  text="Z - A"
+                  onClick={(e) => {
+                    toggleSortBy(column.id, true, false);
+                    e.stopPropagation();
+                    e.preventDefault();
+                  }}
+                />
+                <MenuItem
+                  text={translations.filterColumn || "Filter Column"}
+                  onClick={(e) => {
+                    // TODO: move `TableFilter` context up to `Table` so that we can open it from here
+                    e.stopPropagation();
+                    e.preventDefault();
+                  }}
+                />
+              </Menu>
             );
           }
 

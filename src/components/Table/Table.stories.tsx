@@ -181,9 +181,9 @@ export const AdvancedFilteringAndSorting = () => {
       </p>
 
       <p>
-        If not passed in, `sortType` defaults to "basic" and a dropdown will be
-        shown on click with includes three options. Ascending, Descding, and
-        "Filter By" with will open the Column Filter menu.
+        If not passed in, `sortType` defaults to "basic". When a column header
+        is clicked, a dropdown will be shown that includes three options.
+        Ascending, Descending, and "Filter Column".
       </p>
 
       <div>
