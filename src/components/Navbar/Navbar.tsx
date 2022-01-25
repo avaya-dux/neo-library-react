@@ -105,11 +105,13 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
         {isLink(logo) ? <LinkLogo {...logo} /> : <Logo {...logo} />}
 
         {title && (
-          <p
+          <div
             style={{ fontSize: "19px", lineHeight: "28px", marginLeft: "16px" }}
+            role="heading"
+            aria-level={1}
           >
             {title}
-          </p>
+          </div>
         )}
 
         {search && (
