@@ -1,12 +1,5 @@
 import log from "loglevel";
-import {
-  Dispatch,
-  SetStateAction,
-  useState,
-  useMemo,
-  Fragment,
-  useEffect,
-} from "react";
+import { Dispatch, SetStateAction, useState, useMemo, Fragment } from "react";
 import { genId } from "utils";
 import useControlled from "utils/useControlled";
 import { InternalTab } from "./InternalTab";
