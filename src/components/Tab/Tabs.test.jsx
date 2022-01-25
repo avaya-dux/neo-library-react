@@ -14,14 +14,31 @@ import {
 import * as TabStories from "./Tabs.stories";
 
 internalTabLogger.disableAll();
-const { BasicTabs, DeclarativeBasicTabs } = composeStories(TabStories);
+const { ControlledActiveTabProp, UncontrolledActiveTabProp } =
+  composeStories(TabStories);
 
-describe("Tab", () => {
+describe("Tabs", () => {
   describe("Storybook tests", () => {
-    describe(BasicTabs, () => {
+    describe(ControlledActiveTabProp, () => {
       let renderResult;
       beforeEach(() => {
-        renderResult = render(<BasicTabs />);
+        renderResult = render(<ControlledActiveTabProp />);
+      });
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).toBeDefined();
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+    describe(UncontrolledActiveTabProp, () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<UncontrolledActiveTabProp />);
       });
       it("should render ok", () => {
         const { container } = renderResult;

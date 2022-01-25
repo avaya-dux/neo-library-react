@@ -189,9 +189,3 @@ export const getTabItemClasses = ({
   }
   return classes.join(" ");
 };
-function useCallback(
-  arg0: (newActiveTabId: string) => void,
-  arg1: (((tabId: string) => void) | undefined)[]
-) {
-  throw new Error("Function not implemented.");
-}

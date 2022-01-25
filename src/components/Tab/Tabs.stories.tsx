@@ -1,4 +1,4 @@
-import { Meta } from "@storybook/react/types-6-0";
+import { Meta, Story } from "@storybook/react/types-6-0";
 import { Button } from "components";
 import { useState } from "react";
 import { tabMouseEventHandlerLogger } from "./EventHandlers";
@@ -12,7 +12,7 @@ export default {
   component: Tab,
 } as Meta<TabsProps>;
 
-export const BasicTabs = () => {
+export const ControlledActiveTabProp = () => {
   const [activeTabId, setActiveTabId] = useState("tab2");
   const onTabChange = (activeTabId: string) => {
     console.log(`tab changed to ${activeTabId}`);
@@ -90,4 +90,44 @@ export const BasicTabs = () => {
       </Tabs>
     </div>
   );
+};
+const Template: Story<{ defaultTabId: string }> = ({ defaultTabId }) => {
+  const [activeTabId, setActiveTabId] = useState(defaultTabId);
+  const onTabChange = (newActiveTabId: string) => {
+    console.log(`tab changed to ${activeTabId}`);
+    setActiveTabId(newActiveTabId);
+  };
+  return (
+    <div>
+      <Tabs defaultTabId={defaultTabId} onTabChange={onTabChange}>
+        <TabList>
+          <Tab id="tab1" disabled>
+            tab1
+          </Tab>
+          <Tab id="tab2">tab2</Tab>
+          <Tab id="tab3">tab3</Tab>
+          <Tab id="tab4" disabled>
+            tab4
+          </Tab>
+          <Tab id="tab5">tab5</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <h2>content1</h2>
+            <p>paragraph 1</p>
+          </TabPanel>
+          <TabPanel>content 2</TabPanel>
+          <TabPanel>content 3</TabPanel>
+          <TabPanel>content 4</TabPanel>
+          <TabPanel>content 5</TabPanel>
+        </TabPanels>
+      </Tabs>
+      <hr></hr>
+      <p>Active Tab is {activeTabId}</p>
+    </div>
+  );
+};
+export const UncontrolledActiveTabProp = Template.bind({});
+UncontrolledActiveTabProp.args = {
+  defaultTabId: "tab2",
 };
