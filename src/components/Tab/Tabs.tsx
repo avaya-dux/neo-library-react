@@ -106,12 +106,14 @@ export const buildTabProps = (
     const { id, children, ...rest } = props;
     const disabled = !!props?.disabled;
     logger.debug(`${id} disabled = ${disabled}`);
+    const icon = "icon" in props ? props!.icon : undefined;
     return {
       ...rest,
       disabled,
       id: id || genId(),
       name: children,
       content: panel,
+      ...(icon ? { icon } : {}),
     };
   });
 };

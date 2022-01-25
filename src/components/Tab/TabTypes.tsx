@@ -50,6 +50,8 @@ export interface InternalTabProps extends React.HTMLAttributes<HTMLLIElement> {
   name: ReactNode;
   disabled: boolean;
   content: TabPanelProps;
+  icon?: IconNamesType;
+  isIconOnRight?: boolean;
 }
 
 export interface InteractiveTabProps {

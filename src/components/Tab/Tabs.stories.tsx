@@ -131,3 +131,46 @@ export const UncontrolledActiveTabProp = Template.bind({});
 UncontrolledActiveTabProp.args = {
   defaultTabId: "tab2",
 };
+
+export const IconTabs = () => {
+  const [activeTabId, setActiveTabId] = useState("tab2");
+  const onTabChange = (newActiveTabId: string) => {
+    console.log(`tab changed to ${activeTabId}`);
+    setActiveTabId(newActiveTabId);
+  };
+  return (
+    <div>
+      <Tabs defaultTabId="tab2" onTabChange={onTabChange}>
+        <TabList>
+          <Tab id="tab1" icon="settings">
+            tab1
+          </Tab>
+          <Tab id="tab2" icon="chat" dir="rtl">
+            tab2
+          </Tab>
+          <Tab id="tab3" icon="info">
+            tab3
+          </Tab>
+          <Tab id="tab4" disabled icon="agents">
+            tab4
+          </Tab>
+          <Tab id="tab5" icon="email" dir="rtl">
+            tab5
+          </Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <h2>content1</h2>
+            <p>paragraph 1</p>
+          </TabPanel>
+          <TabPanel>content 2</TabPanel>
+          <TabPanel>content 3</TabPanel>
+          <TabPanel>content 4</TabPanel>
+          <TabPanel>content 5</TabPanel>
+        </TabPanels>
+      </Tabs>
+      <hr></hr>
+      <p>Active Tab is {activeTabId}</p>
+    </div>
+  );
+};
