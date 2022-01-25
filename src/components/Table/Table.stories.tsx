@@ -109,11 +109,11 @@ export const AdvancedFilteringAndSorting = () => {
       },
       Filter: ({ column: { setFilter, preFilteredRows, id } }) => {
         const options = useMemo(() => {
-          const options = new Set();
+          const optionSet = new Set();
           preFilteredRows.forEach((row) => {
-            options.add(row.values[id]);
+            optionSet.add(row.values[id]);
           });
-          return Array.from(options.values());
+          return Array.from(optionSet.values());
         }, [id, preFilteredRows]);
 
         return (
@@ -127,7 +127,7 @@ export const AdvancedFilteringAndSorting = () => {
 
             {options.map((option, i) => (
               <option key={i} value={option as string}>
-                {option as string}
+                {(option as string).toUpperCase()}
               </option>
             ))}
           </SelectNative>
@@ -163,12 +163,53 @@ export const AdvancedFilteringAndSorting = () => {
   ];
 
   return (
-    <Table
-      allowColumnFilter
-      caption="Advanced Filtering and Sorting"
-      columns={columns}
-      data={[...FilledFields.data]}
-    />
+    <section>
+      <p>
+        Types of `sortType`:{" "}
+        <code>
+          "string" | "number" | "alphanumeric" | "datetime" | "basic" |{" "}
+        </code>
+      </p>
+
+      <p>
+        The `sortType` can also be a custom method of type:{" "}
+        <code>
+          {
+            "(rowA: Row<D>, rowB: Row<D>, columnId: IdType<D>, desc?: boolean | undefined) => number"
+          }
+        </code>
+      </p>
+
+      <p>
+        If not passed in, `sortType` defaults to "basic" and a dropdown will be
+        shown on click with includes three options. Ascending, Descding, and
+        "Filter By" with will open the Column Filter menu.
+      </p>
+
+      <div>
+        <p>
+          In this example, the following columns have specified a specific type
+          of sorting due to their data type.
+        </p>
+        <ul>
+          <li>Other has been disabled</li>
+          <li>Date has been set to "datetime"</li>
+          <li>Color has been set to "alphanumeric"</li>
+          <li>Level and Has on Call Beeper have custom methods passed</li>
+          <li>
+            Status does not use a sort and instead passes a "Filter" method that
+            matches via "exactTextCase"
+          </li>
+        </ul>
+      </div>
+
+      <Table
+        allowColumnFilter
+        caption="Advanced Filtering and Sorting"
+        columns={columns}
+        data={[...FilledFields.data]}
+      />
+    </section>
   );
 };
 

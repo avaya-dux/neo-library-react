@@ -17,7 +17,7 @@ import { TableBody, TableHeader, TableToolbar } from "./TableComponents";
 
 /**
  * The Table is used to organize and display data within rows and columns.
- * It comes with built in pagination.
+ * It comes with built in pagination. The `id` column in data is required.
  *
  * @example
   const columns = [
