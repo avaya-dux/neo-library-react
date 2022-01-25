@@ -128,6 +128,7 @@ const Template: Story<{ defaultTabId: string }> = ({ defaultTabId }) => {
   );
 };
 export const UncontrolledActiveTabProp = Template.bind({});
+UncontrolledActiveTabProp.storyName = "UncontrolledActiveTabProp";
 UncontrolledActiveTabProp.args = {
   defaultTabId: "tab2",
 };
@@ -184,11 +185,13 @@ const IconTabsTemplate: Story<{
 };
 
 export const IconTabs = IconTabsTemplate.bind({});
+IconTabs.storyName = "IconTabs";
 IconTabs.args = {
   vertical: false,
   scrollable: false,
 };
 export const VerticalTabs = IconTabsTemplate.bind({});
+VerticalTabs.storyName = "VerticalTabs";
 VerticalTabs.args = {
   vertical: true,
   scrollable: false,

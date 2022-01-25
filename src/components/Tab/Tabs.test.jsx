@@ -14,12 +14,17 @@ import {
 import * as TabStories from "./Tabs.stories";
 
 internalTabLogger.disableAll();
-const { ControlledActiveTabProp, UncontrolledActiveTabProp } =
-  composeStories(TabStories);
+const {
+  ControlledActiveTabProp,
+  UncontrolledActiveTabProp,
+  IconTabs,
+  VerticalTabs,
+  ScrollableVerticalTabs,
+} = composeStories(TabStories);
 
 describe("Tabs", () => {
   describe("Storybook tests", () => {
-    describe(ControlledActiveTabProp, () => {
+    describe(ControlledActiveTabProp.storyName, () => {
       let renderResult;
       beforeEach(() => {
         renderResult = render(<ControlledActiveTabProp />);
@@ -35,10 +40,58 @@ describe("Tabs", () => {
         expect(results).toHaveNoViolations();
       });
     });
-    describe(UncontrolledActiveTabProp, () => {
+    describe(UncontrolledActiveTabProp.storyName, () => {
       let renderResult;
       beforeEach(() => {
         renderResult = render(<UncontrolledActiveTabProp />);
+      });
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).toBeDefined();
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+    describe(IconTabs.storyName, () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<IconTabs />);
+      });
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).toBeDefined();
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+    describe(VerticalTabs.storyName, () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<VerticalTabs />);
+      });
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).toBeDefined();
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+    describe(ScrollableVerticalTabs.storyName, () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<ScrollableVerticalTabs />);
       });
       it("should render ok", () => {
         const { container } = renderResult;
