@@ -11,7 +11,6 @@ export const NavbarAvatar: FunctionComponent<NavbarAvatarProps> = ({
   avatar,
   dropdown,
 }) => {
-  // TO-DO: NEO-794 - Add correct spacing for Avatar without Dropdown, and add hover styles for Avatar with Dropdown in Neo CSS
   const dropdownAvatar = (
     <Avatar
       {...avatar}
@@ -20,7 +19,7 @@ export const NavbarAvatar: FunctionComponent<NavbarAvatarProps> = ({
   );
 
   return dropdown ? (
-    <Menu {...dropdown} button={dropdownAvatar} rightAligned />
+    <Menu {...dropdown} button={dropdownAvatar} />
   ) : (
     <Avatar {...avatar} />
   );
