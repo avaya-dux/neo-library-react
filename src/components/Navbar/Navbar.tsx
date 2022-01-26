@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 
 import { dispatchInputOnChangeEvent } from "utils";
@@ -5,6 +6,7 @@ import { genId } from "utils/accessibilityUtils";
 
 import { TextInput, TextInputProps } from "../TextInput";
 import { LinkLogo, LinkLogoProps, Logo, LogoProps } from "./LeftContent/Logo";
+import { NavbarAvatar, NavbarAvatarProps } from "./RightContent/NavbarAvatar";
 import { NavbarButton, NavbarButtonProps } from "./RightContent/NavbarButton";
 
 export interface NavbarProps {
@@ -22,6 +24,9 @@ export interface NavbarProps {
   >;
   title?: string;
   navButtons?: NavbarButtonProps[];
+  navbarAvatar?: NavbarAvatarProps;
+  navMenuToggleBtn?: Pick<NavbarButtonProps, "aria-label" | "onClick">;
+  sticky?: boolean;
 }
 
 // NOTE: COMPONENT IS NOT READY FOR CUSTOMERS TO USE, AND WILL BE EXPORTED IN SUBSEQUENT PRS
@@ -61,13 +66,15 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
   search,
   title,
   navButtons,
+  navbarAvatar,
+  navMenuToggleBtn,
+  sticky,
 }) => {
   // TO-DO: NEO-616 - create Tabs Component
-  // TO-DO: Implement Avatar
-  // TO-DO: Implement Dropdown
-  // TO-DO: Implement Button to control collapsible Left Navigation
-  // TO-DO: Replace inline styles on line 80 with updated CSS rules to avoid use of <form> element in Navbar
-  // TO-DO: Replace inline styles on line 76 with updated CSS rules for correct styling of 'title' prop
+  // TO-DO: NEO-558 - create Left Navigation Component
+  // TO-DO: NEO-786 - Replace inline styles on line 80 with updated CSS rules to avoid use of <form> element in Navbar
+  // TO-DO: NEO-785 - Replace inline styles on line 76 with updated CSS rules for correct styling of 'title' prop
+  // TO-DO: NEO-794 - Confirm use-case for Avatar in Navbar without Dropdown and resulting need for inline styles on line 132
   const [ids, setIds] = useState<string[]>([]);
   const [activeId, setActiveId] = useState("");
 
@@ -91,34 +98,41 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
   );
 
   return (
-    <nav className="neo-navbar">
+    <nav className={clsx("neo-navbar", sticky && "neo-navbar--sticky")}>
       <div className="neo-nav--left">
+        {navMenuToggleBtn && <NavbarButton {...navMenuToggleBtn} icon="menu" />}
+
         {isLink(logo) ? <LinkLogo {...logo} /> : <Logo {...logo} />}
 
         {title && (
-          <p
+          <div
             style={{ fontSize: "19px", lineHeight: "28px", marginLeft: "16px" }}
+            role="heading"
+            aria-level={1}
           >
             {title}
-          </p>
+          </div>
         )}
 
         {search && (
           <div style={{ marginLeft: "16px", alignSelf: "center" }}>
             <TextInput
               {...search}
-              onChange={(e) =>
+              onChange={(e) => {
+                if (search.onChange) {
+                  search.onChange(e);
+                }
                 dispatchInputOnChangeEvent(
                   e.target as HTMLInputElement,
                   (e.target as HTMLInputElement).value
-                )
-              }
+                );
+              }}
             />
           </div>
         )}
       </div>
 
-      <div className="neo-nav">
+      <div className="neo-nav" style={{ alignItems: "center" }}>
         {navButtons?.map((navButton, key) => {
           return (
             <NavbarButton
@@ -130,6 +144,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
             />
           );
         })}
+        {navbarAvatar && <NavbarAvatar {...navbarAvatar} />}
       </div>
     </nav>
   );
