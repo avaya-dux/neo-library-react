@@ -22,3 +22,6 @@ export function handleAccessbilityError(message: string) {
 export function genId() {
   return uuidv4();
 }
+export function isAriaDisabled(target: HTMLElement): boolean {
+  return target.getAttribute("aria-disabled") === "true";
+}
