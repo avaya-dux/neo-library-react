@@ -107,24 +107,87 @@ describe("Tabs", () => {
   });
 
   describe(getTabItemClasses, () => {
-    it("when active = true and disabled = true, class is returned", () => {
-      const result = getTabItemClasses({ active: true, disabled: true });
-      expect(result).toContain("neo-tabs__item--active-disabled");
-      expect(result).toContain("neo-tabs__item");
+    describe("when active = true and disabled = true", () => {
+      it(" and vertical = false, return neo-tabs__item--active-disabled and neo-tabs__item", () => {
+        const result = getTabItemClasses({
+          active: true,
+          disabled: true,
+          vertical: false,
+        });
+        expect(result).toContain("neo-tabs__item--active-disabled");
+        expect(result).toContain("neo-tabs__item");
+      });
+      it("and vertical = true, return neo-tabs__item--vertical--active-disabled and neo-tabs__item", () => {
+        const result = getTabItemClasses({
+          active: true,
+          disabled: true,
+          vertical: true,
+        });
+        expect(result).toContain("neo-tabs__item--vertical--active-disabled");
+        expect(result).toContain("neo-tabs__item");
+      });
     });
-    it("when active = true and disabled = false, class is returned", () => {
-      const result = getTabItemClasses({ active: true, disabled: false });
-      expect(result).toContain("neo-tabs__item--active");
-      expect(result).toContain("neo-tabs__item");
+    describe("when active = true and disabled = false ", () => {
+      it("and vertical = false, return neo-tabs__item--active and neo-tabs__item", () => {
+        const result = getTabItemClasses({
+          active: true,
+          disabled: false,
+          vertical: false,
+        });
+        expect(result).toContain("neo-tabs__item--active");
+        expect(result).toContain("neo-tabs__item");
+        expect(result.split(" ").length).toBe(2);
+        expect(result).not.toContain("neo-tabs__item--vertical");
+      });
+      it("and vertical = true, return 3 classes: neo-tabs__item--vertical--active, neo-tabs__item--vertical, and neo-tabs__item", () => {
+        const result = getTabItemClasses({
+          active: true,
+          disabled: false,
+          vertical: true,
+        });
+        expect(result).toContain("neo-tabs__item--vertical--active");
+        expect(result).toContain("neo-tabs__item--vertical");
+        expect(result).toContain("neo-tabs__item");
+        expect(result.split(" ").length).toBe(3);
+      });
     });
-    it("when active = false and disabled = true, class is returned", () => {
-      const result = getTabItemClasses({ active: false, disabled: true });
-      expect(result).toContain("neo-tabs__item--disabled");
-      expect(result).toContain("neo-tabs__item");
+    describe("when active = false and disabled = true ", () => {
+      it("and vertical = false, correct classes are returned", () => {
+        const result = getTabItemClasses({
+          active: false,
+          disabled: true,
+          vertical: false,
+        });
+        expect(result).toContain("neo-tabs__item--disabled");
+        expect(result).toContain("neo-tabs__item");
+        expect(result.split(" ").length).toBe(2);
+      });
+      it("and vertical = true, return neo-tabs__item--disabled and neo-tabs__item", () => {
+        const result = getTabItemClasses({
+          active: false,
+          disabled: true,
+          vertical: true,
+        });
+        expect(result).toContain("neo-tabs__item--disabled");
+        expect(result).toContain("neo-tabs__item");
+        expect(result.split(" ").length).toBe(2);
+      });
     });
-    it("when active = false and disabled = false, class is returned", () => {
-      const result = getTabItemClasses({ active: false, disabled: false });
-      expect(result).toContain("neo-tabs__item");
+    describe("when active = false and disabled = false", () => {
+      it("and vertical = false, return only neo-tabs__item", () => {
+        const result = getTabItemClasses({ active: false, disabled: false });
+        expect(result).toContain("neo-tabs__item");
+        expect(result.split(" ").length).toBe(1);
+      });
+      it("and vertical = true, return only neo-tabs__item", () => {
+        const result = getTabItemClasses({
+          active: false,
+          disabled: false,
+          vertical: true,
+        });
+        expect(result).toContain("neo-tabs__item");
+        expect(result.split(" ").length).toBe(1);
+      });
     });
   });
   describe(buildTabProps, () => {

@@ -225,7 +225,7 @@ export const ScrollableVerticalTabs = () => {
     setActiveTabId(newActiveTabId);
   };
   return (
-    <div>
+    <div style={{ height: "200px" }}>
       <Tabs
         defaultTabId="tab2"
         scrollable={true}

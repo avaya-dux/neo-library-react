@@ -15,7 +15,7 @@ import {
 } from "./TabTypes";
 
 const logger = log.getLogger("tabs-logger");
-logger.disableAll();
+logger.enableAll();
 
 export const Tabs = ({
   defaultTabId,
@@ -33,7 +33,7 @@ export const Tabs = ({
   }
 
   const isVertical = "vertical" in rest;
-  const isScrollable = "scrollable" in rest;
+  const isScrollable = "scrollable" in rest ? rest.scrollable : false;
   logger.debug(`Is tab vertical? ${isVertical} scrollable? ${isScrollable}`);
 
   const [activeTabId, setUncontrolledActiveTabId] = useControlled({
@@ -148,7 +148,11 @@ export const createTab = (
   return (
     <li
       key={index}
-      className={getTabItemClasses({ ...tabProps, active: active })}
+      className={getTabItemClasses({
+        active,
+        disabled: tabProps.disabled,
+        vertical: isVertical,
+      })}
       {...rest}
     >
       <InternalTab
@@ -189,13 +193,28 @@ export const getContentClasses = (active: boolean, className?: string) => {
 export const getTabItemClasses = ({
   active = false,
   disabled = false,
-}: InternalTabProps & { active: boolean }) => {
+  vertical = false,
+}: {
+  active: boolean;
+  disabled: boolean;
+  vertical: boolean;
+}) => {
   const classes = ["neo-tabs__item"];
   if (active && disabled) {
-    classes.push("neo-tabs__item--active-disabled");
+    if (vertical) {
+      classes.push("neo-tabs__item--vertical--active-disabled");
+    } else {
+      classes.push("neo-tabs__item--active-disabled");
+    }
   } else if (active) {
-    classes.push("neo-tabs__item--active");
+    if (vertical) {
+      classes.push("neo-tabs__item--vertical");
+      classes.push("neo-tabs__item--vertical--active");
+    } else {
+      classes.push("neo-tabs__item--active");
+    }
   } else if (disabled) {
+    // same whether vertical or not for disabled and not active
     classes.push("neo-tabs__item--disabled");
   }
   return classes.join(" ");
