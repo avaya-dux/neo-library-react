@@ -12,22 +12,24 @@ import {
   Tabs,
 } from "./Tabs";
 import * as TabStories from "./Tabs.stories";
+import * as ScrollableTabStories from "./Tabs.scrollable.stories";
+import * as IconTabStories from "./Tabs.icon.stories";
 
 internalTabLogger.disableAll();
-const {
-  ControlledActiveTabProp,
-  UncontrolledActiveTabProp,
-  IconTabs,
-  VerticalTabs,
-  ScrollableVerticalTabs,
-} = composeStories(TabStories);
+
+const { ControlledActiveTabStory, UncontrolledActiveTabStory } =
+  composeStories(TabStories);
+
+const { IconTabs } = composeStories(IconTabStories);
+
+const { ScrollableVerticalTabs } = composeStories(ScrollableTabStories);
 
 describe("Tabs", () => {
   describe("Storybook tests", () => {
-    describe(ControlledActiveTabProp.storyName, () => {
+    describe(ControlledActiveTabStory.storyName, () => {
       let renderResult;
       beforeEach(() => {
-        renderResult = render(<ControlledActiveTabProp />);
+        renderResult = render(<ControlledActiveTabStory />);
       });
       it("should render ok", () => {
         const { container } = renderResult;
@@ -40,10 +42,10 @@ describe("Tabs", () => {
         expect(results).toHaveNoViolations();
       });
     });
-    describe(UncontrolledActiveTabProp.storyName, () => {
+    describe(UncontrolledActiveTabStory.storyName, () => {
       let renderResult;
       beforeEach(() => {
-        renderResult = render(<UncontrolledActiveTabProp />);
+        renderResult = render(<UncontrolledActiveTabStory />);
       });
       it("should render ok", () => {
         const { container } = renderResult;
@@ -60,22 +62,6 @@ describe("Tabs", () => {
       let renderResult;
       beforeEach(() => {
         renderResult = render(<IconTabs />);
-      });
-      it("should render ok", () => {
-        const { container } = renderResult;
-        expect(container).toBeDefined();
-      });
-
-      it("passes basic axe compliance", async () => {
-        const { container } = renderResult;
-        const results = await axe(container);
-        expect(results).toHaveNoViolations();
-      });
-    });
-    describe(VerticalTabs.storyName, () => {
-      let renderResult;
-      beforeEach(() => {
-        renderResult = render(<VerticalTabs />);
       });
       it("should render ok", () => {
         const { container } = renderResult;

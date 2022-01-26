@@ -15,7 +15,7 @@ import {
 } from "./TabTypes";
 
 const logger = log.getLogger("tabs-logger");
-logger.enableAll();
+logger.disableAll();
 
 export const Tabs = ({
   defaultTabId,
