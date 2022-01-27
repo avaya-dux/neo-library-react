@@ -25,8 +25,8 @@ const logger = log.getLogger("tabs-logger");
 logger.disableAll();
 
 export const Tabs = ({
-  defaultTabId,
-  controlled = false,
+  defaultIndex = 0,
+  index,
   children,
   onTabChange,
   ...rest
@@ -43,18 +43,18 @@ export const Tabs = ({
   const isScrollable = "scrollable" in rest ? rest.scrollable : false;
   logger.debug(`Is tab vertical? ${isVertical} scrollable? ${isScrollable}`);
 
-  const [activeTabId, setUncontrolledActiveTabId] = useControlled({
-    ...(controlled ? { controlled: defaultTabId } : {}),
-    default: defaultTabId,
-    name: "activeTabId",
+  const [activeTabIndex, setUncontrolledActiveTabIndex] = useControlled({
+    controlled: index,
+    default: defaultIndex,
+    name: "activeTabIndex",
   });
 
-  const setActiveTabId = (newActiveTabId: any) => {
-    setUncontrolledActiveTabId(newActiveTabId);
-    onTabChange?.(newActiveTabId);
+  const setActiveTabIndex = (newActiveTabIndex: any) => {
+    setUncontrolledActiveTabIndex(newActiveTabIndex);
+    onTabChange?.(newActiveTabIndex);
   };
 
-  const [activePanelId, setActivePanelId] = useState(defaultTabId);
+  const [activePanelIndex, setActivePanelIndex] = useState(defaultIndex);
 
   const verticalStyle: CSSProperties = isVertical ? { display: "flex" } : {};
   const content = (
@@ -76,14 +76,14 @@ export const Tabs = ({
             tab,
             tabs,
             isVertical,
-            activeTabId,
-            setActiveTabId,
-            setActivePanelId
+            activeTabIndex,
+            setActiveTabIndex,
+            setActivePanelIndex
           );
         })}
       </ul>
       {tabs.map((tabItem, index) => {
-        return createPanel(index, tabItem, activePanelId);
+        return createPanel(index, tabItem, activePanelIndex);
       })}
     </div>
   );
@@ -139,12 +139,12 @@ export const createTab = (
   tabProps: InternalTabProps,
   tabs: InternalTabProps[],
   isVertical: boolean,
-  activeTabId: string,
-  setActiveTabId: Dispatch<SetStateAction<string>>,
-  setActivePanelTabId: Dispatch<SetStateAction<string>>
+  activeTabIndex: number,
+  setActiveTabIndex: Dispatch<SetStateAction<number>>,
+  setActivePanelIndex: Dispatch<SetStateAction<number>>
 ) => {
   const tabId = tabProps.id;
-  const active = tabId === activeTabId;
+  const active = index === activeTabIndex;
   const { className, id, name, disabled, ...rest } = tabProps;
   logger.debug(`${tabId} disabled is ${tabProps.disabled}`);
   return (
@@ -162,11 +162,11 @@ export const createTab = (
         active={active}
         vertical={isVertical}
         tabs={tabs}
-        activeTabId={activeTabId}
+        activeTabIndex={activeTabIndex}
         aria-disabled={disabled}
         disabled={disabled}
-        setActiveTabId={setActiveTabId}
-        setActivePanelId={setActivePanelTabId}
+        setActiveTabIndex={setActiveTabIndex}
+        setActivePanelIndex={setActivePanelIndex}
       />
     </li>
   );
@@ -175,9 +175,9 @@ export const createTab = (
 export const createPanel = (
   key: number,
   tabProps: InternalTabProps,
-  activePanelId: string
+  activePanelIndex: number
 ) => {
-  const active = tabProps.id === activePanelId;
+  const active = key === activePanelIndex;
   const { children, className, ...rest } = tabProps.content;
   return (
     <div key={key} className={getContentClasses(active, className)} {...rest}>

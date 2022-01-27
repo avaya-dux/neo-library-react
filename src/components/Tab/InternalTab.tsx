@@ -29,14 +29,19 @@ export const InternalTab = ({
   className = "",
   tabs,
   vertical,
-  activeTabId,
-  setActiveTabId,
-  setActivePanelId,
+  activeTabIndex,
+  setActiveTabIndex,
+  setActivePanelIndex,
 }: InternalTabProps & InteractiveTabProps) => {
   logger.debug(`debug internalTab ${id}`);
   const ref = useRef<HTMLAnchorElement>(null);
   const handleAnchorMouseClickEvent: MouseEventHandler = (e: MouseEvent) => {
-    return handleMouseClickEvent(e, setActiveTabId, setActivePanelId);
+    return handleMouseClickEvent(
+      e,
+      tabs,
+      setActiveTabIndex,
+      setActivePanelIndex
+    );
   };
 
   const handleAnchorKeyDownEvent: KeyboardEventHandler = (
@@ -46,9 +51,9 @@ export const InternalTab = ({
       e,
       vertical,
       tabs,
-      activeTabId,
-      setActiveTabId,
-      setActivePanelId,
+      activeTabIndex,
+      setActiveTabIndex,
+      setActivePanelIndex,
       ref
     );
   };

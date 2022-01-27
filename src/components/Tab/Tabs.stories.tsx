@@ -13,34 +13,34 @@ export default {
 } as Meta<TabsProps>;
 
 export const ControlledActiveTabStory = () => {
-  const [activeTabId, setActiveTabId] = useState("tab2");
-  const onTabChange = (activeTabId: string) => {
-    console.log(`tab changed to ${activeTabId}`);
-    setActiveTabId(activeTabId);
+  const [activeTabIndex, setActiveTabIndex] = useState(1);
+  const onTabChange = (activeTabIndex: number) => {
+    console.log(`tab changed to ${activeTabIndex}`);
+    setActiveTabIndex(activeTabIndex);
   };
 
   const [disabledFlags, setDisabledFlags] = useState({
-    tab1: false,
-    tab2: false,
-    tab3: false,
+    0: false,
+    1: false,
+    2: false,
   });
 
   function disableActiveTab() {
     console.log("disable active tab");
 
-    setDisabledFlags({ ...disabledFlags, [activeTabId]: true });
+    setDisabledFlags({ ...disabledFlags, [activeTabIndex]: true });
   }
   function enableActiveTab() {
     console.log("enable active tabs");
-    setDisabledFlags({ ...disabledFlags, [activeTabId]: false });
+    setDisabledFlags({ ...disabledFlags, [activeTabIndex]: false });
   }
 
   function disableAllTabs() {
     console.log("disable all tabs");
     setDisabledFlags({
-      tab1: true,
-      tab2: true,
-      tab3: true,
+      0: true,
+      1: true,
+      2: true,
     });
   }
 
@@ -48,34 +48,30 @@ export const ControlledActiveTabStory = () => {
     console.log("enable all tabs");
 
     setDisabledFlags({
-      tab1: false,
-      tab2: false,
-      tab3: false,
+      0: false,
+      1: false,
+      2: false,
     });
   }
   return (
     <div>
       <Button
         onClick={() => disableActiveTab()}
-      >{`Disable ${activeTabId}`}</Button>
+      >{`Disable ${activeTabIndex}`}</Button>
       <Button onClick={() => enableActiveTab()}>
-        {`Enable ${activeTabId}`}
+        {`Enable ${activeTabIndex}`}
       </Button>
       <Button onClick={() => disableAllTabs()}>Disable All Tabs</Button>
       <Button onClick={() => enableAllTabs()}>Enable All Tabs</Button>
-      <Tabs
-        defaultTabId={activeTabId}
-        controlled={true}
-        onTabChange={onTabChange}
-      >
+      <Tabs index={activeTabIndex} onTabChange={onTabChange}>
         <TabList>
-          <Tab id="tab1" disabled={disabledFlags.tab1}>
+          <Tab id="tab1" disabled={disabledFlags[0]}>
             tab1
           </Tab>
-          <Tab id="tab2" disabled={disabledFlags.tab2}>
+          <Tab id="tab2" disabled={disabledFlags[1]}>
             tab2
           </Tab>
-          <Tab id="tab3" disabled={disabledFlags.tab3}>
+          <Tab id="tab3" disabled={disabledFlags[2]}>
             tab3
           </Tab>
         </TabList>
@@ -93,14 +89,14 @@ export const ControlledActiveTabStory = () => {
 };
 ControlledActiveTabStory.storyName = "Disable|Enable Tabs";
 export const UncontrolledActiveTabStory = () => {
-  const [activeTabId, setActiveTabId] = useState("tab2");
-  const onTabChange = (newActiveTabId: string) => {
-    console.log(`tab changed to ${activeTabId}`);
-    setActiveTabId(newActiveTabId);
+  const [activeTabIndex, setActiveTabIndex] = useState(1);
+  const onTabChange = (activeTabIndex: number) => {
+    console.log(`tab changed to ${activeTabIndex}`);
+    setActiveTabIndex(activeTabIndex);
   };
   return (
     <div>
-      <Tabs defaultTabId="tab2" onTabChange={onTabChange}>
+      <Tabs defaultIndex={1} onTabChange={onTabChange}>
         <TabList>
           <Tab id="tab1" disabled>
             tab1
@@ -124,7 +120,7 @@ export const UncontrolledActiveTabStory = () => {
         </TabPanels>
       </Tabs>
       <hr></hr>
-      <p>Active Tab is {activeTabId}</p>
+      <p>0 based active Tab Index is {activeTabIndex}</p>
     </div>
   );
 };

@@ -29,14 +29,14 @@ const Template: Story<IconProps> = ({
   icon5,
   dir5,
 }) => {
-  const [activeTabId, setActiveTabId] = useState("tab2");
-  const onTabChange = (newActiveTabId: string) => {
-    console.log(`tab changed to ${activeTabId}`);
-    setActiveTabId(newActiveTabId);
+  const [activeTabIndex, setActiveTabIndex] = useState(1);
+  const onTabChange = (newactiveTabIndex: number) => {
+    console.log(`tab changed to ${activeTabIndex}`);
+    setActiveTabIndex(newactiveTabIndex);
   };
   return (
     <div>
-      <Tabs defaultTabId="tab2" onTabChange={onTabChange}>
+      <Tabs defaultIndex={1} onTabChange={onTabChange}>
         <TabList>
           <Tab id="tab1" icon={icon1} dir={dir1}>
             tab1
@@ -88,7 +88,7 @@ const Template: Story<IconProps> = ({
         </TabPanels>
       </Tabs>
       <hr></hr>
-      <p>Active Tab is {activeTabId}</p>
+      <p>Active Tab is {activeTabIndex}</p>
     </div>
   );
 };

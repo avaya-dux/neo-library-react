@@ -26,10 +26,10 @@ export interface TabPanelsProps {
 }
 
 export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
-  defaultTabId: string;
-  controlled?: boolean;
+  defaultIndex?: number;
+  index?: number;
   children: [ReactElement<TabListProps>, ReactElement<TabPanelsProps>];
-  onTabChange?: (tabId: string) => void;
+  onTabChange?: (index: number) => void;
 }
 
 export interface VerticalTabsProps extends TabsProps {
@@ -49,7 +49,7 @@ export interface InteractiveTabProps {
   vertical: boolean;
   active: boolean;
   tabs: InternalTabProps[];
-  activeTabId: string;
-  setActiveTabId: Dispatch<SetStateAction<string>>;
-  setActivePanelId: Dispatch<SetStateAction<string>>;
+  activeTabIndex: number;
+  setActiveTabIndex: Dispatch<SetStateAction<number>>;
+  setActivePanelIndex: Dispatch<SetStateAction<number>>;
 }

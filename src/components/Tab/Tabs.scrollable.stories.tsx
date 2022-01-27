@@ -9,15 +9,15 @@ interface Scrollable {
   scrollable?: boolean;
 }
 const Template: Story<Scrollable> = ({ scrollable }) => {
-  const [activeTabId, setActiveTabId] = useState("tab2");
-  const onTabChange = (newActiveTabId: string) => {
-    console.log(`tab changed to ${activeTabId}`);
-    setActiveTabId(newActiveTabId);
+  const [activeTabIndex, setActiveTabIndex] = useState(1);
+  const onTabChange = (newIndex: number) => {
+    console.log(`tab changed to ${activeTabIndex}`);
+    setActiveTabIndex(newIndex);
   };
   return (
     <div style={{ height: "200px" }}>
       <Tabs
-        defaultTabId="tab2"
+        defaultIndex={1}
         scrollable={scrollable}
         onTabChange={onTabChange}
         vertical={true}
@@ -144,7 +144,7 @@ const Template: Story<Scrollable> = ({ scrollable }) => {
         </TabPanels>
       </Tabs>
       <hr></hr>
-      <p>Active Tab is {activeTabId}</p>
+      <p>0 based active Tab index is {activeTabIndex}</p>
     </div>
   );
 };

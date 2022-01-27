@@ -3,11 +3,11 @@ import { Keys } from "utils";
 
 describe("Tab Keyboard event handlers", () => {
   describe(handleKeyDownEvent, () => {
-    let setActiveTabId, setActivePanelId, ref;
+    let setActiveTabIndex, setActivePanelIndex, ref;
 
     beforeEach(() => {
-      setActiveTabId = jest.fn();
-      setActivePanelId = jest.fn();
+      setActiveTabIndex = jest.fn();
+      setActivePanelIndex = jest.fn();
       ref = { current: { focus: jest.fn(), blur: jest.fn() } };
     });
 
@@ -22,13 +22,13 @@ describe("Tab Keyboard event handlers", () => {
           e,
           false,
           tabs,
-          "tab1",
-          setActiveTabId,
-          setActivePanelId,
+          0,
+          setActiveTabIndex,
+          setActivePanelIndex,
           ref
         );
-        expect(setActiveTabId).not.toBeCalled();
-        expect(setActivePanelId).not.toBeCalled();
+        expect(setActiveTabIndex).not.toBeCalled();
+        expect(setActivePanelIndex).not.toBeCalled();
       });
       it("should do nothing if tab is horizontal.", () => {
         const tabs = getTabProps();
@@ -36,13 +36,13 @@ describe("Tab Keyboard event handlers", () => {
           e,
           false,
           tabs,
-          "tab1",
-          setActiveTabId,
-          setActivePanelId,
+          0,
+          setActiveTabIndex,
+          setActivePanelIndex,
           ref
         );
-        expect(setActiveTabId).not.toBeCalled();
-        expect(setActivePanelId).not.toBeCalled();
+        expect(setActiveTabIndex).not.toBeCalled();
+        expect(setActivePanelIndex).not.toBeCalled();
       });
       it("should go to next tab if tab is vertical", () => {
         const tabs = getTabProps();
@@ -50,13 +50,13 @@ describe("Tab Keyboard event handlers", () => {
           e,
           true,
           tabs,
-          "tab1",
-          setActiveTabId,
-          setActivePanelId,
+          0,
+          setActiveTabIndex,
+          setActivePanelIndex,
           ref
         );
-        expect(setActiveTabId).toBeCalledWith("tab2");
-        expect(setActivePanelId).not.toBeCalled();
+        expect(setActiveTabIndex).toBeCalledWith(1);
+        expect(setActivePanelIndex).not.toBeCalled();
       });
     });
     describe(Keys.UP, () => {
@@ -80,7 +80,7 @@ describe("Tab Keyboard event handlers", () => {
         };
       });
       it("should do nothing if tab is vertical", () => {
-        testEnterOrSpaceKeyDown(e, setActiveTabId, setActivePanelId, ref);
+        testEnterOrSpaceKeyDown(e, setActiveTabIndex, setActivePanelIndex, ref);
       });
     });
     describe(Keys.SPACE, () => {
@@ -92,8 +92,8 @@ describe("Tab Keyboard event handlers", () => {
           preventDefault: jest.fn(),
         };
       });
-      it("should call setActivePanelId and focus", () => {
-        testEnterOrSpaceKeyDown(e, setActiveTabId, setActivePanelId, ref);
+      it("should call setActivePanelIndex and focus", () => {
+        testEnterOrSpaceKeyDown(e, setActiveTabIndex, setActivePanelIndex, ref);
       });
     });
     describe(Keys.RIGHT, () => {
@@ -111,13 +111,13 @@ describe("Tab Keyboard event handlers", () => {
           e,
           false,
           tabs,
-          "tab2",
-          setActiveTabId,
-          setActivePanelId,
+          1,
+          setActiveTabIndex,
+          setActivePanelIndex,
           ref
         );
         expect(e.stopPropagation).toHaveBeenCalled();
-        expect(setActiveTabId).toBeCalledWith("tab3");
+        expect(setActiveTabIndex).toBeCalledWith(2);
       });
     });
     describe(Keys.LEFT, () => {
@@ -134,13 +134,13 @@ describe("Tab Keyboard event handlers", () => {
           e,
           false,
           tabs,
-          "tab2",
-          setActiveTabId,
-          setActivePanelId,
+          1,
+          setActiveTabIndex,
+          setActivePanelIndex,
           ref
         );
         expect(e.stopPropagation).toHaveBeenCalled();
-        expect(setActiveTabId).toBeCalledWith("tab1");
+        expect(setActiveTabIndex).toBeCalledWith(0);
       });
     });
   });
@@ -180,18 +180,10 @@ function getTabProps() {
   ];
 }
 
-function testEnterOrSpaceKeyDown(e, setActiveTabId, setActivePanelId, ref) {
+function testEnterOrSpaceKeyDown(e, setActiveTabIndex, setActivePanelIndex, ref) {
   const tabs = getTabProps();
-  handleKeyDownEvent(
-    e,
-    false,
-    tabs,
-    "tab2",
-    setActiveTabId,
-    setActivePanelId,
-    ref
-  );
-  expect(setActivePanelId).toBeCalledWith("tab2");
+  handleKeyDownEvent(e, false, tabs, 1, setActiveTabIndex, setActivePanelIndex, ref);
+  expect(setActivePanelIndex).toBeCalledWith(1);
   expect(e.stopPropagation).toHaveBeenCalled();
   expect(e.preventDefault).toHaveBeenCalled();
 }
