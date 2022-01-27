@@ -33,7 +33,7 @@ describe("Menu", () => {
       renderResult = render(<MultiLevelSubMenu />);
     });
 
-    it("press space on button to open the menu", async () => {
+    it("press space on button to open the menu", () => {
       const { getByRole, queryByTestId } = renderResult;
       const dataTestId = "separator-id";
       // menu is hidden before pressing key "space"
@@ -41,15 +41,15 @@ describe("Menu", () => {
       const button = getByRole("button");
       expect(button).toHaveFocus();
       userEvent.keyboard("{space}");
-      const separator = await screen.getByTestId(dataTestId);
+      const separator = screen.getByTestId(dataTestId);
       expect(separator).toBeDefined();
       // press esc should hide menu
       userEvent.keyboard("{esc}");
-      const menu = await screen.queryByRole("menu");
+      const menu = screen.queryByRole("menu");
       expect(menu).toBeNull();
     });
 
-    it("click button to open the menu", async () => {
+    it("click button to open the menu", () => {
       const { getByRole, queryByTestId } = renderResult;
       const dataTestId = "separator-id";
       // menu is hidden before pressing key "space"
@@ -57,44 +57,46 @@ describe("Menu", () => {
       const button = getByRole("button");
       expect(button).toHaveFocus();
       userEvent.click(button);
-      const separator = await screen.getByTestId(dataTestId);
+      const separator = screen.getByTestId(dataTestId);
       expect(separator).toBeDefined();
       // click again to hide menu
       userEvent.click(button);
-      const menu = await screen.queryByRole("menu");
+      const menu = screen.queryByRole("menu");
       expect(menu).toBeNull();
     });
 
-    it("press arrow down on button should move focus to first menu item.", async () => {
+    it("press arrow down on button should move focus to first menu item.", () => {
       const { getByRole } = renderResult;
       const button = getByRole("button");
       expect(button).toHaveFocus();
       // button arrowdown will open menu and move focus to first menu item
       userEvent.keyboard("{ArrowDown}");
-      const menuItems = await screen.queryAllByRole("menuitem");
+      const menuItems = screen.queryAllByRole("menuitem");
       expect(menuItems[0]).toHaveAttribute("tabindex", "0");
       expect(menuItems[1]).toHaveAttribute("tabindex", "-1");
       expect(menuItems[2]).toHaveAttribute("tabindex", "-1");
     });
-    it("press arrow down twice should move focus to first menu item.", async () => {
+
+    it("press arrow down twice should move focus to first menu item.", () => {
       const { getByRole } = renderResult;
       const button = getByRole("button");
       expect(button).toHaveFocus();
       // first arrowdown will open menu and move focus to first menu item
       // second arrowdown will move focus to second menuitem.
       userEvent.keyboard("{ArrowDown}{ArrowDown}");
-      const menuItems = await screen.queryAllByRole("menuitem");
+      const menuItems = screen.queryAllByRole("menuitem");
       expect(menuItems[0]).toHaveAttribute("tabindex", "-1");
       expect(menuItems[1]).toHaveAttribute("tabindex", "0");
       expect(menuItems[2]).toHaveAttribute("tabindex", "-1");
     });
-    it("press arrow down on button should move focus to first menu item.", async () => {
+
+    it("press arrow down on button should move focus to first menu item.", () => {
       const { getByRole } = renderResult;
       const button = getByRole("button");
       expect(button).toHaveFocus();
       // button arrowdown will open menu and move focus to first menu item
       userEvent.keyboard("{ArrowDown}");
-      const menuItems = await screen.queryAllByRole("menuitem");
+      const menuItems = screen.queryAllByRole("menuitem");
       expect(menuItems[0]).toHaveAttribute("tabindex", "0");
       expect(menuItems[1]).toHaveAttribute("tabindex", "-1");
       expect(menuItems[2]).toHaveAttribute("tabindex", "-1");
@@ -103,8 +105,40 @@ describe("Menu", () => {
       userEvent.hover(subMenu);
       userEvent.hover(subMenu);
 
-      const moreMenuItems = await screen.queryAllByRole("menu");
+      const moreMenuItems = screen.queryAllByRole("menu");
       expect(moreMenuItems.length).toBe(2);
+    });
+  });
+
+  describe(getClassNames, () => {
+    it("should return correct classes when isOpen = false and itemAlignment = false", () => {
+      expect(getClassNames(false, "left")).toMatchInlineSnapshot(
+        `"neo-dropdown neo-dropdown--right"`
+      );
+    });
+
+    it("should return correct classes when isOpen = false and itemAlignment = true", () => {
+      expect(getClassNames(false, "right")).toMatchInlineSnapshot(
+        `"neo-dropdown neo-dropdown--left"`
+      );
+    });
+
+    it("should return correct classes when isOpen = true and itemAlignment = false", () => {
+      expect(getClassNames(true, "left")).toMatchInlineSnapshot(
+        `"neo-dropdown neo-dropdown--right neo-dropdown--active"`
+      );
+    });
+
+    it("should return correct classes when isOpen = true and itemAlignment = true", () => {
+      expect(getClassNames(true, "right")).toMatchInlineSnapshot(
+        `"neo-dropdown neo-dropdown--left neo-dropdown--active"`
+      );
+    });
+
+    it("should return correct classes when className is passed", () => {
+      expect(getClassNames(true, "right", "extraclass")).toMatchInlineSnapshot(
+        `"neo-dropdown neo-dropdown--left neo-dropdown--active extraclass"`
+      );
     });
   });
 
@@ -233,38 +267,6 @@ describe("Menu", () => {
         const results = await axe(container);
         expect(results).toHaveNoViolations();
       });
-    });
-  });
-
-  describe(getClassNames, () => {
-    it("should return correct classes when isOpen = false and itemAlignment = false", () => {
-      expect(getClassNames(false, "left")).toMatchInlineSnapshot(
-        `"neo-dropdown neo-dropdown--right"`
-      );
-    });
-
-    it("should return correct classes when isOpen = false and itemAlignment = true", () => {
-      expect(getClassNames(false, "right")).toMatchInlineSnapshot(
-        `"neo-dropdown neo-dropdown--left"`
-      );
-    });
-
-    it("should return correct classes when isOpen = true and itemAlignment = false", () => {
-      expect(getClassNames(true, "left")).toMatchInlineSnapshot(
-        `"neo-dropdown neo-dropdown--right neo-dropdown--active"`
-      );
-    });
-
-    it("should return correct classes when isOpen = true and itemAlignment = true", () => {
-      expect(getClassNames(true, "right")).toMatchInlineSnapshot(
-        `"neo-dropdown neo-dropdown--left neo-dropdown--active"`
-      );
-    });
-
-    it("should return correct classes when className is passed", () => {
-      expect(getClassNames(true, "right", "extraclass")).toMatchInlineSnapshot(
-        `"neo-dropdown neo-dropdown--left neo-dropdown--active extraclass"`
-      );
     });
   });
 });
