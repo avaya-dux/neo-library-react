@@ -4,16 +4,16 @@ import { axe } from "jest-axe";
 import { MenuButton } from ".";
 
 describe("MenuButton", () => {
-  it("fully renders without exploding", () => {
-    const { getByRole: getByRole1 } = render(<MenuButton />);
-    const rootElement1 = getByRole1("button");
-    expect(rootElement1).toBeTruthy();
+  it("fully renders without exploding when passed zero params", () => {
+    const { getByRole } = render(<MenuButton />);
+    const rootElement = getByRole("button");
+    expect(rootElement).toBeTruthy();
+  });
 
-    const { getByRole: getByRole2 } = render(
-      <MenuButton>MenuButton</MenuButton>
-    );
-    const rootElement2 = getByRole2("button");
-    expect(rootElement2).toBeTruthy();
+  it("fully renders without exploding when passed a child", () => {
+    const { getByRole } = render(<MenuButton>MenuButton</MenuButton>);
+    const rootElement = getByRole("button");
+    expect(rootElement).toBeTruthy();
   });
 
   it("passes basic axe compliance", async () => {
