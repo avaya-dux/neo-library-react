@@ -50,7 +50,32 @@ SimpleMenuRightAlignedTemplated.args = {
   itemAlignment: "right",
 };
 
-export const WithSeperator = () => (
+export const FunctionalMenu = () => (
+  <section>
+    <Menu
+      menuRootElement={
+        <MenuButton onClick={() => console.log("Functional Menu opened")}>
+          Functional Menu
+        </MenuButton>
+      }
+    >
+      <MenuItem onClick={() => console.log("first menu item was clicked")}>
+        Console log click
+      </MenuItem>
+      <MenuItem disabled>Menu Item 2</MenuItem>
+      <MenuItem>
+        <a
+          href="https://design.avayacloud.com/components/web/setup-web"
+          target="_blank"
+        >
+          Go to Portal
+        </a>
+      </MenuItem>
+    </Menu>
+  </section>
+);
+
+export const MenuSeperator = () => (
   <Menu menuRootElement={<MenuButton />}>
     <MenuItem>Menu Item 1</MenuItem>
     <MenuItem>Menu Item 2</MenuItem>
@@ -75,4 +100,26 @@ export const MultiLevelSubMenu = () => (
     </SubMenu>
     <MenuItem>Item3</MenuItem>
   </Menu>
+);
+
+export const TwoMenus = () => (
+  <section style={{ display: "flex", justifyContent: "space-between" }}>
+    <Menu
+      menuRootElement={<MenuButton>Menu One</MenuButton>}
+      itemAlignment="left"
+    >
+      <MenuItem>Menu Item 1</MenuItem>
+      <MenuItem>Menu Item 2</MenuItem>
+      <MenuItem>Menu Item 3</MenuItem>
+    </Menu>
+
+    <Menu
+      menuRootElement={<MenuButton>Menu Two</MenuButton>}
+      itemAlignment="right"
+    >
+      <MenuItem>Menu Item 1</MenuItem>
+      <MenuItem>Menu Item 2</MenuItem>
+      <MenuItem>Menu Item 3</MenuItem>
+    </Menu>
+  </section>
 );

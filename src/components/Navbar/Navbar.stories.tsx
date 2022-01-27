@@ -1,7 +1,7 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { FormEvent, useState } from "react";
 
-import { MenuButton, MenuItem, SubMenu } from "components/Menu";
+import { MenuItem, SubMenu } from "components/Menu";
 
 import { Navbar, NavbarProps } from ".";
 

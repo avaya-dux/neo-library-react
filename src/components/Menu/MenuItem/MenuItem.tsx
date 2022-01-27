@@ -13,6 +13,7 @@ export const MenuItem: FC<MenuItemProps> = ({
   children,
   className,
   counter,
+  disabled = false,
   hasFocus = false,
   id,
   isActive = false,
@@ -38,6 +39,7 @@ export const MenuItem: FC<MenuItemProps> = ({
       className={clsx(
         "neo-dropdown__link",
         isActive && "neo-dropdown__link-active",
+        disabled && "neo-dropdown--disabled",
         className
       )}
       id={internalId}

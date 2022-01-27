@@ -9,9 +9,10 @@ export type ActionType = "ENTER_SUB_MENU" | "ACTIVATE_MENU_ITEM" | "";
 // TODO-737: disabled
 export interface MenuItemProps
   extends React.AnchorHTMLAttributes<HTMLDivElement> {
+  counter?: number;
+  disabled?: boolean;
   hasFocus?: boolean;
   isActive?: boolean;
-  counter?: number;
 }
 export interface SubMenuProps extends React.HTMLAttributes<HTMLDivElement> {
   button: ReactElement<MenuItemProps>;
