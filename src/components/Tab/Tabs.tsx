@@ -39,7 +39,7 @@ export const Tabs = ({
     });
   }
 
-  const isVertical = "vertical" in rest;
+  const isVertical = "variant" in rest ? rest.variant === "vertical" : false;
   const isScrollable = "scrollable" in rest ? rest.scrollable : false;
   logger.debug(`Is tab vertical? ${isVertical} scrollable? ${isScrollable}`);
 
