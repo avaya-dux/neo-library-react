@@ -20,7 +20,7 @@ const mouseLogger = log.getLogger("menu-mouse-event-handler");
 mouseLogger.enableAll();
 
 export default {
-  title: "Components/Dropdown/Menu",
+  title: "Components/Menu",
   component: Menu,
 } as Meta<MenuProps>;
 

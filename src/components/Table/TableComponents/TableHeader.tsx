@@ -1,7 +1,8 @@
 import { CSSProperties } from "react";
 
-import { Icon, Menu, MenuItem } from "components";
 import { Checkbox } from "components/Checkbox";
+import { Icon } from "components/Icon";
+import { Menu, MenuItem } from "components/Menu";
 import { IconNamesType, Keys } from "utils";
 
 import { calculateAriaSortValue } from "../helpers";

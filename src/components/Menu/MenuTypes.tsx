@@ -1,5 +1,6 @@
-import { ButtonProps } from "components/Button";
 import { ReactElement } from "react";
+
+import { ButtonProps } from "components/Button";
 
 export interface MenuSeparatorProps
   extends React.HTMLAttributes<HTMLHRElement> {}
@@ -7,8 +8,7 @@ export interface MenuSeparatorProps
 export type ActionType = "ENTER_SUB_MENU" | "ACTIVATE_MENU_ITEM" | "";
 // TODO-737: disabled
 export interface MenuItemProps
-  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  text: string;
+  extends React.AnchorHTMLAttributes<HTMLDivElement> {
   hasFocus?: boolean;
   isActive?: boolean;
   counter?: number;

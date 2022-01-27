@@ -15,37 +15,41 @@ import {
   useMemo,
   useState,
 } from "react";
+
 import { genId } from "utils/accessibilityUtils";
+
 import {
   handleBlurEvent,
   handleKeyDownEvent,
   handleMouseMoveEvent,
-} from "./EventHandlers";
-import { MenuItem } from "./MenuItem";
+} from "../EventHandlers";
+import { MenuItem } from "../MenuItem";
 import {
   ActionType,
   MenuIndexesType,
   MenuItemProps,
   MenuProps,
   SubMenuProps,
-} from "./MenuTypes";
+} from "../MenuTypes";
 
 const logger = log.getLogger("submenu");
 logger.disableAll();
 
 export const SubMenu: FC<SubMenuProps> = ({
-  id,
   action,
-  counter,
   button,
   children,
+  counter,
+  id,
+
   ...rest
 }) => {
   const internalId = useMemo(() => id || genId(), []);
 
-  const { text: label, isActive, hasFocus } = button.props;
+  const { children: btnChildren, isActive, hasFocus } = button.props;
+  const subMenuButtonLabel = btnChildren?.toString() || "";
   log.debug(
-    `debugging SubMenu: '${label}' isActive=${isActive}, hasFocus=${hasFocus}, action = ${action}, counter=${counter}`
+    `debugging SubMenu: '${subMenuButtonLabel}' isActive=${isActive}, hasFocus=${hasFocus}, action = ${action}, counter=${counter}`
   );
   const [isOpen, setOpen] = useState(false);
   const [enterCounter, setEnterCounter] = useState(1);
@@ -78,7 +82,7 @@ export const SubMenu: FC<SubMenuProps> = ({
       enterCounter,
       setEnterCounter,
       setOpen,
-      label
+      subMenuButtonLabel
     );
   };
   const handleSubMenuMouseMove: MouseEventHandler = (e: MouseEvent) => {

@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import log from "loglevel";
 import {
   cloneElement,
@@ -12,6 +13,7 @@ import {
   useMemo,
   useState,
 } from "react";
+
 import {
   handleBlurEvent,
   handleButtonKeyDownEvent,
@@ -27,7 +29,7 @@ logger.disableAll();
 
 export const Menu = forwardRef(
   (
-    { button, rightAligned = false, children, ...rest }: MenuProps,
+    { button, className, children, rightAligned = false, ...rest }: MenuProps,
     ref: Ref<HTMLButtonElement>
   ) => {
     logger.debug("debugging Menu ...");
@@ -106,7 +108,11 @@ export const Menu = forwardRef(
     });
 
     return (
-      <div className={getClassNames(isOpen, rightAligned)} {...rest}>
+      <div
+        className={getClassNames(isOpen, rightAligned, className)}
+        role="group"
+        {...rest}
+      >
         {menuButton}
         {isOpen &&
           layoutChildren(
@@ -124,19 +130,19 @@ export const Menu = forwardRef(
   }
 );
 
-export const getClassNames = (isOpen: boolean, rightAligned: boolean) => {
-  const names = ["neo-dropdown"];
-
-  if (rightAligned) {
-    names.push("neo-dropdown--left");
-  } else {
-    names.push("neo-dropdown--right");
-  }
-
+export const getClassNames = (
+  isOpen: boolean,
+  rightAligned: boolean,
+  className: string | undefined
+) => {
   if (isOpen) {
     logger.debug(`isOpen is ${isOpen}`);
-    names.push("neo-dropdown--active");
   }
 
-  return names.join(" ");
+  return clsx(
+    "neo-dropdown",
+    rightAligned ? "neo-dropdown--left" : "neo-dropdown--right",
+    isOpen && "neo-dropdown--active",
+    className
+  );
 };

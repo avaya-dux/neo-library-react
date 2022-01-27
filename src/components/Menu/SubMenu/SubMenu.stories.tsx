@@ -1,12 +1,13 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { MouseEvent, MouseEventHandler } from "react";
-import { MenuItem } from "./MenuItem";
-import { MenuSeparator } from "./MenuSeparator";
-import { SubMenuProps } from "./MenuTypes";
+
+import { MenuItem } from "../MenuItem";
+import { MenuSeparator } from "../MenuSeparator";
+import { SubMenuProps } from "../MenuTypes";
 import { SubMenu } from "./SubMenu";
 
 export default {
-  title: "Components/Dropdown/Sub Menu",
+  title: "Components/Menu/Sub Menu",
   component: SubMenu,
 } as Meta<SubMenuProps>;
 
@@ -14,10 +15,10 @@ const Template: Story<SubMenuProps> = (props: SubMenuProps) => {
   return (
     <div role="menu">
       <SubMenu {...props}>
-        <MenuItem text="Item1" />
+        <MenuItem>Item1</MenuItem>
         <MenuSeparator />
-        <MenuItem text="Item2" />
-        <MenuItem text="Item3" />
+        <MenuItem>Item2</MenuItem>
+        <MenuItem>Item3</MenuItem>
       </SubMenu>
     </div>
   );
@@ -31,5 +32,5 @@ const onClickHandler: MouseEventHandler = (e: MouseEvent) => {
 };
 
 WithSeparator.args = {
-  button: <MenuItem text="SubMenu" onClick={onClickHandler} />,
+  button: <MenuItem onClick={onClickHandler}>SubMenu</MenuItem>,
 };
