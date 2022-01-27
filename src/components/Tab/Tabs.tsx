@@ -1,5 +1,12 @@
 import log from "loglevel";
-import { Dispatch, SetStateAction, useState, useMemo, Fragment } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useState,
+  useMemo,
+  Fragment,
+  CSSProperties,
+} from "react";
 import { genId } from "utils";
 import useControlled from "utils/useControlled";
 import { InternalTab } from "./InternalTab";
@@ -49,18 +56,13 @@ export const Tabs = ({
 
   const [activePanelId, setActivePanelId] = useState(defaultTabId);
 
+  const verticalStyle: CSSProperties = isVertical ? { display: "flex" } : {};
   const content = (
     <div
       className="neo-tabs"
       role="tablist"
       aria-owns={getAllTabIdsInString(tabs)}
-      {...(isVertical
-        ? {
-            style: {
-              display: "flex",
-            },
-          }
-        : {})}
+      style={verticalStyle}
     >
       <ul
         className={

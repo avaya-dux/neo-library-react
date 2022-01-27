@@ -1,9 +1,7 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { Button } from "components";
 import { useState } from "react";
 import { tabMouseEventHandlerLogger } from "./EventHandlers";
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "./Tabs";
-import { TabsProps } from "./TabTypes";
 
 tabMouseEventHandlerLogger.enableAll();
 
