@@ -102,7 +102,7 @@ export const MultiLevelSubMenu = () => (
   </Menu>
 );
 
-// BUG: If you mouse click on both submenus, the first submenu does not close. Keybaord navigation works beautifully.
+// BUG-799: If you mouse click on both submenus, the first submenu does not close. Keybaord navigation works beautifully.
 export const TwoMenus = () => (
   <section style={{ display: "flex", justifyContent: "space-between" }}>
     <Menu
