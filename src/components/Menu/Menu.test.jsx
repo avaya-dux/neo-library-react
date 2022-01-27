@@ -1,5 +1,5 @@
 import { composeStories } from "@storybook/testing-react";
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 import log from "loglevel";
@@ -36,11 +36,12 @@ describe("Menu", () => {
       const { getByRole } = renderResult;
       const button = getByRole("button");
 
-      // menu is hidden before pressing key "space"
+      // menu is hidden before tabbing to menu button and pressing key "space"
       expect(getByRole("group")).not.toBeNull();
       expect(button).not.toBeNull();
       expect(() => getByRole("menu")).toThrow();
 
+      // tab to menu button, press spacebar, and menu is visible
       userEvent.tab();
       expect(button).toHaveFocus();
       userEvent.keyboard("{space}");
@@ -49,6 +50,49 @@ describe("Menu", () => {
       // press esc should hide menu
       userEvent.keyboard("{esc}");
       expect(() => getByRole("menu")).toThrow();
+    });
+
+    it("menu can be opened and closed via mouse functionality", () => {
+      const { getByRole } = renderResult;
+      const button = getByRole("button");
+
+      // menu is hidden before clicking menu button
+      expect(getByRole("group")).not.toBeNull();
+      expect(button).not.toBeNull();
+      expect(() => getByRole("menu")).toThrow();
+
+      // tab to menu button, press spacebar, and menu is visible
+      userEvent.tab();
+      expect(button).toHaveFocus();
+      userEvent.click(button);
+      expect(() => getByRole("menu")).not.toThrow();
+
+      // click again to hide menu
+      userEvent.click(button);
+      expect(() => getByRole("menu")).toThrow();
+    });
+
+    it("menu can be navigated via keyboard functionality.", () => {
+      const { getByRole, queryAllByRole } = renderResult;
+      const button = getByRole("button");
+      expect(() => getByRole("menu")).toThrow();
+
+      userEvent.tab();
+      expect(button).toHaveFocus();
+
+      // button arrowdown will open menu and move focus to first menu item
+      userEvent.keyboard("{ArrowDown}");
+      expect(() => getByRole("menu")).not.toThrow();
+      const menuItems = queryAllByRole("menuitem");
+      expect(menuItems[0]).toHaveAttribute("tabindex", "0");
+      expect(menuItems[1]).toHaveAttribute("tabindex", "-1");
+      expect(menuItems[2]).toHaveAttribute("tabindex", "-1");
+
+      // arrowdown again to navigate to next menu item
+      userEvent.keyboard("{ArrowDown}");
+      expect(menuItems[0]).toHaveAttribute("tabindex", "-1");
+      expect(menuItems[1]).toHaveAttribute("tabindex", "0");
+      expect(menuItems[2]).toHaveAttribute("tabindex", "-1");
     });
   });
 
