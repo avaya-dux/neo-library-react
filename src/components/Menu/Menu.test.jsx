@@ -236,29 +236,34 @@ describe("Menu", () => {
     });
   });
 
-  // TODO: fix these
-  xdescribe(getClassNames, () => {
-    it("should return correct classes when isOpen = false and rightAlign = false", () => {
-      expect(getClassNames(false, false)).toMatchInlineSnapshot(
+  describe(getClassNames, () => {
+    it("should return correct classes when isOpen = false and itemAlignment = false", () => {
+      expect(getClassNames(false, "left")).toMatchInlineSnapshot(
         `"neo-dropdown neo-dropdown--right"`
       );
     });
 
-    it("should return correct classes when isOpen = false and rightAlign = true", () => {
-      expect(getClassNames(false, true)).toMatchInlineSnapshot(
+    it("should return correct classes when isOpen = false and itemAlignment = true", () => {
+      expect(getClassNames(false, "right")).toMatchInlineSnapshot(
         `"neo-dropdown neo-dropdown--left"`
       );
     });
 
-    it("should return correct classes when isOpen = true and rightAlign = false", () => {
-      expect(getClassNames(true, false)).toMatchInlineSnapshot(
+    it("should return correct classes when isOpen = true and itemAlignment = false", () => {
+      expect(getClassNames(true, "left")).toMatchInlineSnapshot(
         `"neo-dropdown neo-dropdown--right neo-dropdown--active"`
       );
     });
 
-    it("should return correct classes when isOpen = true and rightAlign = true", () => {
-      expect(getClassNames(true, true)).toMatchInlineSnapshot(
+    it("should return correct classes when isOpen = true and itemAlignment = true", () => {
+      expect(getClassNames(true, "right")).toMatchInlineSnapshot(
         `"neo-dropdown neo-dropdown--left neo-dropdown--active"`
+      );
+    });
+
+    it("should return correct classes when className is passed", () => {
+      expect(getClassNames(true, "right", "extraclass")).toMatchInlineSnapshot(
+        `"neo-dropdown neo-dropdown--left neo-dropdown--active extraclass"`
       );
     });
   });
