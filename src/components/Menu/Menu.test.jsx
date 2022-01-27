@@ -26,87 +26,29 @@ const {
   TwoMenus,
 } = composeStories(MenuStories);
 describe("Menu", () => {
-  // TODO: implement
-  xdescribe("Base tests", () => {
+  describe("Base tests", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<MultiLevelSubMenu />);
     });
 
-    it("press space on button to open the menu", () => {
-      const { getByRole, queryByTestId } = renderResult;
-      const dataTestId = "separator-id";
-      // menu is hidden before pressing key "space"
-      expect(queryByTestId(dataTestId)).toBeNull();
+    it("menu can be opened and closed via keyboard functionality", () => {
+      const { getByRole } = renderResult;
       const button = getByRole("button");
+
+      // menu is hidden before pressing key "space"
+      expect(getByRole("group")).not.toBeNull();
+      expect(button).not.toBeNull();
+      expect(() => getByRole("menu")).toThrow();
+
+      userEvent.tab();
       expect(button).toHaveFocus();
       userEvent.keyboard("{space}");
-      const separator = screen.getByTestId(dataTestId);
-      expect(separator).toBeDefined();
+      expect(() => getByRole("menu")).not.toThrow();
+
       // press esc should hide menu
       userEvent.keyboard("{esc}");
-      const menu = screen.queryByRole("menu");
-      expect(menu).toBeNull();
-    });
-
-    it("click button to open the menu", () => {
-      const { getByRole, queryByTestId } = renderResult;
-      const dataTestId = "separator-id";
-      // menu is hidden before pressing key "space"
-      expect(queryByTestId(dataTestId)).toBeNull();
-      const button = getByRole("button");
-      expect(button).toHaveFocus();
-      userEvent.click(button);
-      const separator = screen.getByTestId(dataTestId);
-      expect(separator).toBeDefined();
-      // click again to hide menu
-      userEvent.click(button);
-      const menu = screen.queryByRole("menu");
-      expect(menu).toBeNull();
-    });
-
-    it("press arrow down on button should move focus to first menu item.", () => {
-      const { getByRole } = renderResult;
-      const button = getByRole("button");
-      expect(button).toHaveFocus();
-      // button arrowdown will open menu and move focus to first menu item
-      userEvent.keyboard("{ArrowDown}");
-      const menuItems = screen.queryAllByRole("menuitem");
-      expect(menuItems[0]).toHaveAttribute("tabindex", "0");
-      expect(menuItems[1]).toHaveAttribute("tabindex", "-1");
-      expect(menuItems[2]).toHaveAttribute("tabindex", "-1");
-    });
-
-    it("press arrow down twice should move focus to first menu item.", () => {
-      const { getByRole } = renderResult;
-      const button = getByRole("button");
-      expect(button).toHaveFocus();
-      // first arrowdown will open menu and move focus to first menu item
-      // second arrowdown will move focus to second menuitem.
-      userEvent.keyboard("{ArrowDown}{ArrowDown}");
-      const menuItems = screen.queryAllByRole("menuitem");
-      expect(menuItems[0]).toHaveAttribute("tabindex", "-1");
-      expect(menuItems[1]).toHaveAttribute("tabindex", "0");
-      expect(menuItems[2]).toHaveAttribute("tabindex", "-1");
-    });
-
-    it("press arrow down on button should move focus to first menu item.", () => {
-      const { getByRole } = renderResult;
-      const button = getByRole("button");
-      expect(button).toHaveFocus();
-      // button arrowdown will open menu and move focus to first menu item
-      userEvent.keyboard("{ArrowDown}");
-      const menuItems = screen.queryAllByRole("menuitem");
-      expect(menuItems[0]).toHaveAttribute("tabindex", "0");
-      expect(menuItems[1]).toHaveAttribute("tabindex", "-1");
-      expect(menuItems[2]).toHaveAttribute("tabindex", "-1");
-      // hover over submenu to open it
-      const subMenu = screen.getByText(/SubMenu/i);
-      userEvent.hover(subMenu);
-      userEvent.hover(subMenu);
-
-      const moreMenuItems = screen.queryAllByRole("menu");
-      expect(moreMenuItems.length).toBe(2);
+      expect(() => getByRole("menu")).toThrow();
     });
   });
 
