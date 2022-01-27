@@ -29,7 +29,13 @@ logger.disableAll();
 
 export const Menu = forwardRef(
   (
-    { button, className, children, rightAligned = false, ...rest }: MenuProps,
+    {
+      menuRootElement,
+      className,
+      children,
+      rightAligned = false,
+      ...rest
+    }: MenuProps,
     ref: Ref<HTMLButtonElement>
   ) => {
     logger.debug("debugging Menu ...");
@@ -102,7 +108,7 @@ export const Menu = forwardRef(
       return handleMouseClickEvent(e, isOpen, setOpen);
     };
 
-    const menuButton = cloneElement(button, {
+    const menuButton = cloneElement(menuRootElement, {
       onKeyDown: handleMenuButtonKeyDown,
       onClick: handleMenuButtonClick,
     });

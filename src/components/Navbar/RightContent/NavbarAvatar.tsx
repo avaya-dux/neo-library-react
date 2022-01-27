@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 
-import { Avatar, AvatarProps, Menu, MenuProps } from "components";
+import { Avatar, AvatarProps } from "components/Avatar";
+import { Menu, MenuProps } from "components/Menu";
 
 export interface NavbarAvatarProps {
   avatar?: Omit<AvatarProps, "size" | "border" | "status">;
@@ -19,7 +20,7 @@ export const NavbarAvatar: FunctionComponent<NavbarAvatarProps> = ({
   );
 
   return dropdown ? (
-    <Menu {...dropdown} button={dropdownAvatar} />
+    <Menu {...dropdown} menuRootElement={dropdownAvatar} />
   ) : (
     <Avatar {...avatar} />
   );

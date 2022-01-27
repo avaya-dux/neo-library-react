@@ -25,11 +25,11 @@ export type MenuChildrenType = ReactElement<
 >[];
 
 export interface MenuProps extends React.HTMLAttributes<HTMLDivElement> {
-  active?: boolean;
-  isHover?: boolean;
-  rightAligned?: boolean;
-  button: ReactElement<ButtonProps>;
+  // active?: boolean; // BUG: not implemented
+  // isHover?: boolean; // BUG: not implemented
   children: MenuChildrenType;
+  menuRootElement: ReactElement<ButtonProps>;
+  rightAligned?: boolean;
 }
 
 export type MenuIndexesType = {
