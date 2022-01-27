@@ -33,7 +33,7 @@ export const Menu = forwardRef(
       menuRootElement,
       className,
       children,
-      rightAligned = false,
+      itemAlignment = "left",
       ...rest
     }: MenuProps,
     ref: Ref<HTMLButtonElement>
@@ -115,7 +115,7 @@ export const Menu = forwardRef(
 
     return (
       <div
-        className={getClassNames(isOpen, rightAligned, className)}
+        className={getClassNames(isOpen, itemAlignment, className)}
         role="group"
         {...rest}
       >
@@ -138,7 +138,7 @@ export const Menu = forwardRef(
 
 export const getClassNames = (
   isOpen: boolean,
-  rightAligned: boolean,
+  itemAlignment: "left" | "right",
   className: string | undefined
 ) => {
   if (isOpen) {
@@ -147,7 +147,7 @@ export const getClassNames = (
 
   return clsx(
     "neo-dropdown",
-    rightAligned ? "neo-dropdown--left" : "neo-dropdown--right",
+    itemAlignment === "right" ? "neo-dropdown--left" : "neo-dropdown--right",
     isOpen && "neo-dropdown--active",
     className
   );

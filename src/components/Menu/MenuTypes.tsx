@@ -29,7 +29,7 @@ export interface MenuProps extends React.HTMLAttributes<HTMLDivElement> {
   // isHover?: boolean; // BUG: not implemented
   children: MenuChildrenType;
   menuRootElement: ReactElement<ButtonProps>;
-  rightAligned?: boolean;
+  itemAlignment?: "left" | "right";
 }
 
 export type MenuIndexesType = {
