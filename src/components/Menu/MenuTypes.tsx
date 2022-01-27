@@ -15,7 +15,7 @@ export interface MenuItemProps
   isActive?: boolean;
 }
 export interface SubMenuProps extends React.HTMLAttributes<HTMLDivElement> {
-  button: ReactElement<MenuItemProps>;
+  menuRootElement: ReactElement<MenuItemProps>;
   children: ReactElement<MenuItemProps | SubMenuProps | MenuSeparatorProps>[];
   action?: ActionType;
   counter?: number;

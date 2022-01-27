@@ -73,13 +73,15 @@ describe("SubMenu helper methods", () => {
       expect(addIdToChildren([menuItem])[0].props.id).toBe("id");
     });
     it("should add id to button when submenu button does not have id", () => {
-      const subMenu = <SubMenu button={<MenuItem text="File" />} />;
+      const subMenu = <SubMenu menuRootElement={<MenuItem text="File" />} />;
       expect(
         addIdToChildren([subMenu])[0].props.button.props.id
       ).not.toBeNull();
     });
     it("should keep the button id when submenu button has id", () => {
-      const subMenu = <SubMenu button={<MenuItem id="id" text="File" />} />;
+      const subMenu = (
+        <SubMenu menuRootElement={<MenuItem id="id" text="File" />} />
+      );
       expect(addIdToChildren([subMenu])[0].props.button.props.id).toBe("id");
     });
   });
@@ -105,7 +107,10 @@ describe("SubMenu helper methods", () => {
     });
     it("should return correct result with one SubMenu", () => {
       const children = [
-        <SubMenu id="sub" button={<MenuItem text="File" id="button" />}>
+        <SubMenu
+          id="sub"
+          menuRootElement={<MenuItem text="File" id="button" />}
+        >
           <MenuItem text="View" />
           <MenuItem text="Edit" />
           <MenuItem text="Delete" />
@@ -123,7 +128,10 @@ describe("SubMenu helper methods", () => {
     });
     it("should return correct result with one MenuItem and one SubMenu", () => {
       const children = [
-        <SubMenu id="sub" button={<MenuItem text="File" id="button" />}>
+        <SubMenu
+          id="sub"
+          menuRootElement={<MenuItem text="File" id="button" />}
+        >
           <MenuItem text="View" />
           <MenuItem text="Edit" />
           <MenuItem text="Delete" />
@@ -194,7 +202,7 @@ describe("SubMenu helper methods", () => {
         <MenuItem id="1" text="View" href="fixme" />,
         <SubMenu
           id="2"
-          button={
+          menuRootElement={
             <MenuItem
               id="20"
               text="SubMenu"
@@ -341,7 +349,7 @@ describe("SubMenu helper methods", () => {
         <MenuItem id="1" text="View" href="fixme" />,
         <SubMenu
           id="2"
-          button={
+          menuRootElement={
             <MenuItem
               id="20"
               text="SubMenu"

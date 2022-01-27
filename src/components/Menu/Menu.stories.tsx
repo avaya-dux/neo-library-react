@@ -88,11 +88,11 @@ export const MenuSeperator = () => (
 export const MultiLevelSubMenu = () => (
   <Menu menuRootElement={<MenuButton />}>
     <MenuItem>Item1</MenuItem>
-    <SubMenu button={<MenuItem>SubMenu</MenuItem>}>
+    <SubMenu menuRootElement={<MenuItem>SubMenu</MenuItem>}>
       <MenuItem>Sub Item1</MenuItem>
       <MenuItem>Sub Item2</MenuItem>
       <MenuItem>Sub Item3</MenuItem>
-      <SubMenu button={<MenuItem>Sub SubMenu</MenuItem>}>
+      <SubMenu menuRootElement={<MenuItem>Sub SubMenu</MenuItem>}>
         <MenuItem>Sub Sub Item1</MenuItem>
         <MenuItem>Sub Sub Item2</MenuItem>
         <MenuItem>Sub Sub Item3</MenuItem>

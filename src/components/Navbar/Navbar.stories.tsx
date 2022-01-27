@@ -106,7 +106,7 @@ NavbarWithAvatarAndDropdown.args = {
       itemAlignment: "right",
       children: [
         <MenuItem key={"1"}>Item1</MenuItem>,
-        <SubMenu key={"2"} button={<MenuItem>Sub Menu</MenuItem>}>
+        <SubMenu key={"2"} menuRootElement={<MenuItem>Sub Menu</MenuItem>}>
           <MenuItem key={"2-1"}>Sub Item1</MenuItem>
           <MenuItem key={"2-2"}>Sub Item2</MenuItem>
         </SubMenu>,
