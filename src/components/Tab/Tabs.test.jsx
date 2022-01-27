@@ -190,14 +190,14 @@ describe("Tabs", () => {
             <Tab id="tab3">tab3</Tab>
           </TabList>
           <TabPanels>
-            <TabPanel>
+            <TabPanel id="panel1">
               <h2>content1</h2>
               <p>paragraph 1</p>
             </TabPanel>
-            <TabPanel className="customClass" dir="ltr">
+            <TabPanel id="panel2" className="customClass" dir="ltr">
               content 2
             </TabPanel>
-            <TabPanel>content 3</TabPanel>
+            <TabPanel id="panel3">content 3</TabPanel>
           </TabPanels>
         </Tabs>
       );
@@ -213,6 +213,7 @@ describe("Tabs", () => {
                   paragraph 1
                 </p>,
               ],
+              "id": "panel1",
             },
             "dir": "ltr",
             "disabled": false,
@@ -224,6 +225,7 @@ describe("Tabs", () => {
               "children": "content 2",
               "className": "customClass",
               "dir": "ltr",
+              "id": "panel2",
             },
             "disabled": true,
             "id": "tab2",
@@ -232,6 +234,7 @@ describe("Tabs", () => {
           Object {
             "content": Object {
               "children": "content 3",
+              "id": "panel3",
             },
             "disabled": false,
             "id": "tab3",

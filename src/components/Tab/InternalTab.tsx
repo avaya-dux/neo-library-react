@@ -26,6 +26,7 @@ export const InternalTab = ({
   id,
   name,
   icon,
+  content,
   className = "",
   tabs,
   vertical,
@@ -81,6 +82,7 @@ export const InternalTab = ({
       id={id}
       role="tab"
       aria-selected={active}
+      aria-controls={content.id}
       tabIndex={active && !disabled ? 0 : -1}
       href="#fixme"
       aria-disabled={disabled}

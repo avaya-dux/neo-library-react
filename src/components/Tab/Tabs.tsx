@@ -39,7 +39,8 @@ export const Tabs = ({
     });
   }
 
-  const isVertical = "variant" in rest ? rest.variant === "vertical" : false;
+  const isVertical =
+    "orientation" in rest ? rest.orientation === "vertical" : false;
   const isScrollable = "scrollable" in rest ? rest.scrollable : false;
   logger.debug(`Is tab vertical? ${isVertical} scrollable? ${isScrollable}`);
 
@@ -62,6 +63,7 @@ export const Tabs = ({
       className="neo-tabs"
       role="tablist"
       aria-owns={getAllTabIdsInString(tabs)}
+      aria-orientation={isVertical ? "vertical" : "horizontal"}
       style={verticalStyle}
     >
       <ul
@@ -118,7 +120,10 @@ export const buildTabProps = (
   const panels = panelList.props.children;
   return tabs.map((tab, index) => {
     const props = tab.props;
-    const panel = panels[index].props as TabPanelProps;
+    let panel = panels[index].props as TabPanelProps;
+    if (!panel.id) {
+      panel = { ...panel, id: genId() };
+    }
     const { id, children, ...rest } = props;
     const disabled = !!props?.disabled;
     logger.debug(`${id} disabled = ${disabled}`);
@@ -178,9 +183,16 @@ export const createPanel = (
   activePanelIndex: number
 ) => {
   const active = key === activePanelIndex;
-  const { children, className, ...rest } = tabProps.content;
+  const { id, children, className, ...rest } = tabProps.content;
   return (
-    <div key={key} className={getContentClasses(active, className)} {...rest}>
+    <div
+      id={id}
+      aria-labelledby={tabProps.id}
+      role="tabpanel"
+      key={key}
+      className={getContentClasses(active, className)}
+      {...rest}
+    >
       {children}
     </div>
   );

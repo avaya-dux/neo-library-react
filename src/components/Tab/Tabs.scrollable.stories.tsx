@@ -20,7 +20,7 @@ const Template: Story<Scrollable> = ({ scrollable }) => {
         defaultIndex={1}
         scrollable={scrollable}
         onTabChange={onTabChange}
-        variant="vertical"
+        orientation="vertical"
       >
         <TabList>
           <Tab id="tab1" icon="settings">

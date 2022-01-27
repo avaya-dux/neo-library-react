@@ -33,7 +33,7 @@ export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export interface VerticalTabsProps extends TabsProps {
-  variant: "vertical";
+  orientation: "vertical";
   scrollable?: boolean;
 }
 
