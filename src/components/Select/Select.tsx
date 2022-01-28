@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { useSelect } from "downshift";
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent, useEffect, useMemo } from "react";
 
 import { NeoInputWrapper } from "components";
 
@@ -11,9 +11,16 @@ export const Select: FunctionComponent<SelectProps> = ({
   items,
   placeholder = "Select One",
   id,
+  disabled,
+  errorList = [],
+  helperText,
+  loading,
+  required,
   onSelectedValueChange,
 }) => {
   const itemsText: string[] = items.map((item) => item.text);
+
+  const helperId = useMemo(() => `helper-text-${id}`, [id]);
 
   const {
     isOpen,
@@ -22,7 +29,7 @@ export const Select: FunctionComponent<SelectProps> = ({
     getLabelProps,
     getMenuProps,
     getItemProps,
-  } = useSelect({ items: itemsText, id });
+  } = useSelect({ items: itemsText, id, isOpen: disabled && false });
 
   useEffect(() => {
     if (onSelectedValueChange && selectedItem)
@@ -30,12 +37,21 @@ export const Select: FunctionComponent<SelectProps> = ({
   }, [selectedItem]);
 
   return (
-    <NeoInputWrapper>
+    <NeoInputWrapper
+      disabled={disabled || loading}
+      error={errorList.length > 0}
+      required={required}
+    >
       <label {...getLabelProps()}>{label}</label>
 
       <div
         {...getToggleButtonProps()}
-        className={clsx("neo-multiselect", isOpen && "neo-multiselect--active")}
+        className={clsx(
+          "neo-multiselect",
+          disabled && "neo-multiselect--disabled",
+          isOpen && "neo-multiselect--active"
+        )}
+        aria-describedby={helperId}
       >
         <div className="neo-multiselect__header">
           {selectedItem || placeholder}
@@ -58,6 +74,19 @@ export const Select: FunctionComponent<SelectProps> = ({
           </ul>
         </div>
       </div>
+
+      {helperText && (
+        <div className="neo-input-hint" id={helperId}>
+          {helperText}
+        </div>
+      )}
+
+      {errorList.length > 0 &&
+        errorList?.map((text, index) => (
+          <div className="neo-input-hint" key={`error-text-${index}`}>
+            {text}
+          </div>
+        ))}
     </NeoInputWrapper>
   );
 };

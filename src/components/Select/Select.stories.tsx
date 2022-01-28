@@ -27,3 +27,7 @@ export const SelectExample = () => {
     />
   );
 };
+
+export const DisabledSelectExample = () => {
+  return <Select label="Test label" items={items} disabled={true} />;
+};

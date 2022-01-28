@@ -11,6 +11,11 @@ interface BaseSelectProps {
   label: string;
   placeholder?: string;
   id?: string;
+  disabled?: boolean;
+  errorList?: string[];
+  helperText?: string;
+  loading?: boolean;
+  required?: boolean;
   onSelectedValueChange?: (value: string | string[] | null) => any;
 }
 
