@@ -103,22 +103,29 @@ describe("Select", () => {
   });
   describe("Storybook tests", () => {
     describe("Default Select", () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<DefaultSelect />);
+      });
       it("passes the correct value to event handler", () => {
         const spy = jest.spyOn(console, "log").mockImplementation(() => {});
-        const { getAllByRole } = render(<DefaultSelect />);
+        const { getAllByRole } = renderResult;
         const listElements = getAllByRole("option");
         listElements.forEach((element) => {
           fireEvent.click(element);
           expect(spy).toHaveBeenCalled();
         });
       });
+      it("renders the correct list item as disabled", () => {
+        const { getByText } = renderResult;
+        const disabledListItem = getByText("Option 2");
+        expect(disabledListItem).toHaveAttribute("disabled");
+      });
       it("passes basic axe compliance", async () => {
-        const { container } = render(<DefaultSelect />);
+        const { container } = renderResult;
         const results = await axe(container);
         expect(results).toHaveNoViolations();
       });
     });
-
-    // it("renders the correct list item as disabled", () => {})
   });
 });

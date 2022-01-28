@@ -6,11 +6,13 @@ import { NeoInputWrapper } from "components";
 
 import { SelectProps } from "./SelectTypes";
 
+import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
+
 export const Select: FunctionComponent<SelectProps> = ({
   label,
   items,
   placeholder = "Select One",
-  id,
+  id = genId(),
   disabled,
   errorList = [],
   helperText,
@@ -18,6 +20,9 @@ export const Select: FunctionComponent<SelectProps> = ({
   required,
   onSelectedValueChange,
 }) => {
+  if (!label) {
+    handleAccessbilityError("SelectNative requires a label prop");
+  }
   const itemsText: string[] = items.map((item) => item.text);
 
   const helperId = useMemo(() => `helper-text-${id}`, [id]);

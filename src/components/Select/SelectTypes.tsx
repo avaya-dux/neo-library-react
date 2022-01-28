@@ -10,7 +10,6 @@ export type MultipleSelectItem = SelectItem & {
 interface BaseSelectProps {
   label: string;
   placeholder?: string;
-  id?: string;
   disabled?: boolean;
   errorList?: string[];
   helperText?: string;

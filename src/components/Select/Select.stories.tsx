@@ -1,4 +1,4 @@
-import { Meta } from "@storybook/react/types-6-0";
+import { Meta, Story } from "@storybook/react/types-6-0";
 
 import { SelectProps, SelectItem } from "./SelectTypes";
 
@@ -18,36 +18,44 @@ const handleSelectedValueChange = (value: any) => {
   console.log(value);
 };
 
-export const DefaultSelect = () => {
-  return (
-    <Select
-      label="Test label"
-      items={items}
-      onSelectedValueChange={handleSelectedValueChange}
-    />
-  );
+const Template: Story<SelectProps> = (props: SelectProps) => {
+  return <Select {...props} />;
 };
 
-export const SelectWithHelperText = () => {
-  return (
-    <Select label="Test label" items={items} helperText="This is helper text" />
-  );
+export const DefaultSelect = Template.bind({});
+DefaultSelect.args = {
+  label: "Test label",
+  items: items,
+  id: "neo-select",
+  onSelectedValueChange: handleSelectedValueChange,
 };
 
-export const DisabledSelect = () => {
-  return <Select label="Test label" items={items} disabled={true} />;
+export const SelectWithHelperText = Template.bind({});
+SelectWithHelperText.args = {
+  ...DefaultSelect.args,
+  helperText: "This is helper text",
 };
 
-export const LoadingSelect = () => {
-  return <Select label="Test label" items={items} loading={true} />;
+export const DisabledSelect = Template.bind({});
+DisabledSelect.args = {
+  ...DefaultSelect.args,
+  disabled: true,
 };
 
-export const RequiredSelect = () => {
-  return <Select label="Test label" items={items} required />;
+export const LoadingSelect = Template.bind({});
+LoadingSelect.args = {
+  ...DefaultSelect.args,
+  loading: true,
 };
 
-export const ErrorSelect = () => {
-  return (
-    <Select label="Test label" items={items} errorList={["This is an error"]} />
-  );
+export const RequiredSelect = Template.bind({});
+RequiredSelect.args = {
+  ...DefaultSelect.args,
+  required: true,
+};
+
+export const ErrorSelect = Template.bind({});
+ErrorSelect.args = {
+  ...DefaultSelect.args,
+  errorList: ["This is an error"],
 };
