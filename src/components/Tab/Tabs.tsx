@@ -18,7 +18,6 @@ import {
   TabPanelsProps,
   TabProps,
   TabsProps,
-  VerticalTabsProps,
 } from "./TabTypes";
 
 const logger = log.getLogger("tabs-logger");
