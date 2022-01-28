@@ -1,7 +1,8 @@
 import { CSSProperties } from "react";
 
-import { Icon, Menu, MenuItem } from "components";
 import { Checkbox } from "components/Checkbox";
+import { Icon } from "components/Icon";
+import { Menu, MenuItem } from "components/Menu";
 import { IconNamesType, Keys } from "utils";
 
 import { calculateAriaSortValue } from "../helpers";
@@ -89,9 +90,9 @@ export const TableHeader = <T extends Record<string, any>>({
           const sortedDir = isSortedDesc ? "descending" : "ascending";
           const ariasort = calculateAriaSortValue(isSorted, sortedDir);
 
-          let content = column.render("Header");
-          if (canFilter) {
-            content = column.render("Filter");
+          let content = render("Header");
+          if (canFilter && column.Filter) {
+            content = render("Filter");
           } else if (canSort) {
             const thDivProps = getSortByToggleProps({
               title: translations?.sortBy,
@@ -110,7 +111,7 @@ export const TableHeader = <T extends Record<string, any>>({
 
             content = (
               <Menu
-                button={
+                menuRootElement={
                   <div
                     className="neo-multiselect"
                     role="button"
@@ -129,7 +130,7 @@ export const TableHeader = <T extends Record<string, any>>({
 
                     <Icon
                       icon={sortIcon}
-                      aria-label={sortIcon.replaceAll("-", " ")}
+                      aria-label={sortIcon.replace(/-/g, " ")}
                     />
 
                     <Icon icon="chevron-down" aria-label="menu icon" />
@@ -138,29 +139,34 @@ export const TableHeader = <T extends Record<string, any>>({
                 {...thDivProps}
               >
                 <MenuItem
-                  text="A - Z"
                   onClick={(e) => {
                     toggleSortBy(column.id, false, false);
                     e.stopPropagation();
                     e.preventDefault();
                   }}
-                />
+                >
+                  A - Z
+                </MenuItem>
+
                 <MenuItem
-                  text="Z - A"
                   onClick={(e) => {
                     toggleSortBy(column.id, true, false);
                     e.stopPropagation();
                     e.preventDefault();
                   }}
-                />
+                >
+                  Z - A
+                </MenuItem>
+
                 <MenuItem
-                  text={translations.filterColumn || "Filter Column"}
                   onClick={(e) => {
                     // TODO: move `TableFilter` context up to `Table` so that we can open it from here
                     e.stopPropagation();
                     e.preventDefault();
                   }}
-                />
+                >
+                  {translations.filterColumn || "Filter Column"}
+                </MenuItem>
               </Menu>
             );
           }

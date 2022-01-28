@@ -20,7 +20,7 @@ const columnsExample: Array<Column<IDataTableMockData>> = [
   {
     Header: "Name",
     accessor: "name",
-    disableFilters: true,
+    disableFilters: true, // HACK: need to update to not need this
     maxWidth: 200,
   },
   {
@@ -104,17 +104,6 @@ const dataExample: IDataTableMockData[] = [
     hexValue: "00FFFF",
     level: "medium",
     hasOnCallBeeper: false,
-  },
-  {
-    id: "70",
-    label: "Frank",
-    name: <a href="#frank">Fancy Frank</a>,
-    other: "Nulla pariatur",
-    date: new Date(2000, 3, 11),
-    status: "awc",
-    hexValue: "FF0000",
-    level: "low",
-    hasOnCallBeeper: true,
   },
   {
     id: "70",

@@ -1,5 +1,6 @@
-import { ButtonProps } from "components/Button";
 import { ReactElement } from "react";
+
+import { ButtonProps } from "components/Button";
 
 export interface MenuSeparatorProps
   extends React.HTMLAttributes<HTMLHRElement> {}
@@ -7,14 +8,14 @@ export interface MenuSeparatorProps
 export type ActionType = "ENTER_SUB_MENU" | "ACTIVATE_MENU_ITEM" | "";
 // TODO-737: disabled
 export interface MenuItemProps
-  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  text: string;
+  extends React.AnchorHTMLAttributes<HTMLDivElement> {
+  counter?: number;
+  disabled?: boolean;
   hasFocus?: boolean;
   isActive?: boolean;
-  counter?: number;
 }
 export interface SubMenuProps extends React.HTMLAttributes<HTMLDivElement> {
-  button: ReactElement<MenuItemProps>;
+  menuRootElement: ReactElement<MenuItemProps>;
   children: ReactElement<MenuItemProps | SubMenuProps | MenuSeparatorProps>[];
   action?: ActionType;
   counter?: number;
@@ -25,11 +26,11 @@ export type MenuChildrenType = ReactElement<
 >[];
 
 export interface MenuProps extends React.HTMLAttributes<HTMLDivElement> {
-  active?: boolean;
-  isHover?: boolean;
-  rightAligned?: boolean;
-  button: ReactElement<ButtonProps>;
+  // active?: boolean; // BUG-799: not implemented
+  // isHover?: boolean; // BUG-799: not implemented
   children: MenuChildrenType;
+  menuRootElement: ReactElement<ButtonProps>;
+  itemAlignment?: "left" | "right";
 }
 
 export type MenuIndexesType = {
