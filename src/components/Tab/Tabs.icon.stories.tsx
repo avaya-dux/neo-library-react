@@ -88,7 +88,7 @@ const Template: Story<IconProps> = ({
         </TabPanels>
       </Tabs>
       <hr></hr>
-      <p>Active Tab is {activeTabIndex}</p>
+      <p>0 based active Tab index is {activeTabIndex}</p>
     </div>
   );
 };

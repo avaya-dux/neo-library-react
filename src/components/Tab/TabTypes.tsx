@@ -24,18 +24,26 @@ export interface TabPanelProps extends React.HTMLAttributes<HTMLDivElement> {
 export interface TabPanelsProps {
   children: ReactElement<TabPanelProps>[];
 }
+interface Oritentation {
+  orientation?: "horizontal" | "vertical";
+}
 
-export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
+interface CommonTabsProps extends React.HTMLAttributes<HTMLDivElement> {
   defaultIndex?: number;
   index?: number;
   children: [ReactElement<TabListProps>, ReactElement<TabPanelsProps>];
   onTabChange?: (index: number) => void;
 }
+export interface HorizontalTabsProps extends CommonTabsProps, Oritentation {
+  orientation?: "horizontal";
+}
 
-export interface VerticalTabsProps extends TabsProps {
+export interface VerticalTabsProps extends CommonTabsProps, Oritentation {
   orientation: "vertical";
   scrollable?: boolean;
 }
+
+export type TabsProps = HorizontalTabsProps | VerticalTabsProps;
 
 export interface InternalTabProps extends React.HTMLAttributes<HTMLLIElement> {
   id: string;

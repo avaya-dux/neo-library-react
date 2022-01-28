@@ -29,8 +29,9 @@ export const Tabs = ({
   index,
   children,
   onTabChange,
+  orientation = "horizontal",
   ...rest
-}: TabsProps | VerticalTabsProps) => {
+}: TabsProps) => {
   const tabs = useMemo(() => buildTabProps(children), [children]);
 
   if (logger.getLevel() < log.levels.INFO) {
@@ -39,8 +40,7 @@ export const Tabs = ({
     });
   }
 
-  const isVertical =
-    "orientation" in rest ? rest.orientation === "vertical" : false;
+  const isVertical = orientation === "vertical";
   const isScrollable = "scrollable" in rest ? rest.scrollable : false;
   logger.debug(`Is tab vertical? ${isVertical} scrollable? ${isScrollable}`);
 
@@ -63,7 +63,7 @@ export const Tabs = ({
       className="neo-tabs"
       role="tablist"
       aria-owns={getAllTabIdsInString(tabs)}
-      aria-orientation={isVertical ? "vertical" : "horizontal"}
+      aria-orientation={orientation}
       style={verticalStyle}
     >
       <ul
