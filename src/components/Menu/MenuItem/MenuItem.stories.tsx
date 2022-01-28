@@ -27,9 +27,11 @@ export const Default = () => {
   );
 };
 
-const Template: Story<MenuItemProps> = (props) => {
-  return <MenuItem {...props} />;
-};
+const Template: Story<MenuItemProps> = (props) => (
+  <div role="menu">
+    <MenuItem {...props} />;
+  </div>
+);
 
 export const ItemTemplate = Template.bind({});
 ItemTemplate.args = {

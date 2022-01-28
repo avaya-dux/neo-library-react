@@ -7,22 +7,42 @@ import * as MenuItemStories from "./MenuItem.stories";
 
 log.disableAll();
 
-const { Default } = composeStories(MenuItemStories);
+const { Default, ItemTemplate } = composeStories(MenuItemStories);
 
-describe("Storybook tests", () => {
-  let renderResult;
-  beforeEach(() => {
-    renderResult = render(<Default />);
+describe("Menu Item Storybook tests", () => {
+  describe("Default", () => {
+    let renderResult;
+    beforeEach(() => {
+      renderResult = render(<Default />);
+    });
+
+    it("should render ok", () => {
+      const { container } = renderResult;
+      expect(container).toBeDefined();
+    });
+
+    it("passes basic axe compliance", async () => {
+      const { container } = renderResult;
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
   });
 
-  it("should render ok", () => {
-    const { container } = renderResult;
-    expect(container).toBeDefined();
-  });
+  describe("ItemTemplate", () => {
+    let renderResult;
+    beforeEach(() => {
+      renderResult = render(<ItemTemplate />);
+    });
 
-  it("passes basic axe compliance", async () => {
-    const { container } = renderResult;
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
+    it("should render ok", () => {
+      const { container } = renderResult;
+      expect(container).not.toBe(null);
+    });
+
+    it("passes basic axe compliance", async () => {
+      const { container } = renderResult;
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
   });
 });
