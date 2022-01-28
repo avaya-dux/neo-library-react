@@ -8,6 +8,22 @@ import { SelectProps } from "./SelectTypes";
 
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 
+/**
+ * Select allows end-users to choose one option from a list.
+ *
+ * @example
+ const label = "Example label"
+ const items: SelectItem[] = [
+  { text: "Option 1" },
+  { text: "Option 2", disabled: true },
+  { text: "Option 3" },
+];
+
+<Select label={label} items={items} />
+};
+ * @see https://design.avayacloud.com/components/web/select-web
+ */
+
 export const Select: FunctionComponent<SelectProps> = ({
   label,
   items,
