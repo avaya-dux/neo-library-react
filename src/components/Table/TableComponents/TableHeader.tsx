@@ -90,9 +90,9 @@ export const TableHeader = <T extends Record<string, any>>({
           const sortedDir = isSortedDesc ? "descending" : "ascending";
           const ariasort = calculateAriaSortValue(isSorted, sortedDir);
 
-          let content = column.render("Header");
-          if (canFilter) {
-            content = column.render("Filter");
+          let content = render("Header");
+          if (canFilter && column.Filter) {
+            content = render("Filter");
           } else if (canSort) {
             const thDivProps = getSortByToggleProps({
               title: translations?.sortBy,
@@ -130,7 +130,7 @@ export const TableHeader = <T extends Record<string, any>>({
 
                     <Icon
                       icon={sortIcon}
-                      aria-label={sortIcon.replaceAll("-", " ")}
+                      aria-label={sortIcon.replace(/-/g, " ")}
                     />
 
                     <Icon icon="chevron-down" aria-label="menu icon" />
