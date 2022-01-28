@@ -27,7 +27,7 @@ export const DifferentHTMLOutputExamples = () => {
       <TextInput
         label="With start adorment icon"
         placeholder="Placeholder text"
-        startAddon={<Icon icon="star-filled" />}
+        startAddon={<Icon icon="star-filled" aria-label="input icon" />}
       />
 
       <TextInput
@@ -65,8 +65,8 @@ export const AdornmentIcons = () => {
   return (
     <TextInput
       label="Icon Add Ons"
-      startAddon={<Icon icon="call" />}
-      endAddon={<Icon icon="call" />}
+      startAddon={<Icon icon="call" aria-label="input icon" />}
+      endAddon={<Icon icon="call" aria-label="input icon" />}
     />
   );
 };
@@ -108,7 +108,7 @@ export const Disabled = () => {
       <TextInput
         label="Clearable But Disabled"
         defaultValue="Try To Clear Me"
-        endAddon={<Icon icon="call" />}
+        endAddon={<Icon icon="call" aria-label="input icon" />}
         startAddon="+1"
         disabled
       />
