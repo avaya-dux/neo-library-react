@@ -10,6 +10,7 @@ export type MultipleSelectItem = SelectItem & {
 interface BaseSelectProps {
   label: string;
   placeholder?: string;
+  onSelectedValueChange?: (value: string | string[] | null) => any;
 }
 
 export interface SelectProps extends BaseSelectProps {

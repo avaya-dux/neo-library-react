@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { useSelect } from "downshift";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 
 import { NeoInputWrapper } from "components";
 
@@ -10,6 +10,7 @@ export const Select: FunctionComponent<SelectProps> = ({
   label,
   items,
   placeholder = "Select One",
+  onSelectedValueChange,
 }) => {
   const itemsText: string[] = items.map((item) => item.text);
 
@@ -22,6 +23,10 @@ export const Select: FunctionComponent<SelectProps> = ({
     getItemProps,
   } = useSelect({ items: itemsText });
 
+  useEffect(() => {
+    if (onSelectedValueChange) onSelectedValueChange(selectedItem);
+  }, [selectedItem]);
+
   return (
     <NeoInputWrapper>
       <label {...getLabelProps()}>{label}</label>
@@ -29,7 +34,6 @@ export const Select: FunctionComponent<SelectProps> = ({
       <div
         {...getToggleButtonProps()}
         className={clsx("neo-multiselect", isOpen && "neo-multiselect--active")}
-        role="button"
       >
         <div className="neo-multiselect__header">
           {selectedItem || placeholder}
