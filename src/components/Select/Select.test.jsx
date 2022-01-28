@@ -101,12 +101,14 @@ describe("Select", () => {
       expect(results).toHaveNoViolations();
     });
   });
+
   describe("Storybook tests", () => {
     describe("Default Select", () => {
       let renderResult;
       beforeEach(() => {
         renderResult = render(<DefaultSelect />);
       });
+
       it("passes the correct value to event handler", () => {
         const spy = jest.spyOn(console, "log").mockImplementation(() => {});
         const { getAllByRole } = renderResult;
@@ -116,26 +118,51 @@ describe("Select", () => {
           expect(spy).toHaveBeenCalled();
         });
       });
+
       it("renders the correct list item as disabled", () => {
         const { getByText } = renderResult;
         const disabledListItem = getByText("Option 2");
         expect(disabledListItem).toHaveAttribute("disabled");
       });
+
       it("passes basic axe compliance", async () => {
         const { container } = renderResult;
         const results = await axe(container);
         expect(results).toHaveNoViolations();
       });
     });
+
     describe("Select With Helper Text", () => {
       let renderResult;
       beforeEach(() => {
         renderResult = render(<SelectWithHelperText />);
       });
+
       it("passes correct id value to helper text when passed by user", () => {
         const { getByText } = renderResult;
         const helperText = getByText("This is helper text");
         expect(helperText).toHaveAttribute("id", "helper-text-neo-select");
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("Disabled Select", () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<DisabledSelect />);
+      });
+      it("correctly prevents toggling active class on click", () => {
+        const { getByTestId } = renderResult;
+        const inputGroupElement = getByTestId("NeoInputWrapper-group-root");
+        const toggleElement = inputGroupElement.querySelector("div");
+        expect(toggleElement).not.toHaveClass("neo-multiselect--active");
+        fireEvent.click(toggleElement);
+        expect(toggleElement).not.toHaveClass("neo-multiselect--active");
       });
       it("passes basic axe compliance", async () => {
         const { container } = renderResult;
@@ -143,13 +170,7 @@ describe("Select", () => {
         expect(results).toHaveNoViolations();
       });
     });
-    describe("Disabled Select", () => {
-      it("passes basic axe compliance", async () => {
-        const { container } = render(<DisabledSelect />);
-        const results = await axe(container);
-        expect(results).toHaveNoViolations();
-      });
-    });
+
     describe("Loading Select", () => {
       it("passes basic axe compliance", async () => {
         const { container } = render(<LoadingSelect />);
@@ -157,6 +178,7 @@ describe("Select", () => {
         expect(results).toHaveNoViolations();
       });
     });
+
     describe("Required Select", () => {
       it("passes basic axe compliance", async () => {
         const { container } = render(<RequiredSelect />);
@@ -164,6 +186,7 @@ describe("Select", () => {
         expect(results).toHaveNoViolations();
       });
     });
+
     describe("Error Select", () => {
       it("passes basic axe compliance", async () => {
         const { container } = render(<ErrorSelect />);

@@ -57,7 +57,7 @@ export const Select: FunctionComponent<SelectProps> = ({
           loading && "neo-select__spinner",
           isOpen && "neo-multiselect--active"
         )}
-        aria-describedby={helperId}
+        aria-describedby={helperText && helperId}
       >
         <div className="neo-multiselect__header">
           {selectedItem || placeholder}
@@ -73,7 +73,7 @@ export const Select: FunctionComponent<SelectProps> = ({
                   {...getItemProps({ item: text, index })}
                   disabled={disabled}
                 >
-                  {item.text}
+                  {text}
                 </li>
               );
             })}
