@@ -18,7 +18,7 @@ const handleSelectedValueChange = (value: any) => {
   console.log(value);
 };
 
-export const SelectExample = () => {
+export const DefaultSelect = () => {
   return (
     <Select
       label="Test label"
@@ -28,6 +28,26 @@ export const SelectExample = () => {
   );
 };
 
-export const DisabledSelectExample = () => {
+export const SelectWithHelperText = () => {
+  return (
+    <Select label="Test label" items={items} helperText="This is helper text" />
+  );
+};
+
+export const DisabledSelect = () => {
   return <Select label="Test label" items={items} disabled={true} />;
+};
+
+export const LoadingSelect = () => {
+  return <Select label="Test label" items={items} loading={true} />;
+};
+
+export const RequiredSelect = () => {
+  return <Select label="Test label" items={items} required />;
+};
+
+export const ErrorSelect = () => {
+  return (
+    <Select label="Test label" items={items} errorList={["This is an error"]} />
+  );
 };

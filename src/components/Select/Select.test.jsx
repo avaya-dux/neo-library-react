@@ -1,9 +1,19 @@
 import { render, fireEvent } from "@testing-library/react";
+import { composeStories } from "@storybook/testing-react";
 import { axe } from "jest-axe";
 
 import { Select } from "./Select";
 
-import { SelectExample } from "./Select.stories";
+import * as SelectStories from "./Select.stories";
+
+const {
+  DefaultSelect,
+  SelectWithHelperText,
+  DisabledSelect,
+  LoadingSelect,
+  RequiredSelect,
+  ErrorSelect,
+} = composeStories(SelectStories);
 
 describe("Select", () => {
   describe("Basic unit tests", () => {
@@ -50,15 +60,21 @@ describe("Select", () => {
       const { getByTestId } = renderResult;
       const inputGroupElement = getByTestId("NeoInputWrapper-group-root");
       const toggleElement = inputGroupElement.querySelector("div");
-      const expectedAttributes = [
-        "id",
-        "aria-haspopup",
-        "aria-expanded",
-        "aria-labelledby",
-      ];
+      const expectedAttributes = ["id", "aria-haspopup", "aria-labelledby"];
       expectedAttributes.forEach((attribute) =>
         expect(toggleElement).toHaveAttribute(attribute)
       );
+    });
+
+    it("toggles aria-expanded prop on click", () => {
+      const { getByTestId } = renderResult;
+      const inputGroupElement = getByTestId("NeoInputWrapper-group-root");
+      const toggleElement = inputGroupElement.querySelector("div");
+      expect(toggleElement).not.toHaveAttribute("aria-expanded");
+      fireEvent.click(toggleElement);
+      expect(toggleElement).toHaveAttribute("aria-expanded");
+      fireEvent.click(toggleElement);
+      expect(toggleElement).toHaveAttribute("aria-expanded", "false");
     });
 
     it("passes the correct props to listbox element", () => {
@@ -86,13 +102,20 @@ describe("Select", () => {
     });
   });
   describe("Storybook tests", () => {
-    it("passes the correct value to event handler", () => {
-      const spy = jest.spyOn(console, "log").mockImplementation(() => {});
-      const { getAllByRole } = render(<SelectExample />);
-      const listElements = getAllByRole("option");
-      listElements.forEach((element) => {
-        fireEvent.click(element);
-        expect(spy).toHaveBeenCalled();
+    describe("Default Select", () => {
+      it("passes the correct value to event handler", () => {
+        const spy = jest.spyOn(console, "log").mockImplementation(() => {});
+        const { getAllByRole } = render(<DefaultSelect />);
+        const listElements = getAllByRole("option");
+        listElements.forEach((element) => {
+          fireEvent.click(element);
+          expect(spy).toHaveBeenCalled();
+        });
+      });
+      it("passes basic axe compliance", async () => {
+        const { container } = render(<DefaultSelect />);
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
       });
     });
 

@@ -14,7 +14,7 @@ export const Select: FunctionComponent<SelectProps> = ({
   disabled,
   errorList = [],
   helperText,
-  loading,
+  loading = false,
   required,
   onSelectedValueChange,
 }) => {
@@ -49,6 +49,7 @@ export const Select: FunctionComponent<SelectProps> = ({
         className={clsx(
           "neo-multiselect",
           disabled && "neo-multiselect--disabled",
+          loading && "neo-select__spinner",
           isOpen && "neo-multiselect--active"
         )}
         aria-describedby={helperId}
