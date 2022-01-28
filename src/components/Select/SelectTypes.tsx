@@ -15,7 +15,7 @@ interface BaseSelectProps {
   helperText?: string;
   loading?: boolean;
   required?: boolean;
-  id?: string,
+  id?: string;
   onSelectedValueChange?: (value: string | string[] | null) => any;
 }
 
