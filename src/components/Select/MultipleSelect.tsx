@@ -1,14 +1,28 @@
 import clsx from "clsx";
-import { useMultipleSelection, useSelect } from "downshift";
+import { useSelect } from "downshift";
 import { FunctionComponent, useState } from "react";
 
 import { Checkbox, NeoInputWrapper } from "components";
 
 import { MultipleSelectProps, MultipleSelectItem } from "./SelectTypes";
 
+function multipleSelectStateReducer(actionAndChanges: any) {
+  const { changes, type } = actionAndChanges;
+  switch (type) {
+    case useSelect.stateChangeTypes.MenuKeyDownEnter:
+    case useSelect.stateChangeTypes.MenuKeyDownSpaceButton:
+    case useSelect.stateChangeTypes.ItemClick:
+      return {
+        ...changes,
+        isOpen: true,
+      };
+  }
+  return changes;
+}
+
 export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
   label,
-  placeholder,
+  placeholder = "Select One",
   items,
 }) => {
   const [selectedItems, setSelectedItems] = useState<String[]>([]);
@@ -21,23 +35,10 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
     getLabelProps,
     getMenuProps,
     getItemProps,
-    selectedItem,
   } = useSelect({
     items: itemsText,
     selectedItem: null,
-    stateReducer: (state, actionAndChanges) => {
-      const { changes, type } = actionAndChanges;
-      switch (type) {
-        case useSelect.stateChangeTypes.MenuKeyDownEnter:
-        case useSelect.stateChangeTypes.MenuKeyDownSpaceButton:
-        case useSelect.stateChangeTypes.ItemClick:
-          return {
-            ...changes,
-            isOpen: true,
-          };
-      }
-      return changes;
-    },
+    stateReducer: multipleSelectStateReducer,
     onSelectedItemChange: ({ selectedItem }) => {
       if (!selectedItem) {
         return;

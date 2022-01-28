@@ -31,7 +31,6 @@ export const MultipleSelectExample = () => {
     <MultipleSelect
       label="Test label"
       items={options}
-      placeholder="Select One"
     />
   );
 };
