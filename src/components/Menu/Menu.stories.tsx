@@ -112,6 +112,7 @@ export const MultiLevelSubMenu = () => (
   </Menu>
 );
 
+// BUG-806: clicking both menus causes both to be open (with is bad)
 export const TwoMenus = () => (
   <section style={{ display: "flex", justifyContent: "space-between" }}>
     <Menu
