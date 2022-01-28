@@ -117,17 +117,6 @@ const dataExample: IDataTableMockData[] = [
     hasOnCallBeeper: true,
   },
   {
-    id: "70",
-    label: "Frank",
-    name: <a href="#frank">Fancy Frank</a>,
-    other: "Nulla pariatur",
-    date: new Date(2000, 3, 11),
-    status: "awc",
-    hexValue: "FF0000",
-    level: "low",
-    hasOnCallBeeper: true,
-  },
-  {
     id: "80",
     label: "Scott",
     name: <a href="#scott">Fancy Frank</a>,
