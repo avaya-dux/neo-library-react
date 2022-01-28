@@ -26,13 +26,13 @@ export const DefaultSelect = Template.bind({});
 DefaultSelect.args = {
   label: "Test label",
   items: items,
-  id: "neo-select",
   onSelectedValueChange: handleSelectedValueChange,
 };
 
 export const SelectWithHelperText = Template.bind({});
 SelectWithHelperText.args = {
   ...DefaultSelect.args,
+  id: "neo-select",
   helperText: "This is helper text",
 };
 
