@@ -27,6 +27,34 @@ import { addIdToChildren, buildMenuIndexes, layoutChildren } from "./SubMenu";
 const logger = log.getLogger("menu");
 logger.disableAll();
 
+/**
+ * The Menu is meant to be used as a way to display single select options to a user
+ *
+ * @example
+ * <Menu
+      menuRootElement={
+        <MenuButton onClick={() => console.log("Functional Menu opened")}>
+          Functional Menu
+        </MenuButton>
+      }
+    >
+      <MenuItem onClick={() => console.log("first menu item was clicked")}>
+        Console log click
+      </MenuItem>
+      <MenuItem disabled>Menu Item 2</MenuItem>
+      <MenuItem>
+        <a
+          href="https://design.avayacloud.com/components/web/setup-web"
+          target="_blank"
+        >
+          Go to Portal
+        </a>
+      </MenuItem>
+    </Menu>
+ *
+ * @see https://design.avayacloud.com/components/web/dropdown-web
+ * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-menu--functional-menu
+ */
 export const Menu = forwardRef(
   (
     {

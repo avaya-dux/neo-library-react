@@ -35,6 +35,28 @@ import {
 const logger = log.getLogger("submenu");
 logger.disableAll();
 
+/**
+ * The SubMenu is meant to be used _only_ with the Menu component
+ *
+ * @example
+ * <Menu menuRootElement={<MenuButton />}>
+    <MenuItem>Item1</MenuItem>
+    <SubMenu menuRootElement={<MenuItem>SubMenu</MenuItem>}>
+      <MenuItem>Sub Item1</MenuItem>
+      <MenuItem>Sub Item2</MenuItem>
+      <MenuItem>Sub Item3</MenuItem>
+      <SubMenu menuRootElement={<MenuItem>Sub SubMenu</MenuItem>}>
+        <MenuItem>Sub Sub Item1</MenuItem>
+        <MenuItem>Sub Sub Item2</MenuItem>
+        <MenuItem>Sub Sub Item3</MenuItem>
+      </SubMenu>
+    </SubMenu>
+    <MenuItem>Item3</MenuItem>
+  </Menu>
+ *
+ * @see https://design.avayacloud.com/components/web/dropdown-web
+ * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-menu--multi-level-sub-menu
+ */
 export const SubMenu: FC<SubMenuProps> = ({
   action,
   menuRootElement,

@@ -9,6 +9,31 @@ import { MenuItemProps } from "../MenuTypes";
 const logger = log.getLogger("menu-item");
 logger.disableAll();
 
+/**
+ * The MenuItem is meant to be used as a child of the Menu component. It can take any valid React element as a child.
+ *
+ * @example
+ * <Menu
+      menuRootElement={
+        <MenuButton onClick={() => console.log("Functional Menu opened")}>
+          Functional Menu
+        </MenuButton>
+      }
+    >
+      <MenuItem onClick={() => console.log("first menu item was clicked")}>
+        Console log click
+      </MenuItem>
+      <MenuItem disabled>Menu Item 2</MenuItem>
+      <MenuItem>
+        <a
+          href="https://design.avayacloud.com/components/web/setup-web"
+          target="_blank"
+        >
+          Go to Portal
+        </a>
+      </MenuItem>
+    </Menu>
+ */
 export const MenuItem: FC<MenuItemProps> = ({
   children,
   className,
