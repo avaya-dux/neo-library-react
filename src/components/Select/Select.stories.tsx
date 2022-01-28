@@ -9,17 +9,16 @@ export default {
   component: Select,
 } as Meta<SelectProps>;
 
-export const items: SelectItem[] = [
+const items: SelectItem[] = [
   { text: "Option 1" },
   { text: "Option 2", disabled: true },
   { text: "Option 3" },
 ];
+const handleSelectedValueChange = (value: any) => {
+  console.log(value);
+};
 
 export const SelectExample = () => {
-  const handleSelectedValueChange = (value: any) => {
-    console.log(value);
-  };
-
   return (
     <Select
       label="Test label"

@@ -10,6 +10,7 @@ export const Select: FunctionComponent<SelectProps> = ({
   label,
   items,
   placeholder = "Select One",
+  id,
   onSelectedValueChange,
 }) => {
   const itemsText: string[] = items.map((item) => item.text);
@@ -21,10 +22,11 @@ export const Select: FunctionComponent<SelectProps> = ({
     getLabelProps,
     getMenuProps,
     getItemProps,
-  } = useSelect({ items: itemsText });
+  } = useSelect({ items: itemsText, id });
 
   useEffect(() => {
-    if (onSelectedValueChange) onSelectedValueChange(selectedItem);
+    if (onSelectedValueChange && selectedItem)
+      onSelectedValueChange(selectedItem);
   }, [selectedItem]);
 
   return (
