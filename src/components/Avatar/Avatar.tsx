@@ -52,7 +52,7 @@ export function getAvatarFigureProps({
   image,
   initials,
   status, // HACK: should use proper typings to remove this field from props
-
+  className,
   ...rest
 }: AvatarProps = {}) {
   // if basic, but no image or intials, override to generic
@@ -81,6 +81,10 @@ export function getAvatarFigureProps({
 
   if (border) {
     classNames.push(`neo-avatar--${border}`);
+  }
+
+  if (className) {
+    classNames.push(className);
   }
 
   return {
