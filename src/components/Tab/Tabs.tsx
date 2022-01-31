@@ -21,7 +21,7 @@ import {
 } from "./TabTypes";
 
 const logger = log.getLogger("tabs-logger");
-logger.disableAll();
+logger.enableAll();
 
 export const Tabs = ({
   defaultIndex = 0,
@@ -117,25 +117,31 @@ export const buildTabProps = (
   const tabs = tablist.props.children;
   const panelList = children[1];
   const panels = panelList.props.children;
-  return tabs.map((tab, index) => {
-    const props = tab.props;
-    let panel = panels[index].props as TabPanelProps;
-    if (!panel.id) {
-      panel = { ...panel, id: genId() };
-    }
-    const { id, children, ...rest } = props;
-    const disabled = !!props?.disabled;
-    logger.debug(`${id} disabled = ${disabled}`);
-    const icon = "icon" in props ? props!.icon : undefined;
-    return {
-      ...rest,
-      disabled,
-      id: id || genId(),
-      name: children,
-      content: panel,
-      ...(icon ? { icon } : {}),
-    };
-  });
+  return tabs
+    .filter((tab) => tab.type.toString() !== "Symbol(react.fragment)")
+    .map((tab, index) => {
+      const props = tab.props;
+      let panel = panels[index].props as TabPanelProps;
+      if (!panel.id) {
+        panel = { ...panel, id: genId() };
+      }
+      const { id, children, ...rest } = props;
+      const disabled = !!props!.disabled;
+      logger.debug(`${id} disabled = ${disabled}`);
+      const icon = "icon" in props ? props!.icon : undefined;
+      const closable = "closable" in props ? props!.closable : false;
+      const onClose = "onClose" in props ? props!.onClose : undefined;
+      return {
+        ...rest,
+        disabled,
+        closable,
+        onClose,
+        id: id || genId(),
+        name: children,
+        content: panel,
+        ...(icon ? { icon } : {}),
+      };
+    });
 };
 
 export const createTab = (
@@ -163,6 +169,7 @@ export const createTab = (
     >
       <InternalTab
         {...tabProps}
+        key={index}
         active={active}
         vertical={isVertical}
         tabs={tabs}

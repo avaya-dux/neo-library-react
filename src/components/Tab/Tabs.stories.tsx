@@ -97,19 +97,29 @@ export const ControlledActiveTabStory = () => {
 };
 ControlledActiveTabStory.storyName = "Disable|Enable Tabs";
 export const UncontrolledActiveTabStory = () => {
-  const [activeTabIndex, setActiveTabIndex] = useState(1);
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
   const onTabChange = (activeTabIndex: number) => {
     console.log(`tab changed to ${activeTabIndex}`);
     setActiveTabIndex(activeTabIndex);
+  };
+  const [showTab2, setShowTab2] = useState(true);
+  const onCloseTab2 = (index: number) => {
+    console.log(`closing tab at index ${index}`);
+    setShowTab2(false);
   };
   return (
     <div>
       <Tabs defaultIndex={1} onTabChange={onTabChange}>
         <TabList>
-          <Tab id="tab1" disabled>
-            Tab1
-          </Tab>
-          <Tab id="tab2">Tab2</Tab>
+          <Tab id="tab1">Tab1</Tab>
+
+          {showTab2 ? (
+            <Tab id="tab2" closable onClose={() => onCloseTab2(1)}>
+              Tab2
+            </Tab>
+          ) : (
+            <></>
+          )}
           <Tab id="tab3">Tab3</Tab>
           <Tab id="tab4" disabled>
             Tab4
@@ -121,7 +131,7 @@ export const UncontrolledActiveTabStory = () => {
             <h2>content1</h2>
             <p>paragraph 1</p>
           </TabPanel>
-          <TabPanel>content 2</TabPanel>
+          <>{showTab2 && <TabPanel>content 2</TabPanel>}</>
           <TabPanel>content 3</TabPanel>
           <TabPanel>content 4</TabPanel>
           <TabPanel>content 5</TabPanel>

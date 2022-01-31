@@ -181,7 +181,7 @@ describe("Tabs", () => {
       const tabs = (
         <Tabs defaultTabId="tab1">
           <TabList>
-            <Tab id="tab1" dir="ltr">
+            <Tab id="tab1" dir="ltr" closable onClose={() => {}}>
               tab1
             </Tab>
             <Tab id="tab2" disabled>
@@ -204,6 +204,7 @@ describe("Tabs", () => {
       expect(buildTabProps(tabs.props.children)).toMatchInlineSnapshot(`
         Array [
           Object {
+            "closable": true,
             "content": Object {
               "children": Array [
                 <h2>
@@ -219,8 +220,10 @@ describe("Tabs", () => {
             "disabled": false,
             "id": "tab1",
             "name": "tab1",
+            "onClose": [Function],
           },
           Object {
+            "closable": false,
             "content": Object {
               "children": "content 2",
               "className": "customClass",
@@ -230,8 +233,10 @@ describe("Tabs", () => {
             "disabled": true,
             "id": "tab2",
             "name": "tab2",
+            "onClose": undefined,
           },
           Object {
+            "closable": false,
             "content": Object {
               "children": "content 3",
               "id": "panel3",
@@ -239,6 +244,7 @@ describe("Tabs", () => {
             "disabled": false,
             "id": "tab3",
             "name": "tab3",
+            "onClose": undefined,
           },
         ]
       `);

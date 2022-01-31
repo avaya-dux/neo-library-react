@@ -10,7 +10,7 @@ export interface TabProps extends React.HTMLAttributes<HTMLLIElement> {
 
 export interface ClosableTabProps extends TabProps {
   closable: true;
-  onClose?: () => {};
+  onClose?: (index: number) => void;
 }
 
 export interface TabListProps extends React.HTMLAttributes<HTMLUListElement> {
@@ -51,9 +51,12 @@ export interface InternalTabProps extends React.HTMLAttributes<HTMLLIElement> {
   disabled: boolean;
   content: TabPanelProps;
   icon?: IconNamesType;
+  closable?: boolean;
+  onClose?: (index: number) => void;
 }
 
 export interface InteractiveTabProps {
+  key: number;
   vertical: boolean;
   active: boolean;
   tabs: InternalTabProps[];
