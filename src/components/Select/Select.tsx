@@ -92,8 +92,7 @@ export const Select: FunctionComponent<SelectProps> = ({
                       : {}
                   }
                   key={`${text}${index}`}
-                  {...getItemProps({ item: text, index })}
-                  disabled={disabled}
+                  {...getItemProps({ item: text, index, disabled })}
                 >
                   {text}
                 </li>
