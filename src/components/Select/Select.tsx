@@ -3,10 +3,9 @@ import { useSelect } from "downshift";
 import { FunctionComponent, useEffect, useMemo } from "react";
 
 import { NeoInputWrapper } from "components";
+import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 
 import { SelectProps } from "./SelectTypes";
-
-import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 
 /**
  * Select allows end-users to choose one option from a list.
@@ -37,7 +36,7 @@ export const Select: FunctionComponent<SelectProps> = ({
   onSelectedValueChange,
 }) => {
   if (!label) {
-    handleAccessbilityError("SelectNative requires a label prop");
+    handleAccessbilityError("Select requires a label prop");
   }
   const itemsText: string[] = items.map((item) => item.text);
 
