@@ -49,6 +49,7 @@ export const Select: FunctionComponent<SelectProps> = ({
     getLabelProps,
     getMenuProps,
     getItemProps,
+    highlightedIndex,
   } = useSelect({ items: itemsText, id, isOpen: disabled && false });
 
   useEffect(() => {
@@ -84,6 +85,12 @@ export const Select: FunctionComponent<SelectProps> = ({
               const { text, disabled } = item;
               return (
                 <li
+                // TO-DO: Replace inline styles here with focus styles for Select options in Neo CSS library
+                  style={
+                    highlightedIndex === index
+                      ? { backgroundColor: "#e8f1fc" }
+                      : {}
+                  }
                   key={`${text}${index}`}
                   {...getItemProps({ item: text, index })}
                   disabled={disabled}
