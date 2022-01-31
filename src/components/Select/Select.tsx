@@ -1,6 +1,11 @@
 import clsx from "clsx";
 import { useSelect } from "downshift";
-import { FunctionComponent, useEffect, useMemo } from "react";
+import {
+  FunctionComponent,
+  MouseEventHandler,
+  useEffect,
+  useMemo,
+} from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
@@ -92,8 +97,7 @@ export const Select: FunctionComponent<SelectProps> = ({
                       : {}
                   }
                   key={`${text}${index}`}
-                  {...getItemProps({ item: text, index })}
-                  disabled={disabled}
+                  {...getItemProps({ item: text, index, disabled })}
                 >
                   {text}
                 </li>
