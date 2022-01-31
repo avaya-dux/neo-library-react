@@ -24,31 +24,31 @@ const Template: Story<Scrollable> = ({ scrollable }) => {
       >
         <TabList>
           <Tab id="tab1" icon="settings">
-            tab1
+            Tab1
           </Tab>
           <Tab id="tab2" icon="chat" dir="rtl">
-            tab2
+            Tab2
           </Tab>
           <Tab id="tab3" icon="info">
-            tab3
+            Tab3
           </Tab>
           <Tab id="tab4" disabled icon="agents">
-            tab4
+            Tab4
           </Tab>
           <Tab id="tab5" icon="email" dir="rtl">
-            tab5
+            Tab5
           </Tab>
-          <Tab id="tab6">tab6</Tab>
-          <Tab id="tab7">tab7</Tab>
-          <Tab id="tab8">tab8</Tab>
-          <Tab id="tab9">tab9</Tab>
-          <Tab id="tab10">tab10</Tab>
-          <Tab id="tab11">tab11</Tab>
-          <Tab id="tab12">tab12</Tab>
-          <Tab id="tab13">tab13</Tab>
-          <Tab id="tab14">tab14</Tab>
-          <Tab id="tab15">tab15***</Tab>
-          <Tab id="tab16">tab16*</Tab>
+          <Tab id="tab6">Tab6</Tab>
+          <Tab id="tab7">Tab7</Tab>
+          <Tab id="tab8">Tab8</Tab>
+          <Tab id="tab9">Tab9</Tab>
+          <Tab id="tab10">Tab10</Tab>
+          <Tab id="tab11">Tab11</Tab>
+          <Tab id="tab12">Tab12</Tab>
+          <Tab id="tab13">Tab13</Tab>
+          <Tab id="tab14">Tab14</Tab>
+          <Tab id="tab15">Tab15***</Tab>
+          <Tab id="tab16">Tab16*</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>

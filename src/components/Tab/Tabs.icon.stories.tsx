@@ -39,19 +39,19 @@ const Template: Story<IconProps> = ({
       <Tabs defaultIndex={1} onTabChange={onTabChange}>
         <TabList>
           <Tab id="tab1" icon={icon1} dir={dir1}>
-            tab1
+            Tab1
           </Tab>
           <Tab id="tab2" icon={icon2} dir={dir2}>
-            tab2
+            Tab2
           </Tab>
           <Tab id="tab3" icon={icon3} dir={dir3}>
-            tab3
+            Tab3
           </Tab>
           <Tab id="tab4" disabled icon={icon4} dir={dir4}>
-            tab4
+            Tab4
           </Tab>
           <Tab id="tab5" icon={icon5} dir={dir5}>
-            tab5
+            Tab5
           </Tab>
         </TabList>
         <TabPanels>

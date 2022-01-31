@@ -55,24 +55,32 @@ export const ControlledActiveTabStory = () => {
   }
   return (
     <div>
-      <Button
-        onClick={() => disableActiveTab()}
-      >{`Disable ${activeTabIndex}`}</Button>
-      <Button onClick={() => enableActiveTab()}>
-        {`Enable ${activeTabIndex}`}
-      </Button>
-      <Button onClick={() => disableAllTabs()}>Disable All Tabs</Button>
-      <Button onClick={() => enableAllTabs()}>Enable All Tabs</Button>
+      <div>
+        <Button
+          style={{ marginRight: 10 }}
+          onClick={() => disableActiveTab()}
+        >{`Disable ${activeTabIndex}`}</Button>
+        <Button style={{ marginRight: 10 }} onClick={() => enableActiveTab()}>
+          {`Enable ${activeTabIndex}`}
+        </Button>
+        <Button style={{ marginRight: 10 }} onClick={() => disableAllTabs()}>
+          Disable All Tabs
+        </Button>
+        <Button style={{ marginRight: 10 }} onClick={() => enableAllTabs()}>
+          Enable All Tabs
+        </Button>
+      </div>
+
       <Tabs index={activeTabIndex} onTabChange={onTabChange}>
         <TabList>
           <Tab id="tab1" disabled={disabledFlags[0]}>
-            tab1
+            Tab1
           </Tab>
           <Tab id="tab2" disabled={disabledFlags[1]}>
-            tab2
+            Tab2
           </Tab>
           <Tab id="tab3" disabled={disabledFlags[2]}>
-            tab3
+            Tab3
           </Tab>
         </TabList>
         <TabPanels>
@@ -99,14 +107,14 @@ export const UncontrolledActiveTabStory = () => {
       <Tabs defaultIndex={1} onTabChange={onTabChange}>
         <TabList>
           <Tab id="tab1" disabled>
-            tab1
+            Tab1
           </Tab>
-          <Tab id="tab2">tab2</Tab>
-          <Tab id="tab3">tab3</Tab>
+          <Tab id="tab2">Tab2</Tab>
+          <Tab id="tab3">Tab3</Tab>
           <Tab id="tab4" disabled>
-            tab4
+            Tab4
           </Tab>
-          <Tab id="tab5">tab5</Tab>
+          <Tab id="tab5">Tab5</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
