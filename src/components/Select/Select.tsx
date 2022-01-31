@@ -85,7 +85,7 @@ export const Select: FunctionComponent<SelectProps> = ({
               const { text, disabled } = item;
               return (
                 <li
-                // TO-DO: Replace inline styles here with focus styles for Select options in Neo CSS library
+                  // TO-DO: Replace inline styles here with focus styles for Select options in Neo CSS library
                   style={
                     highlightedIndex === index
                       ? { backgroundColor: "#e8f1fc" }
