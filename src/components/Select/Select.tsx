@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useSelect } from "downshift";
 import { FunctionComponent, useEffect, useMemo } from "react";
 
-import { NeoInputWrapper } from "components";
+import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 
 import { SelectProps } from "./SelectTypes";
