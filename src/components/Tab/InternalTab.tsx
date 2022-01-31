@@ -15,13 +15,14 @@ import {
   handleMouseClickEvent,
   handleFocusEvent,
   handleBlurEvent,
+  handleCloseElementKeyDownEvent,
 } from "./EventHandlers";
 import { InternalTabProps, InteractiveTabProps } from "./TabTypes";
 const logger = log.getLogger("tab-head-logger");
-logger.disableAll();
+logger.enableAll();
 export { logger as internalTabLogger };
 export const InternalTab = ({
-  key,
+  tabIndex,
   active,
   disabled,
   closable,
@@ -48,6 +49,13 @@ export const InternalTab = ({
     );
   };
 
+  const handleCloseMouseClickEvent: MouseEventHandler = (e: MouseEvent) => {
+    // todo: if tab is active, pick next tab to be active; otherwise, just close it
+    logger.debug(`Close Mouse click event: tab index is ${tabIndex}`);
+    if (onClose) {
+      onClose(tabIndex);
+    }
+  };
   const handleAnchorKeyDownEvent: KeyboardEventHandler = (
     e: KeyboardEvent<HTMLAnchorElement>
   ) => {
@@ -60,6 +68,23 @@ export const InternalTab = ({
       setActivePanelIndex,
       ref
     );
+  };
+
+  const handleCloseKeyDownEvent: KeyboardEventHandler = (
+    e: KeyboardEvent<HTMLAnchorElement>
+  ) => {
+    // todo: if tab is active, pick next tab to be active; otherwise, just close it
+    logger.debug(`Close button keyboard event, tab index is ${tabIndex}`);
+    handleCloseElementKeyDownEvent(
+      e,
+      tabs,
+      activeTabIndex,
+      setActiveTabIndex,
+      setActivePanelIndex
+    );
+    if (onClose) {
+      onClose(tabIndex);
+    }
   };
 
   const handleAnchorFocusEvent: FocusEventHandler = (
@@ -104,8 +129,8 @@ export const InternalTab = ({
           role="button"
           className="neo-icon-end"
           tabIndex={active && !disabled ? 0 : -1}
-          {...(onClose ? { onClick: () => onClose(key) } : {})}
-          onKeyDown={handleAnchorKeyDownEvent} // todo:
+          onKeyDown={handleCloseKeyDownEvent}
+          onClick={handleCloseMouseClickEvent}
           aria-label="close tab"
         ></span>
       )}

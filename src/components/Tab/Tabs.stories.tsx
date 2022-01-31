@@ -131,8 +131,8 @@ export const UncontrolledActiveTabStory = () => {
             <h2>content1</h2>
             <p>paragraph 1</p>
           </TabPanel>
-          <>{showTab2 && <TabPanel>content 2</TabPanel>}</>
-          <TabPanel>content 3</TabPanel>
+          {showTab2 ? <TabPanel>content 2</TabPanel> : <></>}
+          <TabPanel>content 33333</TabPanel>
           <TabPanel>content 4</TabPanel>
           <TabPanel>content 5</TabPanel>
         </TabPanels>

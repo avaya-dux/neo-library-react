@@ -1,3 +1,4 @@
+import { tab } from "@testing-library/user-event/dist/tab";
 import log from "loglevel";
 import {
   Dispatch,
@@ -6,6 +7,7 @@ import {
   SetStateAction,
   RefObject,
 } from "react";
+import { act } from "react-dom/test-utils";
 import { isAriaDisabled, Keys } from "utils";
 import { InternalTabProps } from "../TabTypes";
 
@@ -65,6 +67,50 @@ export const blur = (
   ref.current?.blur();
 };
 
+export const handleCloseElementKeyDownEvent = (
+  e: KeyboardEvent<HTMLAnchorElement>,
+  tabs: InternalTabProps[],
+  activeTabIndex: number,
+  setActiveTabIndex: Dispatch<SetStateAction<number>>,
+  setActivePanelIndex: Dispatch<SetStateAction<number>>
+) => {
+  logger.debug(`handle close element key event ${e.key} on ${activeTabIndex}`);
+  let handled = true;
+  if (tabs.length === 0) {
+    return;
+  }
+  switch (e.key) {
+    case Keys.ENTER:
+    case Keys.SPACE:
+      e.preventDefault();
+      if (
+        !activatePreviousTab(
+          tabs,
+          activeTabIndex,
+          setActiveTabIndex,
+          setActivePanelIndex
+        )
+      ) {
+        const nextTab = getNextTabIndex(tabs, activeTabIndex);
+        if (nextTab > activeTabIndex) {
+          // since this tab is removed, total number of tabs will minus by one.
+          setActiveTabIndex(nextTab - 1);
+        } else {
+          logger.debug(`do nothing as no next tab could be activated.`);
+        }
+      }
+
+      break;
+    case Keys.TAB:
+    case Keys.ESC:
+      handled = false;
+      break;
+  }
+  if (handled) {
+    e.stopPropagation();
+  }
+};
+
 export const handleKeyDownEvent = (
   e: KeyboardEvent<HTMLAnchorElement>,
   isTabListVertical: boolean,
@@ -120,32 +166,58 @@ function activateNextTab(
   tabs: InternalTabProps[],
   activeTabIndex: number,
   setActiveTabIndex: Dispatch<SetStateAction<number>>
-) {
-  let index = activeTabIndex;
-  while (index < tabs.length - 1) {
-    const nextIndex = index + 1;
+): boolean {
+  const nextTabIndex = getNextTabIndex(tabs, activeTabIndex);
+  if (nextTabIndex > activeTabIndex) {
+    setActiveTabIndex(nextTabIndex);
+    return true;
+  } else {
+    logger.debug(`no next tab index found.`);
+    return false;
+  }
+}
+
+function getNextTabIndex(tabs: InternalTabProps[], activeTabIndex: number) {
+  let nextIndex = activeTabIndex + 1;
+  while (nextIndex <= tabs.length - 1) {
     if (tabs[nextIndex].disabled) {
-      index++;
+      nextIndex++;
     } else {
-      setActiveTabIndex(nextIndex);
-      return;
+      return nextIndex;
     }
   }
+  return activeTabIndex;
 }
 
 function activatePreviousTab(
   tabs: InternalTabProps[],
   activeTabIndex: number,
-  setActiveTabIndex: Dispatch<SetStateAction<number>>
+  setActiveTabIndex: Dispatch<SetStateAction<number>>,
+  setActivePanelIndex?: Dispatch<SetStateAction<number>>
+): boolean {
+  const previousIndex = getPreviousTabIndex(tabs, activeTabIndex);
+  if (previousIndex < activeTabIndex) {
+    setActiveTabIndex(previousIndex);
+    if (setActivePanelIndex) {
+      setActivePanelIndex(previousIndex);
+    }
+    return true;
+  } else {
+    logger.debug(`did not find previous tab index to activate`);
+    return false;
+  }
+}
+export function getPreviousTabIndex(
+  tabs: InternalTabProps[],
+  activeTabIndex: number
 ) {
-  let index = activeTabIndex;
-  while (index > 0) {
-    const previousIndex = index - 1;
+  let previousIndex = activeTabIndex - 1;
+  while (previousIndex >= 0) {
     if (tabs[previousIndex].disabled) {
-      index--;
+      previousIndex--;
     } else {
-      setActiveTabIndex(previousIndex);
-      return;
+      return previousIndex;
     }
   }
+  return activeTabIndex;
 }

@@ -56,7 +56,7 @@ export interface InternalTabProps extends React.HTMLAttributes<HTMLLIElement> {
 }
 
 export interface InteractiveTabProps {
-  key: number;
+  tabIndex: number;
   vertical: boolean;
   active: boolean;
   tabs: InternalTabProps[];
