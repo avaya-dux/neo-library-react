@@ -1,13 +1,13 @@
 import clsx from "clsx";
-import { useMultipleSelection, useSelect } from "downshift";
+import { useSelect } from "downshift";
 import {
   Children,
   cloneElement,
   FunctionComponent,
   isValidElement,
-  useEffect,
   useMemo,
   useState,
+  useEffect,
 } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
@@ -31,24 +31,32 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
   if (!label) {
     handleAccessbilityError("Select requires a label prop");
   }
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+
   const itemsText: string[] = items.map((item) => item.text);
 
   const helperId = useMemo(() => `helper-text-${id}`, [id]);
 
+  const multipleSelectText = useMemo(
+    () =>
+      `${selectedItems.length > 0 ? selectedItems.join(", ") : placeholder}`,
+    [selectedItems]
+  );
+
   const {
     isOpen,
-    selectedItem,
     getToggleButtonProps,
     getLabelProps,
     getMenuProps,
     getItemProps,
-    highlightedIndex,
   } = useSelect({
     items: itemsText,
     id,
     isOpen: disabled && false,
+    selectedItem: null,
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
+      console.log(type);
       switch (type) {
         case useSelect.stateChangeTypes.MenuKeyDownEnter:
         case useSelect.stateChangeTypes.MenuKeyDownSpaceButton:
@@ -56,10 +64,19 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
           return {
             ...changes,
             isOpen: true,
-            highlightedIndex: state.highlightedIndex,
           };
         default:
           return changes;
+      }
+    },
+    onSelectedItemChange: ({ selectedItem }) => {
+      if (!selectedItem) {
+        return;
+      }
+      if (selectedItems.includes(selectedItem)) {
+        setSelectedItems(selectedItems.filter((item) => item !== selectedItem));
+      } else {
+        setSelectedItems([...selectedItems, selectedItem]);
       }
     },
   });
@@ -69,21 +86,16 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
   //     onSelectedValueChange(selectedItems);
   // }, [selectedItem]);
 
-  const childrenWithProps = Children.map(children, (child) => {
-    // Checking isValidElement is the safe way and avoids a typescript
-    // error too.
+  const childrenWithProps = Children.map(children, (child, index) => {
     if (isValidElement(child)) {
       return cloneElement(child, {
-        items: items,
-        menuProps: getMenuProps,
         itemProps: getItemProps,
-        highlightedIndex,
+        selectedItems,
+        index,
       });
     }
     return child;
   });
-
-  console.log(isOpen);
 
   return (
     <NeoInputWrapper
@@ -94,7 +106,6 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
       <label {...getLabelProps()}>{label}</label>
 
       <div
-        {...getToggleButtonProps()}
         className={clsx(
           "neo-multiselect",
           disabled && "neo-multiselect--disabled",
@@ -103,11 +114,12 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
         )}
         aria-describedby={helperText && helperId}
       >
-        <div className="neo-multiselect__header">
-          {selectedItem || placeholder}
+        <div className="neo-multiselect__header" {...getToggleButtonProps()}>
+          {multipleSelectText}
         </div>
-
-        {childrenWithProps}
+        <div className="neo-multiselect__content" {...getMenuProps()}>
+          {childrenWithProps}
+        </div>
       </div>
 
       {helperText && (
@@ -127,55 +139,58 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
 };
 
 type MultipleSelectOptionProps = {
-  items: MultipleSelectItem[];
-  menuProps: any;
-  itemProps: any;
-  highlightedIndex: number;
+  item: MultipleSelectItem;
+  index?: number;
+  itemProps?: any;
+  selectedItems?: string[];
 };
 
 export const MultipleSelectOption: FunctionComponent<
   MultipleSelectOptionProps
-> = ({ items, menuProps, itemProps, highlightedIndex }) => {
-  console.log(items);
-  return (
-    <div className="neo-multiselect__content" {...menuProps()}>
-      {!!items &&
-        items.map((item, index) => {
-          const { text, disabled, helperText } = item;
+> = ({ item, itemProps, selectedItems, index }) => {
+  const { text, disabled, helperText } = item;
 
-          const MultiSelectOption = (
-            <>
-              <input
-                className="neo-check"
-                type="checkbox"
-                disabled={disabled}
-              />
-              <label
-                key={`${text}${index}`}
-                {...itemProps({ item: text, index })}
-                style={
-                  highlightedIndex === index
-                    ? { backgroundColor: "#e8f1fc" }
-                    : {}
-                }
-                htmlFor="checkgroup2"
-              >
-                {text}
-              </label>
-            </>
-          );
+  const helperId = useMemo(() => `helper-text-${index}`, [index]);
 
-          return helperText ? (
-            <div className="neo-input-group">
-              {MultiSelectOption}
-              <p className="neo-input-hint" id="check-hint-1">
-                {helperText}
-              </p>
-            </div>
-          ) : (
-            <>{MultiSelectOption}</>
-          );
+  const style = {
+    ":hover, :focus": {
+      backgroundColor: "#e8f1fc",
+    },
+  };
+
+  const MultiSelectOption = (
+    <>
+      <input
+        className="neo-check"
+        type="checkbox"
+        disabled={disabled}
+        checked={!!selectedItems && selectedItems.includes(text)}
+        readOnly
+        aria-describedby={helperText && helperId}
+      />
+      <label
+        key={`${text}${index}`}
+        {...itemProps({
+          item: text,
+          index,
+          disabled,
         })}
+        style={style}
+        htmlFor={text}
+      >
+        {text}
+      </label>
+    </>
+  );
+
+  return helperText ? (
+    <div className="neo-input-group">
+      {MultiSelectOption}
+      <p className="neo-input-hint" id={helperId}>
+        {helperText}
+      </p>
     </div>
+  ) : (
+    <>{MultiSelectOption}</>
   );
 };

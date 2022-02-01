@@ -17,7 +17,13 @@ const items: MultipleSelectItem[] = [
 export const TestMultipleSelect = () => {
   return (
     <MultipleSelect items={items} label="Test Label">
-      <MultipleSelectOption />
+      {items.map((item, key) => {
+        return <MultipleSelectOption item={item} key={key} />;
+      })}
     </MultipleSelect>
   );
+};
+
+export const TestMultipleSelectWithoutChildren = () => {
+  return <MultipleSelect items={items} label="Test Label" />;
 };
