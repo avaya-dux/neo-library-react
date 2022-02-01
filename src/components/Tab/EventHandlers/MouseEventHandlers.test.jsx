@@ -2,13 +2,15 @@ import { handleMouseClickEvent } from "./MouseEventHandlers";
 
 describe("Tab Mouse event handlers", () => {
   describe(handleMouseClickEvent, () => {
-    let setActiveTabId;
-    let setActivePanelId;
+    let setActiveTabIndex;
+    let setActivePanelIndex;
+    let tabs;
     beforeEach(() => {
-      setActiveTabId = jest.fn();
-      setActivePanelId = jest.fn();
+      tabs = getTabProps();
+      setActiveTabIndex = jest.fn();
+      setActivePanelIndex = jest.fn();
     });
-    it("should call setActiveTabId when tab is clicked.", () => {
+    it("should call setActiveTabIndex when tab is clicked.", () => {
       const target = { getAttribute: () => "tab1" };
       const e = {
         stopPropagation: jest.fn(),
@@ -16,24 +18,47 @@ describe("Tab Mouse event handlers", () => {
         target,
       };
 
-      handleMouseClickEvent(e, setActiveTabId, setActivePanelId);
+      handleMouseClickEvent(e, tabs, setActiveTabIndex, setActivePanelIndex);
       expect(e.stopPropagation).toBeCalled();
-      expect(setActiveTabId).toBeCalledWith("tab1");
-      expect(setActivePanelId).toBeCalledWith("tab1");
+      expect(setActiveTabIndex).toBeCalledWith(0);
+      expect(setActivePanelIndex).toBeCalledWith(0);
       expect(e.preventDefault).toBeCalled();
     });
-    it("should not call setActiveTabId if id is null", () => {
+    it("should not call setActiveTabIndex if id is null", () => {
       const target = { getAttribute: () => null };
       const e = {
         stopPropagation: jest.fn(),
         preventDefault: jest.fn(),
         target,
       };
-      handleMouseClickEvent(e, setActiveTabId, setActivePanelId);
+      handleMouseClickEvent(e, tabs, setActiveTabIndex, setActivePanelIndex);
       expect(e.stopPropagation).toBeCalled();
-      expect(setActiveTabId).not.toBeCalled();
-      expect(setActivePanelId).not.toBeCalled();
+      expect(setActiveTabIndex).not.toBeCalled();
+      expect(setActivePanelIndex).not.toBeCalled();
       expect(e.preventDefault).toBeCalled();
     });
   });
 });
+
+function getTabProps() {
+  return [
+    {
+      content: <h2>content1</h2>,
+      disabled: false,
+      id: "tab1",
+      name: "tab1",
+    },
+    {
+      content: "content 2",
+      disabled: false,
+      id: "tab2",
+      name: "tab2",
+    },
+    {
+      content: "content 3",
+      disabled: false,
+      id: "tab3",
+      name: "tab3",
+    },
+  ];
+}
