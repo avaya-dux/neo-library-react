@@ -1,4 +1,5 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
+import { getLogger } from "loglevel";
 
 import { Button } from "components";
 
@@ -15,6 +16,15 @@ export default {
   title: "Components/Menu",
   component: Menu,
 } as Meta<MenuProps>;
+
+const menuLogger = getLogger("menu");
+menuLogger.enableAll();
+const subMenuLogger = getLogger("submenu");
+subMenuLogger.enableAll();
+const keyboardLogger = getLogger("menu-keyboard-event-handler");
+keyboardLogger.enableAll();
+const mouseLogger = getLogger("menu-mouse-event-handler");
+mouseLogger.enableAll();
 
 export const SimpleMenu = () => (
   <Menu menuRootElement={<Button>Open Menu</Button>}>
@@ -102,6 +112,7 @@ export const MultiLevelSubMenu = () => (
   </Menu>
 );
 
+// BUG-806: clicking both menus causes both to be open (with is bad)
 export const TwoMenus = () => (
   <section style={{ display: "flex", justifyContent: "space-between" }}>
     <Menu

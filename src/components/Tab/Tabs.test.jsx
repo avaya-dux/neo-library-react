@@ -12,17 +12,24 @@ import {
   Tabs,
 } from "./Tabs";
 import * as TabStories from "./Tabs.stories";
+import * as ScrollableTabStories from "./Tabs.scrollable.stories";
+import * as IconTabStories from "./Tabs.icon.stories";
 
 internalTabLogger.disableAll();
-const { ControlledActiveTabProp, UncontrolledActiveTabProp } =
+
+const { ControlledActiveTabStory, UncontrolledActiveTabStory } =
   composeStories(TabStories);
+
+const { IconTabs } = composeStories(IconTabStories);
+
+const { ScrollableVerticalTabs } = composeStories(ScrollableTabStories);
 
 describe("Tabs", () => {
   describe("Storybook tests", () => {
-    describe(ControlledActiveTabProp, () => {
+    describe(ControlledActiveTabStory.storyName, () => {
       let renderResult;
       beforeEach(() => {
-        renderResult = render(<ControlledActiveTabProp />);
+        renderResult = render(<ControlledActiveTabStory />);
       });
       it("should render ok", () => {
         const { container } = renderResult;
@@ -35,10 +42,42 @@ describe("Tabs", () => {
         expect(results).toHaveNoViolations();
       });
     });
-    describe(UncontrolledActiveTabProp, () => {
+    describe(UncontrolledActiveTabStory.storyName, () => {
       let renderResult;
       beforeEach(() => {
-        renderResult = render(<UncontrolledActiveTabProp />);
+        renderResult = render(<UncontrolledActiveTabStory />);
+      });
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).toBeDefined();
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+    describe(IconTabs.storyName, () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<IconTabs />);
+      });
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).toBeDefined();
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+    describe(ScrollableVerticalTabs.storyName, () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<ScrollableVerticalTabs />);
       });
       it("should render ok", () => {
         const { container } = renderResult;
@@ -54,24 +93,87 @@ describe("Tabs", () => {
   });
 
   describe(getTabItemClasses, () => {
-    it("when active = true and disabled = true, class is returned", () => {
-      const result = getTabItemClasses({ active: true, disabled: true });
-      expect(result).toContain("neo-tabs__item--active-disabled");
-      expect(result).toContain("neo-tabs__item");
+    describe("when active = true and disabled = true", () => {
+      it(" and vertical = false, return neo-tabs__item--active-disabled and neo-tabs__item", () => {
+        const result = getTabItemClasses({
+          active: true,
+          disabled: true,
+          vertical: false,
+        });
+        expect(result).toContain("neo-tabs__item--active-disabled");
+        expect(result).toContain("neo-tabs__item");
+      });
+      it("and vertical = true, return neo-tabs__item--vertical--active-disabled and neo-tabs__item", () => {
+        const result = getTabItemClasses({
+          active: true,
+          disabled: true,
+          vertical: true,
+        });
+        expect(result).toContain("neo-tabs__item--vertical--active-disabled");
+        expect(result).toContain("neo-tabs__item");
+      });
     });
-    it("when active = true and disabled = false, class is returned", () => {
-      const result = getTabItemClasses({ active: true, disabled: false });
-      expect(result).toContain("neo-tabs__item--active");
-      expect(result).toContain("neo-tabs__item");
+    describe("when active = true and disabled = false ", () => {
+      it("and vertical = false, return neo-tabs__item--active and neo-tabs__item", () => {
+        const result = getTabItemClasses({
+          active: true,
+          disabled: false,
+          vertical: false,
+        });
+        expect(result).toContain("neo-tabs__item--active");
+        expect(result).toContain("neo-tabs__item");
+        expect(result.split(" ").length).toBe(2);
+        expect(result).not.toContain("neo-tabs__item--vertical");
+      });
+      it("and vertical = true, return 3 classes: neo-tabs__item--vertical--active, neo-tabs__item--vertical, and neo-tabs__item", () => {
+        const result = getTabItemClasses({
+          active: true,
+          disabled: false,
+          vertical: true,
+        });
+        expect(result).toContain("neo-tabs__item--vertical--active");
+        expect(result).toContain("neo-tabs__item--vertical");
+        expect(result).toContain("neo-tabs__item");
+        expect(result.split(" ").length).toBe(3);
+      });
     });
-    it("when active = false and disabled = true, class is returned", () => {
-      const result = getTabItemClasses({ active: false, disabled: true });
-      expect(result).toContain("neo-tabs__item--disabled");
-      expect(result).toContain("neo-tabs__item");
+    describe("when active = false and disabled = true ", () => {
+      it("and vertical = false, correct classes are returned", () => {
+        const result = getTabItemClasses({
+          active: false,
+          disabled: true,
+          vertical: false,
+        });
+        expect(result).toContain("neo-tabs__item--disabled");
+        expect(result).toContain("neo-tabs__item");
+        expect(result.split(" ").length).toBe(2);
+      });
+      it("and vertical = true, return neo-tabs__item--disabled and neo-tabs__item", () => {
+        const result = getTabItemClasses({
+          active: false,
+          disabled: true,
+          vertical: true,
+        });
+        expect(result).toContain("neo-tabs__item--disabled");
+        expect(result).toContain("neo-tabs__item");
+        expect(result.split(" ").length).toBe(2);
+      });
     });
-    it("when active = false and disabled = false, class is returned", () => {
-      const result = getTabItemClasses({ active: false, disabled: false });
-      expect(result).toContain("neo-tabs__item");
+    describe("when active = false and disabled = false", () => {
+      it("and vertical = false, return only neo-tabs__item", () => {
+        const result = getTabItemClasses({ active: false, disabled: false });
+        expect(result).toContain("neo-tabs__item");
+        expect(result.split(" ").length).toBe(1);
+      });
+      it("and vertical = true, return only neo-tabs__item", () => {
+        const result = getTabItemClasses({
+          active: false,
+          disabled: false,
+          vertical: true,
+        });
+        expect(result).toContain("neo-tabs__item");
+        expect(result.split(" ").length).toBe(1);
+      });
     });
   });
   describe(buildTabProps, () => {
@@ -88,14 +190,14 @@ describe("Tabs", () => {
             <Tab id="tab3">tab3</Tab>
           </TabList>
           <TabPanels>
-            <TabPanel>
+            <TabPanel id="panel1">
               <h2>content1</h2>
               <p>paragraph 1</p>
             </TabPanel>
-            <TabPanel className="customClass" dir="ltr">
+            <TabPanel id="panel2" className="customClass" dir="ltr">
               content 2
             </TabPanel>
-            <TabPanel>content 3</TabPanel>
+            <TabPanel id="panel3">content 3</TabPanel>
           </TabPanels>
         </Tabs>
       );
@@ -111,6 +213,7 @@ describe("Tabs", () => {
                   paragraph 1
                 </p>,
               ],
+              "id": "panel1",
             },
             "dir": "ltr",
             "disabled": false,
@@ -122,6 +225,7 @@ describe("Tabs", () => {
               "children": "content 2",
               "className": "customClass",
               "dir": "ltr",
+              "id": "panel2",
             },
             "disabled": true,
             "id": "tab2",
@@ -130,6 +234,7 @@ describe("Tabs", () => {
           Object {
             "content": Object {
               "children": "content 3",
+              "id": "panel3",
             },
             "disabled": false,
             "id": "tab3",
