@@ -69,12 +69,12 @@ export const handleKeyDownEvent = (
   e: KeyboardEvent<HTMLAnchorElement>,
   isTabListVertical: boolean,
   tabs: InternalTabProps[],
-  activeTabId: string,
-  setActiveTabId: Dispatch<SetStateAction<string>>,
-  setActivePanelId: Dispatch<SetStateAction<string>>,
+  activeTabIndex: number,
+  setActiveTabIndex: Dispatch<SetStateAction<number>>,
+  setActivePanelIndex: Dispatch<SetStateAction<number>>,
   ref: RefObject<HTMLAnchorElement>
 ) => {
-  logger.debug(`handle tab key event ${e.key} on ${activeTabId}`);
+  logger.debug(`handle tab key event ${e.key} on ${activeTabIndex}`);
   let handled = true;
   if (tabs.length === 0) {
     return;
@@ -82,29 +82,29 @@ export const handleKeyDownEvent = (
   switch (e.key) {
     case Keys.RIGHT:
       if (!isTabListVertical) {
-        activateNextTab(tabs, activeTabId, setActiveTabId);
+        activateNextTab(tabs, activeTabIndex, setActiveTabIndex);
       }
       break;
     case Keys.LEFT:
       if (!isTabListVertical) {
-        activatePreviousTab(tabs, activeTabId, setActiveTabId);
+        activatePreviousTab(tabs, activeTabIndex, setActiveTabIndex);
       }
       break;
     case Keys.DOWN:
       if (isTabListVertical) {
-        activateNextTab(tabs, activeTabId, setActiveTabId);
+        activateNextTab(tabs, activeTabIndex, setActiveTabIndex);
       }
       break;
     case Keys.UP:
       if (isTabListVertical) {
-        activatePreviousTab(tabs, activeTabId, setActiveTabId);
+        activatePreviousTab(tabs, activeTabIndex, setActiveTabIndex);
       }
       break;
     case Keys.ENTER:
     case Keys.SPACE:
       e.preventDefault();
-      setActivePanelId(activeTabId);
-      focus(ref, activeTabId);
+      setActivePanelIndex(activeTabIndex);
+      focus(ref, tabs[activeTabIndex].id);
       break;
     case Keys.TAB:
     case Keys.ESC:
@@ -118,16 +118,16 @@ export const handleKeyDownEvent = (
 
 function activateNextTab(
   tabs: InternalTabProps[],
-  activeTabId: string,
-  setActiveTabId: Dispatch<SetStateAction<string>>
+  activeTabIndex: number,
+  setActiveTabIndex: Dispatch<SetStateAction<number>>
 ) {
-  let index = tabs.findIndex((tab) => tab.id === activeTabId);
+  let index = activeTabIndex;
   while (index < tabs.length - 1) {
-    const nextTab = tabs[index + 1];
-    if (nextTab.disabled) {
+    const nextIndex = index + 1;
+    if (tabs[nextIndex].disabled) {
       index++;
     } else {
-      setActiveTabId(nextTab.id);
+      setActiveTabIndex(nextIndex);
       return;
     }
   }
@@ -135,16 +135,16 @@ function activateNextTab(
 
 function activatePreviousTab(
   tabs: InternalTabProps[],
-  activeTabId: string,
-  setActiveTabId: Dispatch<SetStateAction<string>>
+  activeTabIndex: number,
+  setActiveTabIndex: Dispatch<SetStateAction<number>>
 ) {
-  let index = tabs.findIndex((tab) => tab.id === activeTabId);
+  let index = activeTabIndex;
   while (index > 0) {
-    const previousTab = tabs[index - 1];
-    if (previousTab.disabled) {
+    const previousIndex = index - 1;
+    if (tabs[previousIndex].disabled) {
       index--;
     } else {
-      setActiveTabId(previousTab.id);
+      setActiveTabIndex(previousIndex);
       return;
     }
   }
