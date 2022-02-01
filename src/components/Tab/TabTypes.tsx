@@ -1,14 +1,16 @@
 import { IconNamesType } from "utils";
 import { ReactNode, Dispatch, SetStateAction, ReactElement } from "react";
 
-export interface TabProps extends React.HTMLAttributes<HTMLLIElement> {
+export interface TabProps
+  extends Omit<React.HTMLAttributes<HTMLLIElement>, "dir"> {
   id?: string;
   children: ReactNode;
   disabled?: boolean;
   icon?: IconNamesType;
+  dir?: "ltr" | "rtl";
 }
 
-export interface ClosableTabProps extends TabProps {
+export interface ClosableTabProps extends Omit<TabProps, "dir"> {
   closable: true;
   onClose?: (index: number) => void;
 }

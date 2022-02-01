@@ -114,7 +114,13 @@ export const UncontrolledActiveTabStory = () => {
           <Tab id="tab1">Tab1</Tab>
 
           {showTab2 ? (
-            <Tab id="tab2" closable onClose={() => onCloseTab2(1)}>
+            <Tab
+              id="tab2"
+              icon="accept"
+              dir="rtl"
+              closable
+              onClose={() => onCloseTab2(1)}
+            >
               Tab2
             </Tab>
           ) : (

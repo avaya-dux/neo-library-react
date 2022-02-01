@@ -16,14 +16,16 @@ import {
   handleFocusEvent,
   handleBlurEvent,
   handleCloseElementKeyDownEvent,
+  handleCloseElementMouseClickEvent,
 } from "./EventHandlers";
 import { InternalTabProps, InteractiveTabProps } from "./TabTypes";
 const logger = log.getLogger("tab-head-logger");
-logger.enableAll();
+logger.disableAll();
 export { logger as internalTabLogger };
 export const InternalTab = ({
   tabIndex,
   active,
+  dir,
   disabled,
   closable,
   onClose,
@@ -50,8 +52,17 @@ export const InternalTab = ({
   };
 
   const handleCloseMouseClickEvent: MouseEventHandler = (e: MouseEvent) => {
-    // todo: if tab is active, pick next tab to be active; otherwise, just close it
-    logger.debug(`Close Mouse click event: tab index is ${tabIndex}`);
+    logger.debug(
+      `Mouse click event on close element: tab index is ${tabIndex}`
+    );
+    handleCloseElementMouseClickEvent(
+      e,
+      tabs,
+      tabIndex,
+      activeTabIndex,
+      setActiveTabIndex,
+      setActivePanelIndex
+    );
     if (onClose) {
       onClose(tabIndex);
     }
@@ -114,6 +125,7 @@ export const InternalTab = ({
         aria-controls={content.id}
         tabIndex={active && !disabled ? 0 : -1}
         href="#fixme"
+        dir={closable ? "ltr" : dir}
         aria-disabled={disabled}
         className={getClassNames(className, icon)}
         onClick={handleAnchorMouseClickEvent}

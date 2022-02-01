@@ -155,7 +155,7 @@ export const createTab = (
 ) => {
   const tabId = tabProps.id;
   const active = index === activeTabIndex;
-  const { className, id, name, disabled, closable, onClose, ...rest } =
+  const { className, id, name, disabled, closable, dir, onClose, ...rest } =
     tabProps;
   logger.debug(`${tabId} disabled is ${tabProps.disabled}`);
   return (
@@ -166,6 +166,7 @@ export const createTab = (
         disabled: tabProps.disabled,
         vertical: isVertical,
       })}
+      dir={closable ? "ltr" : dir}
       {...rest}
     >
       <InternalTab

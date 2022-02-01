@@ -1,4 +1,3 @@
-import { tab } from "@testing-library/user-event/dist/tab";
 import log from "loglevel";
 import {
   Dispatch,
@@ -7,9 +6,13 @@ import {
   SetStateAction,
   RefObject,
 } from "react";
-import { act } from "react-dom/test-utils";
 import { isAriaDisabled, Keys } from "utils";
 import { InternalTabProps } from "../TabTypes";
+import {
+  getNextTabIndex,
+  activatePreviousTab,
+  activateAnotherTabAndPanel,
+} from "./Helper";
 
 const logger = log.getLogger("tab-keyboard-event-handler");
 logger.disableAll();
@@ -83,23 +86,12 @@ export const handleCloseElementKeyDownEvent = (
     case Keys.ENTER:
     case Keys.SPACE:
       e.preventDefault();
-      if (
-        !activatePreviousTab(
-          tabs,
-          activeTabIndex,
-          setActiveTabIndex,
-          setActivePanelIndex
-        )
-      ) {
-        const nextTab = getNextTabIndex(tabs, activeTabIndex);
-        if (nextTab > activeTabIndex) {
-          // since this tab is removed, total number of tabs will minus by one.
-          setActiveTabIndex(nextTab - 1);
-        } else {
-          logger.debug(`do nothing as no next tab could be activated.`);
-        }
-      }
-
+      activateAnotherTabAndPanel(
+        tabs,
+        activeTabIndex,
+        setActiveTabIndex,
+        setActivePanelIndex
+      );
       break;
     case Keys.TAB:
     case Keys.ESC:
@@ -175,49 +167,4 @@ function activateNextTab(
     logger.debug(`no next tab index found.`);
     return false;
   }
-}
-
-function getNextTabIndex(tabs: InternalTabProps[], activeTabIndex: number) {
-  let nextIndex = activeTabIndex + 1;
-  while (nextIndex <= tabs.length - 1) {
-    if (tabs[nextIndex].disabled) {
-      nextIndex++;
-    } else {
-      return nextIndex;
-    }
-  }
-  return activeTabIndex;
-}
-
-function activatePreviousTab(
-  tabs: InternalTabProps[],
-  activeTabIndex: number,
-  setActiveTabIndex: Dispatch<SetStateAction<number>>,
-  setActivePanelIndex?: Dispatch<SetStateAction<number>>
-): boolean {
-  const previousIndex = getPreviousTabIndex(tabs, activeTabIndex);
-  if (previousIndex < activeTabIndex) {
-    setActiveTabIndex(previousIndex);
-    if (setActivePanelIndex) {
-      setActivePanelIndex(previousIndex);
-    }
-    return true;
-  } else {
-    logger.debug(`did not find previous tab index to activate`);
-    return false;
-  }
-}
-export function getPreviousTabIndex(
-  tabs: InternalTabProps[],
-  activeTabIndex: number
-) {
-  let previousIndex = activeTabIndex - 1;
-  while (previousIndex >= 0) {
-    if (tabs[previousIndex].disabled) {
-      previousIndex--;
-    } else {
-      return previousIndex;
-    }
-  }
-  return activeTabIndex;
 }
