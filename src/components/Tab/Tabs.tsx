@@ -140,7 +140,7 @@ export const buildTabProps = (
     return {
       ...rest,
       disabled,
-      closable: closable,
+      closable,
       onClose,
       id: id || genId(),
       name: children,

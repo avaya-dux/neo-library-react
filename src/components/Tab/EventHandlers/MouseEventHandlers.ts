@@ -50,7 +50,6 @@ export const handleCloseElementMouseClickEvent = (
     setActiveTabIndex(newActiveIndex);
     setActivePanelIndex(newActiveIndex);
   } else {
-    e.preventDefault();
     activateAnotherTabAndPanel(
       tabs,
       activeTabIndex,
