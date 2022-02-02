@@ -128,6 +128,7 @@
     "jest-axe": "^5.0.1",
     "jest-coverage-badges": "^1.1.2",
     "jsdoc": "^3.6.10",
+    "loglevel": "^1.8.0",
     "postcss": "^8.4.6",
     "prettier": "^2.5.1",
     "react": "^17.0.2",
