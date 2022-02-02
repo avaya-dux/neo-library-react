@@ -159,7 +159,7 @@ export const Menu = forwardRef(
 
     return (
       <div
-        className={getClassNames(isOpen, itemAlignment, className)}
+        className={getClassNames(isOpen, itemAlignment, className, openOnHover)}
         role="group"
         {...rest}
       >
@@ -183,7 +183,8 @@ export const Menu = forwardRef(
 export const getClassNames = (
   isOpen: boolean,
   itemAlignment: "left" | "right",
-  className: string | undefined
+  className: string | undefined,
+  openOnHover: boolean // NOTE: this is _only_ for the tests, it doesn't actually do anything
 ) => {
   if (isOpen) {
     logger.debug(`isOpen is ${isOpen}`);
@@ -193,6 +194,7 @@ export const getClassNames = (
     "neo-dropdown",
     itemAlignment === "right" ? "neo-dropdown--left" : "neo-dropdown--right",
     isOpen && "neo-dropdown--active",
-    className
+    className,
+    openOnHover && "neo-dropdown--onhover"
   );
 };

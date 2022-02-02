@@ -165,6 +165,38 @@ describe("Menu", () => {
     });
   });
 
+  describe("MenuButton respects the prop `openOnHover`", () => {
+    const activeClassName = "neo-dropdown--active";
+    const onHoverClassName = "neo-dropdown--onhover";
+
+    it("if `openOnHover` is set to `true`, menu shows when root element is hovered", () => {
+      const { getByRole } = render(
+        <SimpleMenuTemplated defaultIsOpen={false} openOnHover />
+      );
+      const menuRoot = getByRole("group");
+      const menuButton = getByRole("button");
+
+      expect(menuRoot).not.toHaveClass(activeClassName);
+      expect(menuRoot).toHaveClass(onHoverClassName);
+      userEvent.hover(menuButton);
+      expect(menuRoot).toHaveClass(activeClassName);
+    });
+
+    it("if `openOnHover` is set to `false`, menu is not shown when root element is hovered", () => {
+      const { getByRole } = render(
+        <SimpleMenuTemplated defaultIsOpen={false} openOnHover={false} />
+      );
+      const menuRoot = getByRole("group");
+      const menuButton = getByRole("button");
+
+      expect(menuRoot).not.toHaveClass(activeClassName);
+      expect(menuRoot).not.toHaveClass(onHoverClassName);
+      userEvent.hover(menuButton);
+      expect(menuRoot).not.toHaveClass(activeClassName);
+      expect(menuRoot).not.toHaveClass(onHoverClassName);
+    });
+  });
+
   describe(getClassNames, () => {
     it("should return correct classes when isOpen = false and itemAlignment = false", () => {
       expect(getClassNames(false, "left")).toMatchInlineSnapshot(
