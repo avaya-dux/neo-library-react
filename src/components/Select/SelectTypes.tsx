@@ -24,15 +24,15 @@ export interface MultipleSelectProps extends BaseSelectProps {
   children: ReactElement<MultipleSelectOptionProps>[];
 }
 
-export type MultipleSelectOptionProps = {
-  children: ReactNode;
-  helperText?: string;
-  disabled?: boolean;
-};
-
 export type MultipleSelectContextProps = {
   items: string[];
   itemProps: any;
   selectedItems: string[];
   index: number;
+};
+
+export type MultipleSelectOptionProps = {
+  children: string;
+  helperText?: string;
+  disabled?: boolean;
 };

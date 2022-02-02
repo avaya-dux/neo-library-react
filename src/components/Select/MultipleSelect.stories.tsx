@@ -1,22 +1,12 @@
 import { Meta } from "@storybook/react/types-6-0";
 
-import {
-  MultipleSelect,
-  MultipleSelectOption,
-  TestMultipleSelectProps,
-} from "./MultipleSelect";
-import { MultipleSelectItem } from "./SelectTypes";
+import { MultipleSelect, MultipleSelectOption } from "./MultipleSelect";
+import { MultipleSelectProps } from "./SelectTypes";
 
 export default {
   title: "Components/Select/Multiple Select",
   component: MultipleSelect,
-} as Meta<TestMultipleSelectProps>;
-
-const items: MultipleSelectItem[] = [
-  { text: "Option 1" },
-  { text: "Option 2", disabled: true },
-  { text: "Option 3" },
-];
+} as Meta<MultipleSelectProps>;
 
 export const TestMultipleSelect = () => {
   return (

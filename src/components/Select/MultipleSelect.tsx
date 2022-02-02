@@ -45,7 +45,7 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
   }
 
   const items = children.map((child) => {
-    return child.props.children!.toString();
+    return child.props.children.toString();
   });
 
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
@@ -71,6 +71,7 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
     selectedItem: null,
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
+      console.log(type);
       switch (type) {
         case useSelect.stateChangeTypes.MenuKeyDownEnter:
         case useSelect.stateChangeTypes.MenuKeyDownSpaceButton:
@@ -95,10 +96,10 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
     },
   });
 
-  // useEffect(() => {
-  //   if (onSelectedValueChange && selectedItems.length > 0)
-  //     onSelectedValueChange(selectedItems);
-  // }, [selectedItem]);
+  useEffect(() => {
+    if (onSelectedValueChange && selectedItems.length > 0)
+      onSelectedValueChange(selectedItems);
+  }, [selectedItems]);
 
   const context = {
     items,
