@@ -84,7 +84,6 @@ export const InternalTab = ({
   const handleCloseKeyDownEvent: KeyboardEventHandler = (
     e: KeyboardEvent<HTMLAnchorElement>
   ) => {
-    // todo: if tab is active, pick next tab to be active; otherwise, just close it
     logger.debug(`Close button keyboard event, tab index is ${tabIndex}`);
     handleCloseElementKeyDownEvent(
       e,
