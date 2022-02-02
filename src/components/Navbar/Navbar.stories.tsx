@@ -1,7 +1,7 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { FormEvent, useState } from "react";
 
-import { MenuItem, SubMenu } from "components";
+import { MenuItem, SubMenu } from "components/Menu";
 
 import { Navbar, NavbarProps } from ".";
 
@@ -103,14 +103,14 @@ NavbarWithAvatarAndDropdown.args = {
       variant: "generic",
     },
     dropdown: {
-      rightAligned: true,
+      itemAlignment: "right",
       children: [
-        <MenuItem key={"1"} text="Item1" />,
-        <SubMenu key={"2"} button={<MenuItem text="SubMenu" />}>
-          <MenuItem key={"2-1"} text="Sub Item1" />
-          <MenuItem key={"2-2"} text="Sub Item2" />
+        <MenuItem key={"1"}>Item1</MenuItem>,
+        <SubMenu key={"2"} menuRootElement={<MenuItem>Sub Menu</MenuItem>}>
+          <MenuItem key={"2-1"}>Sub Item1</MenuItem>
+          <MenuItem key={"2-2"}>Sub Item2</MenuItem>
         </SubMenu>,
-        <MenuItem key={"3"} text="Item3" />,
+        <MenuItem key={"3"}>Item3</MenuItem>,
       ],
     },
   },
