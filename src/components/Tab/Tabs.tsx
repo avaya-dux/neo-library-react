@@ -113,7 +113,10 @@ export const TabPanel = (props: TabPanelProps) => {
   return <Fragment {...props} />;
 };
 function isNotFragment(tab: { type: { toString: () => string } }) {
-  return tab.type.toString() !== "Symbol(react.fragment)";
+  return !isFragment(tab);
+}
+export function isFragment(tab: { type: { toString: () => string } }) {
+  return tab.type.toString() === "Symbol(react.fragment)";
 }
 export const buildTabProps = (
   children: TabsProps["children"]

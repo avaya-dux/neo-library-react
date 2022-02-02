@@ -6,6 +6,7 @@ import {
   buildTabProps,
   ClosableTab,
   getTabItemClasses,
+  isFragment,
   Tab,
   TabList,
   TabPanel,
@@ -92,7 +93,20 @@ describe("Tabs", () => {
       });
     });
   });
-
+  describe(isFragment, () => {
+    it("when element is fragment, return true", () => {
+      const element = <></>;
+      expect(isFragment(element)).toBeTruthy();
+    });
+    it("when element is html element, return false", () => {
+      const element = <div></div>;
+      expect(isFragment(element)).toBeFalsy();
+    });
+    it("when element is react element, return false", () => {
+      const element = <Tab>Tab one</Tab>;
+      expect(isFragment(element)).toBeFalsy();
+    });
+  });
   describe(getTabItemClasses, () => {
     describe("when active = true and disabled = true", () => {
       it(" and vertical = false, return neo-tabs__item--active-disabled and neo-tabs__item", () => {
@@ -185,6 +199,7 @@ describe("Tabs", () => {
             <Tab id="tab1" dir="ltr" onClose={() => {}}>
               tab1
             </Tab>
+            <></>
             <Tab id="tab2" disabled>
               tab2
             </Tab>
