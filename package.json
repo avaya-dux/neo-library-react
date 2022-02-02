@@ -50,7 +50,6 @@
     "netlify": "yarn && yarn build && yarn build-storybook",
     "all": "yarn && yarn clean && yarn lint && yarn build && yarn test:badges && yarn test:cypress && yarn build-storybook && yarn jsdocs && yarn pack",
     "all-minus-badges": "yarn && yarn clean && yarn lint && yarn build && yarn test && yarn build-storybook && yarn jsdocs && yarn pack"
-
   },
   "jest": {
     "coverageReporters": [
