@@ -14,13 +14,13 @@ import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 
 import { MultipleSelectItem, MultipleSelectProps } from "./SelectTypes";
 
-type SelectContextProps = {
+type MultipleSelectContextProps = {
   items: string[];
-  itemProps?: any;
-  selectedItems?: string[];
+  itemProps: any;
+  selectedItems: string[];
 };
 
-const SelectContext = createContext<SelectContextProps>({
+const MultipleSelectContext = createContext<MultipleSelectContextProps>({
   items: [],
   itemProps: {},
   selectedItems: [],
@@ -120,9 +120,9 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
           {multipleSelectText}
         </div>
         <div className="neo-multiselect__content" {...getMenuProps()}>
-          <SelectContext.Provider value={context}>
+          <MultipleSelectContext.Provider value={context}>
             {children}
-          </SelectContext.Provider>
+          </MultipleSelectContext.Provider>
         </div>
       </div>
 
@@ -151,7 +151,7 @@ export const MultipleSelectOption: FunctionComponent<
 > = ({ item }) => {
   const { text, disabled, helperText } = item;
 
-  const { items, itemProps, selectedItems } = useContext(SelectContext);
+  const { items, itemProps, selectedItems } = useContext(MultipleSelectContext);
 
   const index = items.indexOf(text);
 

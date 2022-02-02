@@ -1,11 +1,17 @@
 import clsx from "clsx";
 import { useSelect } from "downshift";
-import { FunctionComponent, useEffect, useMemo } from "react";
+import {
+  FunctionComponent,
+  useEffect,
+  useMemo,
+  createContext,
+  useContext,
+} from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 
-import { SelectProps } from "./SelectTypes";
+import { SelectProps, SelectItem } from "./SelectTypes";
 
 /**
  * Select allows end-users to choose one option from a list.
@@ -23,6 +29,16 @@ import { SelectProps } from "./SelectTypes";
  * @see https://design.avayacloud.com/components/web/select-web
  */
 
+type SelectContextProps = {
+  items: string[];
+  itemProps: any;
+};
+
+const SelectContext = createContext<SelectContextProps>({
+  items: [],
+  itemProps: {},
+});
+
 export const Select: FunctionComponent<SelectProps> = ({
   label,
   items,
@@ -34,6 +50,7 @@ export const Select: FunctionComponent<SelectProps> = ({
   loading = false,
   required,
   onSelectedValueChange,
+  children,
 }) => {
   if (!label) {
     handleAccessbilityError("Select requires a label prop");
@@ -49,8 +66,9 @@ export const Select: FunctionComponent<SelectProps> = ({
     getLabelProps,
     getMenuProps,
     getItemProps,
-    highlightedIndex,
   } = useSelect({ items: itemsText, id, isOpen: disabled && false });
+
+  const context = { items: itemsText, itemProps: getItemProps };
 
   useEffect(() => {
     if (onSelectedValueChange && selectedItem)
@@ -81,23 +99,9 @@ export const Select: FunctionComponent<SelectProps> = ({
 
         <div className="neo-multiselect__content">
           <ul {...getMenuProps()}>
-            {items.map((item, index) => {
-              const { text, disabled } = item;
-              return (
-                <li
-                  // TO-DO: Replace inline styles here with focus styles for Select options in Neo CSS library
-                  style={
-                    highlightedIndex === index
-                      ? { backgroundColor: "#e8f1fc" }
-                      : {}
-                  }
-                  key={`${text}${index}`}
-                  {...getItemProps({ item: text, index, disabled })}
-                >
-                  {text}
-                </li>
-              );
-            })}
+            <SelectContext.Provider value={context}>
+              {children}
+            </SelectContext.Provider>
           </ul>
         </div>
       </div>
@@ -115,5 +119,36 @@ export const Select: FunctionComponent<SelectProps> = ({
           </div>
         ))}
     </NeoInputWrapper>
+  );
+};
+
+type SelectOptionProps = {
+  item: SelectItem;
+};
+
+export const SelectOption: FunctionComponent<SelectOptionProps> = ({
+  item,
+}) => {
+  const { text, disabled } = item;
+
+  const { items, itemProps } = useContext(SelectContext);
+
+  const index = items.indexOf(text);
+
+  const style = {
+    ":hover, :focus": {
+      backgroundColor: "#e8f1fc",
+    },
+  };
+
+  return (
+    <li
+      // TO-DO: Replace inline styles here with focus styles for Select options in Neo CSS library
+      style={style}
+      key={`${text}${index}`}
+      {...itemProps({ item: text, index, disabled })}
+    >
+      {text}
+    </li>
   );
 };
