@@ -7,6 +7,8 @@ import log from "loglevel";
 import { getClassNames } from "./Menu";
 import * as MenuStories from "./Menu.stories";
 
+import { Menu, MenuButton, MenuItem } from "./";
+
 const menuLogger = log.getLogger("menu");
 menuLogger.disableAll();
 const subMenuLogger = log.getLogger("submenu");
@@ -25,6 +27,7 @@ const {
   MultiLevelSubMenu,
   TwoMenus,
 } = composeStories(MenuStories);
+
 describe("Menu", () => {
   describe("Base tests", () => {
     let renderResult;
@@ -93,6 +96,72 @@ describe("Menu", () => {
       expect(menuItems[0]).toHaveAttribute("tabindex", "-1");
       expect(menuItems[1]).toHaveAttribute("tabindex", "0");
       expect(menuItems[2]).toHaveAttribute("tabindex", "-1");
+    });
+  });
+
+  describe("MenuButton retains any passed functionality", () => {
+    const onClickSpy = jest.fn();
+    const onKeyDownSpy = jest.fn();
+    const onMouseEnterSpy = jest.fn();
+    let renderResult;
+
+    beforeEach(() => {
+      renderResult = render(
+        <Menu
+          menuRootElement={
+            <MenuButton
+              onClick={onClickSpy}
+              onKeyDown={onKeyDownSpy}
+              onMouseEnter={onMouseEnterSpy}
+            >
+              button
+            </MenuButton>
+          }
+        >
+          <MenuItem>one</MenuItem>
+          <MenuItem>two</MenuItem>
+          <MenuItem>three</MenuItem>
+        </Menu>
+      );
+    });
+
+    it("retains passed `onClick` functionality", () => {
+      onClickSpy.mockClear();
+      expect(onClickSpy).not.toHaveBeenCalled();
+
+      const { getByRole } = renderResult;
+      const button = getByRole("button");
+
+      expect(onClickSpy).not.toHaveBeenCalled();
+      userEvent.click(button);
+      expect(onClickSpy).toHaveBeenCalled();
+    });
+
+    it("retains passed `onKeyDown` functionality", () => {
+      onKeyDownSpy.mockClear();
+      expect(onKeyDownSpy).not.toHaveBeenCalled();
+
+      const { getByRole } = renderResult;
+      const button = getByRole("button");
+
+      userEvent.tab();
+      expect(button).toHaveFocus();
+
+      expect(onKeyDownSpy).not.toHaveBeenCalled();
+      userEvent.keyboard("{space}");
+      expect(onKeyDownSpy).toHaveBeenCalled();
+    });
+
+    it("retains passed `onMouseEnter` functionality", () => {
+      onMouseEnterSpy.mockClear();
+      expect(onMouseEnterSpy).not.toHaveBeenCalled();
+
+      const { getByRole } = renderResult;
+      const button = getByRole("button");
+
+      expect(onMouseEnterSpy).not.toHaveBeenCalled();
+      userEvent.hover(button);
+      expect(onMouseEnterSpy).toHaveBeenCalled();
     });
   });
 

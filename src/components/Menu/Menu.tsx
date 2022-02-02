@@ -5,6 +5,7 @@ import {
   FocusEvent,
   FocusEventHandler,
   forwardRef,
+  KeyboardEvent,
   KeyboardEventHandler,
   MouseEvent,
   MouseEventHandler,
@@ -63,6 +64,7 @@ export const Menu = forwardRef(
       defaultIsOpen = false,
       itemAlignment = "left",
       menuRootElement,
+      openOnHover = false,
       ...rest
     }: MenuProps,
     ref: Ref<HTMLButtonElement>
@@ -89,14 +91,8 @@ export const Menu = forwardRef(
       }
     }, [isOpen]);
 
-    const handleMenuButtonKeyDown: KeyboardEventHandler = (
-      e: React.KeyboardEvent<HTMLButtonElement>
-    ) => {
-      return handleButtonKeyDownEvent(e, menuIndexes, setCursor, setOpen);
-    };
-
     const handleMenuKeyDown: KeyboardEventHandler = (
-      e: React.KeyboardEvent<HTMLDivElement>
+      e: KeyboardEvent<HTMLDivElement>
     ) => {
       return handleKeyDownEvent(
         e,
@@ -133,13 +129,32 @@ export const Menu = forwardRef(
       );
     };
 
-    const handleMenuButtonClick: MouseEventHandler = (e: MouseEvent) => {
-      return handleMouseClickEvent(e, isOpen, setOpen);
-    };
-
     const menuButton = cloneElement(menuRootElement, {
-      onKeyDown: handleMenuButtonKeyDown,
-      onClick: handleMenuButtonClick,
+      onClick: (e: MouseEvent<HTMLButtonElement>) => {
+        handleMouseClickEvent(e, isOpen, setOpen);
+
+        if (menuRootElement.props.onClick) {
+          menuRootElement.props.onClick(e);
+        }
+      },
+
+      onKeyDown: (e: KeyboardEvent<HTMLButtonElement>) => {
+        handleButtonKeyDownEvent(e, menuIndexes, setCursor, setOpen);
+
+        if (menuRootElement.props.onKeyDown) {
+          menuRootElement.props.onKeyDown(e);
+        }
+      },
+
+      onMouseEnter: (e: MouseEvent<HTMLButtonElement>) => {
+        if (openOnHover) {
+          setOpen(true);
+        }
+
+        if (menuRootElement.props.onMouseEnter) {
+          menuRootElement.props.onMouseEnter(e);
+        }
+      },
     });
 
     return (
