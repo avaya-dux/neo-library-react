@@ -1,5 +1,5 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { getLogger } from "loglevel";
+import log from "loglevel";
 
 import { Button } from "components";
 
@@ -17,13 +17,13 @@ export default {
   component: Menu,
 } as Meta<MenuProps>;
 
-const menuLogger = getLogger("menu");
+const menuLogger = log.getLogger("menu");
 menuLogger.enableAll();
-const subMenuLogger = getLogger("submenu");
+const subMenuLogger = log.getLogger("submenu");
 subMenuLogger.enableAll();
-const keyboardLogger = getLogger("menu-keyboard-event-handler");
+const keyboardLogger = log.getLogger("menu-keyboard-event-handler");
 keyboardLogger.enableAll();
-const mouseLogger = getLogger("menu-mouse-event-handler");
+const mouseLogger = log.getLogger("menu-mouse-event-handler");
 mouseLogger.enableAll();
 
 export const SimpleMenu = () => (
