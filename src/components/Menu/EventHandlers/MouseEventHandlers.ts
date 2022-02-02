@@ -1,5 +1,6 @@
 import log from "loglevel";
 import { Dispatch, MouseEvent, SetStateAction } from "react";
+
 import { ActionType, MenuIndexesType } from "../MenuTypes";
 
 const logger = log.getLogger("menu-mouse-event-handler");

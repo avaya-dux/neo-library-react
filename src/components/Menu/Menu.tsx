@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import log from "loglevel";
 import {
   cloneElement,
@@ -12,6 +13,7 @@ import {
   useMemo,
   useState,
 } from "react";
+
 import {
   handleBlurEvent,
   handleButtonKeyDownEvent,
@@ -25,9 +27,43 @@ import { addIdToChildren, buildMenuIndexes, layoutChildren } from "./SubMenu";
 const logger = log.getLogger("menu");
 logger.disableAll();
 
+/**
+ * The Menu is meant to be used as a way to display single select options to a user
+ *
+ * @example
+ * <Menu
+      menuRootElement={
+        <MenuButton onClick={() => console.log("Functional Menu opened")}>
+          Functional Menu
+        </MenuButton>
+      }
+    >
+      <MenuItem onClick={() => console.log("first menu item was clicked")}>
+        Console log click
+      </MenuItem>
+      <MenuItem disabled>Menu Item 2</MenuItem>
+      <MenuItem>
+        <a
+          href="https://design.avayacloud.com/components/web/setup-web"
+          target="_blank"
+        >
+          Go to Portal
+        </a>
+      </MenuItem>
+    </Menu>
+ *
+ * @see https://design.avayacloud.com/components/web/dropdown-web
+ * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-menu--functional-menu
+ */
 export const Menu = forwardRef(
   (
-    { button, rightAligned = false, children, ...rest }: MenuProps,
+    {
+      menuRootElement,
+      className,
+      children,
+      itemAlignment = "left",
+      ...rest
+    }: MenuProps,
     ref: Ref<HTMLButtonElement>
   ) => {
     logger.debug("debugging Menu ...");
@@ -100,13 +136,17 @@ export const Menu = forwardRef(
       return handleMouseClickEvent(e, isOpen, setOpen);
     };
 
-    const menuButton = cloneElement(button, {
+    const menuButton = cloneElement(menuRootElement, {
       onKeyDown: handleMenuButtonKeyDown,
       onClick: handleMenuButtonClick,
     });
 
     return (
-      <div className={getClassNames(isOpen, rightAligned)} {...rest}>
+      <div
+        className={getClassNames(isOpen, itemAlignment, className)}
+        role="group"
+        {...rest}
+      >
         {menuButton}
         {isOpen &&
           layoutChildren(
@@ -124,19 +164,19 @@ export const Menu = forwardRef(
   }
 );
 
-export const getClassNames = (isOpen: boolean, rightAligned: boolean) => {
-  const names = ["neo-dropdown"];
-
-  if (rightAligned) {
-    names.push("neo-dropdown--left");
-  } else {
-    names.push("neo-dropdown--right");
-  }
-
+export const getClassNames = (
+  isOpen: boolean,
+  itemAlignment: "left" | "right",
+  className: string | undefined
+) => {
   if (isOpen) {
     logger.debug(`isOpen is ${isOpen}`);
-    names.push("neo-dropdown--active");
   }
 
-  return names.join(" ");
+  return clsx(
+    "neo-dropdown",
+    itemAlignment === "right" ? "neo-dropdown--left" : "neo-dropdown--right",
+    isOpen && "neo-dropdown--active",
+    className
+  );
 };

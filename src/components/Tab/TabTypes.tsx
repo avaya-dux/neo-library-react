@@ -24,18 +24,26 @@ export interface TabPanelProps extends React.HTMLAttributes<HTMLDivElement> {
 export interface TabPanelsProps {
   children: ReactElement<TabPanelProps>[];
 }
+interface Oritentation {
+  orientation?: "horizontal" | "vertical";
+}
 
-export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
-  defaultTabId: string;
-  controlled?: boolean;
+interface CommonTabsProps extends React.HTMLAttributes<HTMLDivElement> {
+  defaultIndex?: number;
+  index?: number;
   children: [ReactElement<TabListProps>, ReactElement<TabPanelsProps>];
-  onTabChange?: (tabId: string) => void;
+  onTabChange?: (index: number) => void;
+}
+export interface HorizontalTabsProps extends CommonTabsProps, Oritentation {
+  orientation?: "horizontal";
 }
 
-export interface VerticalTabsProps extends TabsProps {
-  isVertical: true;
-  isScrollable?: boolean;
+export interface VerticalTabsProps extends CommonTabsProps, Oritentation {
+  orientation: "vertical";
+  scrollable?: boolean;
 }
+
+export type TabsProps = HorizontalTabsProps | VerticalTabsProps;
 
 export interface InternalTabProps extends React.HTMLAttributes<HTMLLIElement> {
   id: string;
@@ -46,9 +54,10 @@ export interface InternalTabProps extends React.HTMLAttributes<HTMLLIElement> {
 }
 
 export interface InteractiveTabProps {
+  vertical: boolean;
   active: boolean;
   tabs: InternalTabProps[];
-  activeTabId: string;
-  setActiveTabId: Dispatch<SetStateAction<string>>;
-  setActivePanelId: Dispatch<SetStateAction<string>>;
+  activeTabIndex: number;
+  setActiveTabIndex: Dispatch<SetStateAction<number>>;
+  setActivePanelIndex: Dispatch<SetStateAction<number>>;
 }

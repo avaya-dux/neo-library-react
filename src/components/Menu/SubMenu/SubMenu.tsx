@@ -15,37 +15,63 @@ import {
   useMemo,
   useState,
 } from "react";
+
 import { genId } from "utils/accessibilityUtils";
+
 import {
   handleBlurEvent,
   handleKeyDownEvent,
   handleMouseMoveEvent,
-} from "./EventHandlers";
-import { MenuItem } from "./MenuItem";
+} from "../EventHandlers";
+import { MenuItem } from "../MenuItem";
 import {
   ActionType,
   MenuIndexesType,
   MenuItemProps,
   MenuProps,
   SubMenuProps,
-} from "./MenuTypes";
+} from "../MenuTypes";
 
 const logger = log.getLogger("submenu");
 logger.disableAll();
 
+/**
+ * The SubMenu is meant to be used _only_ with the Menu component
+ *
+ * @example
+ * <Menu menuRootElement={<MenuButton />}>
+    <MenuItem>Item1</MenuItem>
+    <SubMenu menuRootElement={<MenuItem>SubMenu</MenuItem>}>
+      <MenuItem>Sub Item1</MenuItem>
+      <MenuItem>Sub Item2</MenuItem>
+      <MenuItem>Sub Item3</MenuItem>
+      <SubMenu menuRootElement={<MenuItem>Sub SubMenu</MenuItem>}>
+        <MenuItem>Sub Sub Item1</MenuItem>
+        <MenuItem>Sub Sub Item2</MenuItem>
+        <MenuItem>Sub Sub Item3</MenuItem>
+      </SubMenu>
+    </SubMenu>
+    <MenuItem>Item3</MenuItem>
+  </Menu>
+ *
+ * @see https://design.avayacloud.com/components/web/dropdown-web
+ * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-menu--multi-level-sub-menu
+ */
 export const SubMenu: FC<SubMenuProps> = ({
-  id,
   action,
-  counter,
-  button,
+  menuRootElement,
   children,
+  counter,
+  id,
+
   ...rest
 }) => {
   const internalId = useMemo(() => id || genId(), []);
 
-  const { text: label, isActive, hasFocus } = button.props;
+  const { children: btnChildren, isActive, hasFocus } = menuRootElement.props;
+  const subMenuButtonLabel = btnChildren?.toString() || "";
   log.debug(
-    `debugging SubMenu: '${label}' isActive=${isActive}, hasFocus=${hasFocus}, action = ${action}, counter=${counter}`
+    `debugging SubMenu: '${subMenuButtonLabel}' isActive=${isActive}, hasFocus=${hasFocus}, action = ${action}, counter=${counter}`
   );
   const [isOpen, setOpen] = useState(false);
   const [enterCounter, setEnterCounter] = useState(1);
@@ -78,7 +104,7 @@ export const SubMenu: FC<SubMenuProps> = ({
       enterCounter,
       setEnterCounter,
       setOpen,
-      label
+      subMenuButtonLabel
     );
   };
   const handleSubMenuMouseMove: MouseEventHandler = (e: MouseEvent) => {
@@ -102,7 +128,7 @@ export const SubMenu: FC<SubMenuProps> = ({
 
   return (
     <div id={internalId} {...rest} className={getClassNames(action)}>
-      {isOpen ? button : cloneElement(button)}
+      {isOpen ? menuRootElement : cloneElement(menuRootElement)}
       {isOpen &&
         layoutChildren(
           clonedChildren,
@@ -132,13 +158,13 @@ export const addIdToChildren = (children: MenuProps["children"]) => {
       const childId = child.props.id || genId();
       return cloneElement(child, { id: childId });
     } else if (child.type.toString() === SubMenu.toString()) {
-      const buttonElement = (child.props as SubMenuProps).button;
+      const buttonElement = (child.props as SubMenuProps).menuRootElement;
       const buttonElementId = buttonElement.props.id || genId();
       const cloneButton = cloneElement(buttonElement, {
         id: buttonElementId,
       });
       return cloneElement(child as ReactElement<SubMenuProps>, {
-        button: cloneButton,
+        menuRootElement: cloneButton,
       });
     } else {
       return child;
@@ -176,14 +202,14 @@ export const layoutChildren = (
               counter: enterCounter,
             });
           } else {
-            const buttonElement = (child.props as SubMenuProps).button;
+            const buttonElement = (child.props as SubMenuProps).menuRootElement;
             const cloneButton = cloneElement(buttonElement, {
               isActive: true,
               hasFocus: true,
               tabIndex: 0,
             });
             activeChild = cloneElement(child, {
-              button: cloneButton,
+              menuRootElement: cloneButton,
               action: cursorAction,
               counter: enterCounter,
             });
@@ -202,7 +228,8 @@ export const layoutChildren = (
                 }
               );
             } else if (child.type.toString() === SubMenu.toString()) {
-              const buttonElement = (child.props as SubMenuProps).button;
+              const buttonElement = (child.props as SubMenuProps)
+                .menuRootElement;
               const cloneButton = cloneElement(buttonElement, {
                 isActive: false,
                 hasFocus: false,
@@ -211,7 +238,7 @@ export const layoutChildren = (
               inactiveChild = cloneElement(
                 child as ReactElement<SubMenuProps>,
                 {
-                  button: cloneButton,
+                  menuRootElement: cloneButton,
                 }
               );
             }
@@ -237,7 +264,7 @@ export const buildMenuIndexes = (children: MenuProps["children"]) => {
         return {
           index,
           // using button id for looking up in mouse move event handling
-          id: props.button.props.id,
+          id: props.menuRootElement.props.id,
           length: props.children.length as number,
         };
       } else {

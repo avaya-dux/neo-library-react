@@ -26,16 +26,23 @@ export const InternalTab = ({
   id,
   name,
   icon,
+  content,
   className = "",
   tabs,
-  activeTabId,
-  setActiveTabId,
-  setActivePanelId,
+  vertical,
+  activeTabIndex,
+  setActiveTabIndex,
+  setActivePanelIndex,
 }: InternalTabProps & InteractiveTabProps) => {
   logger.debug(`debug internalTab ${id}`);
   const ref = useRef<HTMLAnchorElement>(null);
   const handleAnchorMouseClickEvent: MouseEventHandler = (e: MouseEvent) => {
-    return handleMouseClickEvent(e, setActiveTabId, setActivePanelId);
+    return handleMouseClickEvent(
+      e,
+      tabs,
+      setActiveTabIndex,
+      setActivePanelIndex
+    );
   };
 
   const handleAnchorKeyDownEvent: KeyboardEventHandler = (
@@ -43,11 +50,11 @@ export const InternalTab = ({
   ) => {
     return handleKeyDownEvent(
       e,
-      false, // todo: pass in isVertical
+      vertical,
       tabs,
-      activeTabId,
-      setActiveTabId,
-      setActivePanelId,
+      activeTabIndex,
+      setActiveTabIndex,
+      setActivePanelIndex,
       ref
     );
   };
@@ -75,6 +82,7 @@ export const InternalTab = ({
       id={id}
       role="tab"
       aria-selected={active}
+      aria-controls={content.id}
       tabIndex={active && !disabled ? 0 : -1}
       href="#fixme"
       aria-disabled={disabled}
