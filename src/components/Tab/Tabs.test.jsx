@@ -4,6 +4,7 @@ import { axe } from "jest-axe";
 import { internalTabLogger } from "./InternalTab";
 import {
   buildTabProps,
+  ClosableTab,
   getTabItemClasses,
   Tab,
   TabList,
@@ -181,13 +182,15 @@ describe("Tabs", () => {
       const tabs = (
         <Tabs defaultTabId="tab1">
           <TabList>
-            <Tab id="tab1" dir="ltr" closable onClose={() => {}}>
+            <Tab id="tab1" dir="ltr" onClose={() => {}}>
               tab1
             </Tab>
             <Tab id="tab2" disabled>
               tab2
             </Tab>
-            <Tab id="tab3">tab3</Tab>
+            <ClosableTab id="tab3" closable>
+              tab3
+            </ClosableTab>
           </TabList>
           <TabPanels>
             <TabPanel id="panel1">
@@ -204,7 +207,7 @@ describe("Tabs", () => {
       expect(buildTabProps(tabs.props.children)).toMatchInlineSnapshot(`
         Array [
           Object {
-            "closable": true,
+            "closable": false,
             "content": Object {
               "children": Array [
                 <h2>
@@ -236,7 +239,7 @@ describe("Tabs", () => {
             "onClose": undefined,
           },
           Object {
-            "closable": false,
+            "closable": true,
             "content": Object {
               "children": "content 3",
               "id": "panel3",

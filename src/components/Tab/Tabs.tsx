@@ -100,7 +100,10 @@ export function getAllTabIdsInString(tabProps: InternalTabProps[]): string {
 export const TabList = (props: TabListProps) => {
   return <Fragment {...props} />;
 };
-export const Tab = (props: TabProps | ClosableTabProps) => {
+export const Tab = (props: TabProps) => {
+  return <Fragment {...props} />;
+};
+export const ClosableTab = (props: ClosableTabProps) => {
   return <Fragment {...props} />;
 };
 export const TabPanels = (props: TabPanelsProps) => {
@@ -129,7 +132,7 @@ export const buildTabProps = (
     const disabled = !!props!.disabled;
     logger.debug(`${id} disabled = ${disabled}`);
     const icon = "icon" in props ? props!.icon : undefined;
-    const closable = "closable" in props ? props!.closable : false;
+    const closable = tab.type.toString() === ClosableTab.toString();
     const onClose = "onClose" in props ? props!.onClose : undefined;
     return {
       ...rest,

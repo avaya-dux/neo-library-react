@@ -2,7 +2,7 @@ import { Meta } from "@storybook/react/types-6-0";
 import { Button } from "components";
 import { useState } from "react";
 import { tabMouseEventHandlerLogger } from "./EventHandlers";
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from "./Tabs";
+import { ClosableTab, Tab, TabList, TabPanel, TabPanels, Tabs } from "./Tabs";
 import { TabsProps } from "./TabTypes";
 
 tabMouseEventHandlerLogger.enableAll();
@@ -114,15 +114,9 @@ export const UncontrolledActiveTabStory = () => {
           <Tab id="tab1">Tab1</Tab>
 
           {showTab2 ? (
-            <Tab
-              id="tab2"
-              icon="accept"
-              dir="rtl"
-              closable
-              onClose={() => onCloseTab2(1)}
-            >
+            <ClosableTab id="tab2" icon="accept" onClose={() => onCloseTab2(1)}>
               Tab2
-            </Tab>
+            </ClosableTab>
           ) : (
             <></>
           )}
