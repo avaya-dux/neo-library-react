@@ -41,12 +41,15 @@ const Template: Story<MenuProps> = ({ children, ...rest }: MenuProps) => (
 );
 export const SimpleMenuTemplated = Template.bind({});
 SimpleMenuTemplated.args = {
-  menuRootElement: <MenuButton>Open Menu</MenuButton>,
   children: [
     <MenuItem key="1">Item1</MenuItem>,
     <MenuItem key="2">Item2</MenuItem>,
     <MenuItem key="3">Item3</MenuItem>,
   ],
+  defaultIsOpen: true,
+  itemAlignment: "left",
+  menuRootElement: <MenuButton>Open Menu</MenuButton>,
+  openOnHover: true,
 };
 
 export const SimpleMenuRightAlignedTemplated = Template.bind({});
