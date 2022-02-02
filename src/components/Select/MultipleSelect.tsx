@@ -7,28 +7,29 @@ import {
   useEffect,
   useMemo,
   useState,
+  Children,
+  isValidElement,
+  cloneElement,
 } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 
-import { MultipleSelectItem, MultipleSelectProps } from "./SelectTypes";
-
-type MultipleSelectContextProps = {
-  items: string[];
-  itemProps: any;
-  selectedItems: string[];
-};
+import {
+  MultipleSelectProps,
+  MultipleSelectContextProps,
+  MultipleSelectOptionProps,
+} from "./SelectTypes";
 
 const MultipleSelectContext = createContext<MultipleSelectContextProps>({
   items: [],
   itemProps: {},
   selectedItems: [],
+  index: 0,
 });
 
 export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
   label,
-  items,
   placeholder = "Select One",
   id = genId(),
   disabled,
@@ -42,9 +43,12 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
   if (!label) {
     handleAccessbilityError("Select requires a label prop");
   }
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
-  const itemsText: string[] = items.map((item) => item.text);
+  const items = children.map((child) => {
+    return child.props.children!.toString();
+  });
+
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   const helperId = useMemo(() => `helper-text-${id}`, [id]);
 
@@ -61,13 +65,12 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
     getMenuProps,
     getItemProps,
   } = useSelect({
-    items: itemsText,
+    items,
     id,
     isOpen: disabled && false,
     selectedItem: null,
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
-      console.log(type);
       switch (type) {
         case useSelect.stateChangeTypes.MenuKeyDownEnter:
         case useSelect.stateChangeTypes.MenuKeyDownSpaceButton:
@@ -97,7 +100,24 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
   //     onSelectedValueChange(selectedItems);
   // }, [selectedItem]);
 
-  const context = { items: itemsText, itemProps: getItemProps, selectedItems };
+  const context = {
+    items,
+    itemProps: getItemProps,
+    selectedItems,
+  };
+
+  const childrenWithProps = Children.map(children, (child, index) => {
+    const value = { ...context, index };
+
+    if (isValidElement(child)) {
+      return (
+        <MultipleSelectContext.Provider value={value}>
+          {cloneElement(child)}
+        </MultipleSelectContext.Provider>
+      );
+    }
+    return child;
+  });
 
   return (
     <NeoInputWrapper
@@ -120,9 +140,7 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
           {multipleSelectText}
         </div>
         <div className="neo-multiselect__content" {...getMenuProps()}>
-          <MultipleSelectContext.Provider value={context}>
-            {children}
-          </MultipleSelectContext.Provider>
+          {childrenWithProps}
         </div>
       </div>
 
@@ -142,18 +160,14 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
   );
 };
 
-type MultipleSelectOptionProps = {
-  item: MultipleSelectItem;
-};
-
 export const MultipleSelectOption: FunctionComponent<
   MultipleSelectOptionProps
-> = ({ item }) => {
-  const { text, disabled, helperText } = item;
+> = ({ helperText, disabled, children }) => {
+  const { items, itemProps, selectedItems, index } = useContext(
+    MultipleSelectContext
+  );
 
-  const { items, itemProps, selectedItems } = useContext(MultipleSelectContext);
-
-  const index = items.indexOf(text);
+  const item = items[index];
 
   const helperId = useMemo(() => `helper-text-${index}`, [index]);
 
@@ -169,21 +183,21 @@ export const MultipleSelectOption: FunctionComponent<
         className="neo-check"
         type="checkbox"
         disabled={disabled}
-        checked={!!selectedItems && selectedItems.includes(text)}
+        checked={!!selectedItems && selectedItems.includes(item)}
         readOnly
         aria-describedby={helperText && helperId}
       />
       <label
-        key={`${text}${index}`}
+        key={`${item}${index}`}
         {...itemProps({
-          item: text,
+          item,
           index,
           disabled,
         })}
         style={style}
-        htmlFor={text}
+        htmlFor={item}
       >
-        {text}
+        {children}
       </label>
     </>
   );
