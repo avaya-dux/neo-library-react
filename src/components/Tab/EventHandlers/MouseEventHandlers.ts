@@ -1,6 +1,7 @@
 import log from "loglevel";
 import { Dispatch, MouseEvent, SetStateAction } from "react";
 import { isAriaDisabled } from "utils";
+import { InternalTabProps } from "../TabTypes";
 
 const logger = log.getLogger("tab-mouse-event-handler");
 logger.disableAll();
@@ -8,8 +9,9 @@ logger.disableAll();
 export { logger as tabMouseEventHandlerLogger };
 export const handleMouseClickEvent = (
   e: MouseEvent,
-  setActiveTabId: Dispatch<SetStateAction<string>>,
-  setActivePanelId: Dispatch<SetStateAction<string>>
+  tabs: InternalTabProps[],
+  setActiveTabIndex: Dispatch<SetStateAction<number>>,
+  setActivePanelIndex: Dispatch<SetStateAction<number>>
 ) => {
   e.stopPropagation();
   logger.debug("hanlding mouse click event on tab");
@@ -23,8 +25,9 @@ export const handleMouseClickEvent = (
   );
   if (id && !disabled) {
     logger.debug(`set ${id} to active`);
-    setActiveTabId(id);
-    setActivePanelId(id);
+    const index = tabs.findIndex((tab) => tab.id === id);
+    setActiveTabIndex(index);
+    setActivePanelIndex(index);
   }
   e.preventDefault();
 };

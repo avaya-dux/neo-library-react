@@ -1,11 +1,6 @@
 import clsx from "clsx";
 import { useSelect } from "downshift";
-import {
-  FunctionComponent,
-  MouseEventHandler,
-  useEffect,
-  useMemo,
-} from "react";
+import { FunctionComponent, useEffect, useMemo } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";

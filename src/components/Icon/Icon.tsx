@@ -70,5 +70,5 @@ export const Icon: React.FC<IconProps> = ({
     return result.join(" ");
   }, [status, icon, size]);
 
-  return <span {...rest} className={componentClasses} />;
+  return <span role="img" {...rest} className={componentClasses} />;
 };
