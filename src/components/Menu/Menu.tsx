@@ -58,17 +58,18 @@ logger.disableAll();
 export const Menu = forwardRef(
   (
     {
-      menuRootElement,
-      className,
       children,
+      className,
+      defaultIsOpen = false,
       itemAlignment = "left",
+      menuRootElement,
       ...rest
     }: MenuProps,
     ref: Ref<HTMLButtonElement>
   ) => {
     logger.debug("debugging Menu ...");
 
-    const [isOpen, setOpen] = useState(false);
+    const [isOpen, setOpen] = useState(defaultIsOpen);
     const [enterCounter, setEnterCounter] = useState(1);
     const clonedChildren = useMemo(() => addIdToChildren(children), [children]);
     const menuIndexes: MenuIndexesType = useMemo(
