@@ -6,7 +6,8 @@ import {
   buildTabProps,
   ClosableTab,
   getTabItemClasses,
-  isFragment,
+  isValidTabElement,
+  isValidPanelElement,
   Tab,
   TabList,
   TabPanel,
@@ -93,18 +94,40 @@ describe("Tabs", () => {
       });
     });
   });
-  describe(isFragment, () => {
-    it("when element is fragment, return true", () => {
+  describe(isValidTabElement, () => {
+    it("when element is fragment, return false", () => {
       const element = <></>;
-      expect(isFragment(element)).toBeTruthy();
+      expect(isValidTabElement(element)).toBeFalsy();
     });
     it("when element is html element, return false", () => {
       const element = <div></div>;
-      expect(isFragment(element)).toBeFalsy();
+      expect(isValidTabElement(element)).toBeFalsy();
     });
-    it("when element is react element, return false", () => {
+    it("when element is tab element, return true", () => {
       const element = <Tab>Tab one</Tab>;
-      expect(isFragment(element)).toBeFalsy();
+      expect(isValidTabElement(element)).toBeTruthy();
+    });
+    it("when element is closable tab element, return true", () => {
+      const element = <ClosableTab>Tab one</ClosableTab>;
+      expect(isValidTabElement(element)).toBeTruthy();
+    });
+  });
+  describe(isValidPanelElement, () => {
+    it("when element is fragment, return false", () => {
+      const element = <></>;
+      expect(isValidPanelElement(element)).toBeFalsy();
+    });
+    it("when element is html element, return false", () => {
+      const element = <div></div>;
+      expect(isValidPanelElement(element)).toBeFalsy();
+    });
+    it("when element is tab element, return false", () => {
+      const element = <Tab>Tab one</Tab>;
+      expect(isValidPanelElement(element)).toBeFalsy();
+    });
+    it("when element is tab panel element, return true", () => {
+      const element = <TabPanel>content one</TabPanel>;
+      expect(isValidPanelElement(element)).toBeTruthy();
     });
   });
   describe(getTabItemClasses, () => {

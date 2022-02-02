@@ -112,19 +112,26 @@ export const TabPanels = (props: TabPanelsProps) => {
 export const TabPanel = (props: TabPanelProps) => {
   return <Fragment {...props} />;
 };
-function isNotFragment(tab: { type: { toString: () => string } }) {
-  return !isFragment(tab);
+export function isValidPanelElement(element: {
+  type: { toString: () => string };
+}) {
+  return element.type.toString() === TabPanel.toString();
 }
-export function isFragment(tab: { type: { toString: () => string } }) {
-  return tab.type.toString() === "Symbol(react.fragment)";
+export function isValidTabElement(element: {
+  type: { toString: () => string };
+}) {
+  return (
+    element.type.toString() === ClosableTab.toString() ||
+    element.type.toString() === Tab.toString()
+  );
 }
 export const buildTabProps = (
   children: TabsProps["children"]
 ): InternalTabProps[] => {
   const tablist = children[0];
-  const tabs = tablist.props.children.filter(isNotFragment);
+  const tabs = tablist.props.children.filter(isValidTabElement);
   const panelList = children[1];
-  const panels = panelList.props.children.filter(isNotFragment);
+  const panels = panelList.props.children.filter(isValidPanelElement);
   return tabs.map((tab, index) => {
     const props = tab.props;
     let panel = panels[index].props as TabPanelProps;
