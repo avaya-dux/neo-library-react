@@ -1,19 +1,30 @@
 import clsx from "clsx";
 import { useSelect } from "downshift";
 import {
-  Children,
-  cloneElement,
+  createContext,
   FunctionComponent,
-  isValidElement,
+  useContext,
+  useEffect,
   useMemo,
   useState,
-  useEffect,
 } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 
 import { MultipleSelectItem, MultipleSelectProps } from "./SelectTypes";
+
+type SelectContextProps = {
+  items: string[];
+  itemProps?: any;
+  selectedItems?: string[];
+};
+
+const SelectContext = createContext<SelectContextProps>({
+  items: [],
+  itemProps: {},
+  selectedItems: [],
+});
 
 export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
   label,
@@ -86,16 +97,7 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
   //     onSelectedValueChange(selectedItems);
   // }, [selectedItem]);
 
-  const childrenWithProps = Children.map(children, (child, index) => {
-    if (isValidElement(child)) {
-      return cloneElement(child, {
-        itemProps: getItemProps,
-        selectedItems,
-        index,
-      });
-    }
-    return child;
-  });
+  const context = { items: itemsText, itemProps: getItemProps, selectedItems };
 
   return (
     <NeoInputWrapper
@@ -118,7 +120,9 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
           {multipleSelectText}
         </div>
         <div className="neo-multiselect__content" {...getMenuProps()}>
-          {childrenWithProps}
+          <SelectContext.Provider value={context}>
+            {children}
+          </SelectContext.Provider>
         </div>
       </div>
 
@@ -140,15 +144,16 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
 
 type MultipleSelectOptionProps = {
   item: MultipleSelectItem;
-  index?: number;
-  itemProps?: any;
-  selectedItems?: string[];
 };
 
 export const MultipleSelectOption: FunctionComponent<
   MultipleSelectOptionProps
-> = ({ item, itemProps, selectedItems, index }) => {
+> = ({ item }) => {
   const { text, disabled, helperText } = item;
+
+  const { items, itemProps, selectedItems } = useContext(SelectContext);
+
+  const index = items.indexOf(text);
 
   const helperId = useMemo(() => `helper-text-${index}`, [index]);
 
