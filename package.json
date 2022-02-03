@@ -60,7 +60,7 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!src/**/*.d.ts",
-      "!src/**/*Types.ts",
+      "!src/**/*Types.{js,jsx,ts,tsx}",
       "!src/**/index.ts",
       "!src/**/*.stories.{jsx,tsx}",
       "!src/**/*.cypresstest.tsx"
