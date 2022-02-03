@@ -5,6 +5,7 @@ import {
   FocusEvent,
   FocusEventHandler,
   forwardRef,
+  KeyboardEvent,
   KeyboardEventHandler,
   MouseEvent,
   MouseEventHandler,
@@ -58,17 +59,19 @@ logger.disableAll();
 export const Menu = forwardRef(
   (
     {
-      menuRootElement,
-      className,
       children,
+      className,
+      defaultIsOpen = false,
       itemAlignment = "left",
+      menuRootElement,
+      openOnHover = false,
       ...rest
     }: MenuProps,
     ref: Ref<HTMLButtonElement>
   ) => {
     logger.debug("debugging Menu ...");
 
-    const [isOpen, setOpen] = useState(false);
+    const [isOpen, setOpen] = useState(defaultIsOpen);
     const [enterCounter, setEnterCounter] = useState(1);
     const clonedChildren = useMemo(() => addIdToChildren(children), [children]);
     const menuIndexes: MenuIndexesType = useMemo(
@@ -88,14 +91,8 @@ export const Menu = forwardRef(
       }
     }, [isOpen]);
 
-    const handleMenuButtonKeyDown: KeyboardEventHandler = (
-      e: React.KeyboardEvent<HTMLButtonElement>
-    ) => {
-      return handleButtonKeyDownEvent(e, menuIndexes, setCursor, setOpen);
-    };
-
     const handleMenuKeyDown: KeyboardEventHandler = (
-      e: React.KeyboardEvent<HTMLDivElement>
+      e: KeyboardEvent<HTMLDivElement>
     ) => {
       return handleKeyDownEvent(
         e,
@@ -132,18 +129,37 @@ export const Menu = forwardRef(
       );
     };
 
-    const handleMenuButtonClick: MouseEventHandler = (e: MouseEvent) => {
-      return handleMouseClickEvent(e, isOpen, setOpen);
-    };
-
     const menuButton = cloneElement(menuRootElement, {
-      onKeyDown: handleMenuButtonKeyDown,
-      onClick: handleMenuButtonClick,
+      onClick: (e: MouseEvent<HTMLButtonElement>) => {
+        handleMouseClickEvent(e, isOpen, setOpen);
+
+        if (menuRootElement.props.onClick) {
+          menuRootElement.props.onClick(e);
+        }
+      },
+
+      onKeyDown: (e: KeyboardEvent<HTMLButtonElement>) => {
+        handleButtonKeyDownEvent(e, menuIndexes, setCursor, setOpen);
+
+        if (menuRootElement.props.onKeyDown) {
+          menuRootElement.props.onKeyDown(e);
+        }
+      },
+
+      onMouseEnter: (e: MouseEvent<HTMLButtonElement>) => {
+        if (openOnHover) {
+          setOpen(true);
+        }
+
+        if (menuRootElement.props.onMouseEnter) {
+          menuRootElement.props.onMouseEnter(e);
+        }
+      },
     });
 
     return (
       <div
-        className={getClassNames(isOpen, itemAlignment, className)}
+        className={getClassNames(isOpen, itemAlignment, className, openOnHover)}
         role="group"
         {...rest}
       >
@@ -167,7 +183,8 @@ export const Menu = forwardRef(
 export const getClassNames = (
   isOpen: boolean,
   itemAlignment: "left" | "right",
-  className: string | undefined
+  className: string | undefined,
+  openOnHover: boolean // NOTE: this is _only_ for the tests, it doesn't actually do anything
 ) => {
   if (isOpen) {
     logger.debug(`isOpen is ${isOpen}`);
@@ -177,6 +194,7 @@ export const getClassNames = (
     "neo-dropdown",
     itemAlignment === "right" ? "neo-dropdown--left" : "neo-dropdown--right",
     isOpen && "neo-dropdown--active",
-    className
+    className,
+    openOnHover && "neo-dropdown--onhover"
   );
 };
