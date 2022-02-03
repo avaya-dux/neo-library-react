@@ -60,7 +60,7 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!src/**/*.d.ts",
-      "!src/**/*Types.ts",
+      "!src/**/*Types.{js,jsx,ts,tsx}",
       "!src/**/index.ts",
       "!src/**/*.stories.{jsx,tsx}",
       "!src/**/*.cypresstest.tsx"
@@ -89,7 +89,7 @@
     "@storybook/addon-actions": "^6.4.18",
     "@storybook/addon-essentials": "^6.4.18",
     "@storybook/addon-links": "^6.4.18",
-    "@storybook/preset-create-react-app": "4.0.0",
+    "@storybook/preset-create-react-app": "3.2.0",
     "@storybook/react": "^6.4.18",
     "@storybook/testing-react": "^1.2.3",
     "@testing-library/dom": "^8.11.3",
