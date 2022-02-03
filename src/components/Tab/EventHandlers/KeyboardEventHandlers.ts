@@ -8,6 +8,11 @@ import {
 } from "react";
 import { isAriaDisabled, Keys } from "utils";
 import { InternalTabProps } from "../TabTypes";
+import {
+  getNextTabIndex,
+  activatePreviousTab,
+  activateAnotherTabAndPanel,
+} from "./Helper";
 
 const logger = log.getLogger("tab-keyboard-event-handler");
 logger.disableAll();
@@ -65,6 +70,39 @@ export const blur = (
   ref.current?.blur();
 };
 
+export const handleCloseElementKeyDownEvent = (
+  e: KeyboardEvent<HTMLAnchorElement>,
+  tabs: InternalTabProps[],
+  activeTabIndex: number,
+  setActiveTabIndex: Dispatch<SetStateAction<number>>,
+  setActivePanelIndex: Dispatch<SetStateAction<number>>
+) => {
+  logger.debug(`handle close element key event ${e.key} on ${activeTabIndex}`);
+  let handled = true;
+  if (tabs.length === 0) {
+    return;
+  }
+  switch (e.key) {
+    case Keys.ENTER:
+    case Keys.SPACE:
+      e.preventDefault();
+      activateAnotherTabAndPanel(
+        tabs,
+        activeTabIndex,
+        setActiveTabIndex,
+        setActivePanelIndex
+      );
+      break;
+    case Keys.TAB:
+    case Keys.ESC:
+      handled = false;
+      break;
+  }
+  if (handled) {
+    e.stopPropagation();
+  }
+};
+
 export const handleKeyDownEvent = (
   e: KeyboardEvent<HTMLAnchorElement>,
   isTabListVertical: boolean,
@@ -120,32 +158,13 @@ function activateNextTab(
   tabs: InternalTabProps[],
   activeTabIndex: number,
   setActiveTabIndex: Dispatch<SetStateAction<number>>
-) {
-  let index = activeTabIndex;
-  while (index < tabs.length - 1) {
-    const nextIndex = index + 1;
-    if (tabs[nextIndex].disabled) {
-      index++;
-    } else {
-      setActiveTabIndex(nextIndex);
-      return;
-    }
-  }
-}
-
-function activatePreviousTab(
-  tabs: InternalTabProps[],
-  activeTabIndex: number,
-  setActiveTabIndex: Dispatch<SetStateAction<number>>
-) {
-  let index = activeTabIndex;
-  while (index > 0) {
-    const previousIndex = index - 1;
-    if (tabs[previousIndex].disabled) {
-      index--;
-    } else {
-      setActiveTabIndex(previousIndex);
-      return;
-    }
+): boolean {
+  const nextTabIndex = getNextTabIndex(tabs, activeTabIndex);
+  if (nextTabIndex > activeTabIndex) {
+    setActiveTabIndex(nextTabIndex);
+    return true;
+  } else {
+    logger.debug(`no next tab index found.`);
+    return false;
   }
 }
