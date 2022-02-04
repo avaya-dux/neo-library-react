@@ -21,7 +21,9 @@ export interface SelectProps extends BaseSelectProps {
 }
 
 export interface MultipleSelectProps extends BaseSelectProps {
-  children: ReactElement<MultipleSelectOptionProps>[];
+  children?:
+    | ReactElement<MultipleSelectOptionProps>
+    | ReactElement<MultipleSelectOptionProps>[];
 }
 
 export type MultipleSelectContextProps = {
@@ -29,6 +31,7 @@ export type MultipleSelectContextProps = {
   itemProps: any;
   selectedItems: string[];
   index: number;
+  highlightedIndex: number;
 };
 
 export type MultipleSelectOptionProps = {

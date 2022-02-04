@@ -1,31 +1,33 @@
 import clsx from "clsx";
 import { useSelect } from "downshift";
 import {
+  Children,
   createContext,
   FunctionComponent,
+  isValidElement,
   useContext,
   useEffect,
   useMemo,
   useState,
-  Children,
-  isValidElement,
-  cloneElement,
 } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 
 import {
-  MultipleSelectProps,
   MultipleSelectContextProps,
   MultipleSelectOptionProps,
+  MultipleSelectProps,
 } from "./SelectTypes";
+
+import "./MultipleSelect_shim.css";
 
 const MultipleSelectContext = createContext<MultipleSelectContextProps>({
   items: [],
   itemProps: {},
   selectedItems: [],
   index: 0,
+  highlightedIndex: 0,
 });
 
 export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
@@ -38,15 +40,21 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
   loading = false,
   required,
   onSelectedValueChange,
-  children,
+  children = [],
 }) => {
   if (!label) {
     handleAccessbilityError("Select requires a label prop");
   }
 
-  const items = children.map((child) => {
-    return child.props.children.toString();
-  });
+  const items = Array.isArray(children)
+    ? children.map((child) => {
+        if (isValidElement(child)) {
+          return child.props.children.toString();
+        } else {
+          return " ";
+        }
+      })
+    : children.props.children.toString();
 
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
@@ -64,14 +72,14 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
     getLabelProps,
     getMenuProps,
     getItemProps,
+    highlightedIndex,
   } = useSelect({
     items,
     id,
-    isOpen: disabled && false,
+    isOpen: disabled || loading ? false : undefined,
     selectedItem: null,
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
-      console.log(type);
       switch (type) {
         case useSelect.stateChangeTypes.MenuKeyDownEnter:
         case useSelect.stateChangeTypes.MenuKeyDownSpaceButton:
@@ -79,6 +87,7 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
           return {
             ...changes,
             isOpen: true,
+            highlightedIndex: state.highlightedIndex,
           };
         default:
           return changes;
@@ -105,6 +114,7 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
     items,
     itemProps: getItemProps,
     selectedItems,
+    highlightedIndex,
   };
 
   const childrenWithProps = Children.map(children, (child, index) => {
@@ -113,7 +123,7 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
     if (isValidElement(child)) {
       return (
         <MultipleSelectContext.Provider value={value}>
-          {cloneElement(child)}
+          {child}
         </MultipleSelectContext.Provider>
       );
     }
@@ -164,19 +174,14 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
 export const MultipleSelectOption: FunctionComponent<
   MultipleSelectOptionProps
 > = ({ helperText, disabled, children }) => {
-  const { items, itemProps, selectedItems, index } = useContext(
-    MultipleSelectContext
-  );
+  const { items, itemProps, selectedItems, highlightedIndex, index } =
+    useContext(MultipleSelectContext);
 
   const item = items[index];
 
-  const helperId = useMemo(() => `helper-text-${index}`, [index]);
+  const labelId = useMemo(() => `label-id-${index}`, [index]);
 
-  const style = {
-    ":hover, :focus": {
-      backgroundColor: "#e8f1fc",
-    },
-  };
+  const helperId = useMemo(() => `helper-text-${index}`, [index]);
 
   const MultiSelectOption = (
     <>
@@ -186,20 +191,27 @@ export const MultipleSelectOption: FunctionComponent<
         disabled={disabled}
         checked={!!selectedItems && selectedItems.includes(item)}
         readOnly
+        aria-labelledby={labelId}
         aria-describedby={helperText && helperId}
       />
-      <label
+      <div
         key={`${item}${index}`}
         {...itemProps({
           item,
           index,
           disabled,
         })}
-        style={style}
+        style={
+          highlightedIndex === index && !disabled
+            ? { backgroundColor: "#e8f1fc" }
+            : {}
+        }
+        className="neo-check__label"
         htmlFor={item}
+        id={labelId}
       >
         {children}
-      </label>
+      </div>
     </>
   );
 
