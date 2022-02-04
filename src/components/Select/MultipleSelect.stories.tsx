@@ -1,4 +1,4 @@
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { Meta } from "@storybook/react/types-6-0";
 
 import { MultipleSelect, MultipleSelectOption } from "./MultipleSelect";
 import { MultipleSelectProps } from "./SelectTypes";
