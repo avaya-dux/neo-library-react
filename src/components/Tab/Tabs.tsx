@@ -100,7 +100,10 @@ export function getAllTabIdsInString(tabProps: InternalTabProps[]): string {
 export const TabList = (props: TabListProps) => {
   return <Fragment {...props} />;
 };
-export const Tab = (props: TabProps | ClosableTabProps) => {
+export const Tab = (props: TabProps) => {
+  return <Fragment {...props} />;
+};
+export const ClosableTab = (props: ClosableTabProps) => {
   return <Fragment {...props} />;
 };
 export const TabPanels = (props: TabPanelsProps) => {
@@ -109,14 +112,26 @@ export const TabPanels = (props: TabPanelsProps) => {
 export const TabPanel = (props: TabPanelProps) => {
   return <Fragment {...props} />;
 };
-
+export function isValidPanelElement(element: {
+  type: { toString: () => string };
+}) {
+  return element.type.toString() === TabPanel.toString();
+}
+export function isValidTabElement(element: {
+  type: { toString: () => string };
+}) {
+  return (
+    element.type.toString() === ClosableTab.toString() ||
+    element.type.toString() === Tab.toString()
+  );
+}
 export const buildTabProps = (
   children: TabsProps["children"]
 ): InternalTabProps[] => {
   const tablist = children[0];
-  const tabs = tablist.props.children;
+  const tabs = tablist.props.children.filter(isValidTabElement);
   const panelList = children[1];
-  const panels = panelList.props.children;
+  const panels = panelList.props.children.filter(isValidPanelElement);
   return tabs.map((tab, index) => {
     const props = tab.props;
     let panel = panels[index].props as TabPanelProps;
@@ -124,12 +139,16 @@ export const buildTabProps = (
       panel = { ...panel, id: genId() };
     }
     const { id, children, ...rest } = props;
-    const disabled = !!props?.disabled;
+    const disabled = !!props!.disabled;
     logger.debug(`${id} disabled = ${disabled}`);
     const icon = "icon" in props ? props!.icon : undefined;
+    const closable = tab.type.toString() === ClosableTab.toString();
+    const onClose = "onClose" in props ? props!.onClose : undefined;
     return {
       ...rest,
       disabled,
+      closable,
+      onClose,
       id: id || genId(),
       name: children,
       content: panel,
@@ -149,7 +168,8 @@ export const createTab = (
 ) => {
   const tabId = tabProps.id;
   const active = index === activeTabIndex;
-  const { className, id, name, disabled, ...rest } = tabProps;
+  const { className, id, name, disabled, closable, dir, onClose, ...rest } =
+    tabProps;
   logger.debug(`${tabId} disabled is ${tabProps.disabled}`);
   return (
     <li
@@ -159,10 +179,14 @@ export const createTab = (
         disabled: tabProps.disabled,
         vertical: isVertical,
       })}
+      dir={closable ? "ltr" : dir}
       {...rest}
     >
       <InternalTab
         {...tabProps}
+        tabIndex={index}
+        closable={closable}
+        onClose={onClose}
         active={active}
         vertical={isVertical}
         tabs={tabs}
