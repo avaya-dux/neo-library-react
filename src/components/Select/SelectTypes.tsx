@@ -1,4 +1,4 @@
-import { ReactNode, ReactElement } from "react";
+import { ReactElement } from "react";
 
 export type SelectItem = {
   text: string;
@@ -20,6 +20,12 @@ export interface SelectProps extends BaseSelectProps {
   items: SelectItem[];
 }
 
+export type MultipleSelectOptionProps = {
+  children: string;
+  helperText?: string;
+  disabled?: boolean;
+};
+
 export interface MultipleSelectProps extends BaseSelectProps {
   children?:
     | ReactElement<MultipleSelectOptionProps>
@@ -32,10 +38,4 @@ export type MultipleSelectContextProps = {
   selectedItems: string[];
   index: number;
   highlightedIndex: number;
-};
-
-export type MultipleSelectOptionProps = {
-  children: string;
-  helperText?: string;
-  disabled?: boolean;
 };
