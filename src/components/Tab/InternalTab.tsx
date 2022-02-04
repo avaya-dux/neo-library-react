@@ -15,14 +15,20 @@ import {
   handleMouseClickEvent,
   handleFocusEvent,
   handleBlurEvent,
+  handleCloseElementKeyDownEvent,
+  handleCloseElementMouseClickEvent,
 } from "./EventHandlers";
 import { InternalTabProps, InteractiveTabProps } from "./TabTypes";
 const logger = log.getLogger("tab-head-logger");
 logger.disableAll();
 export { logger as internalTabLogger };
 export const InternalTab = ({
+  tabIndex,
   active,
+  dir,
   disabled,
+  closable,
+  onClose,
   id,
   name,
   icon,
@@ -45,6 +51,22 @@ export const InternalTab = ({
     );
   };
 
+  const handleCloseMouseClickEvent: MouseEventHandler = (e: MouseEvent) => {
+    logger.debug(
+      `Mouse click event on close element: tab index is ${tabIndex}`
+    );
+    handleCloseElementMouseClickEvent(
+      e,
+      tabs,
+      tabIndex,
+      activeTabIndex,
+      setActiveTabIndex,
+      setActivePanelIndex
+    );
+    if (onClose) {
+      onClose(tabIndex);
+    }
+  };
   const handleAnchorKeyDownEvent: KeyboardEventHandler = (
     e: KeyboardEvent<HTMLAnchorElement>
   ) => {
@@ -57,6 +79,22 @@ export const InternalTab = ({
       setActivePanelIndex,
       ref
     );
+  };
+
+  const handleCloseKeyDownEvent: KeyboardEventHandler = (
+    e: KeyboardEvent<HTMLAnchorElement>
+  ) => {
+    logger.debug(`Close button keyboard event, tab index is ${tabIndex}`);
+    handleCloseElementKeyDownEvent(
+      e,
+      tabs,
+      activeTabIndex,
+      setActiveTabIndex,
+      setActivePanelIndex
+    );
+    if (onClose) {
+      onClose(tabIndex);
+    }
   };
 
   const handleAnchorFocusEvent: FocusEventHandler = (
@@ -78,23 +116,36 @@ export const InternalTab = ({
     }
   });
   return (
-    <a
-      id={id}
-      role="tab"
-      aria-selected={active}
-      aria-controls={content.id}
-      tabIndex={active && !disabled ? 0 : -1}
-      href="#fixme"
-      aria-disabled={disabled}
-      className={getClassNames(className, icon)}
-      onClick={handleAnchorMouseClickEvent}
-      onKeyDown={handleAnchorKeyDownEvent}
-      onFocus={handleAnchorFocusEvent}
-      onBlur={handleAnchorBlurEvent}
-      ref={ref}
-    >
-      {name}
-    </a>
+    <>
+      <a
+        id={id}
+        role="tab"
+        aria-selected={active}
+        aria-controls={content.id}
+        tabIndex={active && !disabled ? 0 : -1}
+        href="#fixme"
+        dir={closable ? "ltr" : dir}
+        aria-disabled={disabled}
+        className={getClassNames(className, icon)}
+        onClick={handleAnchorMouseClickEvent}
+        onKeyDown={handleAnchorKeyDownEvent}
+        onFocus={handleAnchorFocusEvent}
+        onBlur={handleAnchorBlurEvent}
+        ref={ref}
+      >
+        {name}
+      </a>
+      {closable && (
+        <span
+          role="button"
+          className="neo-icon-end"
+          tabIndex={active && !disabled ? 0 : -1}
+          onKeyDown={handleCloseKeyDownEvent}
+          onClick={handleCloseMouseClickEvent}
+          aria-label="close tab"
+        ></span>
+      )}
+    </>
   );
 };
 export function getClassNames(className: string, icon?: IconNamesType) {

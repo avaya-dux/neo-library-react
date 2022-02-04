@@ -1,5 +1,5 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { getLogger } from "loglevel";
+import log from "loglevel";
 
 import { Button } from "components";
 
@@ -17,13 +17,13 @@ export default {
   component: Menu,
 } as Meta<MenuProps>;
 
-const menuLogger = getLogger("menu");
+const menuLogger = log.getLogger("menu");
 menuLogger.enableAll();
-const subMenuLogger = getLogger("submenu");
+const subMenuLogger = log.getLogger("submenu");
 subMenuLogger.enableAll();
-const keyboardLogger = getLogger("menu-keyboard-event-handler");
+const keyboardLogger = log.getLogger("menu-keyboard-event-handler");
 keyboardLogger.enableAll();
-const mouseLogger = getLogger("menu-mouse-event-handler");
+const mouseLogger = log.getLogger("menu-mouse-event-handler");
 mouseLogger.enableAll();
 
 export const SimpleMenu = () => (
@@ -41,12 +41,15 @@ const Template: Story<MenuProps> = ({ children, ...rest }: MenuProps) => (
 );
 export const SimpleMenuTemplated = Template.bind({});
 SimpleMenuTemplated.args = {
-  menuRootElement: <MenuButton>Open Menu</MenuButton>,
   children: [
     <MenuItem key="1">Item1</MenuItem>,
     <MenuItem key="2">Item2</MenuItem>,
     <MenuItem key="3">Item3</MenuItem>,
   ],
+  defaultIsOpen: true,
+  itemAlignment: "left",
+  menuRootElement: <MenuButton>Open Menu</MenuButton>,
+  openOnHover: true,
 };
 
 export const SimpleMenuRightAlignedTemplated = Template.bind({});

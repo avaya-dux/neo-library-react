@@ -4,7 +4,10 @@ import { axe } from "jest-axe";
 import { internalTabLogger } from "./InternalTab";
 import {
   buildTabProps,
+  ClosableTab,
   getTabItemClasses,
+  isValidTabElement,
+  isValidPanelElement,
   Tab,
   TabList,
   TabPanel,
@@ -91,7 +94,42 @@ describe("Tabs", () => {
       });
     });
   });
-
+  describe(isValidTabElement, () => {
+    it("when element is fragment, return false", () => {
+      const element = <></>;
+      expect(isValidTabElement(element)).toBeFalsy();
+    });
+    it("when element is html element, return false", () => {
+      const element = <div></div>;
+      expect(isValidTabElement(element)).toBeFalsy();
+    });
+    it("when element is tab element, return true", () => {
+      const element = <Tab>Tab one</Tab>;
+      expect(isValidTabElement(element)).toBeTruthy();
+    });
+    it("when element is closable tab element, return true", () => {
+      const element = <ClosableTab>Tab one</ClosableTab>;
+      expect(isValidTabElement(element)).toBeTruthy();
+    });
+  });
+  describe(isValidPanelElement, () => {
+    it("when element is fragment, return false", () => {
+      const element = <></>;
+      expect(isValidPanelElement(element)).toBeFalsy();
+    });
+    it("when element is html element, return false", () => {
+      const element = <div></div>;
+      expect(isValidPanelElement(element)).toBeFalsy();
+    });
+    it("when element is tab element, return false", () => {
+      const element = <Tab>Tab one</Tab>;
+      expect(isValidPanelElement(element)).toBeFalsy();
+    });
+    it("when element is tab panel element, return true", () => {
+      const element = <TabPanel>content one</TabPanel>;
+      expect(isValidPanelElement(element)).toBeTruthy();
+    });
+  });
   describe(getTabItemClasses, () => {
     describe("when active = true and disabled = true", () => {
       it(" and vertical = false, return neo-tabs__item--active-disabled and neo-tabs__item", () => {
@@ -181,13 +219,16 @@ describe("Tabs", () => {
       const tabs = (
         <Tabs defaultTabId="tab1">
           <TabList>
-            <Tab id="tab1" dir="ltr">
+            <Tab id="tab1" dir="ltr" onClose={() => {}}>
               tab1
             </Tab>
+            <></>
             <Tab id="tab2" disabled>
               tab2
             </Tab>
-            <Tab id="tab3">tab3</Tab>
+            <ClosableTab id="tab3" closable>
+              tab3
+            </ClosableTab>
           </TabList>
           <TabPanels>
             <TabPanel id="panel1">
@@ -204,6 +245,7 @@ describe("Tabs", () => {
       expect(buildTabProps(tabs.props.children)).toMatchInlineSnapshot(`
         Array [
           Object {
+            "closable": false,
             "content": Object {
               "children": Array [
                 <h2>
@@ -219,8 +261,10 @@ describe("Tabs", () => {
             "disabled": false,
             "id": "tab1",
             "name": "tab1",
+            "onClose": [Function],
           },
           Object {
+            "closable": false,
             "content": Object {
               "children": "content 2",
               "className": "customClass",
@@ -230,8 +274,10 @@ describe("Tabs", () => {
             "disabled": true,
             "id": "tab2",
             "name": "tab2",
+            "onClose": undefined,
           },
           Object {
+            "closable": true,
             "content": Object {
               "children": "content 3",
               "id": "panel3",
@@ -239,6 +285,7 @@ describe("Tabs", () => {
             "disabled": false,
             "id": "tab3",
             "name": "tab3",
+            "onClose": undefined,
           },
         ]
       `);
