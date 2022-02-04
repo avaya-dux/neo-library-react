@@ -5,14 +5,7 @@ import { axe } from "jest-axe";
 import { MultipleSelect } from "./MultipleSelect";
 import * as MultipleSelectStories from "./MultipleSelect.stories";
 
-const {
-  DefaultMultipleSelect,
-  DisabledMultipleSelect,
-  LoadingMultipleSelect,
-  RequiredMultipleSelect,
-  ErrorMultipleSelect,
-  MultipleSelectWithWrongChildren,
-} = composeStories(MultipleSelectStories);
+const { DefaultMultipleSelect } = composeStories(MultipleSelectStories);
 
 describe("MultipleSelect", () => {
   describe("Basic unit tests", () => {
