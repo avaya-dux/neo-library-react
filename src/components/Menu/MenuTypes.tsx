@@ -27,6 +27,7 @@ export type MenuChildrenType = ReactElement<
 
 export interface MenuProps extends React.HTMLAttributes<HTMLDivElement> {
   children: MenuChildrenType;
+  closeOnBlur?: boolean; // if `true` (default), the menu will close when you click outside the menu list
   defaultIsOpen?: boolean;
   itemAlignment?: "left" | "right";
   menuRootElement: ReactElement<ButtonProps>;

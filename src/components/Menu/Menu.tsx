@@ -61,6 +61,7 @@ export const Menu = forwardRef(
     {
       children,
       className,
+      closeOnBlur = true,
       defaultIsOpen = false,
       itemAlignment = "left",
       menuRootElement,
@@ -119,7 +120,7 @@ export const Menu = forwardRef(
     ) => {
       logger.debug(`handling menu blur event`);
       e.stopPropagation();
-      return handleBlurEvent(e, setOpen);
+      return handleBlurEvent(e, closeOnBlur, setOpen);
     };
 
     const handleMenuMouseMove: MouseEventHandler = (e: MouseEvent) => {

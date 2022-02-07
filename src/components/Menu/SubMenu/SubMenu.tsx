@@ -113,7 +113,7 @@ export const SubMenu: FC<SubMenuProps> = ({
     e: FocusEvent<HTMLDivElement>
   ) => {
     log.debug(`handling submenu blur event`);
-    return handleBlurEvent(e, setOpen);
+    return handleBlurEvent(e, true, setOpen);
   };
 
   return (
