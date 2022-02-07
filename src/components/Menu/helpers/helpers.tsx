@@ -12,15 +12,15 @@ import {
 
 import { genId } from "utils";
 
-import { MenuItem } from "./MenuItem";
+import { MenuItem } from "../MenuItem";
 import {
   ActionType,
   MenuIndexesType,
   MenuItemProps,
   MenuProps,
   SubMenuProps,
-} from "./MenuTypes";
-import { SubMenu } from "./SubMenu";
+} from "../MenuTypes";
+import { SubMenu } from "../SubMenu";
 
 const logger = log.getLogger("menu-helpers");
 logger.disableAll();
