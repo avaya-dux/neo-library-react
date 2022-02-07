@@ -22,8 +22,8 @@ import {
   handleMouseClickEvent,
   handleMouseMoveEvent,
 } from "./EventHandlers";
+import { addIdToChildren, buildMenuIndexes, layoutChildren } from "./helpers";
 import { ActionType, MenuIndexesType, MenuProps } from "./MenuTypes";
-import { addIdToChildren, buildMenuIndexes, layoutChildren } from "./SubMenu";
 
 const logger = log.getLogger("menu");
 logger.disableAll();
