@@ -64,6 +64,7 @@ export const Menu = forwardRef(
       defaultIsOpen = false,
       itemAlignment = "left",
       menuRootElement,
+      onMenuClose = () => {},
       openOnHover = false,
       ...rest
     }: MenuProps,
@@ -82,12 +83,17 @@ export const Menu = forwardRef(
     const [cursor, setCursor] = useState(0);
     const [cursorAction, setCursorAction] = useState<ActionType>("");
 
-    // focus button after ESC
     useEffect(() => {
       logger.debug(`refocusing button when open = ${isOpen}`);
+
+      // focus button after ESC
       if (!isOpen && ref && "current" in ref && ref.current) {
         logger.debug("focus button");
         ref.current.focus();
+      }
+
+      if (isOpen === false) {
+        onMenuClose(); // not ideal, but I don't want to pass this all over OR refactor everything
       }
     }, [isOpen]);
 

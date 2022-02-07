@@ -66,6 +66,7 @@ SimpleMenuRightAlignedTemplated.args = {
 export const FunctionalMenu = () => (
   <section>
     <Menu
+      onMenuClose={() => console.log("Functional Menu closed")}
       menuRootElement={
         <MenuButton onClick={() => console.log("Functional Menu opened")}>
           Functional Menu

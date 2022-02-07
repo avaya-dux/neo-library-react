@@ -30,6 +30,7 @@ export interface MenuProps extends React.HTMLAttributes<HTMLDivElement> {
   defaultIsOpen?: boolean;
   itemAlignment?: "left" | "right";
   menuRootElement: ReactElement<ButtonProps>;
+  onMenuClose?: () => void;
   openOnHover?: boolean;
 }
 
