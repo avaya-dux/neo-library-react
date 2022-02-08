@@ -19,7 +19,7 @@ import {
   handleBlurEvent,
   handleButtonKeyDownEvent,
   handleKeyDownEvent,
-  handleMouseClickEvent,
+  handleMenuButtonClickEvent,
   handleMouseMoveEvent,
 } from "./EventHandlers";
 import { addIdToChildren, buildMenuIndexes, layoutChildren } from "./helpers";
@@ -62,6 +62,7 @@ export const Menu = forwardRef(
       children,
       className,
       closeOnBlur = true,
+      closeOnSelect = true,
       defaultIsOpen = false,
       itemAlignment = "left",
       menuRootElement,
@@ -111,6 +112,7 @@ export const Menu = forwardRef(
         enterCounter,
         setEnterCounter,
         setOpen,
+        closeOnSelect,
         "Menu"
       );
     };
@@ -138,7 +140,7 @@ export const Menu = forwardRef(
 
     const menuButton = cloneElement(menuRootElement, {
       onClick: (e: MouseEvent<HTMLButtonElement>) => {
-        handleMouseClickEvent(e, isOpen, setOpen);
+        handleMenuButtonClickEvent(e, isOpen, setOpen);
 
         if (menuRootElement.props.onClick) {
           menuRootElement.props.onClick(e);

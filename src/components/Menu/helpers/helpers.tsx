@@ -11,6 +11,7 @@ import {
 } from "react";
 
 import { genId } from "utils";
+import { handleMenuItemClick } from "../EventHandlers";
 
 import { MenuItem } from "../MenuItem";
 import {
@@ -62,6 +63,7 @@ export const layoutChildren = (
       tabIndex={-1}
       onKeyDown={handleMenuKeyDown}
       onMouseMove={handleMenuMouseMove}
+      onClick={() => handleMenuItemClick(closeOnSelect, setOpen)}
       onBlur={handleMenuBlur}
     >
       {children.map((child, index) => {

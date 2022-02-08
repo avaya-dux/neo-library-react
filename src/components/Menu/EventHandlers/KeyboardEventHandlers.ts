@@ -59,6 +59,7 @@ export const handleKeyDownEvent = (
   enterCounter: number,
   setEnterCounter: Dispatch<SetStateAction<number>>,
   setOpen: Dispatch<SetStateAction<boolean>>,
+  closeOnSelect: boolean,
   label: string
 ) => {
   logger.debug(`handle ${label} key event ${e.key}`);
@@ -97,6 +98,9 @@ export const handleKeyDownEvent = (
         logger.debug(`enterCounter = ${enterCounter}`);
       } else {
         setCursorAction("ACTIVATE_MENU_ITEM");
+        if (closeOnSelect) {
+          setOpen(false);
+        }
         e.preventDefault();
       }
       break;

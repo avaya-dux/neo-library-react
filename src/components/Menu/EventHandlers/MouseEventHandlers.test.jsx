@@ -1,30 +1,34 @@
 import log from "loglevel";
 import {
-  handleMouseClickEvent,
+  handleMenuItemClick,
+  handleMenuButtonClickEvent,
   handleMouseMoveEvent,
 } from "./MouseEventHandlers";
 
 log.disableAll();
 
 describe("Mouse event handlers", () => {
-  describe(handleMouseClickEvent, () => {
+  describe(handleMenuButtonClickEvent, () => {
     let setOpen;
     beforeEach(() => {
       setOpen = jest.fn();
     });
+
     it("should close menu if menu is open.", () => {
       const e = { stopPropagation: jest.fn() };
-      handleMouseClickEvent(e, true, setOpen);
+      handleMenuButtonClickEvent(e, true, setOpen);
       expect(e.stopPropagation).toBeCalled();
       expect(setOpen).toBeCalledWith(false);
     });
+
     it("should open menu if menu is closed.", () => {
       const e = { stopPropagation: jest.fn() };
-      handleMouseClickEvent(e, false, setOpen);
+      handleMenuButtonClickEvent(e, false, setOpen);
       expect(e.stopPropagation).toBeCalled();
       expect(setOpen).toBeCalledWith(true);
     });
   });
+
   describe(handleMouseMoveEvent, () => {
     let setCursor, setCursorAction, setEnterCounter;
     beforeEach(() => {
@@ -154,6 +158,22 @@ describe("Mouse event handlers", () => {
       expect(setCursor).toBeCalledWith(0);
       expect(setCursorAction).not.toBeCalled();
       expect(setEnterCounter).toBeCalledWith(11);
+    });
+  });
+
+  describe("handleMenuItemClick", () => {
+    it("should close menu if `closeOnSelect` is `true`", () => {
+      const setOpen = jest.fn();
+      handleMenuItemClick(true, setOpen);
+
+      expect(setOpen).toBeCalledWith(true);
+    });
+
+    it("should not affect menu if `closeOnSelect` is `true`", () => {
+      const setOpen = jest.fn();
+      handleMenuItemClick(false, setOpen);
+
+      expect(setOpen).not.toHaveBeenCalled();
     });
   });
 });
