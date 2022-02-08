@@ -5,7 +5,14 @@ import { axe } from "jest-axe";
 import { MultipleSelect } from "./MultipleSelect";
 import * as MultipleSelectStories from "./MultipleSelect.stories";
 
-const { DefaultMultipleSelect } = composeStories(MultipleSelectStories);
+const {
+  DefaultMultipleSelect,
+  RequiredMultipleSelectWithHelperText,
+  DisabledMultipleSelectWithErrorState,
+  LoadingMultipleSelect,
+  MultipleSelectWithWrongChildren,
+  MoreThanOneMultipleSelect,
+} = composeStories(MultipleSelectStories);
 
 describe("MultipleSelect", () => {
   describe("Basic unit tests", () => {
@@ -88,6 +95,24 @@ describe("MultipleSelect", () => {
         const { getByText } = renderResult;
         const disabledLabelElement = getByText("Option 2");
         expect(disabledLabelElement).toHaveAttribute("disabled");
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+    describe("RequiredMultipleSelectWithHelperText", () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<RequiredMultipleSelectWithHelperText />);
+      });
+
+      it("Renders the correct default options", () => {
+        const { getAllByText } = renderResult;
+        const selectHeader = getAllByText("Choice 1")[0];
+        expect(selectHeader).toHaveClass("neo-multiselect__header");
       });
 
       it("passes basic axe compliance", async () => {

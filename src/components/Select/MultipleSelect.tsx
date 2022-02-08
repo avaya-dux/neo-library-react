@@ -40,6 +40,7 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
   loading = false,
   required,
   onSelectedValueChange,
+  values,
   children = [],
 }) => {
   if (!label) {
@@ -56,7 +57,7 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
       })
     : children.props.children.toString();
 
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [selectedItems, setSelectedItems] = useState<string[]>(values || []);
 
   const helperId = useMemo(() => `helper-text-${id}`, [id]);
 
@@ -106,9 +107,14 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
   });
 
   useEffect(() => {
-    if (onSelectedValueChange && selectedItems.length > 0)
-      onSelectedValueChange(selectedItems);
+    if (onSelectedValueChange) onSelectedValueChange(selectedItems);
   }, [selectedItems]);
+
+  useEffect(() => {
+    if (values) {
+      setSelectedItems(values);
+    }
+  }, [values]);
 
   const context = {
     items,

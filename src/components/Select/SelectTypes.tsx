@@ -13,7 +13,7 @@ interface BaseSelectProps {
   loading?: boolean;
   required?: boolean;
   id?: string;
-  onSelectedValueChange?: (value: string | string[] | null) => any;
+  onSelectedValueChange?: (value: string[]) => any;
 }
 
 export interface SelectProps extends BaseSelectProps {
@@ -30,6 +30,7 @@ export interface MultipleSelectProps extends BaseSelectProps {
   children?:
     | ReactElement<MultipleSelectOptionProps>
     | ReactElement<MultipleSelectOptionProps>[];
+  values?: string[];
 }
 
 export type MultipleSelectContextProps = {
