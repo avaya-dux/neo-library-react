@@ -7,7 +7,7 @@ import {
 
 log.disableAll();
 
-describe("Mouse event handlers", () => {
+describe("MENU Mouse event handlers", () => {
   describe(handleMenuButtonClickEvent, () => {
     let setOpen;
     beforeEach(() => {

@@ -8,7 +8,7 @@ import { Keys } from "utils";
 
 log.disableAll();
 
-describe("Keyboard event handlers", () => {
+describe("MENU Keyboard event handlers", () => {
   describe(handleKeyDownEvent, () => {
     let setCursorAction;
     let setCursor;
