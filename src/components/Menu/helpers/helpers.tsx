@@ -23,7 +23,7 @@ import {
   MenuProps,
   SubMenuProps,
 } from "../MenuTypes";
-import { SubMenu } from "../SubMenu";
+import { SubMenu } from "../SubMenu"; // BUG: causes circular dependency
 
 const logger = log.getLogger("menu-helpers");
 logger.disableAll();
