@@ -1,5 +1,6 @@
 import { IconNamesType } from "utils";
 import { ReactNode, Dispatch, SetStateAction, ReactElement } from "react";
+import { MenuProps } from "components";
 
 export interface TabProps extends React.HTMLAttributes<HTMLLIElement> {
   id?: string;
@@ -35,6 +36,8 @@ interface CommonTabsProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 export interface HorizontalTabsProps extends CommonTabsProps, Oritentation {
   orientation?: "horizontal";
+  hasCarousel?: boolean;
+  carouselDropdown?: ReactElement<MenuProps>;
 }
 
 export interface VerticalTabsProps extends CommonTabsProps, Oritentation {

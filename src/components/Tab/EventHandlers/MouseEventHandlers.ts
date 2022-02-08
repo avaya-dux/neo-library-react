@@ -1,8 +1,13 @@
 import log from "loglevel";
-import { Dispatch, MouseEvent, SetStateAction } from "react";
+import { Dispatch, MouseEvent, RefObject, SetStateAction } from "react";
 import { isAriaDisabled } from "utils";
 import { InternalTabProps } from "../TabTypes";
-import { activateAnotherTabAndPanel } from "./Helper";
+import {
+  activateAnotherTabAndPanel,
+  extract,
+  moveNextTabToLeftAmount,
+  movePreviousTabToRightAmount,
+} from "./Helper";
 
 const logger = log.getLogger("tab-mouse-event-handler");
 logger.disableAll();
@@ -58,4 +63,45 @@ export const handleCloseElementMouseClickEvent = (
     );
   }
   e.preventDefault();
+};
+export const handleLeftCarouselMouseClickEvent = (
+  e: MouseEvent,
+  scrollRef: RefObject<HTMLDivElement>,
+  tabRefs: RefObject<HTMLLIElement>[]
+) => {
+  const { scrollLeft, scrollWidth, visibleWidth, tabWidths } = extract(
+    scrollRef,
+    tabRefs
+  );
+  const amount = movePreviousTabToRightAmount(
+    scrollLeft,
+    scrollWidth,
+    visibleWidth,
+    tabWidths
+  );
+  logger.debug(`amount to move right is ${amount}`);
+  if (amount !== 0) {
+    scrollRef.current?.scrollBy({ left: -amount, behavior: "smooth" });
+  }
+};
+export const handleRightCarouselMouseClickEvent = (
+  e: MouseEvent,
+  scrollRef: RefObject<HTMLDivElement>,
+  tabRefs: RefObject<HTMLLIElement>[]
+) => {
+  const { scrollLeft, scrollWidth, visibleWidth, tabWidths } = extract(
+    scrollRef,
+    tabRefs
+  );
+
+  const amount = moveNextTabToLeftAmount(
+    scrollLeft,
+    scrollWidth,
+    visibleWidth,
+    tabWidths
+  );
+  logger.debug(`amount to move left is ${amount}`);
+  if (amount !== 0) {
+    scrollRef.current?.scrollBy({ left: amount, behavior: "smooth" });
+  }
 };

@@ -6,9 +6,20 @@ import {
   useMemo,
   Fragment,
   CSSProperties,
+  useRef,
+  createRef,
+  MouseEvent,
+  RefObject,
+  MouseEventHandler,
+  useLayoutEffect,
 } from "react";
 import { genId } from "utils";
 import useControlled from "utils/useControlled";
+import {
+  handleLeftCarouselMouseClickEvent,
+  handleRightCarouselMouseClickEvent,
+} from "./EventHandlers";
+import { enableLeftButton, enableRightButton } from "./EventHandlers/Helper";
 import { InternalTab } from "./InternalTab";
 import {
   ClosableTabProps,
@@ -41,6 +52,9 @@ export const Tabs = ({
 
   const isVertical = orientation === "vertical";
   const isScrollable = "scrollable" in rest ? rest.scrollable : false;
+  const hasCarousel = "hasCarousel" in rest ? rest.hasCarousel : false;
+  const dropDown =
+    hasCarousel && "carouselDropdown" in rest ? rest.carouselDropdown : null;
   logger.debug(`Is tab vertical? ${isVertical} scrollable? ${isScrollable}`);
 
   const [activeTabIndex, setUncontrolledActiveTabIndex] = useControlled({
@@ -57,35 +71,95 @@ export const Tabs = ({
   const [activePanelIndex, setActivePanelIndex] = useState(defaultIndex);
 
   const verticalStyle: CSSProperties = isVertical ? { display: "flex" } : {};
-  const content = (
+  const refs: RefObject<HTMLLIElement>[] = [];
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [clickId, setClickId] = useState("");
+  const carouselLeftButtonClickEventHandler: MouseEventHandler = (
+    e: MouseEvent
+  ) => {
+    setClickId(genId());
+    return handleLeftCarouselMouseClickEvent(e, scrollRef, refs);
+  };
+  const carouselRightButtonClickEventHandler: MouseEventHandler = (
+    e: MouseEvent
+  ) => {
+    setClickId(genId());
+    return handleRightCarouselMouseClickEvent(e, scrollRef, refs);
+  };
+  const tabsNav = (
+    <ul
+      className={
+        isVertical ? "neo-tabs__nav neo-tabs__nav--vertical" : "neo-tabs__nav"
+      }
+    >
+      {tabs.map((tab, index) => {
+        logger.debug(`calling createTab with tabItem ${tab.disabled}`);
+        const ref = createRef<HTMLLIElement>();
+        refs.push(ref);
+        return createTab(
+          ref,
+          index,
+          tab,
+          tabs,
+          isVertical,
+          activeTabIndex,
+          setActiveTabIndex,
+          setActivePanelIndex
+        );
+      })}
+    </ul>
+  );
+  const [leftCarouselButtonEnabled, setLeftCarouselButtonEnabled] =
+    useState(false);
+  const [rightCarouselButtonEnabled, setRightCarouselButtonEnabled] =
+    useState(false);
+  useLayoutEffect(() => {
+    setLeftCarouselButtonEnabled(enableLeftButton(scrollRef, refs));
+    setRightCarouselButtonEnabled(enableRightButton(scrollRef, refs));
+  }, [clickId]);
+
+  const tabsCarousel = (
     <div
-      className="neo-tabs"
+      className={hasCarousel ? "neo-tabs__carousel" : "neo-tabs"}
       role="tablist"
       aria-owns={getAllTabIdsInString(tabs)}
       aria-orientation={orientation}
-      style={verticalStyle}
     >
-      <ul
-        className={
-          isVertical ? "neo-tabs__nav neo-tabs__nav--vertical" : "neo-tabs__nav"
-        }
-      >
-        {tabs.map((tab, index) => {
-          logger.debug(`calling createTab with tabItem ${tab.disabled}`);
-          return createTab(
-            index,
-            tab,
-            tabs,
-            isVertical,
-            activeTabIndex,
-            setActiveTabIndex,
-            setActivePanelIndex
-          );
-        })}
-      </ul>
+      {hasCarousel ? (
+        <>
+          <button
+            className="neo-btn-square neo-btn-square-tertiary neo-btn-square-tertiary--default neo-icon-chevron-left neo-tabs__carousel--button"
+            aria-label="move to previous tab"
+            disabled={!leftCarouselButtonEnabled}
+            onClick={carouselLeftButtonClickEventHandler}
+          ></button>
+          <div className="neo-tabs__carousel--scroll" ref={scrollRef}>
+            {tabsNav}
+          </div>
+          <button
+            className="neo-btn-square neo-btn-square-tertiary neo-btn-square-tertiary--default neo-icon-chevron-right neo-tabs__carousel--button"
+            aria-label="move to next tab"
+            disabled={!rightCarouselButtonEnabled}
+            onClick={carouselRightButtonClickEventHandler}
+          ></button>
+          <div className="neo-tabs__carousel--more">{dropDown}</div>
+        </>
+      ) : (
+        <>{tabsNav}</>
+      )}
+    </div>
+  );
+  const panels = (
+    <>
       {tabs.map((tabItem, index) => {
         return createPanel(index, tabItem, activePanelIndex);
       })}
+    </>
+  );
+  const content = (
+    <div style={verticalStyle}>
+      {tabsCarousel}
+      {panels}
     </div>
   );
   return isScrollable ? (
@@ -158,6 +232,7 @@ export const buildTabProps = (
 };
 
 export const createTab = (
+  ref: RefObject<HTMLLIElement>,
   index: number,
   tabProps: InternalTabProps,
   tabs: InternalTabProps[],
@@ -173,6 +248,7 @@ export const createTab = (
   logger.debug(`${tabId} disabled is ${tabProps.disabled}`);
   return (
     <li
+      ref={ref}
       key={index}
       className={getTabItemClasses({
         active,

@@ -1,5 +1,5 @@
 import log from "loglevel";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, RefObject, SetStateAction } from "react";
 import { InternalTabProps } from "../TabTypes";
 
 const logger = log.getLogger("tab-event-handler-helper");
@@ -74,5 +74,162 @@ export function activateAnotherTabAndPanel(
     } else {
       logger.debug(`do nothing as no next tab could be activated.`);
     }
+  }
+}
+
+export function extract(
+  scrollRef: RefObject<HTMLDivElement>,
+  tabRefs: RefObject<HTMLLIElement>[]
+) {
+  const {
+    scrollLeft = 0,
+    scrollWidth = 0,
+    clientWidth: visibleWidth = 0,
+  } = scrollRef.current || {};
+  logger.debug(
+    `scrollWidth = ${scrollWidth} visibleWidth = ${visibleWidth} scrollLeft=${scrollLeft}`
+  );
+  const tabWidths = tabRefs.map((ref) => ref.current?.clientWidth || 0);
+  logger.debug(tabWidths.join(", "));
+  return {
+    scrollLeft,
+    scrollWidth,
+    visibleWidth,
+    tabWidths,
+  };
+}
+export function enableLeftButton(
+  scrollRef: RefObject<HTMLDivElement>,
+  tabRefs: RefObject<HTMLLIElement>[]
+) {
+  const { scrollLeft, scrollWidth, visibleWidth, tabWidths } = extract(
+    scrollRef,
+    tabRefs
+  );
+  const amount = movePreviousTabToRightAmount(
+    scrollLeft,
+    scrollWidth,
+    visibleWidth,
+    tabWidths
+  );
+  logger.debug(`enableLeftButton amount= ${amount}`);
+  return amount > 0;
+}
+
+export function enableRightButton(
+  scrollRef: RefObject<HTMLDivElement>,
+  tabRefs: RefObject<HTMLLIElement>[]
+) {
+  const { scrollLeft, scrollWidth, visibleWidth, tabWidths } = extract(
+    scrollRef,
+    tabRefs
+  );
+  const amount = moveNextTabToLeftAmount(
+    scrollLeft,
+    scrollWidth,
+    visibleWidth,
+    tabWidths
+  );
+  logger.debug(`enabRightButton amount= ${amount}`);
+  return amount > 0;
+}
+
+export function canMovePreviousTabToRight(
+  leftOffset: number,
+  containerWidth: number,
+  viewPortWidth: number
+) {
+  logger.debug(
+    `viewPortWidth=${viewPortWidth} containerWidth=${containerWidth} leftOffset=${leftOffset}`
+  );
+  if (viewPortWidth >= containerWidth) {
+    return false;
+  }
+
+  return leftOffset > 0;
+}
+
+export function canMoveNextTabToLeft(
+  leftOffset: number,
+  containerWidth: number,
+  viewPortWidth: number
+) {
+  if (viewPortWidth >= containerWidth) {
+    return false;
+  }
+  return leftOffset + viewPortWidth <= containerWidth;
+}
+
+export function movePreviousTabToRightAmount(
+  leftOffset: number,
+  containerWidth: number,
+  viewPortWidth: number,
+  tabWidths: number[]
+) {
+  if (!canMovePreviousTabToRight(leftOffset, containerWidth, viewPortWidth)) {
+    return 0;
+  }
+  const [index, overshoot] = getPreviousTabToMoveRight(leftOffset, tabWidths);
+  if (index === -1) {
+    return 0;
+  } else {
+    return tabWidths[index] - overshoot;
+  }
+}
+
+export function getPreviousTabToMoveRight(
+  leftOffset: number,
+  tabWidths: number[]
+) {
+  let index = 0;
+  let sum = 0;
+  while (sum < leftOffset && index < tabWidths.length) {
+    sum += tabWidths[index];
+    logger.debug(`sum = ${sum} index=${index} leftOffset = ${leftOffset}`);
+    index++;
+  }
+  return [--index, sum - leftOffset];
+}
+
+export function getNextTabToMoveLeft(
+  leftOffset: number,
+  viewPortWidth: number,
+  tabWidths: number[]
+) {
+  let index = 0;
+  let sum = 0;
+  while (sum < leftOffset + viewPortWidth && index < tabWidths.length) {
+    sum += tabWidths[index];
+    index++;
+  }
+  return [--index, sum - leftOffset - viewPortWidth];
+}
+
+export function moveNextTabToLeftAmount(
+  leftOffset: number,
+  containerWidth: number,
+  viewPortWidth: number,
+  tabWidths: number[]
+) {
+  if (!canMoveNextTabToLeft(leftOffset, containerWidth, viewPortWidth)) {
+    logger.debug(`can not move next tab to left, returining`);
+    return 0;
+  }
+  const [index, overshoot] = getNextTabToMoveLeft(
+    leftOffset,
+    viewPortWidth,
+    tabWidths
+  );
+  logger.debug(
+    `index = ${index} tabWidth=${tabWidths[index]} and overshoot = ${overshoot}`
+  );
+  if (index === tabWidths.length - 1 && overshoot <= 0) {
+    return 0;
+  } else {
+    const tabWidth = tabWidths[index];
+    if (overshoot > tabWidth / 2) {
+      return tabWidths[index] - overshoot + tabWidths[index - 1];
+    }
+    return tabWidths[index] - overshoot;
   }
 }
