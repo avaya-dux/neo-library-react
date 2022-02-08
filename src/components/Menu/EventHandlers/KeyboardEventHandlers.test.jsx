@@ -1,10 +1,12 @@
 import log from "loglevel";
+
+import { Keys } from "utils";
+
 import {
   handleBlurEvent,
   handleButtonKeyDownEvent,
   handleKeyDownEvent,
 } from "./KeyboardEventHandlers";
-import { Keys } from "utils";
 
 log.disableAll();
 
@@ -159,6 +161,7 @@ describe("MENU Keyboard event handlers", () => {
           0,
           setEnterCounter,
           setOpen,
+          false,
           "label"
         );
         expect(setCursorAction).toHaveBeenCalledWith("ACTIVATE_MENU_ITEM");
@@ -236,6 +239,7 @@ describe("MENU Keyboard event handlers", () => {
           0,
           setEnterCounter,
           setOpen,
+          false,
           "label"
         );
         expect(setCursorAction).toHaveBeenCalledWith("ACTIVATE_MENU_ITEM");
