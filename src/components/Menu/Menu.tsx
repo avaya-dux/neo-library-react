@@ -12,6 +12,7 @@ import {
   Ref,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
@@ -100,10 +101,16 @@ export const Menu = forwardRef(
         ref.current.focus();
       }
 
-      if (isOpen === false) {
+      if (isOpen === false && didMount.current) {
         onMenuClose(); // not ideal, but I don't want to pass this all over OR refactor everything
       }
     }, [isOpen]);
+
+    // `didMount` must be placed _after_ any usage of it in a hook
+    const didMount = useRef(false);
+    useEffect(() => {
+      didMount.current = true;
+    }, []);
 
     const handleMenuKeyDown: KeyboardEventHandler = (
       e: KeyboardEvent<HTMLDivElement>
@@ -174,7 +181,6 @@ export const Menu = forwardRef(
 
     const menuContext: MenuContextType = {
       closeOnSelect,
-      onMenuClose,
       setRootMenuOpen: setOpen,
     };
 
