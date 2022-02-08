@@ -23,7 +23,13 @@ import {
   handleMouseMoveEvent,
 } from "./EventHandlers";
 import { addIdToChildren, buildMenuIndexes, layoutChildren } from "./helpers";
-import { ActionType, MenuIndexesType, MenuProps } from "./MenuTypes";
+import { MenuContext } from "./MenuContext";
+import {
+  ActionType,
+  MenuContextType,
+  MenuIndexesType,
+  MenuProps,
+} from "./MenuTypes";
 
 const logger = log.getLogger("menu");
 logger.disableAll();
@@ -166,24 +172,33 @@ export const Menu = forwardRef(
       },
     });
 
+    const menuContext: MenuContextType = {
+      closeOnBlur,
+      closeOnSelect,
+      openOnHover,
+      onMenuClose,
+    };
+
     return (
       <div
         className={getClassNames(isOpen, itemAlignment, className, openOnHover)}
         role="group"
         {...rest}
       >
-        {menuButton}
-        {isOpen &&
-          layoutChildren(
-            clonedChildren,
-            handleMenuKeyDown,
-            handleMenuMouseMove,
-            handleMenuBlur,
-            menuIndexes,
-            cursor,
-            cursorAction,
-            enterCounter
-          )}
+        <MenuContext.Provider value={menuContext}>
+          {menuButton}
+          {isOpen &&
+            layoutChildren(
+              clonedChildren,
+              handleMenuKeyDown,
+              handleMenuMouseMove,
+              handleMenuBlur,
+              menuIndexes,
+              cursor,
+              cursorAction,
+              enterCounter
+            )}
+        </MenuContext.Provider>
       </div>
     );
   }

@@ -41,3 +41,11 @@ export type MenuIndexesType = {
   id?: string;
   length?: number;
 }[];
+
+export interface MenuContextType
+  extends Required<
+    Pick<
+      MenuProps,
+      "closeOnBlur" | "closeOnSelect" | "openOnHover" | "onMenuClose"
+    >
+  > {}
