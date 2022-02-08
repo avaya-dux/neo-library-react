@@ -2,17 +2,19 @@ import log from "loglevel";
 import {
   Children,
   cloneElement,
+  Dispatch,
   FocusEventHandler,
   Fragment,
   isValidElement,
   KeyboardEventHandler,
   MouseEventHandler,
   ReactElement,
+  SetStateAction,
 } from "react";
 
 import { genId } from "utils";
-import { handleMenuItemClick } from "../EventHandlers";
 
+import { handleMenuItemClick } from "../EventHandlers";
 import { MenuItem } from "../MenuItem";
 import {
   ActionType,
@@ -54,7 +56,9 @@ export const layoutChildren = (
   menuIndexes: MenuIndexesType,
   cursor: number,
   cursorAction: ActionType,
-  enterCounter: number
+  enterCounter: number,
+  closeOnSelect: boolean,
+  setRootMenuOpen: Dispatch<SetStateAction<boolean>>
 ) => {
   return (
     <div
@@ -63,7 +67,7 @@ export const layoutChildren = (
       tabIndex={-1}
       onKeyDown={handleMenuKeyDown}
       onMouseMove={handleMenuMouseMove}
-      onClick={() => handleMenuItemClick(closeOnSelect, setOpen)}
+      onClick={() => handleMenuItemClick(closeOnSelect, setRootMenuOpen)}
       onBlur={handleMenuBlur}
     >
       {children.map((child, index) => {

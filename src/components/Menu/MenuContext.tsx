@@ -6,4 +6,6 @@ export const MenuContext = createContext<MenuContextType>({
   closeOnSelect: true,
   openOnHover: false,
   onMenuClose: () => {},
+
+  setRootMenuOpen: () => {},
 });

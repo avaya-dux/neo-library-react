@@ -175,8 +175,9 @@ export const Menu = forwardRef(
     const menuContext: MenuContextType = {
       closeOnBlur,
       closeOnSelect,
-      openOnHover,
       onMenuClose,
+      openOnHover,
+      setRootMenuOpen: setOpen,
     };
 
     return (
@@ -196,7 +197,9 @@ export const Menu = forwardRef(
               menuIndexes,
               cursor,
               cursorAction,
-              enterCounter
+              enterCounter,
+              closeOnSelect,
+              setOpen
             )}
         </MenuContext.Provider>
       </div>

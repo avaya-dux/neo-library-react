@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { Dispatch, ReactElement, SetStateAction } from "react";
 
 import { ButtonProps } from "components/Button";
 
@@ -48,4 +48,6 @@ export interface MenuContextType
       MenuProps,
       "closeOnBlur" | "closeOnSelect" | "openOnHover" | "onMenuClose"
     >
-  > {}
+  > {
+  setRootMenuOpen: Dispatch<SetStateAction<boolean>>;
+}
