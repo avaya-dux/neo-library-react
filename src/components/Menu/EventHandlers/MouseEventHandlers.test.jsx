@@ -1,4 +1,5 @@
 import log from "loglevel";
+
 import {
   handleMouseClickEvent,
   handleMouseMoveEvent,
