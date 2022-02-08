@@ -1,4 +1,5 @@
 import { Meta } from "@storybook/react/types-6-0";
+import { Button, Menu, MenuItem } from "components";
 import { useState } from "react";
 import { tabMouseEventHandlerLogger } from "./EventHandlers";
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "./Tabs";
@@ -18,7 +19,12 @@ export const ManyTabsCarousel = () => {
   };
   return (
     <div style={{ height: "200px" }}>
-      <Tabs defaultIndex={10} hasCarousel={true} onTabChange={onTabChange}>
+      <Tabs
+        defaultIndex={10}
+        hasCarousel={true}
+        onTabChange={onTabChange}
+        carouselDropdown={SimpleMenu}
+      >
         <TabList>
           <Tab id="tab1" icon="settings">
             Tab1
@@ -145,6 +151,13 @@ export const ManyTabsCarousel = () => {
     </div>
   );
 };
+const SimpleMenu = (
+  <Menu menuRootElement={<Button>Open Menu</Button>}>
+    <MenuItem>Menu Item 1</MenuItem>
+    <MenuItem>Menu Item 2</MenuItem>
+    <MenuItem>Menu Item 3</MenuItem>
+  </Menu>
+);
 
 export const TwoTabsCarousel = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(1);
@@ -154,7 +167,11 @@ export const TwoTabsCarousel = () => {
   };
   return (
     <div style={{ height: "200px" }}>
-      <Tabs hasCarousel={true} onTabChange={onTabChange}>
+      <Tabs
+        hasCarousel={true}
+        onTabChange={onTabChange}
+        carouselDropdown={SimpleMenu}
+      >
         <TabList>
           <Tab id="tab1" icon="settings">
             Tab1
