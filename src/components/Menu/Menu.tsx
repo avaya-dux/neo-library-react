@@ -175,7 +175,6 @@ export const Menu = forwardRef(
     const menuContext: MenuContextType = {
       closeOnSelect,
       onMenuClose,
-      openOnHover,
       setRootMenuOpen: setOpen,
     };
 
