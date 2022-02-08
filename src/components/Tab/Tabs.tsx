@@ -32,7 +32,7 @@ import {
 } from "./TabTypes";
 
 const logger = log.getLogger("tabs-logger");
-logger.enableAll();
+logger.disableAll();
 
 export const Tabs = ({
   defaultIndex = 0,
@@ -73,28 +73,25 @@ export const Tabs = ({
   const verticalStyle: CSSProperties = isVertical ? { display: "flex" } : {};
   const refs: RefObject<HTMLLIElement>[] = [];
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [clickId, setClickId] = useState("");
   const carouselLeftButtonClickEventHandler: MouseEventHandler = (
     e: MouseEvent
   ) => {
-    logger.debug(`generating click id...`);
-    setClickId(genId());
     return handleLeftCarouselMouseClickEvent(
       e,
       scrollRef,
       refs,
-      setLeftCarouselButtonEnabled
+      setLeftCarouselButtonEnabled,
+      setRightCarouselButtonEnabled
     );
   };
   const carouselRightButtonClickEventHandler: MouseEventHandler = (
     e: MouseEvent
   ) => {
-    logger.debug(`generating click id...`);
-    setClickId(genId());
     return handleRightCarouselMouseClickEvent(
       e,
       scrollRef,
       refs,
+      setLeftCarouselButtonEnabled,
       setRightCarouselButtonEnabled
     );
   };
@@ -126,24 +123,23 @@ export const Tabs = ({
   const [rightCarouselButtonEnabled, setRightCarouselButtonEnabled] =
     useState(false);
 
-  useLayoutEffect(() => {
-    logger.debug(
-      `useLayoutEffect: update carousel buttons disabled state on clickId= ${clickId}`
-    );
+  const updateCarouselButtonStatus = () => {
     setLeftCarouselButtonEnabled(enableLeftButton(scrollRef, refs));
     setRightCarouselButtonEnabled(enableRightButton(scrollRef, refs));
-  }, [clickId, activeTabIndex]);
+  };
 
   useLayoutEffect(() => {
-    const updateCarouselButtonStatus = () => {
-      logger.debug(
-        `updateCarouselButtonStatus: update carousel buttons disabled status on window resize`
-      );
-      setLeftCarouselButtonEnabled(enableLeftButton(scrollRef, refs));
-      setRightCarouselButtonEnabled(enableRightButton(scrollRef, refs));
-    };
+    logger.debug(
+      `useLayoutEffect: update carousel buttons disabled state on activeTab change ${activeTabIndex}`
+    );
+    updateCarouselButtonStatus();
+  }, [activeTabIndex]);
 
+  useLayoutEffect(() => {
     window.addEventListener("resize", updateCarouselButtonStatus);
+    logger.debug(
+      `updateCarouselButtonStatus: update carousel buttons disabled status on window resize`
+    );
     updateCarouselButtonStatus();
     return () =>
       window.removeEventListener("resize", updateCarouselButtonStatus);

@@ -3,7 +3,7 @@ import { Dispatch, RefObject, SetStateAction } from "react";
 import { InternalTabProps } from "../TabTypes";
 
 const logger = log.getLogger("tab-event-handler-helper");
-logger.enableAll();
+logger.disableAll();
 
 export function getNextTabIndex(
   tabs: InternalTabProps[],
