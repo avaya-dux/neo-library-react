@@ -198,7 +198,7 @@ export const MultipleSelectOption: FunctionComponent<
         checked={!!selectedItems && selectedItems.includes(item)}
         readOnly
         aria-labelledby={labelId}
-        aria-describedby={helperText && helperId}
+        aria-describedby={helperId}
       />
       <div
         key={`${item}${index}`}
