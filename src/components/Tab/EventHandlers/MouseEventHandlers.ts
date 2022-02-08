@@ -4,13 +4,15 @@ import { isAriaDisabled } from "utils";
 import { InternalTabProps } from "../TabTypes";
 import {
   activateAnotherTabAndPanel,
+  enableLeftButton,
+  enableRightButton,
   extract,
   moveNextTabToLeftAmount,
   movePreviousTabToRightAmount,
 } from "./Helper";
 
 const logger = log.getLogger("tab-mouse-event-handler");
-logger.disableAll();
+logger.enableAll();
 
 export { logger as tabMouseEventHandlerLogger };
 export const handleMouseClickEvent = (
@@ -67,7 +69,8 @@ export const handleCloseElementMouseClickEvent = (
 export const handleLeftCarouselMouseClickEvent = (
   e: MouseEvent,
   scrollRef: RefObject<HTMLDivElement>,
-  tabRefs: RefObject<HTMLLIElement>[]
+  tabRefs: RefObject<HTMLLIElement>[],
+  setLeftCarouselButtonEnabled: Dispatch<SetStateAction<boolean>>
 ) => {
   e.stopPropagation();
   const { scrollLeft, scrollWidth, visibleWidth, tabWidths } = extract(
@@ -82,13 +85,24 @@ export const handleLeftCarouselMouseClickEvent = (
   );
   logger.debug(`amount to move right is ${amount}`);
   if (amount !== 0) {
-    scrollRef.current?.scrollBy({ left: -amount, behavior: "smooth" });
+    logger.debug("before: ", scrollRef.current?.scrollLeft);
+    scrollRef.current?.scrollBy({ left: -amount });
+    const enabled = enableLeftButton(scrollRef, tabRefs);
+    logger.debug(
+      "after: ",
+      scrollRef.current?.scrollLeft,
+      "enabled: ",
+      enabled
+    );
+
+    setLeftCarouselButtonEnabled(enabled);
   }
 };
 export const handleRightCarouselMouseClickEvent = (
   e: MouseEvent,
   scrollRef: RefObject<HTMLDivElement>,
-  tabRefs: RefObject<HTMLLIElement>[]
+  tabRefs: RefObject<HTMLLIElement>[],
+  setRightCarouselButtonEnabled: Dispatch<SetStateAction<boolean>>
 ) => {
   e.stopPropagation();
   const { scrollLeft, scrollWidth, visibleWidth, tabWidths } = extract(
@@ -104,6 +118,16 @@ export const handleRightCarouselMouseClickEvent = (
   );
   logger.debug(`amount to move left is ${amount}`);
   if (amount !== 0) {
-    scrollRef.current?.scrollBy({ left: amount, behavior: "smooth" });
+    logger.debug("before: ", scrollRef.current?.scrollLeft);
+    scrollRef.current?.scrollBy({ left: amount });
+    const enabled = enableRightButton(scrollRef, tabRefs);
+    logger.debug(
+      "after: ",
+      scrollRef.current?.scrollLeft,
+      "enabled: ",
+      enabled
+    );
+
+    setRightCarouselButtonEnabled(enabled);
   }
 };

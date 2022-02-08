@@ -3,7 +3,7 @@ import { Dispatch, RefObject, SetStateAction } from "react";
 import { InternalTabProps } from "../TabTypes";
 
 const logger = log.getLogger("tab-event-handler-helper");
-logger.disableAll();
+logger.enableAll();
 
 export function getNextTabIndex(
   tabs: InternalTabProps[],
@@ -160,7 +160,11 @@ export function movePreviousTabToRightAmount(
   if (index === -1) {
     return 0;
   } else {
-    return tabWidths[index] - overshoot;
+    const tabWidth = tabWidths[index];
+    if (overshoot > tabWidth / 2 && index + 1 < tabWidths.length) {
+      return tabWidth - overshoot + tabWidths[index + 1];
+    }
+    return tabWidth - overshoot;
   }
 }
 
@@ -168,14 +172,24 @@ export function getPreviousTabToMoveRight(
   leftOffset: number,
   tabWidths: number[]
 ) {
+  return getClosestTabWithLeftBorderToTheLeftOfTargetLine(
+    leftOffset,
+    tabWidths
+  );
+}
+
+function getClosestTabWithLeftBorderToTheLeftOfTargetLine(
+  target: number,
+  tabWidths: number[]
+) {
   let index = 0;
   let sum = 0;
-  while (sum < leftOffset && index < tabWidths.length) {
+  while (sum < target && index < tabWidths.length) {
     sum += tabWidths[index];
-    logger.debug(`sum = ${sum} index=${index} leftOffset = ${leftOffset}`);
+    logger.debug(`sum = ${sum} index=${index} target = ${target}`);
     index++;
   }
-  return [--index, sum - leftOffset];
+  return [--index, sum - target];
 }
 
 export function getNextTabToMoveLeft(
@@ -183,13 +197,10 @@ export function getNextTabToMoveLeft(
   viewPortWidth: number,
   tabWidths: number[]
 ) {
-  let index = 0;
-  let sum = 0;
-  while (sum < leftOffset + viewPortWidth && index < tabWidths.length) {
-    sum += tabWidths[index];
-    index++;
-  }
-  return [--index, sum - leftOffset - viewPortWidth];
+  return getClosestTabWithLeftBorderToTheLeftOfTargetLine(
+    leftOffset + viewPortWidth,
+    tabWidths
+  );
 }
 
 export function moveNextTabToLeftAmount(
@@ -214,9 +225,9 @@ export function moveNextTabToLeftAmount(
     return 0;
   } else {
     const tabWidth = tabWidths[index];
-    if (overshoot > tabWidth / 2) {
-      return tabWidths[index] - overshoot + tabWidths[index - 1];
+    if (overshoot > tabWidth / 2 && index - 1 >= 0) {
+      return tabWidth - overshoot + tabWidths[index - 1];
     }
-    return tabWidths[index] - overshoot;
+    return tabWidth - overshoot;
   }
 }

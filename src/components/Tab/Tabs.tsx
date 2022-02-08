@@ -32,7 +32,7 @@ import {
 } from "./TabTypes";
 
 const logger = log.getLogger("tabs-logger");
-logger.disableAll();
+logger.enableAll();
 
 export const Tabs = ({
   defaultIndex = 0,
@@ -77,14 +77,26 @@ export const Tabs = ({
   const carouselLeftButtonClickEventHandler: MouseEventHandler = (
     e: MouseEvent
   ) => {
+    logger.debug(`generating click id...`);
     setClickId(genId());
-    return handleLeftCarouselMouseClickEvent(e, scrollRef, refs);
+    return handleLeftCarouselMouseClickEvent(
+      e,
+      scrollRef,
+      refs,
+      setLeftCarouselButtonEnabled
+    );
   };
   const carouselRightButtonClickEventHandler: MouseEventHandler = (
     e: MouseEvent
   ) => {
+    logger.debug(`generating click id...`);
     setClickId(genId());
-    return handleRightCarouselMouseClickEvent(e, scrollRef, refs);
+    return handleRightCarouselMouseClickEvent(
+      e,
+      scrollRef,
+      refs,
+      setRightCarouselButtonEnabled
+    );
   };
   const tabsNav = (
     <ul
@@ -113,10 +125,29 @@ export const Tabs = ({
     useState(false);
   const [rightCarouselButtonEnabled, setRightCarouselButtonEnabled] =
     useState(false);
+
   useLayoutEffect(() => {
+    logger.debug(
+      `useLayoutEffect: update carousel buttons disabled state on clickId= ${clickId}`
+    );
     setLeftCarouselButtonEnabled(enableLeftButton(scrollRef, refs));
     setRightCarouselButtonEnabled(enableRightButton(scrollRef, refs));
   }, [clickId, activeTabIndex]);
+
+  useLayoutEffect(() => {
+    const updateCarouselButtonStatus = () => {
+      logger.debug(
+        `updateCarouselButtonStatus: update carousel buttons disabled status on window resize`
+      );
+      setLeftCarouselButtonEnabled(enableLeftButton(scrollRef, refs));
+      setRightCarouselButtonEnabled(enableRightButton(scrollRef, refs));
+    };
+
+    window.addEventListener("resize", updateCarouselButtonStatus);
+    updateCarouselButtonStatus();
+    return () =>
+      window.removeEventListener("resize", updateCarouselButtonStatus);
+  }, [scrollRef]);
 
   const tabsCarousel = (
     <div

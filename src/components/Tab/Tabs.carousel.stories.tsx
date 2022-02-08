@@ -10,7 +10,7 @@ export default {
   title: "Components/Tab",
   component: Tab,
 } as Meta<HorizontalTabsProps>;
-export const CarouselTabs = () => {
+export const ManyTabsCarousel = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(1);
   const onTabChange = (newIndex: number) => {
     console.log(`tab changed to ${newIndex}`);
@@ -138,6 +138,37 @@ export const CarouselTabs = () => {
               rem a mollitia molestiae aliquid cupiditate harum!
             </p>
           </TabPanel>
+        </TabPanels>
+      </Tabs>
+      <hr></hr>
+      <p>0 based active Tab index is {activeTabIndex}</p>
+    </div>
+  );
+};
+
+export const TwoTabsCarousel = () => {
+  const [activeTabIndex, setActiveTabIndex] = useState(1);
+  const onTabChange = (newIndex: number) => {
+    console.log(`tab changed to ${newIndex}`);
+    setActiveTabIndex(newIndex);
+  };
+  return (
+    <div style={{ height: "200px" }}>
+      <Tabs hasCarousel={true} onTabChange={onTabChange}>
+        <TabList>
+          <Tab id="tab1" icon="settings">
+            Tab1
+          </Tab>
+          <Tab id="tab2" icon="chat" dir="rtl">
+            Tab2
+          </Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <h2>content1</h2>
+            <p>paragraph 1</p>
+          </TabPanel>
+          <TabPanel>content 2</TabPanel>
         </TabPanels>
       </Tabs>
       <hr></hr>
