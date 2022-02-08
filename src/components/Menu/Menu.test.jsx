@@ -4,10 +4,9 @@ import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 import log from "loglevel";
 
+import { Menu, MenuButton, MenuItem } from "./";
 import { getClassNames } from "./Menu";
 import * as MenuStories from "./Menu.stories";
-
-import { Menu, MenuButton, MenuItem } from "./";
 
 const menuLogger = log.getLogger("menu");
 menuLogger.disableAll();
@@ -17,6 +16,8 @@ const keyboardLogger = log.getLogger("menu-keyboard-event-handler");
 keyboardLogger.disableAll();
 const mouseLogger = log.getLogger("menu-mouse-event-handler");
 mouseLogger.disableAll();
+const menuHelpersLogger = log.getLogger("menu-helpers");
+menuHelpersLogger.disableAll();
 
 const {
   SimpleMenu,

@@ -1,9 +1,8 @@
-import { render, fireEvent } from "@testing-library/react";
 import { composeStories } from "@storybook/testing-react";
+import { fireEvent, render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { Select } from "./Select";
-
 import * as SelectStories from "./Select.stories";
 
 const {
