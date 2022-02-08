@@ -141,6 +141,16 @@ describe("MultipleSelect", () => {
         expect(results).toHaveNoViolations();
       });
     });
+    describe("DisabledMultipleSelectWithErrorState,", () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<DisabledMultipleSelectWithErrorState />);
+      });
+      it("does not open content area on click when disabled", () => {
+        const { getByText } = renderResult;
+        expect(container).not.toBe(null);
+      });
+    });
     describe("MultipleSelectWithWrongChildren", () => {
       let renderResult;
       beforeEach(() => {
