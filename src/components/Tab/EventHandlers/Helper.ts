@@ -102,36 +102,23 @@ export function enableLeftButton(
   scrollRef: RefObject<HTMLDivElement>,
   tabRefs: RefObject<HTMLLIElement>[]
 ) {
-  const { scrollLeft, scrollWidth, visibleWidth, tabWidths } = extract(
-    scrollRef,
-    tabRefs
+  const { scrollLeft, scrollWidth, visibleWidth } = extract(scrollRef, tabRefs);
+  logger.debug(
+    `enable left button? scrollLeft = ${scrollLeft} scrollWidth=${scrollWidth} visibleWidth=${visibleWidth}`
   );
-  const amount = movePreviousTabToRightAmount(
-    scrollLeft,
-    scrollWidth,
-    visibleWidth,
-    tabWidths
-  );
-  logger.debug(`enableLeftButton amount= ${amount}`);
-  return amount > 0;
+  return canMovePreviousTabToRight(scrollLeft, scrollWidth, visibleWidth);
 }
 
 export function enableRightButton(
   scrollRef: RefObject<HTMLDivElement>,
   tabRefs: RefObject<HTMLLIElement>[]
 ) {
-  const { scrollLeft, scrollWidth, visibleWidth, tabWidths } = extract(
-    scrollRef,
-    tabRefs
+  const { scrollLeft, scrollWidth, visibleWidth } = extract(scrollRef, tabRefs);
+  logger.debug(
+    `enable right button? scrollLeft = ${scrollLeft} scrollWidth=${scrollWidth} visibleWidth=${visibleWidth}`
   );
-  const amount = moveNextTabToLeftAmount(
-    scrollLeft,
-    scrollWidth,
-    visibleWidth,
-    tabWidths
-  );
-  logger.debug(`enabRightButton amount= ${amount}`);
-  return amount > 0;
+
+  return canMoveNextTabToLeft(scrollLeft, scrollWidth, visibleWidth);
 }
 
 export function canMovePreviousTabToRight(
@@ -157,7 +144,7 @@ export function canMoveNextTabToLeft(
   if (viewPortWidth >= containerWidth) {
     return false;
   }
-  return leftOffset + viewPortWidth <= containerWidth;
+  return leftOffset + viewPortWidth < containerWidth;
 }
 
 export function movePreviousTabToRightAmount(

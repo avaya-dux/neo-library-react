@@ -1,4 +1,4 @@
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { Meta } from "@storybook/react/types-6-0";
 import { useState } from "react";
 import { tabMouseEventHandlerLogger } from "./EventHandlers";
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "./Tabs";
@@ -13,7 +13,7 @@ export default {
 export const CarouselTabs = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(1);
   const onTabChange = (newIndex: number) => {
-    console.log(`tab changed to ${activeTabIndex}`);
+    console.log(`tab changed to ${newIndex}`);
     setActiveTabIndex(newIndex);
   };
   return (

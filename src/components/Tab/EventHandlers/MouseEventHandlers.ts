@@ -69,6 +69,7 @@ export const handleLeftCarouselMouseClickEvent = (
   scrollRef: RefObject<HTMLDivElement>,
   tabRefs: RefObject<HTMLLIElement>[]
 ) => {
+  e.stopPropagation();
   const { scrollLeft, scrollWidth, visibleWidth, tabWidths } = extract(
     scrollRef,
     tabRefs
@@ -89,6 +90,7 @@ export const handleRightCarouselMouseClickEvent = (
   scrollRef: RefObject<HTMLDivElement>,
   tabRefs: RefObject<HTMLLIElement>[]
 ) => {
+  e.stopPropagation();
   const { scrollLeft, scrollWidth, visibleWidth, tabWidths } = extract(
     scrollRef,
     tabRefs

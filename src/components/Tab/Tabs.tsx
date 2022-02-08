@@ -116,7 +116,7 @@ export const Tabs = ({
   useLayoutEffect(() => {
     setLeftCarouselButtonEnabled(enableLeftButton(scrollRef, refs));
     setRightCarouselButtonEnabled(enableRightButton(scrollRef, refs));
-  }, [clickId]);
+  }, [clickId, activeTabIndex]);
 
   const tabsCarousel = (
     <div
