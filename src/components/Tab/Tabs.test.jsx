@@ -17,6 +17,7 @@ import {
 import * as TabStories from "./Tabs.stories";
 import * as ScrollableTabStories from "./Tabs.scrollable.stories";
 import * as IconTabStories from "./Tabs.icon.stories";
+import * as CarouselTabStories from "./Tabs.carousel.stories";
 
 internalTabLogger.disableAll();
 
@@ -26,6 +27,8 @@ const { ControlledActiveTabStory, UncontrolledActiveTabStory } =
 const { IconTabs } = composeStories(IconTabStories);
 
 const { ScrollableVerticalTabs } = composeStories(ScrollableTabStories);
+const { ManyTabsCarousel, TwoTabsCarousel } =
+  composeStories(CarouselTabStories);
 
 describe("Tabs", () => {
   describe("Storybook tests", () => {
@@ -81,6 +84,38 @@ describe("Tabs", () => {
       let renderResult;
       beforeEach(() => {
         renderResult = render(<ScrollableVerticalTabs />);
+      });
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).toBeDefined();
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+    describe(ManyTabsCarousel.storyName, () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<ManyTabsCarousel />);
+      });
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).toBeDefined();
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+    describe(TwoTabsCarousel.storyName, () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<TwoTabsCarousel />);
       });
       it("should render ok", () => {
         const { container } = renderResult;
