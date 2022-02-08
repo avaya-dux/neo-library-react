@@ -1,7 +1,8 @@
 import log from "loglevel";
+
 import {
-  handleMenuItemClick,
   handleMenuButtonClickEvent,
+  handleMenuItemClick,
   handleMouseMoveEvent,
 } from "./MouseEventHandlers";
 
@@ -166,7 +167,7 @@ describe("MENU Mouse event handlers", () => {
       const setOpen = jest.fn();
       handleMenuItemClick(true, setOpen);
 
-      expect(setOpen).toBeCalledWith(true);
+      expect(setOpen).toBeCalledWith(false);
     });
 
     it("should not affect menu if `closeOnSelect` is `true`", () => {
