@@ -1,0 +1,68 @@
+.neo-multiselect__content .neo-check + .neo-check__label:not(last-child) {
+  margin-right: 0;
+}
+
+.neo-multiselect__content .neo-check ~ .neo-check__label {
+  padding: 8px 16px !important;
+}
+
+.neo-input-group .neo-check + .neo-check__label {
+  pointer-events: auto !important;
+}
+
+.neo-check + .neo-check__label {
+  color: #000;
+  color: var(--checkbox-font-color);
+  cursor: pointer;
+  display: inline-block;
+  line-height: 22px !important;
+  padding: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 14px !important;
+}
+
+.neo-check:not(:disabled) + .neo-check__label:hover,
+.neo-check:not(:disabled) + .neo-check__label:focus {
+  background-color: #e8f1fc;
+}
+
+.neo-check__label::before {
+  background: #fff;
+  border: 1px solid #1473e6;
+  content: "";
+  display: inline-block;
+  height: 16px;
+  margin-right: 8px;
+  vertical-align: text-top;
+  min-width: 16px;
+  border-radius: 4px;
+  line-height: 1.5;
+}
+
+.neo-check:checked + .neo-check__label:before {
+  background: #1473e6;
+  font-family: updated-neo-icons !important;
+  color: #fff;
+  padding-left: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.neo-check:checked + .neo-check__label:before {
+  content: "";
+  font-size: 11px;
+}
+
+.neo-check:disabled + .neo-check__label {
+  color: #939393;
+  cursor: not-allowed;
+}
+
+.neo-check:disabled + .neo-check__label:before {
+  border: 1px solid #abccf5;
+  box-shadow: none;
+  cursor: not-allowed;
+}
