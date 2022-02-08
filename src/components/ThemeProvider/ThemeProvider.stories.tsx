@@ -4,7 +4,7 @@ import {
   NeoThemeProviderProps,
   Switch,
   useNeoTheme,
-} from "@avaya-neo/react";
+} from "@avaya/neo-react";
 import { Meta } from "@storybook/react/types-6-0";
 
 export default {

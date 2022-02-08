@@ -11,7 +11,7 @@ module.exports = {
     "@storybook/preset-create-react-app",
   ],
   webpackFinal: async (config) => {
-    config.resolve.alias["@avaya-neo/react"] = path.resolve(__dirname, "..");
+    config.resolve.alias["@avaya/neo-react"] = path.resolve(__dirname, "..");
     config.resolve.plugins = [
       new TsconfigPathsPlugin({ extensions: config.resolve.extensions }),
     ];
