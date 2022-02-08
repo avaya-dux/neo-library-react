@@ -47,7 +47,7 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
     handleAccessbilityError("Select requires a label prop");
   }
 
-  const items = Array.isArray(children)
+  const items: string[] = Array.isArray(children)
     ? children.map((child) => {
         if (isValidElement(child)) {
           return child.props.children.toString();
@@ -55,7 +55,7 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
           return " ";
         }
       })
-    : children.props.children.toString();
+    : Array.from(children.props.children.toString());
 
   const [selectedItems, setSelectedItems] = useState<string[]>(values || []);
 
