@@ -102,7 +102,7 @@ export const Menu = forwardRef(
       }
 
       if (isOpen === false && didMount.current) {
-        onMenuClose(); // not ideal, but I don't want to pass this all over OR refactor everything
+        onMenuClose();
       }
     }, [isOpen]);
 
