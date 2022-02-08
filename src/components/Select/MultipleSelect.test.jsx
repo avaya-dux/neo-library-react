@@ -115,10 +115,40 @@ describe("MultipleSelect", () => {
         expect(selectHeader).toHaveClass("neo-multiselect__header");
       });
 
+      it("Renders the correct classes when error text passed in", () => {
+        const { getByText, getAllByText } = renderResult;
+        const submitButton = getByText("Submit");
+        const selectedOption = getAllByText("Choice 1")[1];
+        fireEvent.click(selectedOption);
+        fireEvent.click(submitButton);
+        const errorText = getByText("This is a required field");
+        expect(errorText).toBeTruthy();
+      });
+
+      it("Clears the selected options when prompted", () => {
+        const { getByText, getAllByText } = renderResult;
+        const selectHeader = getAllByText("Choice 1")[0];
+        expect(selectHeader).toHaveClass("neo-multiselect__header");
+        const resetButton = getByText("Reset");
+        fireEvent.click(resetButton);
+        const defaultSelectHeader = getByText("Select One");
+        expect(defaultSelectHeader).toHaveClass("neo-multiselect__header");
+      });
+
       it("passes basic axe compliance", async () => {
         const { container } = renderResult;
         const results = await axe(container);
         expect(results).toHaveNoViolations();
+      });
+    });
+    describe("MultipleSelectWithWrongChildren", () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<MultipleSelectWithWrongChildren />);
+      });
+      it("renders without exploding despite not passing MultipleSelectOption as children", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
       });
     });
   });

@@ -69,6 +69,7 @@ export const RequiredMultipleSelectWithHelperText = () => {
         type="submit"
         onClick={() => {
           if (selectedOption.length < 1) {
+            setHelperText("");
             setErrorList(["This is a required field"]);
           }
         }}
