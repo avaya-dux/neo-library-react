@@ -74,6 +74,7 @@ describe("MultipleSelect", () => {
       expect(results).toHaveNoViolations();
     });
   });
+
   describe("Storybook tests", () => {
     describe("Default Multiple Select", () => {
       let renderResult;
@@ -103,6 +104,7 @@ describe("MultipleSelect", () => {
         expect(results).toHaveNoViolations();
       });
     });
+
     describe("RequiredMultipleSelectWithHelperText", () => {
       let renderResult;
       beforeEach(() => {
@@ -141,21 +143,47 @@ describe("MultipleSelect", () => {
         expect(results).toHaveNoViolations();
       });
     });
+
     describe("DisabledMultipleSelectWithErrorState,", () => {
       let renderResult;
       beforeEach(() => {
         renderResult = render(<DisabledMultipleSelectWithErrorState />);
       });
+
       it("does not open content area on click when disabled", () => {
         const { getByText } = renderResult;
-        expect(container).not.toBe(null);
+        const defaultSelectHeader = getByText("Select One");
+        expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
+        fireEvent.click(defaultSelectHeader);
+        expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
       });
     });
+
+    describe("LoadingMultipleSelect", () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<LoadingMultipleSelect />);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
     describe("MultipleSelectWithWrongChildren", () => {
       let renderResult;
       beforeEach(() => {
         renderResult = render(<MultipleSelectWithWrongChildren />);
       });
+
       it("renders without exploding despite not passing MultipleSelectOption as children", () => {
         const { container } = renderResult;
         expect(container).not.toBe(null);
