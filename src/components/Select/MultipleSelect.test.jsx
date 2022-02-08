@@ -1,5 +1,5 @@
 import { composeStories } from "@storybook/testing-react";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, act } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { MultipleSelect } from "./MultipleSelect";
@@ -52,11 +52,9 @@ describe("MultipleSelect", () => {
     it("toggles aria-expanded prop on click", () => {
       const { getByText } = renderResult;
       const toggleElement = getByText("Select One");
-      expect(toggleElement).not.toHaveAttribute("aria-expanded");
-      fireEvent.click(toggleElement);
-      expect(toggleElement).toHaveAttribute("aria-expanded");
-      fireEvent.click(toggleElement);
       expect(toggleElement).toHaveAttribute("aria-expanded", "false");
+      fireEvent.click(toggleElement);
+      expect(toggleElement).toHaveAttribute("aria-expanded", "true");
     });
 
     it("passes the correct props to listbox element", () => {
@@ -167,8 +165,37 @@ describe("MultipleSelect", () => {
 
     describe("LoadingMultipleSelect", () => {
       let renderResult;
+
       beforeEach(() => {
         renderResult = render(<LoadingMultipleSelect />);
+      });
+
+      afterEach(() => {
+        jest.useRealTimers();
+      });
+
+      it("does not open content area on click when loading", () => {
+        const { getByText } = renderResult;
+        const defaultSelectHeader = getByText("Select One");
+        expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
+        fireEvent.click(defaultSelectHeader);
+        expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
+      });
+
+      it("does open content area on click after content is loaded", () => {
+        jest.useFakeTimers();
+        const { getByText } = renderResult;
+        const defaultSelectHeader = getByText("Select One");
+        expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
+        fireEvent.click(defaultSelectHeader);
+        expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
+        jest.runAllTimers();
+        const updatedDefaultSelectHeader = getByText("Select One");
+        fireEvent.click(updatedDefaultSelectHeader);
+        expect(updatedDefaultSelectHeader).toHaveAttribute(
+          "aria-expanded",
+          "true"
+        );
       });
 
       it("passes basic axe compliance", async () => {

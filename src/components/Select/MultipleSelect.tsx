@@ -67,6 +67,14 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
     [selectedItems]
   );
 
+  const isDisabledOrLoading = () => {
+    if (disabled || loading) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   const {
     isOpen,
     getToggleButtonProps,
@@ -77,11 +85,16 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
   } = useSelect({
     items,
     id,
-    isOpen: disabled || loading ? false : undefined,
     selectedItem: null,
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
+      const controlledIsOpen = isDisabledOrLoading();
       switch (type) {
+        case useSelect.stateChangeTypes.ToggleButtonClick:
+          return {
+            ...changes,
+            isOpen: controlledIsOpen,
+          };
         case useSelect.stateChangeTypes.MenuKeyDownEnter:
         case useSelect.stateChangeTypes.MenuKeyDownSpaceButton:
         case useSelect.stateChangeTypes.ItemClick:
