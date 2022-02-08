@@ -44,10 +44,7 @@ export type MenuIndexesType = {
 
 export interface MenuContextType
   extends Required<
-    Pick<
-      MenuProps,
-      "closeOnBlur" | "closeOnSelect" | "openOnHover" | "onMenuClose"
-    >
+    Pick<MenuProps, "closeOnSelect" | "openOnHover" | "onMenuClose">
   > {
   setRootMenuOpen: Dispatch<SetStateAction<boolean>>;
 }

@@ -173,7 +173,6 @@ export const Menu = forwardRef(
     });
 
     const menuContext: MenuContextType = {
-      closeOnBlur,
       closeOnSelect,
       onMenuClose,
       openOnHover,
