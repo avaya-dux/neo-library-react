@@ -1,6 +1,6 @@
 import { IconNamesType } from "utils";
 import { ReactNode, Dispatch, SetStateAction, ReactElement } from "react";
-import { MenuProps } from "components";
+import { MenuProps } from "components/Menu";
 
 export interface TabProps extends React.HTMLAttributes<HTMLLIElement> {
   id?: string;

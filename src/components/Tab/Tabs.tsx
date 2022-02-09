@@ -1,3 +1,4 @@
+import { Button } from "components/Button";
 import log from "loglevel";
 import {
   Dispatch,
@@ -154,21 +155,25 @@ export const Tabs = ({
     >
       {hasCarousel ? (
         <>
-          <button
-            className="neo-btn-square neo-btn-square-tertiary neo-btn-square-tertiary--default neo-icon-chevron-left neo-tabs__carousel--button"
+          <Button
+            className="neo-tabs__carousel--button"
             aria-label="move to previous tab"
+            variant="tertiary"
+            icon="chevron-left"
             disabled={!leftCarouselButtonEnabled}
             onClick={carouselLeftButtonClickEventHandler}
-          ></button>
+          ></Button>
           <div className="neo-tabs__carousel--scroll" ref={scrollRef}>
             {tabsNav}
           </div>
-          <button
-            className="neo-btn-square neo-btn-square-tertiary neo-btn-square-tertiary--default neo-icon-chevron-right neo-tabs__carousel--button"
+          <Button
+            className="neo-tabs__carousel--button"
             aria-label="move to next tab"
+            variant="tertiary"
+            icon="chevron-right"
             disabled={!rightCarouselButtonEnabled}
             onClick={carouselRightButtonClickEventHandler}
-          ></button>
+          ></Button>
           <div className="neo-tabs__carousel--more">{dropDown}</div>
         </>
       ) : (
