@@ -103,16 +103,19 @@ export const DisabledMultipleSelectWithErrorState = () => {
 };
 
 export const LoadingMultipleSelect = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [options, setOptions] = useState<string[]>([]);
 
-  useEffect(() => {
-    setLoading(true);
-    setOptions([]);
+  const fakeLoad = () => {
     setTimeout(() => {
       setOptions(["Option 1", "Option 2", "Option 3", "Option 4"]);
       setLoading(false);
     }, 2000);
+  };
+
+  useEffect(() => {
+    fakeLoad();
+    return () => {};
   }, []);
 
   return (

@@ -1,7 +1,6 @@
 import { composeStories } from "@storybook/testing-react";
 import { fireEvent, render, act } from "@testing-library/react";
 import { axe } from "jest-axe";
-
 import { MultipleSelect } from "./MultipleSelect";
 import * as MultipleSelectStories from "./MultipleSelect.stories";
 
@@ -170,10 +169,6 @@ describe("MultipleSelect", () => {
         renderResult = render(<LoadingMultipleSelect />);
       });
 
-      afterEach(() => {
-        jest.useRealTimers();
-      });
-
       it("does not open content area on click when loading", () => {
         const { getByText } = renderResult;
         const defaultSelectHeader = getByText("Select One");
@@ -182,20 +177,18 @@ describe("MultipleSelect", () => {
         expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
       });
 
-      it("does open content area on click after content is loaded", () => {
-        jest.useFakeTimers();
+      it("does open content area on click after content is loaded", async () => {
         const { getByText } = renderResult;
         const defaultSelectHeader = getByText("Select One");
         expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
         fireEvent.click(defaultSelectHeader);
         expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
-        jest.runAllTimers();
-        const updatedDefaultSelectHeader = getByText("Select One");
-        fireEvent.click(updatedDefaultSelectHeader);
-        expect(updatedDefaultSelectHeader).toHaveAttribute(
-          "aria-expanded",
-          "true"
+        console.log(defaultSelectHeader);
+        await act(
+          async () => await new Promise((res) => setTimeout(res, 2000))
         );
+        fireEvent.click(defaultSelectHeader);
+        expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "true");
       });
 
       it("passes basic axe compliance", async () => {
@@ -214,6 +207,31 @@ describe("MultipleSelect", () => {
       it("renders without exploding despite not passing MultipleSelectOption as children", () => {
         const { container } = renderResult;
         expect(container).not.toBe(null);
+      });
+    });
+
+    describe("MoreThanOneMultipleSelect", () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<MoreThanOneMultipleSelect />);
+      });
+
+      it("allows for different options to be rendered for each Multiple Select individually", () => {
+        const { getAllByText } = renderResult;
+        const allOptionOnes = getAllByText("Option 1");
+        const allOptionTwos = getAllByText("Option 3");
+        fireEvent.click(allOptionOnes[0]);
+        fireEvent.click(allOptionTwos[1]);
+        const allOptionOnesAfterClick = getAllByText("Option 1");
+        const allOptionTwosAfterClick = getAllByText("Option 3");
+        expect(allOptionOnesAfterClick).toHaveLength(3);
+        expect(allOptionTwosAfterClick).toHaveLength(3);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
       });
     });
   });

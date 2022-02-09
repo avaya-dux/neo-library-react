@@ -67,6 +67,8 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
     [selectedItems]
   );
 
+  if (loading) console.log(loading);
+
   const isDisabledOrLoading = () => {
     if (disabled || loading) {
       return false;
@@ -166,7 +168,13 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
         )}
         aria-describedby={helperText && helperId}
       >
-        <div className="neo-multiselect__header" {...getToggleButtonProps()}>
+        <div
+          className="neo-multiselect__header"
+          {...getToggleButtonProps()}
+          role="button"
+          tabIndex={0}
+          type="button"
+        >
           {multipleSelectText}
         </div>
         <div className="neo-multiselect__content" {...getMenuProps()}>
@@ -198,9 +206,9 @@ export const MultipleSelectOption: FunctionComponent<
 
   const item = items[index];
 
-  const labelId = useMemo(() => `label-id-${index}`, [index]);
+  const labelId = useMemo(() => `label-id-${genId()}`, [index]);
 
-  const helperId = useMemo(() => `helper-text-${index}`, [index]);
+  const helperId = useMemo(() => `helper-text-${genId()}`, [index]);
 
   const MultiSelectOption = (
     <>
