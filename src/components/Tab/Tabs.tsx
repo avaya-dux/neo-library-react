@@ -56,6 +56,15 @@ export const Tabs = ({
   const hasCarousel = "hasCarousel" in rest ? rest.hasCarousel : false;
   const dropDown =
     hasCarousel && "carouselDropdown" in rest ? rest.carouselDropdown : null;
+  const leftCarouselButtonAriaLabel =
+    "leftCarouselButtonAriaLabel" in rest
+      ? rest.leftCarouselButtonAriaLabel
+      : "move to previous tab";
+
+  const rightCarouselButtonAriaLabel =
+    "rightCarouselButtonAriaLabel" in rest
+      ? rest.rightCarouselButtonAriaLabel
+      : "move to next tab";
   logger.debug(`Is tab vertical? ${isVertical} scrollable? ${isScrollable}`);
 
   const [activeTabIndex, setUncontrolledActiveTabIndex] = useControlled({
@@ -157,7 +166,7 @@ export const Tabs = ({
         <>
           <Button
             className="neo-tabs__carousel--button"
-            aria-label="move to previous tab"
+            aria-label={leftCarouselButtonAriaLabel}
             variant="tertiary"
             icon="chevron-left"
             disabled={!leftCarouselButtonEnabled}
@@ -168,7 +177,7 @@ export const Tabs = ({
           </div>
           <Button
             className="neo-tabs__carousel--button"
-            aria-label="move to next tab"
+            aria-label={rightCarouselButtonAriaLabel}
             variant="tertiary"
             icon="chevron-right"
             disabled={!rightCarouselButtonEnabled}

@@ -152,7 +152,7 @@ export const ManyTabsCarousel = () => {
   );
 };
 const SimpleMenu = (
-  <Menu menuRootElement={<Button>Open Menu</Button>}>
+  <Menu menuRootElement={<Button>...</Button>}>
     <MenuItem>Menu Item 1</MenuItem>
     <MenuItem>Menu Item 2</MenuItem>
     <MenuItem>Menu Item 3</MenuItem>
@@ -170,7 +170,8 @@ export const TwoTabsCarousel = () => {
       <Tabs
         hasCarousel={true}
         onTabChange={onTabChange}
-        carouselDropdown={SimpleMenu}
+        leftCarouselButtonAriaLabel="previous tab"
+        rightCarouselButtonAriaLabel="next tab"
       >
         <TabList>
           <Tab id="tab1" icon="settings">

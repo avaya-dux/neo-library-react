@@ -127,6 +127,14 @@ describe("Tabs", () => {
         const results = await axe(container);
         expect(results).toHaveNoViolations();
       });
+
+      it("should render custom aria-labels", () => {
+        const { getAllByRole } = renderResult;
+        const buttons = getAllByRole("button");
+        expect(buttons.length).toBe(2);
+        expect(buttons[0]).toHaveAttribute("aria-label", "previous tab");
+        expect(buttons[1]).toHaveAttribute("aria-label", "next tab");
+      });
     });
   });
   describe(isValidTabElement, () => {

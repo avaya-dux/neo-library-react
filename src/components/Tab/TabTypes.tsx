@@ -38,6 +38,8 @@ export interface HorizontalTabsProps extends CommonTabsProps, Oritentation {
   orientation?: "horizontal";
   hasCarousel?: boolean;
   carouselDropdown?: ReactElement<MenuProps>;
+  leftCarouselButtonAriaLabel?: string;
+  rightCarouselButtonAriaLabel?: string;
 }
 
 export interface VerticalTabsProps extends CommonTabsProps, Oritentation {
