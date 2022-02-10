@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { Dispatch, ReactElement, SetStateAction } from "react";
 
 import { ButtonProps } from "components/Button";
 
@@ -27,9 +27,12 @@ export type MenuChildrenType = ReactElement<
 
 export interface MenuProps extends React.HTMLAttributes<HTMLDivElement> {
   children: MenuChildrenType;
+  closeOnBlur?: boolean; // if `true` (default), the menu will close when you click outside the menu list
+  closeOnSelect?: boolean; // if `true` (default), the menu will close when a menu item is clicked
   defaultIsOpen?: boolean;
   itemAlignment?: "left" | "right";
   menuRootElement: ReactElement<ButtonProps>;
+  onMenuClose?: () => void;
   openOnHover?: boolean;
 }
 
@@ -38,3 +41,8 @@ export type MenuIndexesType = {
   id?: string;
   length?: number;
 }[];
+
+export interface MenuContextType
+  extends Required<Pick<MenuProps, "closeOnSelect">> {
+  setRootMenuOpen: Dispatch<SetStateAction<boolean>>;
+}

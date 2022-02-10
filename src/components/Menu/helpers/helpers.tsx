@@ -2,16 +2,19 @@ import log from "loglevel";
 import {
   Children,
   cloneElement,
+  Dispatch,
   FocusEventHandler,
   Fragment,
   isValidElement,
   KeyboardEventHandler,
   MouseEventHandler,
   ReactElement,
+  SetStateAction,
 } from "react";
 
 import { genId } from "utils";
 
+import { handleMenuItemClick } from "../EventHandlers";
 import { MenuItem } from "../MenuItem";
 import {
   ActionType,
@@ -20,7 +23,7 @@ import {
   MenuProps,
   SubMenuProps,
 } from "../MenuTypes";
-import { SubMenu } from "../SubMenu";
+import { SubMenu } from "../SubMenu"; // BUG: causes circular dependency
 
 const logger = log.getLogger("menu-helpers");
 logger.disableAll();
@@ -53,7 +56,9 @@ export const layoutChildren = (
   menuIndexes: MenuIndexesType,
   cursor: number,
   cursorAction: ActionType,
-  enterCounter: number
+  enterCounter: number,
+  closeOnSelect: boolean,
+  setRootMenuOpen: Dispatch<SetStateAction<boolean>>
 ) => {
   return (
     <div
@@ -62,6 +67,7 @@ export const layoutChildren = (
       tabIndex={-1}
       onKeyDown={handleMenuKeyDown}
       onMouseMove={handleMenuMouseMove}
+      onClick={() => handleMenuItemClick(closeOnSelect, setRootMenuOpen)}
       onBlur={handleMenuBlur}
     >
       {children.map((child, index) => {
