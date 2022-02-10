@@ -3,6 +3,7 @@ import {
   Children,
   cloneElement,
   Dispatch,
+  FC,
   FocusEventHandler,
   Fragment,
   isValidElement,
@@ -30,10 +31,12 @@ logger.disableAll();
 
 export const addIdToChildren = (children: MenuProps["children"]) => {
   return children.map((child) => {
-    if (child.type.toString() === MenuItem.toString()) {
+    const childTypeName = (child.type as FC).name;
+
+    if (childTypeName === MenuItem.name) {
       const childId = child.props.id || genId();
       return cloneElement(child, { id: childId });
-    } else if (child.type.toString() === SubMenu.toString()) {
+    } else if (childTypeName === SubMenu.name) {
       const buttonElement = (child.props as SubMenuProps).menuRootElement;
       const buttonElementId = buttonElement.props.id || genId();
       const cloneButton = cloneElement(buttonElement, {
@@ -71,9 +74,11 @@ export const layoutChildren = (
       onBlur={handleMenuBlur}
     >
       {children.map((child, index) => {
+        const childTypeName = (child.type as FC).name;
+
         if (menuIndexes[cursor]?.index === index) {
           let activeChild;
-          if (child.type.toString() === MenuItem.toString()) {
+          if (childTypeName === MenuItem.name) {
             activeChild = cloneElement(child, {
               isActive: true,
               hasFocus: true,
@@ -97,7 +102,7 @@ export const layoutChildren = (
         } else {
           if (isValidElement(child)) {
             let inactiveChild;
-            if (child.type.toString() === MenuItem.toString()) {
+            if (childTypeName === MenuItem.name) {
               inactiveChild = cloneElement(
                 child as ReactElement<MenuItemProps>,
                 {
@@ -106,7 +111,7 @@ export const layoutChildren = (
                   tabIndex: -1,
                 }
               );
-            } else if (child.type.toString() === SubMenu.toString()) {
+            } else if (childTypeName === SubMenu.name) {
               const buttonElement = (child.props as SubMenuProps)
                 .menuRootElement;
               const cloneButton = cloneElement(buttonElement, {
@@ -136,9 +141,12 @@ export const buildMenuIndexes = (children: MenuProps["children"]) => {
   const result =
     Children.map(children, (child, index) => {
       logger.debug(`building index ${index}`);
-      if (child.type.toString() === MenuItem.toString()) {
+
+      const childTypeName = (child.type as FC).name;
+
+      if (childTypeName === MenuItem.name) {
         return { index, id: child.props.id };
-      } else if (child.type.toString() === SubMenu.toString()) {
+      } else if (childTypeName === SubMenu.name) {
         const props = child.props as SubMenuProps;
         return {
           index,
@@ -150,6 +158,7 @@ export const buildMenuIndexes = (children: MenuProps["children"]) => {
         return null;
       }
     }).filter((obj) => !!obj) || [];
+
   logger.debug(JSON.stringify(result));
   return result;
 };
