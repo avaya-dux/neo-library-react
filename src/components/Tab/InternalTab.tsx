@@ -111,10 +111,10 @@ export const InternalTab = ({
 
   useEffect(() => {
     if (active && !disabled) {
-      logger.debug(`focusing tab ${id}`);
+      logger.debug(`focus tab ${id}`);
       ref.current && ref.current.focus();
     }
-  });
+  }, [activeTabIndex]);
   return (
     <>
       <a
