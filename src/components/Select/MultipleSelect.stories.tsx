@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/react/types-6-0";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 
 import { Form, Button } from "components";
 
@@ -38,7 +38,7 @@ export const RequiredMultipleSelectWithHelperText = () => {
   const [helperText, setHelperText] = useState(helperTextExample);
   const [errorList, setErrorList] = useState<string[]>([]);
 
-  const updateSelectedValue = (value: string[]): any => {
+  const updateSelectedValue = (value: any): any => {
     setSelectedOption(value);
     setHelperText(helperText);
     setErrorList([]);

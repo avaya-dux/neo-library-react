@@ -13,7 +13,7 @@ interface BaseSelectProps {
   loading?: boolean;
   required?: boolean;
   id?: string;
-  onSelectedValueChange?: (value: string[]) => any;
+  onSelectedValueChange?: (value: string[] | string) => any;
 }
 
 export interface SelectProps extends BaseSelectProps {
