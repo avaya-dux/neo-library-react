@@ -183,7 +183,6 @@ describe("MultipleSelect", () => {
         expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
         fireEvent.click(defaultSelectHeader);
         expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
-        console.log(defaultSelectHeader);
         await act(
           async () => await new Promise((res) => setTimeout(res, 2000))
         );
