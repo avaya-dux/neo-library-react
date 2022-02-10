@@ -67,8 +67,6 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
     [selectedItems]
   );
 
-  if (loading) console.log(loading);
-
   const isDisabledOrLoading = () => {
     if (disabled || loading) {
       return false;
