@@ -1,6 +1,8 @@
 import log from "loglevel";
 import { Dispatch, FocusEvent, KeyboardEvent, SetStateAction } from "react";
+
 import { Keys } from "utils";
+
 import { ActionType, MenuIndexesType } from "../MenuTypes";
 
 const logger = log.getLogger("menu-keyboard-event-handler");
@@ -57,6 +59,7 @@ export const handleKeyDownEvent = (
   enterCounter: number,
   setEnterCounter: Dispatch<SetStateAction<number>>,
   setOpen: Dispatch<SetStateAction<boolean>>,
+  closeOnSelect: boolean,
   label: string
 ) => {
   logger.debug(`handle ${label} key event ${e.key}`);
@@ -95,6 +98,9 @@ export const handleKeyDownEvent = (
         logger.debug(`enterCounter = ${enterCounter}`);
       } else {
         setCursorAction("ACTIVATE_MENU_ITEM");
+        if (closeOnSelect) {
+          setOpen(false);
+        }
         e.preventDefault();
       }
       break;
@@ -132,10 +138,11 @@ export const handleKeyDownEvent = (
 
 export const handleBlurEvent = (
   e: FocusEvent<HTMLDivElement>,
+  closeOnBlur: boolean,
   setOpen: Dispatch<SetStateAction<boolean>>
 ) => {
   logger.debug(`${e.relatedTarget} receiving focus`);
-  if (e.relatedTarget === null) {
+  if (e.relatedTarget === null && closeOnBlur) {
     setOpen(false);
   }
 };

@@ -6,7 +6,7 @@ import { ActionType, MenuIndexesType } from "../MenuTypes";
 const logger = log.getLogger("menu-mouse-event-handler");
 logger.disableAll();
 
-export const handleMouseClickEvent = (
+export const handleMenuButtonClickEvent = (
   e: MouseEvent,
   isOpen: boolean,
   setOpen: Dispatch<SetStateAction<boolean>>
@@ -56,5 +56,14 @@ export const handleMouseMoveEvent = (
     }
   } else {
     logger.debug(`target has no id attribute`);
+  }
+};
+
+export const handleMenuItemClick = (
+  closeOnSelect: boolean,
+  setOpen: Dispatch<SetStateAction<boolean>>
+) => {
+  if (closeOnSelect) {
+    setOpen(false);
   }
 };
