@@ -80,7 +80,7 @@ export const RequiredMultipleSelectWithHelperText = () => {
         type="reset"
         onClick={() => {
           setSelectedOption([]);
-          setHelperText(helperText);
+          setHelperText(helperTextExample);
           setErrorList([]);
         }}
       >
@@ -142,19 +142,13 @@ export const MultipleSelectWithWrongChildren = () => {
 export const MoreThanOneMultipleSelect = () => {
   return (
     <>
-      <MultipleSelect
-        label={label}
-        onSelectedValueChange={handleSelectedValueChange}
-      >
+      <MultipleSelect label="First Multiple Select">
         <MultipleSelectOption>Option 1</MultipleSelectOption>
         <MultipleSelectOption>Option 2</MultipleSelectOption>
         <MultipleSelectOption>Option 3</MultipleSelectOption>
         <MultipleSelectOption>Option 4</MultipleSelectOption>
       </MultipleSelect>
-      <MultipleSelect
-        label={label}
-        onSelectedValueChange={handleSelectedValueChange}
-      >
+      <MultipleSelect label="Second Multiple Select">
         <MultipleSelectOption>Option 1</MultipleSelectOption>
         <MultipleSelectOption disabled>Option 2</MultipleSelectOption>
         <MultipleSelectOption>Option 3</MultipleSelectOption>
