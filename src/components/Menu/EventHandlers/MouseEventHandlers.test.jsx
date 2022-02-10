@@ -170,7 +170,7 @@ describe("MENU Mouse event handlers", () => {
       expect(setOpen).toBeCalledWith(false);
     });
 
-    it("should not affect menu if `closeOnSelect` is `true`", () => {
+    it("should not affect menu if `closeOnSelect` is `false`", () => {
       const setOpen = jest.fn();
       handleMenuItemClick(false, setOpen);
 
