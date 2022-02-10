@@ -258,7 +258,7 @@ describe("Tabs", () => {
     });
   });
   describe(buildTabProps, () => {
-    it("extract ok", () => {
+    it("parses correctly given proper tags", () => {
       const tabs = (
         <Tabs defaultTabId="tab1">
           <TabList>
