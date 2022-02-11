@@ -105,7 +105,13 @@ export const AdvancedFilteringAndSorting = () => {
             break;
         }
 
-        return <IconChip icon={icon} text={value?.toUpperCase() || ""} />;
+        return (
+          <IconChip
+            icon={icon}
+            text={value?.toUpperCase() || ""}
+            chiptype="icon"
+          />
+        );
       },
       Filter: ({ column: { setFilter, preFilteredRows, id } }) => {
         const options = useMemo(() => {
