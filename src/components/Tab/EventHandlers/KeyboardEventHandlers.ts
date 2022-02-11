@@ -7,7 +7,7 @@ import {
   RefObject,
 } from "react";
 import { isAriaDisabled, Keys } from "utils";
-import { InternalTabProps } from "../TabTypes";
+import { InternalTabProps } from "../InternalTabTypes";
 import {
   getNextTabIndex,
   activatePreviousTab,
