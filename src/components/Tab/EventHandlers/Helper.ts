@@ -1,6 +1,6 @@
 import log from "loglevel";
 import { Dispatch, RefObject, SetStateAction } from "react";
-import { InternalTabProps } from "../TabTypes";
+import { InternalTabProps } from "../InternalTabTypes";
 import {
   canMoveNextTabToLeft,
   canMovePreviousTabToRight,

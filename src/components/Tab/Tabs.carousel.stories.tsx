@@ -2,8 +2,14 @@ import { Meta } from "@storybook/react/types-6-0";
 import { Button, Menu, MenuItem } from "components";
 import { useState } from "react";
 import { tabMouseEventHandlerLogger } from "./EventHandlers";
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from "./Tabs";
-import { HorizontalTabsProps } from "./TabTypes";
+import {
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  HorizontalTabsProps,
+} from ".";
 
 tabMouseEventHandlerLogger.enableAll();
 

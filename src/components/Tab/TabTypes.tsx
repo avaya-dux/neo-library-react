@@ -1,6 +1,6 @@
-import { IconNamesType } from "utils";
-import { ReactNode, Dispatch, SetStateAction, ReactElement } from "react";
 import { MenuProps } from "components/Menu";
+import { ReactElement, ReactNode } from "react";
+import { IconNamesType } from "utils";
 
 export interface TabProps extends React.HTMLAttributes<HTMLLIElement> {
   id?: string;
@@ -48,23 +48,3 @@ export interface VerticalTabsProps extends CommonTabsProps, Oritentation {
 }
 
 export type TabsProps = HorizontalTabsProps | VerticalTabsProps;
-
-export interface InternalTabProps extends React.HTMLAttributes<HTMLLIElement> {
-  id: string;
-  name: ReactNode;
-  disabled: boolean;
-  content: TabPanelProps;
-  icon?: IconNamesType;
-  closable?: boolean;
-  onClose?: (index: number) => void;
-}
-
-export interface InteractiveTabProps {
-  tabIndex: number;
-  vertical: boolean;
-  active: boolean;
-  tabs: InternalTabProps[];
-  activeTabIndex: number;
-  setActiveTabIndex: Dispatch<SetStateAction<number>>;
-  setActivePanelIndex: Dispatch<SetStateAction<number>>;
-}
