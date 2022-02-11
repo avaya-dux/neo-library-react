@@ -1,7 +1,7 @@
 import log from "loglevel";
 import { Dispatch, MouseEvent, RefObject, SetStateAction } from "react";
 import { isAriaDisabled } from "utils";
-import { InternalTabProps } from "../TabTypes";
+import { InternalTabProps } from "../InternalTabTypes";
 import {
   activateAnotherTabAndPanel,
   enableLeftButton,

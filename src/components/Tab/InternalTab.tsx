@@ -18,7 +18,7 @@ import {
   handleCloseElementKeyDownEvent,
   handleCloseElementMouseClickEvent,
 } from "./EventHandlers";
-import { InternalTabProps, InteractiveTabProps } from "./TabTypes";
+import { InternalTabProps, InteractiveTabProps } from "./InternalTabTypes";
 const logger = log.getLogger("tab-head-logger");
 logger.disableAll();
 export { logger as internalTabLogger };
