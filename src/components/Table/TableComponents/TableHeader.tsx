@@ -139,30 +139,24 @@ export const TableHeader = <T extends Record<string, any>>({
                 {...thDivProps}
               >
                 <MenuItem
-                  onClick={(e) => {
+                  onClick={() => {
                     toggleSortBy(column.id, false, false);
-                    e.stopPropagation();
-                    e.preventDefault();
                   }}
                 >
                   A - Z
                 </MenuItem>
 
                 <MenuItem
-                  onClick={(e) => {
+                  onClick={() => {
                     toggleSortBy(column.id, true, false);
-                    e.stopPropagation();
-                    e.preventDefault();
                   }}
                 >
                   Z - A
                 </MenuItem>
 
                 <MenuItem
-                  onClick={(e) => {
+                  onClick={() => {
                     // TODO: move `TableFilter` context up to `Table` so that we can open it from here
-                    e.stopPropagation();
-                    e.preventDefault();
                   }}
                 >
                   {translations.filterColumn || "Filter Column"}
