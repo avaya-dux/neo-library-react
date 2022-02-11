@@ -204,9 +204,9 @@ export const MultipleSelectOption: FunctionComponent<
 
   const item = items[index];
 
-  const labelId = useMemo(() => `label-id-${genId()}`, [index]);
+  const labelId = useMemo(() => `label-id-${genId()}`, []);
 
-  const helperId = useMemo(() => `helper-text-${genId()}`, [index]);
+  const helperId = useMemo(() => `helper-text-${genId()}`, []);
 
   const MultiSelectOption = (
     <>
