@@ -1,7 +1,7 @@
 import { Column } from "react-table";
 
+import { TableProps } from "../types";
 import { translations } from "./default-data";
-import { TableProps } from "./types";
 
 export interface IDataTableMockData {
   id: string;

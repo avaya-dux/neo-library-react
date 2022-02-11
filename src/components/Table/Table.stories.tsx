@@ -14,7 +14,7 @@ import {
 import { IconNamesType } from "utils";
 
 import { Table, TableProps } from "./";
-import { FilledFields, IDataTableMockData } from "./mock-data";
+import { FilledFields, IDataTableMockData } from "./helpers";
 
 export default {
   title: "Components/Table",

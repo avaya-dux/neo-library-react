@@ -6,7 +6,7 @@ import { Checkbox } from "components/Checkbox";
 import { IconButton } from "components/IconButton";
 import { Sheet } from "components/Sheet";
 
-import { translations as defaultTranslations } from "../default-data";
+import { translations as defaultTranslations } from "../helpers";
 import { ITableFilterTranslations } from "../types";
 
 type TableFilterProps<T extends Record<string, any>> = {

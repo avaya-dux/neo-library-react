@@ -11,8 +11,10 @@ import {
 import { Pagination } from "components/Pagination";
 
 import { TableProps } from ".";
-import { translations as defaultTranslations } from "./default-data";
-import { convertRowIdsArrayToObject } from "./helpers";
+import {
+  convertRowIdsArrayToObject,
+  translations as defaultTranslations,
+} from "./helpers";
 import { TableBody, TableHeader, TableToolbar } from "./TableComponents";
 
 /**
