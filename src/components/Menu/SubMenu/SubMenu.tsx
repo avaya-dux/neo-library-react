@@ -76,10 +76,13 @@ export const SubMenu: FC<SubMenuProps> = ({
     setOpen(action === "ENTER_SUB_MENU");
   }, [action, counter]);
 
-  const clonedChildren = useMemo(() => addIdToChildren(children), [children]);
+  const clonedChildren = useMemo(
+    () => addIdToChildren(children, SubMenu.name),
+    [children]
+  );
 
   const menuIndexes: MenuIndexesType = useMemo(
-    () => buildMenuIndexes(clonedChildren),
+    () => buildMenuIndexes(clonedChildren, SubMenu.name),
     [clonedChildren]
   );
   const [cursor, setCursor] = useState(0);
@@ -127,6 +130,7 @@ export const SubMenu: FC<SubMenuProps> = ({
       {isOpen &&
         layoutChildren(
           clonedChildren,
+          SubMenu.name,
           handleSubMenuKeyDown,
           handleSubMenuMouseMove,
           handleSubMenuBlur,
