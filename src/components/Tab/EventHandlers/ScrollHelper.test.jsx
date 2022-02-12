@@ -52,6 +52,48 @@ describe(canMovePreviousTabToRight, () => {
     ).toBeFalsy();
   });
 });
+describe(canMoveNextTabToLeft, () => {
+  it("viewPortWidth === containerWidth, should return false", () => {
+    const leftOffset = 100;
+    const viewPortWidth = 100;
+    const containerWidth = viewPortWidth;
+    expect(
+      canMoveNextTabToLeft(leftOffset, containerWidth, viewPortWidth)
+    ).toBeFalsy();
+  });
+  it("viewPortWidth > containerWidth, should return false", () => {
+    const leftOffset = 100;
+    const containerWidth = 100;
+    const viewPortWidth = containerWidth + 100;
+    expect(
+      canMoveNextTabToLeft(leftOffset, containerWidth, viewPortWidth)
+    ).toBeFalsy();
+  });
+  it("when leftOffset + viewPortWidth < containerWidth and containerWidth > viewPortWidth, should return true", () => {
+    const leftOffset = 0;
+    const containerWidth = 200;
+    const viewPortWidth = 100;
+    expect(
+      canMoveNextTabToLeft(leftOffset, containerWidth, viewPortWidth)
+    ).toBeTruthy();
+  });
+  it("when leftOffset + viewPortWidth === containerWidth and containerWidth > viewPortWidth, should return false", () => {
+    const leftOffset = 100;
+    const containerWidth = 200;
+    const viewPortWidth = 100;
+    expect(
+      canMoveNextTabToLeft(leftOffset, containerWidth, viewPortWidth)
+    ).toBeFalsy();
+  });
+  it("when leftOffset + viewPortWidth > containerWidth and containerWidth > viewPortWidth, should return false", () => {
+    const leftOffset = 150;
+    const containerWidth = 200;
+    const viewPortWidth = 100;
+    expect(
+      canMoveNextTabToLeft(leftOffset, containerWidth, viewPortWidth)
+    ).toBeFalsy();
+  });
+});
 describe(getPreviousTabToMoveRight, () => {
   it("when leftOffset = 0, should return index [-1, 0]", () => {
     const leftOffset = 0;
