@@ -26,6 +26,7 @@ export interface IPaginationTranslations {
 }
 
 export interface ITableHeaderTranslations {
+  clearSort?: string;
   filterColumn?: string;
   selectAll: string;
   sortBy: string;

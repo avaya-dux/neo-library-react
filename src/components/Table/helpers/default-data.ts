@@ -14,6 +14,7 @@ export const translations: ITableTranslations = {
     searchInputPlaceholder: "Search all",
   },
   header: {
+    clearSort: "Clear Sort",
     filterColumn: "Filter Column",
     sortBy: "sort by",
     selectAll: "select all",

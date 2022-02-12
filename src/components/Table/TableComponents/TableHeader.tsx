@@ -35,6 +35,7 @@ export const TableHeader = <T extends Record<string, any>>({
     state: { selectedRowIds },
     toggleAllRowsSelected,
     toggleSortBy,
+    clearSortBy,
   } = instance;
 
   const { toggleFilterSheetVisible } = useContext(FilterContext);
@@ -98,6 +99,8 @@ export const TableHeader = <T extends Record<string, any>>({
           } else if (canSort) {
             const thDivProps = getSortByToggleProps({
               title: translations?.sortBy,
+
+              // this is necessary to keep the "down" button from triggering sort+pagescroll
               onClick: (e) => {
                 e.stopPropagation();
                 e.preventDefault();
@@ -140,6 +143,10 @@ export const TableHeader = <T extends Record<string, any>>({
                 }
                 {...thDivProps}
               >
+                <MenuItem onClick={clearSortBy} disabled={!column.isSorted}>
+                  {translations.clearSort || "Clear Sort"}
+                </MenuItem>
+
                 <MenuItem
                   onClick={() => {
                     toggleSortBy(column.id, false, false);

@@ -37,9 +37,10 @@ describe("Table", () => {
     expect(results).toHaveNoViolations();
   });
 
-  it("allows the passing of default selected rows", () => {
-    const { getByLabelText } = render(
-      <Table
+  describe("row selection functionality", () => {
+    it("allows the passing of default selected rows", () => {
+      const { getByLabelText } = render(
+        <Table
         {...FilledFields}
         selectableRows="multiple"
         itemsPerPageOptions={[50]}
@@ -123,8 +124,9 @@ describe("Table", () => {
     fireEvent.click(firstRowCheckboxLabel);
 
     expect(firstRowCheckbox.checked).toBeFalsy();
-    expect(firstBodyRow.classList.length).toBe(0);
-    expect(firstBodyRow).not.toHaveClass("active");
+      expect(firstBodyRow.classList.length).toBe(0);
+      expect(firstBodyRow).not.toHaveClass("active");
+    });
   });
 
   describe("toolbar functionality", () => {
