@@ -24,19 +24,21 @@ import {
   MenuProps,
   SubMenuProps,
 } from "../MenuTypes";
-import { SubMenu } from "../SubMenu"; // BUG: causes circular dependency
 
 const logger = log.getLogger("menu-helpers");
 logger.disableAll();
 
-export const addIdToChildren = (children: MenuProps["children"]) => {
+export const addIdToChildren = (
+  children: MenuProps["children"],
+  subMenuName: string
+) => {
   return children.map((child) => {
     const childTypeName = (child.type as FC).name;
 
     if (childTypeName === MenuItem.name) {
       const childId = child.props.id || genId();
       return cloneElement(child, { id: childId });
-    } else if (childTypeName === SubMenu.name) {
+    } else if (childTypeName === subMenuName) {
       const buttonElement = (child.props as SubMenuProps).menuRootElement;
       const buttonElementId = buttonElement.props.id || genId();
       const cloneButton = cloneElement(buttonElement, {
@@ -53,6 +55,7 @@ export const addIdToChildren = (children: MenuProps["children"]) => {
 
 export const layoutChildren = (
   children: MenuProps["children"],
+  subMenuName: string,
   handleMenuKeyDown: KeyboardEventHandler<HTMLDivElement>,
   handleMenuMouseMove: MouseEventHandler,
   handleMenuBlur: FocusEventHandler,
@@ -111,7 +114,7 @@ export const layoutChildren = (
                   tabIndex: -1,
                 }
               );
-            } else if (childTypeName === SubMenu.name) {
+            } else if (childTypeName === subMenuName) {
               const buttonElement = (child.props as SubMenuProps)
                 .menuRootElement;
               const cloneButton = cloneElement(buttonElement, {
@@ -137,7 +140,10 @@ export const layoutChildren = (
   );
 };
 
-export const buildMenuIndexes = (children: MenuProps["children"]) => {
+export const buildMenuIndexes = (
+  children: MenuProps["children"],
+  subMenuName: string
+) => {
   const result =
     Children.map(children, (child, index) => {
       logger.debug(`building index ${index}`);
@@ -146,7 +152,7 @@ export const buildMenuIndexes = (children: MenuProps["children"]) => {
 
       if (childTypeName === MenuItem.name) {
         return { index, id: child.props.id };
-      } else if (childTypeName === SubMenu.name) {
+      } else if (childTypeName === subMenuName) {
         const props = child.props as SubMenuProps;
         return {
           index,
