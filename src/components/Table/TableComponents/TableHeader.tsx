@@ -1,11 +1,11 @@
-import { CSSProperties } from "react";
+import { CSSProperties, useContext } from "react";
 
 import { Checkbox } from "components/Checkbox";
 import { Icon } from "components/Icon";
 import { Menu, MenuItem } from "components/Menu";
 import { IconNamesType, Keys } from "utils";
 
-import { calculateAriaSortValue } from "../helpers";
+import { calculateAriaSortValue, FilterContext } from "../helpers";
 import { TableHeaderProps } from "../types";
 
 /**
@@ -36,6 +36,8 @@ export const TableHeader = <T extends Record<string, any>>({
     toggleAllRowsSelected,
     toggleSortBy,
   } = instance;
+
+  const { toggleFilterSheetVisible } = useContext(FilterContext);
 
   const selectedRows = Object.keys(selectedRowIds);
   const allRowsAreSelected = selectedRows.length === page.length;
@@ -154,11 +156,7 @@ export const TableHeader = <T extends Record<string, any>>({
                   Z - A
                 </MenuItem>
 
-                <MenuItem
-                  onClick={() => {
-                    // TODO: move `TableFilter` context up to `Table` so that we can open it from here
-                  }}
-                >
+                <MenuItem onClick={toggleFilterSheetVisible}>
                   {translations.filterColumn || "Filter Column"}
                 </MenuItem>
               </Menu>

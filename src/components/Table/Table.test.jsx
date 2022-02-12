@@ -3,8 +3,11 @@ import { fireEvent, render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { Table } from ".";
-import { calculateAriaSortValue, convertRowIdsArrayToObject } from "./helpers";
-import { FilledFields } from "./mock-data";
+import {
+  calculateAriaSortValue,
+  convertRowIdsArrayToObject,
+  FilledFields,
+} from "./helpers";
 import * as TableStories from "./Table.stories";
 
 const {

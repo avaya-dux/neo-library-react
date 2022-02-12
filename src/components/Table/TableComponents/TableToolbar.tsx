@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 
 import { Button } from "components/Button";
 import { IconButton } from "components/IconButton";
 import { TextInput } from "components/TextInput";
 
+import { FilterContext } from "../helpers";
 import { TableToolbarProps } from "../types";
 import { TableFilter } from "./TableFilter";
 
@@ -19,7 +20,6 @@ import { TableFilter } from "./TableFilter";
  * />
  */
 export const TableToolbar = <T extends Record<string, any>>({
-  allowColumnFilter,
   customActionsNode,
   handleCreate,
   handleDelete,
@@ -57,6 +57,8 @@ export const TableToolbar = <T extends Record<string, any>>({
 
   const editDisabled = readonly || selectedRowIdsStringArray.length !== 1;
   const deleteDisabled = readonly || selectedRowIdsStringArray.length === 0;
+
+  const { allowColumnFilter } = useContext(FilterContext);
 
   return (
     <div className="neo-table__actions">

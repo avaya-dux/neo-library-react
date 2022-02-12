@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { TableInstance } from "react-table";
 
 import { Button } from "components/Button";
@@ -6,7 +6,7 @@ import { Checkbox } from "components/Checkbox";
 import { IconButton } from "components/IconButton";
 import { Sheet } from "components/Sheet";
 
-import { translations as defaultTranslations } from "../helpers";
+import { FilterContext, translations as defaultTranslations } from "../helpers";
 import { ITableFilterTranslations } from "../types";
 
 type TableFilterProps<T extends Record<string, any>> = {
@@ -29,8 +29,8 @@ export const TableFilter = <T extends Record<string, any>>({
 
   const { allColumns, setHiddenColumns } = instance;
 
-  const [sheetVisible, setSheetVisible] = useState(false);
-  const toggleFilter = () => setSheetVisible((v) => !v);
+  const { filterSheetVisible, toggleFilterSheetVisible } =
+    useContext(FilterContext);
 
   const buttons = [
     <IconButton
@@ -39,7 +39,7 @@ export const TableFilter = <T extends Record<string, any>>({
       shape="circle"
       style={{ color: "black" }}
       variant="tertiary"
-      onClick={toggleFilter}
+      onClick={toggleFilterSheetVisible}
       key="table-filter-close-icon-button"
     />,
   ];
@@ -50,10 +50,10 @@ export const TableFilter = <T extends Record<string, any>>({
         aria-label={filterColumns}
         icon="filter"
         shape="square"
-        onClick={toggleFilter}
+        onClick={toggleFilterSheetVisible}
       />
 
-      {sheetVisible && (
+      {filterSheetVisible && (
         <Sheet
           className="neo-table__filters--sheet"
           title={filterColumns}
@@ -82,7 +82,11 @@ export const TableFilter = <T extends Record<string, any>>({
               {clear}
             </Button>
 
-            <Button onClick={toggleFilter} size="wide" variant="tertiary">
+            <Button
+              onClick={toggleFilterSheetVisible}
+              size="wide"
+              variant="tertiary"
+            >
               {close}
             </Button>
           </div>
