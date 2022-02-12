@@ -3,6 +3,7 @@ import {
   Children,
   cloneElement,
   Dispatch,
+  FC,
   FocusEventHandler,
   Fragment,
   isValidElement,
@@ -23,17 +24,21 @@ import {
   MenuProps,
   SubMenuProps,
 } from "../MenuTypes";
-import { SubMenu } from "../SubMenu"; // BUG: causes circular dependency
 
 const logger = log.getLogger("menu-helpers");
 logger.disableAll();
 
-export const addIdToChildren = (children: MenuProps["children"]) => {
+export const addIdToChildren = (
+  children: MenuProps["children"],
+  subMenuName: string
+) => {
   return children.map((child) => {
-    if (child.type.toString() === MenuItem.toString()) {
+    const childTypeName = (child.type as FC).name;
+
+    if (childTypeName === MenuItem.name) {
       const childId = child.props.id || genId();
       return cloneElement(child, { id: childId });
-    } else if (child.type.toString() === SubMenu.toString()) {
+    } else if (childTypeName === subMenuName) {
       const buttonElement = (child.props as SubMenuProps).menuRootElement;
       const buttonElementId = buttonElement.props.id || genId();
       const cloneButton = cloneElement(buttonElement, {
@@ -50,6 +55,7 @@ export const addIdToChildren = (children: MenuProps["children"]) => {
 
 export const layoutChildren = (
   children: MenuProps["children"],
+  subMenuName: string,
   handleMenuKeyDown: KeyboardEventHandler<HTMLDivElement>,
   handleMenuMouseMove: MouseEventHandler,
   handleMenuBlur: FocusEventHandler,
@@ -71,9 +77,11 @@ export const layoutChildren = (
       onBlur={handleMenuBlur}
     >
       {children.map((child, index) => {
+        const childTypeName = (child.type as FC).name;
+
         if (menuIndexes[cursor]?.index === index) {
           let activeChild;
-          if (child.type.toString() === MenuItem.toString()) {
+          if (childTypeName === MenuItem.name) {
             activeChild = cloneElement(child, {
               isActive: true,
               hasFocus: true,
@@ -97,7 +105,7 @@ export const layoutChildren = (
         } else {
           if (isValidElement(child)) {
             let inactiveChild;
-            if (child.type.toString() === MenuItem.toString()) {
+            if (childTypeName === MenuItem.name) {
               inactiveChild = cloneElement(
                 child as ReactElement<MenuItemProps>,
                 {
@@ -106,7 +114,7 @@ export const layoutChildren = (
                   tabIndex: -1,
                 }
               );
-            } else if (child.type.toString() === SubMenu.toString()) {
+            } else if (childTypeName === subMenuName) {
               const buttonElement = (child.props as SubMenuProps)
                 .menuRootElement;
               const cloneButton = cloneElement(buttonElement, {
@@ -132,13 +140,19 @@ export const layoutChildren = (
   );
 };
 
-export const buildMenuIndexes = (children: MenuProps["children"]) => {
+export const buildMenuIndexes = (
+  children: MenuProps["children"],
+  subMenuName: string
+) => {
   const result =
     Children.map(children, (child, index) => {
       logger.debug(`building index ${index}`);
-      if (child.type.toString() === MenuItem.toString()) {
+
+      const childTypeName = (child.type as FC).name;
+
+      if (childTypeName === MenuItem.name) {
         return { index, id: child.props.id };
-      } else if (child.type.toString() === SubMenu.toString()) {
+      } else if (childTypeName === subMenuName) {
         const props = child.props as SubMenuProps;
         return {
           index,
@@ -150,6 +164,7 @@ export const buildMenuIndexes = (children: MenuProps["children"]) => {
         return null;
       }
     }).filter((obj) => !!obj) || [];
+
   logger.debug(JSON.stringify(result));
   return result;
 };
