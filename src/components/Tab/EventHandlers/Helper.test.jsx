@@ -1,6 +1,7 @@
 import {
   moveNextTabToLeftAmount,
   movePreviousTabToRightAmount,
+  activateAnotherTabAndPanel,
 } from "./Helper";
 
 import {
@@ -12,10 +13,76 @@ import {
   calculateLeftMoveAmount,
 } from "./ScrollHelper";
 
+import { activatePreviousTab, getNextTabIndex } from "./KeyboardHelper";
+
 jest.mock("./ScrollHelper");
 
+jest.mock("./KeyboardHelper");
+
 describe("Tab -> EventHandlers -> Helper", () => {
+  describe(activateAnotherTabAndPanel, () => {
+    it("when previous tab is activated, do nothing", () => {
+      const tabs = [{}, {}];
+      const activeTabIndex = 1;
+      const setActiveTabIndex = jest.fn();
+      const setActivePanelIndex = jest.fn();
+      activatePreviousTab.mockReturnValue(true);
+      activateAnotherTabAndPanel(
+        tabs,
+        activeTabIndex,
+        setActiveTabIndex,
+        setActivePanelIndex
+      );
+      expect(activatePreviousTab).toHaveBeenCalled();
+    });
+    it("when no previous tab is to activate, should activate next tab", () => {
+      const tabs = [{}, {}];
+      const activeTabIndex = 0;
+      const setActiveTabIndex = jest.fn();
+      const setActivePanelIndex = jest.fn();
+      const nextTabIndex = 1;
+      activatePreviousTab.mockReturnValue(false);
+      getNextTabIndex.mockImplementation(() => nextTabIndex);
+      activateAnotherTabAndPanel(
+        tabs,
+        activeTabIndex,
+        setActiveTabIndex,
+        setActivePanelIndex
+      );
+      expect(activatePreviousTab).toHaveBeenCalled();
+      expect(getNextTabIndex).toHaveBeenCalled();
+      expect(setActiveTabIndex).toBeCalledWith(nextTabIndex - 1);
+      expect(setActivePanelIndex).toBeCalledWith(nextTabIndex - 1);
+    });
+    it("when tab can be found to activate, do nothing", () => {
+      const tabs = [{}, {}];
+      const activeTabIndex = 0;
+      const setActiveTabIndex = jest.fn();
+      const setActivePanelIndex = jest.fn();
+      const nextTabIndex = 0;
+      activatePreviousTab.mockReturnValue(false);
+      getNextTabIndex.mockImplementation(() => nextTabIndex);
+      activateAnotherTabAndPanel(
+        tabs,
+        activeTabIndex,
+        setActiveTabIndex,
+        setActivePanelIndex
+      );
+      expect(activatePreviousTab).toHaveBeenCalled();
+      expect(getNextTabIndex).toHaveBeenCalled();
+      expect(setActiveTabIndex).not.toBeCalled();
+      expect(setActivePanelIndex).not.toBeCalled();
+    });
+  });
   describe(movePreviousTabToRightAmount, () => {
+    beforeEach(() => {
+      canMovePreviousTabToRight.mockClear();
+      canMoveNextTabToLeft.mockClear();
+      getPreviousTabToMoveRight.mockClear();
+      getNextTabToMoveLeft.mockClear();
+      calculateLeftMoveAmount.mockClear();
+      calculateRightMoveAmount.mockClear();
+    });
     it("when canMovePreviousTabToRight is false, should return 0", () => {
       canMovePreviousTabToRight.mockImplementation(() => false);
       expect(movePreviousTabToRightAmount(100, 200, 50, [])).toEqual(0);
@@ -28,13 +95,9 @@ describe("Tab -> EventHandlers -> Helper", () => {
       const retOfGetPreviousTabToMoveRight = [0, 100];
       const retOfCalculateRightMoveAmount = 100;
       const tabWidths = [];
-      canMovePreviousTabToRight.mockImplementation(() => true);
-      getPreviousTabToMoveRight.mockImplementation(
-        () => retOfGetPreviousTabToMoveRight
-      );
-      calculateRightMoveAmount.mockImplementation(
-        () => retOfCalculateRightMoveAmount
-      );
+      canMovePreviousTabToRight.mockReturnValue(true);
+      getPreviousTabToMoveRight.mockReturnValue(retOfGetPreviousTabToMoveRight);
+      calculateRightMoveAmount.mockReturnValue(retOfCalculateRightMoveAmount);
       expect(
         movePreviousTabToRightAmount(
           leftOffset,
@@ -51,10 +114,46 @@ describe("Tab -> EventHandlers -> Helper", () => {
     });
   });
   describe(moveNextTabToLeftAmount, () => {
-    it("Right most tab is shown, can not move left any further should return 0", () => {
-      expect(moveNextTabToLeftAmount(300, 400, 100, [100, 100, 100, 100])).toBe(
-        0
+    it("when canMoveNextTabToLeft is false, should return 0", () => {
+      canMoveNextTabToLeft.mockReturnValue(false);
+      expect(moveNextTabToLeftAmount(100, 200, 50, [])).toEqual(0);
+      expect(canMoveNextTabToLeft).toBeCalledWith(100, 200, 50);
+    });
+    it("when canMoveNextTabToLeft is true, should call getNextTabToMoveLeft and calculateLeftMoveAmount correctly", () => {
+      const leftOffset = 100;
+      const containerWidth = 200;
+      const viewPortWidth = 500;
+      const retOfgetNextTabToMoveLeft = [0, 100];
+      const retOfcalculateLeftMoveAmount = 100;
+      const tabWidths = [];
+      canMoveNextTabToLeft.mockReturnValue(true);
+      getNextTabToMoveLeft.mockReturnValue(retOfgetNextTabToMoveLeft);
+      calculateLeftMoveAmount.mockReturnValue(retOfcalculateLeftMoveAmount);
+      expect(
+        moveNextTabToLeftAmount(leftOffset, containerWidth, viewPortWidth, [])
+      ).toBe(retOfcalculateLeftMoveAmount);
+      expect(getNextTabToMoveLeft).toBeCalledWith(
+        leftOffset,
+        viewPortWidth,
+        tabWidths
       );
+      expect(calculateLeftMoveAmount).toBeCalledWith(
+        ...retOfgetNextTabToMoveLeft,
+        tabWidths
+      );
+    });
+    it("When container width === sum of tabWidths, should return 0", () => {
+      const leftOffset = 300;
+      const viewPortWidth = 100;
+      const containerWidth = leftOffset + viewPortWidth;
+      expect(
+        moveNextTabToLeftAmount(
+          leftOffset,
+          containerWidth,
+          viewPortWidth,
+          [100, 100, 100, 100]
+        )
+      ).toBe(0);
     });
   });
 });

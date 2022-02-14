@@ -1,5 +1,19 @@
-import { handleMouseClickEvent } from "./MouseEventHandlers";
+import {
+  handleMouseClickEvent,
+  handleCloseElementMouseClickEvent,
+  handleLeftCarouselMouseClickEvent,
+  handleRightCarouselMouseClickEvent,
+} from "./MouseEventHandlers";
 
+import {
+  activateAnotherTabAndPanel,
+  enableLeftButton,
+  enableRightButton,
+  extractproperties,
+  movePreviousTabToRightAmount,
+  moveNextTabToLeftAmount,
+} from "./Helper";
+jest.mock("./Helper");
 describe("Tab Mouse event handlers", () => {
   describe(handleMouseClickEvent, () => {
     let setActiveTabIndex;
@@ -20,9 +34,8 @@ describe("Tab Mouse event handlers", () => {
 
       handleMouseClickEvent(e, tabs, setActiveTabIndex, setActivePanelIndex);
       expect(e.stopPropagation).toBeCalled();
-      expect(setActiveTabIndex).toBeCalledWith(0);
-      expect(setActivePanelIndex).toBeCalledWith(0);
       expect(e.preventDefault).toBeCalled();
+      expect(activateAnotherTabAndPanel).not.toBeCalled();
     });
     it("should not call setActiveTabIndex if id is null", () => {
       const target = { getAttribute: () => null };
@@ -36,6 +49,185 @@ describe("Tab Mouse event handlers", () => {
       expect(setActiveTabIndex).not.toBeCalled();
       expect(setActivePanelIndex).not.toBeCalled();
       expect(e.preventDefault).toBeCalled();
+      expect(activateAnotherTabAndPanel).not.toBeCalled();
+    });
+  });
+  describe(handleCloseElementMouseClickEvent, () => {
+    let setActiveTabIndex;
+    let setActivePanelIndex;
+    let tabs;
+    beforeEach(() => {
+      tabs = getTabProps();
+      setActiveTabIndex = jest.fn();
+      setActivePanelIndex = jest.fn();
+    });
+    it("do nothing when tabIndex > activeTabIndex", () => {
+      const target = { getAttribute: () => "tab1" };
+      const e = {
+        stopPropagation: jest.fn(),
+        preventDefault: jest.fn(),
+        target,
+      };
+      const activeTabIndex = 1;
+      const tabIndex = activeTabIndex + 1;
+      handleCloseElementMouseClickEvent(
+        e,
+        tabs,
+        tabIndex,
+        activeTabIndex,
+        setActiveTabIndex,
+        setActivePanelIndex
+      );
+      expect(e.stopPropagation).toBeCalled();
+      expect(setActiveTabIndex).not.toBeCalled();
+      expect(setActivePanelIndex).not.toBeCalled();
+      expect(e.preventDefault).toBeCalled();
+      expect(activateAnotherTabAndPanel).not.toBeCalled();
+    });
+    it("should set activeTabIndex to activeTabIndex -1 when tabIndex < activeTabIndex", () => {
+      const target = { getAttribute: () => null };
+      const e = {
+        stopPropagation: jest.fn(),
+        preventDefault: jest.fn(),
+        target,
+      };
+      const tabIndex = 0;
+      const activeTabIndex = 1;
+
+      handleCloseElementMouseClickEvent(
+        e,
+        tabs,
+        tabIndex,
+        activeTabIndex,
+        setActiveTabIndex,
+        setActivePanelIndex
+      );
+      expect(e.stopPropagation).toBeCalled();
+      expect(setActiveTabIndex).toBeCalledWith(0);
+      expect(setActivePanelIndex).toBeCalledWith(0);
+      expect(e.preventDefault).toBeCalled();
+      expect(activateAnotherTabAndPanel).not.toBeCalled();
+    });
+    it("should call activateAnotherTabAndPanel when tabIndex === activeTabIndex", () => {
+      const target = { getAttribute: () => "tab1" };
+      const e = {
+        stopPropagation: jest.fn(),
+        preventDefault: jest.fn(),
+        target,
+      };
+      const activeTabIndex = 1;
+      const tabIndex = activeTabIndex;
+      handleCloseElementMouseClickEvent(
+        e,
+        tabs,
+        tabIndex,
+        activeTabIndex,
+        setActiveTabIndex,
+        setActivePanelIndex
+      );
+      expect(e.stopPropagation).toBeCalled();
+      expect(setActiveTabIndex).not.toBeCalled();
+      expect(setActivePanelIndex).not.toBeCalled();
+      expect(e.preventDefault).toBeCalled();
+      expect(activateAnotherTabAndPanel).toBeCalled();
+    });
+  });
+  describe(handleLeftCarouselMouseClickEvent, () => {
+    let setLeftCarouselButtonEnabled;
+    let setRightCarouselButtonEnabled;
+    let scrollRef;
+    let tabRefs;
+    let e;
+    beforeEach(() => {
+      extractproperties.mockReturnValue([1, 2, 3, []]);
+      setLeftCarouselButtonEnabled = jest.fn();
+      setRightCarouselButtonEnabled = jest.fn();
+      scrollRef = { current: { scrollBy: jest.fn() } };
+      tabRefs = [];
+      e = {
+        stopPropagation: jest.fn(),
+      };
+    });
+    it("do nothing when tabs can not be scrolled", () => {
+      movePreviousTabToRightAmount.mockReturnValue(0);
+      handleLeftCarouselMouseClickEvent(
+        e,
+        scrollRef,
+        tabRefs,
+        setLeftCarouselButtonEnabled,
+        setRightCarouselButtonEnabled
+      );
+      expect(scrollRef.current.scrollBy).not.toBeCalled();
+      expect(e.stopPropagation).toBeCalled();
+      expect(extractproperties).toBeCalled();
+    });
+    it("scroll tabs to right when tabs can be scrolled right", () => {
+      const moveAmount = 100;
+      movePreviousTabToRightAmount.mockReturnValue(moveAmount);
+      handleLeftCarouselMouseClickEvent(
+        e,
+        scrollRef,
+        tabRefs,
+        setLeftCarouselButtonEnabled,
+        setRightCarouselButtonEnabled
+      );
+      expect(scrollRef.current.scrollBy).toBeCalledWith({ left: -moveAmount });
+      expect(e.stopPropagation).toBeCalled();
+      expect(setLeftCarouselButtonEnabled).toBeCalled();
+      expect(setRightCarouselButtonEnabled).toBeCalled();
+      expect(movePreviousTabToRightAmount).toBeCalled();
+      expect(enableLeftButton).toBeCalled();
+      expect(enableRightButton).toBeCalled();
+    });
+  });
+  describe(handleRightCarouselMouseClickEvent, () => {
+    let setLeftCarouselButtonEnabled;
+    let setRightCarouselButtonEnabled;
+    let scrollRef;
+    let tabRefs;
+    let e;
+    beforeEach(() => {
+      extractproperties.mockReturnValue([1, 2, 3, []]);
+      setLeftCarouselButtonEnabled = jest.fn();
+      setRightCarouselButtonEnabled = jest.fn();
+      scrollRef = { current: { scrollBy: jest.fn() } };
+      tabRefs = [];
+      e = {
+        stopPropagation: jest.fn(),
+      };
+    });
+    it("do nothing when tabs can be scrolled left", () => {
+      moveNextTabToLeftAmount.mockReturnValue(0);
+      handleRightCarouselMouseClickEvent(
+        e,
+        scrollRef,
+        tabRefs,
+        setLeftCarouselButtonEnabled,
+        setRightCarouselButtonEnabled
+      );
+      expect(scrollRef.current.scrollBy).not.toBeCalled();
+      expect(e.stopPropagation).toBeCalled();
+      expect(extractproperties).toBeCalled();
+      expect(moveNextTabToLeftAmount).toBeCalled();
+    });
+    it("scroll tabs left when tabs can be scrolled left", () => {
+      const moveAmount = 100;
+      moveNextTabToLeftAmount.mockReturnValue(moveAmount);
+      handleRightCarouselMouseClickEvent(
+        e,
+        scrollRef,
+        tabRefs,
+        setLeftCarouselButtonEnabled,
+        setRightCarouselButtonEnabled
+      );
+      expect(scrollRef.current.scrollBy).toBeCalledWith({ left: moveAmount });
+      expect(e.stopPropagation).toBeCalled();
+      expect(setLeftCarouselButtonEnabled).toBeCalled();
+      expect(setRightCarouselButtonEnabled).toBeCalled();
+      expect(extractproperties).toBeCalled();
+      expect(moveNextTabToLeftAmount).toBeCalled();
+      expect(enableLeftButton).toBeCalled();
+      expect(enableRightButton).toBeCalled();
     });
   });
 });

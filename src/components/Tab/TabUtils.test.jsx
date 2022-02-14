@@ -8,6 +8,7 @@ import {
 import { Tabs } from "./Tabs";
 import {
   buildTabProps,
+  getContentClasses,
   getTabItemClasses,
   isValidPanelElement,
   isValidTabElement,
@@ -48,6 +49,26 @@ describe("TabUtils", () => {
     it("when element is tab panel element, return true", () => {
       const element = <TabPanel>content one</TabPanel>;
       expect(isValidPanelElement(element)).toBeTruthy();
+    });
+  });
+  describe(getContentClasses, () => {
+    it("when className is undefined and active is true, should return neo-tabs__container--active", () => {
+      expect(getContentClasses(true)).toBe("neo-tabs__container--active");
+    });
+    it("when className is undefined and active is false, should return neo-tabs__container", () => {
+      expect(getContentClasses(false)).toBe("neo-tabs__container");
+    });
+    it("when className is defined and active is true, should return neo-tabs__container--active and className", () => {
+      const className = "my-class";
+      expect(getContentClasses(true, className)).toBe(
+        `${className} neo-tabs__container--active`
+      );
+    });
+    it("when className is defined and active is false, should return neo-tabs__container and className", () => {
+      const className = "my-class";
+      expect(getContentClasses(false, className)).toBe(
+        `${className} neo-tabs__container`
+      );
     });
   });
   describe(getTabItemClasses, () => {
@@ -135,6 +156,21 @@ describe("TabUtils", () => {
     });
   });
   describe(buildTabProps, () => {
+    it("return id property if not defined", () => {
+      const tabs = (
+        <Tabs>
+          <TabList>
+            <Tab>tab1</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>content1</TabPanel>
+          </TabPanels>
+        </Tabs>
+      );
+      const actual = buildTabProps(tabs.props.children);
+      expect(actual.length).toBe(1);
+      expect(actual[0].id).toBeDefined();
+    });
     it("parses correctly given proper tags", () => {
       const tabs = (
         <Tabs defaultTabId="tab1">
