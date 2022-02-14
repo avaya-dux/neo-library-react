@@ -12,7 +12,7 @@ import {
 import { Tabs } from "./Tabs";
 import { TabsProps } from "./TabTypes";
 
-tabMouseEventHandlerLogger.enableAll();
+tabMouseEventHandlerLogger.disableAll();
 
 export default {
   title: "Components/Tab",

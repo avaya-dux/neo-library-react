@@ -1,5 +1,5 @@
 import { composeStories } from "@storybook/testing-react";
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 import { internalTabLogger } from "./InternalTab";
@@ -7,6 +7,8 @@ import * as CarouselTabStories from "./Tabs.carousel.stories";
 import * as IconTabStories from "./Tabs.icon.stories";
 import * as ScrollableTabStories from "./Tabs.scrollable.stories";
 import * as TabStories from "./Tabs.stories";
+
+jest.spyOn(console, "log").mockImplementation(() => {});
 
 internalTabLogger.disableAll();
 

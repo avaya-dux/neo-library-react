@@ -11,7 +11,7 @@ import {
   HorizontalTabsProps,
 } from ".";
 
-tabMouseEventHandlerLogger.enableAll();
+tabMouseEventHandlerLogger.disableAll();
 
 export default {
   title: "Components/Tab",
