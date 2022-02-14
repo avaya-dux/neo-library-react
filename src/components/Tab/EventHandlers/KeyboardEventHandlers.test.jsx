@@ -64,6 +64,9 @@ describe("Tab Keyboard event handlers", () => {
       beforeEach(() => {
         e = { key: Keys.DOWN, stopPropagation: jest.fn() };
       });
+      afterEach(() => {
+        jest.resetAllMocks();
+      });
       it("should do nothing when tabs is empty", () => {
         const tabs = [];
         handleKeyDownEvent(

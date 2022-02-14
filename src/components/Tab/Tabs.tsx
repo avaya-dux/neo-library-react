@@ -22,6 +22,7 @@ import {
   buildTabProps,
   createPanel,
   createTab,
+  debugTabs,
   getAllTabIdsInString,
 } from "./TabUtils";
 
@@ -38,11 +39,7 @@ export const Tabs = ({
 }: TabsProps) => {
   const tabs = useMemo(() => buildTabProps(children), [children]);
 
-  if (logger.getLevel() < log.levels.INFO) {
-    tabs.forEach((tab) => {
-      logger.debug(`${tab.id} disabled= ${tab.disabled}`);
-    });
-  }
+  debugTabs(logger, tabs);
 
   const isVertical = orientation === "vertical";
   const isScrollable = "scrollable" in rest ? rest.scrollable : false;

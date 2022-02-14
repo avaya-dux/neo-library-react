@@ -22,6 +22,9 @@ jest.mock("./KeyboardHelper");
 
 describe("Tab -> EventHandlers -> Helper", () => {
   describe(activateAnotherTabAndPanel, () => {
+    afterEach(() => {
+      jest.resetAllMocks();
+    });
     it("when previous tab is activated, do nothing", () => {
       const tabs = [{}, {}];
       const activeTabIndex = 1;
@@ -76,13 +79,8 @@ describe("Tab -> EventHandlers -> Helper", () => {
     });
   });
   describe(movePreviousTabToRightAmount, () => {
-    beforeEach(() => {
-      canMovePreviousTabToRight.mockClear();
-      canMoveNextTabToLeft.mockClear();
-      getPreviousTabToMoveRight.mockClear();
-      getNextTabToMoveLeft.mockClear();
-      calculateLeftMoveAmount.mockClear();
-      calculateRightMoveAmount.mockClear();
+    afterEach(() => {
+      jest.resetAllMocks();
     });
     it("when canMovePreviousTabToRight is false, should return 0", () => {
       canMovePreviousTabToRight.mockImplementation(() => false);
@@ -115,6 +113,9 @@ describe("Tab -> EventHandlers -> Helper", () => {
     });
   });
   describe(moveNextTabToLeftAmount, () => {
+    afterEach(() => {
+      jest.resetAllMocks();
+    });
     it("when canMoveNextTabToLeft is false, should return 0", () => {
       canMoveNextTabToLeft.mockReturnValue(false);
       expect(moveNextTabToLeftAmount(100, 200, 50, [])).toEqual(0);

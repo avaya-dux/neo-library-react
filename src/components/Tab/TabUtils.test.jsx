@@ -8,12 +8,13 @@ import {
 import { Tabs } from "./Tabs";
 import {
   buildTabProps,
+  debugTabs,
   getContentClasses,
   getTabItemClasses,
   isValidPanelElement,
   isValidTabElement,
 } from "./TabUtils";
-
+import log from "loglevel";
 describe("TabUtils", () => {
   describe(isValidTabElement, () => {
     it("when element is fragment, return false", () => {
@@ -246,5 +247,23 @@ describe("TabUtils", () => {
         ]
       `);
     });
+  });
+});
+describe(debugTabs, () => {
+  it("should call debug when log level is debug", () => {
+    const logger = {
+      getLevel: () => log.levels.DEBUG,
+      debug: jest.fn(),
+    };
+    debugTabs(logger, [{ id: "tab1", disabled: true }]);
+    expect(logger.debug).toBeCalledTimes(1);
+  });
+  it("should not call debug when log level is info", () => {
+    const logger = {
+      getLevel: () => log.levels.INFO,
+      debug: jest.fn(),
+    };
+    debugTabs(logger, [{ id: "tab1", disabled: true }]);
+    expect(logger.debug).toBeCalledTimes(0);
   });
 });

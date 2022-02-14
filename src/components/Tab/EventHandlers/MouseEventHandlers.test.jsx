@@ -9,7 +9,7 @@ import {
   activateAnotherTabAndPanel,
   enableLeftButton,
   enableRightButton,
-  extractproperties,
+  extractProperties,
   movePreviousTabToRightAmount,
   moveNextTabToLeftAmount,
 } from "./Helper";
@@ -139,7 +139,7 @@ describe("Tab Mouse event handlers", () => {
     let tabRefs;
     let e;
     beforeEach(() => {
-      extractproperties.mockReturnValue([1, 2, 3, []]);
+      extractProperties.mockReturnValue([1, 2, 3, []]);
       setLeftCarouselButtonEnabled = jest.fn();
       setRightCarouselButtonEnabled = jest.fn();
       scrollRef = { current: { scrollBy: jest.fn() } };
@@ -147,6 +147,9 @@ describe("Tab Mouse event handlers", () => {
       e = {
         stopPropagation: jest.fn(),
       };
+    });
+    afterEach(() => {
+      jest.resetAllMocks();
     });
     it("do nothing when tabs can not be scrolled", () => {
       movePreviousTabToRightAmount.mockReturnValue(0);
@@ -159,7 +162,7 @@ describe("Tab Mouse event handlers", () => {
       );
       expect(scrollRef.current.scrollBy).not.toBeCalled();
       expect(e.stopPropagation).toBeCalled();
-      expect(extractproperties).toBeCalled();
+      expect(extractProperties).toBeCalled();
     });
     it("scroll tabs to right when tabs can be scrolled right", () => {
       const moveAmount = 100;
@@ -187,7 +190,7 @@ describe("Tab Mouse event handlers", () => {
     let tabRefs;
     let e;
     beforeEach(() => {
-      extractproperties.mockReturnValue([1, 2, 3, []]);
+      extractProperties.mockReturnValue([1, 2, 3, []]);
       setLeftCarouselButtonEnabled = jest.fn();
       setRightCarouselButtonEnabled = jest.fn();
       scrollRef = { current: { scrollBy: jest.fn() } };
@@ -195,6 +198,9 @@ describe("Tab Mouse event handlers", () => {
       e = {
         stopPropagation: jest.fn(),
       };
+    });
+    afterEach(() => {
+      jest.resetAllMocks();
     });
     it("do nothing when tabs can be scrolled left", () => {
       moveNextTabToLeftAmount.mockReturnValue(0);
@@ -207,7 +213,7 @@ describe("Tab Mouse event handlers", () => {
       );
       expect(scrollRef.current.scrollBy).not.toBeCalled();
       expect(e.stopPropagation).toBeCalled();
-      expect(extractproperties).toBeCalled();
+      expect(extractProperties).toBeCalled();
       expect(moveNextTabToLeftAmount).toBeCalled();
     });
     it("scroll tabs left when tabs can be scrolled left", () => {
@@ -224,7 +230,7 @@ describe("Tab Mouse event handlers", () => {
       expect(e.stopPropagation).toBeCalled();
       expect(setLeftCarouselButtonEnabled).toBeCalled();
       expect(setRightCarouselButtonEnabled).toBeCalled();
-      expect(extractproperties).toBeCalled();
+      expect(extractProperties).toBeCalled();
       expect(moveNextTabToLeftAmount).toBeCalled();
       expect(enableLeftButton).toBeCalled();
       expect(enableRightButton).toBeCalled();

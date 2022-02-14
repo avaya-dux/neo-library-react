@@ -9,6 +9,16 @@ import { TabPanelProps, TabsProps } from "./TabTypes";
 const logger = log.getLogger("tab-utils-logger");
 logger.disableAll();
 
+export function debugTabs(
+  logger: any,
+  tabs: { id: string; disabled: boolean }[]
+) {
+  if (logger.getLevel() < log.levels.INFO) {
+    tabs.forEach((tab) => {
+      logger.debug(`${tab.id} disabled= ${tab.disabled}`);
+    });
+  }
+}
 export function getAllTabIdsInString(tabProps: InternalTabProps[]): string {
   return tabProps.map((tab) => tab.id).join(" ");
 }
