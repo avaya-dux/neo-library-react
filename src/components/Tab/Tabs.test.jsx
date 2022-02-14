@@ -1,12 +1,12 @@
 import { composeStories } from "@storybook/testing-react";
 import { render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 import { internalTabLogger } from "./InternalTab";
-
-import * as TabStories from "./Tabs.stories";
-import * as ScrollableTabStories from "./Tabs.scrollable.stories";
-import * as IconTabStories from "./Tabs.icon.stories";
 import * as CarouselTabStories from "./Tabs.carousel.stories";
+import * as IconTabStories from "./Tabs.icon.stories";
+import * as ScrollableTabStories from "./Tabs.scrollable.stories";
+import * as TabStories from "./Tabs.stories";
 
 internalTabLogger.disableAll();
 
@@ -36,6 +36,16 @@ describe("Tabs", () => {
         const results = await axe(container);
         expect(results).toHaveNoViolations();
       });
+
+      it("click on tab3 should make tab3 active", () => {
+        const { getAllByRole } = renderResult;
+        const tabs = getAllByRole("tab");
+        expect(tabs.length).toBe(3);
+        const tab3 = tabs[2];
+        userEvent.click(tab3);
+        expect(tab3).toHaveAttribute("tabindex", "0");
+        expect(tab3).toHaveAttribute("aria-selected", "true");
+      });
     });
     describe(UncontrolledActiveTabStory.storyName, () => {
       let renderResult;
@@ -51,6 +61,36 @@ describe("Tabs", () => {
         const { container } = renderResult;
         const results = await axe(container);
         expect(results).toHaveNoViolations();
+      });
+      it("Close Tab2 using space should work", () => {
+        const { getAllByRole } = renderResult;
+        const tabs = getAllByRole("tab");
+        expect(tabs.length).toBe(5);
+        userEvent.tab();
+        const closeButton = getAllByRole("button")[0];
+        expect(closeButton).toHaveFocus();
+        userEvent.keyboard("{space}");
+        expect(getAllByRole("tab").length).toBe(4);
+      });
+      it("Close Tab2 using enter should work", () => {
+        const { getAllByRole } = renderResult;
+        const tabs = getAllByRole("tab");
+        expect(tabs.length).toBe(5);
+        userEvent.tab();
+        const closeButton = getAllByRole("button")[0];
+        expect(closeButton).toHaveFocus();
+        userEvent.keyboard("{enter}");
+        expect(getAllByRole("tab").length).toBe(4);
+      });
+      it("Close Tab2 using mouse click should work", () => {
+        const { getAllByRole } = renderResult;
+        const tabs = getAllByRole("tab");
+        expect(tabs.length).toBe(5);
+        userEvent.tab();
+        const closeButton = getAllByRole("button")[0];
+        expect(closeButton).toHaveFocus();
+        userEvent.click(closeButton);
+        expect(getAllByRole("tab").length).toBe(4);
       });
     });
     describe(IconTabs.storyName, () => {

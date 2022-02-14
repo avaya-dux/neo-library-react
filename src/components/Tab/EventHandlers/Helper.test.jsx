@@ -1,4 +1,5 @@
 import {
+  noop,
   moveNextTabToLeftAmount,
   movePreviousTabToRightAmount,
   activateAnotherTabAndPanel,
@@ -155,5 +156,10 @@ describe("Tab -> EventHandlers -> Helper", () => {
         )
       ).toBe(0);
     });
+  });
+});
+describe(noop, () => {
+  it("should not blow up", () => {
+    noop();
   });
 });

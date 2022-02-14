@@ -120,3 +120,4 @@ export function moveNextTabToLeftAmount(
   );
   return calculateLeftMoveAmount(index, overshoot, tabWidths);
 }
+export const noop = () => {};
