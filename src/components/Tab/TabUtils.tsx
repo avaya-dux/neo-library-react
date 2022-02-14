@@ -6,31 +6,28 @@ import { InternalTabProps } from "./InternalTabTypes";
 import { ClosableTab, Tab, TabPanel } from "./TabComponents";
 import { TabPanelProps, TabsProps } from "./TabTypes";
 
-const logger = log.getLogger("tabs-utils-logger");
+const logger = log.getLogger("tab-utils-logger");
 logger.disableAll();
 
 export function getAllTabIdsInString(tabProps: InternalTabProps[]): string {
   return tabProps.map((tab) => tab.id).join(" ");
 }
 
-export function isValidPanelElement(element: { type: {} }) {
+export function isValidPanelElement(element: ReactElement) {
   return element.type === TabPanel;
 }
-export function isValidTabElement(element: { type: {} }) {
+export function isValidTabElement(element: ReactElement) {
   logger.debug(element.type as string, ClosableTab as unknown as string);
   logger.debug(element.type.toString());
 
   // Comparing functions by reference here: should be fast.
-  return element.type === ClosableTab || element.type === Tab;
+  return isClosableTab(element) || element.type === Tab;
 }
-export function toArray(children: ReactElement[]) {
-  if (Array.isArray(children)) {
-    return children;
-  } else {
-    const ret: ReactElement[] = [];
-    ret.push(children);
-    return ret;
-  }
+export function isClosableTab(element: ReactElement) {
+  return element.type === ClosableTab;
+}
+function toArray(children: ReactElement[]) {
+  return Array.isArray(children) ? children : [children];
 }
 export const buildTabProps = (
   children: TabsProps["children"]
@@ -50,7 +47,7 @@ export const buildTabProps = (
     const disabled = !!props!.disabled;
     logger.debug(`${id} disabled = ${disabled}`);
     const icon = "icon" in props ? props!.icon : undefined;
-    const closable = tab.type === ClosableTab;
+    const closable = isClosableTab(tab);
     const onClose = "onClose" in props ? props!.onClose : undefined;
     return {
       ...rest,
