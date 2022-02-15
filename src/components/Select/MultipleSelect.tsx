@@ -88,12 +88,11 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
     selectedItem: null,
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
-      const controlledIsOpen = isDisabledOrLoading();
       switch (type) {
         case useSelect.stateChangeTypes.ToggleButtonClick:
           return {
             ...changes,
-            isOpen: controlledIsOpen,
+            isOpen: !(disabled || loading),
           };
         case useSelect.stateChangeTypes.MenuKeyDownEnter:
         case useSelect.stateChangeTypes.MenuKeyDownSpaceButton:
@@ -166,15 +165,14 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
         )}
         aria-describedby={helperText && helperId}
       >
-        <div
+        <button
           className="neo-multiselect__header"
           {...getToggleButtonProps()}
-          role="button"
-          tabIndex={0}
-          type="button"
+          // TO-DO: Add this property to .neo-multiselect__header class to maintain styling when using button element instead of div
+          style={{ width: "100%" }}
         >
           {multipleSelectText}
-        </div>
+        </button>
         <div className="neo-multiselect__content" {...getMenuProps()}>
           {childrenWithProps}
         </div>

@@ -1,7 +1,7 @@
 import { composeStories } from "@storybook/testing-react";
 import { fireEvent, render, act } from "@testing-library/react";
 import { axe } from "jest-axe";
-import { MultipleSelect } from "./MultipleSelect";
+import { MultipleSelect, MultipleSelectOption } from "./MultipleSelect";
 import * as MultipleSelectStories from "./MultipleSelect.stories";
 
 const {
@@ -63,6 +63,41 @@ describe("MultipleSelect", () => {
       expectedAttributes.forEach((attribute) =>
         expect(listboxElement).toHaveAttribute(attribute)
       );
+    });
+
+    it("does open content area on click after content is loaded", () => {
+      let loading = true;
+      const placeholder = "please select one";
+      const label = randomString();
+      const { getByText, rerender } = render(
+        <MultipleSelect
+          label={label}
+          loading={loading}
+          placeholder={placeholder}
+        >
+          <MultipleSelectOption>Option 1</MultipleSelectOption>
+        </MultipleSelect>
+      );
+
+      const defaultSelectHeader = getByText(placeholder);
+      expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
+      fireEvent.click(defaultSelectHeader);
+      expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
+
+      loading = false;
+      rerender(
+        <MultipleSelect
+          label={label}
+          loading={loading}
+          placeholder={placeholder}
+        >
+          <MultipleSelectOption>Option 1</MultipleSelectOption>
+        </MultipleSelect>
+      );
+      // setTimeout(() => {
+      fireEvent.click(defaultSelectHeader);
+      expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "true");
+      // }, 1);
     });
 
     it("passes basic axe compliance", async () => {
