@@ -31,6 +31,7 @@ import {
   MenuIndexesType,
   MenuProps,
 } from "./MenuTypes";
+import { SubMenu } from "./SubMenu";
 
 const logger = log.getLogger("menu");
 logger.disableAll();
@@ -83,9 +84,12 @@ export const Menu = forwardRef(
 
     const [isOpen, setOpen] = useState(defaultIsOpen);
     const [enterCounter, setEnterCounter] = useState(1);
-    const clonedChildren = useMemo(() => addIdToChildren(children), [children]);
+    const clonedChildren = useMemo(
+      () => addIdToChildren(children, SubMenu.name),
+      [children]
+    );
     const menuIndexes: MenuIndexesType = useMemo(
-      () => buildMenuIndexes(clonedChildren),
+      () => buildMenuIndexes(clonedChildren, SubMenu.name),
       [clonedChildren]
     );
     // remember item to have focus
@@ -195,6 +199,7 @@ export const Menu = forwardRef(
           {isOpen &&
             layoutChildren(
               clonedChildren,
+              SubMenu.name,
               handleMenuKeyDown,
               handleMenuMouseMove,
               handleMenuBlur,
