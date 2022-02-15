@@ -12,6 +12,7 @@ import {
   Ref,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
@@ -19,11 +20,18 @@ import {
   handleBlurEvent,
   handleButtonKeyDownEvent,
   handleKeyDownEvent,
-  handleMouseClickEvent,
+  handleMenuButtonClickEvent,
   handleMouseMoveEvent,
 } from "./EventHandlers";
 import { addIdToChildren, buildMenuIndexes, layoutChildren } from "./helpers";
-import { ActionType, MenuIndexesType, MenuProps } from "./MenuTypes";
+import { MenuContext } from "./MenuContext";
+import {
+  ActionType,
+  MenuContextType,
+  MenuIndexesType,
+  MenuProps,
+} from "./MenuTypes";
+import { SubMenu } from "./SubMenu";
 
 const logger = log.getLogger("menu");
 logger.disableAll();
@@ -61,9 +69,12 @@ export const Menu = forwardRef(
     {
       children,
       className,
+      closeOnBlur = true,
+      closeOnSelect = true,
       defaultIsOpen = false,
       itemAlignment = "left",
       menuRootElement,
+      onMenuClose = () => {},
       openOnHover = false,
       ...rest
     }: MenuProps,
@@ -73,23 +84,37 @@ export const Menu = forwardRef(
 
     const [isOpen, setOpen] = useState(defaultIsOpen);
     const [enterCounter, setEnterCounter] = useState(1);
-    const clonedChildren = useMemo(() => addIdToChildren(children), [children]);
+    const clonedChildren = useMemo(
+      () => addIdToChildren(children, SubMenu.name),
+      [children]
+    );
     const menuIndexes: MenuIndexesType = useMemo(
-      () => buildMenuIndexes(clonedChildren),
+      () => buildMenuIndexes(clonedChildren, SubMenu.name),
       [clonedChildren]
     );
     // remember item to have focus
     const [cursor, setCursor] = useState(0);
     const [cursorAction, setCursorAction] = useState<ActionType>("");
 
-    // focus button after ESC
     useEffect(() => {
       logger.debug(`refocusing button when open = ${isOpen}`);
+
+      // focus button after ESC
       if (!isOpen && ref && "current" in ref && ref.current) {
         logger.debug("focus button");
         ref.current.focus();
       }
+
+      if (isOpen === false && didMount.current) {
+        onMenuClose();
+      }
     }, [isOpen]);
+
+    // `didMount` must be placed _after_ any usage of it in a hook
+    const didMount = useRef(false);
+    useEffect(() => {
+      didMount.current = true;
+    }, []);
 
     const handleMenuKeyDown: KeyboardEventHandler = (
       e: KeyboardEvent<HTMLDivElement>
@@ -104,6 +129,7 @@ export const Menu = forwardRef(
         enterCounter,
         setEnterCounter,
         setOpen,
+        closeOnSelect,
         "Menu"
       );
     };
@@ -113,7 +139,7 @@ export const Menu = forwardRef(
     ) => {
       logger.debug(`handling menu blur event`);
       e.stopPropagation();
-      return handleBlurEvent(e, setOpen);
+      return handleBlurEvent(e, closeOnBlur, setOpen);
     };
 
     const handleMenuMouseMove: MouseEventHandler = (e: MouseEvent) => {
@@ -131,7 +157,7 @@ export const Menu = forwardRef(
 
     const menuButton = cloneElement(menuRootElement, {
       onClick: (e: MouseEvent<HTMLButtonElement>) => {
-        handleMouseClickEvent(e, isOpen, setOpen);
+        handleMenuButtonClickEvent(e, isOpen, setOpen);
 
         if (menuRootElement.props.onClick) {
           menuRootElement.props.onClick(e);
@@ -157,24 +183,34 @@ export const Menu = forwardRef(
       },
     });
 
+    const menuContext: MenuContextType = {
+      closeOnSelect,
+      setRootMenuOpen: setOpen,
+    };
+
     return (
       <div
         className={getClassNames(isOpen, itemAlignment, className, openOnHover)}
         role="group"
         {...rest}
       >
-        {menuButton}
-        {isOpen &&
-          layoutChildren(
-            clonedChildren,
-            handleMenuKeyDown,
-            handleMenuMouseMove,
-            handleMenuBlur,
-            menuIndexes,
-            cursor,
-            cursorAction,
-            enterCounter
-          )}
+        <MenuContext.Provider value={menuContext}>
+          {menuButton}
+          {isOpen &&
+            layoutChildren(
+              clonedChildren,
+              SubMenu.name,
+              handleMenuKeyDown,
+              handleMenuMouseMove,
+              handleMenuBlur,
+              menuIndexes,
+              cursor,
+              cursorAction,
+              enterCounter,
+              closeOnSelect,
+              setOpen
+            )}
+        </MenuContext.Provider>
       </div>
     );
   }

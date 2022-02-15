@@ -1,8 +1,15 @@
 import log from "loglevel";
-import { Dispatch, MouseEvent, SetStateAction } from "react";
+import { Dispatch, MouseEvent, RefObject, SetStateAction } from "react";
 import { isAriaDisabled } from "utils";
-import { InternalTabProps } from "../TabTypes";
-import { activateAnotherTabAndPanel } from "./Helper";
+import { InternalTabProps } from "../InternalTabTypes";
+import {
+  activateAnotherTabAndPanel,
+  enableLeftButton,
+  enableRightButton,
+  extractproperties,
+  moveNextTabToLeftAmount,
+  movePreviousTabToRightAmount,
+} from "./Helper";
 
 const logger = log.getLogger("tab-mouse-event-handler");
 logger.disableAll();
@@ -58,4 +65,80 @@ export const handleCloseElementMouseClickEvent = (
     );
   }
   e.preventDefault();
+};
+export const handleLeftCarouselMouseClickEvent = (
+  e: MouseEvent,
+  scrollRef: RefObject<HTMLDivElement>,
+  tabRefs: RefObject<HTMLLIElement>[],
+  setLeftCarouselButtonEnabled: Dispatch<SetStateAction<boolean>>,
+  setRightCarouselButtonEnabled: Dispatch<SetStateAction<boolean>>
+) => {
+  e.stopPropagation();
+  const { scrollLeft, scrollWidth, visibleWidth, tabWidths } =
+    extractproperties(scrollRef, tabRefs);
+  const amount = movePreviousTabToRightAmount(
+    scrollLeft,
+    scrollWidth,
+    visibleWidth,
+    tabWidths
+  );
+  logger.debug(`amount to move right is ${amount}`);
+  if (amount !== 0) {
+    scrollAndUpdateButtons(
+      -amount,
+      scrollRef,
+      tabRefs,
+      setLeftCarouselButtonEnabled,
+      setRightCarouselButtonEnabled
+    );
+  }
+};
+function scrollAndUpdateButtons(
+  amount: number,
+  scrollRef: RefObject<HTMLDivElement>,
+  tabRefs: RefObject<HTMLLIElement>[],
+  setLeftCarouselButtonEnabled: Dispatch<SetStateAction<boolean>>,
+  setRightCarouselButtonEnabled: Dispatch<SetStateAction<boolean>>
+) {
+  logger.debug("before scroll: ", scrollRef.current?.scrollLeft);
+  scrollRef.current?.scrollBy({ left: amount });
+  const enabledLeft = enableLeftButton(scrollRef, tabRefs);
+  const enabledRight = enableRightButton(scrollRef, tabRefs);
+  logger.debug(
+    "after scroll: ",
+    scrollRef.current?.scrollLeft,
+    "left enabled: ",
+    enabledLeft,
+    "right enabled: ",
+    enabledRight
+  );
+  setLeftCarouselButtonEnabled(enabledLeft);
+  setRightCarouselButtonEnabled(enabledRight);
+}
+export const handleRightCarouselMouseClickEvent = (
+  e: MouseEvent,
+  scrollRef: RefObject<HTMLDivElement>,
+  tabRefs: RefObject<HTMLLIElement>[],
+  setLeftCarouselButtonEnabled: Dispatch<SetStateAction<boolean>>,
+  setRightCarouselButtonEnabled: Dispatch<SetStateAction<boolean>>
+) => {
+  e.stopPropagation();
+  const { scrollLeft, scrollWidth, visibleWidth, tabWidths } =
+    extractproperties(scrollRef, tabRefs);
+  const amount = moveNextTabToLeftAmount(
+    scrollLeft,
+    scrollWidth,
+    visibleWidth,
+    tabWidths
+  );
+  logger.debug(`amount to move left is ${amount}`);
+  if (amount !== 0) {
+    scrollAndUpdateButtons(
+      amount,
+      scrollRef,
+      tabRefs,
+      setLeftCarouselButtonEnabled,
+      setRightCarouselButtonEnabled
+    );
+  }
 };

@@ -18,7 +18,7 @@ import {
   handleCloseElementKeyDownEvent,
   handleCloseElementMouseClickEvent,
 } from "./EventHandlers";
-import { InternalTabProps, InteractiveTabProps } from "./TabTypes";
+import { InternalTabProps, InteractiveTabProps } from "./InternalTabTypes";
 const logger = log.getLogger("tab-head-logger");
 logger.disableAll();
 export { logger as internalTabLogger };
@@ -111,10 +111,10 @@ export const InternalTab = ({
 
   useEffect(() => {
     if (active && !disabled) {
-      logger.debug(`focusing tab ${id}`);
+      logger.debug(`focus tab ${id}`);
       ref.current && ref.current.focus();
     }
-  });
+  }, [activeTabIndex]);
   return (
     <>
       <a

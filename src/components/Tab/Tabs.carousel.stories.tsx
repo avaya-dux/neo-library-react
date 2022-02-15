@@ -1,26 +1,35 @@
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { Meta } from "@storybook/react/types-6-0";
+import { Button, Menu, MenuItem } from "components";
 import { useState } from "react";
 import { tabMouseEventHandlerLogger } from "./EventHandlers";
-import { Tab, TabList, TabPanel, TabPanels } from "./TabComponents";
-import { Tabs } from "./Tabs";
+import {
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  HorizontalTabsProps,
+} from ".";
+
 tabMouseEventHandlerLogger.enableAll();
 
-interface Scrollable {
-  scrollable?: boolean;
-}
-const Template: Story<Scrollable> = ({ scrollable }) => {
+export default {
+  title: "Components/Tab",
+  component: Tab,
+} as Meta<HorizontalTabsProps>;
+export const ManyTabsCarousel = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(1);
   const onTabChange = (newIndex: number) => {
-    console.log(`tab changed to ${activeTabIndex}`);
+    console.log(`tab changed to ${newIndex}`);
     setActiveTabIndex(newIndex);
   };
   return (
     <div style={{ height: "200px" }}>
       <Tabs
-        defaultIndex={1}
-        scrollable={scrollable}
+        defaultIndex={10}
+        hasCarousel={true}
         onTabChange={onTabChange}
-        orientation="vertical"
+        carouselDropdown={SimpleMenu}
       >
         <TabList>
           <Tab id="tab1" icon="settings">
@@ -148,12 +157,46 @@ const Template: Story<Scrollable> = ({ scrollable }) => {
     </div>
   );
 };
-export const ScrollableVerticalTabs = Template.bind({});
-ScrollableVerticalTabs.args = {
-  scrollable: true,
-};
+const SimpleMenu = (
+  <Menu menuRootElement={<Button>...</Button>}>
+    <MenuItem>Menu Item 1</MenuItem>
+    <MenuItem>Menu Item 2</MenuItem>
+    <MenuItem>Menu Item 3</MenuItem>
+  </Menu>
+);
 
-export default {
-  title: "Components/Tab",
-  component: Template,
-} as Meta<Scrollable>;
+export const TwoTabsCarousel = () => {
+  const [activeTabIndex, setActiveTabIndex] = useState(1);
+  const onTabChange = (newIndex: number) => {
+    console.log(`tab changed to ${newIndex}`);
+    setActiveTabIndex(newIndex);
+  };
+  return (
+    <div style={{ height: "200px" }}>
+      <Tabs
+        hasCarousel={true}
+        onTabChange={onTabChange}
+        leftCarouselButtonAriaLabel="previous tab"
+        rightCarouselButtonAriaLabel="next tab"
+      >
+        <TabList>
+          <Tab id="tab1" icon="settings">
+            Tab1
+          </Tab>
+          <Tab id="tab2" icon="chat" dir="rtl">
+            Tab2
+          </Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <h2>content1</h2>
+            <p>paragraph 1</p>
+          </TabPanel>
+          <TabPanel>content 2</TabPanel>
+        </TabPanels>
+      </Tabs>
+      <hr></hr>
+      <p>0 based active Tab index is {activeTabIndex}</p>
+    </div>
+  );
+};

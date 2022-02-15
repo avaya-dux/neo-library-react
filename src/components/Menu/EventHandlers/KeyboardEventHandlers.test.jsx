@@ -1,14 +1,16 @@
 import log from "loglevel";
+
+import { Keys } from "utils";
+
 import {
   handleBlurEvent,
   handleButtonKeyDownEvent,
   handleKeyDownEvent,
 } from "./KeyboardEventHandlers";
-import { Keys } from "utils";
 
 log.disableAll();
 
-describe("Keyboard event handlers", () => {
+describe("MENU Keyboard event handlers", () => {
   describe(handleKeyDownEvent, () => {
     let setCursorAction;
     let setCursor;
@@ -159,6 +161,7 @@ describe("Keyboard event handlers", () => {
           0,
           setEnterCounter,
           setOpen,
+          false,
           "label"
         );
         expect(setCursorAction).toHaveBeenCalledWith("ACTIVATE_MENU_ITEM");
@@ -236,6 +239,7 @@ describe("Keyboard event handlers", () => {
           0,
           setEnterCounter,
           setOpen,
+          false,
           "label"
         );
         expect(setCursorAction).toHaveBeenCalledWith("ACTIVATE_MENU_ITEM");
@@ -458,15 +462,24 @@ describe("Keyboard event handlers", () => {
     beforeEach(() => {
       setOpen = jest.fn();
     });
-    it("should close menu when menu lost focus", () => {
+
+    it("should close menu when menu loses focus and `closeOnBlur` is true", () => {
       const e = { relatedTarget: null };
-      handleBlurEvent(e, setOpen);
+      handleBlurEvent(e, true, setOpen);
       expect(setOpen).toBeCalledWith(false);
     });
-    it("should do nothing when menu still has focus", () => {
+
+    it("should do nothing when menu loses focus and `closeOnBlur` is false", () => {
+      const e = { relatedTarget: null };
+      handleBlurEvent(e, false, setOpen);
+      expect(setOpen).not.toHaveBeenCalled();
+    });
+
+    it("should do nothing when menu still has focus, independant of `closeOnBlur` prop", () => {
       const e = { relatedTarget: {} };
-      handleBlurEvent(e, setOpen);
-      expect(setOpen).not.toBeCalled();
+      handleBlurEvent(e, true, setOpen);
+      handleBlurEvent(e, false, setOpen);
+      expect(setOpen).not.toHaveBeenCalled();
     });
   });
 
