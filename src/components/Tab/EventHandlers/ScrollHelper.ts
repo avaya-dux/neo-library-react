@@ -53,7 +53,16 @@ export function getPreviousTabToMoveRight(
     tabWidths
   );
 }
-
+/**
+ * Find out the tab that is on the left of and  is the closet to the target.  This is done by summing up tab widths until the sum is
+ * equal to or greater than the target.  If the sum of all tab widths is less than target, the returned index is the index of the last tab.
+ *
+ * @param target number
+ * @param tabWidths number array
+ * @returns two-element number array:
+ *          the first element is the index of the tab
+ *          the second element is the sum of tab widths from tab 0 to the found tab minus the target
+ */
 function getClosestTabWithLeftBorderToTheLeftOfTargetLine(
   target: number,
   tabWidths: number[]

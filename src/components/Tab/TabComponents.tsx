@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import {
   ClosableTabProps,
   TabListProps,
@@ -7,18 +6,18 @@ import {
   TabProps,
 } from "./TabTypes";
 
-export const Tab = (props: TabProps) => {
-  return <Fragment {...props} />;
+export const Tab = (_props: TabProps) => {
+  return null;
 };
-export const ClosableTab = (props: ClosableTabProps) => {
-  return <Fragment {...props} />;
+export const ClosableTab = (_props: ClosableTabProps) => {
+  return null;
 };
-export const TabList = (props: TabListProps) => {
-  return <Fragment {...props} />;
+export const TabList = (_props: TabListProps) => {
+  return null;
 };
-export const TabPanel = (props: TabPanelProps) => {
-  return <Fragment {...props} />;
+export const TabPanel = (_props: TabPanelProps) => {
+  return null;
 };
-export const TabPanels = (props: TabPanelsProps) => {
-  return <Fragment {...props} />;
+export const TabPanels = (_props: TabPanelsProps) => {
+  return null;
 };

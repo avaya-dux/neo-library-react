@@ -1,7 +1,55 @@
-import { handleBlurEvent, handleKeyDownEvent } from "./KeyboardEventHandlers";
+import {
+  handleBlurEvent,
+  handleKeyDownEvent,
+  handleFocusEvent,
+  handleCloseElementKeyDownEvent,
+} from "./KeyboardEventHandlers";
 import { Keys } from "utils";
-
+import { activatePreviousTab, getNextTabIndex } from "./KeyboardHelper";
+import { activateAnotherTabAndPanel } from "./Helper";
+jest.mock("./KeyboardHelper");
+jest.mock("./Helper");
 describe("Tab Keyboard event handlers", () => {
+  describe(handleFocusEvent, () => {
+    let ref;
+    beforeEach(() => {
+      ref = {
+        current: {
+          blur: jest.fn(),
+        },
+      };
+    });
+    it("when a disabled tab received focus event, it should be blurred.", () => {
+      const target = {
+        getAttribute: jest
+          .fn()
+          .mockReturnValueOnce("tab1")
+          .mockReturnValueOnce("true"),
+      };
+      const e = {
+        target,
+        relatedTarget: null,
+        stopPropagation: jest.fn(),
+        preventDefault: jest.fn(),
+      };
+      handleFocusEvent(e, ref);
+      expect(ref.current.blur).toHaveBeenCalled();
+      expect(e.stopPropagation).toBeCalled();
+      expect(e.preventDefault).toBeCalled();
+    });
+  });
+  describe(handleBlurEvent, () => {
+    let ref;
+    beforeEach(() => {
+      ref = { current: { blur: jest.fn() } };
+    });
+    it("blur is called", () => {
+      const target = { getAttribute: () => "tab1" };
+      const e = { target, relatedTarget: null };
+      handleBlurEvent(e, ref);
+      expect(ref.current.blur).toHaveBeenCalled();
+    });
+  });
   describe(handleKeyDownEvent, () => {
     let setActiveTabIndex, setActivePanelIndex, ref;
 
@@ -15,6 +63,9 @@ describe("Tab Keyboard event handlers", () => {
       let e;
       beforeEach(() => {
         e = { key: Keys.DOWN, stopPropagation: jest.fn() };
+      });
+      afterEach(() => {
+        jest.resetAllMocks();
       });
       it("should do nothing when tabs is empty", () => {
         const tabs = [];
@@ -44,8 +95,9 @@ describe("Tab Keyboard event handlers", () => {
         expect(setActiveTabIndex).not.toBeCalled();
         expect(setActivePanelIndex).not.toBeCalled();
       });
-      it("should go to next tab if tab is vertical", () => {
+      it("should activate next tab if next tab exists and tab layout is vertical", () => {
         const tabs = getTabProps();
+        getNextTabIndex.mockReturnValue(1);
         handleKeyDownEvent(
           e,
           true,
@@ -55,8 +107,21 @@ describe("Tab Keyboard event handlers", () => {
           setActivePanelIndex,
           ref
         );
-        expect(setActiveTabIndex).toBeCalledWith(1);
-        expect(setActivePanelIndex).not.toBeCalled();
+        expect(setActiveTabIndex).toBeCalled();
+      });
+      it("should do nothing if next tab does not exist  and tab layout is vertical", () => {
+        const tabs = getTabProps();
+        getNextTabIndex.mockReturnValue(2);
+        handleKeyDownEvent(
+          e,
+          true,
+          tabs,
+          2,
+          setActiveTabIndex,
+          setActivePanelIndex,
+          ref
+        );
+        expect(setActiveTabIndex).not.toBeCalled();
       });
     });
     describe(Keys.UP, () => {
@@ -68,7 +133,32 @@ describe("Tab Keyboard event handlers", () => {
           preventDefault: jest.fn(),
         };
       });
-      it("should do nothing with horizontal tab layout.", () => {});
+      it("should activate previous tab with vertical tab layout.", () => {
+        const tabs = getTabProps();
+        handleKeyDownEvent(
+          e,
+          true,
+          tabs,
+          0,
+          setActiveTabIndex,
+          setActivePanelIndex,
+          ref
+        );
+        expect(activatePreviousTab).toBeCalled();
+      });
+      it("should do nothing with horizontal tab layout.", () => {
+        const tabs = getTabProps();
+        handleKeyDownEvent(
+          e,
+          false,
+          tabs,
+          0,
+          setActiveTabIndex,
+          setActivePanelIndex,
+          ref
+        );
+        expect(activatePreviousTab).not.toBeCalled();
+      });
     });
     describe(Keys.ENTER, () => {
       let e;
@@ -105,8 +195,24 @@ describe("Tab Keyboard event handlers", () => {
           preventDefault: jest.fn(),
         };
       });
-      it("should move to tab3 from tab2 with horizontal tab", () => {
+      it("should do nothing with vertical tabs", () => {
         const tabs = getTabProps();
+        getNextTabIndex.mockReturnValue(2);
+        handleKeyDownEvent(
+          e,
+          true,
+          tabs,
+          1,
+          setActiveTabIndex,
+          setActivePanelIndex,
+          ref
+        );
+        expect(e.stopPropagation).toHaveBeenCalled();
+        expect(getNextTabIndex).not.toBeCalled();
+      });
+      it("should move to tab3 from tab2 with horizontal tabs", () => {
+        const tabs = getTabProps();
+        getNextTabIndex.mockReturnValue(2);
         handleKeyDownEvent(
           e,
           false,
@@ -128,6 +234,20 @@ describe("Tab Keyboard event handlers", () => {
           stopPropagation: jest.fn(),
         };
       });
+      it("should do nothing with vertical tabs", () => {
+        const tabs = getTabProps();
+        handleKeyDownEvent(
+          e,
+          true,
+          tabs,
+          1,
+          setActiveTabIndex,
+          setActivePanelIndex,
+          ref
+        );
+        expect(e.stopPropagation).toHaveBeenCalled();
+        expect(activatePreviousTab).not.toBeCalled();
+      });
       it("should move to tab1 from tab2 with horizontal tabs", () => {
         const tabs = getTabProps();
         handleKeyDownEvent(
@@ -140,20 +260,56 @@ describe("Tab Keyboard event handlers", () => {
           ref
         );
         expect(e.stopPropagation).toHaveBeenCalled();
-        expect(setActiveTabIndex).toBeCalledWith(0);
+        expect(activatePreviousTab).toBeCalled();
       });
     });
   });
-  describe(handleBlurEvent, () => {
-    let ref;
+  describe(handleCloseElementKeyDownEvent, () => {
+    let setActiveTabIndex, setActivePanelIndex, ref;
+
     beforeEach(() => {
-      ref = { current: { blur: jest.fn() } };
+      setActiveTabIndex = jest.fn();
+      setActivePanelIndex = jest.fn();
+      ref = { current: { focus: jest.fn(), blur: jest.fn() } };
     });
-    it("blur is called", () => {
-      const target = { getAttribute: () => "tab1" };
-      const e = { target, relatedTarget: null };
-      handleBlurEvent(e, ref);
-      expect(ref.current.blur).toHaveBeenCalled();
+
+    it("should do nothing if tabs is empty", () => {
+      handleCloseElementKeyDownEvent(
+        { key: Keys.DOWN },
+        [],
+        0,
+        setActiveTabIndex,
+        setActivePanelIndex
+      );
+      expect(setActiveTabIndex).not.toBeCalled();
+      expect(setActivePanelIndex).not.toBeCalled();
+    });
+
+    describe(Keys.ENTER, () => {
+      let e;
+      beforeEach(() => {
+        e = {
+          key: Keys.ENTER,
+          stopPropagation: jest.fn(),
+          preventDefault: jest.fn(),
+        };
+      });
+      it("should call activateAnotherTabAndPanel", () => {
+        testCloseElementKeyDown(e, setActiveTabIndex, setActivePanelIndex);
+      });
+    });
+    describe("SPACE", () => {
+      let e;
+      beforeEach(() => {
+        e = {
+          key: Keys.SPACE,
+          stopPropagation: jest.fn(),
+          preventDefault: jest.fn(),
+        };
+      });
+      it("should call activateAnotherTabAndPanel", () => {
+        testCloseElementKeyDown(e, setActiveTabIndex, setActivePanelIndex);
+      });
     });
   });
 });
@@ -179,10 +335,34 @@ function getTabProps() {
     },
   ];
 }
-
-function testEnterOrSpaceKeyDown(e, setActiveTabIndex, setActivePanelIndex, ref) {
+function testCloseElementKeyDown(e, setActiveTabIndex, setActivePanelIndex) {
+  handleCloseElementKeyDownEvent(
+    e,
+    [{ name: "tab1" }],
+    0,
+    setActiveTabIndex,
+    setActivePanelIndex
+  );
+  expect(activateAnotherTabAndPanel).toBeCalled();
+  expect(e.preventDefault).toBeCalled();
+  expect(e.stopPropagation).toBeCalled();
+}
+function testEnterOrSpaceKeyDown(
+  e,
+  setActiveTabIndex,
+  setActivePanelIndex,
+  ref
+) {
   const tabs = getTabProps();
-  handleKeyDownEvent(e, false, tabs, 1, setActiveTabIndex, setActivePanelIndex, ref);
+  handleKeyDownEvent(
+    e,
+    false,
+    tabs,
+    1,
+    setActiveTabIndex,
+    setActivePanelIndex,
+    ref
+  );
   expect(setActivePanelIndex).toBeCalledWith(1);
   expect(e.stopPropagation).toHaveBeenCalled();
   expect(e.preventDefault).toHaveBeenCalled();
