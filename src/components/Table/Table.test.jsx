@@ -41,89 +41,89 @@ describe("Table", () => {
     it("allows the passing of default selected rows", () => {
       const { getByLabelText } = render(
         <Table
-        {...FilledFields}
-        selectableRows="multiple"
-        itemsPerPageOptions={[50]}
-        defaultSelectedRowIds={[
-          FilledFields.data[0].id,
-          FilledFields.data[1].id,
-        ]}
-      />
-    );
+          {...FilledFields}
+          selectableRows="multiple"
+          itemsPerPageOptions={[50]}
+          defaultSelectedRowIds={[
+            FilledFields.data[0].id,
+            FilledFields.data[1].id,
+          ]}
+        />
+      );
 
-    const checkbox0 = getByLabelText(FilledFields.data[0].label);
-    const checkbox1 = getByLabelText(FilledFields.data[1].label);
-    expect(checkbox0).toHaveAttribute("checked");
-    expect(checkbox1).toHaveAttribute("checked");
+      const checkbox0 = getByLabelText(FilledFields.data[0].label);
+      const checkbox1 = getByLabelText(FilledFields.data[1].label);
+      expect(checkbox0).toHaveAttribute("checked");
+      expect(checkbox1).toHaveAttribute("checked");
 
-    const checkbox2 = getByLabelText(FilledFields.data[2].label);
-    expect(checkbox2).not.toHaveAttribute("checked");
-  });
+      const checkbox2 = getByLabelText(FilledFields.data[2].label);
+      expect(checkbox2).not.toHaveAttribute("checked");
+    });
 
-  it("properly selects 'all' and 'none' of the checkboxes", () => {
-    const { getByLabelText, container } = render(
-      <Table
-        {...FilledFields}
-        selectableRows="multiple"
-        itemsPerPageOptions={[50]}
-        defaultSelectedRowIds={[
-          FilledFields.data[0].id,
-          FilledFields.data[1].id,
-        ]}
-      />
-    );
+    it("properly selects 'all' and 'none' of the checkboxes", () => {
+      const { getByLabelText, container } = render(
+        <Table
+          {...FilledFields}
+          selectableRows="multiple"
+          itemsPerPageOptions={[50]}
+          defaultSelectedRowIds={[
+            FilledFields.data[0].id,
+            FilledFields.data[1].id,
+          ]}
+        />
+      );
 
-    const headerCheckbox = getByLabelText(
-      FilledFields.translations.header.selectAll
-    );
-    const headerCheckboxLabel = container.querySelector("tr th label");
-    const checkbox2 = getByLabelText(FilledFields.data[2].label);
+      const headerCheckbox = getByLabelText(
+        FilledFields.translations.header.selectAll
+      );
+      const headerCheckboxLabel = container.querySelector("tr th label");
+      const checkbox2 = getByLabelText(FilledFields.data[2].label);
 
-    // header checkbox is in "indeterminate" state
-    expect(headerCheckbox.checked).toBeTruthy();
-    expect(headerCheckbox).toHaveClass("neo-check--indeterminate");
-    expect(checkbox2.checked).toBeFalsy();
+      // header checkbox is in "indeterminate" state
+      expect(headerCheckbox.checked).toBeTruthy();
+      expect(headerCheckbox).toHaveClass("neo-check--indeterminate");
+      expect(checkbox2.checked).toBeFalsy();
 
-    fireEvent.click(headerCheckboxLabel);
+      fireEvent.click(headerCheckboxLabel);
 
-    // header checkbox is in `true` state
-    expect(headerCheckbox.checked).toBeTruthy();
-    expect(headerCheckbox).not.toHaveClass("neo-check--indeterminate");
-    expect(checkbox2.checked).toBeTruthy();
+      // header checkbox is in `true` state
+      expect(headerCheckbox.checked).toBeTruthy();
+      expect(headerCheckbox).not.toHaveClass("neo-check--indeterminate");
+      expect(checkbox2.checked).toBeTruthy();
 
-    fireEvent.click(headerCheckboxLabel);
+      fireEvent.click(headerCheckboxLabel);
 
-    // header checkbox is in `false` state
-    expect(headerCheckbox.checked).toBeFalsy();
-    expect(headerCheckbox).not.toHaveClass("neo-check--indeterminate");
-    expect(checkbox2.checked).toBeFalsy();
-  });
+      // header checkbox is in `false` state
+      expect(headerCheckbox.checked).toBeFalsy();
+      expect(headerCheckbox).not.toHaveClass("neo-check--indeterminate");
+      expect(checkbox2.checked).toBeFalsy();
+    });
 
-  it("properly selects and deselects a body row", () => {
-    const { queryAllByRole } = render(
-      <Table {...FilledFields} selectableRows="multiple" />
-    );
+    it("properly selects and deselects a body row", () => {
+      const { queryAllByRole } = render(
+        <Table {...FilledFields} selectableRows="multiple" />
+      );
 
-    const alltrs = queryAllByRole("row");
-    expect(alltrs.length).toBeTruthy();
+      const alltrs = queryAllByRole("row");
+      expect(alltrs.length).toBeTruthy();
 
-    const firstBodyRow = alltrs[1];
-    expect(firstBodyRow.classList.length).toBe(0);
-    expect(firstBodyRow).not.toHaveClass("active");
+      const firstBodyRow = alltrs[1];
+      expect(firstBodyRow.classList.length).toBe(0);
+      expect(firstBodyRow).not.toHaveClass("active");
 
-    const firstRowCheckbox = firstBodyRow.querySelector("input");
-    expect(firstRowCheckbox.checked).toBeFalsy();
+      const firstRowCheckbox = firstBodyRow.querySelector("input");
+      expect(firstRowCheckbox.checked).toBeFalsy();
 
-    const firstRowCheckboxLabel = firstBodyRow.querySelector("label");
-    fireEvent.click(firstRowCheckboxLabel);
+      const firstRowCheckboxLabel = firstBodyRow.querySelector("label");
+      fireEvent.click(firstRowCheckboxLabel);
 
-    expect(firstRowCheckbox.checked).toBeTruthy();
-    expect(firstBodyRow.classList.length).toBe(1);
-    expect(firstBodyRow).toHaveClass("active");
+      expect(firstRowCheckbox.checked).toBeTruthy();
+      expect(firstBodyRow.classList.length).toBe(1);
+      expect(firstBodyRow).toHaveClass("active");
 
-    fireEvent.click(firstRowCheckboxLabel);
+      fireEvent.click(firstRowCheckboxLabel);
 
-    expect(firstRowCheckbox.checked).toBeFalsy();
+      expect(firstRowCheckbox.checked).toBeFalsy();
       expect(firstBodyRow.classList.length).toBe(0);
       expect(firstBodyRow).not.toHaveClass("active");
     });
@@ -249,6 +249,66 @@ describe("Table", () => {
       const filteredtrs = queryAllByRole("row");
       expect(filteredtrs.length).toBeGreaterThan(0);
       expect(filteredtrs.length).toBeLessThan(alltrs.length);
+    });
+  });
+
+  describe("sort and filter functionality", () => {
+    let renderResult;
+
+    beforeEach(() => {
+      renderResult = render(<AdvancedFilteringAndSorting />);
+    });
+
+    it("allows column sorting of row", () => {
+      const { container, getByRole, queryAllByRole } = renderResult;
+
+      const firstColumnSortButton = container.querySelector(
+        "tr th div.neo-multiselect"
+      );
+      expect(firstColumnSortButton).toHaveTextContent(
+        FilledFields.columns[0].Header
+      );
+
+      const getFirstCellTextContent = () =>
+        queryAllByRole("cell")[0].textContent;
+
+      const firstCellOriginalContent = getFirstCellTextContent();
+      expect(getFirstCellTextContent()).toBe(FilledFields.data[0].name);
+
+      expect(() => getByRole("menu")).toThrow();
+      fireEvent.click(firstColumnSortButton);
+      expect(() => getByRole("menu")).not.toThrow();
+
+      const menuItems = queryAllByRole("menuitem");
+      expect(menuItems).toHaveLength(4);
+      expect(menuItems[0]).toHaveClass("neo-dropdown--disabled");
+      expect(menuItems[1]).not.toHaveClass("neo-dropdown--disabled");
+      expect(menuItems[2]).not.toHaveClass("neo-dropdown--disabled");
+      expect(menuItems[3]).not.toHaveClass("neo-dropdown--disabled");
+
+      // "clear" does nothing as it is disabled
+      fireEvent.click(queryAllByRole("menuitem")[0]);
+      expect(getFirstCellTextContent()).toBe(firstCellOriginalContent);
+
+      // ascending sort works
+      fireEvent.click(firstColumnSortButton);
+      fireEvent.click(queryAllByRole("menuitem")[1]);
+      const ascendingFirstCellContent = getFirstCellTextContent();
+      expect(ascendingFirstCellContent).not.toBe(firstCellOriginalContent);
+
+      // descending sort works
+      fireEvent.click(firstColumnSortButton);
+      fireEvent.click(queryAllByRole("menuitem")[2]);
+      const descendingFirstCellContent = getFirstCellTextContent();
+      expect(descendingFirstCellContent).not.toBe(firstCellOriginalContent);
+      expect(descendingFirstCellContent).not.toBe(ascendingFirstCellContent);
+
+      // "clear" is enabled as there is a sort applied, clicking it clears the sort
+      fireEvent.click(firstColumnSortButton);
+      const clearSortButton = queryAllByRole("menuitem")[0];
+      expect(clearSortButton).not.toHaveClass("neo-dropdown--disabled");
+      fireEvent.click(clearSortButton);
+      expect(getFirstCellTextContent()).toBe(firstCellOriginalContent);
     });
   });
 
