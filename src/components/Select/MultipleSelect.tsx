@@ -67,14 +67,6 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
     [selectedItems]
   );
 
-  const isDisabledOrLoading = () => {
-    if (disabled || loading) {
-      return false;
-    } else {
-      return true;
-    }
-  };
-
   const {
     isOpen,
     getToggleButtonProps,
