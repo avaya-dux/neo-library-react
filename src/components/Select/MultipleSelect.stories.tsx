@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/react/types-6-0";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { Form, Button } from "components";
 
