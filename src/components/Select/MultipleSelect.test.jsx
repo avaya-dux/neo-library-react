@@ -74,9 +74,7 @@ describe("MultipleSelect", () => {
           label={label}
           loading={loading}
           placeholder={placeholder}
-        >
-          <MultipleSelectOption>Option 1</MultipleSelectOption>
-        </MultipleSelect>
+        ></MultipleSelect>
       );
 
       const defaultSelectHeader = getByText(placeholder);
@@ -94,10 +92,8 @@ describe("MultipleSelect", () => {
           <MultipleSelectOption>Option 1</MultipleSelectOption>
         </MultipleSelect>
       );
-      // setTimeout(() => {
       fireEvent.click(defaultSelectHeader);
       expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "true");
-      // }, 1);
     });
 
     it("passes basic axe compliance", async () => {
@@ -210,19 +206,6 @@ describe("MultipleSelect", () => {
         expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
         fireEvent.click(defaultSelectHeader);
         expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
-      });
-
-      it("does open content area on click after content is loaded", async () => {
-        const { getByText } = renderResult;
-        const defaultSelectHeader = getByText("Select One");
-        expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
-        fireEvent.click(defaultSelectHeader);
-        expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
-        await act(
-          async () => await new Promise((res) => setTimeout(res, 2000))
-        );
-        fireEvent.click(defaultSelectHeader);
-        expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "true");
       });
 
       it("passes basic axe compliance", async () => {
