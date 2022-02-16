@@ -35,7 +35,6 @@ export const TableHeader = <T extends Record<string, any>>({
     state: { selectedRowIds },
     toggleAllRowsSelected,
     toggleSortBy,
-    clearSortBy,
   } = instance;
 
   const { toggleFilterSheetVisible } = useContext(FilterContext);
@@ -82,6 +81,7 @@ export const TableHeader = <T extends Record<string, any>>({
           const {
             canFilter,
             canSort,
+            clearSortBy,
             getHeaderProps,
             getSortByToggleProps,
             isSorted,
