@@ -169,7 +169,7 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
           className="neo-multiselect__header"
           {...getToggleButtonProps()}
           // TO-DO: Add this property to .neo-multiselect__header class to maintain styling when using button element instead of div
-          style={{ width: "100%" }}
+          style={{ width: "100%", paddingLeft: loading && "32px" }}
         >
           {multipleSelectText}
         </button>

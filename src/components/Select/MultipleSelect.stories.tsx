@@ -106,17 +106,17 @@ export const LoadingMultipleSelect = () => {
   const [loading, setLoading] = useState(true);
   const [options, setOptions] = useState<string[]>([]);
 
-  const fakeLoad = () => {
-    setTimeout(() => {
-      setOptions(["Option 1", "Option 2", "Option 3", "Option 4"]);
-      setLoading(false);
-    }, 2000);
-  };
+  // const fakeLoad = () => {
+  // setTimeout(() => {
+  //   setOptions(["Option 1", "Option 2", "Option 3", "Option 4"]);
+  //   setLoading(false);
+  // }, 2000);
+  // };
 
-  useEffect(() => {
-    fakeLoad();
-    return () => {};
-  }, []);
+  // useEffect(() => {
+  //   fakeLoad();
+  //   return () => {};
+  // }, []);
 
   return (
     <MultipleSelect label={label} loading={loading}>
