@@ -8,11 +8,8 @@ import {
 } from "react";
 import { isAriaDisabled, Keys } from "utils";
 import { InternalTabProps } from "../InternalTabTypes";
-import {
-  getNextTabIndex,
-  activatePreviousTab,
-  activateAnotherTabAndPanel,
-} from "./Helper";
+import { activateAnotherTabAndPanel } from "./Helper";
+import { activatePreviousTab, getNextTabIndex } from "./KeyboardHelper";
 
 const logger = log.getLogger("tab-keyboard-event-handler");
 logger.disableAll();
@@ -78,7 +75,6 @@ export const handleCloseElementKeyDownEvent = (
   setActivePanelIndex: Dispatch<SetStateAction<number>>
 ) => {
   logger.debug(`handle close element key event ${e.key} on ${activeTabIndex}`);
-  let handled = true;
   if (tabs.length === 0) {
     return;
   }
@@ -92,14 +88,8 @@ export const handleCloseElementKeyDownEvent = (
         setActiveTabIndex,
         setActivePanelIndex
       );
+      e.stopPropagation();
       break;
-    case Keys.TAB:
-    case Keys.ESC:
-      handled = false;
-      break;
-  }
-  if (handled) {
-    e.stopPropagation();
   }
 };
 
@@ -113,7 +103,6 @@ export const handleKeyDownEvent = (
   ref: RefObject<HTMLAnchorElement>
 ) => {
   logger.debug(`handle tab key event ${e.key} on ${activeTabIndex}`);
-  let handled = true;
   if (tabs.length === 0) {
     return;
   }
@@ -144,14 +133,8 @@ export const handleKeyDownEvent = (
       setActivePanelIndex(activeTabIndex);
       focus(ref, tabs[activeTabIndex].id);
       break;
-    case Keys.TAB:
-    case Keys.ESC:
-      handled = false;
-      break;
   }
-  if (handled) {
-    e.stopPropagation();
-  }
+  e.stopPropagation();
 };
 
 function activateNextTab(
