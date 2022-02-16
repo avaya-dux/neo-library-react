@@ -18,7 +18,8 @@ import {
   handleCloseElementKeyDownEvent,
   handleCloseElementMouseClickEvent,
 } from "./EventHandlers";
-import { InternalTabProps, InteractiveTabProps } from "./TabTypes";
+import { noop } from "./EventHandlers/Helper";
+import { InternalTabProps, InteractiveTabProps } from "./InternalTabTypes";
 const logger = log.getLogger("tab-head-logger");
 logger.disableAll();
 export { logger as internalTabLogger };
@@ -28,7 +29,7 @@ export const InternalTab = ({
   dir,
   disabled,
   closable,
-  onClose,
+  onClose = noop,
   id,
   name,
   icon,
@@ -63,9 +64,7 @@ export const InternalTab = ({
       setActiveTabIndex,
       setActivePanelIndex
     );
-    if (onClose) {
-      onClose(tabIndex);
-    }
+    onClose(tabIndex);
   };
   const handleAnchorKeyDownEvent: KeyboardEventHandler = (
     e: KeyboardEvent<HTMLAnchorElement>
@@ -92,9 +91,7 @@ export const InternalTab = ({
       setActiveTabIndex,
       setActivePanelIndex
     );
-    if (onClose) {
-      onClose(tabIndex);
-    }
+    onClose(tabIndex);
   };
 
   const handleAnchorFocusEvent: FocusEventHandler = (
@@ -111,10 +108,10 @@ export const InternalTab = ({
 
   useEffect(() => {
     if (active && !disabled) {
-      logger.debug(`focusing tab ${id}`);
+      logger.debug(`focus tab ${id}`);
       ref.current && ref.current.focus();
     }
-  });
+  }, [activeTabIndex]);
   return (
     <>
       <a

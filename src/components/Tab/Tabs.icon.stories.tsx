@@ -2,9 +2,10 @@ import { Meta, Story } from "@storybook/react/types-6-0";
 import { useState } from "react";
 import { IconNames, IconNamesType } from "utils";
 import { tabMouseEventHandlerLogger } from "./EventHandlers";
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from "./Tabs";
+import { Tab, TabList, TabPanel, TabPanels } from "./TabComponents";
+import { Tabs } from "./Tabs";
 
-tabMouseEventHandlerLogger.enableAll();
+tabMouseEventHandlerLogger.disableAll();
 export interface IconProps {
   icon1: IconNamesType;
   dir1: "ltr" | "rtl";

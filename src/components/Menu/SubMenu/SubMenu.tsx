@@ -7,6 +7,7 @@ import {
   KeyboardEventHandler,
   MouseEvent,
   MouseEventHandler,
+  useContext,
   useEffect,
   useMemo,
   useState,
@@ -20,6 +21,7 @@ import {
   handleMouseMoveEvent,
 } from "../EventHandlers";
 import { addIdToChildren, buildMenuIndexes, layoutChildren } from "../helpers";
+import { MenuContext } from "../MenuContext";
 import { ActionType, MenuIndexesType, SubMenuProps } from "../MenuTypes";
 
 const logger = log.getLogger("submenu");
@@ -58,6 +60,8 @@ export const SubMenu: FC<SubMenuProps> = ({
 }) => {
   const internalId = useMemo(() => id || genId(), []);
 
+  const { closeOnSelect, setRootMenuOpen } = useContext(MenuContext);
+
   const { children: btnChildren, isActive, hasFocus } = menuRootElement.props;
   const subMenuButtonLabel = btnChildren?.toString() || "";
   log.debug(
@@ -72,10 +76,13 @@ export const SubMenu: FC<SubMenuProps> = ({
     setOpen(action === "ENTER_SUB_MENU");
   }, [action, counter]);
 
-  const clonedChildren = useMemo(() => addIdToChildren(children), [children]);
+  const clonedChildren = useMemo(
+    () => addIdToChildren(children, SubMenu.name),
+    [children]
+  );
 
   const menuIndexes: MenuIndexesType = useMemo(
-    () => buildMenuIndexes(clonedChildren),
+    () => buildMenuIndexes(clonedChildren, SubMenu.name),
     [clonedChildren]
   );
   const [cursor, setCursor] = useState(0);
@@ -94,6 +101,7 @@ export const SubMenu: FC<SubMenuProps> = ({
       enterCounter,
       setEnterCounter,
       setOpen,
+      closeOnSelect,
       subMenuButtonLabel
     );
   };
@@ -113,7 +121,7 @@ export const SubMenu: FC<SubMenuProps> = ({
     e: FocusEvent<HTMLDivElement>
   ) => {
     log.debug(`handling submenu blur event`);
-    return handleBlurEvent(e, setOpen);
+    return handleBlurEvent(e, true, setOpen);
   };
 
   return (
@@ -122,13 +130,16 @@ export const SubMenu: FC<SubMenuProps> = ({
       {isOpen &&
         layoutChildren(
           clonedChildren,
+          SubMenu.name,
           handleSubMenuKeyDown,
           handleSubMenuMouseMove,
           handleSubMenuBlur,
           menuIndexes,
           cursor,
           cursorAction,
-          enterCounter
+          enterCounter,
+          closeOnSelect,
+          setRootMenuOpen
         )}
     </div>
   );
