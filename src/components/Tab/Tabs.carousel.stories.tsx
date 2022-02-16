@@ -11,7 +11,7 @@ import {
   HorizontalTabsProps,
 } from ".";
 
-tabMouseEventHandlerLogger.enableAll();
+tabMouseEventHandlerLogger.disableAll();
 
 export default {
   title: "Components/Tab",
@@ -24,9 +24,9 @@ export const ManyTabsCarousel = () => {
     setActiveTabIndex(newIndex);
   };
   return (
-    <div style={{ height: "200px" }}>
+    <div style={{ height: "200px", width: "100%", maxWidth: "800px" }}>
       <Tabs
-        defaultIndex={10}
+        defaultIndex={0}
         hasCarousel={true}
         onTabChange={onTabChange}
         carouselDropdown={SimpleMenu}

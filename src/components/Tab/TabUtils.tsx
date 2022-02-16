@@ -1,38 +1,52 @@
 import log from "loglevel";
-import { Dispatch, RefObject, SetStateAction } from "react";
+import { Dispatch, ReactElement, RefObject, SetStateAction } from "react";
 import { genId } from "utils";
 import { InternalTab } from "./InternalTab";
 import { InternalTabProps } from "./InternalTabTypes";
 import { ClosableTab, Tab, TabPanel } from "./TabComponents";
 import { TabPanelProps, TabsProps } from "./TabTypes";
 
-const logger = log.getLogger("tabs-utils-logger");
+const logger = log.getLogger("tab-utils-logger");
 logger.disableAll();
 
+export function debugTabs(
+  logger: any,
+  tabs: { id: string; disabled: boolean }[]
+) {
+  if (logger.getLevel() < log.levels.INFO) {
+    tabs.forEach((tab) => {
+      logger.debug(`${tab.id} disabled= ${tab.disabled}`);
+    });
+  }
+}
 export function getAllTabIdsInString(tabProps: InternalTabProps[]): string {
   return tabProps.map((tab) => tab.id).join(" ");
 }
 
-export function isValidPanelElement(element: {
-  type: { toString: () => string };
-}) {
-  return element.type.toString() === TabPanel.toString();
+export function isValidPanelElement(element: ReactElement) {
+  return element.type === TabPanel;
 }
-export function isValidTabElement(element: {
-  type: { toString: () => string };
-}) {
-  return (
-    element.type.toString() === ClosableTab.toString() ||
-    element.type.toString() === Tab.toString()
-  );
+export function isValidTabElement(element: ReactElement) {
+  logger.debug(element.type as string, ClosableTab as unknown as string);
+  logger.debug(element.type.toString());
+
+  // Comparing functions by reference here: should be fast.
+  return isClosableTab(element) || element.type === Tab;
+}
+export function isClosableTab(element: ReactElement) {
+  return element.type === ClosableTab;
+}
+function toArray(children: ReactElement[]) {
+  return Array.isArray(children) ? children : [children];
 }
 export const buildTabProps = (
   children: TabsProps["children"]
 ): InternalTabProps[] => {
   const tablist = children[0];
-  const tabs = tablist.props.children.filter(isValidTabElement);
+
+  const tabs = toArray(tablist.props.children).filter(isValidTabElement);
   const panelList = children[1];
-  const panels = panelList.props.children.filter(isValidPanelElement);
+  const panels = toArray(panelList.props.children).filter(isValidPanelElement);
   return tabs.map((tab, index) => {
     const props = tab.props;
     let panel = panels[index].props as TabPanelProps;
@@ -43,7 +57,7 @@ export const buildTabProps = (
     const disabled = !!props!.disabled;
     logger.debug(`${id} disabled = ${disabled}`);
     const icon = "icon" in props ? props!.icon : undefined;
-    const closable = tab.type.toString() === ClosableTab.toString();
+    const closable = isClosableTab(tab);
     const onClose = "onClose" in props ? props!.onClose : undefined;
     return {
       ...rest,
@@ -131,9 +145,9 @@ export const getContentClasses = (active: boolean, className?: string) => {
 };
 
 export const getTabItemClasses = ({
-  active = false,
-  disabled = false,
-  vertical = false,
+  active,
+  disabled,
+  vertical,
 }: {
   active: boolean;
   disabled: boolean;

@@ -5,7 +5,7 @@ import { tabMouseEventHandlerLogger } from "./EventHandlers";
 import { Tab, TabList, TabPanel, TabPanels } from "./TabComponents";
 import { Tabs } from "./Tabs";
 
-tabMouseEventHandlerLogger.enableAll();
+tabMouseEventHandlerLogger.disableAll();
 export interface IconProps {
   icon1: IconNamesType;
   dir1: "ltr" | "rtl";

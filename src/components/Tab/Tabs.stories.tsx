@@ -12,7 +12,7 @@ import {
 import { Tabs } from "./Tabs";
 import { TabsProps } from "./TabTypes";
 
-tabMouseEventHandlerLogger.enableAll();
+tabMouseEventHandlerLogger.disableAll();
 
 export default {
   title: "Components/Tab",
@@ -131,7 +131,9 @@ export const UncontrolledActiveTabStory = () => {
           <Tab id="tab4" disabled>
             Tab4
           </Tab>
-          <Tab id="tab5">Tab5</Tab>
+          <ClosableTab id="tab5" disabled>
+            Tab5
+          </ClosableTab>
         </TabList>
         <TabPanels>
           <TabPanel>

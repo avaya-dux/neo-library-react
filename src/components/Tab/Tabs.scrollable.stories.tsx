@@ -3,7 +3,7 @@ import { useState } from "react";
 import { tabMouseEventHandlerLogger } from "./EventHandlers";
 import { Tab, TabList, TabPanel, TabPanels } from "./TabComponents";
 import { Tabs } from "./Tabs";
-tabMouseEventHandlerLogger.enableAll();
+tabMouseEventHandlerLogger.disableAll();
 
 interface Scrollable {
   scrollable?: boolean;
