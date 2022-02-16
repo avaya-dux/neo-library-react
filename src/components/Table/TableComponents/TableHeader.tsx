@@ -138,12 +138,13 @@ export const TableHeader = <T extends Record<string, any>>({
                       aria-label={sortIcon.replace(/-/g, " ")}
                     />
 
+                    {/* BUG: should switch between `chevron-up` and `chevron-down` */}
                     <Icon icon="chevron-down" aria-label="menu icon" />
                   </div>
                 }
                 {...thDivProps}
               >
-                <MenuItem onClick={clearSortBy} disabled={!column.isSorted}>
+                <MenuItem onClick={clearSortBy} disabled={!isSorted}>
                   {translations.clearSort || "Clear Sort"}
                 </MenuItem>
 
