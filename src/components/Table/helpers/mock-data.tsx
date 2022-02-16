@@ -38,6 +38,17 @@ const columnsExample: Array<Column<IDataTableMockData>> = [
 ];
 const dataExample: IDataTableMockData[] = [
   {
+    id: "20",
+    label: "Daniel",
+    name: "Sir Daniel",
+    other: "Delor Itum",
+    date: new Date(2000, 2, 1),
+    status: "inactive",
+    hexValue: "00FF00",
+    level: "low",
+    hasOnCallBeeper: false,
+  },
+  {
     id: "10",
     label: "Fred",
     name: "Sir Fred",
@@ -49,17 +60,6 @@ const dataExample: IDataTableMockData[] = [
     hasOnCallBeeper: true,
     longText:
       "Emojis! 😀 😎 😱 😈 And a buncha text to test the ellipsis. Oh yeah, and a buncha rando special characters: \n\"<>&'{}[]!@#$%^&*()_+-=|\\/?.~`",
-  },
-  {
-    id: "20",
-    label: "Daniel",
-    name: "Sir Daniel",
-    other: "Delor Itum",
-    date: new Date(2000, 2, 1),
-    status: "inactive",
-    hexValue: "00FF00",
-    level: "low",
-    hasOnCallBeeper: false,
   },
   {
     id: "30",
