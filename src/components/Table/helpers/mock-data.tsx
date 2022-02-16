@@ -119,7 +119,7 @@ const dataExample: IDataTableMockData[] = [
   {
     id: "80",
     label: "Scott",
-    name: <a href="#scott">Fancy Frank</a>,
+    name: <a href="#scott">Synchronous Scott</a>,
     other: "Etora platurude",
     date: new Date(2000, 3, 15),
     status: "active",
