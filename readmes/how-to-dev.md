@@ -34,6 +34,11 @@ ls -la
 # should show the contents of this repo
 ```
 
+## to build the library for the first time
+```
+yarn all
+```
+
 ## to build a production version of the library
 
 ```
