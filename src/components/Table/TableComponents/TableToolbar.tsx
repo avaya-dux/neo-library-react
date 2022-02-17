@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 
 import { Button } from "components/Button";
 import { IconButton } from "components/IconButton";
 import { TextInput } from "components/TextInput";
 
+import { FilterContext } from "../helpers";
 import { TableToolbarProps } from "../types";
+import { TableFilter } from "./TableFilter";
 
 /**
  * TableToolbar is used by the Table component to render the search and action inputs for the table
@@ -55,6 +57,8 @@ export const TableToolbar = <T extends Record<string, any>>({
 
   const editDisabled = readonly || selectedRowIdsStringArray.length !== 1;
   const deleteDisabled = readonly || selectedRowIdsStringArray.length === 0;
+
+  const { allowColumnFilter } = useContext(FilterContext);
 
   return (
     <div className="neo-table__actions">
@@ -117,6 +121,10 @@ export const TableToolbar = <T extends Record<string, any>>({
             }}
           />
         </div>
+
+        {allowColumnFilter && (
+          <TableFilter translations={translations} instance={instance} />
+        )}
 
         {handleRefresh && (
           <IconButton

@@ -1,5 +1,6 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
+  useFilters,
   useGlobalFilter,
   usePagination,
   useRowSelect,
@@ -15,6 +16,7 @@ import {
   translations as defaultTranslations,
 } from "./helpers";
 import { TableBody, TableHeader, TableToolbar } from "./TableComponents";
+import { IFilterContext } from "./types";
 
 /**
  * The Table is used to organize and display data within rows and columns.
@@ -60,6 +62,7 @@ export const Table = <T extends Record<string, any>>({
   itemsPerPageOptions,
   defaultSelectedRowIds,
 
+  allowColumnFilter = false,
   containerClassName = "",
   customActionsNode,
   handleCreate,
@@ -84,6 +87,7 @@ export const Table = <T extends Record<string, any>>({
       },
       ...rest,
     },
+    useFilters,
     useGlobalFilter,
     useSortBy,
     usePagination,
@@ -136,70 +140,82 @@ export const Table = <T extends Record<string, any>>({
     };
   }, [translations]);
 
+  const [filterSheetVisible, setFilterSheetVisible] = useState(false);
+  const toggleFilterSheetVisible = () => setFilterSheetVisible((v) => !v);
+
+  const filterContext: IFilterContext = {
+    allowColumnFilter,
+    filterSheetVisible,
+    setFilterSheetVisible,
+    toggleFilterSheetVisible,
+  };
+
   return (
-    <div id={id} data-testid={id} className={containerClassName}>
-      {(caption || summary) && (
-        <>
-          {caption && <h4 id={tableCaptionId}>{caption}</h4>}
-          {summary && <p id={tableSummaryId}>{summary}</p>}
-        </>
-      )}
+    <FilterContext.Provider value={filterContext}>
+      <div id={id} data-testid={id} className={containerClassName}>
+        {(caption || summary) && (
+          <>
+            {caption && <h4 id={tableCaptionId}>{caption}</h4>}
+            {summary && <p id={tableSummaryId}>{summary}</p>}
+          </>
+        )}
 
-      <TableToolbar
-        customActionsNode={customActionsNode}
-        handleCreate={handleCreate}
-        handleDelete={handleDelete}
-        handleEdit={handleEdit}
-        handleRefresh={handleRefresh}
-        instance={instance}
-        readonly={readonly}
-        translations={toolbarTranslations}
-      />
-
-      <table
-        {...getTableProps()}
-        className="neo-table"
-        aria-labelledby={tableCaptionId}
-        aria-describedby={tableSummaryId}
-      >
-        <TableHeader
-          handleRowToggled={handleRowToggled}
+        <TableToolbar
+          customActionsNode={customActionsNode}
+          handleCreate={handleCreate}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+          handleRefresh={handleRefresh}
           instance={instance}
-          selectableRows={selectableRows}
-          translations={headerTranslations}
+          readonly={readonly}
+          translations={toolbarTranslations}
         />
 
-        <TableBody
-          handleRowToggled={handleRowToggled}
-          instance={instance}
-          selectableRows={selectableRows}
-          translations={bodyTranslations}
-        />
-      </table>
+        <table
+          {...getTableProps()}
+          className="neo-table"
+          aria-labelledby={tableCaptionId}
+          aria-describedby={tableSummaryId}
+        >
+          <TableHeader
+            handleRowToggled={handleRowToggled}
+            instance={instance}
+            selectableRows={selectableRows}
+            translations={headerTranslations}
+          />
 
-      {rows.length > 0 && (
-        <Pagination
-          currentPageIndex={pageIndex + 1}
-          itemCount={rowCount}
-          itemsPerPage={pageSize}
-          itemsPerPageOptions={itemsPerPageOptions}
-          onPageChange={(e, newIndex) => {
-            e?.preventDefault();
-            gotoPage(newIndex - 1);
-          }}
-          onItemsPerPageChange={(e, newItemsPerPage) => {
-            e?.preventDefault();
-            setPageSize(newItemsPerPage);
-          }}
-          backIconButtonText={paginationTranslations.backIconButtonText}
-          itemsPerPageLabel={paginationTranslations.itemsPerPageLabel}
-          nextIconButtonText={paginationTranslations.nextIconButtonText}
-          tooltipForCurrentPage={paginationTranslations.tooltipForCurrentPage}
-          tooltipForShownPagesSelect={
-            paginationTranslations.tooltipForShownPagesSelect
-          }
-        />
-      )}
-    </div>
+          <TableBody
+            handleRowToggled={handleRowToggled}
+            instance={instance}
+            selectableRows={selectableRows}
+            translations={bodyTranslations}
+          />
+        </table>
+
+        {rows.length > 0 && (
+          <Pagination
+            currentPageIndex={pageIndex + 1}
+            itemCount={rowCount}
+            itemsPerPage={pageSize}
+            itemsPerPageOptions={itemsPerPageOptions}
+            onPageChange={(e, newIndex) => {
+              e?.preventDefault();
+              gotoPage(newIndex - 1);
+            }}
+            onItemsPerPageChange={(e, newItemsPerPage) => {
+              e?.preventDefault();
+              setPageSize(newItemsPerPage);
+            }}
+            backIconButtonText={paginationTranslations.backIconButtonText}
+            itemsPerPageLabel={paginationTranslations.itemsPerPageLabel}
+            nextIconButtonText={paginationTranslations.nextIconButtonText}
+            tooltipForCurrentPage={paginationTranslations.tooltipForCurrentPage}
+            tooltipForShownPagesSelect={
+              paginationTranslations.tooltipForShownPagesSelect
+            }
+          />
+        )}
+      </div>
+    </FilterContext.Provider>
   );
 };
