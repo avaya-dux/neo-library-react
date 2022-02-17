@@ -1,5 +1,9 @@
 import { Meta } from "@storybook/react/types-6-0";
 
+import { useState, useEffect } from "react";
+
+import { Form, Button } from "components";
+
 import { MultipleSelect, MultipleSelectOption } from "./MultipleSelect";
 import { MultipleSelectProps } from "./SelectTypes";
 
@@ -29,11 +33,60 @@ export const DefaultMultipleSelect = () => {
 };
 
 export const RequiredMultipleSelectWithHelperText = () => {
+  const helperTextExample = "Please select one";
+  const [selectedOption, setSelectedOption] = useState<string[]>(["Choice 1"]);
+  const [helperText, setHelperText] = useState(helperTextExample);
+  const [errorList, setErrorList] = useState<string[]>([]);
+
+  const updateSelectedValue = (value: any): any => {
+    setSelectedOption(value);
+    setHelperText(helperText);
+    setErrorList([]);
+  };
+
   return (
-    <MultipleSelect label={label} helperText="This is helper text" required>
-      <MultipleSelectOption>Choice 1</MultipleSelectOption>
-      <MultipleSelectOption>Choice 2</MultipleSelectOption>
-    </MultipleSelect>
+    <Form
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (selectedOption.length > 0) {
+          alert(`you successfully submitted: ${selectedOption.join(", ")}`);
+        }
+      }}
+    >
+      <MultipleSelect
+        values={selectedOption}
+        onSelectedValueChange={updateSelectedValue}
+        label={label}
+        helperText={helperText}
+        errorList={errorList}
+        required
+      >
+        <MultipleSelectOption>Choice 1</MultipleSelectOption>
+        <MultipleSelectOption>Choice 2</MultipleSelectOption>
+      </MultipleSelect>
+      <Button
+        style={{ marginRight: "8px" }}
+        type="submit"
+        onClick={() => {
+          if (selectedOption.length < 1) {
+            setHelperText("");
+            setErrorList(["This is a required field"]);
+          }
+        }}
+      >
+        Submit
+      </Button>
+      <Button
+        type="reset"
+        onClick={() => {
+          setSelectedOption([]);
+          setHelperText(helperTextExample);
+          setErrorList([]);
+        }}
+      >
+        Reset
+      </Button>
+    </Form>
   );
 };
 
@@ -50,9 +103,26 @@ export const DisabledMultipleSelectWithErrorState = () => {
 };
 
 export const LoadingMultipleSelect = () => {
+  const [loading, setLoading] = useState(true);
+  const [options, setOptions] = useState<string[]>([]);
+
+  const fakeLoad = () => {
+    setTimeout(() => {
+      setOptions(["Option 1", "Option 2", "Option 3", "Option 4"]);
+      setLoading(false);
+    }, 2000);
+  };
+
+  useEffect(() => {
+    fakeLoad();
+    return () => {};
+  }, []);
+
   return (
-    <MultipleSelect label={label} loading>
-      <MultipleSelectOption>Choice 1</MultipleSelectOption>
+    <MultipleSelect label={label} loading={loading}>
+      {options.map((option, index) => (
+        <MultipleSelectOption key={index}>{option}</MultipleSelectOption>
+      ))}
     </MultipleSelect>
   );
 };
@@ -66,5 +136,24 @@ export const MultipleSelectWithWrongChildren = () => {
     <MultipleSelect label="Test Label">
       <p>Test wrong child</p>
     </MultipleSelect>
+  );
+};
+
+export const MoreThanOneMultipleSelect = () => {
+  return (
+    <>
+      <MultipleSelect label="First Multiple Select">
+        <MultipleSelectOption>Option 1</MultipleSelectOption>
+        <MultipleSelectOption>Option 2</MultipleSelectOption>
+        <MultipleSelectOption>Option 3</MultipleSelectOption>
+        <MultipleSelectOption>Option 4</MultipleSelectOption>
+      </MultipleSelect>
+      <MultipleSelect label="Second Multiple Select">
+        <MultipleSelectOption>Option 1</MultipleSelectOption>
+        <MultipleSelectOption disabled>Option 2</MultipleSelectOption>
+        <MultipleSelectOption>Option 3</MultipleSelectOption>
+        <MultipleSelectOption>Option 4</MultipleSelectOption>
+      </MultipleSelect>
+    </>
   );
 };
