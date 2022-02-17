@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Button, List, ListItem } from "components";
 
 import { Table, TableProps } from "./";
-import { FilledFields, IDataTableMockData } from "./mock-data";
+import { FilledFields, IDataTableMockData } from "./helpers";
 
 export default {
   title: "Components/Table",
@@ -61,9 +61,14 @@ export const EditableData = () => {
         handleCreate={() => {
           const newRow: IDataTableMockData = {
             id: "new-row-" + Math.random(),
-            name: "New Row",
+            name: "The new guy",
             label: "New Row",
             other: "Lorem Ipsum",
+            date: new Date(),
+            status: "inactive",
+            hexValue: "003300",
+            level: "high",
+            hasOnCallBeeper: false,
           };
           setData([...data, newRow]);
         }}
@@ -112,7 +117,7 @@ export const EmptyDataSet = () => (
 );
 
 export const BareBones = () => (
-  <Table columns={FilledFields.columns} data={FilledFields.data} />
+  <Table columns={FilledFields.columns} data={[...FilledFields.data]} />
 );
 
 export const SelectableRows = () => {
@@ -151,7 +156,7 @@ export const SelectableRows = () => {
       <Table
         caption="Storybook Selectable Rows Table Example"
         columns={FilledFields.columns}
-        data={FilledFields.data}
+        data={[...FilledFields.data]}
         handleRowToggled={handleToggle}
         selectableRows="multiple"
         defaultSelectedRowIds={defaultSelectedRowIds}
@@ -179,6 +184,6 @@ Templated.args = {
   id: "templated-table",
 
   columns: FilledFields.columns,
-  data: FilledFields.data,
+  data: [...FilledFields.data],
   selectableRows: "none",
 };

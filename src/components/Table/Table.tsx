@@ -10,13 +10,16 @@ import {
 import { Pagination } from "components/Pagination";
 
 import { TableProps } from ".";
-import { translations as defaultTranslations } from "./default-data";
-import { convertRowIdsArrayToObject } from "./helpers";
+import {
+  convertRowIdsArrayToObject,
+  translations as defaultTranslations,
+  FilterContext,
+} from "./helpers";
 import { TableBody, TableHeader, TableToolbar } from "./TableComponents";
 
 /**
  * The Table is used to organize and display data within rows and columns.
- * It comes with built in pagination.
+ * It comes with built in pagination. The `id` column in data is required.
  *
  * @example
   const columns = [
@@ -175,18 +178,18 @@ export const Table = <T extends Record<string, any>>({
         />
       </table>
 
-      {rows.length > 0 && (
-        <Pagination
-          currentPageIndex={pageIndex + 1} // TODO: may want to go and update Pagination.tsx to be zero-based
-          itemCount={rowCount}
-          itemsPerPage={pageSize}
-          itemsPerPageOptions={itemsPerPageOptions}
-          onPageChange={(e, newIndex) => {
-            e?.preventDefault();
-            gotoPage(newIndex - 1); // TODO: may want to go and update Pagination.tsx to be zero-based
-          }}
-          onItemsPerPageChange={(e, newItemsPerPage) => {
-            e?.preventDefault();
+        {rows.length > 0 && (
+          <Pagination
+            currentPageIndex={pageIndex + 1}
+            itemCount={rowCount}
+            itemsPerPage={pageSize}
+            itemsPerPageOptions={itemsPerPageOptions}
+            onPageChange={(e, newIndex) => {
+              e?.preventDefault();
+              gotoPage(newIndex - 1);
+            }}
+            onItemsPerPageChange={(e, newItemsPerPage) => {
+              e?.preventDefault();
             setPageSize(newItemsPerPage);
           }}
           backIconButtonText={paginationTranslations.backIconButtonText}
