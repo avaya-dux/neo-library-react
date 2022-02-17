@@ -114,11 +114,12 @@ describe("MultipleSelect", () => {
         </MultipleSelect>
       );
 
-      const listElements = getAllByRole("option");
-      listElements.forEach((element) => {
-        spy.mockClear(); // BUG: this should not be here, spy should not have been called
-        expect(spy).not.toHaveBeenCalled();
+      spy.mockClear(); // BUG: this should not be here, spy should not have been called
+      expect(spy).not.toHaveBeenCalled();
 
+      const listElements = getAllByRole("option");
+
+      listElements.forEach((element) => {
         fireEvent.click(element);
 
         if (element.attributes.disabled) {
@@ -135,7 +136,7 @@ describe("MultipleSelect", () => {
     describe("Default Multiple Select", () => {
       let renderResult;
       beforeEach(() => {
-        jest.spyOn(console, "log").mockImplementation(() => {});
+        jest.spyOn(console, "log").mockImplementation(() => {}); // BUG: this should not be here, spy should not have been called
         renderResult = render(<DefaultMultipleSelect />);
       });
 
