@@ -114,7 +114,7 @@ describe("MultipleSelect", () => {
         </MultipleSelect>
       );
 
-      spy.mockClear(); // BUG: this should not be here, spy should not have been called
+      spy.mockClear(); // BUG: this should not need to be here, spy should not have been called. Remove line once bug is fixed.
       expect(spy).not.toHaveBeenCalled();
 
       const listElements = getAllByRole("option");
