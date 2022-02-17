@@ -342,8 +342,7 @@ describe("Table", () => {
     });
 
     it("allows column filtering via toolbar Filter Icon Button", () => {
-      const { container, getByRole, queryAllByRole, getByLabelText } =
-        renderResult;
+      const { container, getByRole, getByLabelText } = renderResult;
 
       const firstColumnSortButton = container.querySelector(
         "tr th div.neo-multiselect"
@@ -360,10 +359,6 @@ describe("Table", () => {
       expect(() => getByRole("dialog")).toThrow();
 
       fireEvent.click(columnFilterButton);
-
-      const menuItems = queryAllByRole("menuitem");
-      expect(menuItems).toHaveLength(4);
-      fireEvent.click(queryAllByRole("menuitem")[3]);
 
       expect(() => getByRole("dialog")).not.toThrow();
 
