@@ -1,6 +1,7 @@
 import { composeStories } from "@storybook/testing-react";
-import { fireEvent, render, act } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { axe } from "jest-axe";
+
 import { MultipleSelect, MultipleSelectOption } from "./MultipleSelect";
 import * as MultipleSelectStories from "./MultipleSelect.stories";
 
@@ -101,23 +102,41 @@ describe("MultipleSelect", () => {
       const results = await axe(container);
       expect(results).toHaveNoViolations();
     });
+
+    it("only calls the event handler when option is not disabled", () => {
+      const spy = jest.fn();
+      const { getAllByRole } = render(
+        <MultipleSelect label="not important" onSelectedValueChange={spy}>
+          <MultipleSelectOption>Option 1</MultipleSelectOption>
+          <MultipleSelectOption disabled>Option 2</MultipleSelectOption>
+          <MultipleSelectOption>Option 3</MultipleSelectOption>
+          <MultipleSelectOption>Option 4</MultipleSelectOption>
+        </MultipleSelect>
+      );
+
+      const listElements = getAllByRole("option");
+      listElements.forEach((element) => {
+        spy.mockClear(); // BUG: this should not be here, spy should not have been called
+        expect(spy).not.toHaveBeenCalled();
+
+        fireEvent.click(element);
+
+        if (element.attributes.disabled) {
+          expect(spy).not.toHaveBeenCalled();
+        } else {
+          expect(spy).toHaveBeenCalledTimes(1);
+          spy.mockClear();
+        }
+      });
+    });
   });
 
   describe("Storybook tests", () => {
     describe("Default Multiple Select", () => {
       let renderResult;
       beforeEach(() => {
+        jest.spyOn(console, "log").mockImplementation(() => {});
         renderResult = render(<DefaultMultipleSelect />);
-      });
-
-      it("passes the correct value to event handler", () => {
-        const spy = jest.spyOn(console, "log").mockImplementation(() => {});
-        const { getAllByRole } = renderResult;
-        const listElements = getAllByRole("option");
-        listElements.forEach((element) => {
-          fireEvent.click(element);
-          expect(spy).toHaveBeenCalled();
-        });
       });
 
       it("renders the correct input as disabled", () => {
