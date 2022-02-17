@@ -1,8 +1,12 @@
-export interface IToolbarTranslations {
+export interface ITableFilterTranslations {
+  clear?: string;
+  close?: string;
+  filterColumns?: string;
+}
+export interface IToolbarTranslations extends ITableFilterTranslations {
   create?: string;
   delete?: string;
   edit?: string;
-  filter?: string;
   noDataAvailable?: string;
   refresh?: string;
   rowsPerPage?: string;
@@ -22,6 +26,8 @@ export interface IPaginationTranslations {
 }
 
 export interface ITableHeaderTranslations {
+  clearSort?: string;
+  filterColumn?: string;
   selectAll: string;
   sortBy: string;
 }
