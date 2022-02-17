@@ -13,7 +13,6 @@ import { TableProps } from ".";
 import {
   convertRowIdsArrayToObject,
   translations as defaultTranslations,
-  FilterContext,
 } from "./helpers";
 import { TableBody, TableHeader, TableToolbar } from "./TableComponents";
 
@@ -178,18 +177,18 @@ export const Table = <T extends Record<string, any>>({
         />
       </table>
 
-        {rows.length > 0 && (
-          <Pagination
-            currentPageIndex={pageIndex + 1}
-            itemCount={rowCount}
-            itemsPerPage={pageSize}
-            itemsPerPageOptions={itemsPerPageOptions}
-            onPageChange={(e, newIndex) => {
-              e?.preventDefault();
-              gotoPage(newIndex - 1);
-            }}
-            onItemsPerPageChange={(e, newItemsPerPage) => {
-              e?.preventDefault();
+      {rows.length > 0 && (
+        <Pagination
+          currentPageIndex={pageIndex + 1}
+          itemCount={rowCount}
+          itemsPerPage={pageSize}
+          itemsPerPageOptions={itemsPerPageOptions}
+          onPageChange={(e, newIndex) => {
+            e?.preventDefault();
+            gotoPage(newIndex - 1);
+          }}
+          onItemsPerPageChange={(e, newItemsPerPage) => {
+            e?.preventDefault();
             setPageSize(newItemsPerPage);
           }}
           backIconButtonText={paginationTranslations.backIconButtonText}
