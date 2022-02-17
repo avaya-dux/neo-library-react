@@ -6,7 +6,7 @@ import {
   activateAnotherTabAndPanel,
   enableLeftButton,
   enableRightButton,
-  extractproperties,
+  extractProperties,
   moveNextTabToLeftAmount,
   movePreviousTabToRightAmount,
 } from "./Helper";
@@ -75,7 +75,7 @@ export const handleLeftCarouselMouseClickEvent = (
 ) => {
   e.stopPropagation();
   const { scrollLeft, scrollWidth, visibleWidth, tabWidths } =
-    extractproperties(scrollRef, tabRefs);
+    extractProperties(scrollRef, tabRefs);
   const amount = movePreviousTabToRightAmount(
     scrollLeft,
     scrollWidth,
@@ -124,7 +124,7 @@ export const handleRightCarouselMouseClickEvent = (
 ) => {
   e.stopPropagation();
   const { scrollLeft, scrollWidth, visibleWidth, tabWidths } =
-    extractproperties(scrollRef, tabRefs);
+    extractProperties(scrollRef, tabRefs);
   const amount = moveNextTabToLeftAmount(
     scrollLeft,
     scrollWidth,

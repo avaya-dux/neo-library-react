@@ -40,6 +40,7 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
   loading = false,
   required,
   onSelectedValueChange,
+  values,
   children = [],
 }) => {
   if (!label) {
@@ -56,7 +57,7 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
       })
     : Array.from(children.props.children.toString());
 
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [selectedItems, setSelectedItems] = useState<string[]>(values || []);
 
   const helperId = useMemo(() => `helper-text-${id}`, [id]);
 
@@ -76,11 +77,15 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
   } = useSelect({
     items,
     id,
-    isOpen: disabled || loading ? false : undefined,
     selectedItem: null,
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
       switch (type) {
+        case useSelect.stateChangeTypes.ToggleButtonClick:
+          return {
+            ...changes,
+            isOpen: !(disabled || loading),
+          };
         case useSelect.stateChangeTypes.MenuKeyDownEnter:
         case useSelect.stateChangeTypes.MenuKeyDownSpaceButton:
         case useSelect.stateChangeTypes.ItemClick:
@@ -106,9 +111,14 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
   });
 
   useEffect(() => {
-    if (onSelectedValueChange && selectedItems.length > 0)
-      onSelectedValueChange(selectedItems);
+    if (onSelectedValueChange) onSelectedValueChange(selectedItems);
   }, [selectedItems]);
+
+  useEffect(() => {
+    if (values) {
+      setSelectedItems(values);
+    }
+  }, [values]);
 
   const context = {
     items,
@@ -147,9 +157,14 @@ export const MultipleSelect: FunctionComponent<MultipleSelectProps> = ({
         )}
         aria-describedby={helperText && helperId}
       >
-        <div className="neo-multiselect__header" {...getToggleButtonProps()}>
+        <button
+          className="neo-multiselect__header"
+          {...getToggleButtonProps()}
+          // TO-DO: Add this property to .neo-multiselect__header class to maintain styling when using button element instead of div
+          style={{ width: "100%", paddingLeft: loading && "32px" }}
+        >
           {multipleSelectText}
-        </div>
+        </button>
         <div className="neo-multiselect__content" {...getMenuProps()}>
           {childrenWithProps}
         </div>
@@ -179,9 +194,9 @@ export const MultipleSelectOption: FunctionComponent<
 
   const item = items[index];
 
-  const labelId = useMemo(() => `label-id-${index}`, [index]);
+  const labelId = useMemo(() => `label-id-${genId()}`, []);
 
-  const helperId = useMemo(() => `helper-text-${index}`, [index]);
+  const helperId = useMemo(() => `helper-text-${genId()}`, []);
 
   const MultiSelectOption = (
     <>
