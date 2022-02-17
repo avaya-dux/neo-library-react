@@ -310,6 +310,70 @@ describe("Table", () => {
       fireEvent.click(clearSortButton);
       expect(getFirstCellTextContent()).toBe(firstCellOriginalContent);
     });
+
+    it("allows column filtering via header dropdown", () => {
+      const { container, getByRole, queryAllByRole, getByLabelText } =
+        renderResult;
+
+      const firstColumnSortButton = container.querySelector(
+        "tr th div.neo-multiselect"
+      );
+      expect(firstColumnSortButton).toHaveTextContent(
+        FilledFields.columns[0].Header
+      );
+      expect(firstColumnSortButton).toBeVisible();
+
+      expect(() => getByRole("dialog")).toThrow();
+
+      fireEvent.click(firstColumnSortButton);
+
+      const menuItems = queryAllByRole("menuitem");
+      expect(menuItems).toHaveLength(4);
+      fireEvent.click(queryAllByRole("menuitem")[3]);
+
+      expect(() => getByRole("dialog")).not.toThrow();
+
+      const nameCheckbox = getByLabelText(FilledFields.columns[0].Header);
+      expect(nameCheckbox).toBeChecked();
+
+      fireEvent.click(nameCheckbox);
+      expect(nameCheckbox).not.toBeChecked();
+      expect(firstColumnSortButton).not.toBeVisible();
+    });
+
+    it("allows column filtering via toolbar Filter Icon Button", () => {
+      const { container, getByRole, queryAllByRole, getByLabelText } =
+        renderResult;
+
+      const firstColumnSortButton = container.querySelector(
+        "tr th div.neo-multiselect"
+      );
+      expect(firstColumnSortButton).toHaveTextContent(
+        FilledFields.columns[0].Header
+      );
+      expect(firstColumnSortButton).toBeVisible();
+
+      const columnFilterButton = getByLabelText(
+        FilledFields.translations.toolbar.filterColumns
+      );
+
+      expect(() => getByRole("dialog")).toThrow();
+
+      fireEvent.click(columnFilterButton);
+
+      const menuItems = queryAllByRole("menuitem");
+      expect(menuItems).toHaveLength(4);
+      fireEvent.click(queryAllByRole("menuitem")[3]);
+
+      expect(() => getByRole("dialog")).not.toThrow();
+
+      const nameCheckbox = getByLabelText(FilledFields.columns[0].Header);
+      expect(nameCheckbox).toBeChecked();
+
+      fireEvent.click(nameCheckbox);
+      expect(nameCheckbox).not.toBeChecked();
+      expect(firstColumnSortButton).not.toBeVisible();
+    });
   });
 
   describe("helpers", () => {
