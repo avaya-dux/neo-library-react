@@ -100,7 +100,7 @@ export const TableHeader = <T extends Record<string, any>>({
             const thDivProps = getSortByToggleProps({
               title: translations?.sortBy,
 
-              // this is necessary to keep the "down" button from triggering sort+pagescroll
+              // keep mouse-click from triggering sort
               onClick: (e) => {
                 e.stopPropagation();
                 e.preventDefault();
@@ -126,7 +126,9 @@ export const TableHeader = <T extends Record<string, any>>({
                         case Keys.ENTER:
                         case Keys.SPACE:
                         case Keys.DOWN:
-                          (thDivProps as any).onClick(e); // BUG: can't figure out the proper typing of thDivProps
+                          // keep keyboard from triggering sort innaproriately
+                          e.stopPropagation();
+                          e.preventDefault();
                           break;
                       }
                     }}
