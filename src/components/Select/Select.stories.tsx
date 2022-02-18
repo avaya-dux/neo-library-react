@@ -1,6 +1,6 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import { Form, Button } from "components";
 
@@ -44,7 +44,12 @@ export const DefaultSelects = () => {
 
 export const SelectWithHelperText = () => {
   return (
-    <Select isMultipleSelect label={label} helperText={"This is helper text"}>
+    <Select
+      isMultipleSelect
+      label={label}
+      helperText="This is helper text"
+      id="neo-select"
+    >
       <SelectOption>Option 1</SelectOption>
       <SelectOption disabled>Option 2</SelectOption>
       <SelectOption>Option 3</SelectOption>
@@ -70,11 +75,14 @@ export const RequiredMultipleSelectWithHelperText = () => {
   const [helperText, setHelperText] = useState(helperTextExample);
   const [errorList, setErrorList] = useState<string[]>([]);
 
-  const updateSelectedValue = (value: any): any => {
-    setSelectedOption(value);
-    setHelperText(helperText);
-    setErrorList([]);
-  };
+  const updateSelectedValue = useCallback(
+    (value: any): any => {
+      setSelectedOption(value);
+      setHelperText(helperText);
+      setErrorList([]);
+    },
+    [selectedOption]
+  );
 
   return (
     <Form

@@ -6,6 +6,7 @@ import {
   useEffect,
   useMemo,
   useState,
+  useRef,
 } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
@@ -19,6 +20,14 @@ import {
   DownshiftWithSelectProps,
   DownshiftWithMultipleSelectProps,
 } from "./DownshiftHooks";
+
+const useIsInitialRender = () => {
+  const isInitialRenderRef = useRef(true);
+  useEffect(() => {
+    isInitialRenderRef.current = false;
+  }, []);
+  return isInitialRenderRef.current;
+};
 
 export const Select: FunctionComponent<SelectProps> = ({
   isMultipleSelect,
@@ -37,6 +46,8 @@ export const Select: FunctionComponent<SelectProps> = ({
   if (!label) {
     handleAccessbilityError("Select requires a label prop");
   }
+
+  const isInitialRender = useIsInitialRender();
 
   const items: string[] = Array.isArray(children)
     ? children.map((child) => {
@@ -77,8 +88,12 @@ export const Select: FunctionComponent<SelectProps> = ({
     : DownshiftWithSelectProps(items, id, setSelectedItems);
 
   useEffect(() => {
-    if (selectedItems.length > 0 && onSelectedValueChange)
-      onSelectedValueChange(selectedItems);
+    if (isInitialRender) {
+      if (onSelectedValueChange && selectedItems.length > 1)
+        onSelectedValueChange(selectedItems);
+    } else {
+      if (onSelectedValueChange) onSelectedValueChange(selectedItems);
+    }
   }, [selectedItems]);
 
   useEffect(() => {
@@ -126,6 +141,7 @@ export const Select: FunctionComponent<SelectProps> = ({
         <button
           className="neo-multiselect__header"
           {...getToggleButtonProps()}
+          type="button"
           // TO-DO: Add this property to .neo-multiselect__header class to maintain styling when using button element instead of div
           style={{ width: "100%", paddingLeft: loading && "32px" }}
         >

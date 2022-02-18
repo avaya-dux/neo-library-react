@@ -4,7 +4,8 @@ import { Dispatch, SetStateAction } from "react";
 export const DownshiftWithSelectProps = (
   items: string[],
   id: string,
-  setSelectedItems: Dispatch<SetStateAction<string[]>>
+  setSelectedItems: Dispatch<SetStateAction<string[]>>,
+  onSelectedValueChange?: (value: string[] | string) => any
 ) => {
   return useSelect({
     items,
@@ -12,6 +13,7 @@ export const DownshiftWithSelectProps = (
     onSelectedItemChange: ({ selectedItem }) => {
       if (selectedItem) {
         setSelectedItems([selectedItem]);
+        if (onSelectedValueChange) onSelectedValueChange(selectedItem);
       }
     },
   });
