@@ -263,6 +263,34 @@
 //       );
 //     });
 
+// it("only calls the event handler when option is not disabled", () => {
+//     const spy = jest.fn();
+//     const { getAllByRole } = render(
+//       <MultipleSelect label="not important" onSelectedValueChange={spy}>
+//         <MultipleSelectOption>Option 1</MultipleSelectOption>
+//         <MultipleSelectOption disabled>Option 2</MultipleSelectOption>
+//         <MultipleSelectOption>Option 3</MultipleSelectOption>
+//         <MultipleSelectOption>Option 4</MultipleSelectOption>
+//       </MultipleSelect>
+//     );
+
+//     spy.mockClear(); // BUG: this should not need to be here, spy should not have been called. Remove line once bug is fixed.
+//     expect(spy).not.toHaveBeenCalled();
+
+//     const listElements = getAllByRole("option");
+
+//     listElements.forEach((element) => {
+//       fireEvent.click(element);
+
+//       if (element.attributes.disabled) {
+//         expect(spy).not.toHaveBeenCalled();
+//       } else {
+//         expect(spy).toHaveBeenCalledTimes(1);
+//         spy.mockClear();
+//       }
+//     });
+//   });
+
 //     it("does open content area on click after content is loaded", () => {
 //       let loading = true;
 //       const placeholder = "please select one";
