@@ -14,6 +14,7 @@ import { TableProps } from ".";
 import {
   convertRowIdsArrayToObject,
   translations as defaultTranslations,
+  FilterContext,
 } from "./helpers";
 import { TableBody, TableHeader, TableToolbar } from "./TableComponents";
 import { IFilterContext } from "./types";

@@ -5,7 +5,7 @@ import { Icon } from "components/Icon";
 import { Menu, MenuItem } from "components/Menu";
 import { IconNamesType, Keys } from "utils";
 
-import { calculateAriaSortValue } from "../helpers";
+import { calculateAriaSortValue, FilterContext } from "../helpers";
 import { TableHeaderProps } from "../types";
 
 /**
