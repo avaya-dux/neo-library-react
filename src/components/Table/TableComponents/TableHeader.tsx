@@ -2,7 +2,7 @@ import { CSSProperties, KeyboardEvent, useContext } from "react";
 
 import { Checkbox } from "components/Checkbox";
 import { Icon } from "components/Icon";
-import { Menu, MenuItem } from "components/Menu";
+import { Menu, MenuButton, MenuItem } from "components/Menu";
 import { IconNamesType, Keys } from "utils";
 
 import { calculateAriaSortValue, FilterContext } from "../helpers";
@@ -131,10 +131,14 @@ export const TableHeader = <T extends Record<string, any>>({
             content = (
               <Menu
                 menuRootElement={
-                  <div
+                  <MenuButton
+                    variant="tertiary"
                     className="neo-multiselect"
-                    role="button"
-                    tabIndex={0}
+                    style={{
+                      color: "black",
+                      paddingLeft: 0,
+                      fontWeight: 600,
+                    }}
                     onKeyDown={(e) => {
                       switch (e.key) {
                         case Keys.ENTER:
@@ -153,7 +157,7 @@ export const TableHeader = <T extends Record<string, any>>({
                       icon={sortIcon}
                       aria-label={sortIcon.replace(/-/g, " ")}
                     />
-                  </div>
+                  </MenuButton>
                 }
                 {...thDivProps}
               >
