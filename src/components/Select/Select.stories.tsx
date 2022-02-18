@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { Form, Button } from "components";
 
 import { Select } from "./Select";
-import { MultipleSelectOption, SelectOption } from "./SelectChildren";
+import { SelectOption } from "./SelectChildren";
 import { SelectProps } from "./SelectTypes";
 
 export default {
@@ -37,10 +37,10 @@ export const DefaultMultipleSelect = () => {
       label={label}
       onSelectedValueChange={handleSelectedValueChange}
     >
-      <MultipleSelectOption>Option 1</MultipleSelectOption>
-      <MultipleSelectOption disabled>Option 2</MultipleSelectOption>
-      <MultipleSelectOption>Option 3</MultipleSelectOption>
-      <MultipleSelectOption>Option 4</MultipleSelectOption>
+      <SelectOption>Option 1</SelectOption>
+      <SelectOption disabled>Option 2</SelectOption>
+      <SelectOption>Option 3</SelectOption>
+      <SelectOption>Option 4</SelectOption>
     </Select>
   );
 };
@@ -48,10 +48,10 @@ export const DefaultMultipleSelect = () => {
 export const SelectWithHelperText = () => {
   return (
     <Select isMultipleSelect label={label} helperText={"This is helper text"}>
-      <MultipleSelectOption>Option 1</MultipleSelectOption>
-      <MultipleSelectOption disabled>Option 2</MultipleSelectOption>
-      <MultipleSelectOption>Option 3</MultipleSelectOption>
-      <MultipleSelectOption>Option 4</MultipleSelectOption>
+      <SelectOption>Option 1</SelectOption>
+      <SelectOption disabled>Option 2</SelectOption>
+      <SelectOption>Option 3</SelectOption>
+      <SelectOption>Option 4</SelectOption>
     </Select>
   );
 };
@@ -97,8 +97,8 @@ export const RequiredMultipleSelectWithHelperText = () => {
         errorList={errorList}
         required
       >
-        <MultipleSelectOption>Choice 1</MultipleSelectOption>
-        <MultipleSelectOption>Choice 2</MultipleSelectOption>
+        <SelectOption>Choice 1</SelectOption>
+        <SelectOption>Choice 2</SelectOption>
       </Select>
       <Button
         style={{ marginRight: "8px" }}
@@ -134,7 +134,7 @@ export const DisabledMultipleSelectWithErrorState = () => {
       errorList={["This is an error message"]}
       disabled
     >
-      <MultipleSelectOption>Choice 1</MultipleSelectOption>
+      <SelectOption>Choice 1</SelectOption>
     </Select>
   );
 };
@@ -156,16 +156,21 @@ export const LoadingMultipleSelect = () => {
   }, []);
 
   return (
-    <Select label={label} loading={loading}>
+    <Select isMultipleSelect label={label} loading={loading}>
       {options.map((option, index) => (
-        <MultipleSelectOption key={index}>{option}</MultipleSelectOption>
+        <SelectOption key={index}>{option}</SelectOption>
       ))}
     </Select>
   );
 };
 
-export const MultipleSelectWithoutChildren = () => {
-  return <Select label="Test Label" />;
+export const SelectsWithoutChildren = () => {
+  return (
+    <>
+      <Select label="Test Label" />
+      <Select label="Test label" isMultipleSelect />
+    </>
+  );
 };
 
 export const SelectsWithWrongChildren = () => {
@@ -174,28 +179,34 @@ export const SelectsWithWrongChildren = () => {
       <Select label="Test Label">
         <p>Test wrong child</p>
       </Select>
+      <Select label="Test Label">
+        <SelectOption>Option 1</SelectOption>
+      </Select>
       <Select isMultipleSelect label="Test Label">
         <p>Test wrong child</p>
+      </Select>
+      <Select isMultipleSelect label="Test Label">
+        <SelectOption>Option 1</SelectOption>
       </Select>
     </>
   );
 };
 
-// export const MoreThanOneMultipleSelect = () => {
-//   return (
-//     <>
-//       <MultipleSelect label="First Multiple Select">
-//         <MultipleSelectOption>Option 1</MultipleSelectOption>
-//         <MultipleSelectOption>Option 2</MultipleSelectOption>
-//         <MultipleSelectOption>Option 3</MultipleSelectOption>
-//         <MultipleSelectOption>Option 4</MultipleSelectOption>
-//       </MultipleSelect>
-//       <MultipleSelect label="Second Multiple Select">
-//         <MultipleSelectOption>Option 1</MultipleSelectOption>
-//         <MultipleSelectOption disabled>Option 2</MultipleSelectOption>
-//         <MultipleSelectOption>Option 3</MultipleSelectOption>
-//         <MultipleSelectOption>Option 4</MultipleSelectOption>
-//       </MultipleSelect>
-//     </>
-//   );
-// };
+export const MoreThanOneMultipleSelect = () => {
+  return (
+    <>
+      <Select isMultipleSelect label="First Multiple Select">
+        <SelectOption>Option 1</SelectOption>
+        <SelectOption>Option 2</SelectOption>
+        <SelectOption>Option 3</SelectOption>
+        <SelectOption>Option 4</SelectOption>
+      </Select>
+      <Select isMultipleSelect label="Second Multiple Select">
+        <SelectOption>Option 1</SelectOption>
+        <SelectOption disabled>Option 2</SelectOption>
+        <SelectOption>Option 3</SelectOption>
+        <SelectOption>Option 4</SelectOption>
+      </Select>
+    </>
+  );
+};

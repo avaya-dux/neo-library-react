@@ -76,8 +76,6 @@ export const Select: FunctionComponent<SelectProps> = ({
       )
     : DownshiftWithSelectProps(items, id, setSelectedItems);
 
-  // bug here
-
   useEffect(() => {
     if (selectedItems.length > 0 && onSelectedValueChange)
       onSelectedValueChange(selectedItems);
@@ -90,6 +88,7 @@ export const Select: FunctionComponent<SelectProps> = ({
   }, [values]);
 
   const context = {
+    isMultipleSelect,
     items,
     itemProps: getItemProps,
     selectedItems,

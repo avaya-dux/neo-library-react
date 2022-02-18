@@ -34,6 +34,7 @@ export type SelectContextProps = {
   index: number;
   highlightedIndex: number;
   selectedItems: string[];
+  isMultipleSelect?: boolean;
 };
 
 export const SelectContext = createContext<SelectContextProps>({
@@ -42,4 +43,5 @@ export const SelectContext = createContext<SelectContextProps>({
   selectedItems: [],
   index: 0,
   highlightedIndex: 0,
+  isMultipleSelect: false,
 });
