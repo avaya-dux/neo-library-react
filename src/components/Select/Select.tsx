@@ -79,7 +79,8 @@ export const Select: FunctionComponent<SelectProps> = ({
   // bug here
 
   useEffect(() => {
-    if (onSelectedValueChange) onSelectedValueChange(selectedItems);
+    if (selectedItems.length > 0 && onSelectedValueChange)
+      onSelectedValueChange(selectedItems);
   }, [selectedItems]);
 
   useEffect(() => {
