@@ -146,15 +146,60 @@ export const TableHeader = <T extends Record<string, any>>({
                 }
                 {...thDivProps}
               >
-                <MenuItem onClick={clearSortBy} disabled={!isSorted}>
+                <MenuItem
+                  onClick={clearSortBy}
+                  onKeyDown={(e) => {
+                    switch (e.key) {
+                      case Keys.ENTER:
+                      case Keys.SPACE:
+                        clearSortBy();
+                        break;
+                    }
+                  }}
+                  disabled={!isSorted}
+                >
                   {translations.clearSort || "Clear Sort"}
                 </MenuItem>
 
-                <MenuItem onClick={handleAscSort}>A - Z</MenuItem>
+                <MenuItem
+                  onClick={handleAscSort}
+                  onKeyDown={(e) => {
+                    switch (e.key) {
+                      case Keys.ENTER:
+                      case Keys.SPACE:
+                        handleAscSort();
+                        break;
+                    }
+                  }}
+                >
+                  A - Z
+                </MenuItem>
 
-                <MenuItem onClick={handleDescSort}>Z - A</MenuItem>
+                <MenuItem
+                  onClick={handleDescSort}
+                  onKeyDown={(e) => {
+                    switch (e.key) {
+                      case Keys.ENTER:
+                      case Keys.SPACE:
+                        handleDescSort();
+                        break;
+                    }
+                  }}
+                >
+                  Z - A
+                </MenuItem>
 
-                <MenuItem onClick={toggleFilterSheetVisible}>
+                <MenuItem
+                  onClick={toggleFilterSheetVisible}
+                  onKeyDown={(e) => {
+                    switch (e.key) {
+                      case Keys.ENTER:
+                      case Keys.SPACE:
+                        toggleFilterSheetVisible();
+                        break;
+                    }
+                  }}
+                >
                   {translations.filterColumn || "Filter Column"}
                 </MenuItem>
               </Menu>
