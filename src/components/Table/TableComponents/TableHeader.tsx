@@ -114,6 +114,9 @@ export const TableHeader = <T extends Record<string, any>>({
                 ? "arrow-up"
                 : "arrow-down";
 
+            const handleAscSort = () => toggleSortBy(column.id, false, false);
+            const handleDescSort = () => toggleSortBy(column.id, true, false);
+
             content = (
               <Menu
                 menuRootElement={
@@ -147,21 +150,9 @@ export const TableHeader = <T extends Record<string, any>>({
                   {translations.clearSort || "Clear Sort"}
                 </MenuItem>
 
-                <MenuItem
-                  onClick={() => {
-                    toggleSortBy(column.id, false, false);
-                  }}
-                >
-                  A - Z
-                </MenuItem>
+                <MenuItem onClick={handleAscSort}>A - Z</MenuItem>
 
-                <MenuItem
-                  onClick={() => {
-                    toggleSortBy(column.id, true, false);
-                  }}
-                >
-                  Z - A
-                </MenuItem>
+                <MenuItem onClick={handleDescSort}>Z - A</MenuItem>
 
                 <MenuItem onClick={toggleFilterSheetVisible}>
                   {translations.filterColumn || "Filter Column"}
