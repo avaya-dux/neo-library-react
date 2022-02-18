@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { Form, Button } from "components";
 
 import { Select } from "./Select";
-import { SelectOption } from "./SelectChildren";
+import { SelectOption } from "./SelectOption";
 import { SelectProps } from "./SelectTypes";
 
 export default {
@@ -19,29 +19,26 @@ const handleSelectedValueChange = (value: any) => {
   console.log(value);
 };
 
-export const DefaultSelect = () => {
+export const DefaultSelects = () => {
   return (
-    <Select label={label} onSelectedValueChange={handleSelectedValueChange}>
-      <SelectOption>Option 1</SelectOption>
-      <SelectOption disabled>Option 2</SelectOption>
-      <SelectOption>Option 3</SelectOption>
-      <SelectOption>Option 4</SelectOption>
-    </Select>
-  );
-};
-
-export const DefaultMultipleSelect = () => {
-  return (
-    <Select
-      isMultipleSelect
-      label={label}
-      onSelectedValueChange={handleSelectedValueChange}
-    >
-      <SelectOption>Option 1</SelectOption>
-      <SelectOption disabled>Option 2</SelectOption>
-      <SelectOption>Option 3</SelectOption>
-      <SelectOption>Option 4</SelectOption>
-    </Select>
+    <>
+      <Select label={label} onSelectedValueChange={handleSelectedValueChange}>
+        <SelectOption>Option 1</SelectOption>
+        <SelectOption disabled>Option 2</SelectOption>
+        <SelectOption>Option 3</SelectOption>
+        <SelectOption>Option 4</SelectOption>
+      </Select>
+      <Select
+        isMultipleSelect
+        label={label}
+        onSelectedValueChange={handleSelectedValueChange}
+      >
+        <SelectOption>Option 1</SelectOption>
+        <SelectOption disabled>Option 2</SelectOption>
+        <SelectOption>Option 3</SelectOption>
+        <SelectOption>Option 4</SelectOption>
+      </Select>
+    </>
   );
 };
 
