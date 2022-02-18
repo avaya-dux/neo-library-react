@@ -100,7 +100,10 @@ export const TableToolbar = <T extends Record<string, any>>({
         )}
       </div>
 
-      <div className="neo-table__actions--right">
+      <div
+        className="neo-table__actions--right"
+        style={{ position: "relative" }}
+      >
         <div className="neo-form">
           <TextInput
             aria-label={translations.searchInputPlaceholder}
