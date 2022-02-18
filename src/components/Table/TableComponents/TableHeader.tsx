@@ -1,4 +1,4 @@
-import { CSSProperties, useContext } from "react";
+import { CSSProperties, KeyboardEvent, useContext } from "react";
 
 import { Checkbox } from "components/Checkbox";
 import { Icon } from "components/Icon";
@@ -116,6 +116,17 @@ export const TableHeader = <T extends Record<string, any>>({
 
             const handleAscSort = () => toggleSortBy(column.id, false, false);
             const handleDescSort = () => toggleSortBy(column.id, true, false);
+            const onSpaceOrEnter = (
+              e: KeyboardEvent<HTMLDivElement>,
+              method: () => void
+            ) => {
+              switch (e.key) {
+                case Keys.ENTER:
+                case Keys.SPACE:
+                  method();
+                  break;
+              }
+            };
 
             content = (
               <Menu
@@ -129,7 +140,7 @@ export const TableHeader = <T extends Record<string, any>>({
                         case Keys.ENTER:
                         case Keys.SPACE:
                         case Keys.DOWN:
-                          // keep keyboard from triggering sort innaproriately
+                          // keep keyboard from triggering sort inaproriately
                           e.stopPropagation();
                           e.preventDefault();
                           break;
@@ -148,14 +159,7 @@ export const TableHeader = <T extends Record<string, any>>({
               >
                 <MenuItem
                   onClick={clearSortBy}
-                  onKeyDown={(e) => {
-                    switch (e.key) {
-                      case Keys.ENTER:
-                      case Keys.SPACE:
-                        clearSortBy();
-                        break;
-                    }
-                  }}
+                  onKeyDown={(e) => onSpaceOrEnter(e, clearSortBy)}
                   disabled={!isSorted}
                 >
                   {translations.clearSort || "Clear Sort"}
@@ -163,42 +167,21 @@ export const TableHeader = <T extends Record<string, any>>({
 
                 <MenuItem
                   onClick={handleAscSort}
-                  onKeyDown={(e) => {
-                    switch (e.key) {
-                      case Keys.ENTER:
-                      case Keys.SPACE:
-                        handleAscSort();
-                        break;
-                    }
-                  }}
+                  onKeyDown={(e) => onSpaceOrEnter(e, handleAscSort)}
                 >
                   A - Z
                 </MenuItem>
 
                 <MenuItem
                   onClick={handleDescSort}
-                  onKeyDown={(e) => {
-                    switch (e.key) {
-                      case Keys.ENTER:
-                      case Keys.SPACE:
-                        handleDescSort();
-                        break;
-                    }
-                  }}
+                  onKeyDown={(e) => onSpaceOrEnter(e, handleDescSort)}
                 >
                   Z - A
                 </MenuItem>
 
                 <MenuItem
                   onClick={toggleFilterSheetVisible}
-                  onKeyDown={(e) => {
-                    switch (e.key) {
-                      case Keys.ENTER:
-                      case Keys.SPACE:
-                        toggleFilterSheetVisible();
-                        break;
-                    }
-                  }}
+                  onKeyDown={(e) => onSpaceOrEnter(e, toggleFilterSheetVisible)}
                 >
                   {translations.filterColumn || "Filter Column"}
                 </MenuItem>
