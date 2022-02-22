@@ -81,7 +81,7 @@ export const RequiredMultipleSelectWithHelperText = () => {
       setHelperText(helperText);
       setErrorList([]);
     },
-    [selectedOption]
+    [[setSelectedOption, setHelperText, helperText, setErrorList]]
   );
 
   return (
