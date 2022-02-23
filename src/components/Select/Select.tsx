@@ -6,11 +6,11 @@ import {
   useEffect,
   useMemo,
   useState,
-  useRef,
 } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
+import { useIsInitialRender } from "utils/hooks/useIsInitialRender";
 
 import { SelectProps, SelectContext } from "./SelectTypes";
 
@@ -20,14 +20,6 @@ import {
   DownshiftWithSelectProps,
   DownshiftWithMultipleSelectProps,
 } from "./DownshiftHooks";
-
-const useIsInitialRender = () => {
-  const isInitialRenderRef = useRef(true);
-  useEffect(() => {
-    isInitialRenderRef.current = false;
-  }, []);
-  return isInitialRenderRef.current;
-};
 
 export const Select: FunctionComponent<SelectProps> = ({
   isMultipleSelect,
