@@ -1,49 +1,65 @@
-import { forwardRef, useEffect, useMemo, useState } from "react";
+import clsx from "clsx";
+import { ImgHTMLAttributes, ReactElement, useEffect, useState } from "react";
 
-export interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+export interface ImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string;
-  fallback?: React.ReactNode;
+  fallback?: ReactElement | string;
 }
 
-export const Image: React.FC<ImageProps> = forwardRef(
-  (
-    { className, src, alt, fallback, ...rest }: ImageProps,
-    ref: React.Ref<HTMLImageElement>
-  ) => {
-    const [showHTMLFallback, updateShowHTMLFallback] = useState(false);
-    if (!alt) {
-      console.warn(
-        `Alternative text should be added to the image if it conveys meaning and is not displayed elsewhere on the page.
+export const Image = ({
+  alt = "",
+  className,
+  fallback,
+  height,
+  onError,
+  onLoad,
+  src,
+  width,
+
+  ...rest
+}: ImageProps) => {
+  if (!alt) {
+    console.warn(
+      `Alternative text should be added to the image if it conveys meaning and is not displayed elsewhere on the page.
         Decorative and branding images do not need alt text.`
-      );
-    }
-
-    useEffect(() => {
-      updateShowHTMLFallback(false);
-    }, [src]);
-
-    const componentClasses = useMemo(() => {
-      return ["neo-img neo-img--fluid", className].join(" ");
-    }, []);
-
-    const computedProps = {
-      ref,
-      className: componentClasses,
-      src,
-      ...rest,
-    };
-
-    if (showHTMLFallback && typeof fallback === "string")
-      computedProps.src = fallback;
-
-    return showHTMLFallback && typeof fallback !== "string" ? (
-      <div>{fallback}</div>
-    ) : (
-      <img
-        alt={alt || ""}
-        {...computedProps}
-        onError={() => updateShowHTMLFallback(true)}
-      />
     );
   }
-);
+
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
+    setIsLoaded(false);
+  }, [src]);
+
+  let status = null;
+  if (isLoaded === false && fallback) {
+    status =
+      typeof fallback === "string" ? (
+        <img alt={alt} src={fallback} width={width} height={height} />
+      ) : (
+        fallback
+      );
+  }
+
+  return (
+    <>
+      <img
+        alt={alt}
+        className={clsx("neo-img neo-img--fluid", className)}
+        height={height}
+        src={src}
+        width={width}
+        onError={(e) => {
+          if (onError) onError(e);
+        }}
+        onLoad={(e) => {
+          setIsLoaded(true);
+          if (onLoad) onLoad(e);
+        }}
+        {...rest}
+        style={isLoaded === false ? { display: "none" } : {}}
+      />
+
+      {status}
+    </>
+  );
+};
