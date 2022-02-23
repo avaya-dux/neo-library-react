@@ -12,7 +12,8 @@ import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 import { useIsInitialRender } from "utils/hooks/useIsInitialRender";
 
-import { SelectProps, SelectContext } from "./SelectTypes";
+import { SelectProps } from "./SelectTypes";
+import { SelectContext } from "./SelectContext";
 
 import "./Select_shim.css";
 
@@ -41,15 +42,19 @@ export const Select: FunctionComponent<SelectProps> = ({
 
   const isInitialRender = useIsInitialRender();
 
-  const items: string[] = Array.isArray(children)
-    ? children.map((child) => {
-        if (isValidElement(child)) {
-          return child.props.children.toString();
-        } else {
-          return " ";
-        }
-      })
-    : Array.from(children.props.children.toString());
+  const items: string[] = useMemo(
+    () =>
+      Array.isArray(children)
+        ? children.map((child) => {
+            if (isValidElement(child)) {
+              return child.props.children.toString();
+            } else {
+              return " ";
+            }
+          })
+        : Array.from(children.props.children.toString()),
+    [children]
+  );
 
   const [selectedItems, setSelectedItems] = useState<string[]>(values || []);
 
