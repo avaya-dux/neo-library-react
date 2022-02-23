@@ -33,9 +33,29 @@ const iconChat = (
 export const NavCategoryTextOnly: Story<NavCategoryProps> = (
   props: NavCategoryProps
 ) => (
-  <NavCategory label="Text Only Category">
-    <ListItem {...props}>First item, text Only</ListItem>
+  <div className="neo-leftnav--wrapper">
+    <nav className="neo-leftnav">
+      <ul className="neo-leftnav__nav">
+        <NavCategory expanded={true} label="Text Only Category">
+          <ListItem {...props}>First item, text Only</ListItem>
 
-    <ListItem {...props}>Second item, text only</ListItem>
-  </NavCategory>
+          <ListItem {...props}>Second item, text only</ListItem>
+        </NavCategory>
+      </ul>
+    </nav>
+  </div>
+);
+
+export const NavCategoryMultiple: Story<NavCategoryProps> = (
+  props: NavCategoryProps
+) => (
+  <div className="neo-leftnav--wrapper">
+    <nav className="neo-leftnav">
+      <ul className="neo-leftnav__nav">
+        <NavCategory label="Text Only Category"></NavCategory>
+        <NavCategory expanded label="Should be expanded"></NavCategory>
+        <NavCategory label="Should be collapsed"></NavCategory>
+      </ul>
+    </nav>
+  </div>
 );
