@@ -181,24 +181,24 @@ export const AdvancedFilteringAndSorting = () => {
         You can use use the <code>sortType</code> for a given column to specifiy
         how the columns data should be sorted. This field can take the following
         types:
-        <div>
-          <code>
-            "string" | "number" | "alphanumeric" | "datetime" | "basic" | method
-          </code>
-        </div>
       </p>
+      <div>
+        <code>
+          "string" | "number" | "alphanumeric" | "datetime" | "basic" | method
+        </code>
+      </div>
 
       <p>
         To use a custom method for <code>sortType</code>, you can use the
         following format:
-        <div>
-          <code>
-            {
-              "(rowA: Row<D>, rowB: Row<D>, columnId: IdType<D>, desc?: boolean | undefined) => number"
-            }
-          </code>
-        </div>
       </p>
+      <div>
+        <code>
+          {
+            "(rowA: Row<D>, rowB: Row<D>, columnId: IdType<D>, desc?: boolean | undefined) => number"
+          }
+        </code>
+      </div>
 
       <p>
         If <code>sortType</code> is not passed, it defaults to "basic"; and when
