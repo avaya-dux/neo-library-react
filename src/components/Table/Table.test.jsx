@@ -264,7 +264,7 @@ describe("Table", () => {
       const { container, getByRole, queryAllByRole } = renderResult;
 
       const firstColumnSortButton = container.querySelector(
-        "tr th div.neo-multiselect"
+        "tr th button.neo-multiselect"
       );
       expect(firstColumnSortButton).toHaveTextContent(
         FilledFields.columns[0].Header
@@ -319,7 +319,7 @@ describe("Table", () => {
         renderResult;
 
       const firstColumnSortButton = container.querySelector(
-        "tr th div.neo-multiselect"
+        "tr th button.neo-multiselect"
       );
       expect(firstColumnSortButton).toHaveTextContent(
         FilledFields.columns[0].Header
@@ -348,7 +348,7 @@ describe("Table", () => {
       const { container, getByRole, getByLabelText } = renderResult;
 
       const firstColumnSortButton = container.querySelector(
-        "tr th div.neo-multiselect"
+        "tr th button.neo-multiselect"
       );
       expect(firstColumnSortButton).toHaveTextContent(
         FilledFields.columns[0].Header

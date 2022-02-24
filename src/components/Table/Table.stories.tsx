@@ -170,48 +170,63 @@ export const AdvancedFilteringAndSorting = () => {
 
   return (
     <section>
+      <h3>How to setup Advanced Filtering and Sorting</h3>
+
       <p>
-        Types of `sortType`:{" "}
-        <code>
-          "string" | "number" | "alphanumeric" | "datetime" | "basic" |{" "}
-        </code>
+        The Table component has several advanced features that you can use to
+        customize how data is displayed in the Table.
       </p>
 
       <p>
-        The `sortType` can also be a custom method of type:{" "}
+        You can use use the <code>sortType</code> for a given column to specifiy
+        how the columns data should be sorted. This field can take the following
+        types:
+      </p>
+      <div>
+        <code>
+          "string" | "number" | "alphanumeric" | "datetime" | "basic" | method
+        </code>
+      </div>
+
+      <p>
+        To use a custom method for <code>sortType</code>, you can use the
+        following format:
+      </p>
+      <div>
         <code>
           {
             "(rowA: Row<D>, rowB: Row<D>, columnId: IdType<D>, desc?: boolean | undefined) => number"
           }
         </code>
+      </div>
+
+      <p>
+        If <code>sortType</code> is not passed, it defaults to "basic"; and when
+        a column header is clicked, a dropdown will be shown that includes four
+        options. Clear, Ascending, Descending, and "Filter Column". These sort
+        by "string".
       </p>
 
       <p>
-        If not passed in, `sortType` defaults to "basic". When a column header
-        is clicked, a dropdown will be shown that includes three options.
-        Ascending, Descending, and "Filter Column".
+        In this example, the following columns have specified a specific type of
+        sorting due to their data type.
       </p>
-
-      <div>
-        <p>
-          In this example, the following columns have specified a specific type
-          of sorting due to their data type.
-        </p>
-        <ul>
-          <li>Other has been disabled</li>
-          <li>Date has been set to "datetime"</li>
-          <li>Color has been set to "alphanumeric"</li>
-          <li>Level and Has on Call Beeper have custom methods passed</li>
-          <li>
-            Status does not use a sort and instead passes a "Filter" method that
-            matches via "exactTextCase"
-          </li>
-        </ul>
-      </div>
+      <ul style={{ paddingLeft: 15 }}>
+        <li>Column "Other" has been disabled</li>
+        <li>Column "Date" has been set to "datetime"</li>
+        <li>Column "Color" has been set to "alphanumeric"</li>
+        <li>
+          Column "Level" and "Has on Call Beeper" have custom sorting methods
+          passed
+        </li>
+        <li>
+          Column "Status" does not use a sort and instead passes a "Filter"
+          method that matches via "exactTextCase"
+        </li>
+      </ul>
 
       <Table
         allowColumnFilter
-        caption="Advanced Filtering and Sorting"
         columns={columns}
         data={[...FilledFields.data]}
       />
