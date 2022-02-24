@@ -8,7 +8,7 @@ export interface ListItemLinkProps extends HTMLAttributes<HTMLLIElement> {
   active: boolean;
   disabled?: boolean;
   onFocus: () => void;
-  onClick: () => void;
+  onClick: (e: any) => void;
   onMouseOver: () => void;
 }
 
