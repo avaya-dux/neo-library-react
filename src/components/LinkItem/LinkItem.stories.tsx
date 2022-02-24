@@ -21,15 +21,15 @@ export const LinkItems = () => (
   <ul>
     <LinkItem
       onClick={handleClick}
-      hover={handleHover}
-      isFocused={handleFocus}
+      onMouseOver={handleHover}
+      onFocus={handleFocus}
       active={false}
       label={`Normal Link`}
     ></LinkItem>
     <LinkItem
       onClick={handleClick}
-      hover={handleHover}
-      isFocused={handleFocus}
+      onMouseOver={handleHover}
+      onFocus={handleFocus}
       active={true}
       label={`Active Link`}
     >
@@ -37,8 +37,8 @@ export const LinkItems = () => (
     </LinkItem>
     <LinkItem
       onClick={handleClick}
-      hover={handleHover}
-      isFocused={handleFocus}
+      onMouseOver={handleHover}
+      onFocus={handleFocus}
       active={false}
       disabled={true}
       label={`Disabled Link`}

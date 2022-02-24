@@ -7,9 +7,9 @@ export interface ListItemLinkProps extends HTMLAttributes<HTMLLIElement> {
   label?: string;
   active: boolean;
   disabled?: boolean;
-  isFocused: any;
-  onClick: any;
-  hover?: any;
+  onFocus: () => void;
+  onClick: () => void;
+  onMouseOver: () => void;
 }
 
 export const LinkItem: FC<ListItemLinkProps> = ({
@@ -19,8 +19,8 @@ export const LinkItem: FC<ListItemLinkProps> = ({
   active,
   disabled,
   onClick,
-  hover,
-  isFocused,
+  onMouseOver,
+  onFocus,
   ...rest
 }) => {
   return (
@@ -38,8 +38,8 @@ export const LinkItem: FC<ListItemLinkProps> = ({
         <a
           href={href}
           onClick={onClick}
-          onMouseOver={hover}
-          onFocus={isFocused}
+          onMouseOver={onMouseOver}
+          onFocus={onFocus}
         >
           {label}
         </a>
