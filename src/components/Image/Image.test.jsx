@@ -7,7 +7,7 @@ import * as ImageStories from "./Image.stories";
 
 import cat from "./200by300image.jpeg";
 
-const { KittenImage, FallBackAsJSX, FallBackAsUrl } =
+const { DefaultImage, FallBackAsJSX, FallBackAsUrl } =
   composeStories(ImageStories);
 
 describe("Image", () => {
@@ -64,11 +64,11 @@ describe("Image", () => {
   });
 
   describe("storybook tests", () => {
-    describe("KittenImage", () => {
+    describe("DefaultImage", () => {
       let renderResult;
 
       beforeEach(() => {
-        renderResult = render(<KittenImage />);
+        renderResult = render(<DefaultImage />);
       });
 
       it("should render ok", () => {

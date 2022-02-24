@@ -67,8 +67,8 @@ const Template: ComponentStory<typeof Image> = ({ src, ...rest }) => {
   );
 };
 
-export const KittenImage = Template.bind({});
-KittenImage.args = {
+export const DefaultImage = Template.bind({});
+DefaultImage.args = {
   alt: "image of a kitten",
   className: "example-css-classname",
   fallback: "https://via.placeholder.com/200x300",
