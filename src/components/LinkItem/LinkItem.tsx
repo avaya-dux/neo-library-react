@@ -1,28 +1,27 @@
 import clsx from "clsx";
-import { FC } from "react";
+import { FC, HTMLAttributes } from "react";
 
-export interface LinkItemProps {
+export interface ListItemLinkProps extends HTMLAttributes<HTMLLIElement> {
   className?: string;
-  url?: string;
+  href?: string;
   label?: string;
   active: boolean;
   disabled?: boolean;
   isFocused: any;
   onClick: any;
-  rest?: any;
   hover?: any;
 }
 
-export const LinkItem: FC<LinkItemProps> = ({
+export const LinkItem: FC<ListItemLinkProps> = ({
   className,
-  url,
+  href,
   label,
   active,
   disabled,
   onClick,
   hover,
   isFocused,
-  rest,
+  ...rest
 }) => {
   return (
     <li
@@ -32,14 +31,16 @@ export const LinkItem: FC<LinkItemProps> = ({
         className,
         active && "neo-leftnav__sub--active"
       )}
-      disabled={disabled}
     >
       {disabled ? (
-        <a href=" " aria-disabled={disabled}>
-          {label}
-        </a>
+        <button disabled={disabled}>{label}</button>
       ) : (
-        <a href={url} onClick={onClick} onMouseOver={hover} onFocus={isFocused}>
+        <a
+          href={href}
+          onClick={onClick}
+          onMouseOver={hover}
+          onFocus={isFocused}
+        >
           {label}
         </a>
       )}

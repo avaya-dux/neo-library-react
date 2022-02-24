@@ -1,49 +1,21 @@
 import { composeStories } from "@storybook/testing-react";
 import { render } from "@testing-library/react";
+import { axe } from "jest-axe";
+
 import * as LinkItemStories from "./LinkItem.stories";
 
-console.log("test file", LinkItemStories);
+const { LinkItems } = composeStories(LinkItemStories);
+
 describe("LinkItem: ", () => {
-  describe("Render Simple LinkItems", () => {
-    const { SimpleLink } = composeStories(LinkItemStories);
-    let renderResult;
-    beforeEach(() => {
-      renderResult = render(<SimpleLink />);
-    });
-
-    it("render LinkItems", () => {
-      const { Item } = renderResult;
+  describe("Render LinkItems", () => {
+    it("render LinkItems without any problem", () => {
+      const { Item } = render(<LinkItems />);
       expect(Item).not.toBe(null);
     });
-  });
-
-
-  describe("Render Active LinkItems", () => {
-    const { ActiveLink } = composeStories(LinkItemStories);
-    let renderResult;
-    beforeEach(() => {
-      renderResult = render(<ActiveLink />);
-    });
-
-    it("render LinkItems", () => {
-      const { Item } = renderResult;
-      expect(Item).not.toBe(null);
-    });
-  });
-
-
-  describe("Render Disabled LinkItems", () => {
-    const { DisabledLink } = composeStories(LinkItemStories);
-    let renderResult;
-    beforeEach(() => {
-      renderResult = render(<DisabledLink />);
-    });
-
-    it("render LinkItems", () => {
-      const { Item } = renderResult;
-      expect(Item).not.toBe(null);
+    it("passes basic axe compliance", async () => {
+      const { container } = render(<LinkItems />);
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
     });
   });
 });
-
-
