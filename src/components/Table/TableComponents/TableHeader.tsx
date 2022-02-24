@@ -1,8 +1,8 @@
-import { CSSProperties, useContext } from "react";
+import { CSSProperties, KeyboardEvent, useContext } from "react";
 
 import { Checkbox } from "components/Checkbox";
 import { Icon } from "components/Icon";
-import { Menu, MenuItem } from "components/Menu";
+import { Menu, MenuButton, MenuItem } from "components/Menu";
 import { IconNamesType, Keys } from "utils";
 
 import { calculateAriaSortValue, FilterContext } from "../helpers";
@@ -100,7 +100,7 @@ export const TableHeader = <T extends Record<string, any>>({
             const thDivProps = getSortByToggleProps({
               title: translations?.sortBy,
 
-              // this is necessary to keep the "down" button from triggering sort+pagescroll
+              // keep mouse-click from triggering sort
               onClick: (e) => {
                 e.stopPropagation();
                 e.preventDefault();
@@ -114,19 +114,39 @@ export const TableHeader = <T extends Record<string, any>>({
                 ? "arrow-up"
                 : "arrow-down";
 
+            const handleAscSort = () => toggleSortBy(column.id, false, false);
+            const handleDescSort = () => toggleSortBy(column.id, true, false);
+            const onSpaceOrEnter = (
+              e: KeyboardEvent<HTMLDivElement>,
+              method: () => void
+            ) => {
+              switch (e.key) {
+                case Keys.ENTER:
+                case Keys.SPACE:
+                  method();
+                  break;
+              }
+            };
+
             content = (
               <Menu
                 menuRootElement={
-                  <div
+                  <MenuButton
+                    variant="tertiary"
                     className="neo-multiselect"
-                    role="button"
-                    tabIndex={0}
+                    style={{
+                      color: "black",
+                      paddingLeft: 0,
+                      fontWeight: 600,
+                    }}
                     onKeyDown={(e) => {
                       switch (e.key) {
                         case Keys.ENTER:
                         case Keys.SPACE:
                         case Keys.DOWN:
-                          (thDivProps as any).onClick(e); // BUG: can't figure out the proper typing of thDivProps
+                          // keep keyboard from triggering sort inaproriately
+                          e.stopPropagation();
+                          e.preventDefault();
                           break;
                       }
                     }}
@@ -137,34 +157,36 @@ export const TableHeader = <T extends Record<string, any>>({
                       icon={sortIcon}
                       aria-label={sortIcon.replace(/-/g, " ")}
                     />
-
-                    {/* BUG: should switch between `chevron-up` and `chevron-down` */}
-                    <Icon icon="chevron-down" aria-label="menu icon" />
-                  </div>
+                  </MenuButton>
                 }
                 {...thDivProps}
               >
-                <MenuItem onClick={clearSortBy} disabled={!isSorted}>
+                <MenuItem
+                  onClick={clearSortBy}
+                  onKeyDown={(e) => onSpaceOrEnter(e, clearSortBy)}
+                  disabled={!isSorted}
+                >
                   {translations.clearSort || "Clear Sort"}
                 </MenuItem>
 
                 <MenuItem
-                  onClick={() => {
-                    toggleSortBy(column.id, false, false);
-                  }}
+                  onClick={handleAscSort}
+                  onKeyDown={(e) => onSpaceOrEnter(e, handleAscSort)}
                 >
                   A - Z
                 </MenuItem>
 
                 <MenuItem
-                  onClick={() => {
-                    toggleSortBy(column.id, true, false);
-                  }}
+                  onClick={handleDescSort}
+                  onKeyDown={(e) => onSpaceOrEnter(e, handleDescSort)}
                 >
                   Z - A
                 </MenuItem>
 
-                <MenuItem onClick={toggleFilterSheetVisible}>
+                <MenuItem
+                  onClick={toggleFilterSheetVisible}
+                  onKeyDown={(e) => onSpaceOrEnter(e, toggleFilterSheetVisible)}
+                >
                   {translations.filterColumn || "Filter Column"}
                 </MenuItem>
               </Menu>
