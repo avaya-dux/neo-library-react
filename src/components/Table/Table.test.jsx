@@ -1,5 +1,6 @@
 import { composeStories } from "@storybook/testing-react";
 import { fireEvent, render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 
 import { Table } from ".";
@@ -263,7 +264,7 @@ describe("Table", () => {
       const { container, getByRole, queryAllByRole } = renderResult;
 
       const firstColumnSortButton = container.querySelector(
-        "tr th div.neo-multiselect"
+        "tr th button.neo-multiselect"
       );
       expect(firstColumnSortButton).toHaveTextContent(
         FilledFields.columns[0].Header
@@ -290,15 +291,17 @@ describe("Table", () => {
       fireEvent.click(queryAllByRole("menuitem")[0]);
       expect(getFirstCellTextContent()).toBe(firstCellOriginalContent);
 
-      // ascending sort works
+      // ascending sort works with mouse click
       fireEvent.click(firstColumnSortButton);
       fireEvent.click(queryAllByRole("menuitem")[1]);
       const ascendingFirstCellContent = getFirstCellTextContent();
       expect(ascendingFirstCellContent).not.toBe(firstCellOriginalContent);
 
-      // descending sort works
+      // // descending sort works with keyboard click
       fireEvent.click(firstColumnSortButton);
-      fireEvent.click(queryAllByRole("menuitem")[2]);
+      userEvent.keyboard("{ArrowDown}");
+      userEvent.keyboard("{ArrowDown}");
+      userEvent.keyboard("{space}");
       const descendingFirstCellContent = getFirstCellTextContent();
       expect(descendingFirstCellContent).not.toBe(firstCellOriginalContent);
       expect(descendingFirstCellContent).not.toBe(ascendingFirstCellContent);
@@ -316,7 +319,7 @@ describe("Table", () => {
         renderResult;
 
       const firstColumnSortButton = container.querySelector(
-        "tr th div.neo-multiselect"
+        "tr th button.neo-multiselect"
       );
       expect(firstColumnSortButton).toHaveTextContent(
         FilledFields.columns[0].Header
@@ -345,7 +348,7 @@ describe("Table", () => {
       const { container, getByRole, getByLabelText } = renderResult;
 
       const firstColumnSortButton = container.querySelector(
-        "tr th div.neo-multiselect"
+        "tr th button.neo-multiselect"
       );
       expect(firstColumnSortButton).toHaveTextContent(
         FilledFields.columns[0].Header
