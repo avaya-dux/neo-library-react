@@ -60,6 +60,17 @@ describe("Image", () => {
     expect(onErrorSpy).toHaveBeenCalledTimes(1);
   });
 
+  it("does _not_ explode if an error was thrown and no method was passed", async () => {
+    const { getByRole } = render(
+      <Image alt="test image" src="brokenimage.png" />
+    );
+
+    const image = getByRole("img", { hidden: true });
+    fireEvent.error(image);
+
+    expect(image).toBeInTheDocument();
+  });
+
   it("calls passed `onLoad` method if passed and load is called", async () => {
     const onLoadSpy = jest.fn();
 
