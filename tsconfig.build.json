@@ -13,5 +13,6 @@
     "src/**/*.stories.tsx",
     "src/**/*.test.tsx",
     "src/**/*mock-data.*",
+    "src/**/*default-data.*",
   ]
 }

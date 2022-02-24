@@ -1,7 +1,7 @@
 import { mount } from "@cypress/react";
 
 import { Table, TableProps } from ".";
-import { FilledFields, IDataTableMockData } from "./mock-data";
+import { FilledFields, IDataTableMockData } from "./helpers";
 
 describe("Table component", () => {
   const headerCheckbox = "table thead th input[type='checkbox']";
