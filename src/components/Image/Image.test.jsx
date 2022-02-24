@@ -1,27 +1,36 @@
 import { composeStories } from "@storybook/testing-react";
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
+import cat from "./200by300image.jpeg";
 import { Image } from "./Image";
 import * as ImageStories from "./Image.stories";
-
-import cat from "./200by300image.jpeg";
 
 const { DefaultImage, FallBackAsJSX, FallBackAsUrl } =
   composeStories(ImageStories);
 
 describe("Image", () => {
-  it("fully renders without exploding", () => {
-    const { getByRole } = render(<Image alt="test image" src={cat} />);
+  it("fully renders without exploding", async () => {
+    const fallbackText = "fallback placeholder";
+    const { getByRole, getByText } = render(
+      <Image alt="test image" src={cat} fallback={<div>{fallbackText}</div>} />
+    );
 
-    const hiddenImage = getByRole("img", { hidden: true });
-    expect(hiddenImage).toBeTruthy();
+    const image = getByRole("img", { hidden: true });
+    const fallback = getByText(fallbackText);
 
-    // TODO: this is... not a good test...
-    setTimeout(() => {
-      const displayedImage = getByRole("img", { hidden: false });
-      expect(displayedImage).toBeTruthy();
-    }, 100);
+    // expect image to be hidden on initial render and `fallback` to be shown
+    expect(image).toBeInTheDocument();
+    expect(image).not.toBeVisible();
+    expect(fallback).toBeInTheDocument();
+
+    // the `img` tag does not automatically trigger it's own load/error events,
+    // so we need to manually trigger them
+    fireEvent.load(image);
+
+    // expect image to be visible after load event, and fallback to have been removed
+    expect(image).toBeVisible();
+    expect(fallback).not.toBeInTheDocument();
   });
 
   it("passes basic axe compliance", async () => {
@@ -39,28 +48,28 @@ describe("Image", () => {
     expect(consoleWarnSpy).toHaveBeenCalledTimes(1);
   });
 
-  it("calls passed `onError` method if passed and an error is thrown", () => {
+  it("calls passed `onError` method if passed and an error was thrown", async () => {
     const onErrorSpy = jest.fn();
 
-    render(
+    const { getByRole } = render(
       <Image alt="test image" src="brokenimage.png" onError={onErrorSpy} />
     );
 
-    // TODO: this is... not a good test...
-    setTimeout(() => {
-      expect(onErrorSpy).toHaveBeenCalledTimes(1);
-    }, 1000);
+    fireEvent.error(getByRole("img", { hidden: true }));
+
+    expect(onErrorSpy).toHaveBeenCalledTimes(1);
   });
 
-  it("calls passed `onLoad` method if passed and image loads properly", () => {
+  it("calls passed `onLoad` method if passed and load is called", async () => {
     const onLoadSpy = jest.fn();
 
-    render(<Image alt="test image" src="brokenimage.png" onLoad={onLoadSpy} />);
+    const { getByRole } = render(
+      <Image alt="test image" src={cat} onLoad={onLoadSpy} />
+    );
 
-    // TODO: this is... not a good test...
-    setTimeout(() => {
-      expect(onLoadSpy).toHaveBeenCalledTimes(1);
-    }, 1000);
+    fireEvent.load(getByRole("img", { hidden: true }));
+
+    expect(onLoadSpy).toHaveBeenCalledTimes(1);
   });
 
   describe("storybook tests", () => {
