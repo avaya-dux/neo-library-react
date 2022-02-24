@@ -107,16 +107,11 @@ export const Select: FunctionComponent<SelectProps> = ({
     highlightedIndex,
   };
 
-  const childrenWithProps = Children.map(children, (child, index) => {
-    const value = { ...context, index };
-
-    if (isValidElement(child)) {
-      return (
-        <SelectContext.Provider value={value}>{child}</SelectContext.Provider>
-      );
-    }
-    return child;
-  });
+  const childrenWithProps = Children.map(children, (child, index) => (
+    <SelectContext.Provider value={{ ...context, index }}>
+      {child}
+    </SelectContext.Provider>
+  ));
 
   return (
     <NeoInputWrapper
