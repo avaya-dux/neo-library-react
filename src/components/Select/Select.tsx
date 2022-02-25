@@ -1,31 +1,30 @@
 import clsx from "clsx";
-import { useSelect } from "downshift";
-import { FunctionComponent, useEffect, useMemo } from "react";
+import {
+  Children,
+  FunctionComponent,
+  isValidElement,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
+import { useIsInitialRender } from "utils/hooks/useIsInitialRender";
 
 import { SelectProps } from "./SelectTypes";
+import { SelectContext } from "./SelectContext";
 
-/**
- * Select allows end-users to choose one option from a list.
- *
- * @example
- const label = "Example label"
- const items: SelectItem[] = [
-  { text: "Option 1" },
-  { text: "Option 2", disabled: true },
-  { text: "Option 3" },
-];
+import "./Select_shim.css";
 
-<Select label={label} items={items} />
-};
- * @see https://design.avayacloud.com/components/web/select-web
- */
+import {
+  DownshiftWithSelectProps,
+  DownshiftWithMultipleSelectProps,
+} from "./DownshiftHooks";
 
 export const Select: FunctionComponent<SelectProps> = ({
+  isMultipleSelect,
   label,
-  items,
   placeholder = "Select One",
   id = genId(),
   disabled,
@@ -34,28 +33,82 @@ export const Select: FunctionComponent<SelectProps> = ({
   loading = false,
   required,
   onSelectedValueChange,
+  values,
+  children = [],
 }) => {
   if (!label) {
     handleAccessbilityError("Select requires a label prop");
   }
-  const itemsText: string[] = items.map((item) => item.text);
+
+  const isInitialRender = useIsInitialRender();
+
+  const items: string[] = useMemo(
+    () =>
+      Array.isArray(children)
+        ? children.map((child) => {
+            if (isValidElement(child)) {
+              return child.props.children.toString();
+            } else {
+              return " ";
+            }
+          })
+        : Array.from(children.props.children.toString()),
+    [children]
+  );
+
+  const [selectedItems, setSelectedItems] = useState<string[]>(values || []);
 
   const helperId = useMemo(() => `helper-text-${id}`, [id]);
 
+  const selectText = useMemo(
+    () =>
+      `${selectedItems.length > 0 ? selectedItems.join(", ") : placeholder}`,
+    [selectedItems]
+  );
+
   const {
     isOpen,
-    selectedItem,
-    getToggleButtonProps,
-    getLabelProps,
+    highlightedIndex,
     getMenuProps,
     getItemProps,
-    highlightedIndex,
-  } = useSelect({ items: itemsText, id, isOpen: disabled && false });
+    getLabelProps,
+    getToggleButtonProps,
+  } = isMultipleSelect
+    ? DownshiftWithMultipleSelectProps(
+        items,
+        id,
+        loading,
+        selectedItems,
+        setSelectedItems,
+        disabled
+      )
+    : DownshiftWithSelectProps(items, id, setSelectedItems);
 
   useEffect(() => {
-    if (onSelectedValueChange && selectedItem)
-      onSelectedValueChange(selectedItem);
-  }, [selectedItem]);
+    if (!isInitialRender && onSelectedValueChange) {
+      onSelectedValueChange(selectedItems);
+    }
+  }, [selectedItems]);
+
+  useEffect(() => {
+    if (values) {
+      setSelectedItems(values);
+    }
+  }, [values]);
+
+  const context = {
+    isMultipleSelect,
+    items,
+    itemProps: getItemProps,
+    selectedItems,
+    highlightedIndex,
+  };
+
+  const childrenWithProps = Children.map(children, (child, index) => (
+    <SelectContext.Provider value={{ ...context, index }}>
+      {child}
+    </SelectContext.Provider>
+  ));
 
   return (
     <NeoInputWrapper
@@ -66,7 +119,6 @@ export const Select: FunctionComponent<SelectProps> = ({
       <label {...getLabelProps()}>{label}</label>
 
       <div
-        {...getToggleButtonProps()}
         className={clsx(
           "neo-multiselect",
           disabled && "neo-multiselect--disabled",
@@ -75,31 +127,25 @@ export const Select: FunctionComponent<SelectProps> = ({
         )}
         aria-describedby={helperText && helperId}
       >
-        <div className="neo-multiselect__header">
-          {selectedItem || placeholder}
-        </div>
+        <button
+          className="neo-multiselect__header"
+          {...getToggleButtonProps()}
+          type="button"
+          // TO-DO: Add this property to .neo-multiselect__header class to maintain styling when using button element instead of div
+          style={{ width: "100%", paddingLeft: loading && "32px" }}
+        >
+          {selectText}
+        </button>
 
-        <div className="neo-multiselect__content">
-          <ul {...getMenuProps()}>
-            {items.map((item, index) => {
-              const { text, disabled } = item;
-              return (
-                <li
-                  // TO-DO: Replace inline styles here with focus styles for Select options in Neo CSS library
-                  style={
-                    highlightedIndex === index
-                      ? { backgroundColor: "#e8f1fc" }
-                      : {}
-                  }
-                  key={`${text}${index}`}
-                  {...getItemProps({ item: text, index, disabled })}
-                >
-                  {text}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        {isMultipleSelect ? (
+          <div className="neo-multiselect__content" {...getMenuProps()}>
+            {childrenWithProps}
+          </div>
+        ) : (
+          <div className="neo-multiselect__content">
+            <ul {...getMenuProps()}>{childrenWithProps}</ul>
+          </div>
+        )}
       </div>
 
       {helperText && (
