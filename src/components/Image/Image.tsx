@@ -1,6 +1,23 @@
 import clsx from "clsx";
-import { ImgHTMLAttributes, ReactElement, useEffect, useState } from "react";
+import {
+  ImgHTMLAttributes,
+  ReactElement,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
+import { handleAccessbilityError } from "utils";
+
+/**
+ * The Image component displays and image while also providing a
+ * fallback that is used when the image is loading or fails to load.
+ *
+ * @example
+ * <Image alt="test image" width={200} height={300} src={localImage} fallback="https://via.placeholder.com/200x300" />
+ *
+ * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-image--default-image
+ */
 export interface ImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string;
   fallback?: ReactElement | string;
@@ -10,56 +27,61 @@ export const Image = ({
   alt = "",
   className,
   fallback,
-  height,
   onError,
   onLoad,
   src,
-  width,
+  style,
 
   ...rest
 }: ImageProps) => {
   if (!alt) {
-    console.warn(
+    handleAccessbilityError(
       `Alternative text should be added to the image if it conveys meaning and is not displayed elsewhere on the page.
         Decorative and branding images do not need alt text.`
     );
   }
 
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+  const useFallback = useMemo(
+    () => !!fallback && (isLoading || hasError),
+    [fallback, isLoading]
+  );
+
   useEffect(() => {
-    setIsLoaded(false);
+    setIsLoading(true);
+    setHasError(false);
   }, [src]);
 
-  let status = null;
-  if (isLoaded === false && fallback) {
-    status =
-      typeof fallback === "string" ? (
-        <img alt={alt} src={fallback} width={width} height={height} />
-      ) : (
-        fallback
-      );
-  }
+  const fallbackComponent =
+    typeof fallback === "string" ? (
+      <img alt={alt} src={fallback} style={style} {...rest} />
+    ) : (
+      fallback
+    );
 
   return (
     <>
       <img
         alt={alt}
         className={clsx("neo-img neo-img--fluid", className)}
-        height={height}
         src={src}
-        width={width}
         onError={(e) => {
+          setHasError(true);
           if (onError) onError(e);
         }}
         onLoad={(e) => {
-          setIsLoaded(true);
+          setIsLoading(false);
           if (onLoad) onLoad(e);
         }}
         {...rest}
-        style={isLoaded === false ? { display: "none" } : {}}
+        style={{
+          ...style,
+          ...(useFallback ? { display: "none" } : {}),
+        }}
       />
 
-      {status}
+      {useFallback && fallbackComponent}
     </>
   );
 };

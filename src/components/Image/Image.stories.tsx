@@ -76,6 +76,13 @@ DefaultImage.args = {
   width: 200,
 };
 
+export const BadImageWithoutFallback = Template.bind({});
+BadImageWithoutFallback.args = {
+  alt: "default broken image",
+  src: "brokenimage.png",
+  width: 200,
+};
+
 export const FallBackAsJSX = Template.bind({});
 FallBackAsJSX.args = {
   alt: "broken image with Error Icon fallback",

@@ -40,12 +40,12 @@ describe("Image", () => {
   });
 
   it("logs a console warning if the user does not pass `alt` text", () => {
-    const consoleWarnSpy = jest
-      .spyOn(console, "warn")
+    const consoleErrorSpy = jest
+      .spyOn(console, "error")
       .mockImplementation(() => {});
 
-    render(<Image src={cat} />);
-    expect(consoleWarnSpy).toHaveBeenCalledTimes(1);
+    expect(() => render(<Image src={cat} />)).toThrow();
+    expect(consoleErrorSpy).toHaveBeenCalled();
   });
 
   it("calls passed `onError` method if passed and an error was thrown", async () => {
