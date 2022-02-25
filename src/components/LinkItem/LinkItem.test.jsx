@@ -31,32 +31,6 @@ describe("LinkItem", () => {
     expect(results).toHaveNoViolations();
   });
 
-  it("uses an `<a>` when _not_ disabled", () => {
-    const { container } = render(
-      <ul>
-        <LinkItem>{linkItemText}</LinkItem>
-      </ul>
-    );
-
-    const linkElement = container.querySelector("a");
-    const buttonElement = container.querySelector("button");
-    expect(linkElement).toBeInTheDocument();
-    expect(buttonElement).not.toBeInTheDocument();
-  });
-
-  it("uses an `<button>` when it _is_ disabled", () => {
-    const { container } = render(
-      <ul>
-        <LinkItem disabled>{linkItemText}</LinkItem>
-      </ul>
-    );
-
-    const linkElement = container.querySelector("a");
-    const buttonElement = container.querySelector("button");
-    expect(linkElement).not.toBeInTheDocument();
-    expect(buttonElement).toBeInTheDocument();
-  });
-
   describe("storybook tests", () => {
     describe("LinkItems", () => {
       let renderResult;
