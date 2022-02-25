@@ -1,47 +1,55 @@
 import clsx from "clsx";
-import { FC, HTMLAttributes } from "react";
+import { Button } from "components/Button";
+import { HTMLAttributes } from "react";
 
-export interface ListItemLinkProps extends HTMLAttributes<HTMLLIElement> {
-  className?: string;
-  href?: string;
-  label?: string;
-  active: boolean;
+export interface ListItemLinkProps
+  extends HTMLAttributes<HTMLLIElement | HTMLAnchorElement> {
+  children: string;
+
+  active?: boolean;
   disabled?: boolean;
-  onFocus: () => void;
-  onClick: (e: any) => void;
-  onMouseOver: () => void;
+  href?: string;
 }
 
-export const LinkItem: FC<ListItemLinkProps> = ({
-  className,
-  href,
-  label,
+export const LinkItem = ({
   active,
+  children,
+  className,
   disabled,
+  href,
   onClick,
-  onMouseOver,
   onFocus,
+  onMouseOver,
+
   ...rest
-}) => {
+}: ListItemLinkProps) => {
   return (
     <li
       {...rest}
       className={clsx(
         "neo-leftnav__sub",
-        className,
-        active && "neo-leftnav__sub--active"
+        active && "neo-leftnav__sub--active",
+        className
       )}
     >
       {disabled ? (
-        <button disabled={disabled}>{label}</button>
+        <Button
+          disabled={disabled}
+          variant="tertiary"
+          style={{
+            padding: "8px 28px 8px 72px",
+          }}
+        >
+          {children}
+        </Button>
       ) : (
         <a
           href={href}
           onClick={onClick}
-          onMouseOver={onMouseOver}
           onFocus={onFocus}
+          onMouseOver={onMouseOver}
         >
-          {label}
+          {children}
         </a>
       )}
     </li>
