@@ -85,11 +85,8 @@ export const Select: FunctionComponent<SelectProps> = ({
     : DownshiftWithSelectProps(items, id, setSelectedItems);
 
   useEffect(() => {
-    if (isInitialRender) {
-      if (onSelectedValueChange && selectedItems.length > 1)
-        onSelectedValueChange(selectedItems);
-    } else {
-      if (onSelectedValueChange) onSelectedValueChange(selectedItems);
+    if (!isInitialRender && onSelectedValueChange) {
+      onSelectedValueChange(selectedItems);
     }
   }, [selectedItems]);
 
