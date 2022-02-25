@@ -8,11 +8,11 @@ export default {
   component: ExampleComponent,
 } as Meta<Props>;
 
-export const Default = () => <ExampleComponent text="test" />;
+export const DefaultExample = () => <ExampleComponent text="test" />;
 
 const Template: Story<Props> = ({ text }: Props) => (
   <ExampleComponent text={text} />
 );
 
-export const Example = Template.bind({ text: "example" });
-Example.args = { text: "example" };
+export const TemplatedExample = Template.bind({ text: "example" });
+TemplatedExample.args = { text: "example" };
