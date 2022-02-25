@@ -5,7 +5,6 @@ import { HTMLAttributes } from "react";
 export interface ListItemLinkProps
   extends HTMLAttributes<HTMLLIElement | HTMLAnchorElement> {
   children: string;
-
   active?: boolean;
   disabled?: boolean;
   href?: string;
