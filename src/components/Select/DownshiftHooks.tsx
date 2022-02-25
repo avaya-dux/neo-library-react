@@ -1,6 +1,12 @@
 import { useSelect } from "downshift";
 import { Dispatch, SetStateAction } from "react";
 
+/* HACK: these are technically hooks, but naming them with the 'use' prefix and calling them conditionally in the Select Component
+   throws a compiler+linter error. They are also not technically functional components, however calling useSelect outside of a custom hook
+   or functional component also throws a compiler+linter error. As a result, the naming of these functions is incorrect but maintained
+   to preserve the logic and readibility of the code.
+*/
+
 export const DownshiftWithSelectProps = (
   items: string[],
   id: string,
