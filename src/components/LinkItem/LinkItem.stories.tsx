@@ -1,4 +1,5 @@
 import { Meta } from "@storybook/react/types-6-0";
+import { MouseEvent } from "react";
 
 import { LinkItem } from "./LinkItem";
 
@@ -7,8 +8,9 @@ export default {
   component: LinkItem,
 } as Meta;
 
-const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-  event.preventDefault();
+const handleClick = (e: MouseEvent) => {
+  e.preventDefault();
+  alert(`clicked on the item: ${e.currentTarget.textContent}`);
 };
 const handleHover = () => {
   console.log("hovered on the item");
@@ -24,14 +26,14 @@ export const LinkItems = () => (
       onMouseOver={handleHover}
       onFocus={handleFocus}
       active={false}
-      label={`Normal Link`}
-    ></LinkItem>
+    >
+      Normal Link
+    </LinkItem>
     <LinkItem
       onClick={handleClick}
       onMouseOver={handleHover}
       onFocus={handleFocus}
       active={true}
-      label={`Active Link`}
     >
       Active Link
     </LinkItem>
@@ -41,7 +43,6 @@ export const LinkItems = () => (
       onFocus={handleFocus}
       active={false}
       disabled={true}
-      label={`Disabled Link`}
     >
       Disabled Link
     </LinkItem>
