@@ -52,3 +52,10 @@ export type PaginationProps<T extends Record<string, any>> = {
   instance: TableInstance<T>;
   translations: IPaginationTranslations;
 };
+
+export interface IFilterContext {
+  allowColumnFilter: boolean;
+  filterSheetVisible: boolean;
+  setFilterSheetVisible: (visible: boolean) => void;
+  toggleFilterSheetVisible: () => void;
+}

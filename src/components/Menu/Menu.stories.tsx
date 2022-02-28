@@ -25,6 +25,8 @@ const keyboardLogger = log.getLogger("menu-keyboard-event-handler");
 keyboardLogger.enableAll();
 const mouseLogger = log.getLogger("menu-mouse-event-handler");
 mouseLogger.enableAll();
+const menuHelpersLogger = log.getLogger("menu-helpers");
+menuHelpersLogger.enableAll();
 
 export const SimpleMenu = () => (
   <Menu menuRootElement={<Button>Open Menu</Button>}>
@@ -66,6 +68,7 @@ SimpleMenuRightAlignedTemplated.args = {
 export const FunctionalMenu = () => (
   <section>
     <Menu
+      onMenuClose={() => console.log("Functional Menu closed")}
       menuRootElement={
         <MenuButton onClick={() => console.log("Functional Menu opened")}>
           Functional Menu

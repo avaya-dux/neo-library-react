@@ -4,10 +4,9 @@ import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 import log from "loglevel";
 
+import { Menu, MenuButton, MenuItem } from "./";
 import { getClassNames } from "./Menu";
 import * as MenuStories from "./Menu.stories";
-
-import { Menu, MenuButton, MenuItem } from "./";
 
 const menuLogger = log.getLogger("menu");
 menuLogger.disableAll();
@@ -17,6 +16,8 @@ const keyboardLogger = log.getLogger("menu-keyboard-event-handler");
 keyboardLogger.disableAll();
 const mouseLogger = log.getLogger("menu-mouse-event-handler");
 mouseLogger.disableAll();
+const menuHelpersLogger = log.getLogger("menu-helpers");
+menuHelpersLogger.disableAll();
 
 const {
   SimpleMenu,
@@ -30,6 +31,30 @@ const {
 
 describe("Menu", () => {
   describe("Base tests", () => {
+    it("retains passed `onMenuClose` functionality", () => {
+      const onMenuCloseSpy = jest.fn();
+      const { getByRole } = render(
+        <Menu
+          defaultIsOpen // not ideal
+          onMenuClose={onMenuCloseSpy}
+          menuRootElement={<MenuButton>button</MenuButton>}
+        >
+          <MenuItem>placeholder one</MenuItem>
+          <MenuItem>placeholder two</MenuItem>
+        </Menu>
+      );
+
+      const button = getByRole("button");
+
+      userEvent.click(button);
+      expect(onMenuCloseSpy).not.toHaveBeenCalled();
+
+      userEvent.keyboard("{esc}");
+      expect(onMenuCloseSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("keyboard and mouse tests", () => {
     let renderResult;
     beforeEach(() => {
       renderResult = render(<MultiLevelSubMenu />);
@@ -287,6 +312,9 @@ describe("Menu", () => {
     describe("FunctionalMenu", () => {
       let renderResult;
       beforeEach(() => {
+        // ignore example `console.log` calls
+        jest.spyOn(console, "log").mockImplementation(() => {});
+
         renderResult = render(<FunctionalMenu />);
       });
 

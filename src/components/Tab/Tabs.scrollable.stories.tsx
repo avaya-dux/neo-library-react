@@ -1,9 +1,9 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { useState } from "react";
 import { tabMouseEventHandlerLogger } from "./EventHandlers";
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from "./Tabs";
-
-tabMouseEventHandlerLogger.enableAll();
+import { Tab, TabList, TabPanel, TabPanels } from "./TabComponents";
+import { Tabs } from "./Tabs";
+tabMouseEventHandlerLogger.disableAll();
 
 interface Scrollable {
   scrollable?: boolean;

@@ -1,13 +1,18 @@
-export type SelectItem = {
-  text: string;
+import { ReactElement } from "react";
+
+export type SelectOptionProps = {
+  children: string;
+  helperText?: string;
   disabled?: boolean;
 };
 
-export type MultipleSelectItem = SelectItem & {
+export type MultipleSelectOptionProps = {
+  children: string;
   helperText?: string;
+  disabled?: boolean;
 };
-
-interface BaseSelectProps {
+export interface SelectProps {
+  isMultipleSelect?: boolean;
   label: string;
   placeholder?: string;
   disabled?: boolean;
@@ -16,13 +21,9 @@ interface BaseSelectProps {
   loading?: boolean;
   required?: boolean;
   id?: string;
-  onSelectedValueChange?: (value: string | string[] | null) => any;
-}
-
-export interface SelectProps extends BaseSelectProps {
-  items: SelectItem[];
-}
-
-export interface MultipleSelectProps extends BaseSelectProps {
-  items: MultipleSelectItem[];
+  onSelectedValueChange?: (value: string[] | string) => any;
+  children?:
+    | ReactElement<SelectOptionProps | MultipleSelectOptionProps>
+    | ReactElement<SelectOptionProps | MultipleSelectOptionProps>[];
+  values?: string[];
 }

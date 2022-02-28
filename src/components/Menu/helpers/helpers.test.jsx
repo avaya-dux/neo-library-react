@@ -3,41 +3,36 @@ import log from "loglevel";
 
 import { MenuItem } from "../MenuItem";
 import { MenuSeparator } from "../MenuSeparator";
-import {
-  addIdToChildren,
-  buildMenuIndexes,
-  layoutChildren,
-  SubMenu,
-} from "./SubMenu";
+import { SubMenu } from "../SubMenu";
+import { addIdToChildren, buildMenuIndexes, layoutChildren } from "./";
 
-const subMenuLogger = log.getLogger("submenu");
-subMenuLogger.disableAll();
-const keyboardLogger = log.getLogger("menu-keyboard-event-handler");
-keyboardLogger.disableAll();
-const mouseLogger = log.getLogger("menu-mouse-event-handler");
-mouseLogger.disableAll();
+const menuHelpersLogger = log.getLogger("menu-helpers");
+menuHelpersLogger.disableAll();
 
-describe("SubMenu helper methods", () => {
+describe("Menu helper methods", () => {
   describe(addIdToChildren, () => {
     it("should do nothing when child is not menu item or sub menu", () => {
       const children = [<MenuSeparator />];
-      expect(addIdToChildren(children)).toEqual(children);
+      expect(addIdToChildren(children, SubMenu.name)).toEqual(children);
     });
 
     it("should add id when menu item does not have id", () => {
       const menuItem = <MenuItem>View</MenuItem>;
-      expect(addIdToChildren([menuItem])[0].props.id).not.toBeNull();
+      expect(
+        addIdToChildren([menuItem], SubMenu.name)[0].props.id
+      ).not.toBeNull();
     });
 
     it("should keep the id when menu item has id", () => {
       const menuItem = <MenuItem id="id">View</MenuItem>;
-      expect(addIdToChildren([menuItem])[0].props.id).toBe("id");
+      expect(addIdToChildren([menuItem], SubMenu.name)[0].props.id).toBe("id");
     });
 
     it("should add id to button when submenu button does not have id", () => {
       const subMenu = <SubMenu menuRootElement={<MenuItem>File</MenuItem>} />;
       expect(
-        addIdToChildren([subMenu])[0].props.menuRootElement.props.id
+        addIdToChildren([subMenu], SubMenu.name)[0].props.menuRootElement.props
+          .id
       ).not.toBeNull();
     });
 
@@ -45,33 +40,34 @@ describe("SubMenu helper methods", () => {
       const subMenu = (
         <SubMenu menuRootElement={<MenuItem id="id">File</MenuItem>} />
       );
-      expect(addIdToChildren([subMenu])[0].props.menuRootElement.props.id).toBe(
-        "id"
-      );
+      expect(
+        addIdToChildren([subMenu], SubMenu.name)[0].props.menuRootElement.props
+          .id
+      ).toBe("id");
     });
   });
 
   describe(buildMenuIndexes, () => {
     it("should return empty array with empty children", () => {
       const children = [];
-      expect(buildMenuIndexes(children)).toEqual([]);
+      expect(buildMenuIndexes(children, SubMenu.name)).toEqual([]);
     });
 
     it("should return empty array with just MenuSeparator", () => {
       const children = [<MenuSeparator />];
-      expect(buildMenuIndexes(children)).toEqual([]);
+      expect(buildMenuIndexes(children, SubMenu.name)).toEqual([]);
     });
 
     it("should return correct result with one MenuItem", () => {
       const children = [<MenuItem>View</MenuItem>];
-      expect(buildMenuIndexes(children)).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "id": undefined,
-          "index": 0,
-        },
-      ]
-    `);
+      expect(buildMenuIndexes(children, SubMenu.name)).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "id": undefined,
+            "index": 0,
+          },
+        ]
+      `);
     });
 
     it("should return correct result with one SubMenu", () => {
@@ -85,15 +81,15 @@ describe("SubMenu helper methods", () => {
           <MenuItem>Delete</MenuItem>
         </SubMenu>,
       ];
-      expect(buildMenuIndexes(children)).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "id": "button",
-          "index": 0,
-          "length": 3,
-        },
-      ]
-    `);
+      expect(buildMenuIndexes(children, SubMenu.name)).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "id": "button",
+            "index": 0,
+            "length": 3,
+          },
+        ]
+      `);
     });
 
     it("should return correct result with one MenuItem and one SubMenu", () => {
@@ -108,19 +104,19 @@ describe("SubMenu helper methods", () => {
         </SubMenu>,
         <MenuItem id="help">Help</MenuItem>,
       ];
-      expect(buildMenuIndexes(children)).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "id": "button",
-          "index": 0,
-          "length": 3,
-        },
-        Object {
-          "id": "help",
-          "index": 1,
-        },
-      ]
-    `);
+      expect(buildMenuIndexes(children, SubMenu.name)).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "id": "button",
+            "index": 0,
+            "length": 3,
+          },
+          Object {
+            "id": "help",
+            "index": 1,
+          },
+        ]
+      `);
     });
   });
 
@@ -140,6 +136,7 @@ describe("SubMenu helper methods", () => {
       const children = [<MenuSeparator />, <MenuItem id="1">View</MenuItem>];
       const result = layoutChildren(
         children,
+        SubMenu.name,
         handleMenuKeyDown,
         handleMenuMouseMove,
         handleMenuBlur,
@@ -151,15 +148,15 @@ describe("SubMenu helper methods", () => {
       const { getByRole } = render(result);
       const menuItem = getByRole("menuitem");
       expect(menuItem).toMatchInlineSnapshot(`
-      <div
-        class="neo-dropdown__link neo-dropdown__link-active"
-        id="1"
-        role="menuitem"
-        tabindex="0"
-      >
-        View
-      </div>
-    `);
+        <div
+          class="neo-dropdown__link neo-dropdown__link-active"
+          id="1"
+          role="menuitem"
+          tabindex="0"
+        >
+          View
+        </div>
+      `);
     });
 
     it("should render active sub menu correctly", () => {
@@ -183,6 +180,7 @@ describe("SubMenu helper methods", () => {
       ];
       const result = layoutChildren(
         children,
+        SubMenu.name,
         handleMenuKeyDown,
         handleMenuMouseMove,
         handleMenuBlur,
@@ -194,78 +192,78 @@ describe("SubMenu helper methods", () => {
       const { getByTestId, container } = render(result);
       const subMenu = getByTestId(testId);
       expect(subMenu).toMatchInlineSnapshot(`
-      <div
-        class="neo-dropdown__link neo-dropdown__link-active"
-        data-testid="submenu-test-id"
-        id="20"
-        role="menuitem"
-        tabindex="0"
-      >
-        SubMenu
-      </div>
-    `);
-      expect(container).toMatchInlineSnapshot(`
-      <div>
         <div
-          class="neo-dropdown__content"
-          role="menu"
-          tabindex="-1"
+          class="neo-dropdown__link neo-dropdown__link-active"
+          data-testid="submenu-test-id"
+          id="20"
+          role="menuitem"
+          tabindex="0"
         >
+          SubMenu
+        </div>
+      `);
+      expect(container).toMatchInlineSnapshot(`
+        <div>
           <div
-            class="neo-dropdown__link"
-            id="1"
-            role="menuitem"
+            class="neo-dropdown__content"
+            role="menu"
             tabindex="-1"
           >
-            View
-          </div>
-          <div
-            class="neo-dropdown__item neo-dropdown--active"
-            id="2"
-          >
             <div
-              class="neo-dropdown__link neo-dropdown__link-active"
-              data-testid="submenu-test-id"
-              id="20"
+              class="neo-dropdown__link"
+              id="1"
               role="menuitem"
-              tabindex="0"
+              tabindex="-1"
             >
-              SubMenu
+              View
             </div>
             <div
-              class="neo-dropdown__content"
-              role="menu"
-              tabindex="-1"
+              class="neo-dropdown__item neo-dropdown--active"
+              id="2"
             >
               <div
                 class="neo-dropdown__link neo-dropdown__link-active"
-                id="21"
+                data-testid="submenu-test-id"
+                id="20"
                 role="menuitem"
                 tabindex="0"
               >
-                SubMenu-1
+                SubMenu
               </div>
               <div
-                class="neo-dropdown__link"
-                id="22"
-                role="menuitem"
+                class="neo-dropdown__content"
+                role="menu"
                 tabindex="-1"
               >
-                SubMenu-2
-              </div>
-              <div
-                class="neo-dropdown__link"
-                id="23"
-                role="menuitem"
-                tabindex="-1"
-              >
-                SubMenu-3
+                <div
+                  class="neo-dropdown__link neo-dropdown__link-active"
+                  id="21"
+                  role="menuitem"
+                  tabindex="0"
+                >
+                  SubMenu-1
+                </div>
+                <div
+                  class="neo-dropdown__link"
+                  id="22"
+                  role="menuitem"
+                  tabindex="-1"
+                >
+                  SubMenu-2
+                </div>
+                <div
+                  class="neo-dropdown__link"
+                  id="23"
+                  role="menuitem"
+                  tabindex="-1"
+                >
+                  SubMenu-3
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    `);
+      `);
     });
 
     it("should render inactive menu item correctly", () => {
@@ -279,6 +277,7 @@ describe("SubMenu helper methods", () => {
       ];
       const result = layoutChildren(
         children,
+        SubMenu.name,
         handleMenuKeyDown,
         handleMenuMouseMove,
         handleMenuBlur,
@@ -290,16 +289,16 @@ describe("SubMenu helper methods", () => {
       const { getByTestId } = render(result);
       const menuItem = getByTestId("inactive");
       expect(menuItem).toMatchInlineSnapshot(`
-      <div
-        class="neo-dropdown__link"
-        data-testid="inactive"
-        id="1"
-        role="menuitem"
-        tabindex="-1"
-      >
-        View
-      </div>
-    `);
+        <div
+          class="neo-dropdown__link"
+          data-testid="inactive"
+          id="1"
+          role="menuitem"
+          tabindex="-1"
+        >
+          View
+        </div>
+      `);
     });
 
     it("should render inactive sub menu correctly", () => {
@@ -323,6 +322,7 @@ describe("SubMenu helper methods", () => {
       ];
       const result = layoutChildren(
         children,
+        SubMenu.name,
         handleMenuKeyDown,
         handleMenuMouseMove,
         handleMenuBlur,
@@ -334,16 +334,16 @@ describe("SubMenu helper methods", () => {
       const { getByTestId } = render(result);
       const subMenu = getByTestId(testId);
       expect(subMenu).toMatchInlineSnapshot(`
-      <div
-        class="neo-dropdown__link"
-        data-testid="submenu-test-id"
-        id="20"
-        role="menuitem"
-        tabindex="-1"
-      >
-        SubMenu
-      </div>
-    `);
+        <div
+          class="neo-dropdown__link"
+          data-testid="submenu-test-id"
+          id="20"
+          role="menuitem"
+          tabindex="-1"
+        >
+          SubMenu
+        </div>
+      `);
     });
 
     it("should render menu separator correctly", () => {
@@ -355,6 +355,7 @@ describe("SubMenu helper methods", () => {
       ];
       const result = layoutChildren(
         children,
+        SubMenu.name,
         handleMenuKeyDown,
         handleMenuMouseMove,
         handleMenuBlur,
@@ -366,11 +367,11 @@ describe("SubMenu helper methods", () => {
       const { getByTestId } = render(result);
       const menuItem = getByTestId("separator");
       expect(menuItem).toMatchInlineSnapshot(`
-      <hr
-        class="neo-dropdown__separator"
-        data-testid="separator"
-      />
-    `);
+        <hr
+          class="neo-dropdown__separator"
+          data-testid="separator"
+        />
+      `);
     });
   });
 });

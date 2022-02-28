@@ -22,6 +22,7 @@ export * from "./SelectNative";
 export * from "./Sheet";
 export * from "./Spinner";
 export * from "./Switch";
+export * from "./Tab";
 export * from "./Table";
 export * from "./TextInput";
 export * from "./ThemeProvider";
