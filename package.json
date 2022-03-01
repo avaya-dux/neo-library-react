@@ -34,7 +34,8 @@
   "scripts": {
     "jsdocs": "jsdoc -c .jsdoc.json",
     "jsdocs:verbose": "jsdoc -c .jsdoc.json --verbose",
-    "lint": "eslint .",
+    "lint:timed": "TIMING=1 eslint ./src",
+    "lint": "eslint ./src",
     "start": "rollup -c -w",
     "build": "rollup -c --environment BUILD:production",
     "clean": "rm -rf coverage dist jsdocs storybook-static package *.tgz",
