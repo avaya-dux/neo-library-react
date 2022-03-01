@@ -6,6 +6,8 @@ import {
   useEffect,
   useState,
 } from "react";
+
+import { Button } from "components/Button";
 import { IconProps } from "components/Icon";
 
 export interface NavCategoryProps {
@@ -70,17 +72,19 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   };
   return (
     <li className={navItemClass}>
-      <div
+      <Button
         tabIndex={0}
         role="menu"
+        icon="contact"
+        variant="tertiary"
         onClick={onExpand}
         onKeyDown={handleKeyDown}
         aria-label={label}
-        className="neo-icon-contact"
+        // className="neo-leftnav__category"
       >
         {label}
         <span className="neo-icon-chevron-left"></span>
-      </div>
+      </Button>
       <ul className={listClass}>
         {/* {children} */}
         <li className="neo-leftnav__sub">
