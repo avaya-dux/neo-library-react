@@ -49,7 +49,7 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   const [navItemClass, setNavItemClass] = useState(COLLAPSED_STYLE);
 
   useEffect(() => {
-    console.log("expanded = ", expanded);
+    // console.log("expanded = ", expanded); TODO: Remove in PR part 2.
     setIsExpanded(expanded);
   }, []);
 
