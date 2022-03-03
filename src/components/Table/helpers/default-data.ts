@@ -1,17 +1,21 @@
-import { ITableTranslations } from "./types";
+import { ITableTranslations } from "../types";
 
 export const translations: ITableTranslations = {
   toolbar: {
+    clear: "Clear Filter",
+    close: "Close",
     create: "Create",
     delete: "Delete",
     edit: "Edit",
-    filter: "filter",
-    noDataAvailable: "no data available",
-    refresh: "refresh",
-    rowsPerPage: "rows per page",
-    searchInputPlaceholder: "search all",
+    filterColumns: "Filter Columns",
+    noDataAvailable: "No data available",
+    refresh: "Refresh",
+    rowsPerPage: "Rows per page",
+    searchInputPlaceholder: "Search all",
   },
   header: {
+    clearSort: "Clear Sort",
+    filterColumn: "Filter Column",
     sortBy: "sort by",
     selectAll: "select all",
   },
