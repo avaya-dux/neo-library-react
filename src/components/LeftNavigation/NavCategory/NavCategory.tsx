@@ -10,13 +10,13 @@ import { Button } from "components/Button";
 import { IconNamesType } from "utils";
 
 export interface NavCategoryProps {
-  id?: string;
+  // id?: string;
   label: string;
   icon?: IconNamesType;
   expanded?: boolean;
-  disabled?: boolean;
-  active?: boolean;
-  selectedItem?: string;
+  // disabled?: boolean;
+  // active?: boolean;
+  // selectedItem?: string;
 }
 
 const COLLAPSED_STYLE: string = "neo-leftnav__main neo-leftnav__main--active";
