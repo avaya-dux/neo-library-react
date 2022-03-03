@@ -2,18 +2,17 @@ import {
   FunctionComponent,
   KeyboardEvent,
   MouseEvent,
-  ReactElement,
   useEffect,
   useState,
 } from "react";
 
 import { Button } from "components/Button";
-import { IconProps } from "components/Icon";
+import { IconNamesType } from "utils";
 
 export interface NavCategoryProps {
   id?: string;
   label: string;
-  icon?: ReactElement<IconProps>;
+  icon?: IconNamesType;
   expanded?: boolean;
   disabled?: boolean;
   active?: boolean;
@@ -24,11 +23,11 @@ const COLLAPSED_STYLE: string = "neo-leftnav__main neo-leftnav__main--active";
 const EXPANDED_STYLE = COLLAPSED_STYLE.concat(" neo-leftnav__main--expand");
 
 /**
- * Is meant to wrap an array of `LinkItem`. TODO: Replace with LinkItem
+ * Is meant to wrap an array of `LinkItem`.
  *
  * @example
  * <NavCategory>
- *   <ListItem> First Item </LinkItem>
+ *   <LinkItem> First Item </LinkItem>
  *   <LinkItem> Second Item </LinkItem>
  *   <LinkItem> Third Item </LinkItem>
  * </NavCategory>
@@ -38,13 +37,12 @@ const EXPANDED_STYLE = COLLAPSED_STYLE.concat(" neo-leftnav__main--expand");
  */
 export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   children,
-  id,
   label,
   icon,
   expanded = false,
-  disabled = false,
-  active = false,
-  selectedItem = false,
+  // disabled = false, TODO: Hook these up in part 2 of PR.
+  // active = false,
+  // selectedItem = false,
 }) => {
   const listClass = "neo-leftnav__nav";
   const [isExpanded, setIsExpanded] = useState(expanded);
@@ -75,31 +73,16 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
       <Button
         tabIndex={0}
         role="menu"
-        icon="contact"
+        icon={icon}
         variant="tertiary"
         onClick={onExpand}
         onKeyDown={handleKeyDown}
         aria-label={label}
-        // className="neo-leftnav__category"
+        className="neo-leftnav__category expandable"
       >
         {label}
-        <span className="neo-icon-chevron-left"></span>
       </Button>
-      <ul className={listClass}>
-        {/* {children} */}
-        <li className="neo-leftnav__sub">
-          <a href=" ">Overview</a>
-        </li>
-        <li className="neo-leftnav__sub">
-          <a href=" ">Manage Users</a>
-        </li>
-        <li className="neo-leftnav__sub neo-leftnav__sub--active">
-          <a href=" ">Billing</a>
-        </li>
-        <li className="neo-leftnav__sub">
-          <a href=" ">Payments</a>
-        </li>
-      </ul>
+      <ul className={listClass}>{children}</ul>
     </li>
   );
 };
