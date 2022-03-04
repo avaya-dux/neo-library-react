@@ -1,6 +1,7 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 
 import { NavCategory, NavCategoryProps } from "./NavCategory";
+import { LinkItem } from "../LinkItem";
 
 export default {
   title: "Components/Nav Category",
@@ -16,18 +17,9 @@ export const NavCategoryTextOnly: Story<NavCategoryProps> = (
     <nav className="neo-leftnav">
       <ul className="neo-leftnav__nav">
         <NavCategory expanded={true} label="Text Only Category">
-          <li className="neo-leftnav__sub">
-            <a href=" ">Overview</a>
-          </li>
-          <li className="neo-leftnav__sub">
-            <a href=" ">Manage Users</a>
-          </li>
-          <li className="neo-leftnav__sub neo-leftnav__sub--active">
-            <a href=" ">Billing</a>
-          </li>
-          <li className="neo-leftnav__sub">
-            <a href=" ">Payments</a>
-          </li>
+          <LinkItem> First Item </LinkItem>
+          <LinkItem> Second Item </LinkItem>
+          <LinkItem> Third Item </LinkItem>
         </NavCategory>
       </ul>
     </nav>
@@ -42,29 +34,15 @@ export const NavCategoryMultiple: Story<NavCategoryProps> = (
       <ul className="neo-leftnav__nav">
         <NavCategory icon="add" label="Top level link WIP"></NavCategory>
         <NavCategory icon="audio-on" expanded label="Should be expanded">
-          <li className="neo-leftnav__sub">
-            <a href=" ">Overview</a>
-          </li>
-          <li className="neo-leftnav__sub">
-            <a href=" ">Manage Users</a>
-          </li>
-          <li className="neo-leftnav__sub neo-leftnav__sub--active">
-            <a href=" ">Billing</a>
-          </li>
-          <li className="neo-leftnav__sub">
-            <a href=" ">Payments</a>
-          </li>
+          <LinkItem> First Item </LinkItem>
+          <LinkItem> Second Item </LinkItem>
+          <LinkItem> Third Item </LinkItem>
+          <LinkItem> Fourth Item </LinkItem>
         </NavCategory>
         <NavCategory icon="call" label="Should be collapsed">
-          <li className="neo-leftnav__sub">
-            <a href=" ">Link1</a>
-          </li>
-          <li className="neo-leftnav__sub">
-            <a href=" ">Link2</a>
-          </li>
-          <li className="neo-leftnav__sub neo-leftnav__sub--active">
-            <a href=" ">Link3</a>
-          </li>
+          <LinkItem> Item 1 </LinkItem>
+          <LinkItem> Item 2 </LinkItem>
+          <LinkItem> Item 3</LinkItem>
         </NavCategory>
       </ul>
     </nav>
