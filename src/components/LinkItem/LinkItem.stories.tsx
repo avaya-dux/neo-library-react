@@ -1,6 +1,7 @@
 import { Meta } from "@storybook/react/types-6-0";
 import { MouseEvent } from "react";
 
+import { NavCategory } from "components/LeftNavigation/NavCategory";
 import { LinkItem } from "./LinkItem";
 
 export default {
@@ -20,7 +21,7 @@ const handleFocus = () => {
 };
 
 export const LinkItems = () => (
-  <ul>
+  <NavCategory label="Main Category">
     <LinkItem
       onClick={handleClick}
       onMouseOver={handleHover}
@@ -46,5 +47,5 @@ export const LinkItems = () => (
     >
       Disabled Link
     </LinkItem>
-  </ul>
+  </NavCategory>
 );
