@@ -248,6 +248,7 @@ describe("Switch", () => {
             <label
               class="neo-switch"
               for="feature-name"
+              style="font-weight: 600;"
             >
               <input
                 checked=""
