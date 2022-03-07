@@ -25,7 +25,12 @@
 
 .neo-check:not(:disabled) + .neo-check__label:hover,
 .neo-check:not(:disabled) + .neo-check__label:focus {
-  background-color: #e8f1fc;
+  background-color: #f1f1f1; /* $token-color-base-100 */
+}
+
+.neo-check:checked:not(:disabled) + .neo-check__label:hover,
+.neo-check:checked:not(:disabled) + .neo-check__label:focus {
+  background-color: #dddddd; /* $token-color-base-150 */
 }
 
 .neo-check__label::before {
