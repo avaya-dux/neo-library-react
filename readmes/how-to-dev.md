@@ -8,7 +8,7 @@
 
 - use [NodeJS LTS](https://nodejs.org/) (preferably via nvm, [mac nvm](https://tecadmin.net/install-nvm-macos-with-homebrew/) | [windows nvm](https://github.com/coreybutler/nvm-windows#node-version-manager-nvm-for-windows))
 - run `npm install -g yarn`
-- run `yarn`, which will install all dependancies, run linting, build the project, and run jest+cypress tests
+- run `yarn all`, which will install all dependancies, run linting, build the project, and run jest+cypress tests
 - to see existing components, run `yarn storybook`, else you can the section "development linking"
 
 ## development linking
@@ -34,6 +34,20 @@ ls -la
 # should show the contents of this repo
 ```
 
+### development linking the Neo CSS Library into the Neo Library React project
+
+```bash
+# from the css libraries root, register it's location
+yarn link
+# you will see the message: You can now run `yarn link "Neo-CSS-library"`
+
+# `cd` to the `neo-library-react` projects root
+cd ../neo-library-react/
+
+# create the symlink between the css-library and react-library (note, you MUST use `yarn`, NOT `npm`)
+yarn link Neo-CSS-library
+```
+
 ## to build a production version of the library
 
 ```
@@ -48,7 +62,7 @@ This will run in watch mode and produce builds to `dist`.
 yarn start
 ```
 
-## run storybook
+## to run storybook in 'develop' mode with hot module reloading
 
 ```
 yarn storybook
