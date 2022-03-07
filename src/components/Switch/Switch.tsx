@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId } from "utils/accessibilityUtils";
@@ -35,9 +35,14 @@ export interface SwitchProps
  *
  * @see https://design.avayacloud.com/components/web/switch-web
  */
-export function Switch(props: SwitchProps) {
+export function Switch({ defaultChecked, ...props }: SwitchProps) {
   // use given id or generate a unique one for accessibility
   const internalId = useMemo(() => props.id || genId(), [props.id]);
+
+  const [checked, setChecked] = useState(defaultChecked || props.checked);
+  useEffect(() => {
+    props.checked && setChecked(props.checked);
+  }, [props.checked]);
 
   return (
     <NeoInputWrapper
@@ -45,12 +50,24 @@ export function Switch(props: SwitchProps) {
       error={props.error}
       required={props.required}
     >
-      <label {...getSwitchLabelProps(props)} htmlFor={internalId}>
+      <label
+        {...getSwitchLabelProps(props)}
+        htmlFor={internalId}
+        style={{
+          fontWeight: checked ? 600 : undefined,
+        }}
+      >
         <input
-          {...getSwitchInputProps(props)}
+          {...getSwitchInputProps({
+            ...props,
+            checked,
+          })}
           id={internalId}
           // extend raw `ChangeEventHandler` with `checked` value as 2nd
-          onChange={(event) => props.onChange?.(event, event.target.checked)}
+          onChange={(event) => {
+            setChecked(event.target.checked);
+            props.onChange?.(event, event.target.checked);
+          }}
         />
         <i className="neo-switch__icon" />
         {props.label}
