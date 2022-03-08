@@ -4,11 +4,9 @@ import { NavCategory, NavCategoryProps } from "./NavCategory";
 import { LinkItem } from "../LinkItem";
 
 export default {
-  title: "Components/Nav Category",
+  title: "Components/Left Navigation/Nav Category",
   component: NavCategory,
 } as Meta<NavCategoryProps>;
-
-// NavCategory scenarios
 
 export const NavCategoryTextOnly: Story<NavCategoryProps> = (
   props: NavCategoryProps

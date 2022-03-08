@@ -7,20 +7,37 @@ import {
 } from "react";
 
 import { Button } from "components/Button";
-import { IconNamesType } from "utils";
-
+import { IconNamesType, Keys } from "utils";
 export interface NavCategoryProps {
-  // id?: string;
   label: string;
   icon?: IconNamesType;
   expanded?: boolean;
-  // disabled?: boolean;
-  // active?: boolean;
+  disabled?: boolean;
+  active?: boolean;
   // selectedItem?: string;
 }
 
-const COLLAPSED_STYLE: string = "neo-leftnav__main neo-leftnav__main--active";
-const EXPANDED_STYLE = COLLAPSED_STYLE.concat(" neo-leftnav__main--expand");
+const COLLAPSED_STYLE: string = "neo-leftnav__main";
+
+export function getNavBarClassNames(
+  expanded: boolean,
+  active: boolean
+  // selectedItem: boolean
+) {
+  const classNames = [COLLAPSED_STYLE];
+  console.log("expanded = ", expanded);
+  console.log("active = ", active);
+
+  if (expanded) {
+    classNames.push(` neo-leftnav__main--expand`);
+  }
+
+  if (active) {
+    classNames.push(` neo-leftnav__main--active`);
+  }
+
+  return classNames.join(" ");
+}
 
 /**
  * Is meant to wrap an array of `LinkItem`.
@@ -40,8 +57,8 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   label,
   icon,
   expanded = false,
-  // disabled = false, TODO: Hook these up in part 2 of PR.
-  // active = false,
+  disabled = false,
+  active = false,
   // selectedItem = false,
 }) => {
   const listClass = "neo-leftnav__nav";
@@ -49,14 +66,10 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   const [navItemClass, setNavItemClass] = useState(COLLAPSED_STYLE);
 
   useEffect(() => {
-    // console.log("expanded = ", expanded); TODO: Remove in PR part 2.
-    setIsExpanded(expanded);
-  }, []);
-
-  useEffect(() => {
-    const itemStyle = isExpanded ? EXPANDED_STYLE : COLLAPSED_STYLE;
+    const itemStyle = getNavBarClassNames(isExpanded, active);
+    console.log("getNavBarClassNames returns ", itemStyle);
     setNavItemClass(itemStyle);
-  }, [isExpanded]);
+  }, [isExpanded, active]);
 
   const onExpand = (event: MouseEvent) => {
     event.stopPropagation();
@@ -64,15 +77,13 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   };
   const handleKeyDown = (event: KeyboardEvent) => {
     event.stopPropagation();
-    if (event.key === "Enter") {
+    if (event.key === Keys.ENTER) {
       setIsExpanded(!isExpanded);
     }
   };
   return (
     <li className={navItemClass}>
       <Button
-        tabIndex={0}
-        role="menu"
         icon={icon}
         variant="tertiary"
         onClick={onExpand}
