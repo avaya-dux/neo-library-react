@@ -21,19 +21,21 @@ const columnsExample: Array<Column<IDataTableMockData>> = [
     Header: "Name",
     accessor: "name",
     disableFilters: true, // HACK: need to update to not need this
-    maxWidth: 200,
+    width: "auto", // HACK: not sure how to make `"auto"` the default
   },
   {
     Header: "Color",
     accessor: "hexValue",
     disableFilters: true,
     sortType: "alphanumeric",
+    width: "auto",
   },
   {
     Header: "Other",
     accessor: "other",
     disableFilters: true,
     disableSortBy: true,
+    width: "auto",
   },
 ];
 const dataExample: IDataTableMockData[] = [

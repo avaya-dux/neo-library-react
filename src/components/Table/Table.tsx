@@ -19,6 +19,8 @@ import {
 import { TableBody, TableHeader, TableToolbar } from "./TableComponents";
 import { IFilterContext } from "./types";
 
+import "./Table_shim.css";
+
 /**
  * The Table is used to organize and display data within rows and columns.
  * It comes with built in pagination. The `id` column in data is required.

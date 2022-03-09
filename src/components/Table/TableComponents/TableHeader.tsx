@@ -1,8 +1,9 @@
-import { CSSProperties, KeyboardEvent, useContext } from "react";
+import { KeyboardEvent, useContext } from "react";
 
 import { Checkbox } from "components/Checkbox";
 import { Icon } from "components/Icon";
 import { Menu, MenuButton, MenuItem } from "components/Menu";
+import { Tooltip } from "components/Tooltip";
 import { IconNamesType, Keys } from "utils";
 
 import { calculateAriaSortValue, FilterContext } from "../helpers";
@@ -98,8 +99,6 @@ export const TableHeader = <T extends Record<string, any>>({
             content = render("Filter");
           } else if (canSort) {
             const thDivProps = getSortByToggleProps({
-              title: translations?.sortBy,
-
               // keep mouse-click from triggering sort
               onClick: (e) => {
                 e.stopPropagation();
@@ -131,33 +130,36 @@ export const TableHeader = <T extends Record<string, any>>({
             content = (
               <Menu
                 menuRootElement={
-                  <MenuButton
-                    variant="tertiary"
-                    className="neo-multiselect"
-                    style={{
-                      color: "black",
-                      paddingLeft: 0,
-                      fontWeight: 600,
-                    }}
-                    onKeyDown={(e) => {
-                      switch (e.key) {
-                        case Keys.ENTER:
-                        case Keys.SPACE:
-                        case Keys.DOWN:
-                          // keep keyboard from triggering sort inaproriately
-                          e.stopPropagation();
-                          e.preventDefault();
-                          break;
-                      }
-                    }}
-                  >
-                    {render("Header")}
+                  <Tooltip label={render("Header") as string} position="top">
+                    <MenuButton
+                      variant="tertiary"
+                      className="neo-multiselect"
+                      onKeyDown={(e) => {
+                        switch (e.key) {
+                          case Keys.ENTER:
+                          case Keys.SPACE:
+                          case Keys.DOWN:
+                            // keep keyboard from triggering sort inaproriately
+                            e.stopPropagation();
+                            e.preventDefault();
+                            break;
+                        }
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: column.width,
+                        }}
+                      >
+                        {render("Header")}
+                      </span>
 
-                    <Icon
-                      icon={sortIcon}
-                      aria-label={sortIcon.replace(/-/g, " ")}
-                    />
-                  </MenuButton>
+                      <Icon
+                        icon={sortIcon}
+                        aria-label={sortIcon.replace(/-/g, " ")}
+                      />
+                    </MenuButton>
+                  </Tooltip>
                 }
                 {...thDivProps}
               >
@@ -193,16 +195,11 @@ export const TableHeader = <T extends Record<string, any>>({
             );
           }
 
-          const styles: CSSProperties = {
-            display: isVisible ? "table-cell" : "none",
-            width: column.width,
-            minWidth: column.minWidth,
-            maxWidth: column.maxWidth,
-          };
-
           return (
             <th
-              style={styles}
+              style={{
+                display: isVisible ? undefined : "none",
+              }}
               {...getHeaderProps()}
               scope="col"
               aria-sort={ariasort}

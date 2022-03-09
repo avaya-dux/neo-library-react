@@ -55,6 +55,7 @@ export const AdvancedFilteringAndSorting = () => {
 
         return result;
       },
+      width: "auto",
     },
     {
       Cell: ({ value }) => {
@@ -75,6 +76,7 @@ export const AdvancedFilteringAndSorting = () => {
       accessor: "hasOnCallBeeper",
       disableFilters: true,
       sortType: (row) => (row.original.hasOnCallBeeper ? 1 : -1), // `boolean` is not supported by default
+      width: 75,
     },
     {
       Cell: ({ value }) => <>{value?.toLocaleDateString()}</>,
@@ -82,6 +84,7 @@ export const AdvancedFilteringAndSorting = () => {
       accessor: "date",
       disableFilters: true,
       sortType: "datetime",
+      width: "auto",
     },
     {
       Cell: ({ value }) => {
@@ -143,6 +146,7 @@ export const AdvancedFilteringAndSorting = () => {
       accessor: "status",
       disableSortBy: true,
       filter: "exactTextCase",
+      width: "auto",
     },
     {
       Cell: ({ value }) =>
@@ -165,6 +169,7 @@ export const AdvancedFilteringAndSorting = () => {
       Header: "Long Text",
       accessor: "longText",
       disableFilters: true,
+      width: "auto",
     },
   ];
 
