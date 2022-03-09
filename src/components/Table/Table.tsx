@@ -83,6 +83,11 @@ export const Table = <T extends Record<string, any>>({
     {
       columns,
       data,
+      defaultColumn: {
+        maxWidth: 300,
+        minWidth: 30,
+        width: "auto",
+      },
       getRowId: (row: T) => row.id, // set the row id to be the passed data's id
       initialState: {
         pageSize: itemsPerPageOptions?.[0] || 10,

@@ -148,6 +148,8 @@ export const TableHeader = <T extends Record<string, any>>({
                     >
                       <span
                         style={{
+                          maxWidth: column.maxWidth,
+                          minWidth: column.minWidth,
                           width: column.width,
                         }}
                       >

@@ -55,7 +55,6 @@ export const AdvancedFilteringAndSorting = () => {
 
         return result;
       },
-      width: "auto",
     },
     {
       Cell: ({ value }) => {
@@ -84,7 +83,6 @@ export const AdvancedFilteringAndSorting = () => {
       accessor: "date",
       disableFilters: true,
       sortType: "datetime",
-      width: "auto",
     },
     {
       Cell: ({ value }) => {
@@ -146,7 +144,6 @@ export const AdvancedFilteringAndSorting = () => {
       accessor: "status",
       disableSortBy: true,
       filter: "exactTextCase",
-      width: "auto",
     },
     {
       Cell: ({ value }) =>
@@ -169,7 +166,6 @@ export const AdvancedFilteringAndSorting = () => {
       Header: "Long Text",
       accessor: "longText",
       disableFilters: true,
-      width: "auto",
     },
   ];
 
