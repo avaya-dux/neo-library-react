@@ -124,20 +124,22 @@ export const AdvancedFilteringAndSorting = () => {
         }, [id, preFilteredRows]);
 
         return (
-          <SelectNative
-            label="Status"
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-              setFilter(e.target.value || undefined);
-            }}
-          >
-            <option value="">All</option>
+          <div style={{ margin: "0px 0px -8px 0px" }}>
+            <SelectNative
+              aria-label="Status"
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                setFilter(e.target.value || undefined);
+              }}
+            >
+              <option value="">All</option>
 
-            {options.map((option, i) => (
-              <option key={i} value={option as string}>
-                {(option as string).toUpperCase()}
-              </option>
-            ))}
-          </SelectNative>
+              {options.map((option, i) => (
+                <option key={i} value={option as string}>
+                  {(option as string).toUpperCase()}
+                </option>
+              ))}
+            </SelectNative>
+          </div>
         );
       },
       Header: "Status",
