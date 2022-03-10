@@ -5,7 +5,7 @@ import { genId, handleAccessbilityError } from "utils";
 
 export interface SheetProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
-  closed?: boolean;
+  open?: boolean;
   buttons?: JSX.Element[];
   id?: string;
   slide?: boolean;
@@ -30,7 +30,7 @@ export const Sheet: FC<SheetProps> = ({
   buttons,
   children,
   className,
-  closed = false,
+  open = true,
   id = genId(),
   slide = true,
   title,
@@ -41,7 +41,7 @@ export const Sheet: FC<SheetProps> = ({
     return (
       <BasicSheet
         className={className}
-        closed={closed}
+        open={open}
         id={id}
         slide={slide}
         {...rest}
@@ -61,8 +61,8 @@ export const Sheet: FC<SheetProps> = ({
       className={clsx(
         "neo-sheet sheet--custom",
         slide && "neo-slide",
-        slide && !closed && "neo-slide--in-right",
-        slide && closed && "neo-slide--out-right",
+        slide && open && "neo-slide--in-right",
+        slide && !open && "neo-slide--out-right",
         className
       )}
       role="dialog"
@@ -83,16 +83,16 @@ export const Sheet: FC<SheetProps> = ({
 
 const BasicSheet: FC<{
   className?: string;
-  closed: boolean;
+  open: boolean;
   id?: string;
   slide: boolean;
-}> = ({ className, closed, slide, ...rest }) => {
+}> = ({ className, open, slide, ...rest }) => {
   return (
     <div
       className={clsx(
         "neo-sheet",
-        slide && "neo-slide neo-slide--in-right",
-        slide && closed && "neo-slide--out-right",
+        slide && open && "neo-slide neo-slide--in-right",
+        slide && "neo-slide--out-right",
         className
       )}
       {...rest}
