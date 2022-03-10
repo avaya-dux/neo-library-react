@@ -326,7 +326,8 @@ describe("Table", () => {
       );
       expect(firstColumnSortButton).toBeVisible();
 
-      expect(() => getByRole("dialog")).toThrow();
+      expect(getByRole("dialog")).not.toHaveClass("neo-slide--in-right");
+      expect(getByRole("dialog")).toHaveClass("neo-slide--out-right");
 
       fireEvent.click(firstColumnSortButton);
 
@@ -334,7 +335,8 @@ describe("Table", () => {
       expect(menuItems).toHaveLength(4);
       fireEvent.click(queryAllByRole("menuitem")[3]);
 
-      expect(() => getByRole("dialog")).not.toThrow();
+      expect(getByRole("dialog")).toHaveClass("neo-slide--in-right");
+      expect(getByRole("dialog")).not.toHaveClass("neo-slide--out-right");
 
       const nameCheckbox = getByLabelText(FilledFields.columns[0].Header);
       expect(nameCheckbox).toBeChecked();
