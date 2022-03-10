@@ -1,4 +1,5 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
+import { useState } from "react";
 
 import { Button } from "components/Button";
 
@@ -10,24 +11,59 @@ export default {
 } as Meta<SheetProps>;
 
 export const Default = () => {
+  const [sheetOneVisible, setSheetOneVisible] = useState(false);
+  const [sheetTwoVisible, setSheetTwoVisible] = useState(false);
+  const [sheetThreeVisible, setSheetThreeVisible] = useState(false);
+
   return (
     <main>
+      <section
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+
+          marginBottom: "1rem",
+        }}
+      >
+        <Button
+          icon="filter"
+          onClick={() => setSheetOneVisible(!sheetOneVisible)}
+        >
+          Toggle Sheet One Visibility
+        </Button>
+        <Button
+          icon="filter"
+          onClick={() => setSheetTwoVisible(!sheetTwoVisible)}
+        >
+          Toggle Sheet Two Visibility
+        </Button>
+        <Button
+          icon="filter"
+          onClick={() => setSheetThreeVisible(!sheetThreeVisible)}
+        >
+          Toggle Sheet Three Visibility
+        </Button>
+      </section>
+
       <Sheet
+        closed={!sheetOneVisible}
         title="Sheet one"
         buttons={[
           <Button key="btn1">button 1</Button>,
           <Button key="btn2">second btn</Button>,
         ]}
       >
-        <p>sheet one content</p>
+        <p>
+          sheet one content, has non-functional buttons as a part of the header
+        </p>
       </Sheet>
 
-      <Sheet>
-        <p>sheet two content</p>
+      <Sheet closed={!sheetTwoVisible}>
+        <p>sheet two content (no header/title, just content)</p>
       </Sheet>
 
-      <Sheet>
-        <p>sheet two content</p>
+      <Sheet closed={!sheetThreeVisible}>
+        <p>sheet three content (no header/title, just content)</p>
       </Sheet>
     </main>
   );
