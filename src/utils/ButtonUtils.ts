@@ -5,9 +5,14 @@ export const getAnimationClass = (animation: string) =>
 
 export const getBadgeClass = (badge?: string) => (badge ? "neo-badge" : "");
 
-export const getVariantClasses = (variant: string, status: string) => [
+export const getVariantClasses = (
+  shape: string,
+  variant: string,
+  status: string
+) => [
   `${rootBtnClass}-${variant}`,
   `${rootBtnClass}-${variant}--${status}`,
+  `${rootBtnClass}-${shape}-${variant}--${status}`,
 ];
 
 export const getSizeClass = (size: string) => `${rootBtnClass}--${size}`;
