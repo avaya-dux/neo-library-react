@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { FC } from "react";
 
 import { Button, ButtonProps } from "components/Button";
@@ -27,8 +28,12 @@ import { Button, ButtonProps } from "components/Button";
       </MenuItem>
     </Menu>
  */
-export const MenuButton: FC<ButtonProps> = ({ children, ...rest }) => (
-  <Button className="neo-dropdown__link-header" {...rest}>
+export const MenuButton: FC<ButtonProps> = ({
+  className,
+  children,
+  ...rest
+}) => (
+  <Button className={clsx("neo-dropdown__link-header", className)} {...rest}>
     {children || "Menu Button"}
   </Button>
 );
