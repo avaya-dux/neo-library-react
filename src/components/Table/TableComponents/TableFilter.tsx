@@ -53,45 +53,44 @@ export const TableFilter = <T extends Record<string, any>>({
         onClick={toggleFilterSheetVisible}
       />
 
-      {filterSheetVisible && (
-        <Sheet
-          className="neo-table__filters--sheet"
-          title={filterColumns}
-          buttons={buttons}
+      <Sheet
+        buttons={buttons}
+        className="neo-table__filters--sheet"
+        closed={!filterSheetVisible}
+        title={filterColumns}
+      >
+        <section>
+          {allColumns.map((column) => (
+            <Checkbox
+              key={column.id}
+              {...column.getToggleHiddenProps()}
+              label={column.Header}
+            />
+          ))}
+        </section>
+
+        <div
+          className="neo-table__filters--sheet__footer"
+          style={{ flexWrap: "wrap" }}
         >
-          <section>
-            {allColumns.map((column) => (
-              <Checkbox
-                key={column.id}
-                {...column.getToggleHiddenProps()}
-                label={column.Header}
-              />
-            ))}
-          </section>
-
-          <div
-            className="neo-table__filters--sheet__footer"
-            style={{ flexWrap: "wrap" }}
+          <Button
+            onClick={() => setHiddenColumns([])}
+            size="wide"
+            status="alert"
+            variant="tertiary"
           >
-            <Button
-              onClick={() => setHiddenColumns([])}
-              size="wide"
-              status="alert"
-              variant="tertiary"
-            >
-              {clear}
-            </Button>
+            {clear}
+          </Button>
 
-            <Button
-              onClick={toggleFilterSheetVisible}
-              size="wide"
-              variant="tertiary"
-            >
-              {close}
-            </Button>
-          </div>
-        </Sheet>
-      )}
+          <Button
+            onClick={toggleFilterSheetVisible}
+            size="wide"
+            variant="tertiary"
+          >
+            {close}
+          </Button>
+        </div>
+      </Sheet>
     </>
   );
 };

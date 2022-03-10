@@ -5,9 +5,11 @@ import { genId, handleAccessbilityError } from "utils";
 
 export interface SheetProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
-  id?: string;
-  title?: string | JSX.Element;
+  closed?: boolean;
   buttons?: JSX.Element[];
+  id?: string;
+  slide?: boolean;
+  title?: string | JSX.Element;
 }
 
 /**
@@ -28,14 +30,22 @@ export const Sheet: FC<SheetProps> = ({
   buttons,
   children,
   className,
+  closed = false,
   id = genId(),
+  slide = true,
   title,
 
   ...rest
 }) => {
   if (!title && !buttons) {
     return (
-      <BasicSheet className={className} id={id} {...rest}>
+      <BasicSheet
+        className={className}
+        closed={closed}
+        id={id}
+        slide={slide}
+        {...rest}
+      >
         {children}
       </BasicSheet>
     );
@@ -48,7 +58,13 @@ export const Sheet: FC<SheetProps> = ({
   return (
     <div
       aria-labelledby={id}
-      className={clsx("neo-sheet sheet--custom", className)}
+      className={clsx(
+        "neo-sheet sheet--custom",
+        slide && "neo-slide",
+        slide && !closed && "neo-slide--in-right",
+        slide && closed && "neo-slide--out-right",
+        className
+      )}
       role="dialog"
       {...rest}
     >
@@ -65,9 +81,21 @@ export const Sheet: FC<SheetProps> = ({
   );
 };
 
-const BasicSheet: FC<{ id: string; className?: string }> = ({
-  className,
-  ...rest
-}) => {
-  return <div className={clsx("neo-sheet", className)} {...rest}></div>;
+const BasicSheet: FC<{
+  className?: string;
+  closed: boolean;
+  id?: string;
+  slide: boolean;
+}> = ({ className, closed, slide, ...rest }) => {
+  return (
+    <div
+      className={clsx(
+        "neo-sheet",
+        slide && "neo-slide neo-slide--in-right",
+        slide && closed && "neo-slide--out-right",
+        className
+      )}
+      {...rest}
+    ></div>
+  );
 };
