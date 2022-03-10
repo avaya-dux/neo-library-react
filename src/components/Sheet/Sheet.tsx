@@ -91,8 +91,9 @@ const BasicSheet: FC<{
     <div
       className={clsx(
         "neo-sheet",
-        slide && open && "neo-slide neo-slide--in-right",
-        slide && "neo-slide--out-right",
+        slide && "neo-slide",
+        slide && open && "neo-slide--in-right",
+        slide && !open && "neo-slide--out-right",
         className
       )}
       {...rest}
