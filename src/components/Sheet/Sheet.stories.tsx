@@ -25,16 +25,13 @@ export const Default = () => {
           marginBottom: "1rem",
         }}
       >
-        <Button icon="filter" onClick={() => setSheetOneOpen(!sheetOneOpen)}>
+        <Button onClick={() => setSheetOneOpen(!sheetOneOpen)}>
           Toggle Sheet One Open
         </Button>
-        <Button icon="filter" onClick={() => setSheetTwoOpen(!sheetTwoOpen)}>
+        <Button onClick={() => setSheetTwoOpen(!sheetTwoOpen)}>
           Toggle Sheet Two Open
         </Button>
-        <Button
-          icon="filter"
-          onClick={() => setSheetThreeOpen(!sheetThreeOpen)}
-        >
+        <Button onClick={() => setSheetThreeOpen(!sheetThreeOpen)}>
           Toggle Sheet Three Open
         </Button>
       </section>
