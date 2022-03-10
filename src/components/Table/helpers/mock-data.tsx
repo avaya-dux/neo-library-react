@@ -21,7 +21,6 @@ const columnsExample: Array<Column<IDataTableMockData>> = [
     Header: "Name",
     accessor: "name",
     disableFilters: true, // HACK: need to update to not need this
-    maxWidth: 200,
   },
   {
     Header: "Color",

@@ -19,6 +19,8 @@ import {
 import { TableBody, TableHeader, TableToolbar } from "./TableComponents";
 import { IFilterContext } from "./types";
 
+import "./Table_shim.css";
+
 /**
  * The Table is used to organize and display data within rows and columns.
  * It comes with built in pagination. The `id` column in data is required.
@@ -81,6 +83,11 @@ export const Table = <T extends Record<string, any>>({
     {
       columns,
       data,
+      defaultColumn: {
+        maxWidth: 300,
+        minWidth: 30,
+        width: "auto",
+      },
       getRowId: (row: T) => row.id, // set the row id to be the passed data's id
       initialState: {
         pageSize: itemsPerPageOptions?.[0] || 10,
