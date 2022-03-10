@@ -8,7 +8,8 @@ import {
 
 import { Button } from "components/Button";
 import { IconNamesType, Keys } from "utils";
-export interface NavCategoryProps {
+export interface NavCategoryProps
+  extends React.AnchorHTMLAttributes<HTMLLIElement> {
   label: string;
   icon?: IconNamesType;
   expanded?: boolean;
@@ -86,6 +87,7 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
       <Button
         icon={icon}
         variant="tertiary"
+        disabled={disabled}
         onClick={onExpand}
         onKeyDown={handleKeyDown}
         aria-label={label}

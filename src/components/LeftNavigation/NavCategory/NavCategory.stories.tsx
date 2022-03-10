@@ -8,13 +8,11 @@ export default {
   component: NavCategory,
 } as Meta<NavCategoryProps>;
 
-export const NavCategoryTextOnly: Story<NavCategoryProps> = (
-  props: NavCategoryProps
-) => (
+export const NavCategoryTextOnly: Story<NavCategoryProps> = () => (
   <div className="neo-leftnav--wrapper">
     <nav className="neo-leftnav">
       <ul className="neo-leftnav__nav">
-        <NavCategory expanded={true} label="Text Only Category">
+        <NavCategory active expanded={true} label="Text Only Category">
           <LinkItem> First Item </LinkItem>
           <LinkItem> Second Item </LinkItem>
           <LinkItem> Third Item </LinkItem>
@@ -24,20 +22,22 @@ export const NavCategoryTextOnly: Story<NavCategoryProps> = (
   </div>
 );
 
-export const NavCategoryMultiple: Story<NavCategoryProps> = (
-  props: NavCategoryProps
-) => (
+export const NavCategoryMultiple: Story<NavCategoryProps> = () => (
   <div className="neo-leftnav--wrapper">
     <nav className="neo-leftnav">
       <ul className="neo-leftnav__nav">
-        <NavCategory icon="add" label="Top level link WIP"></NavCategory>
+        <NavCategory
+          disabled
+          icon="add"
+          label="Disabled Nav Category"
+        ></NavCategory>
         <NavCategory icon="audio-on" expanded label="Should be expanded">
           <LinkItem> First Item </LinkItem>
           <LinkItem> Second Item </LinkItem>
           <LinkItem> Third Item </LinkItem>
           <LinkItem> Fourth Item </LinkItem>
         </NavCategory>
-        <NavCategory icon="call" label="Should be collapsed">
+        <NavCategory active={true} icon="call" label="Should be collapsed">
           <LinkItem> Item 1 </LinkItem>
           <LinkItem> Item 2 </LinkItem>
           <LinkItem> Item 3</LinkItem>
