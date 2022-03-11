@@ -1,10 +1,20 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Column } from "react-table";
 
-import { Button, List, ListItem } from "components";
+import {
+  Button,
+  Icon,
+  IconChip,
+  List,
+  ListItem,
+  SelectNative,
+  Tooltip,
+} from "components";
+import { IconNamesType } from "utils";
 
 import { Table, TableProps } from "./";
-import { FilledFields, IDataTableMockData } from "./mock-data";
+import { FilledFields, IDataTableMockData } from "./helpers";
 
 export default {
   title: "Components/Table",
@@ -14,6 +24,218 @@ export default {
 export const Default = () => (
   <Table {...FilledFields} caption="Storybook Default Table Example" />
 );
+
+export const AdvancedFilteringAndSorting = () => {
+  const columns: Array<Column<IDataTableMockData>> = [
+    ...FilledFields.columns,
+    {
+      Header: "Level",
+      accessor: "level",
+      disableFilters: true,
+
+      sortType: (rowA, rowB) => {
+        const {
+          original: { level: levelA },
+        } = rowA;
+        const {
+          original: { level: levelB },
+        } = rowB;
+        let result = 0;
+
+        if (levelA === levelB) {
+          result = 0;
+        } else if (
+          (levelA === "high" && levelB !== "high") ||
+          (levelA === "medium" && levelB === "low")
+        ) {
+          result = 1;
+        } else {
+          result = -1;
+        }
+
+        return result;
+      },
+    },
+    {
+      Cell: ({ value }) => {
+        let icon: IconNamesType = "undo";
+        let label = "unknown";
+
+        if (value === true) {
+          icon = "check";
+          label = "Yes";
+        } else if (value === false) {
+          icon = "close";
+          label = "No";
+        }
+
+        return <Icon icon={icon} aria-label={label} />;
+      },
+      Header: "Has On Call Beeper",
+      accessor: "hasOnCallBeeper",
+      disableFilters: true,
+      sortType: (row) => (row.original.hasOnCallBeeper ? 1 : -1), // `boolean` is not supported by default
+      width: 75,
+    },
+    {
+      Cell: ({ value }) => <>{value?.toLocaleDateString()}</>,
+      Header: "Date",
+      accessor: "date",
+      disableFilters: true,
+      sortType: "datetime",
+    },
+    {
+      Cell: ({ value }) => {
+        let icon: IconNamesType = "add-circle";
+
+        switch (value) {
+          case "active":
+            icon = "check";
+            break;
+          case "inactive":
+            icon = "close";
+            break;
+          case "awc":
+            icon = "away";
+            break;
+          case "in call":
+            icon = "agents";
+            break;
+          default:
+            icon = "queue";
+            break;
+        }
+
+        return (
+          <IconChip
+            icon={icon}
+            text={value?.toUpperCase() || ""}
+            chiptype="icon"
+          />
+        );
+      },
+      Filter: ({ column: { setFilter, preFilteredRows, id } }) => {
+        const options = useMemo(() => {
+          const optionSet = new Set();
+          preFilteredRows.forEach((row) => {
+            optionSet.add(row.values[id]);
+          });
+          return Array.from(optionSet.values());
+        }, [id, preFilteredRows]);
+
+        return (
+          <div style={{ margin: "0px 0px -8px 0px" }}>
+            <SelectNative
+              aria-label="Status"
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                setFilter(e.target.value || undefined);
+              }}
+            >
+              <option value="">All</option>
+
+              {options.map((option, i) => (
+                <option key={i} value={option as string}>
+                  {(option as string).toUpperCase()}
+                </option>
+              ))}
+            </SelectNative>
+          </div>
+        );
+      },
+      Header: "Status",
+      accessor: "status",
+      disableSortBy: true,
+      filter: "exactTextCase",
+    },
+    {
+      Cell: ({ value }) =>
+        value ? (
+          <Tooltip label={value}>
+            <div
+              style={{
+                whiteSpace: "nowrap",
+                width: 50,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {value}
+            </div>
+          </Tooltip>
+        ) : (
+          <>---</>
+        ),
+      Header: "Long Text",
+      accessor: "longText",
+      disableFilters: true,
+    },
+  ];
+
+  return (
+    <section>
+      <h3>How to setup Advanced Filtering and Sorting</h3>
+
+      <p>
+        The Table component has several advanced features that you can use to
+        customize how data is displayed in the Table.
+      </p>
+
+      <p>
+        You can use use the <code>sortType</code> for a given column to specifiy
+        how the columns data should be sorted. This field can take the following
+        types:
+      </p>
+      <div>
+        <code>
+          "string" | "number" | "alphanumeric" | "datetime" | "basic" | method
+        </code>
+      </div>
+
+      <p>
+        To use a custom method for <code>sortType</code>, you can use the
+        following format:
+      </p>
+      <div>
+        <code>
+          {
+            "(rowA: Row<D>, rowB: Row<D>, columnId: IdType<D>, desc?: boolean | undefined) => number"
+          }
+        </code>
+      </div>
+
+      <p>
+        If <code>sortType</code> is not passed, it defaults to "basic"; and when
+        a column header is clicked, a dropdown will be shown that includes four
+        options. Clear, Ascending, Descending, and "Filter Column". These sort
+        by "string".
+      </p>
+
+      <p>
+        In this example, the following columns have specified a specific type of
+        sorting due to their data type.
+      </p>
+      <ul style={{ paddingLeft: 15 }}>
+        <li>Column "Other" has been disabled</li>
+        <li>Column "Date" has been set to "datetime"</li>
+        <li>Column "Color" has been set to "alphanumeric"</li>
+        <li>
+          Column "Level" and "Has on Call Beeper" have custom sorting methods
+          passed
+        </li>
+        <li>
+          Column "Status" does not use a sort and instead passes a "Filter"
+          method that matches via "exactTextCase"
+        </li>
+      </ul>
+
+      <Table
+        allowColumnFilter
+        columns={columns}
+        data={[...FilledFields.data]}
+      />
+    </section>
+  );
+};
 
 export const CustomActions = () => (
   <Table
@@ -61,9 +283,14 @@ export const EditableData = () => {
         handleCreate={() => {
           const newRow: IDataTableMockData = {
             id: "new-row-" + Math.random(),
-            name: "New Row",
+            name: "The new guy",
             label: "New Row",
             other: "Lorem Ipsum",
+            date: new Date(),
+            status: "inactive",
+            hexValue: "003300",
+            level: "high",
+            hasOnCallBeeper: false,
           };
           setData([...data, newRow]);
         }}
@@ -112,7 +339,7 @@ export const EmptyDataSet = () => (
 );
 
 export const BareBones = () => (
-  <Table columns={FilledFields.columns} data={FilledFields.data} />
+  <Table columns={FilledFields.columns} data={[...FilledFields.data]} />
 );
 
 export const SelectableRows = () => {
@@ -151,7 +378,7 @@ export const SelectableRows = () => {
       <Table
         caption="Storybook Selectable Rows Table Example"
         columns={FilledFields.columns}
-        data={FilledFields.data}
+        data={[...FilledFields.data]}
         handleRowToggled={handleToggle}
         selectableRows="multiple"
         defaultSelectedRowIds={defaultSelectedRowIds}
@@ -179,6 +406,6 @@ Templated.args = {
   id: "templated-table",
 
   columns: FilledFields.columns,
-  data: FilledFields.data,
+  data: [...FilledFields.data],
   selectableRows: "none",
 };
