@@ -25,6 +25,18 @@ describe("Sheet", () => {
     expect(rootElement).toBeTruthy();
   });
 
+  it("fully renders with a title and buttons without exploding", () => {
+    const { getByRole } = render(
+      <Sheet
+        title="example title"
+        buttons={[<Button key="example1">example</Button>]}
+      />
+    );
+
+    const rootElement = getByRole("dialog");
+    expect(rootElement).toBeTruthy();
+  });
+
   it("allows the passing of `<div>` props", () => {
     const text = "content example";
     const { getByText } = render(<Sheet style={{ width: 100 }}>{text}</Sheet>);
