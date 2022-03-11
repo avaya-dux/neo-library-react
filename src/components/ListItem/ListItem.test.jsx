@@ -227,7 +227,7 @@ describe("ListSection: ", () => {
               >
                 <button
                   aria-label="transfer call"
-                  class="neo-btn neo-btn-circle neo-btn--default neo-btn-tertiary neo-btn-tertiary--default"
+                  class="neo-btn neo-btn-circle neo-btn--default neo-btn-tertiary neo-btn-tertiary--default neo-btn-circle-tertiary--default"
                   data-badge=""
                   data-testid="neo-button-transfer"
                   id="btn-transfer-call"
