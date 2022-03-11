@@ -9,11 +9,18 @@ export const getVariantClasses = (
   shape: string,
   variant: string,
   status: string
-) => [
-  `${rootBtnClass}-${variant}`,
-  `${rootBtnClass}-${variant}--${status}`,
-  `${rootBtnClass}-${shape}-${variant}--${status}`,
-];
+) => {
+  const classes = [
+    `${rootBtnClass}-${variant}`,
+    `${rootBtnClass}-${variant}--${status}`,
+  ];
+
+  if (shape !== "none") {
+    classes.push(`${rootBtnClass}-${shape}-${variant}--${status}`);
+  }
+
+  return classes;
+};
 
 export const getSizeClass = (size: string) => `${rootBtnClass}--${size}`;
 
