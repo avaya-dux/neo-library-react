@@ -16,7 +16,6 @@ export const translations: ITableTranslations = {
   header: {
     clearSort: "Clear Sort",
     filterColumn: "Filter Column",
-    sortBy: "sort by",
     selectAll: "select all",
   },
   body: {

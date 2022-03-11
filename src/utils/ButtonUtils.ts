@@ -5,10 +5,22 @@ export const getAnimationClass = (animation: string) =>
 
 export const getBadgeClass = (badge?: string) => (badge ? "neo-badge" : "");
 
-export const getVariantClasses = (variant: string, status: string) => [
-  `${rootBtnClass}-${variant}`,
-  `${rootBtnClass}-${variant}--${status}`,
-];
+export const getVariantClasses = (
+  shape: string,
+  variant: string,
+  status: string
+) => {
+  const classes = [
+    `${rootBtnClass}-${variant}`,
+    `${rootBtnClass}-${variant}--${status}`,
+  ];
+
+  if (shape !== "none") {
+    classes.push(`${rootBtnClass}-${shape}-${variant}--${status}`);
+  }
+
+  return classes;
+};
 
 export const getSizeClass = (size: string) => `${rootBtnClass}--${size}`;
 

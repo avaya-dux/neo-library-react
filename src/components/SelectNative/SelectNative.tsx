@@ -8,7 +8,7 @@ export interface SelectNativeProps extends HTMLAttributes<HTMLSelectElement> {
   disabled?: boolean;
   errorList?: string[];
   helperText?: string;
-  label: string;
+  label?: string;
   loading?: boolean;
   multiple?: boolean;
   required?: boolean;
@@ -40,7 +40,7 @@ export const SelectNative = ({
   required,
   ...rest
 }: SelectNativeProps) => {
-  if (!label) {
+  if (!label && !rest["aria-label"]) {
     handleAccessbilityError("SelectNative requires a label prop");
   }
 
