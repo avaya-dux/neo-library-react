@@ -51,7 +51,7 @@ export const IconButton = forwardRef(
         rootBtnClass,
         `${rootBtnClass}-${shape}`,
         getSizeClass(size),
-        ...getVariantClasses(variant, status),
+        ...getVariantClasses(shape, variant, status),
       ];
 
       const animationClass = getAnimationClass(animation);
