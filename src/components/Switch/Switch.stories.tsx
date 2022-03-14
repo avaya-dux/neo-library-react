@@ -1,6 +1,8 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { useState } from "react";
 
+import { Form } from "components/Form";
+
 import { Switch, SwitchProps } from "./";
 
 export default {
@@ -15,44 +17,46 @@ export const Default = () => {
 
   return (
     <section style={{ width: 200 }}>
-      <Switch
-        label="Alert on Switch toggle"
-        onChange={(_e, checked) => alert("Checked -> " + checked)}
-      />
+      <Switch onChange={(_e, checked) => alert("Checked -> " + checked)}>
+        Alert on Switch toggle
+      </Switch>
 
       <Switch
-        label="Controlled Checked"
         checked={checked}
         onChange={(_e, updatedChecked) => setChecked(updatedChecked)}
-      />
+      >
+        Controlled Checked
+      </Switch>
 
-      <Switch label="Default Checked" defaultChecked />
+      <Switch defaultChecked>Default Checked</Switch>
 
-      <Switch label="Disabled Unchecked" />
-      <Switch label="Disabled Checked" defaultChecked />
+      <Switch>Disabled Unchecked</Switch>
+      <Switch defaultChecked>Disabled Checked</Switch>
 
-      <Switch
-        label={`Long label WITH 'multiline' enabled: ${longText}`}
-        multiline
-      />
+      <Switch multiline>Long label WITH 'multiline' enabled: {longText}</Switch>
+      {/* <Switch label={`Long label _without_ 'multiline' enabled: ${longText}`} >aaaaaaaaaaaaaa</Switch> */}
     </section>
   );
 };
 
 export const FormControl = () => {
   return (
-    <>
-      <Switch label="Error" error />
-      <Switch label="Required" required />
-      <Switch label="Required, Error" error required />
-    </>
+    <Form>
+      <Switch error value="">
+        Error
+      </Switch>
+      <Switch required>Required</Switch>
+      <Switch error required>
+        Required, Error
+      </Switch>
+    </Form>
   );
 };
 
-export const Template: Story<SwitchProps> = (props: SwitchProps) => {
-  return <Switch {...props} />;
-};
+export const Template: Story<SwitchProps> = (props: SwitchProps) => (
+  <Switch {...props} />
+);
 
 Template.args = {
-  label: "Enable Feature",
+  children: "Switch Label Text",
 };

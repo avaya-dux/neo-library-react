@@ -1,10 +1,12 @@
 import clsx from "clsx";
-import { FC, useMemo, useState } from "react";
+import { FC, useMemo } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId } from "utils/accessibilityUtils";
 
 import { SwitchProps } from "./SwitchTypes";
+
+import "./Switch_shim.css";
 
 /**
  * Switches allow end-users to toggle between options such as “On/Off” and “Show/Hide”.
@@ -24,23 +26,19 @@ import { SwitchProps } from "./SwitchTypes";
  * />
  *
  * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-switch--default
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement
  */
 export const Switch: FC<SwitchProps> = ({
   children,
   error,
   id,
-  label,
   multiline,
   onChange,
 
   ...rest
 }) => {
-  const { checked, defaultChecked, disabled, required } = rest;
+  const { disabled, required } = rest;
   const internalId = useMemo(() => id || genId(), [id]);
-
-  const [boldLabel, setBoldLabel] = useState(
-    defaultChecked || checked || false
-  );
 
   return (
     <NeoInputWrapper disabled={disabled} error={error} required={required}>
@@ -51,21 +49,19 @@ export const Switch: FC<SwitchProps> = ({
           disabled && "neo-switch--disabled"
         )}
         htmlFor={internalId}
-        style={{
-          fontWeight: boldLabel ? 600 : undefined,
-        }}
       >
         <input
           {...rest}
           id={internalId}
           type="checkbox"
           onChange={(event) => {
-            setBoldLabel(event.target.checked);
             onChange?.(event, event.target.checked);
           }}
         />
+
         <i className="neo-switch__icon" />
-        {label}
+
+        <span className="neo-switch-children">{children}</span>
       </label>
     </NeoInputWrapper>
   );

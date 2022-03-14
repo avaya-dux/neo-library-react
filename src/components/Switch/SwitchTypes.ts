@@ -11,7 +11,6 @@ export interface SwitchProps
     "onChange"
   > {
   error?: boolean;
-  label?: string;
   multiline?: boolean;
   onChange?: React.ChangeEventHandler<HTMLInputElement> | SwitchChangeHandler;
 }

@@ -1,0 +1,3 @@
+label.neo-switch input:checked ~ span.neo-switch-children {
+  font-weight: 600;
+}
