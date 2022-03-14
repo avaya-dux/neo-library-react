@@ -13815,6 +13815,11 @@ react-app-polyfill@^2.0.0:
     regenerator-runtime "^0.13.7"
     whatwg-fetch "^3.4.1"
 
+react-click-away-listener@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-click-away-listener/-/react-click-away-listener-2.1.0.tgz#c3884a31966395c5f7fe17ff59db3579ab92e7fa"
+  integrity sha512-D8l2a7zCgtUpo8FVeYb6rtWugxoUjPrWattu7DNakAMAHI8F81T6PAbuAco5qBkRLIS97Jr+0sl9Bf8iPzMTNg==
+
 react-colorful@^5.1.2:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/react-colorful/-/react-colorful-5.5.0.tgz#8359f218984a927095477a190ab9927eaf865c0c"
