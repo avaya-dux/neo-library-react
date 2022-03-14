@@ -144,7 +144,6 @@ const TwoMenuTemplate: Story<{
       >
         <MenuItem>Menu Item 1</MenuItem>
         <MenuItem>Menu Item 2</MenuItem>
-        <MenuItem>Menu Item 3</MenuItem>
       </Menu>
     </section>
   );
