@@ -1,4 +1,5 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
+import { useState } from "react";
 
 import { Switch, SwitchProps } from "./";
 
@@ -8,38 +9,33 @@ export default {
 } as Meta<SwitchProps>;
 
 export const Default = () => {
-  return (
-    <>
-      <Switch
-        label="Enable Feature"
-        // TODO: BUG: `any` is bad
-        onChange={(event: any) => {
-          alert("Checked -> " + event.target.checked);
-        }}
-      />
-      <Switch label="Default Checked" defaultChecked />
-    </>
-  );
-};
+  const [checked, setChecked] = useState(false);
+  const longText =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean rhoncus non elit eu mollis.";
 
-export const Multiline = () => {
   return (
-    <div style={{ maxWidth: 200 }}>
-      <Switch label="Default Checked" multiline defaultChecked />
+    <section style={{ width: 200 }}>
       <Switch
-        label="Enable Feature for something that wraps to multiple lines"
+        label="Alert on Switch toggle"
+        onChange={(_e, checked) => alert("Checked -> " + checked)}
+      />
+
+      <Switch
+        label="Controlled Checked"
+        checked={checked}
+        onChange={(_e, updatedChecked) => setChecked(updatedChecked)}
+      />
+
+      <Switch label="Default Checked" defaultChecked />
+
+      <Switch label="Disabled Unchecked" />
+      <Switch label="Disabled Checked" defaultChecked />
+
+      <Switch
+        label={`Long label WITH 'multiline' enabled: ${longText}`}
         multiline
       />
-    </div>
-  );
-};
-
-export const Disabled = () => {
-  return (
-    <>
-      <Switch label="Enable Feature" disabled />
-      <Switch label="Default Checked" disabled defaultChecked />
-    </>
+    </section>
   );
 };
 
