@@ -118,7 +118,6 @@ export const MultiLevelSubMenu = () => (
   </Menu>
 );
 
-// BUG-806: clicking both menus causes both to be open (with is bad)
 const TwoMenuTemplate: Story<{
   closeOnBlur: boolean;
   onLeftMenuClose: () => void;
