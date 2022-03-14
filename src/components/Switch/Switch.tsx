@@ -9,18 +9,17 @@ import { SwitchProps } from "./SwitchTypes";
 import "./Switch_shim.css";
 
 /**
- * Switches allow end-users to toggle between options such as “On/Off” and “Show/Hide”.
+ * A `Switch` allows end-users to toggle between a true/false state.
  *
  * @example
  * <Switch
- *   label="Disabled Example"
+ *   label="Disabled"
  *   disabled
- *   defautlChecked={true}
- *   onChange={(event, checked) => setChecked(checked)}
+ *   defautlChecked
  * />
  *
  * <Switch
- *   label="Toggle-able example"
+ *   label="Controlled"
  *   checked={checked}
  *   onChange={(event, checked) => setChecked(checked)}
  * />

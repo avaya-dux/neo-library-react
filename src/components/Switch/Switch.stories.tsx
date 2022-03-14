@@ -82,14 +82,10 @@ export const FormControl = () => {
   );
 };
 
-export const Template: Story<SwitchProps> = (props: SwitchProps) => (
-  <Switch {...props} />
-);
-
+export const Template: Story<SwitchProps> = (props) => <Switch {...props} />;
 Template.args = {
   checked: false,
   children: "Switch Label Text",
-  defaultChecked: true,
   disabled: false,
   error: false,
   multiline: true,
