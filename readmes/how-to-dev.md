@@ -18,20 +18,14 @@ To run a project which consumes this project while it is running in development 
 Yarn provides a convenient way to do this:
 
 ```bash
-# from this projects root, register the location of this project for package.json `neo-library-react`
+# register this project
 yarn link
 
 # now go to your consuming project directory
 cd ~/other-project
 
 # create the symlink to your local development package (note, you MUST use `yarn`, NOT `npm`)
-yarn link neo-library-react
-
-# confirm by looking in node_modules to see if the package is symlinked (or by making changes)
-cd node_modules/neo-library-react
-
-ls -la
-# should show the contents of this repo
+yarn link @avaya/neo-react
 ```
 
 ## to build a production version of the library
