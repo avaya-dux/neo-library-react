@@ -1,5 +1,5 @@
 import { composeStories } from "@storybook/testing-react";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { ExampleComponent } from "./ExampleComponent";
@@ -12,10 +12,10 @@ const { DefaultExample, TemplatedExample } = composeStories(
 describe("ExampleComponent", () => {
   it("fully renders without exploding", () => {
     const passedText = "test";
-    const { getByText } = render(<ExampleComponent text={passedText} />);
+    render(<ExampleComponent text={passedText} />);
 
-    const rootElement = getByText(passedText);
-    expect(rootElement).toBeTruthy();
+    const rootElement = screen.getByText(passedText);
+    expect(rootElement).toBeInTheDocument();
   });
 
   it("passes basic axe compliance", async () => {
