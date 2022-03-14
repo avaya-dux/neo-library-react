@@ -1,0 +1,33 @@
+.sheet-horizontal-slide-in {
+  animation-name: slideInRight;
+  animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.sheet-horizontal-slide-out {
+  animation-name: slideOutRight;
+  animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+}

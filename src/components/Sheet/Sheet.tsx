@@ -3,6 +3,8 @@ import { FC } from "react";
 
 import { genId, handleAccessbilityError } from "utils";
 
+import "./Sheet_shim.css";
+
 export interface SheetProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   open?: boolean;
@@ -61,8 +63,9 @@ export const Sheet: FC<SheetProps> = ({
       className={clsx(
         "neo-sheet sheet--custom",
         slide && "neo-slide",
-        slide && open && "neo-slide--in-right",
-        slide && !open && "neo-slide--out-right",
+        slide && open && "sheet-horizontal-slide-in",
+        slide && !open && "sheet-horizontal-slide-out",
+        !slide && !open && "neo-display-none",
         className
       )}
       role="dialog"
@@ -92,8 +95,9 @@ const BasicSheet: FC<{
       className={clsx(
         "neo-sheet",
         slide && "neo-slide",
-        slide && open && "neo-slide--in-right",
-        slide && !open && "neo-slide--out-right",
+        slide && open && "sheet-horizontal-slide-in",
+        slide && !open && "sheet-horizontal-slide-out",
+        !slide && !open && "neo-display-none",
         className
       )}
       {...rest}
