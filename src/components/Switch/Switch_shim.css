@@ -1,3 +1,7 @@
 label.neo-switch input:checked ~ span.neo-switch-children {
   font-weight: 600;
 }
+
+label.neo-switch.neo-switch--multiline {
+  height: auto;
+}

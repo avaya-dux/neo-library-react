@@ -37,6 +37,7 @@ export const Default = () => {
       </Switch>
 
       <Switch multiline>Long label WITH 'multiline' enabled: {longText}</Switch>
+      <Switch>Long label _without_ 'multiline' enabled: {longText}</Switch>
     </section>
   );
 };
