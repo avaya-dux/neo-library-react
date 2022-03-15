@@ -26,11 +26,6 @@ export const NavCategoryMultiple: Story<NavCategoryProps> = () => (
   <div className="neo-leftnav--wrapper">
     <nav className="neo-leftnav">
       <ul className="neo-leftnav__nav">
-        <NavCategory
-          disabled
-          icon="add"
-          label="Disabled Nav Category"
-        ></NavCategory>
         <NavCategory icon="audio-on" expanded label="Should be expanded">
           <LinkItem> First Item </LinkItem>
           <LinkItem> Second Item </LinkItem>
@@ -41,6 +36,10 @@ export const NavCategoryMultiple: Story<NavCategoryProps> = () => (
           <LinkItem> Item 1 </LinkItem>
           <LinkItem> Item 2 </LinkItem>
           <LinkItem> Item 3</LinkItem>
+        </NavCategory>
+        <NavCategory disabled icon="available" label="Disabled Category">
+          <LinkItem> First Item </LinkItem>
+          <LinkItem> Second Item </LinkItem>
         </NavCategory>
       </ul>
     </nav>
