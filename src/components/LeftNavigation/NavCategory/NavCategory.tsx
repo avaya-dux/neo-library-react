@@ -5,9 +5,10 @@ import {
   useEffect,
   useState,
 } from "react";
+import clsx from "clsx";
 
-import { Button } from "components/Button";
-import { IconNamesType, Keys } from "utils";
+// import { Button } from "components/Button";
+import { getIconClass, IconNamesType, Keys, rootBtnClass } from "utils";
 export interface NavCategoryProps
   extends React.AnchorHTMLAttributes<HTMLLIElement> {
   label: string;
@@ -57,6 +58,7 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   children,
   label,
   icon,
+  className,
   expanded = false,
   disabled = false,
   active = false,
@@ -65,12 +67,19 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   const listClass = "neo-leftnav__nav";
   const [isExpanded, setIsExpanded] = useState(expanded);
   const [navItemClass, setNavItemClass] = useState(COLLAPSED_STYLE);
+  const [iconClass, setIconClass] = useState("");
 
   useEffect(() => {
     const itemStyle = getNavBarClassNames(isExpanded, active);
     console.log("getNavBarClassNames returns ", itemStyle);
     setNavItemClass(itemStyle);
   }, [isExpanded, active]);
+
+  useEffect(() => {
+    const iconStyles = getIconClass(icon);
+    console.log("getIconClass returns ", iconClass);
+    setIconClass(iconStyles);
+  }, [icon]);
 
   const onExpand = (event: MouseEvent) => {
     event.stopPropagation();
@@ -84,17 +93,21 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   };
   return (
     <li className={navItemClass}>
-      <Button
-        icon={icon}
-        variant="tertiary"
+      <button
+        className={clsx(
+          "neo-leftnav__category expandable",
+          "neo-btn-secondary--info",
+          "neo-btn",
+          icon && iconClass,
+          className
+        )}
         disabled={disabled}
         onClick={onExpand}
         onKeyDown={handleKeyDown}
         aria-label={label}
-        className="neo-leftnav__category expandable"
       >
         {label}
-      </Button>
+      </button>
       <ul className={listClass}>{children}</ul>
     </li>
   );
