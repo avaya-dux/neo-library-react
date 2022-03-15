@@ -26,13 +26,13 @@ export const NavCategoryMultiple: Story<NavCategoryProps> = () => (
   <div className="neo-leftnav--wrapper">
     <nav className="neo-leftnav">
       <ul className="neo-leftnav__nav">
-        <NavCategory icon="audio-on" expanded label="Should be expanded">
+        <NavCategory icon="audio-on" label="Collapsed">
           <LinkItem> First Item </LinkItem>
           <LinkItem> Second Item </LinkItem>
           <LinkItem> Third Item </LinkItem>
           <LinkItem> Fourth Item </LinkItem>
         </NavCategory>
-        <NavCategory active={true} icon="call" label="Should be collapsed">
+        <NavCategory active expanded icon="call" label="Active">
           <LinkItem> Item 1 </LinkItem>
           <LinkItem> Item 2 </LinkItem>
           <LinkItem> Item 3</LinkItem>
