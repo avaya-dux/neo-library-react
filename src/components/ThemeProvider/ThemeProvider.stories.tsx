@@ -23,10 +23,11 @@ const ChildDemoComponent = () => {
       <div style={{ marginBottom: 20 }}>Current Mode: {mode}</div>
 
       <Switch
-        label="Toggle Darkmode"
         checked={mode === "dark"}
         onChange={(_, checked) => setMode(checked ? "dark" : "light")}
-      />
+      >
+        Toggle Darkmode
+      </Switch>
 
       <Button variant="primary" status="default">
         Primary Default
