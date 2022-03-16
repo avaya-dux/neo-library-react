@@ -1,290 +1,137 @@
-import { render } from "@testing-library/react";
+import { composeStories } from "@storybook/testing-react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 
-import { getSwitchInputProps, getSwitchLabelProps, Switch } from "./";
+import { Switch } from "./";
+import * as SwitchStories from "./Switch.stories";
 
-describe("getSwitchLabelProps", () => {
-  it("returns expected props", () => {
-    expect(getSwitchLabelProps({ label: "Enable Feature", id: "feature-name" }))
-      .toMatchInlineSnapshot(`
-      Object {
-        "className": "neo-switch",
-      }
-    `);
-  });
+const { Default, FormControl, Template } = composeStories(SwitchStories);
 
-  it("returns expected props for multiline", () => {
-    expect(
-      getSwitchLabelProps({
-        label: "Enable Feature",
-        id: "feature-name",
-        multiline: true,
-      })
-    ).toMatchInlineSnapshot(`
-      Object {
-        "className": "neo-switch neo-switch--multiline",
-      }
-    `);
-  });
+describe("Switch Component", () => {
+  const labelText = "example label";
 
-  it("returns expected props for disabled", () => {
-    expect(
-      getSwitchLabelProps({
-        label: "Enable Feature",
-        id: "feature-name",
-        disabled: true,
-      })
-    ).toMatchInlineSnapshot(`
-      Object {
-        "className": "neo-switch neo-switch--disabled",
-      }
-    `);
-  });
-
-  it("returns expected props for checked", () => {
-    expect(
-      getSwitchLabelProps({
-        label: "Enable Feature",
-        id: "feature-name",
-        checked: true,
-      })
-    ).toMatchInlineSnapshot(`
-      Object {
-        "className": "neo-switch",
-      }
-    `);
-  });
-
-  it("returns expected props for all", () => {
-    expect(
-      getSwitchLabelProps({
-        label: "Enable Feature",
-        id: "feature-name",
-        disabled: true,
-        multiline: true,
-        checked: true,
-      })
-    ).toMatchInlineSnapshot(`
-      Object {
-        "className": "neo-switch neo-switch--multiline neo-switch--disabled",
-      }
-    `);
-  });
-});
-
-describe("getSwitchInputProps", () => {
-  it("returns expected props", () => {
-    expect(getSwitchInputProps({ disabled: true })).toMatchInlineSnapshot(`
-      Object {
-        "checked": undefined,
-        "disabled": true,
-        "type": "checkbox",
-      }
-    `);
-  });
-
-  it("returns all given `HTMLInputElement` attributes", () => {
-    expect(
-      getSwitchInputProps({
-        disabled: true,
-        onBlur: () => null,
-        onChange: () => null,
-        onFocus: () => null,
-      })
-    ).toMatchInlineSnapshot(`
-      Object {
-        "checked": undefined,
-        "disabled": true,
-        "onBlur": [Function],
-        "onChange": [Function],
-        "onFocus": [Function],
-        "type": "checkbox",
-      }
-    `);
-  });
-});
-
-// putting at the bottom of the file because if the above tests fail
-// then they are probably causing the following tests to fail
-describe("Switch", () => {
   it("fully renders without exploding", () => {
-    const { container, getByLabelText } = render(
-      <Switch label="My Label" id="my-id" />
-    );
-    expect(getByLabelText("My Label")).toBeInTheDocument();
-    expect(container).toMatchInlineSnapshot(`
-      <div>
-        <div
-          class="neo-form-control"
-          data-testid="NeoInputWrapper-root"
-        >
-          <div
-            aria-required="false"
-            class="neo-input-group"
-            data-testid="NeoInputWrapper-group-root"
-          >
-            <label
-              class="neo-switch"
-              for="my-id"
-            >
-              <input
-                id="my-id"
-                type="checkbox"
-              />
-              <i
-                class="neo-switch__icon"
-              />
-              My Label
-            </label>
-          </div>
-        </div>
-      </div>
-    `);
+    render(<Switch>{labelText}</Switch>);
+    expect(screen.getByLabelText(labelText)).toBeInTheDocument();
+
+    const input = screen.getByRole("checkbox");
+    expect(input).toBeInTheDocument();
+    expect(input).not.toBeChecked();
   });
 
   it("passes basic axe compliance", async () => {
-    const { container } = render(
-      <Switch id="feature-name" label="Enable Feature" />
-    );
+    const { container } = render(<Switch>{labelText}</Switch>);
+
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  it("renders disabled as expected", () => {
-    const { container } = render(
-      <Switch id="feature-name" label="Enable Feature" disabled />
-    );
+  describe("applies `disabled` prop functionality appropriately", () => {
+    it("does not allow toggle when disabled", () => {
+      render(<Switch disabled>{labelText}</Switch>);
 
-    expect(container).toMatchInlineSnapshot(`
-      <div>
-        <div
-          class="neo-form-control neo-form-control--disabled"
-          data-testid="NeoInputWrapper-root"
-        >
-          <div
-            aria-required="false"
-            class="neo-input-group"
-            data-testid="NeoInputWrapper-group-root"
-          >
-            <label
-              class="neo-switch neo-switch--disabled"
-              for="feature-name"
-            >
-              <input
-                disabled=""
-                id="feature-name"
-                type="checkbox"
-              />
-              <i
-                class="neo-switch__icon"
-              />
-              Enable Feature
-            </label>
-          </div>
-        </div>
-      </div>
-    `);
+      const input = screen.getByRole("checkbox");
+      expect(input).toBeDisabled();
+      expect(input).not.toBeChecked();
+
+      userEvent.click(input);
+      expect(input).toBeDisabled();
+      expect(input).not.toBeChecked();
+    });
+
+    it("toggles Switch when not `disabled`", () => {
+      const changeSpy = jest.fn();
+      render(<Switch onChange={changeSpy}>{labelText}</Switch>);
+
+      const input = screen.getByRole("checkbox");
+      expect(input).not.toBeDisabled();
+      expect(input).not.toBeChecked();
+
+      userEvent.click(input);
+      expect(input).toBeChecked();
+      expect(changeSpy).toHaveBeenCalledTimes(1);
+    });
   });
 
-  it("renders multiline as expected", () => {
-    const { container } = render(
-      <Switch id="feature-name" label="Enable Feature" multiline />
-    );
+  describe("applies the `multiline` and `disabled` classes appropriately", () => {
+    it("applies the `multiline` and `disabled` classes when those props are passed", () => {
+      const { container } = render(
+        <Switch multiline disabled>
+          {labelText}
+        </Switch>
+      );
 
-    expect(container).toMatchInlineSnapshot(`
-      <div>
-        <div
-          class="neo-form-control"
-          data-testid="NeoInputWrapper-root"
-        >
-          <div
-            aria-required="false"
-            class="neo-input-group"
-            data-testid="NeoInputWrapper-group-root"
-          >
-            <label
-              class="neo-switch neo-switch--multiline"
-              for="feature-name"
-            >
-              <input
-                id="feature-name"
-                type="checkbox"
-              />
-              <i
-                class="neo-switch__icon"
-              />
-              Enable Feature
-            </label>
-          </div>
-        </div>
-      </div>
-    `);
+      const input = container.querySelector("label.neo-switch");
+      expect(input).toHaveClass("neo-switch--multiline");
+      expect(input).toHaveClass("neo-switch--disabled");
+    });
+
+    it("does not apply the `multiline` and `disabled` classes when those props are not passed", () => {
+      const { container } = render(<Switch>{labelText}</Switch>);
+
+      const input = container.querySelector("label.neo-switch");
+      expect(input).not.toHaveClass("neo-switch--multiline");
+      expect(input).not.toHaveClass("neo-switch--disabled");
+    });
   });
 
-  it("renders checked as expected", () => {
-    const onChange = jest.fn();
+  describe("storybook tests", () => {
+    describe("Default", () => {
+      let renderResult;
 
-    const { container } = render(
-      <Switch
-        id="feature-name"
-        label="Enable Feature"
-        checked
-        onChange={onChange}
-      />
-    );
+      beforeEach(() => {
+        renderResult = render(<Default />);
+      });
 
-    expect(container).toMatchInlineSnapshot(`
-      <div>
-        <div
-          class="neo-form-control"
-          data-testid="NeoInputWrapper-root"
-        >
-          <div
-            aria-required="false"
-            class="neo-input-group"
-            data-testid="NeoInputWrapper-group-root"
-          >
-            <label
-              class="neo-switch"
-              for="feature-name"
-            >
-              <input
-                checked=""
-                id="feature-name"
-                type="checkbox"
-              />
-              <i
-                class="neo-switch__icon"
-              />
-              Enable Feature
-            </label>
-          </div>
-        </div>
-      </div>
-    `);
-  });
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
 
-  it("triggers `onChange` as expected", () => {
-    const onChange = jest.fn();
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
 
-    const { getByLabelText } = render(
-      <Switch id="feature-name" label="Enable Feature" onChange={onChange} />
-    );
+    describe("FormControl", () => {
+      let renderResult;
 
-    const switchEl = getByLabelText("Enable Feature");
-    expect(switchEl).not.toBeChecked();
+      beforeEach(() => {
+        renderResult = render(<FormControl />);
+      });
 
-    userEvent.click(switchEl);
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
 
-    expect(switchEl).toBeChecked();
-    expect(onChange).toHaveBeenCalled();
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
 
-    // 2nd arg should give proper `checked` value
-    expect(onChange.mock.calls[0][1]).toBe(true);
+    describe("Template", () => {
+      let renderResult;
 
-    // click it again, 2nd arg should be `false` this time (unchecked)
-    userEvent.click(switchEl);
-    expect(onChange.mock.calls[1][1]).toBe(false);
+      beforeEach(() => {
+        renderResult = render(<Template />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
   });
 });

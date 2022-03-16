@@ -4,6 +4,7 @@ export const DefaultCheckboxArray: CheckboxProps[] = [
   {
     label: "Check 1",
     value: "Check 1",
+    checked: true,
     onChange: () => {},
   },
   {

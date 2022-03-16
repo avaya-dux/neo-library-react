@@ -69,6 +69,7 @@
   },
   "dependencies": {
     "clsx": "^1.1.1",
+    "react-click-away-listener": "^2.1.0",
     "react-table": "^7.7.0",
     "uuid": "^8.3.2"
   },
