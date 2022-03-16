@@ -15,6 +15,13 @@ export const DownshiftWithComboboxProps = (
 ) => {
   return useCombobox({
     items,
+    id,
+    onSelectedItemChange: ({ selectedItem }) => {
+      if (selectedItem) {
+        setSelectedItems([selectedItem]);
+        if (onSelectedValueChange) onSelectedValueChange(selectedItem);
+      }
+    },
     onInputValueChange: ({ inputValue }) => {
       inputValue
         ? setSelectedItems(
@@ -37,6 +44,7 @@ export const DownshiftWithComboboxMultipleSelectProps = (
   setSelectedItems: Dispatch<SetStateAction<string[]>>,
   inputItems: string[],
   setInputItems: Dispatch<SetStateAction<string[]>>,
+  onSelectedValueChange?: (value: string[] | string) => any,
   disabled?: boolean
 ) => {
   return useCombobox({
@@ -54,8 +62,7 @@ export const DownshiftWithComboboxMultipleSelectProps = (
           };
         case useCombobox.stateChangeTypes.InputChange:
           if (changes.inputValue === "" && selectedItems.length > 0)
-            console.log(changes.inputValue);
-          setControlledInputValue("");
+            setControlledInputValue("");
           return {
             ...changes,
           };
@@ -91,6 +98,7 @@ export const DownshiftWithComboboxMultipleSelectProps = (
       if (!selectedItem) {
         return;
       }
+      if (onSelectedValueChange) onSelectedValueChange(selectedItem);
       if (selectedItems.includes(selectedItem)) {
         setSelectedItems(selectedItems.filter((item) => item !== selectedItem));
       } else {

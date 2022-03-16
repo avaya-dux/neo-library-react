@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import {
   Children,
+  Fragment,
   FunctionComponent,
   isValidElement,
   useEffect,
@@ -86,6 +87,7 @@ export const Select: FunctionComponent<SelectProps> = ({
           setSelectedItems,
           inputItems,
           setInputItems,
+          onSelectedValueChange,
           disabled
         )
       : DownshiftWithComboboxProps(
@@ -188,15 +190,6 @@ export const Select: FunctionComponent<SelectProps> = ({
               {...(getInputProps && getInputProps())}
               placeholder={placeholder}
               className="neo-input"
-              onKeyDown={(e) => {
-                if (
-                  e.key === "Backspace" &&
-                  controlledInputValue.length === 1
-                ) {
-                  setControlledInputValue("");
-                  setInputItems(items);
-                }
-              }}
             />
           ) : (
             selectText
@@ -207,26 +200,27 @@ export const Select: FunctionComponent<SelectProps> = ({
           ? [
               isMultipleSelect ? (
                 <div className="neo-multiselect__content" {...getMenuProps()}>
-                  {childrenWithProps?.map((child) => {
+                  {childrenWithProps?.map((child, index) => {
+                    console.log(child);
                     if (
                       inputItems.includes(child.props.children.props.children)
                     ) {
-                      return child;
+                      return <Fragment key={index}>{child}</Fragment>;
                     } else {
-                      return "";
+                      return <Fragment key={index}></Fragment>;
                     }
                   })}
                 </div>
               ) : (
                 <div className="neo-multiselect__content">
                   <ul {...getMenuProps()}>
-                    {childrenWithProps?.map((child) => {
+                    {childrenWithProps?.map((child, index) => {
                       if (
                         inputItems.includes(child.props.children.props.children)
                       ) {
-                        return child;
+                        return <Fragment key={index}>{child}</Fragment>;
                       } else {
-                        return "";
+                        return <Fragment key={index}></Fragment>;
                       }
                     })}
                   </ul>
