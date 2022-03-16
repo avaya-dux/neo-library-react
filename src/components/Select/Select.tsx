@@ -26,6 +26,12 @@ import {
 } from "./DownshiftHooks";
 import { UseComboboxReturnValue } from "downshift";
 
+/*
+
+How to avoid disabled select from activating
+
+*/
+
 export const Select: FunctionComponent<SelectProps> = ({
   isMultipleSelect,
   isCombobox,
