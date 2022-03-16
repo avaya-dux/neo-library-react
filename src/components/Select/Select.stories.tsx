@@ -215,3 +215,21 @@ export const MoreThanOneMultipleSelect = () => {
     </>
   );
 };
+
+const comboBoxValues = ["Apples"];
+
+export const DefaultCombobox = () => (
+  <Select label={label} isCombobox>
+    <SelectOption>Apples</SelectOption>
+    <SelectOption>Bananas</SelectOption>
+    <SelectOption>Oranges</SelectOption>
+  </Select>
+);
+
+export const MultipeSelectCombobox = () => (
+  <Select label={label} isMultipleSelect isCombobox values={comboBoxValues}>
+    <SelectOption>Apples</SelectOption>
+    <SelectOption>Bananas</SelectOption>
+    <SelectOption>Oranges</SelectOption>
+  </Select>
+);

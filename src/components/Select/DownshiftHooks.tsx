@@ -31,14 +31,19 @@ export const DownshiftWithComboboxMultipleSelectProps = (
   items: string[],
   id: string,
   loading: boolean,
+  controlledInputValue: string,
+  setControlledInputValue: Dispatch<SetStateAction<string>>,
   selectedItems: string[],
   setSelectedItems: Dispatch<SetStateAction<string[]>>,
+  inputItems: string[],
+  setInputItems: Dispatch<SetStateAction<string[]>>,
   disabled?: boolean
 ) => {
   return useCombobox({
     items,
     id,
     selectedItem: null,
+    inputValue: controlledInputValue,
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
       switch (type) {
@@ -46,6 +51,18 @@ export const DownshiftWithComboboxMultipleSelectProps = (
           return {
             ...changes,
             isOpen: !(disabled || loading),
+          };
+        case useCombobox.stateChangeTypes.InputChange:
+          if (changes.inputValue === "" && selectedItems.length > 0)
+            console.log(changes.inputValue);
+          setControlledInputValue("");
+          return {
+            ...changes,
+          };
+        case useCombobox.stateChangeTypes.ItemMouseMove:
+          return {
+            ...changes,
+            isOpen: true,
           };
         case useCombobox.stateChangeTypes.InputKeyDownEnter:
         case useCombobox.stateChangeTypes.ItemClick:
@@ -59,13 +76,16 @@ export const DownshiftWithComboboxMultipleSelectProps = (
       }
     },
     onInputValueChange: ({ inputValue }) => {
-      inputValue
-        ? setSelectedItems(
-            items.filter((item) =>
-              item.toLowerCase().startsWith(inputValue.toLowerCase())
-            )
+      if (inputValue) {
+        setControlledInputValue(inputValue);
+        setInputItems(
+          inputItems.filter((item) =>
+            item.toLowerCase().startsWith(inputValue.toLowerCase())
           )
-        : setSelectedItems(items);
+        );
+      } else if (inputValue === "") {
+        setInputItems(items);
+      }
     },
     onSelectedItemChange: ({ selectedItem }) => {
       if (!selectedItem) {

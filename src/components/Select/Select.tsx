@@ -20,10 +20,14 @@ import "./Select_shim.css";
 import {
   DownshiftWithSelectProps,
   DownshiftWithMultipleSelectProps,
+  DownshiftWithComboboxProps,
+  DownshiftWithComboboxMultipleSelectProps,
 } from "./DownshiftHooks";
+import { UseComboboxReturnValue } from "downshift";
 
 export const Select: FunctionComponent<SelectProps> = ({
   isMultipleSelect,
+  isCombobox,
   label,
   placeholder = "Select One",
   id = genId(),
@@ -58,6 +62,10 @@ export const Select: FunctionComponent<SelectProps> = ({
 
   const [selectedItems, setSelectedItems] = useState<string[]>(values || []);
 
+  const [inputItems, setInputItems] = useState<string[]>(items);
+
+  const [controlledInputValue, setControlledInputValue] = useState<string>("");
+
   const helperId = useMemo(() => `helper-text-${id}`, [id]);
 
   const selectText = useMemo(
@@ -66,14 +74,27 @@ export const Select: FunctionComponent<SelectProps> = ({
     [selectedItems]
   );
 
-  const {
-    isOpen,
-    highlightedIndex,
-    getMenuProps,
-    getItemProps,
-    getLabelProps,
-    getToggleButtonProps,
-  } = isMultipleSelect
+  const downshiftProps = isCombobox
+    ? isMultipleSelect
+      ? DownshiftWithComboboxMultipleSelectProps(
+          items,
+          id,
+          loading,
+          controlledInputValue,
+          setControlledInputValue,
+          selectedItems,
+          setSelectedItems,
+          inputItems,
+          setInputItems,
+          disabled
+        )
+      : DownshiftWithComboboxProps(
+          items,
+          id,
+          setInputItems,
+          onSelectedValueChange
+        )
+    : isMultipleSelect
     ? DownshiftWithMultipleSelectProps(
         items,
         id,
@@ -83,6 +104,25 @@ export const Select: FunctionComponent<SelectProps> = ({
         disabled
       )
     : DownshiftWithSelectProps(items, id, setSelectedItems);
+
+  const {
+    isOpen,
+    highlightedIndex,
+    getMenuProps,
+    getItemProps,
+    getLabelProps,
+    getToggleButtonProps,
+  } = downshiftProps;
+
+  const getComboboxProps = (downshiftProps as UseComboboxReturnValue<string>)
+    .getComboboxProps
+    ? (downshiftProps as UseComboboxReturnValue<string>).getComboboxProps
+    : null;
+
+  const getInputProps = (downshiftProps as UseComboboxReturnValue<string>)
+    .getInputProps
+    ? (downshiftProps as UseComboboxReturnValue<string>).getInputProps
+    : null;
 
   useEffect(() => {
     if (!isInitialRender && onSelectedValueChange) {
@@ -95,6 +135,10 @@ export const Select: FunctionComponent<SelectProps> = ({
       setSelectedItems(values);
     }
   }, [values]);
+
+  useEffect(() => {
+    setControlledInputValue(`${selectedItems.join(", ")}`);
+  }, [selectedItems]);
 
   const context = {
     isMultipleSelect,
@@ -119,6 +163,7 @@ export const Select: FunctionComponent<SelectProps> = ({
       <label {...getLabelProps()}>{label}</label>
 
       <div
+        {...(getComboboxProps && getComboboxProps())}
         className={clsx(
           "neo-multiselect",
           disabled && "neo-multiselect--disabled",
@@ -128,24 +173,77 @@ export const Select: FunctionComponent<SelectProps> = ({
         aria-describedby={helperText && helperId}
       >
         <button
-          className="neo-multiselect__header"
+          className={
+            isCombobox
+              ? "neo-multiselect-combo__header"
+              : "neo-multiselect__header"
+          }
           {...getToggleButtonProps()}
           type="button"
           // TO-DO: Add this property to .neo-multiselect__header class to maintain styling when using button element instead of div
           style={{ width: "100%", paddingLeft: loading && "32px" }}
         >
-          {selectText}
+          {isCombobox ? (
+            <input
+              {...(getInputProps && getInputProps())}
+              placeholder={placeholder}
+              className="neo-input"
+              onKeyDown={(e) => {
+                if (
+                  e.key === "Backspace" &&
+                  controlledInputValue.length === 1
+                ) {
+                  setControlledInputValue("");
+                  setInputItems(items);
+                }
+              }}
+            />
+          ) : (
+            selectText
+          )}
         </button>
 
-        {isMultipleSelect ? (
-          <div className="neo-multiselect__content" {...getMenuProps()}>
-            {childrenWithProps}
-          </div>
-        ) : (
-          <div className="neo-multiselect__content">
-            <ul {...getMenuProps()}>{childrenWithProps}</ul>
-          </div>
-        )}
+        {isCombobox
+          ? [
+              isMultipleSelect ? (
+                <div className="neo-multiselect__content" {...getMenuProps()}>
+                  {childrenWithProps?.map((child) => {
+                    if (
+                      inputItems.includes(child.props.children.props.children)
+                    ) {
+                      return child;
+                    } else {
+                      return "";
+                    }
+                  })}
+                </div>
+              ) : (
+                <div className="neo-multiselect__content">
+                  <ul {...getMenuProps()}>
+                    {childrenWithProps?.map((child) => {
+                      if (
+                        inputItems.includes(child.props.children.props.children)
+                      ) {
+                        return child;
+                      } else {
+                        return "";
+                      }
+                    })}
+                  </ul>
+                </div>
+              ),
+            ]
+          : [
+              isMultipleSelect ? (
+                <div className="neo-multiselect__content" {...getMenuProps()}>
+                  {childrenWithProps}
+                </div>
+              ) : (
+                <div className="neo-multiselect__content">
+                  <ul {...getMenuProps()}>{childrenWithProps}</ul>
+                </div>
+              ),
+            ]}
       </div>
 
       {helperText && (
