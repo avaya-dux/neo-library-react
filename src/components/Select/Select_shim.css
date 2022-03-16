@@ -1,3 +1,8 @@
+.neo-multiselect__content:empty {
+  border: none;
+  box-shadow: none;
+}
+
 .neo-multiselect__content .neo-check + .neo-check__label:not(last-child) {
   margin-right: 0;
 }

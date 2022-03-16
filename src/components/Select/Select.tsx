@@ -196,48 +196,41 @@ export const Select: FunctionComponent<SelectProps> = ({
           )}
         </button>
 
-        {isCombobox
-          ? [
-              isMultipleSelect ? (
-                <div className="neo-multiselect__content" {...getMenuProps()}>
-                  {childrenWithProps?.map((child, index) => {
-                    console.log(child);
-                    if (
-                      inputItems.includes(child.props.children.props.children)
-                    ) {
-                      return <Fragment key={index}>{child}</Fragment>;
-                    } else {
-                      return <Fragment key={index}></Fragment>;
-                    }
-                  })}
-                </div>
-              ) : (
-                <div className="neo-multiselect__content">
-                  <ul {...getMenuProps()}>
-                    {childrenWithProps?.map((child, index) => {
-                      if (
-                        inputItems.includes(child.props.children.props.children)
-                      ) {
-                        return <Fragment key={index}>{child}</Fragment>;
-                      } else {
-                        return <Fragment key={index}></Fragment>;
-                      }
-                    })}
-                  </ul>
-                </div>
-              ),
-            ]
-          : [
-              isMultipleSelect ? (
-                <div className="neo-multiselect__content" {...getMenuProps()}>
-                  {childrenWithProps}
-                </div>
-              ) : (
-                <div className="neo-multiselect__content">
-                  <ul {...getMenuProps()}>{childrenWithProps}</ul>
-                </div>
-              ),
-            ]}
+        {isCombobox ? (
+          isMultipleSelect ? (
+            <div className="neo-multiselect__content" {...getMenuProps()}>
+              {childrenWithProps?.map((child, index) => {
+                if (inputItems.includes(child.props.children.props.children)) {
+                  return <Fragment key={index}>{child}</Fragment>;
+                } else {
+                  return null;
+                }
+              })}
+            </div>
+          ) : (
+            <div className="neo-multiselect__content">
+              <ul {...getMenuProps()}>
+                {childrenWithProps?.map((child, index) => {
+                  if (
+                    inputItems.includes(child.props.children.props.children)
+                  ) {
+                    return <Fragment key={index}>{child}</Fragment>;
+                  } else {
+                    return null;
+                  }
+                })}
+              </ul>
+            </div>
+          )
+        ) : isMultipleSelect ? (
+          <div className="neo-multiselect__content" {...getMenuProps()}>
+            {childrenWithProps}
+          </div>
+        ) : (
+          <div className="neo-multiselect__content">
+            <ul {...getMenuProps()}>{childrenWithProps}</ul>
+          </div>
+        )}
       </div>
 
       {helperText && (
