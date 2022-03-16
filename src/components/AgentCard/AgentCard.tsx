@@ -1,40 +1,19 @@
 import clsx from "clsx";
 import { AvatarProps } from "components/Avatar";
 import { ReactElement, useRef, useState, useEffect } from "react";
-
-export interface TimerProps {
-  count: number;
-  startHandler?: any;
-}
+import { Timer } from "./Timer";
 export interface AgentCardProps {
   label: string;
   agentState: "connected" | "not-ready" | "ready";
   imgSrc?: string;
   avatar?: ReactElement<AvatarProps>;
-  timer?: ReactElement<TimerProps>;
 }
-
-export const Timer = ({ count, startHandler }: TimerProps) => {
-  const hour: number | string = Math.floor(count / 3600);
-  const minute: number | string = Math.floor((count - hour * 3600) / 60);
-  const seconds: number | string = count - (hour * 3600 + minute * 60);
-  return (
-    <>
-      <button onClick={startHandler}>
-        {hour < 10 ? `${"0"}${hour}` : hour}:
-        {minute < 10 ? `${"0"}${minute}` : minute}:
-        {seconds < 10 ? `${"0"}${seconds}` : seconds}
-      </button>
-    </>
-  );
-};
 
 export const AgentCard = ({
   label,
   agentState,
   imgSrc,
   avatar,
-  timer,
 }: AgentCardProps) => {
   // const [agentState, setAgentState] = useState(agentState1);
   const [count, setCount] = useState(0);
@@ -52,6 +31,7 @@ export const AgentCard = ({
   }, [agentState]);
 
   const startHandler = () => {
+    console.log("starthandler");
     setCount(0);
     // if (startStop) {
     if (timerIdRef.current) {
@@ -100,13 +80,7 @@ export const AgentCard = ({
             {agentState === "ready" && "Ready"}
             {agentState === "not-ready" && "Not Ready"}
             {agentState === "connected" && "Connected"} {"  "}
-            {/* {timer} */}
             <Timer count={count} startHandler={startHandler} />
-            {/* <button onClick={startHandler}>
-              {hour < 10 ? `${"0"}${hour}` : hour}:
-              {minute < 10 ? `${"0"}${minute}` : minute}:
-              {seconds < 10 ? `${"0"}${seconds}` : seconds}
-            </button> */}
           </span>
         </div>
         {avatar}

@@ -1,5 +1,5 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { AgentCard, AgentCardProps, Timer } from "./AgentCard";
+import { AgentCard, AgentCardProps } from "./AgentCard";
 import userpic from "./testimage.png";
 import { Avatar } from "components/Avatar";
 
@@ -29,7 +29,6 @@ const Template: Story<AgentCardProps> = ({
       agentState={agentState}
       label={label}
       avatar={<Avatar variant="generic" size="md" image={imgSrc} />}
-      timer={<Timer count={0} />}
     />
   </div>
 );
