@@ -10,12 +10,26 @@ import { Dispatch, SetStateAction } from "react";
 export const DownshiftWithComboboxProps = (
   items: string[],
   id: string,
+  loading: boolean,
   setSelectedItems: Dispatch<SetStateAction<string[]>>,
-  onSelectedValueChange?: (value: string[] | string) => any
+  onSelectedValueChange?: (value: string[] | string) => any,
+  disabled?: boolean
 ) => {
   return useCombobox({
     items,
     id,
+    stateReducer: (state, actionAndChanges) => {
+      const { changes, type } = actionAndChanges;
+      switch (type) {
+        case useCombobox.stateChangeTypes.ToggleButtonClick:
+          return {
+            ...changes,
+            isOpen: !(disabled || loading),
+          };
+        default:
+          return changes;
+      }
+    },
     onSelectedItemChange: ({ selectedItem }) => {
       if (selectedItem) {
         setSelectedItems([selectedItem]);
@@ -61,16 +75,16 @@ export const DownshiftWithComboboxMultipleSelectProps = (
             isOpen: !(disabled || loading),
           };
         case useCombobox.stateChangeTypes.InputChange:
-          if (changes.inputValue === "" && selectedItems.length > 0)
+          if (changes.inputValue === "" && !changes.selectedItem)
             setControlledInputValue("");
           return {
             ...changes,
           };
-        case useCombobox.stateChangeTypes.ItemMouseMove:
-          return {
-            ...changes,
-            isOpen: true,
-          };
+        // case useCombobox.stateChangeTypes.ItemMouseMove:
+        //   return {
+        //     ...changes,
+        //     isOpen: true,
+        //   };
         case useCombobox.stateChangeTypes.InputKeyDownEnter:
         case useCombobox.stateChangeTypes.ItemClick:
           return {
@@ -98,7 +112,6 @@ export const DownshiftWithComboboxMultipleSelectProps = (
       if (!selectedItem) {
         return;
       }
-      if (onSelectedValueChange) onSelectedValueChange(selectedItem);
       if (selectedItems.includes(selectedItem)) {
         setSelectedItems(selectedItems.filter((item) => item !== selectedItem));
       } else {
@@ -111,12 +124,26 @@ export const DownshiftWithComboboxMultipleSelectProps = (
 export const DownshiftWithSelectProps = (
   items: string[],
   id: string,
+  loading: boolean,
   setSelectedItems: Dispatch<SetStateAction<string[]>>,
-  onSelectedValueChange?: (value: string[] | string) => any
+  onSelectedValueChange?: (value: string[] | string) => any,
+  disabled?: boolean
 ) => {
   return useSelect({
     items,
     id,
+    stateReducer: (state, actionAndChanges) => {
+      const { changes, type } = actionAndChanges;
+      switch (type) {
+        case useSelect.stateChangeTypes.ToggleButtonClick:
+          return {
+            ...changes,
+            isOpen: !(disabled || loading),
+          };
+        default:
+          return changes;
+      }
+    },
     onSelectedItemChange: ({ selectedItem }) => {
       if (selectedItem) {
         setSelectedItems([selectedItem]);

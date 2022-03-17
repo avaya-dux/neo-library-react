@@ -43,3 +43,122 @@ export const DisabledCombobox = () => {
     </Select>
   );
 };
+
+export const RequiredMultipleSelectComboboxHelperText = () => {
+  const helperTextExample = "Please select one";
+  const [selectedValues, setSelectedValues] = useState<string[]>(["Choice 1"]);
+  const [helperText, setHelperText] = useState(helperTextExample);
+  const [errorList, setErrorList] = useState<string[]>([]);
+
+  const updateSelectedValue = useCallback(
+    (value: any): any => {
+      console.log(value);
+      console.log(selectedValues);
+
+      setSelectedValues(value);
+
+      setHelperText(helperText);
+      setErrorList([]);
+    },
+    [selectedValues, setHelperText, helperText, setErrorList]
+  );
+
+  return (
+    <Form
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (selectedValues.length > 0) {
+          alert(`you successfully submitted: ${selectedValues.join(", ")}`);
+        }
+      }}
+    >
+      <Select
+        isMultipleSelect
+        isCombobox
+        values={selectedValues}
+        onSelectedValueChange={updateSelectedValue}
+        label={label}
+        helperText={helperText}
+        errorList={errorList}
+        required
+      >
+        <SelectOption>Choice 1</SelectOption>
+        <SelectOption>Choice 2</SelectOption>
+      </Select>
+      <Button
+        style={{ marginRight: "8px" }}
+        type="submit"
+        onClick={() => {
+          if (selectedValues.length < 1) {
+            setHelperText("");
+            setErrorList(["This is a required field"]);
+          }
+        }}
+      >
+        Submit
+      </Button>
+      <Button
+        type="reset"
+        onClick={() => {
+          setSelectedValues([]);
+          setHelperText(helperTextExample);
+          setErrorList([]);
+        }}
+      >
+        Reset
+      </Button>
+    </Form>
+  );
+};
+
+export const LoadingMultipleSelectCombobox = () => {
+  const [loading, setLoading] = useState(true);
+  const options: string[] = ["Option 1", "Option 2", "Option 3", "Option 4"];
+
+  const fakeLoad = () => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
+
+  useEffect(() => {
+    fakeLoad();
+    return () => {};
+  });
+
+  return (
+    <Select isMultipleSelect isCombobox label={label} loading={loading}>
+      {options.map((option, index) => (
+        <SelectOption key={index}>{option}</SelectOption>
+      ))}
+    </Select>
+  );
+};
+
+export const ComboboxWithoutChildren = () => {
+  return (
+    <>
+      <Select label="Test Label" isCombobox />
+      <Select label="Test label" isCombobox isMultipleSelect />
+    </>
+  );
+};
+
+export const ComboboxWithWrongChildren = () => {
+  return (
+    <>
+      <Select isCombobox label="Test Label">
+        <p>Test wrong child</p>
+      </Select>
+      <Select isCombobox label="Test Label">
+        <SelectOption>Option 1</SelectOption>
+      </Select>
+      <Select isCombobox isMultipleSelect label="Test Label">
+        <p>Test wrong child</p>
+      </Select>
+      <Select isCombobox isMultipleSelect label="Test Label">
+        <SelectOption>Option 1</SelectOption>
+      </Select>
+    </>
+  );
+};

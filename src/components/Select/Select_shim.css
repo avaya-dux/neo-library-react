@@ -1,4 +1,7 @@
-.neo-form-control--disabled .neo-multiselect .neo-multiselect__header:after {
+.neo-form-control--disabled .neo-multiselect .neo-multiselect__header:after,
+.neo-form-control--disabled
+  .neo-multiselect
+  .neo-multiselect-combo__header:after {
   background-color: var(--input-disabled-bg);
 }
 
