@@ -16,16 +16,11 @@ export interface NavCategoryProps
   expanded?: boolean;
   disabled?: boolean;
   active?: boolean;
-  // selectedItem?: string;
 }
 
 const COLLAPSED_STYLE: string = "neo-leftnav__main";
 
-export function getNavBarClassNames(
-  expanded: boolean,
-  active: boolean
-  // selectedItem: boolean
-) {
+export function getNavBarClassNames(expanded: boolean, active: boolean) {
   const classNames = [COLLAPSED_STYLE];
 
   if (expanded) {
@@ -60,7 +55,6 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   expanded = false,
   disabled = false,
   active = false,
-  // selectedItem = false,
 }) => {
   const listClass = "neo-leftnav__nav";
   const [isExpanded, setIsExpanded] = useState(expanded);
