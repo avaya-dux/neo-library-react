@@ -6,9 +6,9 @@ export interface TimerProps {
 export const Timer = ({ agentState }: TimerProps) => {
   const [count, setCount] = useState(0);
   const timerIdRef = useRef<NodeJS.Timeout | null | number>(null);
-  const hour: number | string = Math.floor(count / 3600);
-  const minute: number | string = Math.floor((count - hour * 3600) / 60);
-  const seconds: number | string = count - (hour * 3600 + minute * 60);
+  const hour: number = Math.floor(count / 3600);
+  const minute: number = Math.floor((count - hour * 3600) / 60);
+  const seconds: number = count - (hour * 3600 + minute * 60);
 
   useEffect(() => {
     startTimer();
