@@ -14,7 +14,7 @@ export const NavCategoryTextOnly: Story<NavCategoryProps> = () => (
       <ul className="neo-leftnav__nav">
         <NavCategory active expanded={true} label="Text Only Category">
           <LinkItem> First Item </LinkItem>
-          <LinkItem> Second Item </LinkItem>
+          <LinkItem active={true}> Active Item </LinkItem>
           <LinkItem> Third Item </LinkItem>
         </NavCategory>
       </ul>
@@ -34,7 +34,7 @@ export const NavCategoryMultiple: Story<NavCategoryProps> = () => (
         </NavCategory>
         <NavCategory active expanded icon="call" label="Active">
           <LinkItem> Item 1 </LinkItem>
-          <LinkItem> Item 2 </LinkItem>
+          <LinkItem active={true}> Active Item 2 </LinkItem>
           <LinkItem> Item 3</LinkItem>
         </NavCategory>
         <NavCategory disabled icon="available" label="Disabled Category">
