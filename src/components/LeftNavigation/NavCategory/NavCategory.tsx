@@ -7,7 +7,6 @@ import {
 } from "react";
 import clsx from "clsx";
 
-// import { Button } from "components/Button";
 import { getIconClass, IconNamesType, Keys, rootBtnClass } from "utils";
 export interface NavCategoryProps
   extends React.AnchorHTMLAttributes<HTMLElement> {
