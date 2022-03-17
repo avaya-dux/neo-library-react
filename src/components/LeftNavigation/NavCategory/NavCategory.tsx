@@ -27,8 +27,6 @@ export function getNavBarClassNames(
   // selectedItem: boolean
 ) {
   const classNames = [COLLAPSED_STYLE];
-  console.log("expanded = ", expanded);
-  console.log("active = ", active);
 
   if (expanded) {
     classNames.push(` neo-leftnav__main--expand`);
@@ -71,13 +69,11 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
 
   useEffect(() => {
     const itemStyle = getNavBarClassNames(isExpanded, active);
-    console.log("getNavBarClassNames returns ", itemStyle);
     setNavItemClass(itemStyle);
   }, [isExpanded, active]);
 
   useEffect(() => {
     const iconStyles = getIconClass(icon);
-    console.log("getIconClass returns ", iconClass);
     setIconClass(iconStyles);
   }, [icon]);
 
