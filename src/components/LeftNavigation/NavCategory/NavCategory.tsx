@@ -10,7 +10,7 @@ import clsx from "clsx";
 // import { Button } from "components/Button";
 import { getIconClass, IconNamesType, Keys, rootBtnClass } from "utils";
 export interface NavCategoryProps
-  extends React.AnchorHTMLAttributes<HTMLLIElement> {
+  extends React.AnchorHTMLAttributes<HTMLElement> {
   label: string;
   icon?: IconNamesType;
   expanded?: boolean;
@@ -92,7 +92,7 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
     }
   };
   return (
-    <li className={navItemClass}>
+    <li className={navItemClass} disabled={disabled}>
       <button
         className={clsx(
           "neo-leftnav__category expandable",
