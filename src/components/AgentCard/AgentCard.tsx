@@ -5,7 +5,6 @@ import { Timer } from "./Timer";
 export interface AgentCardProps {
   agentName: string;
   agentStatus: "connected" | "not-ready" | "ready";
-  imgSrc?: string;
   avatar?: ReactElement<AvatarProps>;
 }
 
