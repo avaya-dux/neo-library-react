@@ -10,11 +10,13 @@ import {
   MouseEvent,
   MouseEventHandler,
   Ref,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
+import ClickAwayListener from "react-click-away-listener";
 
 import {
   handleBlurEvent,
@@ -188,7 +190,7 @@ export const Menu = forwardRef(
       setRootMenuOpen: setOpen,
     };
 
-    return (
+    const content = (
       <div
         className={getClassNames(isOpen, itemAlignment, className, openOnHover)}
         role="group"
@@ -212,6 +214,15 @@ export const Menu = forwardRef(
             )}
         </MenuContext.Provider>
       </div>
+    );
+    const closeMenu = useCallback(() => {
+      setOpen(false);
+    }, [setOpen]);
+
+    return closeOnBlur ? (
+      <ClickAwayListener onClickAway={closeMenu}>{content}</ClickAwayListener>
+    ) : (
+      content
     );
   }
 );
