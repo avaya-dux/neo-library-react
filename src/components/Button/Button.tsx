@@ -46,7 +46,7 @@ export const Button = forwardRef(
       const result = [
         rootBtnClass,
         getSizeClass(size),
-        ...getVariantClasses(variant, status),
+        ...getVariantClasses("none", variant, status),
       ];
 
       const animationClass = getAnimationClass(animation);

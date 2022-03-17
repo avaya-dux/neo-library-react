@@ -118,25 +118,44 @@ export const MultiLevelSubMenu = () => (
   </Menu>
 );
 
-// BUG-806: clicking both menus causes both to be open (with is bad)
-export const TwoMenus = () => (
-  <section style={{ display: "flex", justifyContent: "space-between" }}>
-    <Menu
-      menuRootElement={<MenuButton>Menu One</MenuButton>}
-      itemAlignment="left"
-    >
-      <MenuItem>Menu Item 1</MenuItem>
-      <MenuItem>Menu Item 2</MenuItem>
-      <MenuItem>Menu Item 3</MenuItem>
-    </Menu>
+const TwoMenuTemplate: Story<{
+  closeOnBlur: boolean;
+  onLeftMenuClose: () => void;
+  onRightMenuClose: () => void;
+}> = ({ closeOnBlur, onLeftMenuClose, onRightMenuClose }) => {
+  return (
+    <section style={{ display: "flex", justifyContent: "space-between" }}>
+      <Menu
+        closeOnBlur={closeOnBlur}
+        onMenuClose={onLeftMenuClose}
+        menuRootElement={<MenuButton>Menu One</MenuButton>}
+        itemAlignment="left"
+      >
+        <MenuItem>Menu Item 1</MenuItem>
+        <MenuItem>Menu Item 2</MenuItem>
+        <MenuItem>Menu Item 3</MenuItem>
+      </Menu>
 
-    <Menu
-      menuRootElement={<MenuButton>Menu Two</MenuButton>}
-      itemAlignment="right"
-    >
-      <MenuItem>Menu Item 1</MenuItem>
-      <MenuItem>Menu Item 2</MenuItem>
-      <MenuItem>Menu Item 3</MenuItem>
-    </Menu>
-  </section>
-);
+      <Menu
+        closeOnBlur={closeOnBlur}
+        onMenuClose={onRightMenuClose}
+        menuRootElement={<MenuButton>Menu Two</MenuButton>}
+        itemAlignment="right"
+      >
+        <MenuItem>Menu Item 1</MenuItem>
+        <MenuItem>Menu Item 2</MenuItem>
+      </Menu>
+    </section>
+  );
+};
+
+export const TwoMenus = TwoMenuTemplate.bind({});
+TwoMenus.args = {
+  closeOnBlur: true,
+  onLeftMenuClose: () => {
+    console.log("left menu closed");
+  },
+  onRightMenuClose: () => {
+    console.log("right menu closed");
+  },
+};
