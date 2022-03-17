@@ -3,48 +3,41 @@ import { AvatarProps } from "components/Avatar";
 import { ReactElement } from "react";
 import { Timer } from "./Timer";
 export interface AgentCardProps {
-  label: string;
-  agentState: "connected" | "not-ready" | "ready";
+  agentName: string;
+  agentStatus: "connected" | "not-ready" | "ready";
   imgSrc?: string;
   avatar?: ReactElement<AvatarProps>;
 }
 
-export const AgentCard = ({ label, agentState, avatar }: AgentCardProps) => {
-  const initialLetters = (name: string) => {
-    if (!name) {
-      return "";
-    }
-    const nameToArray = name.split(" ");
-    const initialsOfFirstLast =
-      nameToArray[0].charAt(0).toUpperCase() +
-      nameToArray[1].charAt(0).toUpperCase();
-    return initialsOfFirstLast;
-  };
-
+export const AgentCard = ({
+  agentName,
+  agentStatus,
+  avatar,
+}: AgentCardProps) => {
   return (
     <>
       <div
         className={clsx(
           "neo-nav-status",
-          agentState === "ready" && "neo-nav-status--ready",
-          agentState === "not-ready" && "neo-nav-status--not-ready",
-          agentState === "connected" && "neo-nav-status--connected"
+          agentStatus === "ready" && "neo-nav-status--ready",
+          agentStatus === "not-ready" && "neo-nav-status--not-ready",
+          agentStatus === "connected" && "neo-nav-status--connected"
         )}
       >
         <div className="neo-nav-status-info">
-          <p>{label}</p>
+          <p>{agentName}</p>
           <span
             className={clsx(
               "neo-label",
-              agentState === "ready" && "neo-label--ready",
-              agentState === "not-ready" && "neo-label--not-ready",
-              agentState === "connected" && "neo-label--connected"
+              agentStatus === "ready" && "neo-label--ready",
+              agentStatus === "not-ready" && "neo-label--not-ready",
+              agentStatus === "connected" && "neo-label--connected"
             )}
           >
-            {agentState === "ready" && "Ready"}
-            {agentState === "not-ready" && "Not Ready"}
-            {agentState === "connected" && "Connected"} {"  "}
-            <Timer agentState={agentState} />
+            {agentStatus === "ready" && "Ready"}
+            {agentStatus === "not-ready" && "Not Ready"}
+            {agentStatus === "connected" && "Connected"} {"  "}
+            <Timer agentStatus={agentStatus} />
           </span>
         </div>
         {avatar}

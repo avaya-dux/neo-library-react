@@ -1,8 +1,6 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { AgentCard, AgentCardProps } from "./AgentCard";
-import userpic from "./testimage.png";
 import { Avatar } from "components/Avatar";
-import { connected } from "process";
 
 export default {
   title: "Components/AgentCard",
@@ -27,8 +25,8 @@ export const AgentCardStory = () => (
   <>
     <div className="neo-nav">
       <AgentCard
-        label={"Barbara Barberson"}
-        agentState={"connected"}
+        agentName={"Barbara Barberson"}
+        agentStatus={"connected"}
         avatar={
           <Avatar
             variant="basic"
@@ -41,8 +39,8 @@ export const AgentCardStory = () => (
     <br />
     <div className="neo-nav">
       <AgentCard
-        label={"Barbara Barberson"}
-        agentState={"ready"}
+        agentName={"Barbara Barberson"}
+        agentStatus={"ready"}
         avatar={
           <Avatar
             variant="basic"
@@ -55,8 +53,8 @@ export const AgentCardStory = () => (
     <br />
     <div className="neo-nav">
       <AgentCard
-        label={"Barbara Barberson"}
-        agentState={"not-ready"}
+        agentName={"Barbara Barberson"}
+        agentStatus={"not-ready"}
         avatar={
           <Avatar
             variant="basic"
@@ -69,16 +67,16 @@ export const AgentCardStory = () => (
     <br />
     <div className="neo-nav">
       <AgentCard
-        label={"Barbara Barberson"}
-        agentState={"ready"}
+        agentName={"Barbara Barberson"}
+        agentStatus={"ready"}
         avatar={<Avatar variant="generic" label={"Barbara Barberson"} />}
       />
     </div>
     <br />
     <div className="neo-nav">
       <AgentCard
-        label={"Barbara Barberson"}
-        agentState={"ready"}
+        agentName={"Barbara Barberson"}
+        agentStatus={"ready"}
         avatar={
           <Avatar
             variant="generic"
@@ -92,22 +90,29 @@ export const AgentCardStory = () => (
 );
 
 const Template: Story<AgentCardProps> = ({
-  label,
-  agentState,
+  agentName,
+  agentStatus,
   imgSrc,
 }: AgentCardProps) => (
   <div className="neo-nav">
     <AgentCard
-      agentState={agentState}
-      label={label}
-      avatar={<Avatar variant="generic" size="md" image={imgSrc} />}
+      agentStatus={agentStatus}
+      agentName={agentName}
+      avatar={
+        <Avatar
+          variant="generic"
+          size="md"
+          image={imgSrc}
+          label="image of a kitten"
+        />
+      }
     />
   </div>
 );
 
 export const TemplatedAgentCard = Template.bind({});
 TemplatedAgentCard.args = {
-  label: "Barbara Barberson",
-  agentState: "connected",
+  agentName: "Barbara Barberson",
+  agentStatus: "connected",
   imgSrc: "https://placekitten.com/g/200/300",
 };

@@ -1,9 +1,9 @@
 import { useRef, useState, useEffect } from "react";
 export interface TimerProps {
-  agentState: string;
+  agentStatus: string;
 }
 
-export const Timer = ({ agentState }: TimerProps) => {
+export const Timer = ({ agentStatus }: TimerProps) => {
   const [count, setCount] = useState(0);
   const timerIdRef = useRef<NodeJS.Timeout | null | number>(null);
   const hour: number = Math.floor(count / 3600);
@@ -13,10 +13,9 @@ export const Timer = ({ agentState }: TimerProps) => {
   useEffect(() => {
     startTimer();
     return () => clearInterval(timerIdRef.current as NodeJS.Timeout);
-  }, [agentState]);
+  }, [agentStatus]);
 
   const startTimer = () => {
-    console.log("startTimer");
     setCount(0);
     if (timerIdRef.current) {
       clearInterval(timerIdRef.current as NodeJS.Timeout);
