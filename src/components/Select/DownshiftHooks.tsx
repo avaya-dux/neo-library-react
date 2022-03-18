@@ -11,6 +11,7 @@ export const DownshiftWithComboboxProps = (
   items: string[],
   id: string,
   setSelectedItems: Dispatch<SetStateAction<string[]>>,
+  setInputValue: Dispatch<SetStateAction<string[]>>,
   onSelectedValueChange?: (value: string[] | string) => any,
   loading?: boolean,
   disabled?: boolean
@@ -25,7 +26,7 @@ export const DownshiftWithComboboxProps = (
           return {
             ...changes,
             isOpen: !(disabled || loading),
-            highlightedIndex: state.highlightedIndex,
+            inputValue: state.inputValue,
           };
         default:
           return changes;
@@ -39,12 +40,12 @@ export const DownshiftWithComboboxProps = (
     },
     onInputValueChange: ({ inputValue }) => {
       inputValue
-        ? setSelectedItems(
+        ? setInputValue(
             items.filter((item) =>
               item.toLowerCase().startsWith(inputValue.toLowerCase())
             )
           )
-        : setSelectedItems(items);
+        : setInputValue(items);
     },
   });
 };

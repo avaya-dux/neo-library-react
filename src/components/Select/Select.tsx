@@ -93,6 +93,7 @@ export const Select: FunctionComponent<SelectProps> = ({
           items,
           id,
           setSelectedItems,
+          setInputItems,
           onSelectedValueChange,
           disabled,
           loading
