@@ -25,6 +25,7 @@ export const DownshiftWithComboboxProps = (
           return {
             ...changes,
             isOpen: !(disabled || loading),
+            highlightedIndex: state.highlightedIndex,
           };
         default:
           return changes;
@@ -133,6 +134,7 @@ export const DownshiftWithSelectProps = (
           return {
             ...changes,
             isOpen: !(disabled || loading),
+            highlightedIndex: state.highlightedIndex,
           };
         default:
           return changes;
