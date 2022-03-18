@@ -7,9 +7,9 @@ import {
 } from "react";
 import clsx from "clsx";
 
-import { getIconClass, IconNamesType, Keys, rootBtnClass } from "utils";
+import { genId, getIconClass, IconNamesType, Keys } from "utils";
 export interface NavCategoryProps
-  extends React.AnchorHTMLAttributes<HTMLElement> {
+  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   label: string;
   icon?: IconNamesType;
   expanded?: boolean;
@@ -23,11 +23,11 @@ export function getNavBarClassNames(expanded: boolean, active: boolean) {
   const classNames = [COLLAPSED_STYLE];
 
   if (expanded) {
-    classNames.push(` neo-leftnav__main--expand`);
+    classNames.push(`neo-leftnav__main--expand`);
   }
 
   if (active) {
-    classNames.push(` neo-leftnav__main--active`);
+    classNames.push(`neo-leftnav__main--active`);
   }
 
   return classNames.join(" ");
@@ -47,6 +47,7 @@ export function getNavBarClassNames(expanded: boolean, active: boolean) {
  * @see https://design.avayacloud.com/components/web/list-web
  */
 export const NavCategory: FunctionComponent<NavCategoryProps> = ({
+  id = genId(),
   children,
   label,
   icon,
@@ -59,6 +60,16 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   const [isExpanded, setIsExpanded] = useState(expanded);
   const [navItemClass, setNavItemClass] = useState(COLLAPSED_STYLE);
   const [iconClass, setIconClass] = useState("");
+
+  useEffect(() => {
+    // Programatically adding "disabled" attribute to avoid linter error in jsx markup
+    const el = document.getElementById(id);
+    if (disabled) {
+      el?.setAttribute("disabled", disabled.toString());
+    } else {
+      if (el?.hasAttribute("disabled")) el?.removeAttribute("disabled");
+    }
+  }, [disabled, id]);
 
   useEffect(() => {
     const itemStyle = getNavBarClassNames(isExpanded, active);
@@ -81,7 +92,7 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
     }
   };
   return (
-    <li className={navItemClass} disabled={disabled}>
+    <li id={id} className={navItemClass}>
       <button
         className={clsx(
           "neo-leftnav__category expandable",
