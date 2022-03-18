@@ -10,9 +10,9 @@ import { Dispatch, SetStateAction } from "react";
 export const DownshiftWithComboboxProps = (
   items: string[],
   id: string,
-  loading: boolean,
   setSelectedItems: Dispatch<SetStateAction<string[]>>,
   onSelectedValueChange?: (value: string[] | string) => any,
+  loading?: boolean,
   disabled?: boolean
 ) => {
   return useCombobox({
@@ -51,15 +51,14 @@ export const DownshiftWithComboboxProps = (
 export const DownshiftWithComboboxMultipleSelectProps = (
   items: string[],
   id: string,
-  loading: boolean,
   controlledInputValue: string,
   setControlledInputValue: Dispatch<SetStateAction<string>>,
   selectedItems: string[],
   setSelectedItems: Dispatch<SetStateAction<string[]>>,
   inputItems: string[],
   setInputItems: Dispatch<SetStateAction<string[]>>,
-  onSelectedValueChange?: (value: string[] | string) => any,
-  disabled?: boolean
+  disabled?: boolean,
+  loading?: boolean
 ) => {
   return useCombobox({
     items,
@@ -80,11 +79,6 @@ export const DownshiftWithComboboxMultipleSelectProps = (
           return {
             ...changes,
           };
-        // case useCombobox.stateChangeTypes.ItemMouseMove:
-        //   return {
-        //     ...changes,
-        //     isOpen: true,
-        //   };
         case useCombobox.stateChangeTypes.InputKeyDownEnter:
         case useCombobox.stateChangeTypes.ItemClick:
           return {
@@ -124,10 +118,10 @@ export const DownshiftWithComboboxMultipleSelectProps = (
 export const DownshiftWithSelectProps = (
   items: string[],
   id: string,
-  loading: boolean,
   setSelectedItems: Dispatch<SetStateAction<string[]>>,
   onSelectedValueChange?: (value: string[] | string) => any,
-  disabled?: boolean
+  disabled?: boolean,
+  loading?: boolean
 ) => {
   return useSelect({
     items,
@@ -156,10 +150,10 @@ export const DownshiftWithSelectProps = (
 export const DownshiftWithMultipleSelectProps = (
   items: string[],
   id: string,
-  loading: boolean,
   selectedItems: string[],
   setSelectedItems: Dispatch<SetStateAction<string[]>>,
-  disabled?: boolean
+  disabled?: boolean,
+  loading?: boolean
 ) => {
   return useSelect({
     items,

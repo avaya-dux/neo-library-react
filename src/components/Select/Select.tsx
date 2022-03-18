@@ -26,12 +26,6 @@ import {
 } from "./DownshiftHooks";
 import { UseComboboxReturnValue } from "downshift";
 
-/*
-
-Turning loading into optional prop
-
-*/
-
 export const Select: FunctionComponent<SelectProps> = ({
   isMultipleSelect,
   isCombobox,
@@ -86,40 +80,39 @@ export const Select: FunctionComponent<SelectProps> = ({
       ? DownshiftWithComboboxMultipleSelectProps(
           items,
           id,
-          loading,
           controlledInputValue,
           setControlledInputValue,
           selectedItems,
           setSelectedItems,
           inputItems,
           setInputItems,
-          onSelectedValueChange,
-          disabled
+          disabled,
+          loading
         )
       : DownshiftWithComboboxProps(
           items,
           id,
-          loading,
           setSelectedItems,
           onSelectedValueChange,
-          disabled
+          disabled,
+          loading
         )
     : isMultipleSelect
     ? DownshiftWithMultipleSelectProps(
         items,
         id,
-        loading,
         selectedItems,
         setSelectedItems,
-        disabled
+        disabled,
+        loading
       )
     : DownshiftWithSelectProps(
         items,
         id,
-        loading,
         setSelectedItems,
         onSelectedValueChange,
-        disabled
+        disabled,
+        loading
       );
 
   const {
@@ -187,7 +180,15 @@ export const Select: FunctionComponent<SelectProps> = ({
         aria-describedby={helperText && helperId}
       >
         {isCombobox ? (
-          <span {...getToggleButtonProps()} style={{ width: "100%" }}>
+          <span
+            {...getToggleButtonProps()}
+            className={
+              isCombobox
+                ? "neo-multiselect-combo__header"
+                : "neo-multiselect__header"
+            }
+            style={{ width: "100%" }}
+          >
             <input
               {...(getInputProps && getInputProps())}
               placeholder={placeholder}
@@ -209,7 +210,9 @@ export const Select: FunctionComponent<SelectProps> = ({
               paddingLeft: loading && "32px",
               backgroundColor: loading && "#f1f1f1",
             }}
-          ></button>
+          >
+            {selectText}
+          </button>
         )}
 
         {isCombobox ? (

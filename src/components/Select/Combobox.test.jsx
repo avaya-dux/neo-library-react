@@ -1,10 +1,7 @@
-import { composeStories } from "@storybook/testing-react";
 import { fireEvent, render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { Select } from "./Select";
-import { SelectOption } from "./SelectOption";
-import * as ComboboxStories from "./Combobox.stories";
 
 const randomString = () =>
   Math.random().toString(36).substring(2, 15) +
