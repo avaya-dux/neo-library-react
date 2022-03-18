@@ -188,12 +188,19 @@ export const Select: FunctionComponent<SelectProps> = ({
                 ? "neo-multiselect-combo__header"
                 : "neo-multiselect__header"
             }
-            style={{ width: "100%" }}
+            style={{
+              width: "100%",
+              paddingLeft: loading && "32px",
+              backgroundColor: loading && "#f1f1f1",
+            }}
           >
             <input
               {...(getInputProps && getInputProps())}
               placeholder={placeholder}
               className="neo-input"
+              style={{
+                paddingLeft: loading && "0px",
+              }}
             />
           </span>
         ) : (
