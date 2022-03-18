@@ -134,31 +134,3 @@ export const LoadingMultipleSelectCombobox = () => {
     </Select>
   );
 };
-
-export const ComboboxWithoutChildren = () => {
-  return (
-    <>
-      <Select label="Test Label" isCombobox />
-      <Select label="Test label" isCombobox isMultipleSelect />
-    </>
-  );
-};
-
-export const ComboboxWithWrongChildren = () => {
-  return (
-    <>
-      <Select isCombobox label="Test Label">
-        <p>Test wrong child</p>
-      </Select>
-      <Select isCombobox label="Test Label">
-        <SelectOption>Option 1</SelectOption>
-      </Select>
-      <Select isCombobox isMultipleSelect label="Test Label">
-        <p>Test wrong child</p>
-      </Select>
-      <Select isCombobox isMultipleSelect label="Test Label">
-        <SelectOption>Option 1</SelectOption>
-      </Select>
-    </>
-  );
-};
