@@ -1,11 +1,15 @@
 import { Meta } from "@storybook/react/types-6-0";
 import { MouseEvent } from "react";
+import log from "loglevel";
 
 import { NavCategory } from "components/LeftNavigation/NavCategory";
 import { LinkItem } from "./LinkItem";
 
+const logger = log.getLogger("ListItem");
+logger.disableAll();
+
 export default {
-  title: "Components/Left Navgation/Link Item",
+  title: "Components/Left Navigation/Link Item",
   component: LinkItem,
 } as Meta;
 
@@ -14,10 +18,10 @@ const handleClick = (e: MouseEvent) => {
   alert(`clicked on the item: ${e.currentTarget.textContent}`);
 };
 const handleHover = () => {
-  console.log("hovered on the item");
+  logger.debug("hovered on the item");
 };
 const handleFocus = () => {
-  console.log("foucused on the item");
+  logger.debug("foucused on the item");
 };
 
 export const LinkItems = () => (

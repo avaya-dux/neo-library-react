@@ -4,14 +4,14 @@ import { axe } from "jest-axe";
 
 import { LinkItem } from "../LinkItem";
 import { NavCategory } from "./NavCategory";
-import { NavCategoryTextOnly } from "./NavCategory.stories";
+import { TextOnly } from "./NavCategory.stories";
 
 describe("NavCategory", () => {
   describe("Render NavCategory: Text only", () => {
     let renderResult;
 
     beforeEach(() => {
-      renderResult = render(<NavCategoryTextOnly />);
+      renderResult = render(<TextOnly />);
     });
 
     it("should render ok", () => {

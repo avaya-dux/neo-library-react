@@ -8,7 +8,7 @@ export default {
   component: NavCategory,
 } as Meta<NavCategoryProps>;
 
-export const NavCategoryTextOnly: Story<NavCategoryProps> = () => (
+export const TextOnly: Story<NavCategoryProps> = () => (
   <div className="neo-leftnav--wrapper">
     <nav className="neo-leftnav">
       <ul className="neo-leftnav__nav">
@@ -22,7 +22,7 @@ export const NavCategoryTextOnly: Story<NavCategoryProps> = () => (
   </div>
 );
 
-export const NavCategoryMultiple: Story<NavCategoryProps> = () => (
+export const Multiple: Story<NavCategoryProps> = () => (
   <div className="neo-leftnav--wrapper">
     <nav className="neo-leftnav">
       <ul className="neo-leftnav__nav">
