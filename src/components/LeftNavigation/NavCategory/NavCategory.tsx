@@ -3,6 +3,8 @@ import {
   KeyboardEvent,
   MouseEvent,
   useEffect,
+  useMemo,
+  useRef,
   useState,
 } from "react";
 import clsx from "clsx";
@@ -47,7 +49,7 @@ export function getNavBarClassNames(expanded: boolean, active: boolean) {
  * @see https://design.avayacloud.com/components/web/list-web
  */
 export const NavCategory: FunctionComponent<NavCategoryProps> = ({
-  id = genId(),
+  id,
   children,
   label,
   icon,
@@ -56,6 +58,8 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   disabled = false,
   active = false,
 }) => {
+  const ref = useRef();
+  const internalId = useMemo(() => id || genId(), []);
   const listClass = "neo-leftnav__nav";
   const [isExpanded, setIsExpanded] = useState(expanded);
   const [navItemClass, setNavItemClass] = useState(COLLAPSED_STYLE);
@@ -63,7 +67,8 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
 
   useEffect(() => {
     // Programatically adding "disabled" attribute to avoid linter error in jsx markup
-    const el = document.getElementById(id);
+    // TODO: Remove this hook and replace this hack with a CSS class for li element in PR Part 3
+    const el = ref.current;
     if (disabled) {
       el?.setAttribute("disabled", disabled.toString());
     } else {
@@ -92,7 +97,7 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
     }
   };
   return (
-    <li id={id} className={navItemClass}>
+    <li ref={ref} id={internalId} className={navItemClass}>
       <button
         className={clsx(
           "neo-leftnav__category expandable",
