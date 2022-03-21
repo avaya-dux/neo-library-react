@@ -4,7 +4,7 @@ import {
   MouseEvent,
   useEffect,
   useMemo,
-  useRef,
+  // useRef,
   useState,
 } from "react";
 import clsx from "clsx";
@@ -58,7 +58,7 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   disabled = false,
   active = false,
 }) => {
-  const ref = useRef();
+  // const ref = useRef();
   const internalId = useMemo(() => id || genId(), []);
   const listClass = "neo-leftnav__nav";
   const [isExpanded, setIsExpanded] = useState(expanded);
