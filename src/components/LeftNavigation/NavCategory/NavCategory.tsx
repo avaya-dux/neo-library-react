@@ -97,6 +97,7 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
     }
   };
   return (
+    // eslint-disable-next-line
     <li disabled={disabled} id={internalId} className={navItemClass}>
       <button
         className={clsx(
