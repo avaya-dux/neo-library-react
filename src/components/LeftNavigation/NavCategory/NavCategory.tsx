@@ -65,16 +65,16 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   const [navItemClass, setNavItemClass] = useState(COLLAPSED_STYLE);
   const [iconClass, setIconClass] = useState("");
 
-  useEffect(() => {
-    // Programatically adding "disabled" attribute to avoid linter error in jsx markup
-    // TODO: Remove this hook and replace this hack with a CSS class for li element in PR Part 3
-    const el = ref.current;
-    if (disabled) {
-      el?.setAttribute("disabled", disabled.toString());
-    } else {
-      if (el?.hasAttribute("disabled")) el?.removeAttribute("disabled");
-    }
-  }, [disabled, id]);
+  // useEffect(() => {
+  //   // Programatically adding "disabled" attribute to avoid linter error in jsx markup
+  //   // TODO: Remove this hook and replace this hack with a CSS class for li element in PR Part 3
+  //   const el = ref.current;
+  //   if (disabled) {
+  //     el?.setAttribute("disabled", disabled.toString());
+  //   } else {
+  //     if (el?.hasAttribute("disabled")) el?.removeAttribute("disabled");
+  //   }
+  // }, [disabled, id]);
 
   useEffect(() => {
     const itemStyle = getNavBarClassNames(isExpanded, active);
@@ -97,7 +97,7 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
     }
   };
   return (
-    <li ref={ref} id={internalId} className={navItemClass}>
+    <li disabled={disabled} id={internalId} className={navItemClass}>
       <button
         className={clsx(
           "neo-leftnav__category expandable",
