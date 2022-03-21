@@ -4,7 +4,7 @@ import {
   MouseEvent,
   useEffect,
   useMemo,
-  // useRef,
+  useRef,
   useState,
 } from "react";
 import clsx from "clsx";
@@ -58,23 +58,23 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   disabled = false,
   active = false,
 }) => {
-  // const ref = useRef();
+  const ref = useRef();
   const internalId = useMemo(() => id || genId(), []);
   const listClass = "neo-leftnav__nav";
   const [isExpanded, setIsExpanded] = useState(expanded);
   const [navItemClass, setNavItemClass] = useState(COLLAPSED_STYLE);
   const [iconClass, setIconClass] = useState("");
 
-  // useEffect(() => {
-  //   // Programatically adding "disabled" attribute to avoid linter error in jsx markup
-  //   // TODO: Remove this hook and replace this hack with a CSS class for li element in PR Part 3
-  //   const el = ref.current;
-  //   if (disabled) {
-  //     el?.setAttribute("disabled", disabled.toString());
-  //   } else {
-  //     if (el?.hasAttribute("disabled")) el?.removeAttribute("disabled");
-  //   }
-  // }, [disabled, id]);
+  useEffect(() => {
+    // Programatically adding "disabled" attribute to avoid linter error in jsx markup
+    // TODO: Remove this hook and replace this hack with a CSS class for li element in PR Part 3
+    const el = ref.current;
+    if (disabled) {
+      el?.setAttribute("disabled", disabled.toString());
+    } else {
+      if (el?.hasAttribute("disabled")) el?.removeAttribute("disabled");
+    }
+  }, [disabled, id]);
 
   useEffect(() => {
     const itemStyle = getNavBarClassNames(isExpanded, active);
@@ -97,8 +97,7 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
     }
   };
   return (
-    // eslint-disable-next-line
-    <li disabled={disabled} id={internalId} className={navItemClass}>
+    <li ref={ref} id={internalId} className={navItemClass}>
       <button
         className={clsx(
           "neo-leftnav__category expandable",
