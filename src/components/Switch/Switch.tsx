@@ -1,91 +1,67 @@
-import { useMemo } from "react";
+import clsx from "clsx";
+import { FC, useMemo } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId } from "utils/accessibilityUtils";
 
-type SwitchChangeHandler = (
-  event: React.ChangeEvent<HTMLInputElement>,
-  checked: boolean
-) => any;
+import { SwitchProps } from "./SwitchTypes";
 
-export interface SwitchProps
-  extends Omit<React.HTMLAttributes<HTMLInputElement>, "onChange"> {
-  label?: string;
-  disabled?: boolean;
-  multiline?: boolean;
-  checked?: boolean;
-  error?: boolean;
-  required?: boolean;
-  onBlur?: React.FocusEventHandler;
-  onChange?: React.ChangeEventHandler<HTMLInputElement> | SwitchChangeHandler;
-  onFocus?: React.FocusEventHandler;
-}
+import "./Switch_shim.css";
 
 /**
- * Switches allow end-users to toggle between options such as “On/Off” and “Show/Hide”.
+ * A `Switch` allows end-users to toggle between a true/false state.
  *
  * @example
  * <Switch
- *   label="Enable Feature Name"
- *   multiline
+ *   label="Disabled"
  *   disabled
+ *   defautlChecked
+ * />
+ *
+ * <Switch
+ *   label="Controlled"
  *   checked={checked}
  *   onChange={(event, checked) => setChecked(checked)}
  * />
  *
- * @see https://design.avayacloud.com/components/web/switch-web
+ * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-switch--default
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement
  */
-export function Switch(props: SwitchProps) {
-  // use given id or generate a unique one for accessibility
-  const internalId = useMemo(() => props.id || genId(), [props.id]);
+export const Switch: FC<SwitchProps> = ({
+  children,
+  error,
+  id,
+  multiline,
+  onChange,
+
+  ...rest
+}) => {
+  const { disabled, required } = rest;
+  const internalId = useMemo(() => id || genId(), [id]);
 
   return (
-    <NeoInputWrapper
-      disabled={props.disabled}
-      error={props.error}
-      required={props.required}
-    >
-      <label {...getSwitchLabelProps(props)} htmlFor={internalId}>
+    <NeoInputWrapper disabled={disabled} error={error} required={required}>
+      <label
+        className={clsx(
+          "neo-switch",
+          multiline && "neo-switch--multiline",
+          disabled && "neo-switch--disabled"
+        )}
+        htmlFor={internalId}
+      >
         <input
-          {...getSwitchInputProps(props)}
+          {...rest}
           id={internalId}
-          // extend raw `ChangeEventHandler` with `checked` value as 2nd
-          onChange={(event) => props.onChange?.(event, event.target.checked)}
+          type="checkbox"
+          onChange={(event) => {
+            onChange?.(event, event.target.checked);
+          }}
         />
+
         <i className="neo-switch__icon" />
-        {props.label}
+
+        <span className="neo-switch-children">{children}</span>
       </label>
     </NeoInputWrapper>
   );
-}
-
-export function getSwitchLabelProps({ disabled, multiline }: SwitchProps = {}) {
-  const classNames = ["neo-switch"];
-
-  if (multiline === true) {
-    classNames.push("neo-switch--multiline");
-  }
-
-  if (disabled === true) {
-    classNames.push("neo-switch--disabled");
-  }
-
-  return {
-    className: classNames.join(" "),
-  };
-}
-
-export function getSwitchInputProps({
-  label,
-  disabled,
-  multiline,
-  checked,
-  ...rest
-}: SwitchProps = {}) {
-  return {
-    type: "checkbox",
-    checked,
-    disabled,
-    ...rest,
-  };
-}
+};
