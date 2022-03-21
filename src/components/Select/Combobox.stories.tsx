@@ -124,7 +124,7 @@ export const LoadingMultipleSelectCombobox = () => {
   useEffect(() => {
     fakeLoad();
     return () => {};
-  });
+  }, []);
 
   return (
     <Select isMultipleSelect isCombobox label={label} loading={loading}>

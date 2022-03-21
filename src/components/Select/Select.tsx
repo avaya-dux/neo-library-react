@@ -126,14 +126,10 @@ export const Select: FunctionComponent<SelectProps> = ({
   } = downshiftProps;
 
   const getComboboxProps = (downshiftProps as UseComboboxReturnValue<string>)
-    .getComboboxProps
-    ? (downshiftProps as UseComboboxReturnValue<string>).getComboboxProps
-    : null;
+    .getComboboxProps;
 
   const getInputProps = (downshiftProps as UseComboboxReturnValue<string>)
-    .getInputProps
-    ? (downshiftProps as UseComboboxReturnValue<string>).getInputProps
-    : null;
+    .getInputProps;
 
   useEffect(() => {
     if (values) {
