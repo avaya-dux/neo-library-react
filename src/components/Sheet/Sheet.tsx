@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { FC } from "react";
 
-import { genId, handleAccessbilityError } from "utils";
+import { genId, handleAccessbilityError, useIsInitialRender } from "utils";
 
 import "./Sheet_shim.css";
 
@@ -39,12 +39,15 @@ export const Sheet: FC<SheetProps> = ({
 
   ...rest
 }) => {
+  const initialRender = useIsInitialRender();
+
   if (!title && !buttons) {
     return (
       <BasicSheet
         className={className}
         open={open}
         id={id}
+        initialRender={initialRender}
         slide={slide}
         {...rest}
       >
@@ -65,7 +68,7 @@ export const Sheet: FC<SheetProps> = ({
         slide && "neo-slide",
         slide && open && "sheet-horizontal-slide-in",
         slide && !open && "sheet-horizontal-slide-out",
-        !slide && !open && "neo-display-none",
+        !open && (!slide || initialRender) && "neo-display-none",
         className
       )}
       role="dialog"
@@ -88,8 +91,9 @@ const BasicSheet: FC<{
   className?: string;
   open: boolean;
   id?: string;
+  initialRender: boolean;
   slide: boolean;
-}> = ({ className, open, slide, ...rest }) => {
+}> = ({ className, open, initialRender, slide, ...rest }) => {
   return (
     <div
       className={clsx(
@@ -97,7 +101,7 @@ const BasicSheet: FC<{
         slide && "neo-slide",
         slide && open && "sheet-horizontal-slide-in",
         slide && !open && "sheet-horizontal-slide-out",
-        !slide && !open && "neo-display-none",
+        !open && (!slide || initialRender) && "neo-display-none",
         className
       )}
       {...rest}
