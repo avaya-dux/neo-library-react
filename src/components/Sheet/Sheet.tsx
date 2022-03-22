@@ -72,7 +72,7 @@ export const Sheet: FC<SheetProps> = ({
         slide && "neo-slide",
         slide && open && "sheet-horizontal-slide-in-shim",
         slide && !open && "sheet-horizontal-slide-out-shim",
-        !open && initialRender && "neo-display-none",
+        !open && (initialRender || !slide) && "neo-display-none",
         className
       )}
       {...rest}
@@ -105,7 +105,7 @@ const BasicSheet: FC<{
         slide && "neo-slide",
         slide && open && "sheet-horizontal-slide-in-shim",
         slide && !open && "sheet-horizontal-slide-out-shim",
-        !open && initialRender && "neo-display-none",
+        !open && (initialRender || !slide) && "neo-display-none",
         className
       )}
       {...rest}
