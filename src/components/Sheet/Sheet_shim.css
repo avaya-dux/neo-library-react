@@ -1,14 +1,14 @@
 .sheet-horizontal-slide-in {
-  animation-name: slideInRight;
+  animation-name: slideInRightShim;
   animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 .sheet-horizontal-slide-out {
-  animation-name: slideOutRight;
+  animation-name: slideOutRightShim;
   animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
-@keyframes slideInRight {
+@keyframes slideInRightShim {
   0% {
     opacity: 0;
     transform: translateX(-30px);
@@ -18,7 +18,7 @@
   }
 }
 
-@keyframes slideOutRight {
+@keyframes slideOutRightShim {
   0% {
     opacity: 1;
   }
