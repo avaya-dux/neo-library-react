@@ -106,6 +106,16 @@ describe("Sheet", () => {
       const sheet = screen.getByRole("dialog");
       expect(sheet).toHaveClass("neo-display-none");
     });
+
+    it("when `open={false}`, a BasicSheet's contents are _not_ visible", () => {
+      render(<Sheet aria-label="basic sheet display none" open={false} />);
+
+      const sheet = screen.getByRole("dialog");
+      expect(sheet).toHaveClass("neo-slide");
+      expect(sheet).toHaveClass("neo-display-none");
+      expect(sheet).not.toHaveClass("sheet-horizontal-slide-in-shim");
+      expect(sheet).toHaveClass("sheet-horizontal-slide-out-shim");
+    });
   });
 
   describe("storybook tests", () => {
