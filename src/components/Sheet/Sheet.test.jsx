@@ -1,5 +1,5 @@
 import { composeStories } from "@storybook/testing-react";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { Button } from "components/Button";
@@ -11,11 +11,10 @@ const { Default, Templated } = composeStories(SheetStories);
 
 describe("Sheet", () => {
   it("fully renders without exploding", () => {
-    const id = "sheet-test";
-    const { getByTestId } = render(<Sheet data-testid={id}>content</Sheet>);
+    render(<Sheet aria-label="example sheet">content</Sheet>);
 
-    const rootElement = getByTestId(id);
-    expect(rootElement).toBeTruthy();
+    const rootElement = screen.getByRole("dialog");
+    expect(rootElement).toBeInTheDocument();
   });
 
   it("fully renders with a title without exploding", () => {
