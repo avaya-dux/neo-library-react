@@ -37,14 +37,11 @@ describe("Sheet", () => {
   });
 
   it("allows the passing of `<div>` props", () => {
-    const text = "content example";
-    const { getByText } = render(<Sheet style={{ width: 100 }}>{text}</Sheet>);
-    const { getByRole } = render(
-      <Sheet title="full sheet" style={{ width: 100 }} />
-    );
+    render(<Sheet style={{ width: 100 }}>basic sheet example</Sheet>);
+    render(<Sheet title="full sheet" style={{ width: 100 }} />);
 
-    const basicSheetRootElement = getByText(text);
-    const sheetRootElement = getByRole("dialog");
+    const [basicSheetRootElement, sheetRootElement] =
+      screen.getAllByRole("dialog");
 
     expect(basicSheetRootElement).toHaveStyle("width: 100px");
     expect(sheetRootElement).toHaveStyle("width: 100px");
@@ -59,7 +56,7 @@ describe("Sheet", () => {
   });
 
   it("passes basic axe compliance", async () => {
-    const { container } = render(<Sheet />);
+    const { container } = render(<Sheet title="sheet title" />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
