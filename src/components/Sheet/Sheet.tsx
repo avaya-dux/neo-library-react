@@ -57,11 +57,16 @@ export const Sheet: FC<SheetProps> = ({
     handleAccessbilityError(
       "If you add buttons, you must also provide a title"
     );
+  } else if (!title && !rest["aria-label"] && !rest["aria-labelledby"]) {
+    handleAccessbilityError(
+      "Sheet must have an have an accessible name. Please add a `title`, `aria-label`, or `aria-labelledby` prop."
+    );
   }
 
   return (
     <div
       aria-labelledby={id}
+      role="dialog"
       className={clsx(
         "neo-sheet sheet--custom",
         slide && "neo-slide",
@@ -70,7 +75,6 @@ export const Sheet: FC<SheetProps> = ({
         !open && initialRender && "neo-display-none",
         className
       )}
-      role="dialog"
       {...rest}
     >
       <div className="neo-sheet__header">
@@ -95,6 +99,7 @@ const BasicSheet: FC<{
 }> = ({ className, open, initialRender, slide, ...rest }) => {
   return (
     <div
+      role="dialog"
       className={clsx(
         "neo-sheet",
         slide && "neo-slide",
