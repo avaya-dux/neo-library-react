@@ -65,9 +65,9 @@ export const Sheet: FC<SheetProps> = ({
       className={clsx(
         "neo-sheet sheet--custom",
         slide && "neo-slide",
-        slide && open && "sheet-horizontal-slide-in",
-        slide && !open && "sheet-horizontal-slide-out",
-        !open && (!slide || initialRender) && "neo-display-none",
+        slide && open && "sheet-horizontal-slide-in-shim",
+        slide && !open && "sheet-horizontal-slide-out-shim",
+        !open && initialRender && "neo-display-none",
         className
       )}
       role="dialog"
@@ -98,9 +98,9 @@ const BasicSheet: FC<{
       className={clsx(
         "neo-sheet",
         slide && "neo-slide",
-        slide && open && "sheet-horizontal-slide-in",
-        slide && !open && "sheet-horizontal-slide-out",
-        !open && (!slide || initialRender) && "neo-display-none",
+        slide && open && "sheet-horizontal-slide-in-shim",
+        slide && !open && "sheet-horizontal-slide-out-shim",
+        !open && initialRender && "neo-display-none",
         className
       )}
       {...rest}
