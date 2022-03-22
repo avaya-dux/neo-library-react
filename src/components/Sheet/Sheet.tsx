@@ -40,7 +40,15 @@ export const Sheet: FC<SheetProps> = ({
 }) => {
   const initialRender = useIsInitialRender();
 
-  if (!title && !buttons) {
+  if (!title && !rest["aria-label"] && !rest["aria-labelledby"]) {
+    handleAccessbilityError(
+      "Sheet must have an have an accessible name. Please add a `title`, `aria-label`, or `aria-labelledby` prop."
+    );
+  } else if (!title && buttons) {
+    handleAccessbilityError(
+      "If you add buttons, you must also provide a title"
+    );
+  } else if (!title && !buttons) {
     return (
       <BasicSheet
         className={className}
@@ -52,14 +60,6 @@ export const Sheet: FC<SheetProps> = ({
       >
         {children}
       </BasicSheet>
-    );
-  } else if (!title && buttons) {
-    handleAccessbilityError(
-      "If you add buttons, you must also provide a title"
-    );
-  } else if (!title && !rest["aria-label"] && !rest["aria-labelledby"]) {
-    handleAccessbilityError(
-      "Sheet must have an have an accessible name. Please add a `title`, `aria-label`, or `aria-labelledby` prop."
     );
   }
 
