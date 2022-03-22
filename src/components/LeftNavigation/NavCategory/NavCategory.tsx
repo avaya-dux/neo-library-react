@@ -4,14 +4,13 @@ import {
   MouseEvent,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
 import clsx from "clsx";
 
 import { genId, getIconClass, IconNamesType, Keys } from "utils";
 export interface NavCategoryProps
-  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
   icon?: IconNamesType;
   expanded?: boolean;
@@ -21,7 +20,11 @@ export interface NavCategoryProps
 
 const COLLAPSED_STYLE: string = "neo-leftnav__main";
 
-export function getNavBarClassNames(expanded: boolean, active: boolean) {
+export function getNavBarClassNames(
+  expanded: boolean,
+  active: boolean,
+  disabled: boolean
+) {
   const classNames = [COLLAPSED_STYLE];
 
   if (expanded) {
@@ -30,6 +33,10 @@ export function getNavBarClassNames(expanded: boolean, active: boolean) {
 
   if (active) {
     classNames.push(`neo-leftnav__main--active`);
+  }
+
+  if (disabled) {
+    classNames.push(`neo-leftnav__disabled`);
   }
 
   return classNames.join(" ");
@@ -58,7 +65,6 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   disabled = false,
   active = false,
 }) => {
-  const ref = useRef();
   const internalId = useMemo(() => id || genId(), []);
   const listClass = "neo-leftnav__nav";
   const [isExpanded, setIsExpanded] = useState(expanded);
@@ -66,20 +72,9 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   const [iconClass, setIconClass] = useState("");
 
   useEffect(() => {
-    // Programatically adding "disabled" attribute to avoid linter error in jsx markup
-    // TODO: Remove this hook and replace this hack with a CSS class for li element in PR Part 3
-    const el = ref.current;
-    if (disabled) {
-      el?.setAttribute("disabled", disabled.toString());
-    } else {
-      if (el?.hasAttribute("disabled")) el?.removeAttribute("disabled");
-    }
-  }, [disabled, id]);
-
-  useEffect(() => {
-    const itemStyle = getNavBarClassNames(isExpanded, active);
+    const itemStyle = getNavBarClassNames(isExpanded, active, disabled);
     setNavItemClass(itemStyle);
-  }, [isExpanded, active]);
+  }, [isExpanded, active, disabled]);
 
   useEffect(() => {
     const iconStyles = getIconClass(icon);
@@ -97,7 +92,7 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
     }
   };
   return (
-    <li ref={ref} id={internalId} className={navItemClass}>
+    <li id={internalId} className={navItemClass}>
       <button
         className={clsx(
           "neo-leftnav__category expandable",
