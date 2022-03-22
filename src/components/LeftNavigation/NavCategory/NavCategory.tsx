@@ -18,28 +18,21 @@ export interface NavCategoryProps
   active?: boolean;
 }
 
-const COLLAPSED_STYLE: string = "neo-leftnav__main";
+const LEFTNAV_CATEGORY_STYLE: string = "neo-leftnav__main";
 
 export function getNavBarClassNames(
   expanded: boolean,
   active: boolean,
   disabled: boolean
 ) {
-  const classNames = [COLLAPSED_STYLE];
+  const classNames = clsx(
+    LEFTNAV_CATEGORY_STYLE,
+    expanded && "neo-leftnav__main--expand",
+    active && "neo-leftnav__main--active",
+    disabled && "neo-leftnav__disabled"
+  );
 
-  if (expanded) {
-    classNames.push(`neo-leftnav__main--expand`);
-  }
-
-  if (active) {
-    classNames.push(`neo-leftnav__main--active`);
-  }
-
-  if (disabled) {
-    classNames.push(`neo-leftnav__disabled`);
-  }
-
-  return classNames.join(" ");
+  return classNames;
 }
 
 /**
@@ -68,7 +61,7 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   const internalId = useMemo(() => id || genId(), []);
   const listClass = "neo-leftnav__nav";
   const [isExpanded, setIsExpanded] = useState(expanded);
-  const [navItemClass, setNavItemClass] = useState(COLLAPSED_STYLE);
+  const [navItemClass, setNavItemClass] = useState(LEFTNAV_CATEGORY_STYLE);
   const [iconClass, setIconClass] = useState("");
 
   useEffect(() => {
