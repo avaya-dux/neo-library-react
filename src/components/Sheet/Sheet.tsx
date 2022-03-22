@@ -15,11 +15,10 @@ export interface SheetProps
 }
 
 /**
- * This component is used as a container
- * TODO: connect with Matt about how/why/where to use sheet(s)
+ * This component is used as a container of components that are dismisable.
  *
  * @example
- * <Sheet id="my-sheet">
+ * <Sheet open={isOpen} slide={true} title="Mini Form">
  *  <Form>
  *   <TextInput />
  *   <TextInput />
