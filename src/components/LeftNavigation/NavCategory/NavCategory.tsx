@@ -57,6 +57,7 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   expanded = false,
   disabled = false,
   active = false,
+  ...rest
 }) => {
   const internalId = useMemo(() => id || genId(), []);
   const listClass = "neo-leftnav__nav";
@@ -98,6 +99,7 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
         onClick={onExpand}
         onKeyDown={handleKeyDown}
         aria-label={label}
+        {...rest}
       >
         {label}
       </button>
