@@ -115,15 +115,10 @@ export const LoadingMultipleSelectCombobox = () => {
   const [loading, setLoading] = useState(true);
   const options: string[] = ["Option 1", "Option 2", "Option 3", "Option 4"];
 
-  const fakeLoad = () => {
+  useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 2000);
-  };
-
-  useEffect(() => {
-    fakeLoad();
-    return () => {};
   }, []);
 
   return (

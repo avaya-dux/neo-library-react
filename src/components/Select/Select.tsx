@@ -167,7 +167,7 @@ export const Select: FunctionComponent<SelectProps> = ({
       <label {...getLabelProps()}>{label}</label>
 
       <div
-        {...(getComboboxProps && getComboboxProps())}
+        {...getComboboxProps?.()}
         className={clsx(
           "neo-multiselect",
           disabled && "neo-multiselect--disabled",
@@ -191,7 +191,7 @@ export const Select: FunctionComponent<SelectProps> = ({
             }}
           >
             <input
-              {...(getInputProps && getInputProps())}
+              {...getInputProps?.()}
               placeholder={placeholder}
               className="neo-input"
               style={{
