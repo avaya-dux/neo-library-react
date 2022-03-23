@@ -19,7 +19,6 @@ export const Timer = ({ agentStatus }: TimerProps) => {
     setCount(0);
     if (timerIdRef.current) {
       clearInterval(timerIdRef.current as NodeJS.Timeout);
-      timerIdRef.current = 0;
     }
     timerIdRef.current = setInterval(() => setCount((c) => c + 1), 1000);
   };
