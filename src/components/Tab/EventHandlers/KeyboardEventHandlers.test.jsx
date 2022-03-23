@@ -279,7 +279,8 @@ describe("Tab Keyboard event handlers", () => {
         [],
         0,
         setActiveTabIndex,
-        setActivePanelIndex
+        setActivePanelIndex,
+        ref
       );
       expect(setActiveTabIndex).not.toBeCalled();
       expect(setActivePanelIndex).not.toBeCalled();
@@ -295,7 +296,7 @@ describe("Tab Keyboard event handlers", () => {
         };
       });
       it("should call activateAnotherTabAndPanel", () => {
-        testCloseElementKeyDown(e, setActiveTabIndex, setActivePanelIndex);
+        testCloseElementKeyDown(e, setActiveTabIndex, setActivePanelIndex, ref);
       });
     });
     describe("SPACE", () => {
@@ -308,7 +309,85 @@ describe("Tab Keyboard event handlers", () => {
         };
       });
       it("should call activateAnotherTabAndPanel", () => {
-        testCloseElementKeyDown(e, setActiveTabIndex, setActivePanelIndex);
+        testCloseElementKeyDown(e, setActiveTabIndex, setActivePanelIndex, ref);
+      });
+    });
+    describe("TAB", () => {
+      it("Tab moves focus from close button to next available tab", () => {
+        getNextTabIndex.mockReturnValue(1);
+        const e = {
+          key: Keys.TAB,
+          shiftKey: false,
+          stopPropagation: jest.fn(),
+          preventDefault: jest.fn(),
+        };
+        handleCloseElementKeyDownEvent(
+          e,
+          [{ name: "tab1" }, { name: "tab2" }],
+          0,
+          setActiveTabIndex,
+          setActivePanelIndex,
+          ref
+        );
+        expect(setActiveTabIndex).toBeCalledWith(1);
+        expect(setActivePanelIndex).not.toBeCalled();
+        expect(ref.current.focus).not.toBeCalled();
+      });
+      it("Tab moves focus from close button to current tab if no next tab", () => {
+        getNextTabIndex.mockReturnValue(0);
+        const e = {
+          key: Keys.TAB,
+          shiftKey: false,
+          stopPropagation: jest.fn(),
+          preventDefault: jest.fn(),
+        };
+        handleCloseElementKeyDownEvent(
+          e,
+          [{ name: "tab1" }],
+          0,
+          setActiveTabIndex,
+          setActivePanelIndex,
+          ref
+        );
+        expect(setActiveTabIndex).not.toBeCalled();
+        expect(setActivePanelIndex).not.toBeCalled();
+        expect(ref.current.focus).toBeCalled();
+      });
+      it("Shfit+Tab moves focus from close button to current tab", () => {
+        getNextTabIndex.mockReturnValue(0);
+        const e = {
+          key: Keys.TAB,
+          shiftKey: true,
+          stopPropagation: jest.fn(),
+          preventDefault: jest.fn(),
+        };
+        handleCloseElementKeyDownEvent(
+          e,
+          [{ name: "tab1" }],
+          0,
+          setActiveTabIndex,
+          setActivePanelIndex,
+          ref
+        );
+        expect(setActiveTabIndex).not.toBeCalled();
+        expect(setActivePanelIndex).not.toBeCalled();
+        expect(ref.current.focus).toBeCalled();
+      });
+    });
+    describe("Other Key", () => {
+      it("should return false", () => {
+        expect(
+          handleCloseElementKeyDownEvent(
+            { key: Keys.DOWN },
+            getTabProps(),
+            0,
+            setActiveTabIndex,
+            setActivePanelIndex,
+            ref
+          )
+        ).toBeFalsy();
+        expect(setActiveTabIndex).not.toBeCalled();
+        expect(setActivePanelIndex).not.toBeCalled();
       });
     });
   });
@@ -336,13 +415,15 @@ function getTabProps() {
   ];
 }
 function testCloseElementKeyDown(e, setActiveTabIndex, setActivePanelIndex) {
-  handleCloseElementKeyDownEvent(
-    e,
-    [{ name: "tab1" }],
-    0,
-    setActiveTabIndex,
-    setActivePanelIndex
-  );
+  expect(
+    handleCloseElementKeyDownEvent(
+      e,
+      [{ name: "tab1" }],
+      0,
+      setActiveTabIndex,
+      setActivePanelIndex
+    )
+  ).toBeTruthy();
   expect(activateAnotherTabAndPanel).toBeCalled();
   expect(e.preventDefault).toBeCalled();
   expect(e.stopPropagation).toBeCalled();
