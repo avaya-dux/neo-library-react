@@ -8,7 +8,6 @@ import "./Sheet_shim.css";
 type EnforcedAccessibleLabel =
   | {
       title: string | JSX.Element;
-      buttons: JSX.Element[];
       "aria-label"?: string;
       "aria-labelledby"?: string;
     }
