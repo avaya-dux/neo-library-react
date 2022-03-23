@@ -28,3 +28,4 @@ export * from "./Table";
 export * from "./TextInput";
 export * from "./ThemeProvider";
 export * from "./Tooltip";
+export * from "./TopLinkItem";
