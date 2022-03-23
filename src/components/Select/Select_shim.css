@@ -1,3 +1,15 @@
+.neo-form-control--disabled .neo-multiselect .neo-multiselect__header:after,
+.neo-form-control--disabled
+  .neo-multiselect
+  .neo-multiselect-combo__header:after {
+  background-color: var(--input-disabled-bg);
+}
+
+.neo-multiselect__content:empty {
+  border: none;
+  box-shadow: none;
+}
+
 .neo-multiselect__content .neo-check + .neo-check__label:not(last-child) {
   margin-right: 0;
 }

@@ -72,11 +72,12 @@ export const handleCloseElementKeyDownEvent = (
   tabs: InternalTabProps[],
   activeTabIndex: number,
   setActiveTabIndex: Dispatch<SetStateAction<number>>,
-  setActivePanelIndex: Dispatch<SetStateAction<number>>
+  setActivePanelIndex: Dispatch<SetStateAction<number>>,
+  ref: RefObject<HTMLAnchorElement>
 ) => {
   logger.debug(`handle close element key event ${e.key} on ${activeTabIndex}`);
   if (tabs.length === 0) {
-    return;
+    return false;
   }
   switch (e.key) {
     case Keys.ENTER:
@@ -89,8 +90,28 @@ export const handleCloseElementKeyDownEvent = (
         setActivePanelIndex
       );
       e.stopPropagation();
-      break;
+      return true;
+    case Keys.TAB:
+      e.preventDefault();
+      logger.debug("shift pressed is", e.shiftKey);
+      if (e.shiftKey) {
+        focus(ref, tabs[activeTabIndex].id);
+      } else {
+        const activated = activateNextTab(
+          tabs,
+          activeTabIndex,
+          setActiveTabIndex
+        );
+        if (!activated) {
+          logger.debug("no next tab to activate, return focus to this tab");
+          focus(ref, tabs[activeTabIndex].id);
+        }
+      }
+      e.stopPropagation();
+      return false;
   }
+  logger.debug("not handled key", e.key);
+  return false;
 };
 
 export const handleKeyDownEvent = (
