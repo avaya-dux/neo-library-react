@@ -40,7 +40,7 @@ export const Sheet: FC<SheetProps> = ({
 }) => {
   const initialRender = useIsInitialRender();
 
-  if (!title && !rest["aria-label"] && !rest["aria-labelledby"]) {
+  if (!(title || rest["aria-label"] || rest["aria-labelledby"])) {
     handleAccessbilityError(
       "Sheet must have an have an accessible name. Please add a `title`, `aria-label`, or `aria-labelledby` prop."
     );
