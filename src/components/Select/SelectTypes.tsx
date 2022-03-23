@@ -13,6 +13,7 @@ export type MultipleSelectOptionProps = {
 };
 export interface SelectProps {
   isMultipleSelect?: boolean;
+  isCombobox?: boolean;
   label: string;
   placeholder?: string;
   disabled?: boolean;
