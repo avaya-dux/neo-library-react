@@ -5,14 +5,32 @@ import { genId, handleAccessbilityError, useIsInitialRender } from "utils";
 
 import "./Sheet_shim.css";
 
-export interface SheetProps
+type EnforcedAccessibleLabel =
+  | {
+      title: string | JSX.Element;
+      buttons: JSX.Element[];
+      "aria-label"?: string;
+      "aria-labelledby"?: string;
+    }
+  | {
+      title?: string | JSX.Element;
+      "aria-label": string;
+      "aria-labelledby"?: string;
+    }
+  | {
+      title?: string | JSX.Element;
+      "aria-label"?: string;
+      "aria-labelledby": string;
+    };
+interface BaseSheetProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   open?: boolean;
   buttons?: JSX.Element[];
   id?: string;
   slide?: boolean;
-  title?: string | JSX.Element;
 }
+
+export type SheetProps = BaseSheetProps & EnforcedAccessibleLabel;
 
 /**
  * This component is used as a container of components that are dismisable.
