@@ -5,10 +5,6 @@ import { Timer } from "./Timer";
 export interface AgentCardProps {
   agentName: string;
   agentStatus: "connected" | "not-ready" | "ready";
-<<<<<<< HEAD
-  // imgSrc?: string;
-=======
->>>>>>> e4e12e361ddb6aba5d38656d2d6fb5c89aba4eda
   avatar?: ReactElement<AvatarProps>;
 }
 
