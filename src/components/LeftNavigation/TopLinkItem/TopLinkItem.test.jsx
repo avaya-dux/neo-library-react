@@ -42,11 +42,7 @@ describe("TopLinkItem", () => {
   it("active state of top link item with icon", () => {
     const { container } = render(
       <ul>
-        <TopLinkItem
-          label={TopLinkItemLabel}
-          active
-          icon="address-book"
-        />
+        <TopLinkItem label={TopLinkItemLabel} active icon="address-book" />
       </ul>
     );
     const linkElement = container.querySelector(".neo-icon-address-book");
@@ -56,7 +52,7 @@ describe("TopLinkItem", () => {
   it("normal state of top link item with icon", () => {
     const { container } = render(
       <ul>
-        <TopLinkItem label={TopLinkItemLabel}  icon="address-book" />
+        <TopLinkItem label={TopLinkItemLabel} icon="address-book" />
       </ul>
     );
     const linkElement = container.querySelector(".neo-icon-address-book");
@@ -73,6 +69,34 @@ describe("TopLinkItem", () => {
     const linkElement = getByText(TopLinkItemLabel);
     fireEvent.click(linkElement);
     expect(mockedFunction).toHaveBeenCalled();
+  });
+
+  it("uses an `<button>` when it _is_ disabled", () => {
+    const { container } = render(
+      <ul>
+        <TopLinkItem label={TopLinkItemLabel} disabled />
+      </ul>
+    );
+    const linkElement = container.querySelector("a");
+    const buttonElement = container.querySelector("button");
+    expect(linkElement).not.toBeInTheDocument();
+    expect(buttonElement).toBeInTheDocument();
+  });
+
+  it("should not simulate onclick function for disable link", () => {
+    const mockedFunction = jest.fn();
+    const { getByText } = render(
+      <ul>
+        <TopLinkItem
+          onClick={mockedFunction}
+          label={TopLinkItemLabel}
+          disabled
+        />
+      </ul>
+    );
+    const linkElement = getByText(TopLinkItemLabel);
+    fireEvent.click(linkElement);
+    expect(mockedFunction).not.toHaveBeenCalled();
   });
 
   describe("storybook tests", () => {

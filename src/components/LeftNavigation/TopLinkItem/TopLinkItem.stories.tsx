@@ -15,24 +15,15 @@ export const TopLinkItemStory = () => (
     <div className="neo-leftnav--wrapper">
       <nav className="neo-leftnav">
         <ul className="neo-leftnav__nav">
+          <TopLinkItem label="Normal Link" onClick={handleClick} />
+          <TopLinkItem active label="Active Link" onClick={handleClick} />
           <TopLinkItem
-            active={false}
-            label="Normal Link"
-            onClick={handleClick}
-          />
-          <TopLinkItem
-            active={true}
-            label="Active Link"
-            onClick={handleClick}
-          />
-          <TopLinkItem
-            active={false}
             label="Normal Link with Icon"
             icon="address-book"
             onClick={handleClick}
           />
           <TopLinkItem
-            active={true}
+            active
             label="Active Link with Icon"
             icon="address-book"
             onClick={handleClick}
