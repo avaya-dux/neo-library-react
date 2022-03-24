@@ -8,6 +8,7 @@ import "./Sheet_shim.css";
 type EnforcedAccessibleLabel =
   | {
       title: string | JSX.Element;
+      buttons?: JSX.Element[];
       "aria-label"?: string;
       "aria-labelledby"?: string;
     }
@@ -24,7 +25,6 @@ type EnforcedAccessibleLabel =
 interface BaseSheetProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   open?: boolean;
-  buttons?: JSX.Element[];
   id?: string;
   slide?: boolean;
 }
@@ -45,7 +45,6 @@ export type SheetProps = BaseSheetProps & EnforcedAccessibleLabel;
  * @see https://design.avayacloud.com/components/web/sheet-web
  */
 export const Sheet: FC<SheetProps> = ({
-  buttons,
   children,
   className,
   open = true,
@@ -56,6 +55,7 @@ export const Sheet: FC<SheetProps> = ({
   ...rest
 }) => {
   const initialRender = useIsInitialRender();
+  const buttons = "buttons" in rest ? rest.buttons : null;
 
   if (!(title || rest["aria-label"] || rest["aria-labelledby"])) {
     handleAccessbilityError(
