@@ -49,11 +49,11 @@ export const Default = () => {
         </p>
       </Sheet>
 
-      <Sheet open={sheetTwoOpen}>
+      <Sheet open={sheetTwoOpen} aria-label="sheet two">
         <p>sheet two content (no header/title, just content)</p>
       </Sheet>
 
-      <Sheet open={sheetThreeOpen}>
+      <Sheet open={sheetThreeOpen} aria-label="sheet three">
         <p>sheet three content (no header/title, just content)</p>
       </Sheet>
     </main>

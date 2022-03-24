@@ -84,14 +84,17 @@ export const InternalTab = ({
     e: KeyboardEvent<HTMLAnchorElement>
   ) => {
     logger.debug(`Close button keyboard event, tab index is ${tabIndex}`);
-    handleCloseElementKeyDownEvent(
+    const tabClosed = handleCloseElementKeyDownEvent(
       e,
       tabs,
       activeTabIndex,
       setActiveTabIndex,
-      setActivePanelIndex
+      setActivePanelIndex,
+      ref
     );
-    onClose(tabIndex);
+    if (tabClosed) {
+      onClose(tabIndex);
+    }
   };
 
   const handleAnchorFocusEvent: FocusEventHandler = (
@@ -139,7 +142,7 @@ export const InternalTab = ({
           tabIndex={active && !disabled ? 0 : -1}
           onKeyDown={handleCloseKeyDownEvent}
           onClick={handleCloseMouseClickEvent}
-          aria-label="close tab"
+          aria-label="enter or space to close this tab; tab again to move focus to next tab; shift tab returns focus to this tab;"
         ></span>
       )}
     </>

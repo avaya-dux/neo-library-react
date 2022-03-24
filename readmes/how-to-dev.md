@@ -8,7 +8,7 @@
 
 - use [NodeJS LTS](https://nodejs.org/) (preferably via nvm, [mac nvm](https://tecadmin.net/install-nvm-macos-with-homebrew/) | [windows nvm](https://github.com/coreybutler/nvm-windows#node-version-manager-nvm-for-windows))
 - run `npm install -g yarn`
-- run `yarn`, which will install all dependancies, run linting, build the project, and run jest+cypress tests
+- run `yarn all`, which will install all dependancies, run linting, build the project, and run jest+cypress tests
 - to see existing components, run `yarn storybook`, else you can the section "development linking"
 
 ## development linking
@@ -27,7 +27,6 @@ cd ~/other-project
 # create the symlink to your local development package (note, you MUST use `yarn`, NOT `npm`)
 yarn link @avaya/neo-react
 ```
-
 ## to build a production version of the library
 
 ```
