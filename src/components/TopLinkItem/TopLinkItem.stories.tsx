@@ -28,16 +28,20 @@ export const TopLinkItemStory = () => (
           <TopLinkItem
             active={false}
             label="Normal Link with Icon"
-            icon={true}
-            iconName="address-book"
+            icon="address-book"
             onClick={handleClick}
           />
           <TopLinkItem
             active={true}
             label="Active Link with Icon"
-            icon={true}
-            iconName="address-book"
+            icon="address-book"
             onClick={handleClick}
+          />
+          <TopLinkItem
+            label="Normal Link with Icon"
+            icon="address-book"
+            onClick={handleClick}
+            disabled
           />
         </ul>
       </nav>

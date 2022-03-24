@@ -92,7 +92,6 @@ export const AgentCardStory = () => (
 const Template: Story<AgentCardProps> = ({
   agentName,
   agentStatus,
-  imgSrc,
 }: AgentCardProps) => (
   <div className="neo-nav">
     <AgentCard
@@ -102,7 +101,7 @@ const Template: Story<AgentCardProps> = ({
         <Avatar
           variant="generic"
           size="md"
-          image={imgSrc}
+          image="https://placekitten.com/g/200/300"
           label="image of a kitten"
         />
       }
@@ -114,5 +113,4 @@ export const TemplatedAgentCard = Template.bind({});
 TemplatedAgentCard.args = {
   agentName: "Barbara Barberson",
   agentStatus: "connected",
-  imgSrc: "https://placekitten.com/g/200/300",
 };

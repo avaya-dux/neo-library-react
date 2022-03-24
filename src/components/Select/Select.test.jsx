@@ -76,16 +76,7 @@ describe("Select", () => {
         fireEvent.click(toggleButton);
         expect(toggleButton).toHaveAttribute("aria-expanded", "true");
         fireEvent.click(toggleButton);
-        expect(toggleButton).toHaveAttribute("aria-expanded", "false");
-      });
-
-      it("passes the correct props to listbox element", () => {
-        const { getByRole } = renderResult;
-        const listboxElement = getByRole("listbox");
-        const expectedAttributes = ["id", "aria-labelledby", "tabindex"];
-        expectedAttributes.forEach((attribute) =>
-          expect(listboxElement).toHaveAttribute(attribute)
-        );
+        expect(toggleButton).toHaveAttribute("aria-expanded", "true");
       });
 
       it("passes basic axe compliance", async () => {
@@ -137,14 +128,6 @@ describe("Select", () => {
         expect(toggleElement).toHaveAttribute("aria-expanded", "true");
       });
 
-      it("passes the correct props to listbox element", () => {
-        const { getByRole } = renderResult;
-        const listboxElement = getByRole("listbox");
-        const expectedAttributes = ["id", "aria-labelledby", "tabindex"];
-        expectedAttributes.forEach((attribute) =>
-          expect(listboxElement).toHaveAttribute(attribute)
-        );
-      });
       it("passes basic axe compliance", async () => {
         const { container } = renderResult;
         const results = await axe(container);
@@ -259,6 +242,15 @@ describe("Select", () => {
         const { getByText } = renderResult;
         const helperText = getByText("This is helper text");
         expect(helperText).toHaveAttribute("id", "helper-text-neo-select");
+      });
+
+      it("passes the correct props to listbox element", () => {
+        const { getByRole } = renderResult;
+        const listboxElement = getByRole("listbox");
+        const expectedAttributes = ["id", "aria-labelledby", "tabindex"];
+        expectedAttributes.forEach((attribute) =>
+          expect(listboxElement).toHaveAttribute(attribute)
+        );
       });
 
       it("passes basic axe compliance", async () => {

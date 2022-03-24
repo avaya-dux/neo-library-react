@@ -84,6 +84,16 @@ describe("Tabs", () => {
         userEvent.keyboard("{enter}");
         expect(getAllByRole("tab").length).toBe(4);
       });
+      it("Tab on Tab2 Close button should not close tab2", () => {
+        const { getAllByRole } = renderResult;
+        const tabs = getAllByRole("tab");
+        expect(tabs.length).toBe(5);
+        userEvent.tab();
+        const closeButton = getAllByRole("button")[0];
+        expect(closeButton).toHaveFocus();
+        userEvent.tab();
+        expect(getAllByRole("tab").length).toBe(5);
+      });
       it("Close Tab2 using mouse click should work", () => {
         const { getAllByRole } = renderResult;
         const tabs = getAllByRole("tab");
