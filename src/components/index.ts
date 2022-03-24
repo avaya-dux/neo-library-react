@@ -20,6 +20,7 @@ export * from "./Pagination";
 export * from "./RadioGroup";
 export * from "./SelectNative";
 export * from "./Sheet";
+export * from "./Shimmer";
 export * from "./Spinner";
 export * from "./Switch";
 export * from "./Tab";
