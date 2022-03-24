@@ -3,7 +3,7 @@ import { TopLinkItem, TopLinkItemProps } from "./TopLinkItem";
 import { MouseEvent } from "react";
 
 export default {
-  title: "Components/Left Navgation/TopLinkItem",
+  title: "Components/Left Navigation/TopLinkItem",
   component: TopLinkItem,
 } as Meta<TopLinkItemProps>;
 const handleClick = (e: MouseEvent) => {
@@ -37,8 +37,9 @@ export const TopLinkItemStory = () => (
             icon="address-book"
             onClick={handleClick}
           />
+          <TopLinkItem label="Disabled Link" onClick={handleClick} disabled />
           <TopLinkItem
-            label="Normal Link with Icon"
+            label="Disabled Link with Icon"
             icon="address-book"
             onClick={handleClick}
             disabled

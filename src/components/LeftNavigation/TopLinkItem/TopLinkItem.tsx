@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { HTMLAttributes } from "react";
 import { Button } from "components/Button";
 import { IconNamesType } from "utils";
+import "./TopLinkItem_shim.css";
 export interface TopLinkItemProps
   extends HTMLAttributes<HTMLLIElement | HTMLAnchorElement> {
   active?: boolean;
@@ -28,17 +29,7 @@ export const TopLinkItem = ({
         )}
       >
         {disabled ? (
-          <Button
-            disabled={disabled}
-            variant="tertiary"
-            style={{
-              color: "#939393",
-              fontSize: "14px",
-              fontFamily: "noto-sans,sans-serif",
-              width: "max-content",
-            }}
-            icon={icon}
-          >
+          <Button disabled={disabled} variant="tertiary" icon={icon}>
             {label}
           </Button>
         ) : (
