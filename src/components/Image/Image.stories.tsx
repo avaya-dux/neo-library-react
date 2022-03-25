@@ -8,7 +8,6 @@ import { Image, ImageProps } from "./Image";
 import { Button } from "components/Button";
 
 import cat from "./200by300image.jpeg";
-import { useGridLayout } from "react-table";
 
 export default {
   title: "Components/Image",
