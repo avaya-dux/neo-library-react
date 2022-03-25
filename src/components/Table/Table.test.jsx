@@ -326,8 +326,12 @@ describe("Table", () => {
       );
       expect(firstColumnSortButton).toBeVisible();
 
-      expect(getByRole("dialog")).not.toHaveClass("neo-slide--in-right");
-      expect(getByRole("dialog")).toHaveClass("neo-slide--out-right");
+      expect(getByRole("dialog")).not.toHaveClass(
+        "sheet-horizontal-slide-in-shim"
+      );
+      expect(getByRole("dialog")).toHaveClass(
+        "sheet-horizontal-slide-out-shim"
+      );
 
       fireEvent.click(firstColumnSortButton);
 
@@ -335,8 +339,10 @@ describe("Table", () => {
       expect(menuItems).toHaveLength(4);
       fireEvent.click(queryAllByRole("menuitem")[3]);
 
-      expect(getByRole("dialog")).toHaveClass("neo-slide--in-right");
-      expect(getByRole("dialog")).not.toHaveClass("neo-slide--out-right");
+      expect(getByRole("dialog")).toHaveClass("sheet-horizontal-slide-in-shim");
+      expect(getByRole("dialog")).not.toHaveClass(
+        "sheet-horizontal-slide-out-shim"
+      );
 
       const nameCheckbox = getByLabelText(FilledFields.columns[0].Header);
       expect(nameCheckbox).toBeChecked();
@@ -361,13 +367,19 @@ describe("Table", () => {
         `button[aria-label="${FilledFields.translations.toolbar.filterColumns}"]`
       );
 
-      expect(getByRole("dialog")).not.toHaveClass("neo-slide--in-right");
-      expect(getByRole("dialog")).toHaveClass("neo-slide--out-right");
+      expect(getByRole("dialog")).not.toHaveClass(
+        "sheet-horizontal-slide-in-shim"
+      );
+      expect(getByRole("dialog")).toHaveClass(
+        "sheet-horizontal-slide-out-shim"
+      );
 
       fireEvent.click(columnFilterButton);
 
-      expect(getByRole("dialog")).toHaveClass("neo-slide--in-right");
-      expect(getByRole("dialog")).not.toHaveClass("neo-slide--out-right");
+      expect(getByRole("dialog")).toHaveClass("sheet-horizontal-slide-in-shim");
+      expect(getByRole("dialog")).not.toHaveClass(
+        "sheet-horizontal-slide-out-shim"
+      );
 
       const nameCheckbox = getByLabelText(FilledFields.columns[0].Header);
       expect(nameCheckbox).toBeChecked();
