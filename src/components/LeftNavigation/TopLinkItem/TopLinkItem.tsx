@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { HTMLAttributes } from "react";
 import { Button } from "components/Button";
 import { IconNamesType } from "utils";
 import "./TopLinkItem_shim.css";
