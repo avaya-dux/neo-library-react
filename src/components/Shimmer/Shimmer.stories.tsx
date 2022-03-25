@@ -14,4 +14,4 @@ const Template: Story<ShimmerProps> = (props: ShimmerProps) => (
 );
 
 export const Templated = Template.bind({});
-Templated.args = { shape: "rectangle", size: "sm" };
+Templated.args = { loopInfinitely: false, shape: "rectangle", size: "md" };
