@@ -1,20 +1,16 @@
 import { composeStories } from "@storybook/testing-react";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 import { TopLinkItem } from "./TopLinkItem";
 import * as TopLinkItemStories from "./TopLinkItem.stories";
 
-const { TopLinkItemStory } = composeStories(TopLinkItemStories);
+const { Default } = composeStories(TopLinkItemStories);
 
 describe("TopLinkItem", () => {
   const TopLinkItemLabel = "label for top link";
 
   it("fully renders without exploding", () => {
-    const { getByText } = render(
-      <ul>
-        <TopLinkItem label={TopLinkItemLabel} />
-      </ul>
-    );
+    const { getByText } = render(<TopLinkItem label={TopLinkItemLabel} />);
     const topLinkElement = getByText(TopLinkItemLabel);
     expect(topLinkElement).toBeInTheDocument();
   });
@@ -29,53 +25,46 @@ describe("TopLinkItem", () => {
     expect(results).toHaveNoViolations();
   });
 
-  it("active state of top link item", () => {
-    const { container } = render(
-      <ul>
-        <TopLinkItem label={TopLinkItemLabel} active />
-      </ul>
-    );
-    const linkElement = container.querySelector(".neo-leftnav__main--active");
-    expect(linkElement).toBeInTheDocument();
+  it("assigns the appropriate class name when the `active` prop is passed", () => {
+    render(<TopLinkItem label={TopLinkItemLabel} active />);
+    const linkElement = screen.getByRole("listitem");
+    expect(linkElement).toHaveClass("neo-leftnav__main--active");
   });
 
-  it("active state of top link item with icon", () => {
-    const { container } = render(
-      <ul>
-        <TopLinkItem label={TopLinkItemLabel} active icon="address-book" />
-      </ul>
+  it("assigns the appropriate class name when `icon` prop is passed with `active` prop", () => {
+    render(
+      <TopLinkItem
+        label={TopLinkItemLabel}
+        active
+        icon="address-book"
+        href="#"
+      />
     );
-    const linkElement = container.querySelector(".neo-icon-address-book");
-    expect(linkElement).toBeInTheDocument();
+    const linkElement = screen.getByRole("link");
+    expect(linkElement).toHaveClass("neo-icon-address-book");
   });
 
-  it("normal state of top link item with icon", () => {
-    const { container } = render(
-      <ul>
-        <TopLinkItem label={TopLinkItemLabel} icon="address-book" />
-      </ul>
+  it("assigns the appropriate class name when `icon` prop is passed without `active` prop", () => {
+    render(
+      <TopLinkItem label={TopLinkItemLabel} icon="address-book" href="#" />
     );
-    const linkElement = container.querySelector(".neo-icon-address-book");
-    expect(linkElement).toBeInTheDocument();
+    const linkElement = screen.getByRole("link");
+    expect(linkElement).toHaveClass("neo-icon-address-book");
   });
 
-  it("should simulate onclick function", () => {
+  it("should simulate onclick function when not disabled", () => {
     const mockedFunction = jest.fn();
     const { getByText } = render(
-      <ul>
-        <TopLinkItem onClick={mockedFunction} label={TopLinkItemLabel} />
-      </ul>
+      <TopLinkItem onClick={mockedFunction} label={TopLinkItemLabel} />
     );
     const linkElement = getByText(TopLinkItemLabel);
     fireEvent.click(linkElement);
     expect(mockedFunction).toHaveBeenCalled();
   });
 
-  it("uses an `<button>` when it _is_ disabled", () => {
+  it("uses a `<button>` when it _is_ disabled", () => {
     const { container } = render(
-      <ul>
-        <TopLinkItem label={TopLinkItemLabel} disabled />
-      </ul>
+      <TopLinkItem label={TopLinkItemLabel} disabled />
     );
     const linkElement = container.querySelector("a");
     const buttonElement = container.querySelector("button");
@@ -86,13 +75,7 @@ describe("TopLinkItem", () => {
   it("should not simulate onclick function for disable link", () => {
     const mockedFunction = jest.fn();
     const { getByText } = render(
-      <ul>
-        <TopLinkItem
-          onClick={mockedFunction}
-          label={TopLinkItemLabel}
-          disabled
-        />
-      </ul>
+      <TopLinkItem onClick={mockedFunction} label={TopLinkItemLabel} disabled />
     );
     const linkElement = getByText(TopLinkItemLabel);
     fireEvent.click(linkElement);
@@ -103,7 +86,7 @@ describe("TopLinkItem", () => {
     describe("Top LinkItem", () => {
       let renderResult;
       beforeEach(() => {
-        renderResult = render(<TopLinkItemStory />);
+        renderResult = render(<Default />);
       });
 
       it("should render ok", () => {
