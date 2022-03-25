@@ -7,3 +7,7 @@
 .neo-leftnav__main .neo-btn-tertiary--default::before {
   font-size: 21px;
 }
+
+.neo-leftnav__main a {
+  text-decoration: none;
+}
