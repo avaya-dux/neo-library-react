@@ -20,6 +20,7 @@ import { handleAccessbilityError } from "utils";
  */
 export interface ImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string;
+  thumbnail?: boolean;
   fallback?: ReactElement | string;
 }
 
@@ -31,7 +32,7 @@ export const Image = ({
   onLoad,
   src,
   style,
-
+  thumbnail = false,
   ...rest
 }: ImageProps) => {
   if (!alt) {
@@ -64,7 +65,10 @@ export const Image = ({
     <>
       <img
         alt={alt}
-        className={clsx("neo-img neo-img--fluid", className)}
+        className={clsx(
+          thumbnail ? "neo-thumbnail" : "neo-img neo-img--fluid",
+          className
+        )}
         src={src}
         onError={(e) => {
           setHasError(true);
