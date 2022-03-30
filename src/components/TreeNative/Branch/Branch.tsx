@@ -2,28 +2,44 @@
 // https://www.w3.org/TR/wai-aria-practices-1.1/examples/treeview/treeview-1/treeview-1a.html
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 
+import clsx from "clsx";
 import { FC } from "react";
 
 export interface BranchProps {
+  className?: string;
   leftContent?: JSX.Element; // TODO: don't use a prop for this
   rightContent?: JSX.Element; // TODO: don't use a prop for this
+  selected?: boolean;
 }
 
 export const Branch: FC<BranchProps> = ({
   children,
+  className,
   leftContent,
   rightContent,
+  selected = false,
+
+  ...rest
 }) => {
   return (
-    <li role="treeitem">
+    <li
+      className={clsx(
+        "neo-treeview__item",
+        selected && "neo-treeview__item--selected",
+        className
+      )}
+      role="treeitem"
+      tabIndex={selected ? 0 : -1}
+      {...rest}
+    >
       {leftContent && (
-        <div className="neo-treeview__item-left">{leftContent}</div>
+        <span className="neo-treeview__item-left">{leftContent}</span>
       )}
 
-      {children && <div>{children}</div>}
+      {children && <>{children}</>}
 
       {rightContent && (
-        <div className="neo-treeview__item-right">{rightContent}</div>
+        <span className="neo-treeview__item-right">{rightContent}</span>
       )}
     </li>
   );
