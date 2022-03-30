@@ -1,7 +1,5 @@
-/* eslint-disable */
-
 import { Meta } from "@storybook/react/types-6-0";
-import { FC } from "react";
+import { DetailedHTMLProps, FC, LabelHTMLAttributes, useState } from "react";
 
 import { Sheet } from "components/Sheet";
 
@@ -12,7 +10,9 @@ export default {
   component: Branch,
 } as Meta<BranchProps>;
 
-const Label: FC = ({ children }) => (
+const Label: FC<
+  DetailedHTMLProps<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>
+> = ({ children }) => (
   <label style={{ fontWeight: "bolder", paddingBottom: "5px" }}>
     {children}
   </label>
@@ -31,38 +31,64 @@ const Section: FC = ({ children }) => (
 );
 
 export const Default = () => {
+  const [selected, setSelected] = useState("");
+
   return (
     <Sheet title="Native Tree Branches Example" style={{ width: 400 }}>
       <Section>
         <Label>just children</Label>
 
-        <Branch>node one</Branch>
+        <Branch selected={selected === "c1"} onClick={() => setSelected("c1")}>
+          node one
+        </Branch>
 
-        <Branch>node two</Branch>
+        <Branch selected={selected === "c2"} onClick={() => setSelected("c2")}>
+          node two
+        </Branch>
       </Section>
 
       <Section>
         <Label>left content only</Label>
 
-        <Branch leftContent={<>node one</>} />
-        <Branch leftContent={<>node two</>} />
+        <Branch
+          selected={selected === "l1"}
+          onClick={() => setSelected("l1")}
+          leftContent={<>node one</>}
+        />
+        <Branch
+          selected={selected === "l2"}
+          onClick={() => setSelected("l2")}
+          leftContent={<>node two</>}
+        />
       </Section>
 
       <Section>
         <Label>right content only</Label>
 
-        <Branch rightContent={<>node one</>} />
-        <Branch rightContent={<>node two</>} />
+        <Branch
+          selected={selected === "r1"}
+          onClick={() => setSelected("r1")}
+          rightContent={<>node one</>}
+        />
+        <Branch
+          selected={selected === "r2"}
+          onClick={() => setSelected("r2")}
+          rightContent={<>node two</>}
+        />
       </Section>
 
       <Section>
         <Label>left and right content</Label>
 
         <Branch
+          selected={selected === "lr1"}
+          onClick={() => setSelected("lr1")}
           leftContent={<>left node one</>}
           rightContent={<>right node one</>}
         />
         <Branch
+          selected={selected === "lr2"}
+          onClick={() => setSelected("lr2")}
           leftContent={<>left node two</>}
           rightContent={<>right node two</>}
         />
@@ -71,27 +97,55 @@ export const Default = () => {
       <Section>
         <Label>left content and children</Label>
 
-        <Branch leftContent={<>left node one</>}>center node one</Branch>
-        <Branch leftContent={<>left node two</>}>center node two</Branch>
+        <Branch
+          selected={selected === "lc1"}
+          onClick={() => setSelected("lc1")}
+          leftContent={<>left node one</>}
+        >
+          center node one
+        </Branch>
+        <Branch
+          selected={selected === "lc2"}
+          onClick={() => setSelected("lc2")}
+          leftContent={<>left node two</>}
+        >
+          center node two
+        </Branch>
       </Section>
 
       <Section>
         <Label>right content and children</Label>
 
-        <Branch rightContent={<>right node one</>}>center node one</Branch>
-        <Branch rightContent={<>right node two</>}>center node two</Branch>
+        <Branch
+          selected={selected === "rc1"}
+          onClick={() => setSelected("rc1")}
+          rightContent={<>right node one</>}
+        >
+          center node one
+        </Branch>
+        <Branch
+          selected={selected === "rc2"}
+          onClick={() => setSelected("rc2")}
+          rightContent={<>right node two</>}
+        >
+          center node two
+        </Branch>
       </Section>
 
       <Section>
         <Label>left content, right content, and children</Label>
 
         <Branch
+          selected={selected === "lrc1"}
+          onClick={() => setSelected("lrc1")}
           leftContent={<>left node one</>}
           rightContent={<>right node one</>}
         >
           center node one
         </Branch>
         <Branch
+          selected={selected === "lrc2"}
+          onClick={() => setSelected("lrc2")}
           leftContent={<>left node two</>}
           rightContent={<>right node two</>}
         >
@@ -101,10 +155,3 @@ export const Default = () => {
     </Sheet>
   );
 };
-
-// const Template: Story<TreeviewProps> = (props: TreeviewProps) => (
-//   <Treeview {...props} />
-// );
-
-// export const Templated = Template.bind({});
-// Templated.args = {};

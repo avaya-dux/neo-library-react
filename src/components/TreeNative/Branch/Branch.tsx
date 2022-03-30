@@ -3,10 +3,10 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 
 import clsx from "clsx";
-import { FC } from "react";
+import { DetailedHTMLProps, FC, LiHTMLAttributes } from "react";
 
-export interface BranchProps {
-  className?: string;
+export interface BranchProps
+  extends DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> {
   leftContent?: JSX.Element; // TODO: don't use a prop for this
   rightContent?: JSX.Element; // TODO: don't use a prop for this
   selected?: boolean;
