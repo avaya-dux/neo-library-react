@@ -1,5 +1,6 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 
+import { LeftNavigation } from "../LeftNavigation";
 import { NavCategory, NavCategoryProps } from "./NavCategory";
 import { LinkItem } from "../LinkItem";
 
@@ -9,17 +10,13 @@ export default {
 } as Meta<NavCategoryProps>;
 
 export const TextOnly: Story<NavCategoryProps> = () => (
-  <div className="neo-leftnav--wrapper">
-    <nav className="neo-leftnav">
-      <ul className="neo-leftnav__nav">
-        <NavCategory active expanded={true} label="Text Only Category">
-          <LinkItem> First Item </LinkItem>
-          <LinkItem active={true}> Active Item </LinkItem>
-          <LinkItem> Third Item </LinkItem>
-        </NavCategory>
-      </ul>
-    </nav>
-  </div>
+  <LeftNavigation currentUrl="">
+    <NavCategory active expanded={true} label="Text Only Category">
+      <LinkItem> First Item </LinkItem>
+      <LinkItem active={true}> Active Item </LinkItem>
+      <LinkItem> Third Item </LinkItem>
+    </NavCategory>
+  </LeftNavigation>
 );
 
 export const Multiple: Story<NavCategoryProps> = () => (
