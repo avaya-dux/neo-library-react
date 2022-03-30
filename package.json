@@ -91,7 +91,6 @@
     "@storybook/addon-actions": "^6.4.19",
     "@storybook/addon-essentials": "^6.4.19",
     "@storybook/addon-links": "^6.4.19",
-    "@storybook/preset-create-react-app": "4.1.0",
     "@storybook/react": "^6.4.19",
     "@storybook/testing-react": "^1.2.4",
     "@testing-library/dom": "^8.12.0",
