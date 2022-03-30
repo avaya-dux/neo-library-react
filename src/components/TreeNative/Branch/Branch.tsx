@@ -1,7 +1,5 @@
 // BUG: we shouldn't need to disable these rule as W3 recommends using these roles
 // https://www.w3.org/TR/wai-aria-practices-1.1/examples/treeview/treeview-1/treeview-1a.html
-/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-/* eslint-disable jsx-a11y/role-supports-aria-props */
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 
 import { FC } from "react";
@@ -18,9 +16,15 @@ export const Branch: FC<BranchProps> = ({
 }) => {
   return (
     <li role="treeitem">
-      <div className="neo-treeview__item-left">{leftContent}</div>
-      <div>{children}</div>
-      <div className="neo-treeview__item-right">{rightContent}</div>
+      {leftContent && (
+        <div className="neo-treeview__item-left">{leftContent}</div>
+      )}
+
+      {children && <div>{children}</div>}
+
+      {rightContent && (
+        <div className="neo-treeview__item-right">{rightContent}</div>
+      )}
     </li>
   );
 };

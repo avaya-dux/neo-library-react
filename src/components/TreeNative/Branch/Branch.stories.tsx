@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { Meta } from "@storybook/react/types-6-0";
 
 import { Sheet } from "components/Sheet";
