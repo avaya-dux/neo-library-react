@@ -7,7 +7,7 @@ import { Branch, BranchProps } from ".";
 import { TreeContext } from "../TreeContext";
 
 export default {
-  title: "Components/Tree Native/Branch",
+  title: "Components/Tree",
   component: Branch,
 } as Meta<BranchProps>;
 
@@ -20,7 +20,8 @@ const Label: FC<
 );
 
 const Section: FC = ({ children }) => (
-  <section
+  <div
+    role="tree"
     style={{
       paddingBottom: "15px",
       marginBottom: "15px",
@@ -28,10 +29,10 @@ const Section: FC = ({ children }) => (
     }}
   >
     {children}
-  </section>
+  </div>
 );
 
-export const Default = () => {
+export const BranchExamples = () => {
   const [selected, setSelected] = useState("");
 
   return (

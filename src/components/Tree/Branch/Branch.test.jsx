@@ -2,31 +2,35 @@ import { composeStories } from "@storybook/testing-react";
 import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 
-import { Tree } from ".";
-import * as TreeStories from "./Tree.stories";
+import { Branch } from ".";
+import * as BranchStories from "./Branch.stories";
 
-const { Default } = composeStories(TreeStories);
+const { BranchExamples } = composeStories(BranchStories);
 
-describe("Tree", () => {
+describe("Branch", () => {
   it("fully renders without exploding", () => {
-    render(<Tree />);
+    render(<Branch>example</Branch>);
 
-    const rootElement = screen.getByRole("tree");
+    const rootElement = screen.getByRole("treeitem");
     expect(rootElement).toBeInTheDocument();
   });
 
   it("passes basic axe compliance", async () => {
-    const { container } = render(<Tree />);
+    const { container } = render(
+      <div role="tree">
+        <Branch>example</Branch>
+      </div>
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
   describe("storybook tests", () => {
-    describe("Default", () => {
+    describe("BranchExamples", () => {
       let renderResult;
 
       beforeEach(() => {
-        renderResult = render(<Default />);
+        renderResult = render(<BranchExamples />);
       });
 
       it("should render ok", () => {
