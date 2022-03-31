@@ -32,7 +32,6 @@ export const NeoInputWrapper: FunctionComponent<NeoInputWrapperProps> = ({
     {...rest}
   >
     <div
-      aria-required={required === true}
       data-testid="NeoInputWrapper-group-root"
       {...getInputGroupProps({ inline, groupingClassName })}
     >
