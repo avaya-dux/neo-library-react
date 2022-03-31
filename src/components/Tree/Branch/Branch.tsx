@@ -16,6 +16,7 @@ export interface BranchProps
     "dir"
   > {
   icon?: IconNamesType;
+  iconLabel?: string;
   leftContent?: JSX.Element; // TODO: don't use a prop for this
   rightContent?: JSX.Element; // TODO: don't use a prop for this
   selected?: boolean;
@@ -25,6 +26,7 @@ export const Branch: FC<BranchProps> = ({
   children,
   className,
   icon,
+  iconLabel = "tree item icon",
   leftContent,
   rightContent,
   selected = false,
@@ -40,27 +42,21 @@ export const Branch: FC<BranchProps> = ({
         selected && "neo-treeview__item--selected",
         className
       )}
+      dir={dir}
       role="treeitem"
       tabIndex={selected ? 0 : -1}
       {...rest}
     >
-      {(leftContent || icon) && (
-        <span className="neo-treeview__item-left">
-          {icon && dir === "ltr" && <Icon icon={icon} aria-label="file icon" />}
+      {icon && <Icon icon={icon} aria-label={iconLabel} />}
 
-          {leftContent}
-        </span>
+      {leftContent && (
+        <span className="neo-treeview__item-left">{leftContent}</span>
       )}
 
-      {icon && dir === undefined && <Icon icon={icon} aria-label="file icon" />}
       {children && <>{children}</>}
 
-      {(rightContent || icon) && (
-        <span className="neo-treeview__item-right">
-          {rightContent}
-
-          {icon && dir === "rtl" && <Icon icon={icon} aria-label="file icon" />}
-        </span>
+      {rightContent && (
+        <span className="neo-treeview__item-right">{rightContent}</span>
       )}
     </li>
   );

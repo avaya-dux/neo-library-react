@@ -11,6 +11,8 @@ import { genId } from "utils/accessibilityUtils";
 
 import { TreeContext } from "./TreeContext";
 
+import "./Tree_shim.css";
+
 export interface TreeProps {
   ["aria-label"]?: string;
   ["aria-describedby"]?: string;
@@ -25,7 +27,7 @@ export const Tree: FC<TreeProps> = ({
   dir,
   label,
 }) => {
-  if (!label && arialabel && !describedby) {
+  if (!label && !arialabel && !describedby) {
     handleAccessbilityError(
       "Tree requires a label, an aria-label, or an aria-describedby prop"
     );
