@@ -11,14 +11,14 @@ import { genId } from "utils/accessibilityUtils";
 
 import { TreeContext } from "./TreeContext";
 
-export interface TreeNativeProps {
+export interface TreeProps {
   ["aria-label"]?: string;
   ["aria-describedby"]?: string;
   dir?: "ltr" | "rtl";
   label?: string;
 }
 
-export const TreeNative: FC<TreeNativeProps> = ({
+export const Tree: FC<TreeProps> = ({
   "aria-describedby": describedby,
   "aria-label": arialabel,
   children,

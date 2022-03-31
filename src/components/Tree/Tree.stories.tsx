@@ -4,16 +4,16 @@ import { Meta } from "@storybook/react/types-6-0";
 
 import { Sheet } from "components/Sheet";
 
-import { Branch, SubTree, TreeNative, TreeNativeProps } from ".";
+import { Branch, SubTree, Tree, TreeProps } from ".";
 
 export default {
   title: "Components/Tree Native",
-  component: TreeNative,
-} as Meta<TreeNativeProps>;
+  component: Tree,
+} as Meta<TreeProps>;
 
 export const Default = () => (
   <Sheet title="Native Tree Example" style={{ width: 400 }}>
-    <TreeNative label="Tree Label">
+    <Tree label="Tree Label">
       <SubTree
         edges={[
           <Branch>group one | node one</Branch>,
@@ -46,7 +46,7 @@ export const Default = () => (
       <Branch>upper edge one</Branch>
       <Branch>upper edge two</Branch>
       <Branch>upper edge three</Branch>
-    </TreeNative>
+    </Tree>
   </Sheet>
 );
 

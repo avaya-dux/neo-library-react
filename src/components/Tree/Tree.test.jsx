@@ -2,21 +2,21 @@ import { composeStories } from "@storybook/testing-react";
 import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 
-import { TreeNative } from ".";
-import * as TreeviewNativeStories from "./TreeNative.stories";
+import { Tree } from ".";
+import * as TreeStories from "./Tree.stories";
 
-const { Default, Templated } = composeStories(TreeviewNativeStories);
+const { Default, Templated } = composeStories(TreeStories);
 
-describe("TreeviewNative", () => {
+describe("Tree", () => {
   it("fully renders without exploding", () => {
-    render(<TreeNative />);
+    render(<Tree />);
 
     const rootElement = screen.getByRole("tree");
     expect(rootElement).toBeInTheDocument();
   });
 
   it("passes basic axe compliance", async () => {
-    const { container } = render(<TreeNative />);
+    const { container } = render(<Tree />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
