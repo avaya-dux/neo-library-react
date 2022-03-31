@@ -20,4 +20,18 @@ describe("Branch", () => {
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
+
+  it("adds 'selected' class when branch is selected", () => {
+    render(<Branch selected>example</Branch>);
+
+    const rootElement = screen.getByRole("treeitem");
+    expect(rootElement).toHaveClass("neo-treeview__item--selected");
+  });
+
+  it("adds an icon if `icon` prop has a value", () => {
+    render(<Branch icon="file">example</Branch>);
+
+    const iconElement = screen.getByRole("img");
+    expect(iconElement).toBeInTheDocument();
+  });
 });

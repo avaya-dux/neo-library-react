@@ -21,6 +21,12 @@ describe("Tree", () => {
     expect(results).toHaveNoViolations();
   });
 
+  it("throws error if no label is passed", () => {
+    const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+    expect(() => render(<Tree />)).toThrow();
+    expect(spy).toHaveBeenCalled();
+  });
+
   describe("storybook tests", () => {
     describe("Default", () => {
       let renderResult;
