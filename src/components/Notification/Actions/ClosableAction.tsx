@@ -1,6 +1,3 @@
-// todo: construct an internal notification and pass in button:
-// handle button click
-
 import clsx from "clsx";
 import { ButtonHTMLAttributes } from "react";
 
