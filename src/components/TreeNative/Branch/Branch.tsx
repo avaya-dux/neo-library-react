@@ -3,10 +3,19 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 
 import clsx from "clsx";
-import { DetailedHTMLProps, FC, LiHTMLAttributes } from "react";
+import { DetailedHTMLProps, FC, LiHTMLAttributes, useContext } from "react";
+
+import { Icon } from "components/Icon";
+import { IconNamesType } from "utils";
+
+import { TreeContext } from "../TreeContext";
 
 export interface BranchProps
-  extends DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> {
+  extends Omit<
+    DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement>,
+    "dir"
+  > {
+  icon?: IconNamesType;
   leftContent?: JSX.Element; // TODO: don't use a prop for this
   rightContent?: JSX.Element; // TODO: don't use a prop for this
   selected?: boolean;
@@ -15,12 +24,15 @@ export interface BranchProps
 export const Branch: FC<BranchProps> = ({
   children,
   className,
+  icon,
   leftContent,
   rightContent,
   selected = false,
 
   ...rest
 }) => {
+  const { dir } = useContext(TreeContext);
+
   return (
     <li
       className={clsx(
@@ -32,14 +44,23 @@ export const Branch: FC<BranchProps> = ({
       tabIndex={selected ? 0 : -1}
       {...rest}
     >
-      {leftContent && (
-        <span className="neo-treeview__item-left">{leftContent}</span>
+      {(leftContent || icon) && (
+        <span className="neo-treeview__item-left">
+          {icon && dir === "ltr" && <Icon icon={icon} aria-label="file icon" />}
+
+          {leftContent}
+        </span>
       )}
 
+      {icon && dir === undefined && <Icon icon={icon} aria-label="file icon" />}
       {children && <>{children}</>}
 
-      {rightContent && (
-        <span className="neo-treeview__item-right">{rightContent}</span>
+      {(rightContent || icon) && (
+        <span className="neo-treeview__item-right">
+          {rightContent}
+
+          {icon && dir === "rtl" && <Icon icon={icon} aria-label="file icon" />}
+        </span>
       )}
     </li>
   );

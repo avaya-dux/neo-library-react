@@ -4,6 +4,7 @@ import { DetailedHTMLProps, FC, LabelHTMLAttributes, useState } from "react";
 import { Sheet } from "components/Sheet";
 
 import { Branch, BranchProps } from ".";
+import { TreeContext } from "../TreeContext";
 
 export default {
   title: "Components/Tree Native/Branch",
@@ -151,6 +152,63 @@ export const Default = () => {
         >
           center node two
         </Branch>
+      </Section>
+
+      <Section>
+        <Label>icon examples</Label>
+
+        <Branch
+          selected={selected === "icon1"}
+          onClick={() => setSelected("icon1")}
+        >
+          defaults with no icon
+        </Branch>
+
+        <Branch
+          selected={selected === "icon2"}
+          onClick={() => setSelected("icon2")}
+          icon="file"
+        >
+          defaults with file icon
+        </Branch>
+
+        <TreeContext.Provider value={{ dir: "ltr" }}>
+          <Branch
+            selected={selected === "icon3"}
+            onClick={() => setSelected("icon3")}
+            icon="file"
+          >
+            file icon, dir="ltr"
+          </Branch>
+        </TreeContext.Provider>
+
+        <TreeContext.Provider value={{ dir: "rtl" }}>
+          <Branch
+            selected={selected === "icon4"}
+            onClick={() => setSelected("icon4")}
+            icon="file"
+          >
+            file icon, dir="rtl"
+          </Branch>
+        </TreeContext.Provider>
+
+        <TreeContext.Provider value={{ dir: "rtl" }}>
+          <Branch
+            selected={selected === "icon5"}
+            onClick={() => setSelected("icon5")}
+            icon="file"
+            rightContent={<>right content with icon and dir="rtl"</>}
+          />
+        </TreeContext.Provider>
+
+        <TreeContext.Provider value={{ dir: "ltr" }}>
+          <Branch
+            selected={selected === "icon6"}
+            onClick={() => setSelected("icon6")}
+            icon="file"
+            leftContent={<>left content with icon and dir="ltr"</>}
+          />
+        </TreeContext.Provider>
       </Section>
     </Sheet>
   );

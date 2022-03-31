@@ -9,9 +9,12 @@ import { FC, useMemo } from "react";
 import { handleAccessbilityError } from "utils";
 import { genId } from "utils/accessibilityUtils";
 
+import { TreeContext } from "./TreeContext";
+
 export interface TreeNativeProps {
   ["aria-label"]?: string;
   ["aria-describedby"]?: string;
+  dir?: "ltr" | "rtl";
   label?: string;
 }
 
@@ -19,6 +22,7 @@ export const TreeNative: FC<TreeNativeProps> = ({
   "aria-describedby": describedby,
   "aria-label": arialabel,
   children,
+  dir,
   label,
 }) => {
   if (!label && arialabel && !describedby) {
@@ -33,15 +37,17 @@ export const TreeNative: FC<TreeNativeProps> = ({
     <div className="neo-treeview">
       {label && <label htmlFor={treeId}>{label}</label>}
 
-      <ul
-        aria-describedby={describedby}
-        aria-label={arialabel}
-        id={treeId}
-        role="tree"
-        tabIndex={0} // TODO: roving tab index
-      >
-        {children}
-      </ul>
+      <TreeContext.Provider value={{ dir }}>
+        <ul
+          aria-describedby={describedby}
+          aria-label={arialabel}
+          id={treeId}
+          role="tree"
+          tabIndex={0} // TODO: roving tab index
+        >
+          {children}
+        </ul>
+      </TreeContext.Provider>
     </div>
   );
 };
