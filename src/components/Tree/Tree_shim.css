@@ -5,6 +5,7 @@
   cursor: default;
 }
 .neo-treeview__sub-tree-item > ul {
+  display: block;
   margin-left: 1rem;
 }
 .neo-treeview__sub-tree-item div[role="button"] {
