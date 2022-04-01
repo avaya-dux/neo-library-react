@@ -52,22 +52,6 @@ describe("NeoInputWrapper", () => {
     expect(groupElement.classList.length).toBe(3);
   });
 
-  it("adds 'aria-required' appropriately", () => {
-    const { container: requiredContainer } = render(
-      <NeoInputWrapper required />
-    );
-    const requiredElement = requiredContainer.querySelector(
-      '[aria-required="true"]'
-    );
-    expect(requiredElement).toBeTruthy();
-
-    const { container: defaultContainer } = render(<NeoInputWrapper />);
-    const nonRequiredElement = defaultContainer.querySelector(
-      '[aria-required="true"]'
-    );
-    expect(nonRequiredElement).toBe(null);
-  });
-
   describe("getNeoInputWrapperProps", () => {
     it("returns expected props", () => {
       expect(getNeoInputWrapperProps()).toMatchInlineSnapshot(`
