@@ -10,6 +10,7 @@ export * from "./Form";
 export * from "./Icon";
 export * from "./IconButton";
 export * from "./Image";
+export * from "./LeftNavigation";
 export * from "./List";
 export * from "./ListItem";
 export * from "./Menu";
