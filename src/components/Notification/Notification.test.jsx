@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 import * as EventStories from "./EventNotification.stories";
 import * as NonEventStories from "./NonEventNotification.stories";
+import * as ToggleEventStories from "./ToggleNotification.stories";
 import { createAction } from "./Notification";
 
 const {
@@ -13,10 +14,10 @@ const {
   AlertCloseAlert,
   AlertCounter,
   AlertButtons,
-  AlertShow,
-  AlertShowContainer,
   Info,
 } = composeStories(NonEventStories);
+
+const { AlertShow, AlertShowContainer } = composeStories(ToggleEventStories);
 const { Event, EventCloseAlert, EventButtons, EventCounter } =
   composeStories(EventStories);
 
