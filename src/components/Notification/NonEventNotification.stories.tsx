@@ -1,4 +1,6 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
+import { Button } from "components/Button";
+import { createRef, useRef, useState } from "react";
 import { NonEventNotificationProps, Notification } from "./";
 
 const NonEventTemplate: Story<NonEventNotificationProps> = (props) => (
@@ -19,31 +21,31 @@ export default {
 export const Success = NonEventTemplate.bind({});
 Success.args = {
   type: "success",
-  header: "Header text",
-  description: "Some description",
+  header: "Success",
+  description: "You are successful.",
   isElevated: true,
 };
 
 export const Warning = NonEventTemplate.bind({});
 Warning.args = {
   type: "warning",
-  header: "Header text",
-  description: "Some description",
+  header: "Warning",
+  description: "This is a warning.",
   isElevated: true,
 };
 export const Alert = NonEventTemplate.bind({});
 Alert.args = {
   type: "alert",
-  header: "Header text",
-  description: "Some description",
+  header: "Alert",
+  description: "This is an alert.",
   isElevated: false,
 };
 
 export const AlertCloseAlert = NonEventTemplate.bind({});
 AlertCloseAlert.args = {
   type: "alert",
-  header: "Header text",
-  description: "Some description",
+  header: "Alert",
+  description: "This is an alert.",
   action: {
     onClick: () => alert("closed"),
     "aria-label": "Click this button will close this notification",
@@ -53,8 +55,8 @@ AlertCloseAlert.args = {
 export const AlertCounter = NonEventTemplate.bind({});
 AlertCounter.args = {
   type: "alert",
-  header: "Header text",
-  description: "Some description",
+  header: "Alert",
+  description: "This is an alert.",
   isElevated: false,
   action: { count: "00:00" },
 };
@@ -62,8 +64,8 @@ AlertCounter.args = {
 export const AlertButtons = NonEventTemplate.bind({});
 AlertButtons.args = {
   type: "alert",
-  header: "Header text",
-  description: "Some description",
+  header: "Alert",
+  description: "This is an alert.",
   isElevated: false,
   action: {
     buttons: [
@@ -73,11 +75,11 @@ AlertButtons.args = {
   },
 };
 
-export const AlertCustomAction = NonEventTemplate.bind({});
+const AlertCustomAction = NonEventTemplate.bind({});
 AlertCustomAction.args = {
   type: "alert",
-  header: "Header text",
-  description: "Some description",
+  header: "Alert",
+  description: "This is an alert.",
   isElevated: true,
   action: (
     <div>
@@ -90,10 +92,80 @@ AlertCustomAction.args = {
   ),
 };
 
+export const AlertShow = () => {
+  const [isOpen, setOpen] = useState(false);
+  return (
+    <div>
+      <Button
+        data-testid="neo-button-show"
+        id="btn-show"
+        variant="primary"
+        onClick={() => {
+          setOpen(!isOpen);
+        }}
+      >
+        Show
+      </Button>
+
+      {isOpen && (
+        <Notification
+          icon="copy"
+          type="alert"
+          header="Alert"
+          description="This is an alert."
+          action={{ onClick: () => setOpen(false) }}
+        />
+      )}
+    </div>
+  );
+};
+
+export const AlertShowContainer = () => {
+  let container: HTMLDivElement | null;
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [isOpen, setOpen] = useState(false);
+  return (
+    <div>
+      <Button
+        data-testid="neo-button-show"
+        id="btn-show"
+        variant="primary"
+        onClick={() => {
+          setOpen(!isOpen);
+        }}
+      >
+        Show
+      </Button>
+      <div
+        ref={(element) => {
+          container = element;
+          ref.current = container;
+        }}
+      >
+        <h3>Alert should popup below</h3>
+      </div>
+
+      {isOpen && (
+        <Notification
+          icon="copy"
+          type="alert"
+          header="Alert"
+          description="This is an alert."
+          action={{ onClick: () => setOpen(false) }}
+          ref={ref}
+        />
+      )}
+      <div>
+        <h3>Alert should popup above</h3>
+      </div>
+    </div>
+  );
+};
+
 export const Info = NonEventTemplate.bind({});
 Info.args = {
   type: "info",
-  header: "Header text",
-  description: "Some description",
+  header: "Info",
+  description: "This is some info.",
   isElevated: false,
 };

@@ -1,7 +1,7 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { IconNames } from "utils";
 import { EventNotificationProps, Notification } from ".";
-
+import ReactStopwatch from "react-stopwatch";
 type WithoutType = Omit<EventNotificationProps, "type">;
 const EventTemplate: Story<WithoutType> = ({ ...rest }: WithoutType) => {
   const props = { type: "event", ...rest } as EventNotificationProps;
@@ -33,6 +33,30 @@ EventCounter.args = {
   action: { count: "00:00" },
 };
 
+export const EventCounterUp = () => {
+  return (
+    <ReactStopwatch
+      seconds={0}
+      minutes={0}
+      hours={0}
+      limit="05:00"
+      onCallback={() => console.log("Finish")}
+      withLoop={true}
+      render={({ formatted }: { [key: string]: any }) => {
+        return (
+          <Notification
+            type="event"
+            icon="copy"
+            header="Header Text"
+            description="Some description"
+            action={{ count: `${formatted.substring(3)}` }}
+          />
+        );
+      }}
+    />
+  );
+};
+
 export const EventButtons = EventTemplate.bind({});
 EventButtons.args = {
   icon: "copy",
@@ -47,7 +71,7 @@ EventButtons.args = {
   },
 };
 
-export const EventCustomAction = EventTemplate.bind({});
+const EventCustomAction = EventTemplate.bind({});
 EventCustomAction.args = {
   icon: "copy",
   header: "Header text",
@@ -69,7 +93,8 @@ export default {
   component: EventTemplate,
   argTypes: {
     icon: {
-      control: { type: "select", options: IconNames },
+      options: IconNames,
+      control: { type: "select" },
     },
   },
 } as Meta<WithoutType>;

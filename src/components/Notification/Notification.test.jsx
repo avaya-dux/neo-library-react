@@ -13,16 +13,12 @@ const {
   AlertCloseAlert,
   AlertCounter,
   AlertButtons,
-  AlertCustomAction,
+  AlertShow,
+  AlertShowContainer,
   Info,
 } = composeStories(NonEventStories);
-const {
-  Event,
-  EventCloseAlert,
-  EventButtons,
-  EventCounter,
-  EventCustomAction,
-} = composeStories(EventStories);
+const { Event, EventCloseAlert, EventButtons, EventCounter } =
+  composeStories(EventStories);
 
 describe("Notification", () => {
   describe("Storybook stories", () => {
@@ -139,15 +135,37 @@ describe("Notification", () => {
         expect(results).toHaveNoViolations();
       });
     });
-    describe("AlertCustomAction", () => {
+    describe("AlertShow", () => {
       let renderResult;
       beforeEach(() => {
-        renderResult = render(<AlertCustomAction />);
+        renderResult = render(<AlertShow />);
       });
       it("should render ok", () => {
         const { container } = renderResult;
         expect(container).toBeDefined();
-        const alertRole = screen.getByRole("alert");
+        const showButton = screen.getByRole("button");
+        userEvent.click(showButton);
+        const alertRole = screen.queryByRole("alert");
+        expect(alertRole).toHaveClass("neo-notification--alert");
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+    describe("AlertShowContainer", () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<AlertShowContainer />);
+      });
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).toBeDefined();
+        const showButton = screen.getByRole("button");
+        userEvent.click(showButton);
+        const alertRole = screen.queryByRole("alert");
         expect(alertRole).toHaveClass("neo-notification--alert");
       });
 
@@ -240,24 +258,6 @@ describe("Notification", () => {
       let renderResult;
       beforeEach(() => {
         renderResult = render(<EventButtons />);
-      });
-      it("should render ok", () => {
-        const { container } = renderResult;
-        expect(container).toBeDefined();
-        const alertRole = screen.getByRole("alert");
-        expect(alertRole).toHaveClass("neo-notification--event");
-      });
-
-      it("passes basic axe compliance", async () => {
-        const { container } = renderResult;
-        const results = await axe(container);
-        expect(results).toHaveNoViolations();
-      });
-    });
-    describe("EventCustomAction", () => {
-      let renderResult;
-      beforeEach(() => {
-        renderResult = render(<EventCustomAction />);
       });
       it("should render ok", () => {
         const { container } = renderResult;
