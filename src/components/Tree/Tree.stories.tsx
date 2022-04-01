@@ -1,9 +1,10 @@
 import { Meta } from "@storybook/react/types-6-0";
 import { DetailedHTMLProps, FC, LabelHTMLAttributes, useState } from "react";
 
+import { Button } from "components/Button";
 import { Sheet } from "components/Sheet";
 
-import { Branch, Tree, TreeProps } from ".";
+import { Branch, SubTree, Tree, TreeProps } from ".";
 
 export default {
   title: "Components/Tree",
@@ -13,9 +14,9 @@ export default {
 export const Default = () => (
   <Sheet title="Tree Example" style={{ width: 400 }}>
     <Tree label="Tree Label">
-      <Branch>upper edge one</Branch>
-      <Branch>upper edge two</Branch>
-      <Branch>upper edge three</Branch>
+      <Branch key="one">upper edge one</Branch>
+      <Branch key="two">upper edge two</Branch>
+      <Branch key="three">upper edge three</Branch>
     </Tree>
   </Sheet>
 );
@@ -253,5 +254,57 @@ export const BranchContentExamples = () => {
         </Tree>
       </Section>
     </Sheet>
+  );
+};
+
+export const SubTrees = () => {
+  const [sheetLtrOpen, setSheetLtrOpen] = useState(true);
+  const [sheetRtlOpen, setSheetRtlOpen] = useState(false);
+
+  return (
+    <main>
+      <section
+        style={{
+          borderBottom: "1px solid black",
+          display: "flex",
+          justifyContent: "space-between",
+
+          marginBottom: "2rem",
+          paddingBottom: "2rem",
+        }}
+      >
+        <Button onClick={() => setSheetLtrOpen(!sheetLtrOpen)}>
+          Toggle LTR Sheet
+        </Button>
+        <Button onClick={() => setSheetRtlOpen(!sheetRtlOpen)}>
+          Toggle RTL Sheet
+        </Button>
+      </section>
+
+      <Sheet aria-label="Sub Trees Story, dir=ltr" open={sheetLtrOpen}>
+        <Tree label="Sub Trees Example, dir=ltr" dir="ltr">
+          <SubTree
+            edges={[
+              <Branch key="one">one</Branch>,
+              <Branch key="two">two</Branch>,
+              <Branch key="three">three</Branch>,
+            ]}
+          >
+            Sub Tree One Label
+          </SubTree>
+        </Tree>
+      </Sheet>
+
+      <div style={{ margin: "2rem", borderBottom: "1px solid black" }}></div>
+
+      <Sheet aria-label="Sub Trees Story, dir=rtl" open={sheetRtlOpen}>
+        <Tree label="Sub Trees Example, dir=rtl" dir="rtl">
+          <Branch key="one">
+            TODO: once it's done, copy-paste other sheets contents here, with
+            ZERO modifications
+          </Branch>
+        </Tree>
+      </Sheet>
+    </main>
   );
 };
