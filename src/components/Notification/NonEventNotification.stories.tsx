@@ -104,7 +104,7 @@ export const AlertShow = () => {
           setOpen(!isOpen);
         }}
       >
-        Show
+        {isOpen ? "Hide" : "Show"}
       </Button>
 
       {isOpen && (
@@ -134,7 +134,7 @@ export const AlertShowContainer = () => {
           setOpen(!isOpen);
         }}
       >
-        Show
+        {isOpen ? "Hide" : "Show"}
       </Button>
       <div
         ref={(element) => {
