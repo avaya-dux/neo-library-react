@@ -9,3 +9,11 @@ li[dir="rtl"].neo-treeview__item.neo-treeview__item--selected {
   border-left: 2px solid transparent;
   border-right: 2px solid #1473e6;
 }
+
+.neo-treeview__sub-tree-item {
+  cursor: default;
+}
+.neo-treeview__sub-tree-item div[role="button"] {
+  cursor: pointer;
+  display: flex;
+}

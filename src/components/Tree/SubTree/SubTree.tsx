@@ -31,20 +31,27 @@ export const SubTree: FC<SubTreeProps> = ({
 
   return (
     <li
-      onClick={(e) => {
-        e.stopPropagation();
-        setActive(true);
-        setExpanded(!expanded);
-      }}
       dir={dir}
       role="treeitem"
-      tabIndex={active && !expanded ? 0 : -1}
       className={clsx(
-        "neo-treeview__item",
+        "neo-treeview__sub-tree-item",
         expanded && "neo-treeview__item--expanded"
       )}
-      onKeyDown={(e) => {
-        e.stopPropagation();
+    >
+      <div
+        className={clsx(
+          "neo-treeview__item-left", // TODO: use `dir`
+          active && "neo-treeview__item--selected"
+        )}
+        role="button"
+        tabIndex={active && !expanded ? 0 : -1}
+        onClick={(e) => {
+          e.stopPropagation();
+          setActive(true);
+          setExpanded(!expanded);
+        }}
+        onKeyDown={(e) => {
+          e.stopPropagation();
 
         switch (e.key) {
           case Keys.SPACE:
@@ -70,19 +77,16 @@ export const SubTree: FC<SubTreeProps> = ({
             break;
         }
       }}
-    >
-      <span className="neo-treeview__item--expandable"></span>
+      >
+        <span className="neo-treeview__item--expandable"></span>
 
-      <div>{children}</div>
+        <span>{children}</span>
+      </div>
 
       <ul
         aria-expanded={expanded}
         role="group"
-        tabIndex={active && expanded ? 0 : -1}
-        className={clsx(
-          dir === "ltr" ? "neo-treeview__item-left" : "",
-          expanded === false && "neo-display-none"
-        )}
+        className={clsx(expanded === false && "neo-display-none")}
       >
         {edges}
       </ul>

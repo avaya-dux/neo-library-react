@@ -292,6 +292,44 @@ export const SubTrees = () => {
           >
             Sub Tree One Label
           </SubTree>
+
+          <SubTree
+            edges={[
+              <Branch key="four">four</Branch>,
+              <Branch key="five">five</Branch>,
+              <Branch key="six">six</Branch>,
+            ]}
+          >
+            Sub Tree Two Label
+          </SubTree>
+
+          <SubTree
+            edges={[
+              <SubTree
+                edges={[
+                  <Branch key="seven">seven</Branch>,
+                  <Branch key="eight">eight</Branch>,
+                  <Branch key="nine">nine</Branch>,
+                  <SubTree
+                    edges={[
+                      <Branch key="ten">ten</Branch>,
+                      <Branch key="eleven">eleven</Branch>,
+                      <Branch key="twelve">twelve</Branch>,
+                    ]}
+                  >
+                    Sub Tree Three, Sub Tree Three-One, Sub Tree Three-One-One
+                    Label
+                  </SubTree>,
+                ]}
+              >
+                Sub Tree Three, Sub Tree Three-One Label
+              </SubTree>,
+              <Branch key="thirteen">thirteen</Branch>,
+              <Branch key="fourteen">fourteen</Branch>,
+            ]}
+          >
+            Sub Tree Three Label
+          </SubTree>
         </Tree>
       </Sheet>
 
@@ -303,6 +341,16 @@ export const SubTrees = () => {
             TODO: once it's done, copy-paste other sheets contents here, with
             ZERO modifications
           </Branch>
+
+          <SubTree
+            edges={[
+              <Branch key="one">one</Branch>,
+              <Branch key="two">two</Branch>,
+              <Branch key="three">three</Branch>,
+            ]}
+          >
+            Sub Tree One Label
+          </SubTree>
         </Tree>
       </Sheet>
     </main>
