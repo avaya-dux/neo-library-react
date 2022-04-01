@@ -8,7 +8,8 @@ export const getBadgeClass = (badge?: string) => (badge ? "neo-badge" : "");
 export const getVariantClasses = (
   shape: string,
   variant: string,
-  status: string
+  status: string,
+  size: string
 ) => {
   const classes = [
     `${rootBtnClass}-${variant}`,
@@ -17,6 +18,9 @@ export const getVariantClasses = (
 
   if (shape !== "none") {
     classes.push(`${rootBtnClass}-${shape}-${variant}--${status}`);
+  }
+  if (size) {
+    classes.push(`${rootBtnClass}--${size}-${variant}--${status}`);
   }
 
   return classes;

@@ -23,6 +23,12 @@ AriaLabel.args = {
   icon: "settings",
   "aria-label": "test aria label prop",
 };
+export const AriaLabelWide = Template.bind({});
+AriaLabelWide.args = {
+  icon: "settings",
+  "aria-label": "test aria label prop",
+  size: "wide",
+};
 
 export const ShapeSquareAnimationSpinner = Template.bind({});
 ShapeSquareAnimationSpinner.args = {

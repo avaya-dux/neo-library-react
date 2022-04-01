@@ -19,7 +19,7 @@ export interface IconButtonProps
   badge?: string;
   icon: IconNamesType;
   shape: "circle" | "square";
-  size?: "default" | "compact";
+  size?: "default" | "compact" | "wide";
   status?: "default" | "success" | "alert" | "warning" | "info" | "event";
   variant?: "primary" | "secondary" | "tertiary";
 }
@@ -33,7 +33,7 @@ export const IconButton = forwardRef(
       className,
       icon,
       shape = "square",
-      size = "default",
+      size,
       status = "default",
       variant = "primary",
       ...rest
@@ -47,12 +47,18 @@ export const IconButton = forwardRef(
     const displaySpinner = useMemo(() => showSpinner(animation), [animation]);
 
     const buttonClasses = useMemo(() => {
-      const result = [
-        rootBtnClass,
-        `${rootBtnClass}-${shape}`,
-        getSizeClass(size),
-        ...getVariantClasses(shape, variant, status),
-      ];
+      const result = size
+        ? [
+            `rootBtnClass-${size}`,
+            getSizeClass(size),
+            ...getVariantClasses(shape, variant, status, size),
+          ]
+        : [
+            rootBtnClass,
+            `${rootBtnClass}-${shape}`,
+            getSizeClass("default"),
+            ...getVariantClasses(shape, variant, status, "default"),
+          ];
 
       const animationClass = getAnimationClass(animation);
       if (animationClass) {
