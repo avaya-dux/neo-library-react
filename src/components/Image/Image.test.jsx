@@ -6,7 +6,7 @@ import cat from "./200by300image.jpeg";
 import { Image } from "./Image";
 import * as ImageStories from "./Image.stories";
 
-const { DefaultImage, FallBackAsJSX, FallBackAsUrl } =
+const { DefaultImage, FallBackAsJSX, FallBackAsUrl, Thumbnail } =
   composeStories(ImageStories);
 
 describe("Image", () => {
@@ -127,6 +127,25 @@ describe("Image", () => {
 
       beforeEach(() => {
         renderResult = render(<FallBackAsUrl />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("Thumbnail", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<Thumbnail />);
       });
 
       it("should render ok", () => {
