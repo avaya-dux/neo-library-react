@@ -17,3 +17,10 @@ li[dir="rtl"].neo-treeview__item.neo-treeview__item--selected {
   cursor: pointer;
   display: flex;
 }
+
+li[dir=rtl].neo-treeview__sub-tree-item.neo-treeview__item--expanded .neo-treeview__item--expandable:before {
+  transform: rotate(0deg);
+}
+li[dir=rtl].neo-treeview__sub-tree-item .neo-treeview__item--expandable:before {
+  transform: rotate(180deg);
+}
