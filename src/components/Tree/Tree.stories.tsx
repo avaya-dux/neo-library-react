@@ -281,6 +281,26 @@ export const SubTrees = () => {
         </Button>
       </section>
 
+      <section>
+        <label htmlFor="bugs">bugs</label>
+
+        <ul id="bugs" style={{ marginLeft: "2rem" }}>
+          <li>
+            sub sub tree chevons are <i>always</i> pointing down
+          </li>
+          <li>
+            <code>dir='rtl'</code> sub trees do not have appropriate padding
+          </li>
+          <li>
+            should probably enforce <code>dir='ltr'</code> by default to
+            simplify the CSS
+          </li>
+          <li>
+            <code>dir='rtl'</code> chevrons spin the wrong way
+          </li>
+        </ul>
+      </section>
+
       <Sheet aria-label="Sub Trees Story, dir=ltr" open={sheetLtrOpen}>
         <Tree label="Sub Trees Example, dir=ltr" dir="ltr">
           <SubTree
