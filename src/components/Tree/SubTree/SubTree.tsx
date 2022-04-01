@@ -51,30 +51,30 @@ export const SubTree: FC<SubTreeProps> = ({
         onKeyDown={(e) => {
           e.stopPropagation();
 
-        switch (e.key) {
-          case Keys.SPACE:
-          case Keys.ENTER:
-            setActive(true);
-            setExpanded(!expanded);
-            break;
-          case Keys.LEFT:
-            setActive(true);
-            setExpanded(false);
-            break;
-          case Keys.RIGHT:
-            setActive(true);
-            setExpanded(true);
-            break;
-          case Keys.UP:
-            // TODO: move tabIndex up
-            setActive(false);
-            break;
-          case Keys.DOWN:
-            // TODO: move tabIndex down
-            setActive(false);
-            break;
-        }
-      }}
+          switch (e.key) {
+            case Keys.SPACE:
+            case Keys.ENTER:
+              setActive(true);
+              setExpanded(!expanded);
+              break;
+            case Keys.LEFT:
+              setActive(true);
+              setExpanded(false);
+              break;
+            case Keys.RIGHT:
+              setActive(true);
+              setExpanded(true);
+              break;
+            case Keys.UP:
+              // TODO: move tabIndex up
+              setActive(false);
+              break;
+            case Keys.DOWN:
+              // TODO: move tabIndex down
+              setActive(false);
+              break;
+          }
+        }}
       >
         <span className="neo-treeview__item--expandable"></span>
 

@@ -8,8 +8,11 @@ describe("SubTree", () => {
   it("fully renders without exploding", () => {
     render(<SubTree edges={[<Branch key="one">one</Branch>]}>example</SubTree>);
 
-    const rootElement = screen.getByRole("treeitem");
-    expect(rootElement).toBeInTheDocument();
+    const treeitems = screen.getAllByRole("treeitem");
+    expect(treeitems).toHaveLength(2);
+
+    const groupUl = screen.getByRole("group");
+    expect(groupUl).toBeInTheDocument();
   });
 
   it("passes basic axe compliance", async () => {
