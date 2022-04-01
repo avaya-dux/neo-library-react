@@ -5,12 +5,13 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 
 import clsx from "clsx";
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 
 import { Keys } from "utils";
 
+import { TreeContext } from "../TreeContext";
+
 export interface SubTreeProps {
-  alignment?: "left" | "right";
   defaultActive?: boolean;
   defaultExpanded?: boolean;
 
@@ -18,12 +19,13 @@ export interface SubTreeProps {
   edges: JSX.Element[];
 }
 export const SubTree: FC<SubTreeProps> = ({
-  alignment,
   children,
   defaultActive = false,
   defaultExpanded = false,
   edges,
 }) => {
+  const { dir } = useContext(TreeContext);
+
   const [active, setActive] = useState(defaultActive);
   const [expanded, setExpanded] = useState(defaultExpanded);
 
@@ -31,9 +33,10 @@ export const SubTree: FC<SubTreeProps> = ({
     <li
       onClick={(e) => {
         e.stopPropagation();
-        setActive(!active);
+        setActive(true);
         setExpanded(!expanded);
       }}
+      dir={dir}
       role="treeitem"
       tabIndex={active && !expanded ? 0 : -1}
       className={clsx(
@@ -46,8 +49,24 @@ export const SubTree: FC<SubTreeProps> = ({
         switch (e.key) {
           case Keys.SPACE:
           case Keys.ENTER:
-            setActive(!active);
+            setActive(true);
             setExpanded(!expanded);
+            break;
+          case Keys.LEFT:
+            setActive(true);
+            setExpanded(false);
+            break;
+          case Keys.RIGHT:
+            setActive(true);
+            setExpanded(true);
+            break;
+          case Keys.UP:
+            // TODO: move tabIndex up
+            setActive(false);
+            break;
+          case Keys.DOWN:
+            // TODO: move tabIndex down
+            setActive(false);
             break;
         }
       }}
@@ -61,7 +80,7 @@ export const SubTree: FC<SubTreeProps> = ({
         role="group"
         tabIndex={active && expanded ? 0 : -1}
         className={clsx(
-          alignment === "left" ? "neo-treeview__item-left" : "",
+          dir === "ltr" ? "neo-treeview__item-left" : "",
           expanded === false && "neo-display-none"
         )}
       >
