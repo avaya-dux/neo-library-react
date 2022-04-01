@@ -1,5 +1,37 @@
 /* TODO: once these changes are finalized, move them into the CSS Library */
 
+/* sub tree classes */
+.neo-treeview__sub-tree-item {
+  cursor: default;
+}
+.neo-treeview__sub-tree-item > ul {
+  margin-left: 1rem;
+}
+.neo-treeview__sub-tree-item div[role="button"] {
+  cursor: pointer;
+  display: flex;
+}
+
+.neo-treeview__sub-tree-item div {
+  border-right: 2px solid transparent;
+  border-left: 2px solid transparent;
+}
+.neo-treeview__sub-tree-item div.neo-treeview__item--selected {
+  border-right: 2px solid transparent;
+  border-left: 2px solid #1473e6;
+}
+
+li[dir="rtl"].neo-treeview__sub-tree-item.neo-treeview__item--expanded
+  .neo-treeview__item--expandable:before {
+  transform: rotate(0deg);
+}
+li[dir="rtl"].neo-treeview__sub-tree-item
+  .neo-treeview__item--expandable:before {
+  transform: rotate(180deg);
+}
+/* sub tree classes */
+
+/* branch classes */
 li[dir="rtl"].neo-treeview__item {
   border-right: 2px solid transparent;
   border-left: 2px solid transparent;
@@ -9,18 +41,4 @@ li[dir="rtl"].neo-treeview__item.neo-treeview__item--selected {
   border-left: 2px solid transparent;
   border-right: 2px solid #1473e6;
 }
-
-.neo-treeview__sub-tree-item {
-  cursor: default;
-}
-.neo-treeview__sub-tree-item div[role="button"] {
-  cursor: pointer;
-  display: flex;
-}
-
-li[dir=rtl].neo-treeview__sub-tree-item.neo-treeview__item--expanded .neo-treeview__item--expandable:before {
-  transform: rotate(0deg);
-}
-li[dir=rtl].neo-treeview__sub-tree-item .neo-treeview__item--expandable:before {
-  transform: rotate(180deg);
-}
+/* branch classes */
