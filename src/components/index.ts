@@ -17,6 +17,7 @@ export * from "./Menu";
 export * from "./Modal";
 export * from "./NeoInputWrapper";
 export * from "./NoContent";
+export * from "./Notification";
 export * from "./Pagination";
 export * from "./RadioGroup";
 export * from "./SelectNative";
