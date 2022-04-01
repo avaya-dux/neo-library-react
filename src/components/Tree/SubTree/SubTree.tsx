@@ -33,14 +33,12 @@ export const SubTree: FC<SubTreeProps> = ({
     <li
       dir={dir}
       role="treeitem"
-      className={clsx(
-        "neo-treeview__sub-tree-item",
-        expanded && "neo-treeview__item--expanded"
-      )}
+      className={clsx("neo-treeview__sub-tree-item")}
     >
       <div
         className={clsx(
           "neo-treeview__item-left", // TODO: use `dir`
+          expanded && "neo-treeview__item--expanded",
           active && "neo-treeview__item--selected"
         )}
         role="button"

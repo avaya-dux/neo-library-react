@@ -286,9 +286,6 @@ export const SubTrees = () => {
 
         <ul id="bugs" style={{ marginLeft: "2rem" }}>
           <li>
-            sub sub tree chevons are <i>always</i> pointing down
-          </li>
-          <li>
             <code>dir='rtl'</code> sub trees do not have appropriate padding
           </li>
           <li>
@@ -297,6 +294,9 @@ export const SubTrees = () => {
           </li>
           <li>
             <code>dir='rtl'</code> chevrons spin the wrong way
+          </li>
+          <li>
+            <code>dir='rtl'</code> sub-item highlight is on the wrong side
           </li>
         </ul>
       </section>
@@ -326,11 +326,13 @@ export const SubTrees = () => {
           <SubTree
             edges={[
               <SubTree
+                key="sub-sub-tree"
                 edges={[
                   <Branch key="seven">seven</Branch>,
                   <Branch key="eight">eight</Branch>,
                   <Branch key="nine">nine</Branch>,
                   <SubTree
+                    key="sub-sub-sub-tree"
                     edges={[
                       <Branch key="ten">ten</Branch>,
                       <Branch key="eleven">eleven</Branch>,
@@ -380,11 +382,13 @@ export const SubTrees = () => {
           <SubTree
             edges={[
               <SubTree
+                key="sub-sub-tree"
                 edges={[
                   <Branch key="seven">seven</Branch>,
                   <Branch key="eight">eight</Branch>,
                   <Branch key="nine">nine</Branch>,
                   <SubTree
+                    key="sub-sub-sub-tree"
                     edges={[
                       <Branch key="ten">ten</Branch>,
                       <Branch key="eleven">eleven</Branch>,

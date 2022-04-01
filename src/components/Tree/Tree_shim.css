@@ -22,7 +22,8 @@
   border-left: 2px solid #1473e6;
 }
 
-li[dir="rtl"].neo-treeview__sub-tree-item.neo-treeview__item--expanded
+li[dir="rtl"].neo-treeview__sub-tree-item
+  .neo-treeview__item--expanded
   .neo-treeview__item--expandable:before {
   transform: rotate(0deg);
 }
