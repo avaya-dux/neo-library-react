@@ -11,24 +11,24 @@ const EventTemplate: Story<WithoutType> = ({ ...rest }: WithoutType) => {
 export const Event = EventTemplate.bind({});
 Event.args = {
   icon: "copy",
-  header: "Header text",
-  description: "Some description",
+  header: "Event",
+  description: "This is an event.",
   isElevated: true,
 };
 
 export const EventCloseAlert = EventTemplate.bind({});
 EventCloseAlert.args = {
   icon: "copy",
-  header: "Header text",
-  description: "Some description",
+  header: "Event",
+  description: "This is an event.",
   isElevated: true,
   action: { onClick: () => alert("closed") },
 };
 export const EventCounter = EventTemplate.bind({});
 EventCounter.args = {
   icon: "copy",
-  header: "Header text",
-  description: "Some description",
+  header: "Event",
+  description: "This is an event.",
   isElevated: true,
   action: { count: "00:00" },
 };
@@ -47,8 +47,8 @@ export const EventCounterUp = () => {
           <Notification
             type="event"
             icon="copy"
-            header="Header Text"
-            description="Some description"
+            header="Event"
+            description="This is an event."
             action={{ count: `${formatted.substring(3)}` }}
           />
         );
@@ -60,8 +60,8 @@ export const EventCounterUp = () => {
 export const EventButtons = EventTemplate.bind({});
 EventButtons.args = {
   icon: "copy",
-  header: "Header text",
-  description: "Some description",
+  header: "Event",
+  description: "This is an event.",
   isElevated: true,
   action: {
     buttons: [
@@ -74,8 +74,8 @@ EventButtons.args = {
 const EventCustomAction = EventTemplate.bind({});
 EventCustomAction.args = {
   icon: "copy",
-  header: "Header text",
-  description: "Some description",
+  header: "Event",
+  description: "This is an event.",
   isElevated: true,
   action: (
     <div>
