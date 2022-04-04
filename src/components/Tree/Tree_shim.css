@@ -29,10 +29,13 @@ li[dir="rtl"].neo-treeview__sub-tree-item div.neo-treeview__item--selected {
   border-left: 2px solid transparent;
 }
 
-.neo-treeview__sub-tree-item
+li[dir="rtl"].neo-treeview__sub-tree-item .neo-treeview__item--expandable:before {
+  transform: rotate(180deg);
+}
+li[dir="rtl"].neo-treeview__sub-tree-item
   .neo-treeview__item--expanded
   .neo-treeview__item--expandable:before {
-  transform: rotate(-90deg);
+  transform: rotate(0deg);
 }
 /* sub tree classes */
 
