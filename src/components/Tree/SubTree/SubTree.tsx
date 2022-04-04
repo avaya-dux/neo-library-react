@@ -45,7 +45,7 @@ export const SubTree: FC<SubTreeProps> = ({
         <span
           className="neo-treeview__item-left"
           role="button"
-          tabIndex={active && !expanded ? 0 : -1} // TODO: roving tab index
+          tabIndex={active ? 0 : -1} // TODO: roving tab index
           onClick={(e) => {
             e.stopPropagation();
             setActive(true);
