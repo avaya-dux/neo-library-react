@@ -381,6 +381,7 @@ export const SubTrees = () => {
               <IconButton
                 aria-label="click here for more options"
                 icon="more"
+                key="sub-tree-two-button-two"
                 onClick={() => alert("sub tree two, button two clicked")}
                 variant="tertiary"
               />,
