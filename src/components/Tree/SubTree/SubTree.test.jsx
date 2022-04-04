@@ -50,7 +50,7 @@ describe("SubTree", () => {
       container = c;
     });
 
-    it("expands and collapses when children are clicked", () => {
+    it("expands and collapses when sub-menu is clicked", () => {
       const subtreeEdges = screen.getByRole("group");
       const subtreeTitle = screen.getByText(subTreeText);
 
@@ -68,7 +68,7 @@ describe("SubTree", () => {
       userEvent.click(subtreeTitle);
 
       expect(subtreeEdges).toHaveClass("neo-display-none");
-      expect(subtreeEdges).not.toHaveAttribute("aria-expanded", "true");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "false");
     });
     it("does _not_ expand/collapse when `actions` are clicked", () => {
       const subtreeEdges = screen.getByRole("group");
@@ -104,7 +104,7 @@ describe("SubTree", () => {
       userEvent.keyboard("{space}");
 
       expect(subtreeEdges).toHaveClass("neo-display-none");
-      expect(subtreeEdges).not.toHaveAttribute("aria-expanded", "true");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "false");
 
       userEvent.keyboard("{enter}");
 
@@ -130,13 +130,13 @@ describe("SubTree", () => {
 
       expect(subTreeDiv).toHaveClass("neo-treeview__item--selected"); // _is_ active
       expect(subtreeEdges).toHaveClass("neo-display-none");
-      expect(subtreeEdges).not.toHaveAttribute("aria-expanded", "true");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "false");
 
       userEvent.keyboard("{ArrowLeft}");
 
       expect(subTreeDiv).toHaveClass("neo-treeview__item--selected"); // _is_ active (still)
       expect(subtreeEdges).toHaveClass("neo-display-none");
-      expect(subtreeEdges).not.toHaveAttribute("aria-expanded", "true");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "false");
     });
     it("on keyboard right, sets active=>true and expanded=>true", () => {
       const subTreeDiv = container.querySelector(
