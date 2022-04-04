@@ -270,16 +270,12 @@ export const SubTrees = () => {
           <li>
             <code>dir='rtl'</code> sub trees do not have appropriate padding
           </li>
-          <li>
-            should probably enforce <code>dir='ltr'</code> by default to
-            simplify the CSS
-          </li>
+
           <li>
             <code>dir='rtl'</code> chevrons spin the wrong way
           </li>
-          <li>
-            <code>dir='rtl'</code> sub-item highlight is on the wrong side
-          </li>
+
+          <li>chevrons always end in the wrong direction</li>
         </ul>
       </section>
 

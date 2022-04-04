@@ -24,7 +24,7 @@ export const Tree: FC<TreeProps> = ({
   "aria-describedby": describedby,
   "aria-label": arialabel,
   children,
-  dir,
+  dir = "ltr",
   label,
 }) => {
   if (!label && !arialabel && !describedby) {
