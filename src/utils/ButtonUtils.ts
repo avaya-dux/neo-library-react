@@ -9,7 +9,7 @@ export const getVariantClasses = (
   shape: string,
   variant: string,
   status: string,
-  size: string
+  size ?: string
 ) => {
   const classes = [
     `${rootBtnClass}-${variant}`,
@@ -19,7 +19,7 @@ export const getVariantClasses = (
   if (shape !== "none") {
     classes.push(`${rootBtnClass}-${shape}-${variant}--${status}`);
   }
-  if (size) {
+  if (size && !shape) {
     classes.push(`${rootBtnClass}--${size}-${variant}--${status}`);
   }
 
