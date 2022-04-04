@@ -18,7 +18,7 @@ export interface IconButtonProps
   animation?: "none" | "spinner" | "pulse";
   badge?: string;
   icon: IconNamesType;
-  shape: "circle" | "square";
+  shape?: "circle" | "square";
   size?: "default" | "compact";
   status?: "default" | "success" | "alert" | "warning" | "info" | "event";
   variant?: "primary" | "secondary" | "tertiary";
