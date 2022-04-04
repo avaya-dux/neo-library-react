@@ -82,5 +82,31 @@ describe("SubTree", () => {
       expect(subtreeEdges).toHaveClass("neo-display-none");
       expect(subtreeEdges).toHaveAttribute("aria-expanded", "false");
     });
+
+    it("on keyboard space/enter, sets active=>true and toggles expanded", () => {
+      const subtreeEdges = screen.getByRole("group");
+      const subtreeTitle = screen.getByText(subTreeText);
+
+      expect(subtreeEdges).toBeInTheDocument();
+      expect(subtreeEdges).toHaveClass("neo-display-none");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "false");
+
+      expect(subtreeTitle).toBeInTheDocument();
+
+      userEvent.click(subtreeTitle);
+
+      expect(subtreeEdges).not.toHaveClass("neo-display-none");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "true");
+
+      userEvent.keyboard("{space}");
+
+      expect(subtreeEdges).toHaveClass("neo-display-none");
+      expect(subtreeEdges).not.toHaveAttribute("aria-expanded", "true");
+
+      userEvent.keyboard("{enter}");
+
+      expect(subtreeEdges).not.toHaveClass("neo-display-none");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "true");
+    });
   });
 });
