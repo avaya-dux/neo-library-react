@@ -259,28 +259,10 @@ export const BranchContentExamples = () => {
 
 export const SubTrees = () => {
   const [sheetLtrOpen, setSheetLtrOpen] = useState(true);
-  const [sheetRtlOpen, setSheetRtlOpen] = useState(false);
+  const [sheetRtlOpen, setSheetRtlOpen] = useState(true);
 
   return (
     <main>
-      <section
-        style={{
-          borderBottom: "1px solid black",
-          display: "flex",
-          justifyContent: "space-between",
-
-          marginBottom: "2rem",
-          paddingBottom: "2rem",
-        }}
-      >
-        <Button onClick={() => setSheetLtrOpen(!sheetLtrOpen)}>
-          Toggle LTR Sheet
-        </Button>
-        <Button onClick={() => setSheetRtlOpen(!sheetRtlOpen)}>
-          Toggle RTL Sheet
-        </Button>
-      </section>
-
       <section>
         <label htmlFor="bugs">bugs</label>
 
@@ -300,6 +282,25 @@ export const SubTrees = () => {
           </li>
         </ul>
       </section>
+
+      <div style={{ margin: "2rem", borderBottom: "1px solid black" }}></div>
+
+      <section
+        style={{
+          display: "flex",
+          justifyContent: "space-evenly",
+        }}
+      >
+        <Button onClick={() => setSheetLtrOpen(!sheetLtrOpen)}>
+          Toggle LTR Sheet
+        </Button>
+
+        <Button onClick={() => setSheetRtlOpen(!sheetRtlOpen)}>
+          Toggle RTL Sheet
+        </Button>
+      </section>
+
+      <div style={{ margin: "2rem", borderBottom: "1px solid black" }}></div>
 
       <Sheet aria-label="Sub Trees Story, dir=ltr" open={sheetLtrOpen}>
         <Tree label="Sub Trees Example, dir=ltr" dir="ltr">
