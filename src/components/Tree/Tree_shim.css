@@ -1,10 +1,6 @@
 /* TODO: once these changes are finalized, move them into the CSS Library */
 
 /* sub tree classes */
-.neo-treeview__sub-tree-item {
-  cursor: default;
-}
-
 li[dir="ltr"].neo-treeview__sub-tree-item > ul {
   display: block;
   margin-left: 1rem;

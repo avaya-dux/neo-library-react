@@ -15,10 +15,12 @@ export interface SubTreeProps {
   defaultActive?: boolean;
   defaultExpanded?: boolean;
 
-  // TODO: don't use a prop for this
+  // TODO: don't use a prop for these
+  actions?: JSX.Element[];
   edges: JSX.Element[];
 }
 export const SubTree: FC<SubTreeProps> = ({
+  actions,
   children,
   defaultActive = false,
   defaultExpanded = false,
@@ -30,22 +32,23 @@ export const SubTree: FC<SubTreeProps> = ({
   const [expanded, setExpanded] = useState(defaultExpanded);
 
   return (
-    <li
-      dir={dir}
-      role="treeitem"
-      className={clsx("neo-treeview__sub-tree-item")}
-    >
+    <li dir={dir} role="treeitem" className="neo-treeview__sub-tree-item">
       <div
         className={clsx(
-          "neo-treeview__item-left", // TODO: use `dir`
+          "neo-treeview__item",
           expanded && "neo-treeview__item--expanded",
           active && "neo-treeview__item--selected"
         )}
-        role="button"
-        tabIndex={active && !expanded ? 0 : -1}
-        onClick={(e) => {
-          e.stopPropagation();
-          setActive(true);
+      >
+        <span className="neo-treeview__item--expandable" />
+
+        <span
+          className="neo-treeview__item-left"
+          role="button"
+          tabIndex={active && !expanded ? 0 : -1} // TODO: roving tab index
+          onClick={(e) => {
+            e.stopPropagation();
+            setActive(true);
           setExpanded(!expanded);
         }}
         onKeyDown={(e) => {
@@ -73,12 +76,13 @@ export const SubTree: FC<SubTreeProps> = ({
               // TODO: move tabIndex down
               setActive(false);
               break;
-          }
-        }}
-      >
-        <span className="neo-treeview__item--expandable"></span>
+            }
+          }}
+        >
+          {children}
+        </span>
 
-        <span>{children}</span>
+        <span className="neo-treeview__item-right">{actions}</span>
       </div>
 
       <ul

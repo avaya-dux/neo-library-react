@@ -2,6 +2,7 @@ import { Meta } from "@storybook/react/types-6-0";
 import { DetailedHTMLProps, FC, LabelHTMLAttributes, useState } from "react";
 
 import { Button } from "components/Button";
+import { IconButton } from "components/IconButton";
 import { Sheet } from "components/Sheet";
 
 import { Branch, SubTree, Tree, TreeProps } from ".";
@@ -299,13 +300,27 @@ export const SubTrees = () => {
           </SubTree>
 
           <SubTree
+            actions={[
+              <Button
+                key="sub-tree-two-button-one"
+                onClick={() => alert("sub tree two, button one clicked")}
+              >
+                button one
+              </Button>,
+              <IconButton
+                aria-label="click here for more options"
+                icon="more"
+                onClick={() => alert("sub tree two, button two clicked")}
+                variant="tertiary"
+              />,
+            ]}
             edges={[
               <Branch key="four">four</Branch>,
               <Branch key="five">five</Branch>,
               <Branch key="six">six</Branch>,
             ]}
           >
-            Sub Tree Two Label
+            Sub Tree Two Label, has actions
           </SubTree>
 
           <SubTree
@@ -355,13 +370,27 @@ export const SubTrees = () => {
           </SubTree>
 
           <SubTree
+            actions={[
+              <Button
+                key="sub-tree-two-button-one"
+                onClick={() => alert("sub tree two, button one clicked")}
+              >
+                button one
+              </Button>,
+              <IconButton
+                aria-label="click here for more options"
+                icon="more"
+                onClick={() => alert("sub tree two, button two clicked")}
+                variant="tertiary"
+              />,
+            ]}
             edges={[
               <Branch key="four">four</Branch>,
               <Branch key="five">five</Branch>,
               <Branch key="six">six</Branch>,
             ]}
           >
-            Sub Tree Two Label
+            Sub Tree Two Label, has actions
           </SubTree>
 
           <SubTree
