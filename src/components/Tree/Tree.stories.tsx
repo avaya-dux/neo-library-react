@@ -42,6 +42,10 @@ const Section: FC = ({ children }) => (
   </div>
 );
 
+const Divider = () => (
+  <div style={{ margin: "2rem 0", borderBottom: "1px solid black" }} />
+);
+
 export const BranchContentExamples = () => {
   const [selected, setSelected] = useState("");
 
@@ -263,19 +267,7 @@ export const SubTrees = () => {
 
   return (
     <main>
-      <section>
-        <label htmlFor="bugs">bugs</label>
-
-        <ul id="bugs" style={{ marginLeft: "2rem" }}>
-          <li>
-            <code>dir='rtl'</code> sub trees do not have appropriate padding
-          </li>
-
-          <li>chevrons transitions spin excessively</li>
-        </ul>
-      </section>
-
-      <div style={{ margin: "2rem", borderBottom: "1px solid black" }}></div>
+      <Divider />
 
       <section
         style={{
@@ -292,7 +284,7 @@ export const SubTrees = () => {
         </Button>
       </section>
 
-      <div style={{ margin: "2rem", borderBottom: "1px solid black" }}></div>
+      <Divider />
 
       <Sheet aria-label="Sub Trees Story, dir=ltr" open={sheetLtrOpen}>
         <Tree label="Sub Trees Example, dir=ltr" dir="ltr">
@@ -348,7 +340,7 @@ export const SubTrees = () => {
         </Tree>
       </Sheet>
 
-      <div style={{ margin: "2rem", borderBottom: "1px solid black" }}></div>
+      <Divider />
 
       <Sheet aria-label="Sub Trees Story, dir=rtl" open={sheetRtlOpen}>
         <Tree label="Sub Trees Example, dir=rtl" dir="rtl">
@@ -403,6 +395,8 @@ export const SubTrees = () => {
           </SubTree>
         </Tree>
       </Sheet>
+
+      <Divider />
     </main>
   );
 };

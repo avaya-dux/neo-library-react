@@ -4,10 +4,16 @@
 .neo-treeview__sub-tree-item {
   cursor: default;
 }
-.neo-treeview__sub-tree-item > ul {
+
+li[dir="ltr"].neo-treeview__sub-tree-item > ul {
   display: block;
   margin-left: 1rem;
 }
+li[dir="rtl"].neo-treeview__sub-tree-item > ul {
+  display: block;
+  margin-right: 1rem;
+}
+
 .neo-treeview__sub-tree-item div[role="button"] {
   cursor: pointer;
   display: flex;
