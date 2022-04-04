@@ -49,33 +49,33 @@ export const SubTree: FC<SubTreeProps> = ({
           onClick={(e) => {
             e.stopPropagation();
             setActive(true);
-          setExpanded(!expanded);
-        }}
-        onKeyDown={(e) => {
-          e.stopPropagation();
+            setExpanded(!expanded);
+          }}
+          onKeyDown={(e) => {
+            e.stopPropagation();
 
-          switch (e.key) {
-            case Keys.SPACE:
-            case Keys.ENTER:
-              setActive(true);
-              setExpanded(!expanded);
-              break;
-            case Keys.LEFT:
-              setActive(true);
-              setExpanded(false);
-              break;
-            case Keys.RIGHT:
-              setActive(true);
-              setExpanded(true);
-              break;
-            case Keys.UP:
-              // TODO: move tabIndex up
-              setActive(false);
-              break;
-            case Keys.DOWN:
-              // TODO: move tabIndex down
-              setActive(false);
-              break;
+            switch (e.key) {
+              case Keys.SPACE:
+              case Keys.ENTER:
+                setActive(true);
+                setExpanded(!expanded);
+                break;
+              case Keys.LEFT:
+                setActive(true);
+                setExpanded(false);
+                break;
+              case Keys.RIGHT:
+                setActive(true);
+                setExpanded(true);
+                break;
+              case Keys.UP:
+                // TODO: move tabIndex up
+                setActive(false);
+                break;
+              case Keys.DOWN:
+                // TODO: move tabIndex down
+                setActive(false);
+                break;
             }
           }}
         >
