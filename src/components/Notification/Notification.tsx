@@ -13,7 +13,7 @@ import ReactDOM from "react-dom";
 import { ButtonAction, ClosableAction, CounterAction } from "./Actions";
 import { NotificationProps } from "./NotificationTypes";
 const logger = log.getLogger("notification-logger");
-logger.enableAll();
+logger.disableAll();
 export const Notification = forwardRef(
   (
     {
