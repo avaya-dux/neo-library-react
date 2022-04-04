@@ -271,11 +271,7 @@ export const SubTrees = () => {
             <code>dir='rtl'</code> sub trees do not have appropriate padding
           </li>
 
-          <li>
-            <code>dir='rtl'</code> chevrons spin the wrong way
-          </li>
-
-          <li>chevrons always end in the wrong direction</li>
+          <li>chevrons transitions spin excessively</li>
         </ul>
       </section>
 
