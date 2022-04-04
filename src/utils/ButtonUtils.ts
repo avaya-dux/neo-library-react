@@ -9,7 +9,7 @@ export const getVariantClasses = (
   shape: string,
   variant: string,
   status: string,
-  size ?: string
+  size?: string
 ) => {
   const classes = [
     `${rootBtnClass}-${variant}`,
