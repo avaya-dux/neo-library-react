@@ -1,12 +1,17 @@
 /* TODO: once these changes are finalized, move them into the CSS Library */
 
 /* sub tree classes */
-li[dir="ltr"].neo-treeview__sub-tree-item > ul {
+li[role="treeitem"] > ul[role="group"][aria-expanded="false"] {
+  display: none;
+}
+li[role="treeitem"] > ul[role="group"][aria-expanded="true"] {
   display: block;
+}
+
+li[dir="ltr"].neo-treeview__sub-tree-item > ul {
   margin-left: 1rem;
 }
 li[dir="rtl"].neo-treeview__sub-tree-item > ul {
-  display: block;
   margin-right: 1rem;
 }
 

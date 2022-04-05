@@ -85,11 +85,7 @@ export const SubTree: FC<SubTreeProps> = ({
         <span className="neo-treeview__item-right">{actions}</span>
       </div>
 
-      <ul
-        aria-expanded={expanded}
-        role="group"
-        className={clsx(expanded === false && "neo-display-none")}
-      >
+      <ul aria-expanded={expanded} role="group">
         {edges}
       </ul>
     </li>
