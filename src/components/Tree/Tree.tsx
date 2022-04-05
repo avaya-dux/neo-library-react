@@ -4,7 +4,8 @@
 /* eslint-disable jsx-a11y/role-supports-aria-props */
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 
-import { FC, useMemo } from "react";
+import clsx from "clsx";
+import { DetailedHTMLProps, FC, HTMLAttributes, useMemo } from "react";
 
 import { handleAccessbilityError } from "utils";
 import { genId } from "utils/accessibilityUtils";
@@ -13,9 +14,11 @@ import { TreeContext } from "./TreeContext";
 
 import "./Tree_shim.css";
 
-export interface TreeProps {
-  ["aria-label"]?: string;
-  ["aria-describedby"]?: string;
+export interface TreeProps
+  extends Omit<
+    DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
+    "dir"
+  > {
   dir?: "ltr" | "rtl";
   label?: string;
 }
@@ -24,8 +27,11 @@ export const Tree: FC<TreeProps> = ({
   "aria-describedby": describedby,
   "aria-label": arialabel,
   children,
-  dir,
+  className,
+  dir = "ltr",
   label,
+
+  ...rest
 }) => {
   if (!label && !arialabel && !describedby) {
     handleAccessbilityError(
@@ -36,7 +42,7 @@ export const Tree: FC<TreeProps> = ({
   const treeId = useMemo(() => genId(), []);
 
   return (
-    <div className="neo-treeview">
+    <div className={clsx("neo-treeview", className)} {...rest}>
       {label && <label htmlFor={treeId}>{label}</label>}
 
       <TreeContext.Provider value={{ dir }}>
@@ -45,7 +51,6 @@ export const Tree: FC<TreeProps> = ({
           aria-label={arialabel}
           id={treeId}
           role="tree"
-          tabIndex={0} // TODO: roving tab index
         >
           {children}
         </ul>

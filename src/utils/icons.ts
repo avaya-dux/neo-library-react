@@ -811,6 +811,7 @@ export type IconNamesType =
   | "mobile-not-paired"
   | "mobile-paired"
   | "mobile-wireless"
+  | "more"
   | "music"
   | "network-quality"
   | "network-quality-0"
