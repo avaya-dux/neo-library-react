@@ -28,6 +28,7 @@ AriaLabelWide.args = {
   icon: "settings",
   "aria-label": "test aria label prop",
   size: "wide",
+  shape: "square",
 };
 
 export const ShapeSquareAnimationSpinner = Template.bind({});

@@ -33,7 +33,7 @@ export const IconButton = forwardRef(
       className,
       icon,
       shape = "square",
-      size,
+      size = "default",
       status = "default",
       variant = "primary",
       ...rest
@@ -47,18 +47,17 @@ export const IconButton = forwardRef(
     const displaySpinner = useMemo(() => showSpinner(animation), [animation]);
 
     const buttonClasses = useMemo(() => {
-      const result = size
-        ? [
-            `rootBtnClass-${size}`,
-            getSizeClass(size),
-            ...getVariantClasses(shape, variant, status, size),
-          ]
-        : [
-            rootBtnClass,
-            `${rootBtnClass}-${shape}`,
-            getSizeClass("default"),
-            ...getVariantClasses(shape, variant, status, "default"),
-          ];
+      const sizeOrShapeClass =
+        size === "wide"
+          ? `${rootBtnClass}-${size}`
+          : `${rootBtnClass}-${shape}`;
+
+      const result = [
+        rootBtnClass,
+        sizeOrShapeClass,
+        getSizeClass(size),
+        ...getVariantClasses(shape, variant, status),
+      ];
 
       const animationClass = getAnimationClass(animation);
       if (animationClass) {
