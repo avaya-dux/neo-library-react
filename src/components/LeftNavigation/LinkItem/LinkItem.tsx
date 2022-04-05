@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { Button } from "components/Button";
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, MouseEventHandler } from "react";
 
 export interface ListItemLinkProps
   extends HTMLAttributes<HTMLLIElement | HTMLAnchorElement> {
@@ -22,6 +22,9 @@ export const LinkItem = ({
 
   ...rest
 }: ListItemLinkProps) => {
+  const handleOnClick: MouseEventHandler = () => {
+    // TODO: Make this active and parent too, use callback
+  };
   return (
     <li
       {...rest}

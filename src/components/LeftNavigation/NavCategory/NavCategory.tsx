@@ -1,4 +1,5 @@
 import {
+  Children,
   FunctionComponent,
   KeyboardEvent,
   MouseEvent,
@@ -7,6 +8,8 @@ import {
   useState,
 } from "react";
 import clsx from "clsx";
+
+import { LinkItem } from "../LinkItem";
 
 import { genId, getIconClass, IconNamesType, Keys } from "utils";
 export interface NavCategoryProps
@@ -50,7 +53,7 @@ export function getNavBarClassNames(
  */
 export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   id,
-  children,
+  children = [],
   label,
   icon,
   className,
@@ -75,6 +78,12 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
     setIconClass(iconStyles);
   }, [icon]);
 
+  useEffect(() => {
+    console.log({ children });
+  }, [children]);
+
+  const refKeys = [];
+
   const onExpand = (event: MouseEvent) => {
     event.stopPropagation();
     setIsExpanded(!isExpanded);
@@ -85,6 +94,11 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
       setIsExpanded(!isExpanded);
     }
   };
+
+  const linkItems = Children.map(children, (child, index) => (
+    <LinkItem id={index.toString()}>{child?.props.children}</LinkItem>
+  ));
+
   return (
     <li id={internalId} className={navItemClass}>
       <button
@@ -103,7 +117,7 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
       >
         {label}
       </button>
-      <ul className={listClass}>{children}</ul>
+      <ul className={listClass}>{linkItems}</ul>
     </li>
   );
 };
