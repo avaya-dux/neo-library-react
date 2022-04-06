@@ -454,6 +454,7 @@ export const IconNames = [
   "undo",
   "upload",
   "usb",
+  "user",
   "user-add",
   "user-conference",
   "user-details",
