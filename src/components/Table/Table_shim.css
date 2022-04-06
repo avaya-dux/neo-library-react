@@ -20,3 +20,6 @@
 .neo-table th button.neo-dropdown__link-header::after {
   padding: 0 12px 0 0;
 }
+.neo-table__filters--sheet{
+  z-index: 30 !important;
+}
