@@ -11,7 +11,7 @@ export interface ListItemLinkProps
 }
 
 export const LinkItem = ({
-  active,
+  active = false,
   children,
   className,
   disabled,
