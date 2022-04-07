@@ -1,5 +1,43 @@
 /* TODO: once these changes are finalized, move them into the CSS Library */
 
+/* sub tree classes */
+li[dir="ltr"].neo-treeview__sub-tree-item > ul {
+  display: block;
+  margin-left: 1rem;
+}
+li[dir="rtl"].neo-treeview__sub-tree-item > ul {
+  display: block;
+  margin-right: 1rem;
+}
+
+.neo-treeview__sub-tree-item > .neo-treeview__item {
+  border-right: 2px solid transparent;
+  border-left: 2px solid transparent;
+}
+
+li[dir="ltr"].neo-treeview__sub-tree-item
+  > .neo-treeview__item.neo-treeview__item--selected {
+  border-right: 2px solid transparent;
+  border-left: 2px solid #1473e6;
+}
+li[dir="rtl"].neo-treeview__sub-tree-item
+  > .neo-treeview__item.neo-treeview__item--selected {
+  border-right: 2px solid #1473e6;
+  border-left: 2px solid transparent;
+}
+
+li[dir="rtl"].neo-treeview__sub-tree-item
+  .neo-treeview__item--expandable:before {
+  transform: rotate(180deg);
+}
+li[dir="rtl"].neo-treeview__sub-tree-item
+  .neo-treeview__item--expanded
+  .neo-treeview__item--expandable:before {
+  transform: rotate(0deg);
+}
+/* sub tree classes */
+
+/* treeitem classes */
 li[dir="rtl"].neo-treeview__item {
   border-right: 2px solid transparent;
   border-left: 2px solid transparent;
@@ -9,3 +47,4 @@ li[dir="rtl"].neo-treeview__item.neo-treeview__item--selected {
   border-left: 2px solid transparent;
   border-right: 2px solid #1473e6;
 }
+/* treeitem classes */

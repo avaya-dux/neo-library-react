@@ -1,6 +1,5 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "jest-axe";
-
 import { IconButton } from "./IconButton";
 
 import "@testing-library/jest-dom/extend-expect";
@@ -70,5 +69,12 @@ describe("Button", () => {
 
     expect(badgeText.length).toBe(17);
     expect(rootElement).toHaveAttribute("data-badge", badgeText.slice(0, 12));
+  });
+  it("assigns the appropriate class name when the `size` prop is passed as wide", () => {
+    render(
+      <IconButton aria-label="description test" shape="square" size="wide" />
+    );
+    const linkElement = screen.getByRole("button");
+    expect(linkElement).toHaveClass("neo-btn-wide");
   });
 });

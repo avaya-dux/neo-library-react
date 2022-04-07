@@ -1,0 +1,210 @@
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { axe } from "jest-axe";
+
+import { Button } from "components/Button";
+
+import { SubTree } from ".";
+import { Tree } from "../Tree";
+import { TreeItem } from "../TreeItem";
+
+describe("SubTree", () => {
+  it("fully renders without exploding", () => {
+    render(
+      <SubTree edges={[<TreeItem key="one">one</TreeItem>]}>example</SubTree>
+    );
+
+    const treeitems = screen.getAllByRole("treeitem");
+    expect(treeitems).toHaveLength(2);
+
+    const groupUl = screen.getByRole("group");
+    expect(groupUl).toBeInTheDocument();
+  });
+
+  it("passes basic axe compliance", async () => {
+    const { container } = render(
+      <div role="tree">
+        <SubTree edges={[<TreeItem key="one">one</TreeItem>]}>example</SubTree>
+      </div>
+    );
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  describe("interactivity", () => {
+    const treeitemText = "treeitem";
+    const buttonText = "button";
+    const subTreeText = "sub tree";
+    let container;
+
+    beforeEach(() => {
+      const { container: c } = render(
+        <Tree aria-label="testing tree">
+          <SubTree
+            actions={[<Button key="btn-one">{buttonText}</Button>]}
+            edges={[<TreeItem key="one">{treeitemText}</TreeItem>]}
+          >
+            {subTreeText}
+          </SubTree>
+        </Tree>
+      );
+
+      container = c;
+    });
+
+    it("expands and collapses when sub-menu is clicked", () => {
+      const subtreeEdges = screen.getByRole("group");
+      const subtreeTitle = screen.getByText(subTreeText);
+
+      expect(subtreeEdges).toBeInTheDocument();
+      expect(subtreeEdges).toHaveClass("neo-display-none");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "false");
+
+      expect(subtreeTitle).toBeInTheDocument();
+
+      userEvent.click(subtreeTitle);
+
+      expect(subtreeEdges).not.toHaveClass("neo-display-none");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "true");
+
+      userEvent.click(subtreeTitle);
+
+      expect(subtreeEdges).toHaveClass("neo-display-none");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "false");
+    });
+    it("does _not_ expand/collapse when `actions` are clicked", () => {
+      const subtreeEdges = screen.getByRole("group");
+      const button = screen.getByText(buttonText);
+
+      expect(subtreeEdges).toBeInTheDocument();
+      expect(subtreeEdges).toHaveClass("neo-display-none");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "false");
+
+      expect(button).toBeInTheDocument();
+
+      userEvent.click(button);
+
+      expect(subtreeEdges).toHaveClass("neo-display-none");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "false");
+    });
+
+    it("on keyboard space/enter, sets active=>true and toggles expanded", () => {
+      const subtreeEdges = screen.getByRole("group");
+      const subtreeTitle = screen.getByText(subTreeText);
+
+      expect(subtreeEdges).toBeInTheDocument();
+      expect(subtreeEdges).toHaveClass("neo-display-none");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "false");
+
+      expect(subtreeTitle).toBeInTheDocument();
+
+      userEvent.click(subtreeTitle);
+
+      expect(subtreeEdges).not.toHaveClass("neo-display-none");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "true");
+
+      userEvent.keyboard("{space}");
+
+      expect(subtreeEdges).toHaveClass("neo-display-none");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "false");
+
+      userEvent.keyboard("{enter}");
+
+      expect(subtreeEdges).not.toHaveClass("neo-display-none");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "true");
+    });
+
+    it("on keyboard left, sets active=>true and expanded=>false", () => {
+      const subTreeDiv = container.querySelector(
+        "li.neo-treeview__sub-tree-item div"
+      );
+      const subtreeEdges = screen.getByRole("group");
+      const subtreeTitle = screen.getByText(subTreeText);
+
+      expect(subTreeDiv).not.toHaveClass("neo-treeview__item--selected"); // NOT active
+
+      userEvent.click(subtreeTitle);
+
+      expect(subtreeEdges).not.toHaveClass("neo-display-none");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "true");
+
+      userEvent.keyboard("{ArrowLeft}");
+
+      expect(subTreeDiv).toHaveClass("neo-treeview__item--selected"); // _is_ active
+      expect(subtreeEdges).toHaveClass("neo-display-none");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "false");
+
+      userEvent.keyboard("{ArrowLeft}");
+
+      expect(subTreeDiv).toHaveClass("neo-treeview__item--selected"); // _is_ active (still)
+      expect(subtreeEdges).toHaveClass("neo-display-none");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "false");
+    });
+    it("on keyboard right, sets active=>true and expanded=>true", () => {
+      const subTreeDiv = container.querySelector(
+        "li.neo-treeview__sub-tree-item div"
+      );
+      const subtreeEdges = screen.getByRole("group");
+      const subtreeTitle = screen.getByText(subTreeText);
+
+      expect(subTreeDiv).not.toHaveClass("neo-treeview__item--selected"); // NOT active
+
+      userEvent.click(subtreeTitle);
+
+      expect(subtreeEdges).not.toHaveClass("neo-display-none");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "true");
+
+      userEvent.keyboard("{ArrowRight}");
+
+      expect(subTreeDiv).toHaveClass("neo-treeview__item--selected"); // _is_ active
+      expect(subtreeEdges).not.toHaveClass("neo-display-none");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "true");
+
+      userEvent.keyboard("{ArrowRight}");
+
+      expect(subTreeDiv).toHaveClass("neo-treeview__item--selected"); // _is_ active (still)
+      expect(subtreeEdges).not.toHaveClass("neo-display-none");
+      expect(subtreeEdges).toHaveAttribute("aria-expanded", "true");
+    });
+    it("on keyboard up, sets active=>false", () => {
+      const subTreeDiv = container.querySelector(
+        "li.neo-treeview__sub-tree-item div"
+      );
+      const subtreeTitle = screen.getByText(subTreeText);
+
+      expect(subTreeDiv).not.toHaveClass("neo-treeview__item--selected"); // NOT active
+
+      userEvent.click(subtreeTitle);
+
+      expect(subTreeDiv).toHaveClass("neo-treeview__item--selected"); // _is_ active
+
+      userEvent.keyboard("{ArrowUp}");
+
+      expect(subTreeDiv).not.toHaveClass("neo-treeview__item--selected"); // NOT active
+
+      userEvent.keyboard("{ArrowUp}");
+
+      expect(subTreeDiv).not.toHaveClass("neo-treeview__item--selected"); // NOT active (still)
+    });
+    it("on keyboard down, sets active=>false", () => {
+      const subTreeDiv = container.querySelector(
+        "li.neo-treeview__sub-tree-item div"
+      );
+      const subtreeTitle = screen.getByText(subTreeText);
+
+      expect(subTreeDiv).not.toHaveClass("neo-treeview__item--selected"); // NOT active
+
+      userEvent.click(subtreeTitle);
+
+      expect(subTreeDiv).toHaveClass("neo-treeview__item--selected"); // _is_ active
+
+      userEvent.keyboard("{ArrowDown}");
+
+      expect(subTreeDiv).not.toHaveClass("neo-treeview__item--selected"); // _is_ NOT active
+
+      userEvent.keyboard("{ArrowDown}");
+
+      expect(subTreeDiv).not.toHaveClass("neo-treeview__item--selected"); // _is_ NOT active (still);
+    });
+  });
+});
