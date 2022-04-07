@@ -5,7 +5,7 @@ import { axe } from "jest-axe";
 import { Tree } from ".";
 import * as TreeStories from "./Tree.stories";
 
-const { Default, BranchContentExamples } = composeStories(TreeStories);
+const { Default, TreeItemExamples } = composeStories(TreeStories);
 
 describe("Tree", () => {
   it("fully renders without exploding", () => {
@@ -47,11 +47,11 @@ describe("Tree", () => {
       });
     });
 
-    describe("BranchContentExamples", () => {
+    describe("TreeItemExamples", () => {
       let renderResult;
 
       beforeEach(() => {
-        renderResult = render(<BranchContentExamples />);
+        renderResult = render(<TreeItemExamples />);
       });
 
       it("should render ok", () => {
