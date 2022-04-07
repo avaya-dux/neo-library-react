@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { Button } from "components/Button";
-import { HTMLAttributes, MouseEventHandler } from "react";
+import { MouseEventHandler } from "react";
 
 import { LinkItemProps } from "../LeftNavigationTypes";
 

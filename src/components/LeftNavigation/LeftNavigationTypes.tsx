@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { HTMLAttributes, ReactElement } from "react";
 import { TopLinkItemProps } from "./TopLinkItem";
 import { IconNamesType } from "utils";
 export interface LeftNavProps extends React.BaseHTMLAttributes<HTMLElement> {
