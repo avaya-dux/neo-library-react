@@ -2,13 +2,7 @@ import clsx from "clsx";
 import { Button } from "components/Button";
 import { HTMLAttributes, MouseEventHandler } from "react";
 
-export interface ListItemLinkProps
-  extends HTMLAttributes<HTMLLIElement | HTMLAnchorElement> {
-  children: string;
-  active?: boolean;
-  disabled?: boolean;
-  href?: string;
-}
+import { LinkItemProps } from "../LeftNavigationTypes";
 
 export const LinkItem = ({
   active = false,
@@ -21,7 +15,7 @@ export const LinkItem = ({
   onMouseOver,
 
   ...rest
-}: ListItemLinkProps) => {
+}: LinkItemProps) => {
   const handleOnClick: MouseEventHandler = () => {
     // TODO: Make this active and parent too, use callback
   };

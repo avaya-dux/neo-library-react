@@ -9,17 +9,10 @@ import {
 } from "react";
 import clsx from "clsx";
 
+import { NavCategoryProps } from "../LeftNavigationTypes";
 import { LinkItem } from "../LinkItem";
 
-import { genId, getIconClass, IconNamesType, Keys } from "utils";
-export interface NavCategoryProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  label: string;
-  icon?: IconNamesType;
-  expanded?: boolean;
-  disabled?: boolean;
-  active?: boolean;
-}
+import { genId, getIconClass, Keys } from "utils";
 
 const LEFTNAV_CATEGORY_STYLE: string = "neo-leftnav__main";
 
@@ -96,7 +89,15 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   };
 
   const linkItems = Children.map(children, (child, index) => (
-    <LinkItem id={index.toString()}>{child?.props.children}</LinkItem>
+    <LinkItem
+      active={child?.props.active}
+      disabled={child?.props.disabled}
+      href={child?.props.href}
+      id={index.toString()}
+      onClick={child?.props.onClick}
+    >
+      {child?.props.children}
+    </LinkItem>
   ));
 
   return (

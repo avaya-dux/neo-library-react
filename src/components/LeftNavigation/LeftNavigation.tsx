@@ -7,7 +7,6 @@ import {
   useMemo,
   useState,
 } from "react";
-import clsx from "clsx";
 
 import { NavigationContext } from "./NavigationContext";
 import { LeftNavProps, NavigationContextType } from "./LeftNavigationTypes";
@@ -46,6 +45,7 @@ export const LeftNavigation: FunctionComponent<LeftNavProps> = ({
 
   const navContext: NavigationContextType = {
     currentUrl: currentUrl,
+    
   };
 
   return (
