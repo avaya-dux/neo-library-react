@@ -5,12 +5,14 @@ import { axe } from "jest-axe";
 import { Button } from "components/Button";
 
 import { SubTree } from ".";
-import { Branch } from "../Branch";
 import { Tree } from "../Tree";
+import { TreeItem } from "../TreeItem";
 
 describe("SubTree", () => {
   it("fully renders without exploding", () => {
-    render(<SubTree edges={[<Branch key="one">one</Branch>]}>example</SubTree>);
+    render(
+      <SubTree edges={[<TreeItem key="one">one</TreeItem>]}>example</SubTree>
+    );
 
     const treeitems = screen.getAllByRole("treeitem");
     expect(treeitems).toHaveLength(2);
@@ -22,7 +24,7 @@ describe("SubTree", () => {
   it("passes basic axe compliance", async () => {
     const { container } = render(
       <div role="tree">
-        <SubTree edges={[<Branch key="one">one</Branch>]}>example</SubTree>
+        <SubTree edges={[<TreeItem key="one">one</TreeItem>]}>example</SubTree>
       </div>
     );
     const results = await axe(container);
@@ -30,7 +32,7 @@ describe("SubTree", () => {
   });
 
   describe("interactivity", () => {
-    const branchText = "branch";
+    const treeitemText = "treeitem";
     const buttonText = "button";
     const subTreeText = "sub tree";
     let container;
@@ -40,7 +42,7 @@ describe("SubTree", () => {
         <Tree aria-label="testing tree">
           <SubTree
             actions={[<Button key="btn-one">{buttonText}</Button>]}
-            edges={[<Branch key="one">{branchText}</Branch>]}
+            edges={[<TreeItem key="one">{treeitemText}</TreeItem>]}
           >
             {subTreeText}
           </SubTree>
