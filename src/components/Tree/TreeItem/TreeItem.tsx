@@ -10,7 +10,7 @@ import { IconNamesType } from "utils";
 
 import { TreeContext } from "../TreeContext";
 
-export interface BranchProps
+export interface TreeItemProps
   extends Omit<
     DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement>,
     "dir"
@@ -22,7 +22,7 @@ export interface BranchProps
   selected?: boolean;
 }
 
-export const Branch: FC<BranchProps> = ({
+export const TreeItem: FC<TreeItemProps> = ({
   children,
   className,
   icon,
