@@ -11,7 +11,7 @@ export interface LeftNavProps extends React.BaseHTMLAttributes<HTMLElement> {
 
 export interface NavigationContextType {
   currentUrl: string;
-  onSelected?: (id: string, url: string) => void;
+  onSelectedLink?: (id: string, url: string) => void;
 }
 
 export interface NavCategoryProps

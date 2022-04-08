@@ -1,8 +1,9 @@
 import clsx from "clsx";
 import { Button } from "components/Button";
-import { MouseEventHandler } from "react";
+import { MouseEventHandler, useContext } from "react";
 
 import { LinkItemProps } from "../LeftNavigationTypes";
+import { NavigationContext } from "../NavigationContext";
 
 export const LinkItem = ({
   active = false,
@@ -16,8 +17,13 @@ export const LinkItem = ({
 
   ...rest
 }: LinkItemProps) => {
-  const handleOnClick: MouseEventHandler = () => {
+
+  const ctx = useContext(NavigationContext);
+  const handleOnClick: MouseEventHandler = (e) => {
     // TODO: Make this active and parent too, use callback
+    ctx?.onSelectedLink ? console.log("we have a valid onSelectedLink") : console.log("invalid onSelectedLink");
+    ctx?.onSelectedLink && ctx.onSelectedLink("id goes here", "some url");
+    onClick && onClick(e);
   };
   return (
     <li
@@ -41,7 +47,7 @@ export const LinkItem = ({
       ) : (
         <a
           href={href}
-          onClick={onClick}
+          onClick={handleOnClick}
           onFocus={onFocus}
           onMouseOver={onMouseOver}
         >

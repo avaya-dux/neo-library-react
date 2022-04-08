@@ -3,6 +3,7 @@ import {
   FunctionComponent,
   KeyboardEvent,
   MouseEvent,
+  useContext,
   useEffect,
   useMemo,
   useState,
@@ -13,6 +14,7 @@ import { NavCategoryProps } from "../LeftNavigationTypes";
 import { LinkItem } from "../LinkItem";
 
 import { genId, getIconClass, Keys } from "utils";
+import { NavigationContext } from "../NavigationContext";
 
 const LEFTNAV_CATEGORY_STYLE: string = "neo-leftnav__main";
 
@@ -60,6 +62,7 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   const [isExpanded, setIsExpanded] = useState(expanded);
   const [navItemClass, setNavItemClass] = useState(LEFTNAV_CATEGORY_STYLE);
   const [iconClass, setIconClass] = useState("");
+  const ctx = useContext(NavigationContext);
 
   useEffect(() => {
     const itemStyle = getNavBarClassNames(isExpanded, active, disabled);

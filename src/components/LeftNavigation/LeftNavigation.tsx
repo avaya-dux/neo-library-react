@@ -43,9 +43,14 @@ export const LeftNavigation: FunctionComponent<LeftNavProps> = ({
     event.stopPropagation();
   };
 
+  const handleSelectedLink = (id: string, url: string) => {
+    console.log("handleSelectedLink CALLED");
+    console.log({ id, url });
+  };
+
   const navContext: NavigationContextType = {
     currentUrl: currentUrl,
-    
+    onSelectedLink: handleSelectedLink,
   };
 
   return (
