@@ -1,27 +1,28 @@
-import { FunctionComponent } from "react";
+import { cloneElement, FunctionComponent, ReactElement } from "react";
 
-import { Avatar, AvatarProps } from "components/Avatar";
-import { Menu, MenuProps } from "components/Menu";
+import { AvatarProps } from "components/Avatar";
+import { MenuProps } from "components/Menu";
 
 export interface NavbarAvatarProps {
-  avatar?: Omit<AvatarProps, "size" | "border" | "status">;
-  dropdown?: Omit<MenuProps, "menuRootElement">;
+  avatar: ReactElement<Omit<AvatarProps, "size" | "border" | "status">>;
+  dropdown?: ReactElement<Partial<MenuProps>>;
 }
 
 export const NavbarAvatar: FunctionComponent<NavbarAvatarProps> = ({
   avatar,
   dropdown,
 }) => {
-  const dropdownAvatar = (
-    <Avatar
-      {...avatar}
-      className="neo-dropdown__link-header neo-avatar--medium"
-    />
-  );
+  const withDropdown = cloneElement(avatar, {
+    className: "neo-dropdown__link-header neo-avatar--medium",
+  });
 
   return dropdown ? (
-    <Menu {...dropdown} menuRootElement={dropdownAvatar} />
+    <>
+      {cloneElement(dropdown, {
+        menuRootElement: withDropdown,
+      })}
+    </>
   ) : (
-    <Avatar {...avatar} />
+    <>{avatar}</>
   );
 };
