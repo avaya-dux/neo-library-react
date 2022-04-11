@@ -5,7 +5,7 @@ import { MenuProps } from "components/Menu";
 
 export interface NavbarAvatarProps {
   avatar: ReactElement<Omit<AvatarProps, "size" | "border" | "status">>;
-  dropdown?: ReactElement<Partial<MenuProps>>;
+  dropdown?: ReactElement<MenuProps>;
 }
 
 export const NavbarAvatar: FunctionComponent<NavbarAvatarProps> = ({
