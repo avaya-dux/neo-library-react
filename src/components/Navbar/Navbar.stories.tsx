@@ -4,9 +4,8 @@ import { cloneElement, FormEvent, useState } from "react";
 import { Menu, MenuItem, SubMenu, TextInput, Avatar } from "components";
 
 import { Navbar, NavbarProps } from ".";
-import { Logo, LinkLogo } from "./LeftContent/Logo";
-import { NavbarAvatar } from "./RightContent/NavbarAvatar";
-import { NavbarButton } from "./RightContent/NavbarButton";
+import { Logo, LinkLogo } from "./LeftContent";
+import { NavbarAvatar, NavbarButton } from "./RightContent";
 
 export default {
   title: "Components/Navbar",

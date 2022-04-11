@@ -12,9 +12,8 @@ import {
 import { genId } from "utils/accessibilityUtils";
 
 import { TextInputProps } from "../TextInput";
-import { LinkLogoProps, LogoProps } from "./LeftContent/Logo";
-import { NavbarAvatarProps } from "./RightContent/NavbarAvatar";
-import { NavbarButtonProps } from "./RightContent/NavbarButton";
+import { LinkLogoProps, LogoProps } from "./LeftContent";
+import { NavbarAvatarProps, NavbarButtonProps } from "./RightContent";
 
 export interface NavbarProps {
   logo: ReactElement<LogoProps | LinkLogoProps>;
