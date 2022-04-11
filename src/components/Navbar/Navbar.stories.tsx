@@ -112,8 +112,8 @@ export const NavbarWithNavButtons = Template.bind({});
 NavbarWithNavButtons.args = {
   logo,
   navButtons: [
-    <NavbarButton badge="" icon="info" aria-label="Info" />,
-    <NavbarButton badge="" icon="settings" aria-label="Settings" />,
+    <NavbarButton icon="info" aria-label="Info" />,
+    <NavbarButton icon="settings" aria-label="Settings" />,
   ],
 };
 
@@ -122,8 +122,8 @@ NavbarWithAvatar.args = {
   logo,
   navbarAvatar,
   navButtons: [
-    <NavbarButton badge="" icon="info" aria-label="Info" />,
-    <NavbarButton badge="" icon="settings" aria-label="Settings" />,
+    <NavbarButton icon="info" aria-label="Info" />,
+    <NavbarButton icon="settings" aria-label="Settings" />,
   ],
 };
 
