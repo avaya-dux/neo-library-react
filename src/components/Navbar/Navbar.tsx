@@ -122,16 +122,15 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
       </div>
 
       <div className="neo-nav" style={{ alignItems: "center" }}>
-        {navButtons?.map((navButton, key) => (
-          <Fragment key={key}>
-            {cloneElement(navButton, {
-              active: ids[key] === activeId,
-              id: ids[key],
-              onClick: () =>
-                navButtonOnClickCallback(navButton.props.handleClick, key),
-            })}
-          </Fragment>
-        ))}
+        {navButtons?.map((navButton, key) =>
+          cloneElement(navButton, {
+            key,
+            active: ids[key] === activeId,
+            id: ids[key],
+            onClick: () =>
+              navButtonOnClickCallback(navButton.props.handleClick, key),
+          })
+        )}
         {navbarAvatar}
       </div>
     </nav>
