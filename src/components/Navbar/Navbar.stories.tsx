@@ -1,12 +1,18 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { cloneElement, FormEvent, useState } from "react";
 
-import { Menu, MenuItem, SubMenu, TextInput, Avatar } from "components";
+import {
+  Menu,
+  MenuItem,
+  SubMenu,
+  TextInput,
+  Avatar,
+  AgentCard,
+} from "components";
 
 import { Navbar, NavbarProps } from ".";
 import { Logo, LinkLogo } from "./LeftContent";
 import { NavbarAvatar, NavbarButton } from "./RightContent";
-
 import fpo from "./logo-fpo.png";
 
 export default {
@@ -254,5 +260,20 @@ export const StickyNavbar: Story<NavbarProps> = () => {
         Duis sodales est eu mauris ma
       </p>
     </>
+  );
+};
+
+export const NavbarWithAgentCard = () => {
+  return (
+    <Navbar
+      logo={logo}
+      agentCard={
+        <AgentCard
+          agentName="Bob Boberson"
+          agentStatus="connected"
+          avatar={<Avatar />}
+        />
+      }
+    ></Navbar>
   );
 };
