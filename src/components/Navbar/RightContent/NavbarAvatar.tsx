@@ -12,11 +12,9 @@ export const NavbarAvatar: FunctionComponent<NavbarAvatarProps> = ({
   avatar,
   dropdown,
 }) => {
-  const styledAvatar = dropdown
-    ? cloneElement(avatar, {
-        className: "neo-dropdown__link-header neo-avatar--medium",
-      })
-    : avatar;
+  const styledAvatar = cloneElement(avatar, {
+    className: "neo-dropdown__link-header neo-avatar--medium",
+  });
 
   return dropdown ? (
     <>
@@ -25,6 +23,6 @@ export const NavbarAvatar: FunctionComponent<NavbarAvatarProps> = ({
       })}
     </>
   ) : (
-    <>{styledAvatar}</>
+    <>{avatar}</>
   );
 };
