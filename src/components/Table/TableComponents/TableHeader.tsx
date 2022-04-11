@@ -48,7 +48,7 @@ export const TableHeader = <T extends Record<string, any>>({
     ? true
     : selectedRows.length === 0
     ? false
-    : "indeterminate";
+    : "mixed";
 
   return (
     <thead>
@@ -58,13 +58,12 @@ export const TableHeader = <T extends Record<string, any>>({
             {shouldHaveCheckbox && (
               <Checkbox
                 checked={checkboxCheckedValue}
-                isLabelHidden
-                label={translations.selectAll}
+                aria-label={translations.selectAll}
                 onChange={() => {
                   toggleAllRowsSelected();
 
                   if (handleRowToggled) {
-                    const shouldSelectAll = [false, "indeterminate"].includes(
+                    const shouldSelectAll = [false, "mixed"].includes(
                       checkboxCheckedValue
                     );
 
