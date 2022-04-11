@@ -93,7 +93,7 @@ describe("Navbar", () => {
 
     describe("Navbar With Navigation Toggle", () => {
       it("correctly passes onClick handler to button as props", () => {
-        const spy = jest.spyOn(console, "log").mockImplementation(() => {});
+        const spy = jest.spyOn(window, "alert").mockImplementation(() => {});
         const { getByRole } = render(<NavbarWithNavigationToggle />);
         const leftNavToggleButton = getByRole("button");
         fireEvent.click(leftNavToggleButton);
