@@ -115,8 +115,12 @@ export const TreeItemExamples = () => {
           selected={selected === "lr2"}
           onClick={() => setSelected("lr2")}
           actions={[
-            <Button variant="secondary">mock</Button>,
-            <Button variant="secondary">mock</Button>,
+            <Button variant="secondary" key="one">
+              mock
+            </Button>,
+            <Button variant="secondary" key="two">
+              mock
+            </Button>,
           ]}
         >
           node two
