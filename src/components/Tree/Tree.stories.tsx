@@ -2,6 +2,7 @@ import { Meta } from "@storybook/react/types-6-0";
 import { DetailedHTMLProps, FC, LabelHTMLAttributes, useState } from "react";
 
 import { Button } from "components/Button";
+import { Checkbox } from "components/Checkbox";
 import { Icon } from "components/Icon";
 import { IconButton } from "components/IconButton";
 import { Sheet } from "components/Sheet";
@@ -188,6 +189,32 @@ export const TreeItemExamples = () => {
           >
             <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
             dir === ltr
+          </TreeItem>
+        </Tree>
+
+        <Tree aria-label="checkbox content, dir='ltr'" dir="ltr">
+          <TreeItem
+            selected={selected === "icon7"}
+            onClick={() => setSelected("icon7")}
+          >
+            <Checkbox aria-labelledby="checkbox-label-one" value="none" />
+
+            <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
+
+            <span id="checkbox-label-one">dir === ltr</span>
+          </TreeItem>
+        </Tree>
+
+        <Tree aria-label="checkbox content, dir='rtl'" dir="rtl">
+          <TreeItem
+            selected={selected === "icon9"}
+            onClick={() => setSelected("icon9")}
+          >
+            <Checkbox aria-labelledby="checkbox-label-two" value="none" />
+
+            <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
+
+            <span id="checkbox-label-two">dir === rtl</span>
           </TreeItem>
         </Tree>
       </Section>
