@@ -58,15 +58,14 @@ export const Default = () => (
 
 const Label: FC<
   DetailedHTMLProps<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>
-> = ({ children }) => (
-  <label style={{ fontWeight: "bolder", paddingBottom: "5px" }}>
+> = ({ children, ...rest }) => (
+  <label style={{ fontWeight: "bolder", paddingBottom: "5px" }} {...rest}>
     {children}
   </label>
 );
 
 const Section: FC = ({ children }) => (
   <div
-    role="tree"
     style={{
       paddingBottom: "15px",
       marginBottom: "15px",
@@ -83,67 +82,71 @@ export const TreeItemExamples = () => {
   return (
     <Sheet title="Native Tree Item Example" style={{ width: 400 }}>
       <Section>
-        <Label>string contents</Label>
+        <Label id="label-one">string contents</Label>
 
-        <TreeItem
-          selected={selected === "c1"}
-          onClick={() => setSelected("c1")}
-        >
-          node one
-        </TreeItem>
+        <Tree aria-describedby="label-one">
+          <TreeItem
+            selected={selected === "c1"}
+            onClick={() => setSelected("c1")}
+          >
+            node one
+          </TreeItem>
 
-        <TreeItem
-          selected={selected === "c2"}
-          onClick={() => setSelected("c2")}
-        >
-          node two
-        </TreeItem>
+          <TreeItem
+            selected={selected === "c2"}
+            onClick={() => setSelected("c2")}
+          >
+            node two
+          </TreeItem>
+        </Tree>
       </Section>
 
       <Section>
-        <Label>contents with action(s)</Label>
+        <Label id="label-two">contents with action(s)</Label>
 
-        <TreeItem
-          selected={selected === "lr1"}
-          onClick={() => setSelected("lr1")}
-          actions={<Button variant="secondary">mock</Button>}
-        >
-          node one
-        </TreeItem>
+        <Tree aria-describedby="label-two">
+          <TreeItem
+            selected={selected === "lr1"}
+            onClick={() => setSelected("lr1")}
+            actions={<Button variant="secondary">mock</Button>}
+          >
+            node one
+          </TreeItem>
 
-        <TreeItem
-          selected={selected === "lr2"}
-          onClick={() => setSelected("lr2")}
-          actions={[
-            <Button variant="secondary" key="one">
-              mock
-            </Button>,
-            <Button variant="secondary" key="two">
-              mock
-            </Button>,
-          ]}
-        >
-          node two
-        </TreeItem>
+          <TreeItem
+            selected={selected === "lr2"}
+            onClick={() => setSelected("lr2")}
+            actions={[
+              <Button variant="secondary" key="one">
+                mock
+              </Button>,
+              <Button variant="secondary" key="two">
+                mock
+              </Button>,
+            ]}
+          >
+            node two
+          </TreeItem>
 
-        <TreeItem
-          selected={selected === "lr3"}
-          onClick={() => setSelected("lr3")}
-          actions={
-            <>
-              <Button variant="secondary">mock</Button>
-              <Button variant="secondary">mock</Button>
-            </>
-          }
-        >
-          node two
-        </TreeItem>
+          <TreeItem
+            selected={selected === "lr3"}
+            onClick={() => setSelected("lr3")}
+            actions={
+              <>
+                <Button variant="secondary">mock</Button>
+                <Button variant="secondary">mock</Button>
+              </>
+            }
+          >
+            node two
+          </TreeItem>
+        </Tree>
       </Section>
 
       <Section>
-        <Label>complex content examples</Label>
+        <Label id="label-three">complex content examples</Label>
 
-        <Tree aria-label="file icon, dir='ltr'" dir="ltr">
+        <Tree aria-describedby="label-three" dir="ltr">
           <TreeItem
             selected={selected === "icon3"}
             onClick={() => setSelected("icon3")}
