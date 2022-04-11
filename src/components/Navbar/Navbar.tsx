@@ -102,7 +102,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
       <div className="neo-nav--left">
         {navMenuToggleBtn}
 
-        <>{logo}</>
+        {logo}
 
         {title && (
           <div
@@ -132,7 +132,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
             })}
           </Fragment>
         ))}
-        <>{navbarAvatar}</>
+        {navbarAvatar}
       </div>
     </nav>
   );
