@@ -12,14 +12,45 @@ export default {
   component: Tree,
 } as Meta<TreeProps>;
 
+const Divider = () => (
+  <div style={{ margin: "2rem 0", borderBottom: "1px solid black" }} />
+);
+
 export const Default = () => (
-  <Sheet title="Tree Example" style={{ width: 400 }}>
-    <Tree label="Tree Label">
-      <TreeItem key="one">upper edge one</TreeItem>
-      <TreeItem key="two">upper edge two</TreeItem>
-      <TreeItem key="three">upper edge three</TreeItem>
-    </Tree>
-  </Sheet>
+  <section>
+    <Sheet title="Tree Examples" style={{ width: 400 }}>
+      <Divider />
+
+      <Tree label="Tree Label">
+        <TreeItem key="one">upper edge one</TreeItem>
+        <TreeItem key="two">upper edge two</TreeItem>
+        <TreeItem key="three">upper edge three</TreeItem>
+      </Tree>
+
+      <Divider />
+
+      <Tree label="Tree with groupings">
+        <SubTree
+          edges={[
+            <TreeItem key="one">one</TreeItem>,
+            <TreeItem key="two">two</TreeItem>,
+          ]}
+        >
+          Group One
+        </SubTree>
+        <SubTree
+          edges={[
+            <TreeItem key="one">one</TreeItem>,
+            <TreeItem key="two">two</TreeItem>,
+          ]}
+        >
+          Group Two
+        </SubTree>
+      </Tree>
+
+      <Divider />
+    </Sheet>
+  </section>
 );
 
 const Label: FC<
@@ -41,10 +72,6 @@ const Section: FC = ({ children }) => (
   >
     {children}
   </div>
-);
-
-const Divider = () => (
-  <div style={{ margin: "2rem 0", borderBottom: "1px solid black" }} />
 );
 
 export const TreeItemExamples = () => {
@@ -268,6 +295,74 @@ export const TreeItemExamples = () => {
   );
 };
 
+const FullTreeExamples = (props: TreeProps) => (
+  <Tree {...props}>
+    <SubTree
+      edges={[
+        <TreeItem key="one">one</TreeItem>,
+        <TreeItem key="two">two</TreeItem>,
+        <TreeItem key="three">three</TreeItem>,
+      ]}
+    >
+      Sub Tree One Label
+    </SubTree>
+
+    <SubTree
+      actions={[
+        <Button
+          key="sub-tree-two-button-one"
+          onClick={() => alert("sub tree two, button one clicked")}
+        >
+          button one
+        </Button>,
+        <IconButton
+          aria-label="click here for more options"
+          icon="more"
+          key="sub-tree-two-button-two"
+          onClick={() => alert("sub tree two, button two clicked")}
+          variant="tertiary"
+        />,
+      ]}
+      edges={[
+        <TreeItem key="four">four</TreeItem>,
+        <TreeItem key="five">five</TreeItem>,
+        <TreeItem key="six">six</TreeItem>,
+      ]}
+    >
+      Sub Tree Two Label, has actions
+    </SubTree>
+
+    <SubTree
+      edges={[
+        <SubTree
+          key="sub-sub-tree"
+          edges={[
+            <TreeItem key="seven">seven</TreeItem>,
+            <TreeItem key="eight">eight</TreeItem>,
+            <TreeItem key="nine">nine</TreeItem>,
+            <SubTree
+              key="sub-sub-sub-tree"
+              edges={[
+                <TreeItem key="ten">ten</TreeItem>,
+                <TreeItem key="eleven">eleven</TreeItem>,
+                <TreeItem key="twelve">twelve</TreeItem>,
+              ]}
+            >
+              Sub Tree Three, Sub Tree Three-One, Sub Tree Three-One-One Label
+            </SubTree>,
+          ]}
+        >
+          Sub Tree Three, Sub Tree Three-One Label
+        </SubTree>,
+        <TreeItem key="thirteen">thirteen</TreeItem>,
+        <TreeItem key="fourteen">fourteen</TreeItem>,
+      ]}
+    >
+      Sub Tree Three Label
+    </SubTree>
+  </Tree>
+);
+
 export const SubTrees = () => {
   const [sheetLtrOpen, setSheetLtrOpen] = useState(true);
   const [sheetRtlOpen, setSheetRtlOpen] = useState(true);
@@ -294,143 +389,13 @@ export const SubTrees = () => {
       <Divider />
 
       <Sheet aria-label="Sub Trees Story, dir=ltr" open={sheetLtrOpen}>
-        <Tree label="Sub Trees Example, dir=ltr" dir="ltr">
-          <SubTree
-            edges={[
-              <TreeItem key="one">one</TreeItem>,
-              <TreeItem key="two">two</TreeItem>,
-              <TreeItem key="three">three</TreeItem>,
-            ]}
-          >
-            Sub Tree One Label
-          </SubTree>
-
-          <SubTree
-            actions={[
-              <Button
-                key="sub-tree-two-button-one"
-                onClick={() => alert("sub tree two, button one clicked")}
-              >
-                button one
-              </Button>,
-              <IconButton
-                aria-label="click here for more options"
-                icon="more"
-                key="sub-tree-two-button-two"
-                onClick={() => alert("sub tree two, button two clicked")}
-                variant="tertiary"
-              />,
-            ]}
-            edges={[
-              <TreeItem key="four">four</TreeItem>,
-              <TreeItem key="five">five</TreeItem>,
-              <TreeItem key="six">six</TreeItem>,
-            ]}
-          >
-            Sub Tree Two Label, has actions
-          </SubTree>
-
-          <SubTree
-            edges={[
-              <SubTree
-                key="sub-sub-tree"
-                edges={[
-                  <TreeItem key="seven">seven</TreeItem>,
-                  <TreeItem key="eight">eight</TreeItem>,
-                  <TreeItem key="nine">nine</TreeItem>,
-                  <SubTree
-                    key="sub-sub-sub-tree"
-                    edges={[
-                      <TreeItem key="ten">ten</TreeItem>,
-                      <TreeItem key="eleven">eleven</TreeItem>,
-                      <TreeItem key="twelve">twelve</TreeItem>,
-                    ]}
-                  >
-                    Sub Tree Three, Sub Tree Three-One, Sub Tree Three-One-One
-                    Label
-                  </SubTree>,
-                ]}
-              >
-                Sub Tree Three, Sub Tree Three-One Label
-              </SubTree>,
-              <TreeItem key="thirteen">thirteen</TreeItem>,
-              <TreeItem key="fourteen">fourteen</TreeItem>,
-            ]}
-          >
-            Sub Tree Three Label
-          </SubTree>
-        </Tree>
+        <FullTreeExamples label="Sub Trees Example, dir=ltr" dir="ltr" />
       </Sheet>
 
       <Divider />
 
       <Sheet aria-label="Sub Trees Story, dir=rtl" open={sheetRtlOpen}>
-        <Tree label="Sub Trees Example, dir=rtl" dir="rtl">
-          <SubTree
-            edges={[
-              <TreeItem key="one">one</TreeItem>,
-              <TreeItem key="two">two</TreeItem>,
-              <TreeItem key="three">three</TreeItem>,
-            ]}
-          >
-            Sub Tree One Label
-          </SubTree>
-
-          <SubTree
-            actions={[
-              <Button
-                key="sub-tree-two-button-one"
-                onClick={() => alert("sub tree two, button one clicked")}
-              >
-                button one
-              </Button>,
-              <IconButton
-                aria-label="click here for more options"
-                icon="more"
-                key="sub-tree-two-button-two"
-                onClick={() => alert("sub tree two, button two clicked")}
-                variant="tertiary"
-              />,
-            ]}
-            edges={[
-              <TreeItem key="four">four</TreeItem>,
-              <TreeItem key="five">five</TreeItem>,
-              <TreeItem key="six">six</TreeItem>,
-            ]}
-          >
-            Sub Tree Two Label, has actions
-          </SubTree>
-
-          <SubTree
-            edges={[
-              <SubTree
-                key="sub-sub-tree"
-                edges={[
-                  <TreeItem key="seven">seven</TreeItem>,
-                  <TreeItem key="eight">eight</TreeItem>,
-                  <TreeItem key="nine">nine</TreeItem>,
-                  <SubTree
-                    key="sub-sub-sub-tree"
-                    edges={[
-                      <TreeItem key="ten">ten</TreeItem>,
-                      <TreeItem key="eleven">eleven</TreeItem>,
-                      <TreeItem key="twelve">twelve</TreeItem>,
-                    ]}
-                  >
-                    Sub Tree Three, Sub Tree Three-One, Sub Tree Three-One-One
-                    Label
-                  </SubTree>,
-                ]}
-              >
-                Sub Tree Three, Sub Tree Three-One Label
-              </SubTree>,
-              <TreeItem key="thirteen">thirteen</TreeItem>,
-              <TreeItem key="fourteen">fourteen</TreeItem>,
-            ]}
-          >
-            Sub Tree Three Label
-          </SubTree>
-        </Tree>
+        <FullTreeExamples label="Sub Trees Example, dir=rtl" dir="rtl" />
       </Sheet>
 
       <Divider />

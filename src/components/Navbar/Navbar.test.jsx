@@ -3,6 +3,7 @@ import { fireEvent, render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { Navbar } from ".";
+import { Logo } from "./LeftContent/Logo";
 import * as NavbarStories from "./Navbar.stories";
 
 const {
@@ -17,14 +18,11 @@ describe("Navbar", () => {
   describe("basic unit tests", () => {
     let renderResult;
     beforeEach(() => {
-      renderResult = render(
-        <Navbar
-          logo={{
-            src:
-              "http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png",
-          }}
-        />
+      const logo = (
+        <Logo src="http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png" />
       );
+
+      renderResult = render(<Navbar logo={logo} />);
     });
 
     it("renders without exploding", () => {
@@ -95,7 +93,7 @@ describe("Navbar", () => {
 
     describe("Navbar With Navigation Toggle", () => {
       it("correctly passes onClick handler to button as props", () => {
-        const spy = jest.spyOn(console, "log").mockImplementation(() => {});
+        const spy = jest.spyOn(window, "alert").mockImplementation(() => {});
         const { getByRole } = render(<NavbarWithNavigationToggle />);
         const leftNavToggleButton = getByRole("button");
         fireEvent.click(leftNavToggleButton);
