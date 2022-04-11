@@ -31,7 +31,7 @@ export interface MenuProps extends React.HTMLAttributes<HTMLDivElement> {
   closeOnSelect?: boolean; // if `true` (default), the menu will close when a menu item is clicked
   defaultIsOpen?: boolean;
   itemAlignment?: "left" | "right";
-  menuRootElement: ReactElement<ButtonProps | any>;
+  menuRootElement: JSX.Element;
   onMenuClose?: () => void;
   openOnHover?: boolean;
 }
