@@ -1,6 +1,7 @@
 import { Dispatch, ReactElement, SetStateAction } from "react";
 
 import { ButtonProps } from "components/Button";
+import { AvatarProps } from "components/Avatar";
 
 export interface MenuSeparatorProps
   extends React.HTMLAttributes<HTMLHRElement> {}
@@ -31,7 +32,7 @@ export interface MenuProps extends React.HTMLAttributes<HTMLDivElement> {
   closeOnSelect?: boolean; // if `true` (default), the menu will close when a menu item is clicked
   defaultIsOpen?: boolean;
   itemAlignment?: "left" | "right";
-  menuRootElement: JSX.Element;
+  menuRootElement: ReactElement<ButtonProps | AvatarProps>;
   onMenuClose?: () => void;
   openOnHover?: boolean;
 }
