@@ -37,15 +37,17 @@ export const Default = () => (
             <TreeItem key="two">two</TreeItem>,
           ]}
         >
-          Group One
+          Edges as Array
         </SubTree>
         <SubTree
-          edges={[
-            <TreeItem key="one">one</TreeItem>,
-            <TreeItem key="two">two</TreeItem>,
-          ]}
+          edges={
+            <>
+              <TreeItem key="one">one</TreeItem>
+              <TreeItem key="two">two</TreeItem>
+            </>
+          }
         >
-          Group Two
+          Edges as JSX
         </SubTree>
       </Tree>
 
