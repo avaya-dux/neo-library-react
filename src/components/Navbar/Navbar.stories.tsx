@@ -53,7 +53,7 @@ const navbarAvatar = (
 const navMenuToggleBtn = (
   <NavbarButton
     aria-label="Toggle Menu"
-    onClick={() => console.log("Menu toggle clicked")}
+    onClick={() => alert("Menu toggle clicked")}
     icon="menu"
   />
 );
