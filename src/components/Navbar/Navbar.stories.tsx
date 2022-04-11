@@ -7,19 +7,19 @@ import { Navbar, NavbarProps } from ".";
 import { Logo, LinkLogo } from "./LeftContent";
 import { NavbarAvatar, NavbarButton } from "./RightContent";
 
+import fpo from "./logo-fpo.png";
+
 export default {
   title: "Components/Navbar",
   component: Navbar,
 } as Meta<NavbarProps>;
 
-const logo = (
-  <Logo src="http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png" />
-);
+const logo = <Logo src={fpo} />;
 
 const linkLogo = (
   <LinkLogo
     link="https://design.avayacloud.com"
-    src="http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png"
+    src={fpo}
     alt="Link to Avaya"
   />
 );
