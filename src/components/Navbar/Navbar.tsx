@@ -47,7 +47,7 @@ export interface NavbarProps {
     <Logo src="http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png" />
   },
   search: {
-    <TextInput
+  <TextInput
     clearable={true}
     disabled={false}
     placeholder="Search"
