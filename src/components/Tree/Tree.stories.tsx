@@ -2,6 +2,7 @@ import { Meta } from "@storybook/react/types-6-0";
 import { DetailedHTMLProps, FC, LabelHTMLAttributes, useState } from "react";
 
 import { Button } from "components/Button";
+import { Icon } from "components/Icon";
 import { IconButton } from "components/IconButton";
 import { Sheet } from "components/Sheet";
 
@@ -80,7 +81,7 @@ export const TreeItemExamples = () => {
   return (
     <Sheet title="Native Tree Item Example" style={{ width: 400 }}>
       <Section>
-        <Label>just children</Label>
+        <Label>string contents</Label>
 
         <TreeItem
           selected={selected === "c1"}
@@ -98,136 +99,51 @@ export const TreeItemExamples = () => {
       </Section>
 
       <Section>
-        <Label>left content only</Label>
-
-        <TreeItem
-          selected={selected === "l1"}
-          onClick={() => setSelected("l1")}
-          leftContent={<>node one</>}
-        />
-        <TreeItem
-          selected={selected === "l2"}
-          onClick={() => setSelected("l2")}
-          leftContent={<>node two</>}
-        />
-      </Section>
-
-      <Section>
-        <Label>right content only</Label>
-
-        <TreeItem
-          selected={selected === "r1"}
-          onClick={() => setSelected("r1")}
-          rightContent={<>node one</>}
-        />
-        <TreeItem
-          selected={selected === "r2"}
-          onClick={() => setSelected("r2")}
-          rightContent={<>node two</>}
-        />
-      </Section>
-
-      <Section>
-        <Label>left and right content</Label>
+        <Label>contents with action(s)</Label>
 
         <TreeItem
           selected={selected === "lr1"}
           onClick={() => setSelected("lr1")}
-          leftContent={<>left node one</>}
-          rightContent={<>right node one</>}
-        />
+          actions={<Button variant="secondary">mock</Button>}
+        >
+          node one
+        </TreeItem>
+
         <TreeItem
           selected={selected === "lr2"}
           onClick={() => setSelected("lr2")}
-          leftContent={<>left node two</>}
-          rightContent={<>right node two</>}
-        />
-      </Section>
-
-      <Section>
-        <Label>left content and children</Label>
-
-        <TreeItem
-          selected={selected === "lc1"}
-          onClick={() => setSelected("lc1")}
-          leftContent={<>left node one</>}
+          actions={[
+            <Button variant="secondary">mock</Button>,
+            <Button variant="secondary">mock</Button>,
+          ]}
         >
-          center node one
+          node two
         </TreeItem>
+
         <TreeItem
-          selected={selected === "lc2"}
-          onClick={() => setSelected("lc2")}
-          leftContent={<>left node two</>}
+          selected={selected === "lr3"}
+          onClick={() => setSelected("lr3")}
+          actions={
+            <>
+              <Button variant="secondary">mock</Button>
+              <Button variant="secondary">mock</Button>
+            </>
+          }
         >
-          center node two
+          node two
         </TreeItem>
       </Section>
 
       <Section>
-        <Label>right content and children</Label>
-
-        <TreeItem
-          selected={selected === "rc1"}
-          onClick={() => setSelected("rc1")}
-          rightContent={<>right node one</>}
-        >
-          center node one
-        </TreeItem>
-        <TreeItem
-          selected={selected === "rc2"}
-          onClick={() => setSelected("rc2")}
-          rightContent={<>right node two</>}
-        >
-          center node two
-        </TreeItem>
-      </Section>
-
-      <Section>
-        <Label>left content, right content, and children</Label>
-
-        <TreeItem
-          selected={selected === "lrc1"}
-          onClick={() => setSelected("lrc1")}
-          leftContent={<>left node one</>}
-          rightContent={<>right node one</>}
-        >
-          center node one
-        </TreeItem>
-        <TreeItem
-          selected={selected === "lrc2"}
-          onClick={() => setSelected("lrc2")}
-          leftContent={<>left node two</>}
-          rightContent={<>right node two</>}
-        >
-          center node two
-        </TreeItem>
-      </Section>
-
-      <Section>
-        <Label>icon examples</Label>
-
-        <TreeItem
-          selected={selected === "icon1"}
-          onClick={() => setSelected("icon1")}
-        >
-          defaults with no icon
-        </TreeItem>
-
-        <TreeItem
-          selected={selected === "icon2"}
-          onClick={() => setSelected("icon2")}
-          icon="file"
-        >
-          defaults with file icon
-        </TreeItem>
+        <Label>complex content examples</Label>
 
         <Tree aria-label="file icon, dir='ltr'" dir="ltr">
           <TreeItem
             selected={selected === "icon3"}
             onClick={() => setSelected("icon3")}
-            icon="file"
           >
-            file icon, dir === ltr
+            <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
+            dir === ltr
           </TreeItem>
         </Tree>
 
@@ -235,9 +151,9 @@ export const TreeItemExamples = () => {
           <TreeItem
             selected={selected === "icon4"}
             onClick={() => setSelected("icon4")}
-            icon="file"
           >
-            file icon, dir === rtl{" "}
+            <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
+            dir === rtl
           </TreeItem>
         </Tree>
 
@@ -245,27 +161,11 @@ export const TreeItemExamples = () => {
           <TreeItem
             selected={selected === "icon5"}
             onClick={() => setSelected("icon5")}
-            icon="file"
-            rightContent={<>right content with icon and dir === rtl </>}
-          />
-        </Tree>
-
-        <Tree aria-label="left content with icon and dir='rtl'" dir="rtl">
-          <TreeItem
-            selected={selected === "icon6"}
-            onClick={() => setSelected("icon6")}
-            icon="file"
-            leftContent={<>left content with icon and dir === rtl</>}
-          />
-        </Tree>
-
-        <Tree aria-label="left content with icon and dir='ltr'" dir="ltr">
-          <TreeItem
-            selected={selected === "icon7"}
-            onClick={() => setSelected("icon7")}
-            icon="file"
-            leftContent={<>left content with icon and dir === ltr</>}
-          />
+            actions={<Button variant="secondary">mock</Button>}
+          >
+            <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
+            dir === rtl
+          </TreeItem>
         </Tree>
 
         <Tree
@@ -275,20 +175,11 @@ export const TreeItemExamples = () => {
           <TreeItem
             selected={selected === "icon8"}
             onClick={() => setSelected("icon8")}
-            icon="file"
-            leftContent={<>left content with icon and dir === ltr</>}
-            rightContent={<>right content with icon and dir === ltr</>}
-          />
-        </Tree>
-
-        <Tree aria-label="left and right with icon and dir='rtl'" dir="rtl">
-          <TreeItem
-            selected={selected === "icon9"}
-            onClick={() => setSelected("icon9")}
-            icon="file"
-            leftContent={<>left content with icon and dir === rtl</>}
-            rightContent={<>right content with icon and dir === rtl</>}
-          />
+            actions={<Button variant="secondary">mock</Button>}
+          >
+            <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
+            dir === ltr
+          </TreeItem>
         </Tree>
       </Section>
     </Sheet>
