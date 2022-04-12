@@ -4,19 +4,17 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 
 import clsx from "clsx";
-import { FC, useContext, useState } from "react";
+import { FC, ReactNode, useContext, useState } from "react";
 
 import { Keys } from "utils";
 
 import { TreeContext } from "../TreeContext";
 
 export interface SubTreeProps {
+  actions?: ReactNode;
   defaultActive?: boolean;
   defaultExpanded?: boolean;
-
-  // TODO: don't use a prop for these
-  actions?: JSX.Element[];
-  edges: JSX.Element[];
+  edges: ReactNode;
 }
 export const SubTree: FC<SubTreeProps> = ({
   actions,

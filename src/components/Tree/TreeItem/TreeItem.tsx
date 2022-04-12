@@ -3,10 +3,13 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 
 import clsx from "clsx";
-import { DetailedHTMLProps, FC, LiHTMLAttributes, useContext } from "react";
-
-import { Icon } from "components/Icon";
-import { IconNamesType } from "utils";
+import {
+  DetailedHTMLProps,
+  FC,
+  LiHTMLAttributes,
+  ReactNode,
+  useContext,
+} from "react";
 
 import { TreeContext } from "../TreeContext";
 
@@ -15,20 +18,15 @@ export interface TreeItemProps
     DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement>,
     "dir"
   > {
-  icon?: IconNamesType;
-  iconLabel?: string;
-  leftContent?: JSX.Element; // TODO: don't use a prop for this
-  rightContent?: JSX.Element; // TODO: don't use a prop for this
+  actions?: ReactNode;
+  children: ReactNode;
   selected?: boolean;
 }
 
 export const TreeItem: FC<TreeItemProps> = ({
+  actions,
   children,
   className,
-  icon,
-  iconLabel = "tree item icon",
-  leftContent,
-  rightContent,
   selected = false,
 
   ...rest
@@ -47,17 +45,9 @@ export const TreeItem: FC<TreeItemProps> = ({
       tabIndex={selected ? 0 : -1}
       {...rest}
     >
-      {icon && <Icon icon={icon} aria-label={iconLabel} />}
+      <span className="neo-treeview__item-left">{children}</span>
 
-      {leftContent && (
-        <span className="neo-treeview__item-left">{leftContent}</span>
-      )}
-
-      {children && <>{children}</>}
-
-      {rightContent && (
-        <span className="neo-treeview__item-right">{rightContent}</span>
-      )}
+      {actions && <span className="neo-treeview__item-right">{actions}</span>}
     </li>
   );
 };
