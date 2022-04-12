@@ -188,11 +188,9 @@ export const Tabs = ({
   const panels = (
     <>
       {tabs.map((tabItem, index) => {
-        if (tabItem.content) {
-          return createPanel(index, tabItem, activePanelIndex);
-        } else {
-          return null;
-        }
+        return tabItem.content
+          ? createPanel(index, tabItem, activePanelIndex)
+          : null;
       })}
     </>
   );
