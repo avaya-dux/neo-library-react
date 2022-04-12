@@ -144,7 +144,6 @@ NavbarWithAvatarAndDropdown.args = {
 export const NavbarWithTabs = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const onTabChange = (activeTabIndex: number) => {
-    console.log(`tab changed to ${activeTabIndex}`);
     setActiveTabIndex(activeTabIndex);
   };
   const contentToToggle = {
