@@ -83,16 +83,15 @@ export const CheckboxGroup = ({
           ? checkboxes.map((checkbox, index) => {
               return (
                 <Checkbox
-                  key={index}
-                  label={checkbox.label}
-                  value={checkbox.value}
-                  name={groupName}
-                  id={checkbox.id}
+                  aria-describedby={helperText}
                   checked={checkbox.checked}
-                  tooltip={checkbox.tooltip}
-                  describedBy={helperText}
                   disabled={checkbox.disabled}
+                  id={checkbox.id}
+                  key={index}
+                  label={checkbox.label || ""}
+                  name={groupName}
                   onChange={onChangeHandler}
+                  value={checkbox.value}
                 />
               );
             })
