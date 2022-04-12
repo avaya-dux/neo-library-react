@@ -197,7 +197,7 @@ export const Tabs = ({
   const content = (
     <div style={verticalStyle}>
       {tabsCarousel}
-      {panels && panels}
+      {panels}
     </div>
   );
   return isScrollable ? (
