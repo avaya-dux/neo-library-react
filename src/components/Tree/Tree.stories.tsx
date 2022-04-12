@@ -2,6 +2,7 @@ import { Meta } from "@storybook/react/types-6-0";
 import { DetailedHTMLProps, FC, LabelHTMLAttributes, useState } from "react";
 
 import { Button } from "components/Button";
+import { Icon } from "components/Icon";
 import { Checkbox } from "components/Checkbox";
 import { Icon } from "components/Icon";
 import { IconButton } from "components/IconButton";
