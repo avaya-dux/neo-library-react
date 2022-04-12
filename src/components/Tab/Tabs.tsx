@@ -20,6 +20,7 @@ import { enableLeftButton, enableRightButton } from "./EventHandlers/Helper";
 import { TabsProps } from "./TabTypes";
 import {
   buildTabProps,
+  buildTabPropsNoPanel,
   createPanel,
   createTab,
   debugTabs,
@@ -37,7 +38,11 @@ export const Tabs = ({
   orientation = "horizontal",
   ...rest
 }: TabsProps) => {
-  const tabs = useMemo(() => buildTabProps(children), [children]);
+  const tabs = useMemo(() => {
+    return Array.isArray(children)
+      ? buildTabProps(children)
+      : buildTabPropsNoPanel(children);
+  }, [children]);
 
   debugTabs(logger, tabs);
 
@@ -183,14 +188,16 @@ export const Tabs = ({
   const panels = (
     <>
       {tabs.map((tabItem, index) => {
-        return createPanel(index, tabItem, activePanelIndex);
+        if (tabItem.content) {
+          return createPanel(index, tabItem, activePanelIndex);
+        }
       })}
     </>
   );
   const content = (
     <div style={verticalStyle}>
       {tabsCarousel}
-      {panels}
+      {panels && panels}
     </div>
   );
   return isScrollable ? (
