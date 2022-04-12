@@ -14,6 +14,7 @@ import { TextInputProps } from "../TextInput";
 import { LinkLogoProps, LogoProps } from "./LeftContent";
 import { NavbarAvatarProps, NavbarButtonProps } from "./RightContent";
 import { TabProps } from "../Tab";
+import { AgentCardProps } from "components/AgentCard";
 
 export interface NavbarProps {
   logo: ReactElement<LogoProps | LinkLogoProps>;
@@ -36,6 +37,7 @@ export interface NavbarProps {
   navButtons?: ReactElement<NavbarButtonProps>[];
   navMenuToggleBtn?: ReactElement<Partial<NavbarButtonProps>>;
   navbarTabs?: ReactElement<TabProps>;
+  agentCard?: ReactElement<AgentCardProps>;
 }
 
 /**
@@ -76,6 +78,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
   navbarAvatar,
   navMenuToggleBtn,
   navbarTabs,
+  agentCard,
   sticky,
 }) => {
   // TO-DO: NEO-786 - Replace inline styles on line 80 with updated CSS rules to avoid use of <form> element in Navbar
@@ -135,7 +138,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
               navButtonOnClickCallback(navButton.props.handleClick, key),
           })
         )}
-        {navbarAvatar}
+        {agentCard ? agentCard : navbarAvatar}
       </div>
     </nav>
   );
