@@ -158,7 +158,7 @@ export const Menu = forwardRef(
     };
 
     const menuButton = cloneElement(menuRootElement, {
-      onClick: (e: MouseEvent<HTMLButtonElement>) => {
+      onClick: (e: MouseEvent<HTMLButtonElement & HTMLDivElement>) => {
         handleMenuButtonClickEvent(e, isOpen, setOpen);
 
         if (menuRootElement.props.onClick) {
@@ -166,7 +166,7 @@ export const Menu = forwardRef(
         }
       },
 
-      onKeyDown: (e: KeyboardEvent<HTMLButtonElement>) => {
+      onKeyDown: (e: KeyboardEvent<HTMLButtonElement & HTMLDivElement>) => {
         handleButtonKeyDownEvent(e, menuIndexes, setCursor, setOpen);
 
         if (menuRootElement.props.onKeyDown) {
@@ -174,7 +174,7 @@ export const Menu = forwardRef(
         }
       },
 
-      onMouseEnter: (e: MouseEvent<HTMLButtonElement>) => {
+      onMouseEnter: (e: MouseEvent<HTMLButtonElement & HTMLDivElement>) => {
         if (openOnHover) {
           setOpen(true);
         }

@@ -6,6 +6,7 @@ import {
   MouseEvent,
   MouseEventHandler,
   RefObject,
+  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -35,6 +36,7 @@ export const Tabs = ({
   index,
   children,
   onTabChange,
+  onTabPanelChange,
   orientation = "horizontal",
   ...rest
 }: TabsProps) => {
@@ -74,6 +76,10 @@ export const Tabs = ({
   };
 
   const [activePanelIndex, setActivePanelIndex] = useState(defaultIndex);
+
+  useEffect(() => {
+    onTabPanelChange?.(activePanelIndex);
+  }, [activePanelIndex]);
 
   const verticalStyle: CSSProperties = isVertical ? { display: "flex" } : {};
   const refs: RefObject<HTMLLIElement>[] = [];

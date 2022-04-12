@@ -8,6 +8,7 @@ import {
 import { Tabs } from "./Tabs";
 import {
   buildTabProps,
+  buildTabPropsNoPanel,
   debugTabs,
   getContentClasses,
   getTabItemClasses,
@@ -239,6 +240,64 @@ describe("TabUtils", () => {
               "children": "content 3",
               "id": "panel3",
             },
+            "disabled": false,
+            "id": "tab3",
+            "name": "tab3",
+            "onClose": undefined,
+          },
+        ]
+      `);
+    });
+  });
+  describe(buildTabPropsNoPanel, () => {
+    it("return id property if not defined", () => {
+      const tabs = (
+        <Tabs>
+          <TabList>
+            <Tab>tab1</Tab>
+          </TabList>
+        </Tabs>
+      );
+      const actual = buildTabPropsNoPanel(tabs.props.children);
+      expect(actual.length).toBe(1);
+      expect(actual[0].id).toBeDefined();
+    });
+    it("parses correctly given proper tags", () => {
+      const tabs = (
+        <Tabs defaultTabId="tab1">
+          <TabList>
+            <Tab id="tab1" dir="ltr" onClose={() => {}}>
+              tab1
+            </Tab>
+            <></>
+            <Tab id="tab2" disabled>
+              tab2
+            </Tab>
+            <ClosableTab id="tab3" closable>
+              tab3
+            </ClosableTab>
+          </TabList>
+        </Tabs>
+      );
+      expect(buildTabPropsNoPanel(tabs.props.children)).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "closable": false,
+            "dir": "ltr",
+            "disabled": false,
+            "id": "tab1",
+            "name": "tab1",
+            "onClose": [Function],
+          },
+          Object {
+            "closable": false,
+            "disabled": true,
+            "id": "tab2",
+            "name": "tab2",
+            "onClose": undefined,
+          },
+          Object {
+            "closable": true,
             "disabled": false,
             "id": "tab3",
             "name": "tab3",

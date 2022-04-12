@@ -142,9 +142,9 @@ NavbarWithAvatarAndDropdown.args = {
 };
 
 export const NavbarWithTabs = () => {
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
-  const onTabChange = (activeTabIndex: number) => {
-    setActiveTabIndex(activeTabIndex);
+  const [activeTabPanelIndex, setActiveTabPanelIndex] = useState(0);
+  const onTabPanelChange = (activeTabPanelIndex: number) => {
+    setActiveTabPanelIndex(activeTabPanelIndex);
   };
   const contentToToggle = {
     0: "Tab 1 content",
@@ -156,16 +156,20 @@ export const NavbarWithTabs = () => {
       <Navbar
         logo={logo}
         navbarTabs={
-          <Tabs onTabChange={onTabChange}>
+          <Tabs onTabPanelChange={onTabPanelChange}>
             <TabList>
-              <Tab id="tab1">Tab1</Tab>
+              <Tab id="tab1" onClick={() => console.log("Clicked")}>
+                Tab1
+              </Tab>
               <Tab id="tab2">Tab2</Tab>
               <Tab id="tab3">Tab3</Tab>
             </TabList>
           </Tabs>
         }
       />
-      <h4 style={{ marginTop: "30px" }}>{contentToToggle[activeTabIndex]}</h4>
+      <h4 style={{ marginTop: "30px" }}>
+        {contentToToggle[activeTabPanelIndex]}
+      </h4>
     </>
   );
 };
