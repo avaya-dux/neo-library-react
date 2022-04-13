@@ -18,8 +18,8 @@ import { useFocusEffect, useRovingTabIndex } from "react-roving-tabindex";
 
 import { Keys } from "utils";
 
+import { TreeItemProps } from "../";
 import { TreeContext } from "../TreeContext";
-import { TreeItem, TreeItemProps } from "../TreeItem";
 
 export interface SubTreeProps {
   actions?: ReactNode;
@@ -46,18 +46,15 @@ export const SubTree: FC<SubTreeProps> = ({
 
   const [expanded, setExpanded] = useState(defaultExpanded);
 
-  const extendedEdges = useMemo(() => {
-    if (expanded === false) {
-      return edges.map((edge) => {
-        return [TreeItem.name, SubTree.name].includes((edge.type as FC).name)
-          ? cloneElement(edge, {
-              disabled: true,
-            })
-          : edge;
-      });
-    }
-
-    return edges;
+  const edgesWithRovingTabIndexLogic = useMemo(() => {
+    // if !expanded, we need to disable all children, which tells "react-roving-tabindex" to set their tabIndex to `-1`
+    return expanded
+      ? edges
+      : edges.map((edge) =>
+          cloneElement(edge, {
+            disabled: true,
+          })
+        );
   }, [expanded]);
 
   return (
@@ -106,7 +103,7 @@ export const SubTree: FC<SubTreeProps> = ({
       </div>
 
       <ul aria-expanded={expanded} role="group">
-        {extendedEdges}
+        {edgesWithRovingTabIndexLogic}
       </ul>
     </li>
   );

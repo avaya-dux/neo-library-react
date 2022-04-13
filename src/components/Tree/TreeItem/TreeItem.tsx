@@ -53,11 +53,11 @@ export const TreeItem: FC<TreeItemProps> = ({
         className
       )}
       dir={dir}
-      role="treeitem"
-      ref={ref}
-      tabIndex={tabIndex}
-      onKeyDown={handleKeyDown}
       onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      ref={ref}
+      role="treeitem"
+      tabIndex={tabIndex}
       {...rest}
     >
       <span className="neo-treeview__item-left">{children}</span>

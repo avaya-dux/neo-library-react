@@ -333,7 +333,7 @@ const MockButton = () => <Button onClick={() => alert("ping")}>mock</Button>;
 
 export const EmbededActions = () => {
   return (
-    <Sheet aria-label="Embedded Actions Sheet">
+    <Sheet title="Embedded Actions Sheet">
       <Tree label="Embedded Actions Tree">
         <TreeItem>Tree Item, One</TreeItem>
 
@@ -390,6 +390,14 @@ export const EmbededActions = () => {
 
         <TreeItem>Tree Item, Final</TreeItem>
       </Tree>
+
+      <Divider />
+
+      <section style={{ display: "flex" }}>
+        <span>Tab-able item (for checking tab order):</span>
+
+        <IconButton icon="check" aria-label="check icon" />
+      </section>
 
       <Divider />
     </Sheet>
