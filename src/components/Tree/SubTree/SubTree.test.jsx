@@ -151,7 +151,7 @@ describe("SubTree", () => {
       expect(subTreeDiv).toHaveClass("neo-treeview__item--selected"); // _is_ active (still)
       expect(subtreeEdges).toHaveAttribute("aria-expanded", "true");
     });
-    it("on keyboard up, sets active=>false", () => {
+    it("on keyboard up, sets active appropriately", () => {
       const subTreeDiv = container.querySelector(
         "li.neo-treeview__sub-tree-item div"
       );
@@ -163,13 +163,13 @@ describe("SubTree", () => {
 
       expect(subTreeDiv).toHaveClass("neo-treeview__item--selected"); // _is_ active
 
+      userEvent.keyboard("{ArrowDown}");
+
+      expect(subTreeDiv).not.toHaveClass("neo-treeview__item--selected"); // NOT active, cursor is on the next item
+
       userEvent.keyboard("{ArrowUp}");
 
-      expect(subTreeDiv).not.toHaveClass("neo-treeview__item--selected"); // NOT active
-
-      userEvent.keyboard("{ArrowUp}");
-
-      expect(subTreeDiv).not.toHaveClass("neo-treeview__item--selected"); // NOT active (still)
+      expect(subTreeDiv).toHaveClass("neo-treeview__item--selected"); // _is_ active (again)
     });
     it("on keyboard down, sets active=>false", () => {
       const subTreeDiv = container.querySelector(

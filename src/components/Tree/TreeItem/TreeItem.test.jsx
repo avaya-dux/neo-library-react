@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 
-import { TreeItem } from ".";
+import { Tree, TreeItem } from "../";
 
 describe("TreeItem", () => {
   it("fully renders without exploding", () => {
@@ -21,10 +22,15 @@ describe("TreeItem", () => {
     expect(results).toHaveNoViolations();
   });
 
-  it("adds 'selected' class when treeitem is selected", () => {
-    render(<TreeItem selected>example</TreeItem>);
+  it("adds 'selected' class when treeitem is clicked", () => {
+    render(
+      <Tree aria-label="tree label">
+        <TreeItem>example</TreeItem>
+      </Tree>
+    );
 
     const rootElement = screen.getByRole("treeitem");
+    userEvent.click(rootElement);
     expect(rootElement).toHaveClass("neo-treeview__item--selected");
   });
 });
