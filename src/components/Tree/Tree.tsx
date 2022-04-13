@@ -4,6 +4,7 @@
 
 import clsx from "clsx";
 import { DetailedHTMLProps, FC, HTMLAttributes, useMemo } from "react";
+import { RovingTabIndexProvider } from "react-roving-tabindex";
 
 import { handleAccessbilityError } from "utils";
 import { genId } from "utils/accessibilityUtils";
@@ -43,16 +44,20 @@ export const Tree: FC<TreeProps> = ({
     <div className={clsx("neo-treeview", className)} {...rest}>
       {label && <label htmlFor={treeId}>{label}</label>}
 
-      <TreeContext.Provider value={{ dir }}>
-        <ul
-          aria-describedby={describedby}
-          aria-label={arialabel}
-          id={treeId}
-          role="tree"
-        >
-          {children}
-        </ul>
-      </TreeContext.Provider>
+      <RovingTabIndexProvider
+        options={{ direction: "vertical", focusOnClick: true }}
+      >
+        <TreeContext.Provider value={{ dir }}>
+          <ul
+            aria-describedby={describedby}
+            aria-label={arialabel}
+            id={treeId}
+            role="tree"
+          >
+            {children}
+          </ul>
+        </TreeContext.Provider>
+      </RovingTabIndexProvider>
     </div>
   );
 };

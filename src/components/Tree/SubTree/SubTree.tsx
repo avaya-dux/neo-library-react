@@ -4,29 +4,61 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 
 import clsx from "clsx";
-import { FC, ReactNode, useContext, useState } from "react";
+import {
+  cloneElement,
+  FC,
+  ReactElement,
+  ReactNode,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { useFocusEffect, useRovingTabIndex } from "react-roving-tabindex";
 
 import { Keys } from "utils";
 
 import { TreeContext } from "../TreeContext";
+import { TreeItem, TreeItemProps } from "../TreeItem";
 
 export interface SubTreeProps {
   actions?: ReactNode;
-  defaultActive?: boolean;
   defaultExpanded?: boolean;
-  edges: ReactNode;
+  disabled?: boolean;
+  edges: ReactElement<SubTreeProps | TreeItemProps>[];
 }
+
 export const SubTree: FC<SubTreeProps> = ({
   actions,
   children,
-  defaultActive = false,
   defaultExpanded = false,
+  disabled = false,
   edges,
 }) => {
   const { dir } = useContext(TreeContext);
 
-  const [active, setActive] = useState(defaultActive);
+  const ref = useRef(null);
+  const [tabIndex, active, handleKeyDown, handleClick] = useRovingTabIndex(
+    ref,
+    disabled
+  );
+  useFocusEffect(active, ref);
+
   const [expanded, setExpanded] = useState(defaultExpanded);
+
+  const extendedEdges = useMemo(() => {
+    if (expanded === false) {
+      return edges.map((edge) => {
+        return [TreeItem.name, SubTree.name].includes((edge.type as FC).name)
+          ? cloneElement(edge, {
+              disabled: true,
+            })
+          : edge;
+      });
+    }
+
+    return edges;
+  }, [expanded]);
 
   return (
     <li dir={dir} role="treeitem" className="neo-treeview__sub-tree-item">
@@ -42,36 +74,27 @@ export const SubTree: FC<SubTreeProps> = ({
         <span
           className="neo-treeview__item-left"
           role="button"
-          tabIndex={active ? 0 : -1} // TODO: roving tab index
+          ref={ref}
+          tabIndex={tabIndex}
           onClick={(e) => {
             e.stopPropagation();
-            setActive(true);
+            handleClick();
             setExpanded(!expanded);
           }}
           onKeyDown={(e) => {
             e.stopPropagation();
+            handleKeyDown(e);
 
             switch (e.key) {
               case Keys.SPACE:
               case Keys.ENTER:
-                setActive(true);
                 setExpanded(!expanded);
                 break;
               case Keys.LEFT:
-                setActive(true);
                 setExpanded(false);
                 break;
               case Keys.RIGHT:
-                setActive(true);
                 setExpanded(true);
-                break;
-              case Keys.UP:
-                // TODO: move tabIndex up
-                setActive(false);
-                break;
-              case Keys.DOWN:
-                // TODO: move tabIndex down
-                setActive(false);
                 break;
             }
           }}
@@ -83,7 +106,7 @@ export const SubTree: FC<SubTreeProps> = ({
       </div>
 
       <ul aria-expanded={expanded} role="group">
-        {edges}
+        {extendedEdges}
       </ul>
     </li>
   );

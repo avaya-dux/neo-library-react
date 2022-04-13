@@ -40,13 +40,12 @@ export const Default = () => (
         >
           Edges as Array
         </SubTree>
+
         <SubTree
-          edges={
-            <>
-              <TreeItem key="one">one</TreeItem>
-              <TreeItem key="two">two</TreeItem>
-            </>
-          }
+          edges={[
+            <TreeItem key="one">one</TreeItem>,
+            <TreeItem key="two">two</TreeItem>,
+          ]}
         >
           Edges as JSX
         </SubTree>
@@ -327,5 +326,72 @@ export const SubTrees = () => {
 
       <Divider />
     </main>
+  );
+};
+
+const MockButton = () => <Button onClick={() => alert("ping")}>mock</Button>;
+
+export const EmbededActions = () => {
+  return (
+    <Sheet aria-label="Embedded Actions Sheet">
+      <Tree label="Embedded Actions Tree">
+        <TreeItem>Tree Item, One</TreeItem>
+
+        <SubTree
+          edges={[
+            <TreeItem key="one">one</TreeItem>,
+            <TreeItem key="two">two</TreeItem>,
+          ]}
+        >
+          Sub Tree without actions
+        </SubTree>
+
+        <SubTree
+          edges={[
+            <TreeItem
+              key="three"
+              actions={[<MockButton key="action-btn-one" />]}
+              disabled
+            >
+              disabled Tree Item
+            </TreeItem>,
+            <TreeItem
+              key="four"
+              actions={[<MockButton key="action-btn-one" />]}
+            >
+              not disabled Tree Item
+            </TreeItem>,
+            <SubTree
+              key="sub-sub-tree-one"
+              edges={[
+                <TreeItem
+                  key="five"
+                  actions={[<MockButton key="action-btn-one" />]}
+                  disabled
+                >
+                  disabled Tree Item
+                </TreeItem>,
+                <TreeItem
+                  key="six"
+                  actions={[<MockButton key="action-btn-one" />]}
+                >
+                  not disabled Tree Item
+                </TreeItem>,
+              ]}
+              actions={[<MockButton key="action-btn-one" />]}
+            >
+              Sub Tree with actions
+            </SubTree>,
+          ]}
+          actions={[<MockButton key="action-btn-one" />]}
+        >
+          Sub Tree with actions
+        </SubTree>
+
+        <TreeItem>Tree Item, Final</TreeItem>
+      </Tree>
+
+      <Divider />
+    </Sheet>
   );
 };
