@@ -19,14 +19,14 @@ const Divider = () => (
 );
 
 export const Default = () => (
-  <section>
+  <section style={{ display: "flex", justifyContent: "space-between" }}>
     <Sheet title="Tree Examples" style={{ width: 400 }}>
       <Divider />
 
       <Tree label="Tree Label">
-        <TreeItem key="one">upper edge one</TreeItem>
-        <TreeItem key="two">upper edge two</TreeItem>
-        <TreeItem key="three">upper edge three</TreeItem>
+        <TreeItem>upper edge one</TreeItem>
+        <TreeItem>upper edge two</TreeItem>
+        <TreeItem>upper edge three</TreeItem>
       </Tree>
 
       <Divider />
@@ -38,7 +38,7 @@ export const Default = () => (
             <TreeItem key="two">two</TreeItem>,
           ]}
         >
-          Edges as Array
+          Sub Tree One
         </SubTree>
 
         <SubTree
@@ -47,9 +47,43 @@ export const Default = () => (
             <TreeItem key="two">two</TreeItem>,
           ]}
         >
-          Edges as JSX
+          Sub Tree Two
         </SubTree>
       </Tree>
+
+      <Divider />
+    </Sheet>
+
+    <Sheet title="Tree Description" style={{ width: 400 }}>
+      <Divider />
+
+      <p>
+        The <code>Tree</code> component is a hierarchical list that allows users
+        to move through its levels.
+      </p>
+
+      <Divider />
+
+      <p>
+        The <code>Tree</code> component takes a <code>label</code> (or{" "}
+        <code>aria-label</code>) prop, and children. The children can be{" "}
+        <code>TreeItem</code> components or <code>SubTree</code> components.
+      </p>
+
+      <Divider />
+
+      <p>
+        A <code>TreeItem</code> component takes <code>children</code> and an
+        optional <code>actions</code> prop.
+      </p>
+
+      <Divider />
+
+      <p>
+        A <code>SubTree</code> component takes <code>children</code>,{" "}
+        <code>edges</code> (which can be <code>TreeItem</code> or{" "}
+        <code>SubTree</code>) and an optional <code>actions</code> prop.
+      </p>
 
       <Divider />
     </Sheet>
@@ -368,7 +402,7 @@ export const EmbededActions = () => {
         </a>
       </p>
 
-      <ul>
+      <ul style={{ marginLeft: "2rem" }}>
         <li>
           <b>Right Arrow</b>, if expanded, moves to first child
         </li>

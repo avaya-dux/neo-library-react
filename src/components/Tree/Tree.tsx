@@ -22,6 +22,40 @@ export interface TreeProps
   label?: string;
 }
 
+/**
+ * A tree view is a hierarchical list that allows users to move through the various levels.
+ *
+ * @example
+  <Tree label="Tree Label">
+    <TreeItem>edge one</TreeItem>
+    <TreeItem>edge two</TreeItem>
+    <TreeItem>edge three</TreeItem>
+  </Tree>
+ *
+ * @example
+  <Tree label="Tree with groupings">
+    <SubTree
+      edges={[
+        <TreeItem key="one">one</TreeItem>,
+        <TreeItem key="two">two</TreeItem>,
+      ]}
+    >
+      Sub Tree One
+    </SubTree>
+
+    <SubTree
+      edges={[
+        <TreeItem key="one">one</TreeItem>,
+        <TreeItem key="two">two</TreeItem>,
+      ]}
+    >
+      Sub Tree Two
+    </SubTree>
+  </Tree>
+ *
+ * @see https://design.avayacloud.com/components/web/treeview-web
+ * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-tree
+ */
 export const Tree: FC<TreeProps> = ({
   "aria-describedby": describedby,
   "aria-label": arialabel,
