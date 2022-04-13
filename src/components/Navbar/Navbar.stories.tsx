@@ -61,13 +61,7 @@ const navbarAvatar = (
   />
 );
 
-const navMenuToggleBtn = (
-  <NavbarButton
-    aria-label="Toggle Menu"
-    onClick={() => alert("Menu toggle clicked")}
-    icon="menu"
-  />
-);
+const navMenuToggleBtn = <NavbarButton aria-label="Toggle Menu" icon="menu" />;
 
 const Template: Story<NavbarProps> = (props: NavbarProps) => {
   return <Navbar {...props} />;
