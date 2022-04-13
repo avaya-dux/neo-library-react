@@ -138,7 +138,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
               navButtonOnClickCallback(navButton.props.handleClick, key),
           })
         )}
-        {agentCard ? agentCard : navbarAvatar}
+        {agentCard || navbarAvatar}
       </div>
     </nav>
   );
