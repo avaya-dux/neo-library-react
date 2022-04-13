@@ -360,6 +360,29 @@ export const EmbededActions = () => {
       </section>
 
       <Divider />
+
+      <p>
+        Need to implement better keyboard navigation:{" "}
+        <a href="https://www.w3.org/TR/wai-aria-practices-1.1/examples/treegrid/treegrid-1.html#kbd_label">
+          W3 Tree Grid
+        </a>
+      </p>
+
+      <ul>
+        <li>
+          <b>Right Arrow</b>, if expanded, moves to first child
+        </li>
+
+        <li>
+          <b>Left Arrow</b>, if collapsed, moves to parent
+        </li>
+
+        <li>
+          <b>Tab</b>, moves focus to the next interactive widget in the current
+          row. If there are no more interactive widgets in the current row,
+          moves focus out of the treegrid.
+        </li>
+      </ul>
     </Sheet>
   );
 };
