@@ -11,6 +11,8 @@ import {
   Tab,
   TabList,
   AgentCard,
+  NavCategory,
+  LinkItem,
 } from "components";
 
 import { Navbar, NavbarProps } from ".";
@@ -81,6 +83,59 @@ NavbarWithNavigationToggle.args = {
   logo: linkLogo,
   navMenuToggleBtn,
 };
+NavbarWithNavigationToggle.decorators = [
+  (Story, context) => {
+    const [displayLeftNav, setDisplayLeftNav] = useState(false);
+
+    const args = { ...context.args };
+
+    const navMenuToggleWithHandler = cloneElement(args.navMenuToggleBtn!, {
+      onClick: () => setDisplayLeftNav(!displayLeftNav),
+    });
+
+    return (
+      <>
+        <Story args={{ ...args, navMenuToggleBtn: navMenuToggleWithHandler }} />
+        {displayLeftNav && (
+          <div
+            className={
+              displayLeftNav
+                ? "neo-slide neo-slide--in-left neo-leftnav--collapsible"
+                : "neo-leftnav--collapsible neo-slide neo-slide--out-left"
+            }
+            style={{ width: "15%" }}
+          >
+            <div className="neo-leftnav--wrapper">
+              <nav className="neo-leftnav">
+                <ul className="neo-leftnav__nav">
+                  <NavCategory icon="audio-on" label="Collapsed">
+                    <LinkItem> First Item </LinkItem>
+                    <LinkItem> Second Item </LinkItem>
+                    <LinkItem> Third Item </LinkItem>
+                    <LinkItem> Fourth Item </LinkItem>
+                  </NavCategory>
+                  <NavCategory active expanded icon="call" label="Active">
+                    <LinkItem> Item 1 </LinkItem>
+                    <LinkItem active={true}> Active Item 2 </LinkItem>
+                    <LinkItem> Item 3</LinkItem>
+                  </NavCategory>
+                  <NavCategory
+                    disabled
+                    icon="available"
+                    label="Disabled Category"
+                  >
+                    <LinkItem> First Item </LinkItem>
+                    <LinkItem> Second Item </LinkItem>
+                  </NavCategory>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        )}
+      </>
+    );
+  },
+];
 
 export const NavbarWithTitle = Template.bind({});
 NavbarWithTitle.args = {
