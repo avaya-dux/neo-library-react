@@ -1,0 +1,6 @@
+.neo-accordion__header-text{
+justify-content: flex-start;
+color: var(--global-font-color);
+font-family: "noto-sans,sans-serif";
+
+}
