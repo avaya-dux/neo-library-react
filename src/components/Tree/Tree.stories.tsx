@@ -77,27 +77,15 @@ const Section: FC = ({ children }) => (
 );
 
 export const TreeItemExamples = () => {
-  const [selected, setSelected] = useState("");
-
   return (
     <Sheet title="Native Tree Item Example" style={{ width: 400 }}>
       <Section>
         <Label id="label-one">string contents</Label>
 
         <Tree aria-describedby="label-one">
-          <TreeItem
-            selected={selected === "c1"}
-            onClick={() => setSelected("c1")}
-          >
-            node one
-          </TreeItem>
+          <TreeItem>node one</TreeItem>
 
-          <TreeItem
-            selected={selected === "c2"}
-            onClick={() => setSelected("c2")}
-          >
-            node two
-          </TreeItem>
+          <TreeItem>node two</TreeItem>
         </Tree>
       </Section>
 
@@ -105,17 +93,11 @@ export const TreeItemExamples = () => {
         <Label id="label-two">contents with action(s)</Label>
 
         <Tree aria-describedby="label-two">
-          <TreeItem
-            selected={selected === "lr1"}
-            onClick={() => setSelected("lr1")}
-            actions={<Button variant="secondary">mock</Button>}
-          >
+          <TreeItem actions={<Button variant="secondary">mock</Button>}>
             node one
           </TreeItem>
 
           <TreeItem
-            selected={selected === "lr2"}
-            onClick={() => setSelected("lr2")}
             actions={[
               <Button variant="secondary" key="one">
                 mock
@@ -129,8 +111,6 @@ export const TreeItemExamples = () => {
           </TreeItem>
 
           <TreeItem
-            selected={selected === "lr3"}
-            onClick={() => setSelected("lr3")}
             actions={
               <>
                 <Button variant="secondary">mock</Button>
@@ -147,31 +127,21 @@ export const TreeItemExamples = () => {
         <Label id="label-three">complex content examples</Label>
 
         <Tree aria-describedby="label-three" dir="ltr">
-          <TreeItem
-            selected={selected === "icon3"}
-            onClick={() => setSelected("icon3")}
-          >
+          <TreeItem>
             <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
             dir === ltr
           </TreeItem>
         </Tree>
 
         <Tree aria-label="file icon, dir='rtl'" dir="rtl">
-          <TreeItem
-            selected={selected === "icon4"}
-            onClick={() => setSelected("icon4")}
-          >
+          <TreeItem>
             <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
             dir === rtl
           </TreeItem>
         </Tree>
 
         <Tree aria-label="right content with icon and dir='rtl'" dir="rtl">
-          <TreeItem
-            selected={selected === "icon5"}
-            onClick={() => setSelected("icon5")}
-            actions={<Button variant="secondary">mock</Button>}
-          >
+          <TreeItem actions={<Button variant="secondary">mock</Button>}>
             <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
             dir === rtl
           </TreeItem>
@@ -181,21 +151,14 @@ export const TreeItemExamples = () => {
           aria-label="left and right content with icon and dir='ltr'"
           dir="ltr"
         >
-          <TreeItem
-            selected={selected === "icon8"}
-            onClick={() => setSelected("icon8")}
-            actions={<Button variant="secondary">mock</Button>}
-          >
+          <TreeItem actions={<Button variant="secondary">mock</Button>}>
             <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
             dir === ltr
           </TreeItem>
         </Tree>
 
         <Tree aria-label="checkbox content, dir='ltr'" dir="ltr">
-          <TreeItem
-            selected={selected === "icon7"}
-            onClick={() => setSelected("icon7")}
-          >
+          <TreeItem>
             <Checkbox aria-labelledby="checkbox-label-one" value="none" />
 
             <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
@@ -205,10 +168,7 @@ export const TreeItemExamples = () => {
         </Tree>
 
         <Tree aria-label="checkbox content, dir='rtl'" dir="rtl">
-          <TreeItem
-            selected={selected === "icon9"}
-            onClick={() => setSelected("icon9")}
-          >
+          <TreeItem>
             <Checkbox aria-labelledby="checkbox-label-two" value="none" />
 
             <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />

@@ -23,7 +23,6 @@ export interface TreeItemProps
   actions?: ReactNode;
   children: ReactNode;
   disabled?: boolean;
-  selected?: boolean;
 }
 
 export const TreeItem: FC<TreeItemProps> = ({
@@ -31,25 +30,24 @@ export const TreeItem: FC<TreeItemProps> = ({
   children,
   className,
   disabled = false,
-  selected = false,
 
   ...rest
 }) => {
   const { dir } = useContext(TreeContext);
 
   const ref = useRef(null);
-  const [tabIndex, focused, handleKeyDown, handleClick] = useRovingTabIndex(
+  const [tabIndex, active, handleKeyDown, handleClick] = useRovingTabIndex(
     ref,
     disabled
   );
-  useFocusEffect(focused, ref);
+  useFocusEffect(active, ref);
 
   return (
     <li
       className={clsx(
         "neo-treeview__item",
         disabled && "neo-treeview__item--disabled",
-        selected && "neo-treeview__item--selected",
+        active && "neo-treeview__item--selected",
         className
       )}
       dir={dir}
