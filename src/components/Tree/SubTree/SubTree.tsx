@@ -66,8 +66,6 @@ export const SubTree: FC<SubTreeProps> = ({
           active && "neo-treeview__item--selected"
         )}
       >
-        <span className="neo-treeview__item--expandable" />
-
         <span
           className="neo-treeview__item-left"
           role="button"
@@ -96,6 +94,8 @@ export const SubTree: FC<SubTreeProps> = ({
             }
           }}
         >
+          <span className="neo-treeview__item--expandable" />
+
           {children}
         </span>
 
