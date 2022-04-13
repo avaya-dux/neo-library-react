@@ -143,9 +143,6 @@ NavbarWithAvatarAndDropdown.args = {
 
 export const NavbarWithTabs = () => {
   const [activeTabPanelIndex, setActiveTabPanelIndex] = useState(0);
-  const onTabPanelChange = (activeTabPanelIndex: number) => {
-    setActiveTabPanelIndex(activeTabPanelIndex);
-  };
   const contentToToggle = {
     0: "Tab 1 content",
     1: "Tab 2 content",
@@ -156,9 +153,9 @@ export const NavbarWithTabs = () => {
       <Navbar
         logo={logo}
         navbarTabs={
-          <Tabs onTabPanelChange={onTabPanelChange}>
+          <Tabs onTabPanelChange={setActiveTabPanelIndex}>
             <TabList>
-              <Tab id="tab1" onClick={() => console.log("Clicked")}>
+              <Tab id="tab1" onClick={() => alert("Clicked")}>
                 Tab1
               </Tab>
               <Tab id="tab2">Tab2</Tab>
