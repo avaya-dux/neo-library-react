@@ -22,14 +22,14 @@ describe("Accordion Component", () => {
     expect(results).toHaveNoViolations();
   });
 
-  it("assigns the appropriate aria-expanded value when `expand` prop is false", () => {
+  it("assigns the appropriate aria-expanded value when `isExpanded` prop is false", () => {
     render(<Accordion header={Header} body={Body} />);
     const AccordionElement = screen.getByRole("button");
     expect(AccordionElement).toHaveAttribute("aria-expanded", "false");
   });
 
-  it("assigns the appropriate aria-expanded value when `expand` prop is true", () => {
-    render(<Accordion header={Header} body={Body} expand={true} />);
+  it("assigns the appropriate aria-expanded value when `isExpanded` prop is true", () => {
+    render(<Accordion header={Header} body={Body} isExpanded={true} />);
     const AccordionElement = screen.getByRole("button");
     expect(AccordionElement).toHaveAttribute("aria-expanded", "true");
   });

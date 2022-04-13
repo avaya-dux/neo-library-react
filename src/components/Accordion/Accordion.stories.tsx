@@ -1,5 +1,5 @@
-import { Meta, Story } from "@storybook/react/types-6-0";
-import { Accordion, AccordionProps } from "./Accordion";
+import { Meta } from "@storybook/react/types-6-0";
+import { Accordion } from "./Accordion";
 
 export default {
   title: "Components/Accordion",
@@ -12,7 +12,7 @@ export const Default = () => (
     <Accordion
       header="Accordion with expand true"
       body="Some text in body"
-      expand={true}
+      isExpanded={true}
     />
     <Accordion
       header="Header Disabled"

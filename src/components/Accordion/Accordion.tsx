@@ -6,17 +6,17 @@ export interface AccordionProps {
   header: string;
   body: string;
   id?: string;
-  expand?: boolean;
+  isExpanded?: boolean;
   isDisabled?: boolean;
 }
 export const Accordion = ({
   header,
   body,
   id = genId(),
-  expand = false,
+  isExpanded = false,
   isDisabled,
 }: AccordionProps) => {
-  const [isActive, setIsActive] = useState(expand);
+  const [isActive, setIsActive] = useState(isExpanded);
   return (
     <div className="neo-accordion">
       <div
