@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
-import { MenuItem } from "components";
+import { Menu, MenuItem, Avatar } from "components";
 
 import { NavbarAvatar } from "./NavbarAvatar";
 
@@ -9,7 +9,7 @@ describe("NavbarAvatar", () => {
   describe("Avatar without Dropdown tests", () => {
     let renderResult;
     beforeEach(() => {
-      renderResult = render(<NavbarAvatar />);
+      renderResult = render(<NavbarAvatar avatar={<Avatar initials="MD" />} />);
     });
 
     it("renders without exploding", () => {
@@ -32,12 +32,19 @@ describe("NavbarAvatar", () => {
 
   describe("Avatar with Dropdown tests", () => {
     let renderResult;
-    const dropdownItems = {
-      children: [<MenuItem key={"1"} text="Item1" />],
-    };
-
+    const dropdownItems = (
+      <Menu itemAlignment="right">
+        <MenuItem key={"1"}>Item1</MenuItem>
+        <MenuItem key={"3"}>Item3</MenuItem>
+      </Menu>
+    );
     beforeEach(() => {
-      renderResult = render(<NavbarAvatar dropdown={dropdownItems} />);
+      renderResult = render(
+        <NavbarAvatar
+          avatar={<Avatar initials="MD" />}
+          dropdown={dropdownItems}
+        />
+      );
     });
 
     it("renders without exploding", () => {

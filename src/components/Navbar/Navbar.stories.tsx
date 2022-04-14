@@ -1,20 +1,71 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { FormEvent, useState } from "react";
+import { cloneElement, FormEvent, useState } from "react";
 
-import { MenuItem, SubMenu } from "components/Menu";
+import {
+  Menu,
+  MenuItem,
+  SubMenu,
+  TextInput,
+  Avatar,
+  Tabs,
+  Tab,
+  TabList,
+} from "components";
 
 import { Navbar, NavbarProps } from ".";
+import { Logo, LinkLogo } from "./LeftContent";
+import { NavbarAvatar, NavbarButton } from "./RightContent";
+
+import fpo from "./logo-fpo.png";
 
 export default {
   title: "Components/Navbar",
   component: Navbar,
 } as Meta<NavbarProps>;
 
-const logo = {
-  link: "https://design.avayacloud.com",
-  src: "http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png",
-  alt: "Link to Avaya",
-};
+const logo = <Logo src={fpo} />;
+
+const linkLogo = (
+  <LinkLogo
+    link="https://design.avayacloud.com"
+    src={fpo}
+    alt="Link to Avaya"
+  />
+);
+
+const search = (
+  <TextInput
+    clearable={true}
+    disabled={false}
+    placeholder="Search"
+    startIcon="search"
+    aria-label="search"
+  />
+);
+
+const navbarAvatar = (
+  <NavbarAvatar
+    avatar={<Avatar initials="MD" />}
+    dropdown={
+      <Menu itemAlignment="right">
+        <MenuItem key={"1"}>Item1</MenuItem>
+        <SubMenu key={"2"} menuRootElement={<MenuItem>Sub Menu</MenuItem>}>
+          <MenuItem key={"2-1"}>Sub Item1</MenuItem>
+          <MenuItem key={"2-2"}>Sub Item2</MenuItem>
+        </SubMenu>
+        <MenuItem key={"3"}>Item3</MenuItem>
+      </Menu>
+    }
+  />
+);
+
+const navMenuToggleBtn = (
+  <NavbarButton
+    aria-label="Toggle Menu"
+    onClick={() => alert("Menu toggle clicked")}
+    icon="menu"
+  />
+);
 
 const Template: Story<NavbarProps> = (props: NavbarProps) => {
   return <Navbar {...props} />;
@@ -27,11 +78,8 @@ BasicNavbar.args = {
 
 export const NavbarWithNavigationToggle = Template.bind({});
 NavbarWithNavigationToggle.args = {
-  logo,
-  navMenuToggleBtn: {
-    "aria-label": "Toggle Menu",
-    onClick: () => console.log("Menu toggle clicked"),
-  },
+  logo: linkLogo,
+  navMenuToggleBtn,
 };
 
 export const NavbarWithTitle = Template.bind({});
@@ -43,13 +91,7 @@ NavbarWithTitle.args = {
 export const NavbarWithSearch = Template.bind({});
 NavbarWithSearch.args = {
   logo,
-  search: {
-    clearable: true,
-    disabled: false,
-    placeholder: "Search",
-    startIcon: "search",
-    "aria-label": "search",
-  },
+  search,
 };
 NavbarWithSearch.decorators = [
   (Story, context) => {
@@ -61,11 +103,13 @@ NavbarWithSearch.decorators = [
 
     const args = { ...context.args };
 
-    args.search!.onChange = captureSearchString;
+    const searchWithHandler = cloneElement(args.search!, {
+      onChange: captureSearchString,
+    });
 
     return (
       <>
-        <Story args={{ ...args }} />
+        <Story args={{ ...args, search: searchWithHandler }} />
         <p>You are searching for: {searchString}</p>
       </>
     );
@@ -76,44 +120,55 @@ export const NavbarWithNavButtons = Template.bind({});
 NavbarWithNavButtons.args = {
   logo,
   navButtons: [
-    { badge: "", icon: "info", "aria-label": "Info" },
-    { badge: "", icon: "settings", "aria-label": "Settings" },
+    <NavbarButton icon="info" aria-label="Info" />,
+    <NavbarButton icon="settings" aria-label="Settings" />,
   ],
 };
 
 export const NavbarWithAvatar = Template.bind({});
 NavbarWithAvatar.args = {
   logo,
-  navbarAvatar: {
-    avatar: {
-      initials: "MD",
-    },
-  },
+  navbarAvatar,
   navButtons: [
-    { badge: "", icon: "info", "aria-label": "Info" },
-    { badge: "", icon: "settings", "aria-label": "Settings" },
+    <NavbarButton icon="info" aria-label="Info" />,
+    <NavbarButton icon="settings" aria-label="Settings" />,
   ],
 };
 
 export const NavbarWithAvatarAndDropdown = Template.bind({});
 NavbarWithAvatarAndDropdown.args = {
   logo,
-  navbarAvatar: {
-    avatar: {
-      variant: "generic",
-    },
-    dropdown: {
-      itemAlignment: "right",
-      children: [
-        <MenuItem key={"1"}>Item1</MenuItem>,
-        <SubMenu key={"2"} menuRootElement={<MenuItem>Sub Menu</MenuItem>}>
-          <MenuItem key={"2-1"}>Sub Item1</MenuItem>
-          <MenuItem key={"2-2"}>Sub Item2</MenuItem>
-        </SubMenu>,
-        <MenuItem key={"3"}>Item3</MenuItem>,
-      ],
-    },
-  },
+  navbarAvatar,
+};
+
+export const NavbarWithTabs = () => {
+  const [activeTabPanelIndex, setActiveTabPanelIndex] = useState(0);
+  const contentToToggle = {
+    0: "Tab 1 content",
+    1: "Tab 2 content",
+    2: "Tab 3 content",
+  };
+  return (
+    <>
+      <Navbar
+        logo={logo}
+        navbarTabs={
+          <Tabs onTabPanelChange={setActiveTabPanelIndex}>
+            <TabList>
+              <Tab id="tab1" onClick={() => alert("Clicked")}>
+                Tab1
+              </Tab>
+              <Tab id="tab2">Tab2</Tab>
+              <Tab id="tab3">Tab3</Tab>
+            </TabList>
+          </Tabs>
+        }
+      />
+      <h4 style={{ marginTop: "30px" }}>
+        {contentToToggle[activeTabPanelIndex]}
+      </h4>
+    </>
+  );
 };
 
 export const StickyNavbar: Story<NavbarProps> = () => {

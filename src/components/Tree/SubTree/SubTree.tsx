@@ -1,23 +1,20 @@
 // BUG: we shouldn't need to disable these rule as W3 recommends using these roles
 // https://www.w3.org/TR/wai-aria-practices-1.1/examples/treeview/treeview-1/treeview-1a.html
-/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable jsx-a11y/role-supports-aria-props */
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 
 import clsx from "clsx";
-import { FC, useContext, useState } from "react";
+import { FC, ReactNode, useContext, useState } from "react";
 
 import { Keys } from "utils";
 
 import { TreeContext } from "../TreeContext";
 
 export interface SubTreeProps {
+  actions?: ReactNode;
   defaultActive?: boolean;
   defaultExpanded?: boolean;
-
-  // TODO: don't use a prop for these
-  actions?: JSX.Element[];
-  edges: JSX.Element[];
+  edges: ReactNode;
 }
 export const SubTree: FC<SubTreeProps> = ({
   actions,
@@ -85,11 +82,7 @@ export const SubTree: FC<SubTreeProps> = ({
         <span className="neo-treeview__item-right">{actions}</span>
       </div>
 
-      <ul
-        aria-expanded={expanded}
-        role="group"
-        className={clsx(expanded === false && "neo-display-none")}
-      >
+      <ul aria-expanded={expanded} role="group">
         {edges}
       </ul>
     </li>
