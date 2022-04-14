@@ -25,6 +25,13 @@ export interface TreeItemProps
   disabled?: boolean;
 }
 
+/**
+ * A `TreeItem` can be a child of a `TreeContainer` or a `Tree` component.
+ * It is meant to be a leaf node in the tree hierarchy.
+ *
+ * @see https://design.avayacloud.com/components/web/treeview-web
+ * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-tree
+ */
 export const TreeItem: FC<TreeItemProps> = ({
   actions,
   children,

@@ -2,7 +2,7 @@ import { composeStories } from "@storybook/testing-react";
 import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 
-import { Tree } from ".";
+import { TreeContainer } from ".";
 import * as TreeStories from "./Tree.stories";
 
 const { Default, DirectionExamples, EmbededActions, TreeItemExamples } =
@@ -10,21 +10,21 @@ const { Default, DirectionExamples, EmbededActions, TreeItemExamples } =
 
 describe("Tree", () => {
   it("fully renders without exploding", () => {
-    render(<Tree label="example label" />);
+    render(<TreeContainer label="example label" />);
 
     const rootElement = screen.getByRole("tree");
     expect(rootElement).toBeInTheDocument();
   });
 
   it("passes basic axe compliance", async () => {
-    const { container } = render(<Tree label="example label" />);
+    const { container } = render(<TreeContainer label="example label" />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
   it("throws error if no label is passed", () => {
     const spy = jest.spyOn(console, "error").mockImplementation(() => {});
-    expect(() => render(<Tree />)).toThrow();
+    expect(() => render(<TreeContainer />)).toThrow();
     expect(spy).toHaveBeenCalled();
   });
 

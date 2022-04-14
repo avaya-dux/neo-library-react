@@ -19,7 +19,7 @@ import { TreeContext } from "./TreeContext";
 
 import "./Tree_shim.css";
 
-export interface TreeProps
+export interface TreeContainerProps
   extends Omit<
     DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
     "dir"
@@ -29,40 +29,37 @@ export interface TreeProps
 }
 
 /**
- * A tree view is a hierarchical list that allows users to move through the various levels.
+ * A `TreeContainer` wraps one or multiple `Tree` and/or `TreeItem` components.
+ * It provides labeling, tab indexing, and keyboard navigation by default.
  *
  * @example
-  <Tree label="Tree Label">
-    <TreeItem>edge one</TreeItem>
-    <TreeItem>edge two</TreeItem>
-    <TreeItem>edge three</TreeItem>
-  </Tree>
+  <TreeContainer label="Flat tree">
+    <TreeItem>leaf one</TreeItem>
+    <TreeItem>leaf two</TreeItem>
+    <TreeItem>leaf three</TreeItem>
+  </TreeContainer>
  *
  * @example
-  <Tree label="Tree with groupings">
-    <SubTree
-      edges={[
-        <TreeItem key="one">one</TreeItem>,
-        <TreeItem key="two">two</TreeItem>,
-      ]}
-    >
-      Sub Tree One
-    </SubTree>
+  <TreeContainer label="Tree with groupings">
+    <Tree title="Sub Tree One (string)">
+      <TreeItem>one</TreeItem>
+    </Tree>
 
-    <SubTree
-      edges={[
-        <TreeItem key="one">one</TreeItem>,
-        <TreeItem key="two">two</TreeItem>,
-      ]}
+    <Tree
+      title={
+        <div>
+          <b>Sub Tree Two</b> (div)
+        </div>
+      }
     >
-      Sub Tree Two
-    </SubTree>
-  </Tree>
+      <TreeItem>one</TreeItem>
+    </Tree>
+  </TreeContainer>
  *
  * @see https://design.avayacloud.com/components/web/treeview-web
  * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-tree
  */
-export const Tree: FC<TreeProps> = ({
+export const TreeContainer: FC<TreeContainerProps> = ({
   "aria-describedby": describedby,
   "aria-label": arialabel,
   children,

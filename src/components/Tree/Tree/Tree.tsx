@@ -18,26 +18,32 @@ import { useFocusEffect, useRovingTabIndex } from "react-roving-tabindex";
 
 import { Keys } from "utils";
 
-import { TreeItemProps } from "../";
+import { TreeItemProps } from "..";
 import { TreeContext } from "../TreeContext";
 
-export interface SubTreeProps {
+export interface TreeProps {
   actions?: ReactNode;
   children:
-    | ReactElement<SubTreeProps | TreeItemProps>
-    | ReactElement<SubTreeProps | TreeItemProps>[];
+    | ReactElement<TreeProps | TreeItemProps>
+    | ReactElement<TreeProps | TreeItemProps>[];
   defaultExpanded?: boolean;
   disabled?: boolean;
   title: ReactNode;
 }
 
-export const SubTree = ({
+/**
+ * A `Tree` can be a child of a `TreeContainer` or a `Tree` component.
+ *
+ * @see https://design.avayacloud.com/components/web/treeview-web
+ * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-tree
+ */
+export const Tree = ({
   actions,
   children,
   defaultExpanded = false,
   disabled = false,
   title,
-}: SubTreeProps) => {
+}: TreeProps) => {
   const { dir } = useContext(TreeContext);
 
   const ref = useRef(null);

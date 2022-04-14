@@ -7,12 +7,12 @@ import { Icon } from "components/Icon";
 import { IconButton } from "components/IconButton";
 import { Sheet } from "components/Sheet";
 
-import { SubTree, Tree, TreeItem, TreeProps } from ".";
+import { Tree, TreeContainer, TreeContainerProps, TreeItem } from ".";
 
 export default {
   title: "Components/Tree",
-  component: Tree,
-} as Meta<TreeProps>;
+  component: TreeContainer,
+} as Meta<TreeContainerProps>;
 
 const Divider = () => (
   <div style={{ margin: "2rem 0", borderBottom: "1px solid black" }} />
@@ -23,20 +23,20 @@ export const Default = () => (
     <Sheet title="Trees with and without groupings" style={{ width: 400 }}>
       <Divider />
 
-      <Tree label="Flat tree">
+      <TreeContainer label="Flat tree">
         <TreeItem>leaf one</TreeItem>
         <TreeItem>leaf two</TreeItem>
         <TreeItem>leaf three</TreeItem>
-      </Tree>
+      </TreeContainer>
 
       <Divider />
 
-      <Tree label="Tree with groupings">
-        <SubTree title="Sub Tree One (string)">
+      <TreeContainer label="Tree with groupings">
+        <Tree title="Sub Tree One (string)">
           <TreeItem>one</TreeItem>
-        </SubTree>
+        </Tree>
 
-        <SubTree
+        <Tree
           title={
             <div>
               <b>Sub Tree Two</b> (div)
@@ -44,8 +44,8 @@ export const Default = () => (
           }
         >
           <TreeItem>one</TreeItem>
-        </SubTree>
-      </Tree>
+        </Tree>
+      </TreeContainer>
 
       <Divider />
     </Sheet>
@@ -86,15 +86,15 @@ export const Default = () => (
   </section>
 );
 
-const FullTreeExamples = (props: TreeProps) => (
-  <Tree {...props}>
-    <SubTree title="Sub Tree One Label">
+const FullTreeExamples = (props: TreeContainerProps) => (
+  <TreeContainer {...props}>
+    <Tree title="Sub Tree One Label">
       <TreeItem>one</TreeItem>
       <>two</>
       <TreeItem>three</TreeItem>
-    </SubTree>
+    </Tree>
 
-    <SubTree
+    <Tree
       title="Sub Tree Two Label, has actions"
       actions={[
         <Button
@@ -115,23 +115,23 @@ const FullTreeExamples = (props: TreeProps) => (
       <TreeItem>four</TreeItem>
       <TreeItem>five</TreeItem>
       <TreeItem>six</TreeItem>
-    </SubTree>
+    </Tree>
 
-    <SubTree title="Sub Tree Three Label">
-      <SubTree title="Sub Tree Three, Sub Tree Three-One Label">
+    <Tree title="Sub Tree Three Label">
+      <Tree title="Sub Tree Three, Sub Tree Three-One Label">
         <TreeItem>seven</TreeItem>
         <TreeItem>eight</TreeItem>
         <TreeItem>nine</TreeItem>
-        <SubTree title="Sub Tree Three, Sub Tree Three-One, Sub Tree Three-One-One Label">
+        <Tree title="Sub Tree Three, Sub Tree Three-One, Sub Tree Three-One-One Label">
           <TreeItem>ten</TreeItem>
           <TreeItem>eleven</TreeItem>
           <TreeItem>twelve</TreeItem>
-        </SubTree>
-      </SubTree>
+        </Tree>
+      </Tree>
       <TreeItem>thirteen</TreeItem>
       <TreeItem>fourteen</TreeItem>
-    </SubTree>
-  </Tree>
+    </Tree>
+  </TreeContainer>
 );
 
 export const DirectionExamples = () => {
@@ -179,36 +179,36 @@ const MockButton = () => <Button onClick={() => alert("ping")}>mock</Button>;
 export const EmbededActions = () => {
   return (
     <Sheet title="Embedded Actions Sheet">
-      <Tree label="Embedded Actions Tree">
+      <TreeContainer label="Embedded Actions Tree">
         <TreeItem>Tree Item, One</TreeItem>
 
-        <SubTree title="Sub Tree without actions">
+        <Tree title="Sub Tree without actions">
           <TreeItem>one</TreeItem>
           <TreeItem>two</TreeItem>
-        </SubTree>
+        </Tree>
 
-        <SubTree title="Sub Tree with actions" actions={<MockButton />}>
+        <Tree title="Sub Tree with actions" actions={<MockButton />}>
           <TreeItem actions={<MockButton />} disabled>
             disabled Tree Item
           </TreeItem>
 
           <TreeItem actions={<MockButton />}>not disabled Tree Item</TreeItem>
 
-          <SubTree title="Sub Tree with actions" actions={<MockButton />}>
+          <Tree title="Sub Tree with actions" actions={<MockButton />}>
             <TreeItem actions={<MockButton />} disabled>
               disabled Tree Item
             </TreeItem>
 
             <TreeItem actions={<MockButton />}>not disabled Tree Item</TreeItem>
-          </SubTree>
-        </SubTree>
+          </Tree>
+        </Tree>
 
         <TreeItem>
           <div>
             Tree Item, <b>Final</b>
           </div>
         </TreeItem>
-      </Tree>
+      </TreeContainer>
 
       <Divider />
 
@@ -272,17 +272,17 @@ export const TreeItemExamples = () => {
       <Section>
         <Label id="label-one">string contents</Label>
 
-        <Tree aria-describedby="label-one">
+        <TreeContainer aria-describedby="label-one">
           <TreeItem>node one</TreeItem>
 
           <TreeItem>node two</TreeItem>
-        </Tree>
+        </TreeContainer>
       </Section>
 
       <Section>
         <Label id="label-two">contents with action(s)</Label>
 
-        <Tree aria-describedby="label-two">
+        <TreeContainer aria-describedby="label-two">
           <TreeItem actions={<Button variant="secondary">mock</Button>}>
             node one
           </TreeItem>
@@ -310,34 +310,37 @@ export const TreeItemExamples = () => {
           >
             node two
           </TreeItem>
-        </Tree>
+        </TreeContainer>
       </Section>
 
       <Section>
         <Label id="label-three">complex content examples</Label>
 
-        <Tree aria-describedby="label-three" dir="ltr">
+        <TreeContainer aria-describedby="label-three" dir="ltr">
           <TreeItem>
             <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
             dir === ltr
           </TreeItem>
-        </Tree>
+        </TreeContainer>
 
-        <Tree aria-label="file icon, dir='rtl'" dir="rtl">
+        <TreeContainer aria-label="file icon, dir='rtl'" dir="rtl">
           <TreeItem>
             <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
             dir === rtl
           </TreeItem>
-        </Tree>
+        </TreeContainer>
 
-        <Tree aria-label="right content with icon and dir='rtl'" dir="rtl">
+        <TreeContainer
+          aria-label="right content with icon and dir='rtl'"
+          dir="rtl"
+        >
           <TreeItem actions={<Button variant="secondary">mock</Button>}>
             <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
             dir === rtl
           </TreeItem>
-        </Tree>
+        </TreeContainer>
 
-        <Tree
+        <TreeContainer
           aria-label="left and right content with icon and dir='ltr'"
           dir="ltr"
         >
@@ -345,9 +348,9 @@ export const TreeItemExamples = () => {
             <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
             dir === ltr
           </TreeItem>
-        </Tree>
+        </TreeContainer>
 
-        <Tree aria-label="checkbox content, dir='ltr'" dir="ltr">
+        <TreeContainer aria-label="checkbox content, dir='ltr'" dir="ltr">
           <TreeItem>
             <Checkbox aria-labelledby="checkbox-label-one" value="none" />
 
@@ -355,9 +358,9 @@ export const TreeItemExamples = () => {
 
             <span id="checkbox-label-one">dir === ltr</span>
           </TreeItem>
-        </Tree>
+        </TreeContainer>
 
-        <Tree aria-label="checkbox content, dir='rtl'" dir="rtl">
+        <TreeContainer aria-label="checkbox content, dir='rtl'" dir="rtl">
           <TreeItem>
             <Checkbox aria-labelledby="checkbox-label-two" value="none" />
 
@@ -365,7 +368,7 @@ export const TreeItemExamples = () => {
 
             <span id="checkbox-label-two">dir === rtl</span>
           </TreeItem>
-        </Tree>
+        </TreeContainer>
       </Section>
     </Sheet>
   );

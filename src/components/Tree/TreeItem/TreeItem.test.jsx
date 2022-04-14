@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 
-import { Tree, TreeItem } from "../";
+import { TreeContainer, TreeItem } from "../";
 
 describe("TreeItem", () => {
   it("fully renders without exploding", () => {
@@ -24,9 +24,9 @@ describe("TreeItem", () => {
 
   it("adds 'selected' class when treeitem is clicked", () => {
     render(
-      <Tree aria-label="tree label">
+      <TreeContainer aria-label="tree label">
         <TreeItem>example</TreeItem>
-      </Tree>
+      </TreeContainer>
     );
 
     const rootElement = screen.getByRole("treeitem");
