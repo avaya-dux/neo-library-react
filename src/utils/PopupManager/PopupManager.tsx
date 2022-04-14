@@ -1,4 +1,4 @@
-import * as React from "react";
+import { Component } from "react";
 import { InternalToast } from "./InternalToast";
 import log from "loglevel";
 
@@ -34,7 +34,7 @@ interface Props {
   bind: (methods: PopupManagerMethods) => void;
 }
 
-export class PopupManager extends React.Component<Props, State> {
+export class PopupManager extends Component<Props, State> {
   static counter = 0;
 
   state: State = {

@@ -106,7 +106,7 @@ export const PopCounterEvent = () => {
     { id: PopupId; position: PopupPosition } | undefined
   >();
   const [open, setOpen] = useState(false);
-  const { notify, remove, setZIndex } = usePopup();
+  const { notify, remove, removeAll, setZIndex } = usePopup();
   useEffect(() => {
     setZIndex(9900);
   }, []);
@@ -132,6 +132,12 @@ export const PopCounterEvent = () => {
     }
   }, [open]);
 
+  useEffect(() => {
+    return () => {
+      logger.debug("closing all...");
+      removeAll();
+    };
+  }, []);
   return (
     <div>
       <button onClick={() => setOpen((prev) => !prev)}>Toggle</button>
@@ -157,7 +163,7 @@ export const PopClosableEvent = () => {
     { id: PopupId; position: PopupPosition } | undefined
   >();
   const [open, setOpen] = useState(false);
-  const { notify, remove } = usePopup();
+  const { notify, remove, removeAll } = usePopup();
 
   useEffect(() => {
     logger.debug("open is ", open, "popup is ", popupRef.current);
@@ -179,6 +185,13 @@ export const PopClosableEvent = () => {
       }
     }
   }, [open]);
+
+  useEffect(() => {
+    return () => {
+      logger.debug("closing all...");
+      removeAll();
+    };
+  }, []);
 
   return (
     <div>
