@@ -1,22 +1,23 @@
 import clsx from "clsx";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { genId } from "utils";
 
 export interface AccordionProps {
   header: string;
-  body: string;
+  body: ReactNode;
   id?: string;
-  isExpanded?: boolean;
-  isDisabled?: boolean;
+  defaultExpanded?: boolean;
+  disabled?: boolean;
 }
+
 export const Accordion = ({
   header,
   body,
   id = genId(),
-  isExpanded = false,
-  isDisabled,
+  defaultExpanded = false,
+  disabled,
 }: AccordionProps) => {
-  const [isActive, setIsActive] = useState(isExpanded);
+  const [isActive, setIsActive] = useState(defaultExpanded);
   return (
     <div className="neo-accordion">
       <div
@@ -28,13 +29,13 @@ export const Accordion = ({
         <div
           className={clsx(
             "neo-accordion__header",
-            isDisabled && "neo-accordion__header--disabled"
+            disabled && "neo-accordion__header--disabled"
           )}
           role="heading"
           aria-label="Accordion Heading"
           aria-level={1}
         >
-          {isDisabled ? (
+          {disabled ? (
             <button
               className="neo-accordion__header-text"
               aria-disabled
@@ -55,15 +56,13 @@ export const Accordion = ({
           )}
         </div>
 
-        {isActive && !isDisabled && (
+        {isActive && !disabled && (
           <div
             id="accordion-panel"
             className="neo-accordion__body"
             role="region"
           >
-            <div className="neo-accordion__content">
-              <p>{body}</p>
-            </div>
+            <div className="neo-accordion__content">{body}</div>
           </div>
         )}
       </div>

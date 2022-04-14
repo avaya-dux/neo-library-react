@@ -1,5 +1,6 @@
 import { composeStories } from "@storybook/testing-react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 import { Accordion } from "./Accordion";
 import * as AccordionStories from "./Accordion.stories";
@@ -26,13 +27,13 @@ describe("Accordion Component", () => {
     render(<Accordion header={Header} body={Body} />);
     const AccordionElement = screen.getByRole("button");
     expect(AccordionElement).toHaveAttribute("aria-expanded", "false");
-    fireEvent.click(AccordionElement);
+    userEvent.click(AccordionElement);
     const AccordionAfterClick = screen.getByRole("button");
     expect(AccordionAfterClick).toHaveAttribute("aria-expanded", "true");
   });
 
   it("check for disabled accordion when `isDisabled` prop is true", () => {
-    render(<Accordion header={Header} body={Body} isDisabled={true} />);
+    render(<Accordion header={Header} body={Body} disabled={true} />);
     const AccordionElement = screen.getByRole("button");
     expect(AccordionElement).toHaveAttribute("disabled");
   });
