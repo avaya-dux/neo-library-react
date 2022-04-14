@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { PopupId, PopupPosition } from "utils/PopupManager/PopupTypes";
 import log from "loglevel";
 const logger = log.getLogger("event-notification-story-logger");
-logger.enableAll();
+logger.disableAll();
 type WithoutType = Omit<EventNotificationProps, "type">;
 const EventTemplate: Story<WithoutType> = ({ ...rest }: WithoutType) => {
   const props = { type: "event", ...rest } as EventNotificationProps;

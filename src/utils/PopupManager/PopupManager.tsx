@@ -1,5 +1,5 @@
 import * as React from "react";
-import { InternalToast } from "../../components/Toast/Toast";
+import { InternalToast } from "./InternalToast";
 import log from "loglevel";
 
 import type {
