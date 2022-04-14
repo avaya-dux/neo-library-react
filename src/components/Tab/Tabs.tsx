@@ -6,6 +6,7 @@ import {
   MouseEvent,
   MouseEventHandler,
   RefObject,
+  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -20,6 +21,7 @@ import { enableLeftButton, enableRightButton } from "./EventHandlers/Helper";
 import { TabsProps } from "./TabTypes";
 import {
   buildTabProps,
+  buildTabPropsNoPanel,
   createPanel,
   createTab,
   debugTabs,
@@ -34,10 +36,15 @@ export const Tabs = ({
   index,
   children,
   onTabChange,
+  onTabPanelChange,
   orientation = "horizontal",
   ...rest
 }: TabsProps) => {
-  const tabs = useMemo(() => buildTabProps(children), [children]);
+  const tabs = useMemo(() => {
+    return Array.isArray(children)
+      ? buildTabProps(children)
+      : buildTabPropsNoPanel(children);
+  }, [children]);
 
   debugTabs(logger, tabs);
 
@@ -69,6 +76,10 @@ export const Tabs = ({
   };
 
   const [activePanelIndex, setActivePanelIndex] = useState(defaultIndex);
+
+  useEffect(() => {
+    onTabPanelChange?.(activePanelIndex);
+  }, [activePanelIndex]);
 
   const verticalStyle: CSSProperties = isVertical ? { display: "flex" } : {};
   const refs: RefObject<HTMLLIElement>[] = [];
@@ -183,7 +194,9 @@ export const Tabs = ({
   const panels = (
     <>
       {tabs.map((tabItem, index) => {
-        return createPanel(index, tabItem, activePanelIndex);
+        return tabItem.content
+          ? createPanel(index, tabItem, activePanelIndex)
+          : null;
       })}
     </>
   );

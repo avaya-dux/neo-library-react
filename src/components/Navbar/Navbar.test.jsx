@@ -3,6 +3,7 @@ import { fireEvent, render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { Navbar } from ".";
+import { Logo } from "./LeftContent/Logo";
 import * as NavbarStories from "./Navbar.stories";
 
 const {
@@ -11,20 +12,19 @@ const {
   NavbarWithNavButtons,
   NavbarWithAvatarAndDropdown,
   StickyNavbar,
+  NavbarWithTabs,
+  NavbarWithAgentCard,
 } = composeStories(NavbarStories);
 
 describe("Navbar", () => {
   describe("basic unit tests", () => {
     let renderResult;
     beforeEach(() => {
-      renderResult = render(
-        <Navbar
-          logo={{
-            src:
-              "http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png",
-          }}
-        />
+      const logo = (
+        <Logo src="http://design-portal-next-gen.herokuapp.com/images/logo-fpo.png" />
       );
+
+      renderResult = render(<Navbar logo={logo} />);
     });
 
     it("renders without exploding", () => {
@@ -94,12 +94,16 @@ describe("Navbar", () => {
     });
 
     describe("Navbar With Navigation Toggle", () => {
-      it("correctly passes onClick handler to button as props", () => {
-        const spy = jest.spyOn(console, "log").mockImplementation(() => {});
-        const { getByRole } = render(<NavbarWithNavigationToggle />);
+      it("correctly executes button onClick handler when passed as props", () => {
+        const { getByRole, getAllByRole } = render(
+          <NavbarWithNavigationToggle />
+        );
+        const navElementsBeforeToggle = getAllByRole("navigation");
+        expect(navElementsBeforeToggle).toHaveLength(1);
         const leftNavToggleButton = getByRole("button");
         fireEvent.click(leftNavToggleButton);
-        expect(spy).toHaveBeenCalled();
+        const navElementsAfterToggle = getAllByRole("navigation");
+        expect(navElementsAfterToggle).toHaveLength(2);
       });
       it("passes basic axe compliance", async () => {
         const { container } = render(<NavbarWithNavigationToggle />);
@@ -119,6 +123,20 @@ describe("Navbar", () => {
       });
       it("passes basic axe compliance", async () => {
         const { container } = render(<NavbarWithAvatarAndDropdown />);
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+    describe("Navbar With Tabs", () => {
+      it("passes basic axe compliance", async () => {
+        const { container } = render(<NavbarWithTabs />);
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+    describe("Navbar With Agent Card", () => {
+      it("passes basic axe compliance", async () => {
+        const { container } = render(<NavbarWithAgentCard />);
         const results = await axe(container);
         expect(results).toHaveNoViolations();
       });
