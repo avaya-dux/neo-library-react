@@ -10,12 +10,14 @@ import {
   Tabs,
   Tab,
   TabList,
+  AgentCard,
+  NavCategory,
+  LinkItem,
 } from "components";
 
 import { Navbar, NavbarProps } from ".";
 import { Logo, LinkLogo } from "./LeftContent";
 import { NavbarAvatar, NavbarButton } from "./RightContent";
-
 import fpo from "./logo-fpo.png";
 
 export default {
@@ -59,13 +61,7 @@ const navbarAvatar = (
   />
 );
 
-const navMenuToggleBtn = (
-  <NavbarButton
-    aria-label="Toggle Menu"
-    onClick={() => alert("Menu toggle clicked")}
-    icon="menu"
-  />
-);
+const navMenuToggleBtn = <NavbarButton aria-label="Toggle Menu" icon="menu" />;
 
 const Template: Story<NavbarProps> = (props: NavbarProps) => {
   return <Navbar {...props} />;
@@ -81,6 +77,59 @@ NavbarWithNavigationToggle.args = {
   logo: linkLogo,
   navMenuToggleBtn,
 };
+NavbarWithNavigationToggle.decorators = [
+  (Story, context) => {
+    const [displayLeftNav, setDisplayLeftNav] = useState(false);
+
+    const args = { ...context.args };
+
+    const navMenuToggleWithHandler = cloneElement(args.navMenuToggleBtn!, {
+      onClick: () => setDisplayLeftNav(!displayLeftNav),
+    });
+
+    return (
+      <>
+        <Story args={{ ...args, navMenuToggleBtn: navMenuToggleWithHandler }} />
+        {displayLeftNav && (
+          <div
+            className={
+              displayLeftNav
+                ? "neo-slide neo-slide--in-left neo-leftnav--collapsible"
+                : "neo-leftnav--collapsible neo-slide neo-slide--out-left"
+            }
+            style={{ width: "15%" }}
+          >
+            <div className="neo-leftnav--wrapper">
+              <nav className="neo-leftnav">
+                <ul className="neo-leftnav__nav">
+                  <NavCategory icon="audio-on" label="Collapsed">
+                    <LinkItem> First Item </LinkItem>
+                    <LinkItem> Second Item </LinkItem>
+                    <LinkItem> Third Item </LinkItem>
+                    <LinkItem> Fourth Item </LinkItem>
+                  </NavCategory>
+                  <NavCategory active expanded icon="call" label="Active">
+                    <LinkItem> Item 1 </LinkItem>
+                    <LinkItem active={true}> Active Item 2 </LinkItem>
+                    <LinkItem> Item 3</LinkItem>
+                  </NavCategory>
+                  <NavCategory
+                    disabled
+                    icon="available"
+                    label="Disabled Category"
+                  >
+                    <LinkItem> First Item </LinkItem>
+                    <LinkItem> Second Item </LinkItem>
+                  </NavCategory>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        )}
+      </>
+    );
+  },
+];
 
 export const NavbarWithTitle = Template.bind({});
 NavbarWithTitle.args = {
@@ -128,7 +177,7 @@ NavbarWithNavButtons.args = {
 export const NavbarWithAvatar = Template.bind({});
 NavbarWithAvatar.args = {
   logo,
-  navbarAvatar,
+  userOptions: navbarAvatar,
   navButtons: [
     <NavbarButton icon="info" aria-label="Info" />,
     <NavbarButton icon="settings" aria-label="Settings" />,
@@ -138,7 +187,7 @@ NavbarWithAvatar.args = {
 export const NavbarWithAvatarAndDropdown = Template.bind({});
 NavbarWithAvatarAndDropdown.args = {
   logo,
-  navbarAvatar,
+  userOptions: navbarAvatar,
 };
 
 export const NavbarWithTabs = () => {
@@ -293,5 +342,20 @@ export const StickyNavbar: Story<NavbarProps> = () => {
         Duis sodales est eu mauris ma
       </p>
     </>
+  );
+};
+
+export const NavbarWithAgentCard = () => {
+  return (
+    <Navbar
+      logo={logo}
+      userOptions={
+        <AgentCard
+          agentName="Bob Boberson"
+          agentStatus="connected"
+          avatar={<Avatar />}
+        />
+      }
+    />
   );
 };
