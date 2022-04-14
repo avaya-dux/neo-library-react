@@ -20,21 +20,20 @@ const Divider = () => (
 
 export const Default = () => (
   <section style={{ display: "flex", justifyContent: "space-between" }}>
-    <Sheet title="Tree Examples" style={{ width: 400 }}>
+    <Sheet title="Trees with and without groupings" style={{ width: 400 }}>
       <Divider />
 
-      <Tree label="Tree Label">
-        <TreeItem>upper edge one</TreeItem>
-        <TreeItem>upper edge two</TreeItem>
-        <TreeItem>upper edge three</TreeItem>
+      <Tree label="Flat tree">
+        <TreeItem>leaf one</TreeItem>
+        <TreeItem>leaf two</TreeItem>
+        <TreeItem>leaf three</TreeItem>
       </Tree>
 
       <Divider />
 
       <Tree label="Tree with groupings">
         <SubTree title="Sub Tree One (string)">
-          <TreeItem key="one">one</TreeItem>
-          <TreeItem key="two">two</TreeItem>
+          <TreeItem>one</TreeItem>
         </SubTree>
 
         <SubTree
@@ -44,8 +43,7 @@ export const Default = () => (
             </div>
           }
         >
-          <TreeItem key="one">one</TreeItem>
-          <TreeItem key="two">two</TreeItem>
+          <TreeItem>one</TreeItem>
         </SubTree>
       </Tree>
 
@@ -87,6 +85,166 @@ export const Default = () => (
     </Sheet>
   </section>
 );
+
+const FullTreeExamples = (props: TreeProps) => (
+  <Tree {...props}>
+    <SubTree title="Sub Tree One Label">
+      <TreeItem>one</TreeItem>
+      <>two</>
+      <TreeItem>three</TreeItem>
+    </SubTree>
+
+    <SubTree
+      title="Sub Tree Two Label, has actions"
+      actions={[
+        <Button
+          key="sub-tree-two-button-one"
+          onClick={() => alert("sub tree two, button one clicked")}
+        >
+          button one
+        </Button>,
+        <IconButton
+          aria-label="click here for more options"
+          icon="more"
+          key="sub-tree-two-button-two"
+          onClick={() => alert("sub tree two, button two clicked")}
+          variant="tertiary"
+        />,
+      ]}
+    >
+      <TreeItem>four</TreeItem>
+      <TreeItem>five</TreeItem>
+      <TreeItem>six</TreeItem>
+    </SubTree>
+
+    <SubTree title="Sub Tree Three Label">
+      <SubTree title="Sub Tree Three, Sub Tree Three-One Label">
+        <TreeItem>seven</TreeItem>
+        <TreeItem>eight</TreeItem>
+        <TreeItem>nine</TreeItem>
+        <SubTree title="Sub Tree Three, Sub Tree Three-One, Sub Tree Three-One-One Label">
+          <TreeItem>ten</TreeItem>
+          <TreeItem>eleven</TreeItem>
+          <TreeItem>twelve</TreeItem>
+        </SubTree>
+      </SubTree>
+      <TreeItem>thirteen</TreeItem>
+      <TreeItem>fourteen</TreeItem>
+    </SubTree>
+  </Tree>
+);
+
+export const DirectionExamples = () => {
+  const [sheetLtrOpen, setSheetLtrOpen] = useState(true);
+  const [sheetRtlOpen, setSheetRtlOpen] = useState(true);
+
+  return (
+    <main>
+      <Divider />
+
+      <section
+        style={{
+          display: "flex",
+          justifyContent: "space-evenly",
+        }}
+      >
+        <Button onClick={() => setSheetLtrOpen(!sheetLtrOpen)}>
+          Toggle LTR Sheet
+        </Button>
+
+        <Button onClick={() => setSheetRtlOpen(!sheetRtlOpen)}>
+          Toggle RTL Sheet
+        </Button>
+      </section>
+
+      <Divider />
+
+      <Sheet aria-label="Direction left-to-right" open={sheetLtrOpen}>
+        <FullTreeExamples label="Direction left-to-right `dir=ltr`" dir="ltr" />
+      </Sheet>
+
+      <Divider />
+
+      <Sheet aria-label="Direction right-to-left" open={sheetRtlOpen}>
+        <FullTreeExamples label="Direction right-to-left `dir=rtl`" dir="rtl" />
+      </Sheet>
+
+      <Divider />
+    </main>
+  );
+};
+
+const MockButton = () => <Button onClick={() => alert("ping")}>mock</Button>;
+
+export const EmbededActions = () => {
+  return (
+    <Sheet title="Embedded Actions Sheet">
+      <Tree label="Embedded Actions Tree">
+        <TreeItem>Tree Item, One</TreeItem>
+
+        <SubTree title="Sub Tree without actions">
+          <TreeItem>one</TreeItem>
+          <TreeItem>two</TreeItem>
+        </SubTree>
+
+        <SubTree title="Sub Tree with actions" actions={<MockButton />}>
+          <TreeItem actions={<MockButton />} disabled>
+            disabled Tree Item
+          </TreeItem>
+
+          <TreeItem actions={<MockButton />}>not disabled Tree Item</TreeItem>
+
+          <SubTree title="Sub Tree with actions" actions={<MockButton />}>
+            <TreeItem actions={<MockButton />} disabled>
+              disabled Tree Item
+            </TreeItem>
+
+            <TreeItem actions={<MockButton />}>not disabled Tree Item</TreeItem>
+          </SubTree>
+        </SubTree>
+
+        <TreeItem>
+          <div>
+            Tree Item, <b>Final</b>
+          </div>
+        </TreeItem>
+      </Tree>
+
+      <Divider />
+
+      <section style={{ display: "flex" }}>
+        <span>Tab-able item (for checking tab order):</span>
+
+        <IconButton icon="check" aria-label="check icon" />
+      </section>
+
+      <Divider />
+
+      <p>
+        Need to implement better keyboard navigation:{" "}
+        <a href="https://www.w3.org/TR/wai-aria-practices-1.1/examples/treegrid/treegrid-1.html#kbd_label">
+          W3 Tree Grid
+        </a>
+      </p>
+
+      <ul style={{ marginLeft: "2rem" }}>
+        <li>
+          <b>Right Arrow</b>, if expanded, moves to first child
+        </li>
+
+        <li>
+          <b>Left Arrow</b>, if collapsed, moves to parent
+        </li>
+
+        <li>
+          <b>Tab</b>, moves focus to the next interactive widget in the current
+          row. If there are no more interactive widgets in the current row,
+          moves focus out of the treegrid.
+        </li>
+      </ul>
+    </Sheet>
+  );
+};
 
 const Label: FC<
   DetailedHTMLProps<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>
@@ -209,180 +367,6 @@ export const TreeItemExamples = () => {
           </TreeItem>
         </Tree>
       </Section>
-    </Sheet>
-  );
-};
-
-const FullTreeExamples = (props: TreeProps) => (
-  <Tree {...props}>
-    <SubTree title="Sub Tree One Label">
-      <TreeItem key="one">one</TreeItem>
-      <TreeItem key="two">two</TreeItem>
-      <TreeItem key="three">three</TreeItem>
-    </SubTree>
-
-    <SubTree
-      title="Sub Tree Two Label, has actions"
-      actions={[
-        <Button
-          key="sub-tree-two-button-one"
-          onClick={() => alert("sub tree two, button one clicked")}
-        >
-          button one
-        </Button>,
-        <IconButton
-          aria-label="click here for more options"
-          icon="more"
-          key="sub-tree-two-button-two"
-          onClick={() => alert("sub tree two, button two clicked")}
-          variant="tertiary"
-        />,
-      ]}
-    >
-      <TreeItem key="four">four</TreeItem>
-      <TreeItem key="five">five</TreeItem>
-      <TreeItem key="six">six</TreeItem>
-    </SubTree>
-
-    <SubTree title="Sub Tree Three Label">
-      <SubTree
-        title="Sub Tree Three, Sub Tree Three-One Label"
-        key="sub-sub-tree"
-      >
-        <TreeItem key="seven">seven</TreeItem>
-        <TreeItem key="eight">eight</TreeItem>
-        <TreeItem key="nine">nine</TreeItem>
-        <SubTree
-          title="Sub Tree Three, Sub Tree Three-One, Sub Tree Three-One-One Label"
-          key="sub-sub-sub-tree"
-        >
-          <TreeItem key="ten">ten</TreeItem>
-          <TreeItem key="eleven">eleven</TreeItem>
-          <TreeItem key="twelve">twelve</TreeItem>
-        </SubTree>
-      </SubTree>
-      <TreeItem key="thirteen">thirteen</TreeItem>
-      <TreeItem key="fourteen">fourteen</TreeItem>
-    </SubTree>
-  </Tree>
-);
-
-export const SubTrees = () => {
-  const [sheetLtrOpen, setSheetLtrOpen] = useState(true);
-  const [sheetRtlOpen, setSheetRtlOpen] = useState(true);
-
-  return (
-    <main>
-      <Divider />
-
-      <section
-        style={{
-          display: "flex",
-          justifyContent: "space-evenly",
-        }}
-      >
-        <Button onClick={() => setSheetLtrOpen(!sheetLtrOpen)}>
-          Toggle LTR Sheet
-        </Button>
-
-        <Button onClick={() => setSheetRtlOpen(!sheetRtlOpen)}>
-          Toggle RTL Sheet
-        </Button>
-      </section>
-
-      <Divider />
-
-      <Sheet aria-label="Sub Trees Story, dir=ltr" open={sheetLtrOpen}>
-        <FullTreeExamples label="Sub Trees Example, dir=ltr" dir="ltr" />
-      </Sheet>
-
-      <Divider />
-
-      <Sheet aria-label="Sub Trees Story, dir=rtl" open={sheetRtlOpen}>
-        <FullTreeExamples label="Sub Trees Example, dir=rtl" dir="rtl" />
-      </Sheet>
-
-      <Divider />
-    </main>
-  );
-};
-
-const MockButton = () => <Button onClick={() => alert("ping")}>mock</Button>;
-
-export const EmbededActions = () => {
-  return (
-    <Sheet title="Embedded Actions Sheet">
-      <Tree label="Embedded Actions Tree">
-        <TreeItem>Tree Item, One</TreeItem>
-
-        <SubTree title="Sub Tree without actions">
-          <TreeItem key="one">one</TreeItem>
-          <TreeItem key="two">two</TreeItem>
-        </SubTree>
-
-        <SubTree title="Sub Tree with actions" actions={<MockButton />}>
-          <TreeItem key="three" actions={<MockButton />} disabled>
-            disabled Tree Item
-          </TreeItem>
-
-          <TreeItem key="four" actions={<MockButton />}>
-            not disabled Tree Item
-          </TreeItem>
-
-          <SubTree
-            title="Sub Tree with actions"
-            key="sub-sub-tree-one"
-            actions={<MockButton />}
-          >
-            <TreeItem key="five" actions={<MockButton />} disabled>
-              disabled Tree Item
-            </TreeItem>
-
-            <TreeItem key="six" actions={<MockButton />}>
-              not disabled Tree Item
-            </TreeItem>
-          </SubTree>
-        </SubTree>
-
-        <TreeItem>
-          <div>
-            Tree Item, <b>Final</b>
-          </div>
-        </TreeItem>
-      </Tree>
-
-      <Divider />
-
-      <section style={{ display: "flex" }}>
-        <span>Tab-able item (for checking tab order):</span>
-
-        <IconButton icon="check" aria-label="check icon" />
-      </section>
-
-      <Divider />
-
-      <p>
-        Need to implement better keyboard navigation:{" "}
-        <a href="https://www.w3.org/TR/wai-aria-practices-1.1/examples/treegrid/treegrid-1.html#kbd_label">
-          W3 Tree Grid
-        </a>
-      </p>
-
-      <ul style={{ marginLeft: "2rem" }}>
-        <li>
-          <b>Right Arrow</b>, if expanded, moves to first child
-        </li>
-
-        <li>
-          <b>Left Arrow</b>, if collapsed, moves to parent
-        </li>
-
-        <li>
-          <b>Tab</b>, moves focus to the next interactive widget in the current
-          row. If there are no more interactive widgets in the current row,
-          moves focus out of the treegrid.
-        </li>
-      </ul>
     </Sheet>
   );
 };
