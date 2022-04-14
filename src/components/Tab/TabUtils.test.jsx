@@ -158,7 +158,7 @@ describe("TabUtils", () => {
     });
   });
   describe(buildTabProps, () => {
-    it("return id property if not defined", () => {
+    it("returns a value for 'id' if this property was not initially defined", () => {
       const tabs = (
         <Tabs>
           <TabList>
@@ -250,7 +250,7 @@ describe("TabUtils", () => {
     });
   });
   describe(buildTabPropsNoPanel, () => {
-    it("returns id property if not defined", () => {
+    it("returns a value for 'id' if this property was not initially defined", () => {
       const tabs = (
         <Tabs>
           <TabList>
