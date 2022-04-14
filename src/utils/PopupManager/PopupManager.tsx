@@ -10,7 +10,7 @@ import type {
   PopupState as State,
   PopupOptions,
 } from "./PopupTypes";
-import { findPopup, getAlignStyle } from "./PopupUtils";
+import { getAlignStyle } from "./PopupUtils";
 
 const logger = log.getLogger("popup-manager-logger");
 logger.disableAll();
@@ -189,14 +189,6 @@ export class PopupManager extends React.Component<Props, State> {
     });
   };
 
-  isVisible = (id: PopupId) => {
-    const { position } = findPopup(this.state.positions, id);
-    return Boolean(position);
-  };
-
-  /**
-   * Compute the style of a popup based on its position
-   */
   getContainerStyle = (position: PopupPosition): React.CSSProperties => {
     const isTopOrBottom = position === "top" || position === "bottom";
     const margin = isTopOrBottom ? "0 auto" : undefined;
