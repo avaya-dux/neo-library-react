@@ -269,7 +269,6 @@ describe("TabUtils", () => {
             <Tab id="tab1" dir="ltr" onClose={() => {}}>
               tab1
             </Tab>
-            <></>
             <Tab id="tab2" disabled>
               tab2
             </Tab>
