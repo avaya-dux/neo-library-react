@@ -3,7 +3,13 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 
 import clsx from "clsx";
-import { DetailedHTMLProps, FC, HTMLAttributes, useMemo } from "react";
+import {
+  DetailedHTMLProps,
+  FC,
+  HTMLAttributes,
+  ReactNode,
+  useMemo,
+} from "react";
 import { RovingTabIndexProvider } from "react-roving-tabindex";
 
 import { handleAccessbilityError } from "utils";
@@ -19,7 +25,7 @@ export interface TreeProps
     "dir"
   > {
   dir?: "ltr" | "rtl";
-  label?: string;
+  label?: ReactNode;
 }
 
 /**

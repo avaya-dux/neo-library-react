@@ -6,6 +6,7 @@
 import clsx from "clsx";
 import {
   cloneElement,
+  FC,
   ReactElement,
   ReactNode,
   useContext,
@@ -22,7 +23,9 @@ import { TreeContext } from "../TreeContext";
 
 export interface SubTreeProps {
   actions?: ReactNode;
-  children: ReactElement<SubTreeProps | TreeItemProps>[];
+  children:
+    | ReactElement<SubTreeProps | TreeItemProps>
+    | ReactElement<SubTreeProps | TreeItemProps>[];
   defaultExpanded?: boolean;
   disabled?: boolean;
   title: ReactNode;
@@ -47,14 +50,20 @@ export const SubTree = ({
   const [expanded, setExpanded] = useState(defaultExpanded);
 
   const childrenWithRovingTabIndexLogic = useMemo(() => {
+    const childrenAsArray = Array.isArray(children) ? children : [children];
+
     // if !expanded, we need to disable all children, which tells "react-roving-tabindex" to set their tabIndex to `-1`
     return expanded
-      ? children
-      : children.map((leaf) =>
-          cloneElement(leaf, {
+      ? childrenAsArray
+      : childrenAsArray.map((child, i) => {
+          const childTypeName = (child.type as FC).name;
+          const key = `${childTypeName}-${i}`;
+
+          return cloneElement(child, {
             disabled: true,
-          })
-        );
+            key: child.key || key,
+          });
+        });
   }, [expanded]);
 
   return (
