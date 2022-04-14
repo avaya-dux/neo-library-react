@@ -2,6 +2,9 @@ import { Meta, Story } from "@storybook/react/types-6-0";
 import { IconNames } from "utils";
 import { EventNotificationProps, Notification } from ".";
 import ReactStopwatch from "react-stopwatch";
+import { usePopup } from "utils/PopupManager/Popup";
+import { useEffect, useState } from "react";
+import { PopupId, PopupPosition } from "utils/PopupManager/PopupTypes";
 type WithoutType = Omit<EventNotificationProps, "type">;
 const EventTemplate: Story<WithoutType> = ({ ...rest }: WithoutType) => {
   const props = { type: "event", ...rest } as EventNotificationProps;
@@ -88,6 +91,47 @@ EventCustomAction.args = {
   ),
 };
 
+const notification = (
+  <Notification
+    type="event"
+    icon="copy"
+    header="Event"
+    description="This is an event."
+    action={{ count: "00:00" }}
+  />
+);
+
+let popup: { id: PopupId; position: PopupPosition } | undefined;
+export const PopupEvent = () => {
+  const [open, setOpen] = useState(false);
+  const { notify, remove, setZIndex } = usePopup();
+  useEffect(() => {
+    setZIndex(9900);
+  }, []);
+
+  useEffect(() => {
+    console.log("open is ", open, "popup is ", popup);
+
+    if (open) {
+      popup = notify({
+        id: "event-couter",
+        node: notification,
+        position: "bottom",
+      });
+      console.log("after notify call: open is ", open, "popup is ", popup);
+    } else {
+      if (popup) {
+        remove(popup.id, popup.position);
+      }
+    }
+  }, [open]);
+
+  return (
+    <div>
+      <button onClick={() => setOpen((prev) => !prev)}>Toggle</button>
+    </div>
+  );
+};
 export default {
   title: "Components/Notification",
   component: EventTemplate,
