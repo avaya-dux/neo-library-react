@@ -2,7 +2,7 @@ import clsx from "clsx";
 import log from "loglevel";
 import { useState } from "react";
 import { IconNamesType, useTimeout } from "utils";
-import { usePopup } from "./Popup";
+import { usePopup } from "./PopupPortal";
 import { ToastOptions } from "./PopupTypes";
 const logger = log.getLogger("internal-toast-logger");
 logger.disableAll();

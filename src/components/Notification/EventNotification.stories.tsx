@@ -2,7 +2,7 @@ import { Meta, Story } from "@storybook/react/types-6-0";
 import { IconNames } from "utils";
 import { EventNotificationProps, Notification } from ".";
 import ReactStopwatch from "react-stopwatch";
-import { usePopup } from "utils/PopupManager/Popup";
+import { usePopup } from "utils/PopupManager/PopupPortal";
 import { useEffect, useRef, useState } from "react";
 import { PopupId, PopupPosition } from "utils/PopupManager/PopupTypes";
 import log from "loglevel";

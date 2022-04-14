@@ -1,7 +1,7 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { useEffect } from "react";
 import { IconNames } from "utils";
-import { usePopup } from "../../utils/PopupManager/Popup";
+import { usePopup } from "../../utils/PopupManager/PopupPortal";
 import { ToastOptions } from "../../utils/PopupManager/PopupTypes";
 import { Toast } from "./Toast";
 import log from "loglevel";
