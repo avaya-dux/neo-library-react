@@ -3,11 +3,11 @@ import { IconNames } from "utils";
 import { EventNotificationProps, Notification } from ".";
 import ReactStopwatch from "react-stopwatch";
 import { usePopup } from "utils/PopupManager/Popup";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PopupId, PopupPosition } from "utils/PopupManager/PopupTypes";
 import log from "loglevel";
 const logger = log.getLogger("event-notification-story-logger");
-logger.disableAll();
+logger.enableAll();
 type WithoutType = Omit<EventNotificationProps, "type">;
 const EventTemplate: Story<WithoutType> = ({ ...rest }: WithoutType) => {
   const props = { type: "event", ...rest } as EventNotificationProps;
@@ -94,7 +94,7 @@ EventCustomAction.args = {
   ),
 };
 
-const notification = (
+const notificationToPop = (
   <Notification
     type="event"
     icon="copy"
@@ -104,8 +104,10 @@ const notification = (
   />
 );
 
-let popup: { id: PopupId; position: PopupPosition } | undefined;
 export const PopupEvent = () => {
+  const popupRef = useRef<
+    { id: PopupId; position: PopupPosition } | undefined
+  >();
   const [open, setOpen] = useState(false);
   const { notify, remove, setZIndex } = usePopup();
   useEffect(() => {
@@ -113,18 +115,22 @@ export const PopupEvent = () => {
   }, []);
 
   useEffect(() => {
-    logger.debug("open is ", open, "popup is ", popup);
-
+    logger.debug("open is ", open, "popup is ", popupRef.current);
     if (open) {
-      popup = notify({
+      popupRef.current = notify({
         id: "event-couter",
-        node: notification,
+        node: notificationToPop,
         position: "bottom",
       });
-      logger.debug("after notify call: open is ", open, "popup is ", popup);
+      logger.debug(
+        "after notify call: open is ",
+        open,
+        "popup is ",
+        popupRef.current
+      );
     } else {
-      if (popup) {
-        remove(popup.id, popup.position);
+      if (popupRef.current) {
+        remove(popupRef.current.id, popupRef.current.position);
       }
     }
   }, [open]);
