@@ -32,22 +32,20 @@ export const Default = () => (
       <Divider />
 
       <Tree label="Tree with groupings">
-        <SubTree
-          edges={[
-            <TreeItem key="one">one</TreeItem>,
-            <TreeItem key="two">two</TreeItem>,
-          ]}
-        >
-          Sub Tree One
+        <SubTree title="Sub Tree One (string)">
+          <TreeItem key="one">one</TreeItem>
+          <TreeItem key="two">two</TreeItem>
         </SubTree>
 
         <SubTree
-          edges={[
-            <TreeItem key="one">one</TreeItem>,
-            <TreeItem key="two">two</TreeItem>,
-          ]}
+          title={
+            <div>
+              <b>Sub Tree Two</b> (div)
+            </div>
+          }
         >
-          Sub Tree Two
+          <TreeItem key="one">one</TreeItem>
+          <TreeItem key="two">two</TreeItem>
         </SubTree>
       </Tree>
 
@@ -217,17 +215,14 @@ export const TreeItemExamples = () => {
 
 const FullTreeExamples = (props: TreeProps) => (
   <Tree {...props}>
-    <SubTree
-      edges={[
-        <TreeItem key="one">one</TreeItem>,
-        <TreeItem key="two">two</TreeItem>,
-        <TreeItem key="three">three</TreeItem>,
-      ]}
-    >
-      Sub Tree One Label
+    <SubTree title="Sub Tree One Label">
+      <TreeItem key="one">one</TreeItem>
+      <TreeItem key="two">two</TreeItem>
+      <TreeItem key="three">three</TreeItem>
     </SubTree>
 
     <SubTree
+      title="Sub Tree Two Label, has actions"
       actions={[
         <Button
           key="sub-tree-two-button-one"
@@ -243,42 +238,31 @@ const FullTreeExamples = (props: TreeProps) => (
           variant="tertiary"
         />,
       ]}
-      edges={[
-        <TreeItem key="four">four</TreeItem>,
-        <TreeItem key="five">five</TreeItem>,
-        <TreeItem key="six">six</TreeItem>,
-      ]}
     >
-      Sub Tree Two Label, has actions
+      <TreeItem key="four">four</TreeItem>
+      <TreeItem key="five">five</TreeItem>
+      <TreeItem key="six">six</TreeItem>
     </SubTree>
 
-    <SubTree
-      edges={[
+    <SubTree title="Sub Tree Three Label">
+      <SubTree
+        title="Sub Tree Three, Sub Tree Three-One Label"
+        key="sub-sub-tree"
+      >
+        <TreeItem key="seven">seven</TreeItem>
+        <TreeItem key="eight">eight</TreeItem>
+        <TreeItem key="nine">nine</TreeItem>
         <SubTree
-          key="sub-sub-tree"
-          edges={[
-            <TreeItem key="seven">seven</TreeItem>,
-            <TreeItem key="eight">eight</TreeItem>,
-            <TreeItem key="nine">nine</TreeItem>,
-            <SubTree
-              key="sub-sub-sub-tree"
-              edges={[
-                <TreeItem key="ten">ten</TreeItem>,
-                <TreeItem key="eleven">eleven</TreeItem>,
-                <TreeItem key="twelve">twelve</TreeItem>,
-              ]}
-            >
-              Sub Tree Three, Sub Tree Three-One, Sub Tree Three-One-One Label
-            </SubTree>,
-          ]}
+          title="Sub Tree Three, Sub Tree Three-One, Sub Tree Three-One-One Label"
+          key="sub-sub-sub-tree"
         >
-          Sub Tree Three, Sub Tree Three-One Label
-        </SubTree>,
-        <TreeItem key="thirteen">thirteen</TreeItem>,
-        <TreeItem key="fourteen">fourteen</TreeItem>,
-      ]}
-    >
-      Sub Tree Three Label
+          <TreeItem key="ten">ten</TreeItem>
+          <TreeItem key="eleven">eleven</TreeItem>
+          <TreeItem key="twelve">twelve</TreeItem>
+        </SubTree>
+      </SubTree>
+      <TreeItem key="thirteen">thirteen</TreeItem>
+      <TreeItem key="fourteen">fourteen</TreeItem>
     </SubTree>
   </Tree>
 );
@@ -331,58 +315,40 @@ export const EmbededActions = () => {
       <Tree label="Embedded Actions Tree">
         <TreeItem>Tree Item, One</TreeItem>
 
-        <SubTree
-          edges={[
-            <TreeItem key="one">one</TreeItem>,
-            <TreeItem key="two">two</TreeItem>,
-          ]}
-        >
-          Sub Tree without actions
+        <SubTree title="Sub Tree without actions">
+          <TreeItem key="one">one</TreeItem>
+          <TreeItem key="two">two</TreeItem>
         </SubTree>
 
-        <SubTree
-          edges={[
-            <TreeItem
-              key="three"
-              actions={[<MockButton key="action-btn-one" />]}
-              disabled
-            >
+        <SubTree title="Sub Tree with actions" actions={<MockButton />}>
+          <TreeItem key="three" actions={<MockButton />} disabled>
+            disabled Tree Item
+          </TreeItem>
+
+          <TreeItem key="four" actions={<MockButton />}>
+            not disabled Tree Item
+          </TreeItem>
+
+          <SubTree
+            title="Sub Tree with actions"
+            key="sub-sub-tree-one"
+            actions={<MockButton />}
+          >
+            <TreeItem key="five" actions={<MockButton />} disabled>
               disabled Tree Item
-            </TreeItem>,
-            <TreeItem
-              key="four"
-              actions={[<MockButton key="action-btn-one" />]}
-            >
+            </TreeItem>
+
+            <TreeItem key="six" actions={<MockButton />}>
               not disabled Tree Item
-            </TreeItem>,
-            <SubTree
-              key="sub-sub-tree-one"
-              edges={[
-                <TreeItem
-                  key="five"
-                  actions={[<MockButton key="action-btn-one" />]}
-                  disabled
-                >
-                  disabled Tree Item
-                </TreeItem>,
-                <TreeItem
-                  key="six"
-                  actions={[<MockButton key="action-btn-one" />]}
-                >
-                  not disabled Tree Item
-                </TreeItem>,
-              ]}
-              actions={[<MockButton key="action-btn-one" />]}
-            >
-              Sub Tree with actions
-            </SubTree>,
-          ]}
-          actions={[<MockButton key="action-btn-one" />]}
-        >
-          Sub Tree with actions
+            </TreeItem>
+          </SubTree>
         </SubTree>
 
-        <TreeItem>Tree Item, Final</TreeItem>
+        <TreeItem>
+          <div>
+            Tree Item, <b>Final</b>
+          </div>
+        </TreeItem>
       </Tree>
 
       <Divider />

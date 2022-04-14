@@ -6,7 +6,6 @@
 import clsx from "clsx";
 import {
   cloneElement,
-  FC,
   ReactElement,
   ReactNode,
   useContext,
@@ -23,18 +22,19 @@ import { TreeContext } from "../TreeContext";
 
 export interface SubTreeProps {
   actions?: ReactNode;
+  children: ReactElement<SubTreeProps | TreeItemProps>[];
   defaultExpanded?: boolean;
   disabled?: boolean;
-  edges: ReactElement<SubTreeProps | TreeItemProps>[];
+  title: ReactNode;
 }
 
-export const SubTree: FC<SubTreeProps> = ({
+export const SubTree = ({
   actions,
   children,
   defaultExpanded = false,
   disabled = false,
-  edges,
-}) => {
+  title,
+}: SubTreeProps) => {
   const { dir } = useContext(TreeContext);
 
   const ref = useRef(null);
@@ -46,12 +46,12 @@ export const SubTree: FC<SubTreeProps> = ({
 
   const [expanded, setExpanded] = useState(defaultExpanded);
 
-  const edgesWithRovingTabIndexLogic = useMemo(() => {
+  const childrenWithRovingTabIndexLogic = useMemo(() => {
     // if !expanded, we need to disable all children, which tells "react-roving-tabindex" to set their tabIndex to `-1`
     return expanded
-      ? edges
-      : edges.map((edge) =>
-          cloneElement(edge, {
+      ? children
+      : children.map((leaf) =>
+          cloneElement(leaf, {
             disabled: true,
           })
         );
@@ -96,14 +96,14 @@ export const SubTree: FC<SubTreeProps> = ({
         >
           <span className="neo-treeview__item--expandable" />
 
-          {children}
+          {title}
         </span>
 
         <span className="neo-treeview__item-right">{actions}</span>
       </div>
 
       <ul aria-expanded={expanded} role="group">
-        {edgesWithRovingTabIndexLogic}
+        {childrenWithRovingTabIndexLogic}
       </ul>
     </li>
   );
