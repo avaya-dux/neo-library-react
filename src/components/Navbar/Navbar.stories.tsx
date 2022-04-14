@@ -177,7 +177,7 @@ NavbarWithNavButtons.args = {
 export const NavbarWithAvatar = Template.bind({});
 NavbarWithAvatar.args = {
   logo,
-  navbarAvatar,
+  userOptions: navbarAvatar,
   navButtons: [
     <NavbarButton icon="info" aria-label="Info" />,
     <NavbarButton icon="settings" aria-label="Settings" />,
@@ -187,7 +187,7 @@ NavbarWithAvatar.args = {
 export const NavbarWithAvatarAndDropdown = Template.bind({});
 NavbarWithAvatarAndDropdown.args = {
   logo,
-  navbarAvatar,
+  userOptions: navbarAvatar,
 };
 
 export const NavbarWithTabs = () => {
@@ -349,13 +349,13 @@ export const NavbarWithAgentCard = () => {
   return (
     <Navbar
       logo={logo}
-      agentCard={
+      userOptions={
         <AgentCard
           agentName="Bob Boberson"
           agentStatus="connected"
           avatar={<Avatar />}
         />
       }
-    ></Navbar>
+    />
   );
 };

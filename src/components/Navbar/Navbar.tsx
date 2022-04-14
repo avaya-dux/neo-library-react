@@ -15,7 +15,6 @@ import { LinkLogoProps, LogoProps } from "./LeftContent";
 import { NavbarAvatarProps, NavbarButtonProps } from "./RightContent";
 import { TabProps } from "../Tab";
 import { AgentCardProps } from "components/AgentCard";
-
 export interface NavbarProps {
   logo: ReactElement<LogoProps | LinkLogoProps>;
   // TO:DO: NEO-731 - add Search Component to Design System
@@ -33,11 +32,10 @@ export interface NavbarProps {
   >;
   title?: string;
   sticky?: boolean;
-  navbarAvatar?: ReactElement<NavbarAvatarProps>;
   navButtons?: ReactElement<NavbarButtonProps>[];
   navMenuToggleBtn?: ReactElement<Partial<NavbarButtonProps>>;
   navbarTabs?: ReactElement<TabProps>;
-  agentCard?: ReactElement<AgentCardProps>;
+  userOptions?: ReactElement<AgentCardProps | NavbarAvatarProps>;
 }
 
 /**
@@ -75,10 +73,9 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
   search,
   title,
   navButtons,
-  navbarAvatar,
   navMenuToggleBtn,
   navbarTabs,
-  agentCard,
+  userOptions,
   sticky,
 }) => {
   // TO-DO: NEO-786 - Replace inline styles on line 80 with updated CSS rules to avoid use of <form> element in Navbar
@@ -138,7 +135,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
               navButtonOnClickCallback(navButton.props.handleClick, key),
           })
         )}
-        {agentCard || navbarAvatar}
+        {userOptions}
       </div>
     </nav>
   );

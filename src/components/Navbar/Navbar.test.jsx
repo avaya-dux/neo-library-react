@@ -94,7 +94,7 @@ describe("Navbar", () => {
     });
 
     describe("Navbar With Navigation Toggle", () => {
-      it("correctly passes onClick handler to button as props", () => {
+      it("correctly executes button onClick handler when passed as props", () => {
         const { getByRole, getAllByRole } = render(
           <NavbarWithNavigationToggle />
         );
