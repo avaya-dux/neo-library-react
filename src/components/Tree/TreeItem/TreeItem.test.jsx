@@ -27,11 +27,4 @@ describe("TreeItem", () => {
     const rootElement = screen.getByRole("treeitem");
     expect(rootElement).toHaveClass("neo-treeview__item--selected");
   });
-
-  it("adds an icon if `icon` prop has a value", () => {
-    render(<TreeItem icon="file">example</TreeItem>);
-
-    const iconElement = screen.getByRole("img");
-    expect(iconElement).toBeInTheDocument();
-  });
 });
