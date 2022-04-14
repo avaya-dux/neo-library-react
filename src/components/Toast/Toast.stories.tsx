@@ -1,8 +1,6 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { useEffect } from "react";
-import { IconNames } from "utils";
-import { usePopup } from "../../utils/PopupManager/PopupPortal";
-import { ToastOptions } from "../../utils/PopupManager/PopupTypes";
+import { IconNames, usePopup, ToastOptions } from "utils";
 import { Toast } from "./Toast";
 import log from "loglevel";
 const logger = log.getLogger("toast-story-logger");

@@ -1,5 +1,5 @@
 import log from "loglevel";
-import { Component } from "react";
+import React from "react";
 import { InternalToast } from "./InternalToast";
 import type {
   NotificationOptions,
@@ -12,15 +12,18 @@ import type {
 import { getContainerStyle } from "./PopupUtils";
 
 const logger = log.getLogger("popup-manager-logger");
-logger.disableAll();
+logger.enableAll();
 
 type Dict<T = any> = Record<string, T>;
 const objectKeys = <T extends Dict>(obj: T) =>
   Object.keys(obj) as unknown as (keyof T)[];
 
 export interface PopupManagerMethods {
-  toast: (options: ToastOptions) => { id: PopupId; position: PopupPosition };
-  notify: (options: NotificationOptions) => {
+  toast: (toastOptions: ToastOptions) => {
+    id: PopupId;
+    position: PopupPosition;
+  };
+  notify: (notificationOptions: NotificationOptions) => {
     id: PopupId;
     position: PopupPosition;
   };
@@ -33,7 +36,7 @@ interface Props {
   bind: (methods: PopupManagerMethods) => void;
 }
 
-export class PopupManager extends Component<Props, State> {
+export class PopupManager extends React.Component<Props, State> {
   static counter = 0;
 
   state: State = {

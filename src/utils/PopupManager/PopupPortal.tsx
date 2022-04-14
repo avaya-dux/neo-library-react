@@ -10,11 +10,11 @@ import type {
 
 const portalId = "popup-portal";
 const logger = log.getLogger("popup-portal-logger");
-logger.disableAll();
+logger.enableAll();
 class Portal {
   private createToast?: PopupManagerMethods["toast"];
-  private removePopup?: PopupManagerMethods["remove"];
   private createNotification?: PopupManagerMethods["notify"];
+  private removePopup?: PopupManagerMethods["remove"];
   private removeAllPopups?: PopupManagerMethods["removeAll"];
   private updateZIndex?: PopupManagerMethods["setZIndex"];
 
