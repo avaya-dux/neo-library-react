@@ -13,6 +13,7 @@ import { genId } from "utils/accessibilityUtils";
 import { TextInputProps } from "../TextInput";
 import { LinkLogoProps, LogoProps } from "./LeftContent";
 import { NavbarAvatarProps, NavbarButtonProps } from "./RightContent";
+import { TabProps } from "../Tab";
 
 export interface NavbarProps {
   logo: ReactElement<LogoProps | LinkLogoProps>;
@@ -34,6 +35,7 @@ export interface NavbarProps {
   navbarAvatar?: ReactElement<NavbarAvatarProps>;
   navButtons?: ReactElement<NavbarButtonProps>[];
   navMenuToggleBtn?: ReactElement<Partial<NavbarButtonProps>>;
+  navbarTabs?: ReactElement<TabProps>;
 }
 
 /**
@@ -73,6 +75,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
   navButtons,
   navbarAvatar,
   navMenuToggleBtn,
+  navbarTabs,
   sticky,
 }) => {
   // TO-DO: NEO-786 - Replace inline styles on line 80 with updated CSS rules to avoid use of <form> element in Navbar
@@ -112,6 +115,8 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
             {title}
           </div>
         )}
+
+        {navbarTabs}
 
         {search && (
           <div style={{ marginLeft: "16px", alignSelf: "center" }}>
