@@ -8,7 +8,7 @@ export default {
 } as Meta<CheckboxProps>;
 
 export const Default = () => (
-  <Checkbox label="example label" onChange={() => {}} value="1" checked />
+  <Checkbox label="example label" value="1" defaultChecked />
 );
 
 const Template: Story<CheckboxProps> = (props: CheckboxProps) => (
@@ -17,13 +17,8 @@ const Template: Story<CheckboxProps> = (props: CheckboxProps) => (
 
 export const Templated = Template.bind({});
 Templated.args = {
-  checked: "indeterminate",
-  isLabelHidden: false,
+  checked: "mixed",
   label: "example label",
   onChange: () => {},
-  tooltip: {
-    label: "Tooltip for Check",
-    position: "right",
-  },
   value: "1",
 };

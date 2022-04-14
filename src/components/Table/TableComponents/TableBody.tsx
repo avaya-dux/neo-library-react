@@ -72,8 +72,7 @@ export const TableBody = <T extends Record<string, any>>({
                 <td style={{ padding: "0 0 0 5px" }}>
                   <Checkbox
                     checked={row.isSelected}
-                    isLabelHidden
-                    label={checkboxLabel}
+                    aria-label={checkboxLabel}
                     onChange={() => handleRowToggledInternal(row)}
                     value={row.id}
                   />

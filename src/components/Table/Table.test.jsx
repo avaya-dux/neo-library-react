@@ -80,7 +80,7 @@ describe("Table", () => {
       const headerCheckboxLabel = container.querySelector("tr th label");
       const checkbox2 = getByLabelText(FilledFields.data[2].label);
 
-      // header checkbox is in "indeterminate" state
+      // header checkbox is in "mixed" state
       expect(headerCheckbox.checked).toBeTruthy();
       expect(headerCheckbox).toHaveClass("neo-check--indeterminate");
       expect(checkbox2.checked).toBeFalsy();
