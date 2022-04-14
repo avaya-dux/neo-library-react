@@ -196,6 +196,7 @@ export class PopupManager extends Component<Props, State> {
             return (
               <InternalToast
                 key={`${popupOption.id}-${index}`}
+                remove={this.remove}
                 {...(popupOption as ToastOptions)}
               />
             );

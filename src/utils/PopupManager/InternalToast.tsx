@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import log from "loglevel";
 import { useState } from "react";
-import { IconNamesType, useTimeout } from "utils";
-import { usePopup } from "./PopupPortal";
-import { ToastOptions } from "./PopupTypes";
+import { IconNamesType } from "utils/icons";
+import { useTimeout } from "utils/useTimeout";
+import { PopupId, PopupPosition, ToastOptions } from "./PopupTypes";
 const logger = log.getLogger("internal-toast-logger");
 logger.disableAll();
 export const InternalToast = ({
@@ -11,10 +11,12 @@ export const InternalToast = ({
   position,
   message,
   duration = 5000,
+  remove,
   ...rest
-}: ToastOptions) => {
+}: ToastOptions & {
+  remove: (id: PopupId, position: PopupPosition) => void;
+}) => {
   logger.debug("message is ", message);
-  const { remove } = usePopup();
   const icon = "icon" in rest ? rest.icon : undefined;
   const [closed, setClosed] = useState(false);
   const hide = () => {
