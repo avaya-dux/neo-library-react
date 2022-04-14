@@ -22,6 +22,7 @@ type EnforcedAccessibleLabel =
       "aria-label"?: string;
       "aria-labelledby": string;
     };
+
 interface BaseSheetProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   open?: boolean;
