@@ -5,6 +5,9 @@ import ReactStopwatch from "react-stopwatch";
 import { usePopup } from "utils/PopupManager/Popup";
 import { useEffect, useState } from "react";
 import { PopupId, PopupPosition } from "utils/PopupManager/PopupTypes";
+import log from "loglevel";
+const logger = log.getLogger("event-notification-story-logger");
+logger.disableAll();
 type WithoutType = Omit<EventNotificationProps, "type">;
 const EventTemplate: Story<WithoutType> = ({ ...rest }: WithoutType) => {
   const props = { type: "event", ...rest } as EventNotificationProps;
@@ -43,7 +46,7 @@ export const EventCounterUp = () => {
       minutes={0}
       hours={0}
       limit="05:00"
-      onCallback={() => console.log("Finish")}
+      onCallback={() => logger.debug("Finish")}
       withLoop={true}
       render={({ formatted }: { [key: string]: any }) => {
         return (
@@ -110,7 +113,7 @@ export const PopupEvent = () => {
   }, []);
 
   useEffect(() => {
-    console.log("open is ", open, "popup is ", popup);
+    logger.debug("open is ", open, "popup is ", popup);
 
     if (open) {
       popup = notify({
@@ -118,7 +121,7 @@ export const PopupEvent = () => {
         node: notification,
         position: "bottom",
       });
-      console.log("after notify call: open is ", open, "popup is ", popup);
+      logger.debug("after notify call: open is ", open, "popup is ", popup);
     } else {
       if (popup) {
         remove(popup.id, popup.position);
