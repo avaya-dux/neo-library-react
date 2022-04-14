@@ -1,7 +1,16 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { cloneElement, FormEvent, useState } from "react";
 
-import { Menu, MenuItem, SubMenu, TextInput, Avatar } from "components";
+import {
+  Menu,
+  MenuItem,
+  SubMenu,
+  TextInput,
+  Avatar,
+  Tabs,
+  Tab,
+  TabList,
+} from "components";
 
 import { Navbar, NavbarProps } from ".";
 import { Logo, LinkLogo } from "./LeftContent";
@@ -130,6 +139,36 @@ export const NavbarWithAvatarAndDropdown = Template.bind({});
 NavbarWithAvatarAndDropdown.args = {
   logo,
   navbarAvatar,
+};
+
+export const NavbarWithTabs = () => {
+  const [activeTabPanelIndex, setActiveTabPanelIndex] = useState(0);
+  const contentToToggle = {
+    0: "Tab 1 content",
+    1: "Tab 2 content",
+    2: "Tab 3 content",
+  };
+  return (
+    <>
+      <Navbar
+        logo={logo}
+        navbarTabs={
+          <Tabs onTabPanelChange={setActiveTabPanelIndex}>
+            <TabList>
+              <Tab id="tab1" onClick={() => alert("Clicked")}>
+                Tab1
+              </Tab>
+              <Tab id="tab2">Tab2</Tab>
+              <Tab id="tab3">Tab3</Tab>
+            </TabList>
+          </Tabs>
+        }
+      />
+      <h4 style={{ marginTop: "30px" }}>
+        {contentToToggle[activeTabPanelIndex]}
+      </h4>
+    </>
+  );
 };
 
 export const StickyNavbar: Story<NavbarProps> = () => {
