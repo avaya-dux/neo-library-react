@@ -1,14 +1,13 @@
+import log from "loglevel";
 import { Component } from "react";
 import { InternalToast } from "./InternalToast";
-import log from "loglevel";
-
 import type {
   NotificationOptions,
-  ToastOptions,
   PopupId,
+  PopupOptions,
   PopupPosition,
   PopupState as State,
-  PopupOptions,
+  ToastOptions,
 } from "./PopupTypes";
 import { getContainerStyle } from "./PopupUtils";
 
