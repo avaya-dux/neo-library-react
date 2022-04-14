@@ -10,7 +10,7 @@ import type {
   PopupState as State,
   PopupOptions,
 } from "./PopupTypes";
-import { getAlignStyle } from "./PopupUtils";
+import { getContainerStyle } from "./PopupUtils";
 
 const logger = log.getLogger("popup-manager-logger");
 logger.disableAll();
@@ -34,10 +34,6 @@ interface Props {
   bind: (methods: PopupManagerMethods) => void;
 }
 
-/**
- * Manages the creation, and removal of popups
- * across all corners ("top", "bottom", etc.)
- */
 export class PopupManager extends React.Component<Props, State> {
   static counter = 0;
 
@@ -113,10 +109,6 @@ export class PopupManager extends React.Component<Props, State> {
     return { id, position };
   };
 
-  /**
-   * Function to actually create a toast and add it
-   * to state at the specified position
-   */
   toast = (options: ToastOptions) => {
     logger.debug("toast in popup manager called with ", options);
     const toast = this.createToast(options);
@@ -127,9 +119,6 @@ export class PopupManager extends React.Component<Props, State> {
     return { id, position };
   };
 
-  /**
-   * Create properties for a new toast
-   */
   createToast = (options: ToastOptions) => {
     PopupManager.counter += 1;
     const id = options.id ?? PopupManager.counter;
@@ -145,9 +134,6 @@ export class PopupManager extends React.Component<Props, State> {
     };
   };
 
-  /**
-   * Delete a popup at its position
-   */
   remove = (id: PopupId, position: PopupPosition) => {
     logger.debug(`removing popup, ${id}, at position, ${position}`);
     logger.debug("state before removing", this.state[position]);
@@ -189,40 +175,6 @@ export class PopupManager extends React.Component<Props, State> {
     });
   };
 
-  getContainerStyle = (position: PopupPosition): React.CSSProperties => {
-    const isTopOrBottom = position === "top" || position === "bottom";
-    const margin = isTopOrBottom ? "0 auto" : undefined;
-
-    const top = position.includes("top")
-      ? "env(safe-area-inset-top, 0px)"
-      : undefined;
-    const bottom = position.includes("bottom")
-      ? "env(safe-area-inset-bottom, 0px)"
-      : undefined;
-    const right = !position.includes("left")
-      ? "env(safe-area-inset-right, 0px)"
-      : undefined;
-    const left = !position.includes("right")
-      ? "env(safe-area-inset-left, 0px)"
-      : undefined;
-
-    return {
-      position: "fixed",
-      zIndex: this.state.zIndex,
-      pointerEvents: "none",
-      display: "flex",
-      flexDirection: "column",
-      flexWrap: position.includes("right") ? "wrap-reverse" : "wrap",
-      maxHeight: "25vh",
-      margin,
-      top,
-      bottom,
-      right,
-      left,
-      ...getAlignStyle(position),
-    };
-  };
-
   render() {
     return objectKeys(this.state.positions).map((position) => {
       const popupOptions = this.state.positions[position];
@@ -230,7 +182,7 @@ export class PopupManager extends React.Component<Props, State> {
         <ul
           key={position}
           id={`neo-popup-manager-${position}`}
-          style={this.getContainerStyle(position)}
+          style={getContainerStyle(position, this.state.zIndex)}
         >
           {popupOptions.map((popupOption, index) => {
             if ("node" in popupOption) {

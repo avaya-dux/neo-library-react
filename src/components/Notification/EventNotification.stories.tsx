@@ -1,10 +1,8 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { IconNames } from "utils";
+import { IconNames, usePopup, PopupId, PopupPosition } from "utils";
 import { EventNotificationProps, Notification } from ".";
 import ReactStopwatch from "react-stopwatch";
-import { usePopup } from "utils/PopupManager/PopupPortal";
 import { useEffect, useRef, useState } from "react";
-import { PopupId, PopupPosition } from "utils/PopupManager/PopupTypes";
 import log from "loglevel";
 const logger = log.getLogger("event-notification-story-logger");
 logger.disableAll();
@@ -94,17 +92,16 @@ EventCustomAction.args = {
   ),
 };
 
-const notificationToPop = (
-  <Notification
-    type="event"
-    icon="copy"
-    header="Event"
-    description="This is an event."
-    action={{ count: "00:00" }}
-  />
-);
-
-export const PopupEvent = () => {
+export const PopCounterEvent = () => {
+  const notificationRef = useRef(
+    <Notification
+      type="event"
+      icon="copy"
+      header="Event"
+      description="This is an event."
+      action={{ count: "00:00" }}
+    />
+  );
   const popupRef = useRef<
     { id: PopupId; position: PopupPosition } | undefined
   >();
@@ -119,7 +116,55 @@ export const PopupEvent = () => {
     if (open) {
       popupRef.current = notify({
         id: "event-couter",
-        node: notificationToPop,
+        node: notificationRef.current,
+        position: "bottom",
+      });
+      logger.debug(
+        "after notify call: open is ",
+        open,
+        "popup is ",
+        popupRef.current
+      );
+    } else {
+      if (popupRef.current) {
+        remove(popupRef.current.id, popupRef.current.position);
+      }
+    }
+  }, [open]);
+
+  return (
+    <div>
+      <button onClick={() => setOpen((prev) => !prev)}>Toggle</button>
+    </div>
+  );
+};
+
+export const PopClosableEvent = () => {
+  function onClick() {
+    logger.debug("onClose called");
+    setOpen(false);
+  }
+  const notificationRef = useRef(
+    <Notification
+      type="event"
+      icon="copy"
+      header="Event"
+      description="This is an event."
+      action={{ onClick }}
+    />
+  );
+  const popupRef = useRef<
+    { id: PopupId; position: PopupPosition } | undefined
+  >();
+  const [open, setOpen] = useState(false);
+  const { notify, remove } = usePopup();
+
+  useEffect(() => {
+    logger.debug("open is ", open, "popup is ", popupRef.current);
+    if (open) {
+      popupRef.current = notify({
+        id: "event-couter",
+        node: notificationRef.current,
         position: "bottom",
       });
       logger.debug(

@@ -18,8 +18,14 @@ const {
 } = composeStories(NonEventStories);
 
 const { AlertShow, AlertShowContainer } = composeStories(ToggleEventStories);
-const { Event, EventCloseAlert, EventButtons, EventCounter } =
-  composeStories(EventStories);
+const {
+  Event,
+  EventCloseAlert,
+  EventButtons,
+  EventCounter,
+  PopClosableEvent,
+  PopCounterEvent,
+} = composeStories(EventStories);
 
 describe("Notification", () => {
   describe("Storybook stories", () => {
@@ -265,6 +271,38 @@ describe("Notification", () => {
         expect(container).toBeDefined();
         const alertRole = screen.getByRole("alert");
         expect(alertRole).toHaveClass("neo-notification--event");
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+    describe("PopCounterEvent", () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<PopCounterEvent />);
+      });
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).toBeDefined();
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+    describe("PopClosableEvent", () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<PopClosableEvent />);
+      });
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).toBeDefined();
       });
 
       it("passes basic axe compliance", async () => {

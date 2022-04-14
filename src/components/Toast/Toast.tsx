@@ -1,7 +1,6 @@
 import log from "loglevel";
 import { useEffect } from "react";
-import { usePopup } from "../../utils/PopupManager/PopupPortal";
-import { ToastOptions } from "../../utils/PopupManager/PopupTypes";
+import { usePopup, ToastOptions } from "utils";
 const logger = log.getLogger("toast-logger");
 logger.disableAll();
 
