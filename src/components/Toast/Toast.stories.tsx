@@ -4,7 +4,9 @@ import { IconNames } from "utils";
 import { usePopup } from "../../utils/PopupManager/Popup";
 import { ToastOptions } from "../../utils/PopupManager/PopupTypes";
 import { Toast } from "./Toast";
-
+import log from "loglevel";
+const logger = log.getLogger("toast-story-logger");
+logger.disableAll();
 const ToastTemplate: Story<ToastOptions> = (props) => <Toast {...props} />;
 
 export default {
@@ -36,7 +38,7 @@ export const ToastsPositioning = () => {
   const { toast, removeAll } = usePopup();
   useEffect(() => {
     return () => {
-      console.log("closing all...");
+      logger.debug("closing all...");
       removeAll();
     };
   }, []);

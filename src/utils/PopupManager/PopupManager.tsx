@@ -13,7 +13,7 @@ import type {
 import { findPopup, getAlignStyle } from "./PopupUtils";
 
 const logger = log.getLogger("popup-manager-logger");
-logger.enableAll();
+logger.disableAll();
 
 type Dict<T = any> = Record<string, T>;
 const objectKeys = <T extends Dict>(obj: T) =>
