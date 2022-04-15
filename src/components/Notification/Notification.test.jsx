@@ -6,6 +6,10 @@ import * as EventStories from "./EventNotification.stories";
 import * as NonEventStories from "./NonEventNotification.stories";
 import * as ToggleEventStories from "./ToggleNotification.stories";
 import { createAction } from "./Notification";
+import { notificationStoryLogger } from "./NotificationStoryLogger";
+import { popupManagerLogger } from "utils";
+notificationStoryLogger.disableAll();
+popupManagerLogger.disableAll();
 
 const {
   Success,

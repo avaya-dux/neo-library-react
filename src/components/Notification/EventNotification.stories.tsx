@@ -1,11 +1,9 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { IconNames, usePopup, PopupId, PopupPosition } from "utils";
+import { IconNames, PopupId, PopupPosition, PopupManager } from "utils";
 import { EventNotificationProps, Notification } from ".";
 import ReactStopwatch from "react-stopwatch";
 import { useEffect, useRef, useState } from "react";
-import log from "loglevel";
-const logger = log.getLogger("event-notification-story-logger");
-logger.disableAll();
+import { notificationStoryLogger as logger } from "./NotificationStoryLogger";
 type WithoutType = Omit<EventNotificationProps, "type">;
 const EventTemplate: Story<WithoutType> = ({ ...rest }: WithoutType) => {
   const props = { type: "event", ...rest } as EventNotificationProps;
@@ -93,6 +91,8 @@ EventCustomAction.args = {
 };
 
 export const PopCounterEvent = () => {
+  const managerRef = useRef<PopupManager | null>(null);
+
   const notificationRef = useRef(
     <Notification
       type="event"
@@ -106,46 +106,58 @@ export const PopCounterEvent = () => {
     { id: PopupId; position: PopupPosition } | undefined
   >();
   const [open, setOpen] = useState(false);
-  const { notify, remove, removeAll, setZIndex } = usePopup();
-  useEffect(() => {
-    setZIndex(9900);
-  }, []);
-
   useEffect(() => {
     logger.debug("open is ", open, "popup is ", popupRef.current);
     if (open) {
-      popupRef.current = notify({
-        id: "event-couter",
-        node: notificationRef.current,
-        position: "bottom",
-      });
-      logger.debug(
-        "after notify call: open is ",
-        open,
-        "popup is ",
-        popupRef.current
-      );
+      if (managerRef.current) {
+        popupRef.current = managerRef.current.notify({
+          id: "event-couter",
+          node: notificationRef.current,
+          position: "bottom",
+        });
+        logger.debug(
+          "after notify call: open is ",
+          open,
+          "popup is ",
+          popupRef.current
+        );
+      }
     } else {
-      if (popupRef.current) {
-        remove(popupRef.current.id, popupRef.current.position);
+      if (popupRef.current && managerRef.current) {
+        managerRef.current.remove(
+          popupRef.current.id,
+          popupRef.current.position
+        );
       }
     }
   }, [open]);
 
   useEffect(() => {
+    if (managerRef.current) {
+      managerRef.current.setZIndex(9900);
+    }
     return () => {
-      logger.debug("closing all...");
-      removeAll();
+      logger.debug("PopClosableEvent cleaning up ...");
+      if (managerRef.current) {
+        logger.debug("remove all...");
+        managerRef.current.removeAll();
+      }
     };
-  }, []);
+  }, [managerRef]);
+
   return (
-    <div>
-      <button onClick={() => setOpen((prev) => !prev)}>Toggle</button>
-    </div>
+    <>
+      <PopupManager ref={managerRef} />
+      <div>
+        <button onClick={() => setOpen((prev) => !prev)}>Toggle</button>
+      </div>
+    </>
   );
 };
 
 export const PopClosableEvent = () => {
+  const managerRef = useRef<PopupManager | null>(null);
+
   function onClick() {
     logger.debug("onClose called");
     setOpen(false);
@@ -163,40 +175,50 @@ export const PopClosableEvent = () => {
     { id: PopupId; position: PopupPosition } | undefined
   >();
   const [open, setOpen] = useState(false);
-  const { notify, remove, removeAll } = usePopup();
 
   useEffect(() => {
     logger.debug("open is ", open, "popup is ", popupRef.current);
     if (open) {
-      popupRef.current = notify({
-        id: "event-couter",
-        node: notificationRef.current,
-        position: "bottom",
-      });
-      logger.debug(
-        "after notify call: open is ",
-        open,
-        "popup is ",
-        popupRef.current
-      );
+      if (managerRef.current) {
+        popupRef.current = managerRef.current.notify({
+          id: "event-couter",
+          node: notificationRef.current,
+          position: "bottom",
+        });
+        logger.debug(
+          "after notify call: open is ",
+          open,
+          "popup is ",
+          popupRef.current
+        );
+      }
     } else {
-      if (popupRef.current) {
-        remove(popupRef.current.id, popupRef.current.position);
+      if (popupRef.current && managerRef.current) {
+        managerRef.current.remove(
+          popupRef.current.id,
+          popupRef.current.position
+        );
       }
     }
   }, [open]);
 
   useEffect(() => {
     return () => {
-      logger.debug("closing all...");
-      removeAll();
+      logger.debug("PopClosableEvent cleaning up ...");
+      if (managerRef.current) {
+        logger.debug("remove all...");
+        managerRef.current.removeAll();
+      }
     };
-  }, []);
+  }, [managerRef]);
 
   return (
-    <div>
-      <button onClick={() => setOpen((prev) => !prev)}>Toggle</button>
-    </div>
+    <>
+      <PopupManager ref={managerRef} />
+      <div>
+        <button onClick={() => setOpen((prev) => !prev)}>Toggle</button>
+      </div>
+    </>
   );
 };
 export default {

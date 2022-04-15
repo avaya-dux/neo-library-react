@@ -1,5 +1,6 @@
-import log from "loglevel";
+// eslint-disable-next-line no-use-before-define
 import React from "react";
+import log from "loglevel";
 import { InternalToast } from "./InternalToast";
 import type {
   NotificationOptions,
@@ -13,28 +14,13 @@ import { getContainerStyle } from "./PopupUtils";
 
 const logger = log.getLogger("popup-manager-logger");
 logger.enableAll();
+export { logger as popupManagerLogger };
 
 type Dict<T = any> = Record<string, T>;
 const objectKeys = <T extends Dict>(obj: T) =>
   Object.keys(obj) as unknown as (keyof T)[];
 
-export interface PopupManagerMethods {
-  toast: (toastOptions: ToastOptions) => {
-    id: PopupId;
-    position: PopupPosition;
-  };
-  notify: (notificationOptions: NotificationOptions) => {
-    id: PopupId;
-    position: PopupPosition;
-  };
-  remove: (id: PopupId, position: PopupPosition) => void;
-  removeAll: () => void;
-  setZIndex: (zIndex: number) => void;
-}
-
-interface Props {
-  bind: (methods: PopupManagerMethods) => void;
-}
+interface Props {}
 
 export class PopupManager extends React.Component<Props, State> {
   static counter = 0;
@@ -51,21 +37,21 @@ export class PopupManager extends React.Component<Props, State> {
     },
   };
 
-  constructor(props: Props) {
-    super(props);
+  private mounted = false;
 
-    const methods = {
-      toast: this.toast,
-      remove: this.remove,
-      notify: this.notify,
-      removeAll: this.removeAll,
-      setZIndex: this.setZIndex,
-    };
+  componentDidMount = () => {
+    logger.debug("popup manager is mounted");
+    this.mounted = true;
+  };
 
-    props.bind(methods);
-  }
+  componentWillUnmount = () => {
+    logger.warn("popup manager will unmount");
+  };
 
   setZIndex = (zIndex: number) => {
+    if (!this.mounted) {
+      return;
+    }
     this.setState((prevState) => {
       const ret = {
         positions: { ...prevState.positions },
@@ -181,7 +167,7 @@ export class PopupManager extends React.Component<Props, State> {
     return objectKeys(this.state.positions).map((position) => {
       const popupOptions = this.state.positions[position];
       return (
-        <ul
+        <div
           key={position}
           id={`neo-popup-manager-${position}`}
           style={getContainerStyle(position, this.state.zIndex)}
@@ -204,7 +190,7 @@ export class PopupManager extends React.Component<Props, State> {
               />
             );
           })}
-        </ul>
+        </div>
       );
     });
   }

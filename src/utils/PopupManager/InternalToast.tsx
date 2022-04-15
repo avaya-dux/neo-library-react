@@ -20,7 +20,9 @@ export const InternalToast = ({
   const icon = "icon" in rest ? rest.icon : undefined;
   const [closed, setClosed] = useState(false);
   const hide = () => {
-    id && position && remove(id, position);
+    if (id && position) {
+      remove(id, position);
+    }
     setClosed(true);
   };
   useTimeout(hide, duration);
