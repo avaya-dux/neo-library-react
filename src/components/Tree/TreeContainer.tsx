@@ -19,7 +19,7 @@ import { TreeContext } from "./TreeContext";
 
 import "./Tree_shim.css";
 
-export interface TreeContainerProps
+export interface TreeProps
   extends Omit<
     DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
     "dir"
@@ -82,7 +82,7 @@ export interface TreeContainerProps
  * @see https://design.avayacloud.com/components/web/treeview-web
  * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-tree
  */
-export const TreeContainer: FC<TreeContainerProps> = ({
+export const Tree: FC<TreeProps> = ({
   "aria-describedby": describedby,
   "aria-label": arialabel,
   children,

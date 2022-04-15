@@ -2,11 +2,11 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 
-import { TreeContainer, TreeItem } from "../";
+import { Tree, Leaf } from "../";
 
 describe("TreeItem", () => {
   it("fully renders without exploding", () => {
-    render(<TreeItem>example</TreeItem>);
+    render(<Leaf>example</Leaf>);
 
     const rootElement = screen.getByRole("treeitem");
     expect(rootElement).toBeInTheDocument();
@@ -15,7 +15,7 @@ describe("TreeItem", () => {
   it("passes basic axe compliance", async () => {
     const { container } = render(
       <div role="tree">
-        <TreeItem>example</TreeItem>
+        <Leaf>example</Leaf>
       </div>
     );
     const results = await axe(container);
@@ -24,9 +24,9 @@ describe("TreeItem", () => {
 
   it("adds 'selected' class when treeitem is clicked", () => {
     render(
-      <TreeContainer aria-label="tree label">
-        <TreeItem>example</TreeItem>
-      </TreeContainer>
+      <Tree aria-label="tree label">
+        <Leaf>example</Leaf>
+      </Tree>
     );
 
     const rootElement = screen.getByRole("treeitem");

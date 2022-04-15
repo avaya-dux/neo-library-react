@@ -4,18 +4,18 @@ import { axe } from "jest-axe";
 
 import { Button } from "components/Button";
 
-import { Tree } from ".";
-import { TreeContainer, TreeItem } from "..";
+import { Branch } from ".";
+import { Tree, Leaf } from "..";
 
 describe("Tree", () => {
   it("fully renders without exploding", () => {
     render(
-      <TreeContainer aria-label="tree-root">
-        <Tree title="example">
-          <TreeItem>one</TreeItem>
-          <TreeItem>two</TreeItem>
-        </Tree>
-      </TreeContainer>
+      <Tree aria-label="tree-root">
+        <Branch title="example">
+          <Leaf>one</Leaf>
+          <Leaf>two</Leaf>
+        </Branch>
+      </Tree>
     );
 
     const treeitems = screen.getAllByRole("treeitem");
@@ -27,11 +27,11 @@ describe("Tree", () => {
 
   it("passes basic axe compliance", async () => {
     const { container } = render(
-      <TreeContainer aria-label="tree-root">
-        <Tree title="example">
-          <TreeItem>one</TreeItem>
-        </Tree>
-      </TreeContainer>
+      <Tree aria-label="tree-root">
+        <Branch title="example">
+          <Leaf>one</Leaf>
+        </Branch>
+      </Tree>
     );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
@@ -45,14 +45,14 @@ describe("Tree", () => {
 
     beforeEach(() => {
       const { container: c } = render(
-        <TreeContainer aria-label="testing tree">
-          <Tree
+        <Tree aria-label="testing tree">
+          <Branch
             title={subTreeText}
             actions={<Button key="btn-one">{buttonText}</Button>}
           >
-            <TreeItem>{treeitemText}</TreeItem>
-          </Tree>
-        </TreeContainer>
+            <Leaf>{treeitemText}</Leaf>
+          </Branch>
+        </Tree>
       );
 
       container = c;

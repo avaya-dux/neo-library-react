@@ -7,12 +7,12 @@ import { Icon } from "components/Icon";
 import { IconButton } from "components/IconButton";
 import { Sheet } from "components/Sheet";
 
-import { Tree, TreeContainer, TreeContainerProps, TreeItem } from ".";
+import { Branch, Leaf, Tree, TreeProps } from ".";
 
 export default {
   title: "Components/Tree",
-  component: TreeContainer,
-} as Meta<TreeContainerProps>;
+  component: Tree,
+} as Meta<TreeProps>;
 
 const Divider = () => (
   <div style={{ margin: "2rem 0", borderBottom: "1px solid black" }} />
@@ -23,29 +23,53 @@ export const Default = () => (
     <Sheet title="Trees with and without groupings" style={{ width: 400 }}>
       <Divider />
 
-      <TreeContainer label="Flat tree">
-        <TreeItem>leaf one</TreeItem>
-        <TreeItem>leaf two</TreeItem>
-        <TreeItem>leaf three</TreeItem>
-      </TreeContainer>
+      <Tree label="Flat tree">
+        <Leaf>leaf one</Leaf>
+        <Leaf>leaf two</Leaf>
+        <Leaf>leaf three</Leaf>
+      </Tree>
 
       <Divider />
 
-      <TreeContainer label="Tree with groupings">
-        <Tree title="Sub Tree One (string)">
-          <TreeItem>one</TreeItem>
-        </Tree>
+      <Tree label="Tree with groupings">
+        <Branch title="Sub Tree One (string)">
+          <Leaf>one</Leaf>
+        </Branch>
 
-        <Tree
+        <Branch
           title={
             <div>
               <b>Sub Tree Two</b> (div)
             </div>
           }
         >
-          <TreeItem>one</TreeItem>
-        </Tree>
-      </TreeContainer>
+          <Leaf>one</Leaf>
+        </Branch>
+      </Tree>
+
+      <Divider />
+
+      <Tree label="Tree with nested groupings">
+        <Branch title="Branch One (string)">
+          <Leaf>one</Leaf>
+        </Branch>
+
+        <Branch
+          title={
+            <div>
+              <b>Branch Two</b> (div)
+            </div>
+          }
+        >
+          <Leaf>one</Leaf>
+
+          <Branch title="Branch Three (string)">
+            <Leaf>two</Leaf>
+          </Branch>
+
+          <Leaf>three</Leaf>
+        </Branch>
+      </Tree>
 
       <Divider />
     </Sheet>
@@ -86,15 +110,15 @@ export const Default = () => (
   </section>
 );
 
-const FullTreeExamples = (props: TreeContainerProps) => (
-  <TreeContainer {...props}>
-    <Tree title="Sub Tree One Label">
-      <TreeItem>one</TreeItem>
+const FullTreeExamples = (props: TreeProps) => (
+  <Tree {...props}>
+    <Branch title="Sub Tree One Label">
+      <Leaf>one</Leaf>
       <>two</>
-      <TreeItem>three</TreeItem>
-    </Tree>
+      <Leaf>three</Leaf>
+    </Branch>
 
-    <Tree
+    <Branch
       title="Sub Tree Two Label, has actions"
       actions={[
         <Button
@@ -112,26 +136,26 @@ const FullTreeExamples = (props: TreeContainerProps) => (
         />,
       ]}
     >
-      <TreeItem>four</TreeItem>
-      <TreeItem>five</TreeItem>
-      <TreeItem>six</TreeItem>
-    </Tree>
+      <Leaf>four</Leaf>
+      <Leaf>five</Leaf>
+      <Leaf>six</Leaf>
+    </Branch>
 
-    <Tree title="Sub Tree Three Label">
-      <Tree title="Sub Tree Three, Sub Tree Three-One Label">
-        <TreeItem>seven</TreeItem>
-        <TreeItem>eight</TreeItem>
-        <TreeItem>nine</TreeItem>
-        <Tree title="Sub Tree Three, Sub Tree Three-One, Sub Tree Three-One-One Label">
-          <TreeItem>ten</TreeItem>
-          <TreeItem>eleven</TreeItem>
-          <TreeItem>twelve</TreeItem>
-        </Tree>
-      </Tree>
-      <TreeItem>thirteen</TreeItem>
-      <TreeItem>fourteen</TreeItem>
-    </Tree>
-  </TreeContainer>
+    <Branch title="Sub Tree Three Label">
+      <Branch title="Sub Tree Three, Sub Tree Three-One Label">
+        <Leaf>seven</Leaf>
+        <Leaf>eight</Leaf>
+        <Leaf>nine</Leaf>
+        <Branch title="Sub Tree Three, Sub Tree Three-One, Sub Tree Three-One-One Label">
+          <Leaf>ten</Leaf>
+          <Leaf>eleven</Leaf>
+          <Leaf>twelve</Leaf>
+        </Branch>
+      </Branch>
+      <Leaf>thirteen</Leaf>
+      <Leaf>fourteen</Leaf>
+    </Branch>
+  </Tree>
 );
 
 export const DirectionExamples = () => {
@@ -179,36 +203,36 @@ const MockButton = () => <Button onClick={() => alert("ping")}>mock</Button>;
 export const EmbededActions = () => {
   return (
     <Sheet title="Embedded Actions Sheet">
-      <TreeContainer label="Embedded Actions Tree">
-        <TreeItem>Tree Item, One</TreeItem>
+      <Tree label="Embedded Actions Tree">
+        <Leaf>Tree Item, One</Leaf>
 
-        <Tree title="Sub Tree without actions">
-          <TreeItem>one</TreeItem>
-          <TreeItem>two</TreeItem>
-        </Tree>
+        <Branch title="Sub Tree without actions">
+          <Leaf>one</Leaf>
+          <Leaf>two</Leaf>
+        </Branch>
 
-        <Tree title="Sub Tree with actions" actions={<MockButton />}>
-          <TreeItem actions={<MockButton />} disabled>
+        <Branch title="Sub Tree with actions" actions={<MockButton />}>
+          <Leaf actions={<MockButton />} disabled>
             disabled Tree Item
-          </TreeItem>
+          </Leaf>
 
-          <TreeItem actions={<MockButton />}>not disabled Tree Item</TreeItem>
+          <Leaf actions={<MockButton />}>not disabled Tree Item</Leaf>
 
-          <Tree title="Sub Tree with actions" actions={<MockButton />}>
-            <TreeItem actions={<MockButton />} disabled>
+          <Branch title="Sub Tree with actions" actions={<MockButton />}>
+            <Leaf actions={<MockButton />} disabled>
               disabled Tree Item
-            </TreeItem>
+            </Leaf>
 
-            <TreeItem actions={<MockButton />}>not disabled Tree Item</TreeItem>
-          </Tree>
-        </Tree>
+            <Leaf actions={<MockButton />}>not disabled Tree Item</Leaf>
+          </Branch>
+        </Branch>
 
-        <TreeItem>
+        <Leaf>
           <div>
             Tree Item, <b>Final</b>
           </div>
-        </TreeItem>
-      </TreeContainer>
+        </Leaf>
+      </Tree>
 
       <Divider />
 
@@ -272,22 +296,22 @@ export const TreeItemExamples = () => {
       <Section>
         <Label id="label-one">string contents</Label>
 
-        <TreeContainer aria-describedby="label-one">
-          <TreeItem>node one</TreeItem>
+        <Tree aria-describedby="label-one">
+          <Leaf>node one</Leaf>
 
-          <TreeItem>node two</TreeItem>
-        </TreeContainer>
+          <Leaf>node two</Leaf>
+        </Tree>
       </Section>
 
       <Section>
         <Label id="label-two">contents with action(s)</Label>
 
-        <TreeContainer aria-describedby="label-two">
-          <TreeItem actions={<Button variant="secondary">mock</Button>}>
+        <Tree aria-describedby="label-two">
+          <Leaf actions={<Button variant="secondary">mock</Button>}>
             node one
-          </TreeItem>
+          </Leaf>
 
-          <TreeItem
+          <Leaf
             actions={[
               <Button variant="secondary" key="one">
                 mock
@@ -298,9 +322,9 @@ export const TreeItemExamples = () => {
             ]}
           >
             node two
-          </TreeItem>
+          </Leaf>
 
-          <TreeItem
+          <Leaf
             actions={
               <>
                 <Button variant="secondary">mock</Button>
@@ -309,66 +333,63 @@ export const TreeItemExamples = () => {
             }
           >
             node two
-          </TreeItem>
-        </TreeContainer>
+          </Leaf>
+        </Tree>
       </Section>
 
       <Section>
         <Label id="label-three">complex content examples</Label>
 
-        <TreeContainer aria-describedby="label-three" dir="ltr">
-          <TreeItem>
+        <Tree aria-describedby="label-three" dir="ltr">
+          <Leaf>
             <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
             dir === ltr
-          </TreeItem>
-        </TreeContainer>
+          </Leaf>
+        </Tree>
 
-        <TreeContainer aria-label="file icon, dir='rtl'" dir="rtl">
-          <TreeItem>
+        <Tree aria-label="file icon, dir='rtl'" dir="rtl">
+          <Leaf>
             <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
             dir === rtl
-          </TreeItem>
-        </TreeContainer>
+          </Leaf>
+        </Tree>
 
-        <TreeContainer
-          aria-label="right content with icon and dir='rtl'"
-          dir="rtl"
-        >
-          <TreeItem actions={<Button variant="secondary">mock</Button>}>
+        <Tree aria-label="right content with icon and dir='rtl'" dir="rtl">
+          <Leaf actions={<Button variant="secondary">mock</Button>}>
             <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
             dir === rtl
-          </TreeItem>
-        </TreeContainer>
+          </Leaf>
+        </Tree>
 
-        <TreeContainer
+        <Tree
           aria-label="left and right content with icon and dir='ltr'"
           dir="ltr"
         >
-          <TreeItem actions={<Button variant="secondary">mock</Button>}>
+          <Leaf actions={<Button variant="secondary">mock</Button>}>
             <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
             dir === ltr
-          </TreeItem>
-        </TreeContainer>
+          </Leaf>
+        </Tree>
 
-        <TreeContainer aria-label="checkbox content, dir='ltr'" dir="ltr">
-          <TreeItem>
+        <Tree aria-label="checkbox content, dir='ltr'" dir="ltr">
+          <Leaf>
             <Checkbox aria-labelledby="checkbox-label-one" value="none" />
 
             <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
 
             <span id="checkbox-label-one">dir === ltr</span>
-          </TreeItem>
-        </TreeContainer>
+          </Leaf>
+        </Tree>
 
-        <TreeContainer aria-label="checkbox content, dir='rtl'" dir="rtl">
-          <TreeItem>
+        <Tree aria-label="checkbox content, dir='rtl'" dir="rtl">
+          <Leaf>
             <Checkbox aria-labelledby="checkbox-label-two" value="none" />
 
             <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
 
             <span id="checkbox-label-two">dir === rtl</span>
-          </TreeItem>
-        </TreeContainer>
+          </Leaf>
+        </Tree>
       </Section>
     </Sheet>
   );

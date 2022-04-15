@@ -15,7 +15,7 @@ import { useRovingTabIndex, useFocusEffect } from "react-roving-tabindex";
 
 import { TreeContext } from "../TreeContext";
 
-export interface TreeItemProps
+export interface LeafProps
   extends Omit<
     DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement>,
     "dir"
@@ -32,7 +32,7 @@ export interface TreeItemProps
  * @see https://design.avayacloud.com/components/web/treeview-web
  * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-tree
  */
-export const TreeItem: FC<TreeItemProps> = ({
+export const Leaf: FC<LeafProps> = ({
   actions,
   children,
   className,

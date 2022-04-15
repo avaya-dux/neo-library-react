@@ -18,14 +18,14 @@ import { useFocusEffect, useRovingTabIndex } from "react-roving-tabindex";
 
 import { Keys } from "utils";
 
-import { TreeItemProps } from "..";
+import { LeafProps } from "..";
 import { TreeContext } from "../TreeContext";
 
-export interface TreeProps {
+export interface BranchProps {
   actions?: ReactNode;
   children:
-    | ReactElement<TreeProps | TreeItemProps>
-    | ReactElement<TreeProps | TreeItemProps>[];
+    | ReactElement<BranchProps | LeafProps>
+    | ReactElement<BranchProps | LeafProps>[];
   defaultExpanded?: boolean;
   disabled?: boolean;
   title: ReactNode;
@@ -37,13 +37,13 @@ export interface TreeProps {
  * @see https://design.avayacloud.com/components/web/treeview-web
  * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-tree
  */
-export const Tree = ({
+export const Branch = ({
   actions,
   children,
   defaultExpanded = false,
   disabled = false,
   title,
-}: TreeProps) => {
+}: BranchProps) => {
   const { dir } = useContext(TreeContext);
 
   const ref = useRef(null);
