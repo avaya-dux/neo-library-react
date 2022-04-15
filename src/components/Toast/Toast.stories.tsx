@@ -1,24 +1,11 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { useEffect, useRef } from "react";
-import { IconNames, PopupManager, ToastOptions } from "utils";
-import { Toast } from "./Toast";
-import { toastStoryLogger as logger } from "./ToastStoryLogger";
-const ToastTemplate: Story<ToastOptions> = (props) => {
-  const managerRef = useRef<PopupManager | null>(null);
+import { ToastOptions, usePopup } from "components/PopupManager";
+import { IconNames } from "utils";
+import { Toast, toastLogger as logger } from "./Toast";
+import { Button } from "components/Button";
 
-  useEffect(() => {
-    if (managerRef.current) {
-      managerRef.current.toast(props);
-    }
-    return () => {
-      logger.debug(props.id, "cleaning up ...");
-      if (managerRef.current) {
-        logger.debug("remove all...");
-        managerRef.current.removeAll();
-      }
-    };
-  }, [managerRef]);
-  return <PopupManager ref={managerRef} />;
+const ToastTemplate: Story<ToastOptions> = (props) => {
+  return <Toast {...props} />;
 };
 
 export default {
@@ -32,144 +19,103 @@ export default {
   },
 } as Meta<ToastOptions>;
 
-export const ToastMessageOnly = ToastTemplate.bind({});
-ToastMessageOnly.args = {
-  message: "This is a toast: 5 seconds long, no icon",
-  id: "toastWithoutIcon",
-  position: "bottom-right",
-  duration: 5000,
+export const Default = ToastTemplate.bind({});
+Default.args = {
+  message: "Default toast, positoned top and center, for 5 seconds",
 };
-export const ToastWithIcon = ToastTemplate.bind({});
-ToastWithIcon.args = {
-  message: "This is a toast: 5 seconds long, with an icon.",
-  icon: "error",
-  id: "toastWithIcon",
+export const IconBottomCenter = ToastTemplate.bind({});
+IconBottomCenter.args = {
+  message: "Toast, positoned bottom and center, for 5 seconds",
+  icon: "align-bottom",
+  position: "bottom",
 };
-
-export const DefaultToast = () => {
-  const managerRef = useRef<PopupManager | null>(null);
-
-  useEffect(() => {
-    return () => {
-      logger.debug("Default cleaning up ...");
-      if (managerRef.current) {
-        logger.debug("remove all...");
-        managerRef.current.removeAll();
-      }
-    };
-  }, []);
-  return (
-    <>
-      <PopupManager ref={managerRef} />
-      <Toast
-        managerRef={managerRef}
-        message="Default Toast: positioned top for 5 seconds"
-      ></Toast>
-    </>
-  );
-};
-export const ToastsPositioning = () => {
-  const managerRef = useRef<PopupManager | null>(null);
-  useEffect(() => {
-    return () => {
-      logger.debug("ToastsPositioning cleaning up ...");
-      if (managerRef.current) {
-        logger.debug("remove all...");
-        managerRef.current.removeAll();
-      }
-    };
-  }, []);
+export const InteractiveToasts = () => {
+  const { mounted, toast } = usePopup();
 
   const duration = 5000;
-  return (
-    <>
-      <PopupManager ref={managerRef} />
-      <div
-        style={{
-          display: "flex",
-          height: "calc(100vh - 100px)",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 33%)" }}>
-          <button
-            onClick={() =>
-              managerRef.current &&
-              managerRef.current.toast({
-                message: "Top-left Toast",
-                duration,
-                position: "top-left",
-              })
-            }
-          >
-            Open a Top Left Toast
-          </button>
-          <button
-            onClick={() =>
-              managerRef.current &&
-              managerRef.current.toast({
-                message: "Top Toast",
-                duration,
-                position: "top",
-                icon: "align-top",
-              })
-            }
-          >
-            Open a Top Center Toast
-          </button>
-          <button
-            onClick={() =>
-              managerRef.current &&
-              managerRef.current.toast({
-                message: "Top-right Toast",
-                duration,
-                position: "top-right",
-              })
-            }
-          >
-            Open a Top Right Toast
-          </button>
-          <button
-            onClick={() =>
-              managerRef.current &&
-              managerRef.current.toast({
-                message: "Bottom-left Toast",
-                duration,
-                position: "bottom-left",
-              })
-            }
-          >
-            Open a Bottom Left Toast
-          </button>
-          <button
-            onClick={() =>
-              managerRef.current &&
-              managerRef.current.toast({
-                message: "Bottom Toast",
-                duration,
-                position: "bottom",
-                icon: "align-bottom",
-              })
-            }
-          >
-            Open a Bottom Center Toast
-          </button>
-          <button
-            onClick={() =>
-              managerRef.current &&
-              managerRef.current.toast({
-                message: "Bottom-right Toast",
-                duration,
-                position: "bottom-right",
-              })
-            }
-          >
-            Open a Bottom Right Toast
-          </button>
-        </div>
+  return !mounted ? (
+    <div>not ready</div>
+  ) : (
+    <div
+      style={{
+        display: "flex",
+        height: "calc(100vh - 100px)",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 33%)" }}>
+        <Button
+          onClick={() => {
+            logger.debug(toast);
+            toast({
+              message: "Top-left Toast",
+              duration,
+              position: "top-left",
+            });
+          }}
+        >
+          Open a Top Left Toast
+        </Button>
+        <Button
+          onClick={() =>
+            toast({
+              message: "Top Toast",
+              duration,
+              position: "top",
+              icon: "align-top",
+            })
+          }
+        >
+          Open a Top Center Toast
+        </Button>
+        <Button
+          onClick={() =>
+            toast({
+              message: "Top-right Toast",
+              duration,
+              position: "top-right",
+            })
+          }
+        >
+          Open a Top Right Toast
+        </Button>
+        <Button
+          onClick={() =>
+            toast({
+              message: "Bottom-left Toast",
+              duration,
+              position: "bottom-left",
+            })
+          }
+        >
+          Open a Bottom Left Toast
+        </Button>
+        <Button
+          onClick={() =>
+            toast({
+              message: "Bottom Toast",
+              duration,
+              position: "bottom",
+              icon: "align-bottom",
+            })
+          }
+        >
+          Open a Bottom Center Toast
+        </Button>
+        <Button
+          onClick={() =>
+            toast({
+              message: "Bottom-right Toast",
+              duration,
+              position: "bottom-right",
+            })
+          }
+        >
+          Open a Bottom Right Toast
+        </Button>
       </div>
-    </>
+    </div>
   );
 };

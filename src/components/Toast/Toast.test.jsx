@@ -2,20 +2,21 @@ import { composeStories } from "@storybook/testing-react";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 import * as ToastStories from "./Toast.stories";
-import { toastStoryLogger } from "./ToastStoryLogger";
-import { popupManagerLogger } from "utils";
-toastStoryLogger.disableAll();
+import { popupManagerLogger, popupHookLogger } from "components/PopupManager";
+import { toastLogger } from "./Toast";
 popupManagerLogger.disableAll();
+popupHookLogger.disableAll();
+toastLogger.disableAll();
 
-const { ToastMessageOnly, ToastWithIcon, DefaultToast, ToastsPositioning } =
+const { Default, InteractiveToasts, IconBottomCenter } =
   composeStories(ToastStories);
 
 describe("Toast", () => {
   describe("Storybook", () => {
-    describe(ToastMessageOnly, () => {
+    describe(Default, () => {
       let renderResult;
       beforeEach(() => {
-        renderResult = render(<ToastMessageOnly />);
+        renderResult = render(<Default />);
       });
       it("should render ok", () => {
         const { container } = renderResult;
@@ -28,10 +29,10 @@ describe("Toast", () => {
         expect(results).toHaveNoViolations();
       });
     });
-    describe(ToastsPositioning, () => {
+    describe(InteractiveToasts, () => {
       let renderResult;
       beforeEach(() => {
-        renderResult = render(<ToastsPositioning />);
+        renderResult = render(<InteractiveToasts />);
       });
       it("should render ok", () => {
         const { container } = renderResult;
@@ -44,26 +45,10 @@ describe("Toast", () => {
         expect(results).toHaveNoViolations();
       });
     });
-    describe(ToastWithIcon, () => {
+    describe(IconBottomCenter, () => {
       let renderResult;
       beforeEach(() => {
-        renderResult = render(<ToastWithIcon />);
-      });
-      it("should render ok", () => {
-        const { container } = renderResult;
-        expect(container).toBeDefined();
-      });
-
-      it("passes basic axe compliance", async () => {
-        const { container } = renderResult;
-        const results = await axe(container);
-        expect(results).toHaveNoViolations();
-      });
-    });
-    describe(DefaultToast, () => {
-      let renderResult;
-      beforeEach(() => {
-        renderResult = render(<DefaultToast />);
+        renderResult = render(<IconBottomCenter />);
       });
       it("should render ok", () => {
         const { container } = renderResult;

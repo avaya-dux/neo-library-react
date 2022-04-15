@@ -1,23 +1,13 @@
 import log from "loglevel";
-import { RefObject, useEffect } from "react";
-import { PopupManager, ToastOptions } from "utils";
+import { useEffect } from "react";
+import { ToastOptions, usePopup } from "components/PopupManager";
 const logger = log.getLogger("toast-logger");
 logger.enableAll();
-
-export const Toast = (
-  props: ToastOptions & { managerRef?: RefObject<PopupManager> }
-) => {
-  const { managerRef, ...toastOptions } = props;
+export { logger as toastLogger };
+export const Toast = (props: ToastOptions) => {
+  const { mounted, toast } = usePopup();
   useEffect(() => {
-    const { toast, remove } = managerRef?.current || {};
-    const { id, position } = (toast && toast(toastOptions)) || {};
-    return () => {
-      if (id && position && remove) {
-        logger.debug("unloading toast...", id, position);
-        remove(id, position);
-      }
-    };
-  }, [managerRef?.current]);
-
+    mounted && toast(props);
+  }, [mounted, toast, props]);
   return null;
 };

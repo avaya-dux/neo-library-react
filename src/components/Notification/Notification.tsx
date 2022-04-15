@@ -11,6 +11,7 @@ import { ButtonAction, ClosableAction, CounterAction } from "./Actions";
 import { NotificationProps } from "./NotificationTypes";
 const logger = log.getLogger("notification-logger");
 logger.disableAll();
+export { logger as notificationLogger };
 export const Notification = ({
   type,
   action,

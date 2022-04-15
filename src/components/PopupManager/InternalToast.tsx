@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import log from "loglevel";
-import { useState } from "react";
 import { IconNamesType } from "utils/icons";
 import { useTimeout } from "utils/useTimeout";
 import { PopupId, PopupPosition, ToastOptions } from "./PopupTypes";

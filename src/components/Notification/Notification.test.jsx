@@ -5,10 +5,9 @@ import { axe } from "jest-axe";
 import * as EventStories from "./EventNotification.stories";
 import * as NonEventStories from "./NonEventNotification.stories";
 import * as ToggleEventStories from "./ToggleNotification.stories";
-import { createAction } from "./Notification";
-import { notificationStoryLogger } from "./NotificationStoryLogger";
-import { popupManagerLogger } from "utils";
-notificationStoryLogger.disableAll();
+import { createAction, notificationLogger } from "./Notification";
+import { popupManagerLogger } from "components/PopupManager";
+notificationLogger.disableAll();
 popupManagerLogger.disableAll();
 
 const {
@@ -22,14 +21,8 @@ const {
 } = composeStories(NonEventStories);
 
 const { AlertShow, AlertShowContainer } = composeStories(ToggleEventStories);
-const {
-  Event,
-  EventCloseAlert,
-  EventButtons,
-  EventCounter,
-  PopClosableEvent,
-  PopCounterEvent,
-} = composeStories(EventStories);
+const { Event, EventCloseAlert, EventButtons, EventCounter } =
+  composeStories(EventStories);
 
 describe("Notification", () => {
   describe("Storybook stories", () => {
@@ -275,38 +268,6 @@ describe("Notification", () => {
         expect(container).toBeDefined();
         const alertRole = screen.getByRole("alert");
         expect(alertRole).toHaveClass("neo-notification--event");
-      });
-
-      it("passes basic axe compliance", async () => {
-        const { container } = renderResult;
-        const results = await axe(container);
-        expect(results).toHaveNoViolations();
-      });
-    });
-    describe("PopCounterEvent", () => {
-      let renderResult;
-      beforeEach(() => {
-        renderResult = render(<PopCounterEvent />);
-      });
-      it("should render ok", () => {
-        const { container } = renderResult;
-        expect(container).toBeDefined();
-      });
-
-      it("passes basic axe compliance", async () => {
-        const { container } = renderResult;
-        const results = await axe(container);
-        expect(results).toHaveNoViolations();
-      });
-    });
-    describe("PopClosableEvent", () => {
-      let renderResult;
-      beforeEach(() => {
-        renderResult = render(<PopClosableEvent />);
-      });
-      it("should render ok", () => {
-        const { container } = renderResult;
-        expect(container).toBeDefined();
       });
 
       it("passes basic axe compliance", async () => {
