@@ -32,14 +32,14 @@ export const Default = () => (
       <Divider />
 
       <Tree label="Tree with groupings">
-        <Branch title="Sub Tree One (string)">
+        <Branch title="Branch One (string)">
           <Leaf>one</Leaf>
         </Branch>
 
         <Branch
           title={
             <div>
-              <b>Sub Tree Two</b> (div)
+              <b>Branch Two</b> (div)
             </div>
           }
         >
@@ -87,22 +87,22 @@ export const Default = () => (
       <p>
         The <code>Tree</code> component takes a <code>label</code> (or{" "}
         <code>aria-label</code>) prop, and children. The children can be{" "}
-        <code>TreeItem</code> components or <code>SubTree</code> components.
+        <code>Leaf</code> components or <code>Branch</code> components.
       </p>
 
       <Divider />
 
       <p>
-        A <code>TreeItem</code> component takes <code>children</code> and an
+        A <code>Leaf</code> component takes <code>children</code> and an
         optional <code>actions</code> prop.
       </p>
 
       <Divider />
 
       <p>
-        A <code>SubTree</code> component takes <code>children</code>,{" "}
-        <code>edges</code> (which can be <code>TreeItem</code> or{" "}
-        <code>SubTree</code>) and an optional <code>actions</code> prop.
+        A <code>Branch</code> component takes <code>children</code>,{" "}
+        <code>edges</code> (which can be <code>Leaf</code> or{" "}
+        <code>Branch</code>) and an optional <code>actions</code> prop.
       </p>
 
       <Divider />
@@ -112,18 +112,18 @@ export const Default = () => (
 
 const FullTreeExamples = (props: TreeProps) => (
   <Tree {...props}>
-    <Branch title="Sub Tree One Label">
+    <Branch title="Branch One Label">
       <Leaf>one</Leaf>
-      <>two</>
+      <Leaf>two</Leaf>
       <Leaf>three</Leaf>
     </Branch>
 
     <Branch
-      title="Sub Tree Two Label, has actions"
+      title="Branch Two Label, has actions"
       actions={[
         <Button
           key="sub-tree-two-button-one"
-          onClick={() => alert("sub tree two, button one clicked")}
+          onClick={() => alert("Branch two, button one clicked")}
         >
           button one
         </Button>,
@@ -131,7 +131,7 @@ const FullTreeExamples = (props: TreeProps) => (
           aria-label="click here for more options"
           icon="more"
           key="sub-tree-two-button-two"
-          onClick={() => alert("sub tree two, button two clicked")}
+          onClick={() => alert("Branch two, button two clicked")}
           variant="tertiary"
         />,
       ]}
@@ -141,12 +141,12 @@ const FullTreeExamples = (props: TreeProps) => (
       <Leaf>six</Leaf>
     </Branch>
 
-    <Branch title="Sub Tree Three Label">
-      <Branch title="Sub Tree Three, Sub Tree Three-One Label">
+    <Branch title="Branch Three Label">
+      <Branch title="Branch Three, Branch Three-One Label">
         <Leaf>seven</Leaf>
         <Leaf>eight</Leaf>
         <Leaf>nine</Leaf>
-        <Branch title="Sub Tree Three, Sub Tree Three-One, Sub Tree Three-One-One Label">
+        <Branch title="Branch Three, Branch Three-One, Branch Three-One-One Label">
           <Leaf>ten</Leaf>
           <Leaf>eleven</Leaf>
           <Leaf>twelve</Leaf>
@@ -204,32 +204,36 @@ export const EmbededActions = () => {
   return (
     <Sheet title="Embedded Actions Sheet">
       <Tree label="Embedded Actions Tree">
-        <Leaf>Tree Item, One</Leaf>
+        <Leaf>
+          <div>
+            Leaf <b>One</b>
+          </div>
+        </Leaf>
 
-        <Branch title="Sub Tree without actions">
+        <Branch title="Branch without actions">
           <Leaf>one</Leaf>
           <Leaf>two</Leaf>
         </Branch>
 
-        <Branch title="Sub Tree with actions" actions={<MockButton />}>
+        <Branch title="Branch with actions" actions={<MockButton />}>
           <Leaf actions={<MockButton />} disabled>
-            disabled Tree Item
+            disabled Leaf
           </Leaf>
 
-          <Leaf actions={<MockButton />}>not disabled Tree Item</Leaf>
+          <Leaf actions={<MockButton />}>not disabled Leaf</Leaf>
 
-          <Branch title="Sub Tree with actions" actions={<MockButton />}>
+          <Branch title="Branch with actions" actions={<MockButton />}>
             <Leaf actions={<MockButton />} disabled>
-              disabled Tree Item
+              disabled Leaf
             </Leaf>
 
-            <Leaf actions={<MockButton />}>not disabled Tree Item</Leaf>
+            <Leaf actions={<MockButton />}>not disabled Leaf</Leaf>
           </Branch>
         </Branch>
 
         <Leaf>
           <div>
-            Tree Item, <b>Final</b>
+            Leaf <b>Final</b>
           </div>
         </Leaf>
       </Tree>
@@ -290,16 +294,16 @@ const Section: FC = ({ children }) => (
   </div>
 );
 
-export const TreeItemExamples = () => {
+export const LeafContentExamples = () => {
   return (
-    <Sheet title="Native Tree Item Example" style={{ width: 400 }}>
+    <Sheet title="Leaf Content Examples" style={{ width: 400 }}>
       <Section>
         <Label id="label-one">string contents</Label>
 
         <Tree aria-describedby="label-one">
-          <Leaf>node one</Leaf>
+          <Leaf>leaf one</Leaf>
 
-          <Leaf>node two</Leaf>
+          <Leaf>leaf two</Leaf>
         </Tree>
       </Section>
 
@@ -308,7 +312,7 @@ export const TreeItemExamples = () => {
 
         <Tree aria-describedby="label-two">
           <Leaf actions={<Button variant="secondary">mock</Button>}>
-            node one
+            leaf one
           </Leaf>
 
           <Leaf
@@ -321,7 +325,7 @@ export const TreeItemExamples = () => {
               </Button>,
             ]}
           >
-            node two
+            leaf two
           </Leaf>
 
           <Leaf
@@ -332,7 +336,7 @@ export const TreeItemExamples = () => {
               </>
             }
           >
-            node two
+            leaf three
           </Leaf>
         </Tree>
       </Section>
