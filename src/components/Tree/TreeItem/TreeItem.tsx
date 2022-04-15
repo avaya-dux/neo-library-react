@@ -26,8 +26,8 @@ export interface TreeItemProps
 }
 
 /**
- * A `TreeItem` can be a child of a `TreeContainer` or a `Tree` component.
- * It is meant to be a leaf node in the tree hierarchy.
+ * A `Leaf` can be a child of a `Tree` or a `Branch` component.
+ * It is meant to be a leaf/end node in the tree hierarchy.
  *
  * @see https://design.avayacloud.com/components/web/treeview-web
  * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-tree

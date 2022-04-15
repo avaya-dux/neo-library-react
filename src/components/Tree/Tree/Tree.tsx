@@ -32,7 +32,7 @@ export interface TreeProps {
 }
 
 /**
- * A `Tree` can be a child of a `TreeContainer` or a `Tree` component.
+ * A `Branch` can be a child of a `Tree` or itself.
  *
  * @see https://design.avayacloud.com/components/web/treeview-web
  * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-tree

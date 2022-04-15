@@ -29,32 +29,55 @@ export interface TreeContainerProps
 }
 
 /**
- * A `TreeContainer` wraps one or multiple `Tree` and/or `TreeItem` components.
+ * A `Tree` wraps one or multiple `Branch` and/or `Leaf` components.
  * It provides labeling, tab indexing, and keyboard navigation by default.
  *
  * @example
-  <TreeContainer label="Flat tree">
-    <TreeItem>leaf one</TreeItem>
-    <TreeItem>leaf two</TreeItem>
-    <TreeItem>leaf three</TreeItem>
-  </TreeContainer>
+  <Tree label="Flat tree">
+    <Leaf>leaf one</Leaf>
+    <Leaf>leaf two</Leaf>
+    <Leaf>leaf three</Leaf>
+  </Tree>
  *
  * @example
-  <TreeContainer label="Tree with groupings">
-    <Tree title="Sub Tree One (string)">
-      <TreeItem>one</TreeItem>
-    </Tree>
+  <Tree label="Tree with groupings">
+    <Branch title="Branch One (string)">
+      <Leaf>one</Leaf>
+    </Branch>
 
-    <Tree
+    <Branch
       title={
         <div>
-          <b>Sub Tree Two</b> (div)
+          <b>Branch Two</b> (div)
         </div>
       }
     >
-      <TreeItem>one</TreeItem>
-    </Tree>
-  </TreeContainer>
+      <Leaf>one</Leaf>
+    </Branch>
+  </Tree>
+ *
+ * @example
+  <Tree label="Tree with groupings and nested groupings">
+    <Branch title="Branch One (string)">
+      <Leaf>one</Leaf>
+    </Branch>
+
+    <Branch
+      title={
+        <div>
+          <b>Branch Two</b> (div)
+        </div>
+      }
+    >
+      <Leaf>one</Leaf>
+
+      <Branch title="Branch Three (string)">
+        <Leaf>two</Leaf>
+      </Branch>
+
+      <Leaf>three</Leaf>
+    </Branch>
+  </Tree>
  *
  * @see https://design.avayacloud.com/components/web/treeview-web
  * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-tree
