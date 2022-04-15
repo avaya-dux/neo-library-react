@@ -18,16 +18,14 @@ export const InternalToast = ({
 }) => {
   logger.debug("message is ", message);
   const icon = "icon" in rest ? rest.icon : undefined;
-  const [closed, setClosed] = useState(false);
   const hide = () => {
     if (id && position) {
       remove(id, position);
     }
-    setClosed(true);
   };
   useTimeout(hide, duration);
 
-  return closed ? null : <BasicToast {...{ message, icon }} />;
+  return <BasicToast {...{ message, icon }} />;
 };
 const BasicToast = ({
   message,

@@ -57,7 +57,7 @@ export const DefaultToast = () => {
         managerRef.current.removeAll();
       }
     };
-  }, [managerRef]);
+  }, []);
   return (
     <>
       <PopupManager ref={managerRef} />
@@ -78,7 +78,7 @@ export const ToastsPositioning = () => {
         managerRef.current.removeAll();
       }
     };
-  }, [managerRef]);
+  }, []);
 
   const duration = 5000;
   return (
