@@ -16,10 +16,7 @@ import { useFocusEffect, useRovingTabIndex } from "react-roving-tabindex";
 import { TreeContext } from "../TreeContext";
 
 export interface LeafProps
-  extends Omit<
-    DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement>,
-    "dir"
-  > {
+  extends DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> {
   actions?: ReactNode;
   children: ReactNode;
   disabled?: boolean;

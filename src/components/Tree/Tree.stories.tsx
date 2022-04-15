@@ -198,7 +198,11 @@ export const DirectionExamples = () => {
   );
 };
 
-const MockButton = () => <Button onClick={() => alert("ping")}>mock</Button>;
+const MockButton = () => (
+  <Button onClick={() => alert("ping")} variant="secondary">
+    mock
+  </Button>
+);
 
 export const EmbededActions = () => {
   return (
@@ -311,18 +315,12 @@ export const LeafContentExamples = () => {
         <Label id="label-two">contents with action(s)</Label>
 
         <Tree aria-describedby="label-two">
-          <Leaf actions={<Button variant="secondary">mock</Button>}>
-            leaf one
-          </Leaf>
+          <Leaf actions={<MockButton />}>leaf one</Leaf>
 
           <Leaf
             actions={[
-              <Button variant="secondary" key="one">
-                mock
-              </Button>,
-              <Button variant="secondary" key="two">
-                mock
-              </Button>,
+              <MockButton key="btn-one" />,
+              <MockButton key="btn-two" />,
             ]}
           >
             leaf two
@@ -331,8 +329,8 @@ export const LeafContentExamples = () => {
           <Leaf
             actions={
               <>
-                <Button variant="secondary">mock</Button>
-                <Button variant="secondary">mock</Button>
+                <MockButton />
+                <MockButton />
               </>
             }
           >
@@ -349,33 +347,22 @@ export const LeafContentExamples = () => {
             <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
             dir === ltr
           </Leaf>
-        </Tree>
 
-        <Tree aria-label="file icon, dir='rtl'" dir="rtl">
-          <Leaf>
+          <Leaf dir="rtl">
             <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
             dir === rtl
           </Leaf>
-        </Tree>
 
-        <Tree aria-label="right content with icon and dir='rtl'" dir="rtl">
-          <Leaf actions={<Button variant="secondary">mock</Button>}>
+          <Leaf actions={<MockButton />} dir="rtl">
             <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
             dir === rtl
           </Leaf>
-        </Tree>
 
-        <Tree
-          aria-label="left and right content with icon and dir='ltr'"
-          dir="ltr"
-        >
-          <Leaf actions={<Button variant="secondary">mock</Button>}>
+          <Leaf actions={<MockButton />} dir="ltr">
             <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
             dir === ltr
           </Leaf>
-        </Tree>
 
-        <Tree aria-label="checkbox content, dir='ltr'" dir="ltr">
           <Leaf>
             <Checkbox aria-labelledby="checkbox-label-one" value="none" />
 
@@ -383,10 +370,8 @@ export const LeafContentExamples = () => {
 
             <span id="checkbox-label-one">dir === ltr</span>
           </Leaf>
-        </Tree>
 
-        <Tree aria-label="checkbox content, dir='rtl'" dir="rtl">
-          <Leaf>
+          <Leaf dir="rtl">
             <Checkbox aria-labelledby="checkbox-label-two" value="none" />
 
             <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
