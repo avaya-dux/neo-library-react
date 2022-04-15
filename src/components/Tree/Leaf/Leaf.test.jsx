@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 
-import { Tree, Leaf } from "../";
+import { Leaf, Tree } from "..";
 
 describe("TreeItem", () => {
   it("fully renders without exploding", () => {

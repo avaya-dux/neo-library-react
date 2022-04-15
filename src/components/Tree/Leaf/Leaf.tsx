@@ -11,7 +11,7 @@ import {
   useContext,
   useRef,
 } from "react";
-import { useRovingTabIndex, useFocusEffect } from "react-roving-tabindex";
+import { useFocusEffect, useRovingTabIndex } from "react-roving-tabindex";
 
 import { TreeContext } from "../TreeContext";
 

@@ -5,7 +5,7 @@ import { axe } from "jest-axe";
 import { Button } from "components/Button";
 
 import { Branch } from ".";
-import { Tree, Leaf } from "..";
+import { Leaf, Tree } from "..";
 
 describe("Tree", () => {
   it("fully renders without exploding", () => {
