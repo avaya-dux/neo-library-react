@@ -74,7 +74,7 @@ describe("Button", () => {
     render(
       <IconButton aria-label="description test" shape="square" size="wide" />
     );
-    const linkElement = screen.getByRole("button");
-    expect(linkElement).toHaveClass("neo-btn-wide");
+    const rootElement = screen.getByRole("button");
+    expect(rootElement).toHaveClass("neo-btn-wide");
   });
 });
