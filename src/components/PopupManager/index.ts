@@ -9,5 +9,5 @@ export { PopupManager, popupManagerLogger } from "./PopupManager";
 export {
   useGlobalPopup as usePopup,
   globalPopupHookLogger as popupHookLogger,
-  removeContainer,
+  removePopupManagerContainer,
 } from "./GlobalPopupHook";

@@ -51,7 +51,7 @@ export const createDivWithId = (id: string) => {
   document.body.appendChild(container);
   return container;
 };
-export const removeContainer = () => {
+export const removePopupManagerContainer = () => {
   logger.debug("global popup hook: removing container");
   const container = document.getElementById(containerId);
   if (container) {

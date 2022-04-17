@@ -2,7 +2,7 @@ import { Meta, Story } from "@storybook/react/types-6-0";
 import {
   ToastOptions,
   usePopup,
-  removeContainer,
+  removePopupManagerContainer,
 } from "components/PopupManager";
 import { IconNames } from "utils";
 import { Toast, toastLogger as logger } from "./Toast";
@@ -13,9 +13,9 @@ const ToastTemplate: Story<ToastOptions> = (props) => {
   useEffect(() => {
     return () => {
       logger.debug("remove container");
-      removeContainer();
+      removePopupManagerContainer();
     };
-  }, [removeContainer]);
+  }, [removePopupManagerContainer]);
   return <Toast {...props} />;
 };
 
@@ -44,9 +44,9 @@ IconBottomCenter.args = {
 export const TwoToasts = () => {
   useEffect(() => {
     return () => {
-      removeContainer();
+      removePopupManagerContainer();
     };
-  }, [removeContainer]);
+  }, [removePopupManagerContainer]);
   return (
     <div>
       <Toast message="Toast 1"></Toast>
@@ -58,9 +58,9 @@ export const InteractiveToasts = () => {
   const { mounted, toast } = usePopup("interactive-toast");
   useEffect(() => {
     return () => {
-      removeContainer();
+      removePopupManagerContainer();
     };
-  }, [removeContainer]);
+  }, [removePopupManagerContainer]);
   const duration = 5000;
   return !mounted ? (
     <div>not ready</div>
