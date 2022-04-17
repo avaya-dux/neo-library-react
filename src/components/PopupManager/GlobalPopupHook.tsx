@@ -30,7 +30,7 @@ export const createContainer = (callback: () => void) => {
         clearInterval(intervalId);
         callback();
       }
-    }, 2000);
+    }, 100);
     return;
   }
   container = createDivWithId(containerId);
