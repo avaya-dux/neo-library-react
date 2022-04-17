@@ -1,10 +1,21 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { ToastOptions, usePopup } from "components/PopupManager";
+import {
+  ToastOptions,
+  usePopup,
+  removeContainer,
+} from "components/PopupManager";
 import { IconNames } from "utils";
 import { Toast, toastLogger as logger } from "./Toast";
 import { Button } from "components/Button";
+import { useEffect } from "react";
 
 const ToastTemplate: Story<ToastOptions> = (props) => {
+  useEffect(() => {
+    return () => {
+      logger.debug("remove container");
+      removeContainer();
+    };
+  }, [removeContainer]);
   return <Toast {...props} />;
 };
 
@@ -29,9 +40,27 @@ IconBottomCenter.args = {
   icon: "align-bottom",
   position: "bottom",
 };
-export const InteractiveToasts = () => {
-  const { mounted, toast } = usePopup();
 
+export const TwoToasts = () => {
+  useEffect(() => {
+    return () => {
+      removeContainer();
+    };
+  }, [removeContainer]);
+  return (
+    <div>
+      <Toast message="Toast 1"></Toast>
+      <Toast message="Toast 2"></Toast>
+    </div>
+  );
+};
+export const InteractiveToasts = () => {
+  const { mounted, toast } = usePopup("interactive-toast");
+  useEffect(() => {
+    return () => {
+      removeContainer();
+    };
+  }, [removeContainer]);
   const duration = 5000;
   return !mounted ? (
     <div>not ready</div>
@@ -48,7 +77,6 @@ export const InteractiveToasts = () => {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 33%)" }}>
         <Button
           onClick={() => {
-            logger.debug(toast);
             toast({
               message: "Top-left Toast",
               duration,

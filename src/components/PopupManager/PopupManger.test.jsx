@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import { notificationLogger } from "components/Notification";
 import { toastLogger } from "components/Toast";
 import { axe } from "jest-axe";
-import { popupHookLogger, popupManagerLogger } from ".";
+import { popupManagerLogger, popupHookLogger } from ".";
 import * as NotificationStories from "./PopupManager.notification.stories";
 import * as ToastStories from "./PopupManager.toast.stories";
 popupManagerLogger.disableAll();
@@ -107,6 +107,7 @@ describe("PopupManager", () => {
       it("should render ok", () => {
         const { container } = renderResult;
         expect(container).toBeDefined();
+        document.getElementById("neo-popup-manager-bottom-right");
       });
 
       it("passes basic axe compliance", async () => {

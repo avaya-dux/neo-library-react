@@ -6,4 +6,8 @@ export type {
   PopupPosition,
 } from "./PopupTypes";
 export { PopupManager, popupManagerLogger } from "./PopupManager";
-export { usePopup, popupHookLogger } from "./PopupHook";
+export {
+  useGlobalPopup as usePopup,
+  globalPopupHookLogger as popupHookLogger,
+  removeContainer,
+} from "./GlobalPopupHook";

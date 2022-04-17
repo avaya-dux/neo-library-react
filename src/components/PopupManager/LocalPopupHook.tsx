@@ -2,10 +2,12 @@ import { useRef, useEffect, useMemo, useState } from "react";
 import ReactDOM from "react-dom";
 import { PopupManager, ToastOptions } from ".";
 import log from "loglevel";
-const logger = log.getLogger("popup-hook-logger");
+const logger = log.getLogger("local-popup-hook-logger");
 logger.enableAll();
-export { logger as popupHookLogger };
-export const usePopup = () => {
+export { logger as localPopupHookLogger };
+// works in all but one case: user creates more than one <toast> without calling this hook explicitly.
+// it does not work as the instance is not shared.
+export const useLocalPopup = () => {
   const container = useMemo(() => document.createElement("div"), []);
   const managerRef = useRef<PopupManager | null>(null);
   const [mounted, setMounted] = useState(false);

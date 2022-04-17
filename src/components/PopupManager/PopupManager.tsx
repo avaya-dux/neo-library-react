@@ -62,12 +62,12 @@ export class PopupManager extends React.Component<Props, State> {
     });
   };
 
-  private addPopup = (position: PopupPosition, notification: PopupOptions) => {
+  private addPopup = (position: PopupPosition, popupOptions: PopupOptions) => {
     this.setState((prevPopups) => {
       const isTop = position.includes("top");
       const popups = isTop
-        ? [notification, ...prevPopups.positions[position]]
-        : [...prevPopups.positions[position], notification];
+        ? [popupOptions, ...prevPopups.positions[position]]
+        : [...prevPopups.positions[position], popupOptions];
 
       const ret = {
         zIndex: prevPopups.zIndex,
@@ -77,7 +77,7 @@ export class PopupManager extends React.Component<Props, State> {
         },
       };
 
-      logger.debug(`notify: state after update at ${position} is `, ret);
+      logger.debug(`addPopup: state after update at ${position} is `, ret);
       return ret;
     });
   };
@@ -124,7 +124,7 @@ export class PopupManager extends React.Component<Props, State> {
 
   remove = (id: PopupId, position: PopupPosition) => {
     logger.debug(`removing popup, ${id}, at position, ${position}`);
-    logger.debug("state before removing", this.state[position]);
+    logger.debug("state before removing", this.state.positions[position]);
     this.setState((prevPopups) => {
       const filtered = prevPopups.positions[position].filter(
         // id may be string or number
@@ -138,10 +138,10 @@ export class PopupManager extends React.Component<Props, State> {
           [position]: filtered,
         },
       };
+      logger.debug("state after removing", ret.positions[position]);
 
       return ret;
     });
-    logger.debug("state after removing", this.state[position]);
   };
 
   /**
@@ -168,7 +168,7 @@ export class PopupManager extends React.Component<Props, State> {
       const popupOptions = this.state.positions[position];
       return (
         <div
-          key={position}
+          key={`neo-popup-manager-${position}`}
           id={`neo-popup-manager-${position}`}
           style={getContainerStyle(position, this.state.zIndex)}
         >

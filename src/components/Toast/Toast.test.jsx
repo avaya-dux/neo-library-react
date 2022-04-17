@@ -8,28 +8,29 @@ popupManagerLogger.disableAll();
 popupHookLogger.disableAll();
 toastLogger.disableAll();
 
-const { Default, InteractiveToasts, IconBottomCenter } =
+const { Default, InteractiveToasts, IconBottomCenter, TwoToasts } =
   composeStories(ToastStories);
+jest.useFakeTimers();
 
 describe("Toast", () => {
   describe("Storybook", () => {
-    describe(Default, () => {
+    describe("Default", () => {
       let renderResult;
       beforeEach(() => {
-        renderResult = render(<Default />);
+        renderResult = render(<Default duration={100} />);
       });
       it("should render ok", () => {
         const { container } = renderResult;
         expect(container).toBeDefined();
       });
-
       it("passes basic axe compliance", async () => {
+        jest.useRealTimers();
         const { container } = renderResult;
         const results = await axe(container);
         expect(results).toHaveNoViolations();
       });
     });
-    describe(InteractiveToasts, () => {
+    describe("InteractiveToasts", () => {
       let renderResult;
       beforeEach(() => {
         renderResult = render(<InteractiveToasts />);
@@ -45,10 +46,26 @@ describe("Toast", () => {
         expect(results).toHaveNoViolations();
       });
     });
-    describe(IconBottomCenter, () => {
+    describe("IconBottomCenter", () => {
       let renderResult;
       beforeEach(() => {
         renderResult = render(<IconBottomCenter />);
+      });
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).toBeDefined();
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+    describe("TwoToasts", () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<TwoToasts />);
       });
       it("should render ok", () => {
         const { container } = renderResult;

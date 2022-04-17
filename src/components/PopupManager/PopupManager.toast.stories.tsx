@@ -3,6 +3,7 @@ import { Toast } from "components/Toast";
 import { useEffect, useRef } from "react";
 import { IconNames } from "utils";
 import { PopupManager, ToastOptions } from ".";
+import { removeContainer } from "./";
 import { popupManagerLogger as logger } from "./PopupManager";
 
 const ToastTemplate: Story<ToastOptions> = (props) => {
@@ -49,6 +50,12 @@ ToastWithIcon.args = {
 };
 
 export const DefaultToast = () => {
+  useEffect(() => {
+    return () => {
+      removeContainer();
+    };
+  }, []);
+
   return (
     <Toast message="Default Toast: positioned at top and center for 5 seconds"></Toast>
   );
