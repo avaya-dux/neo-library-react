@@ -8,9 +8,9 @@ import {
   ToastOptions,
   NotificationOptions,
 } from "./PopupTypes";
-const logger = log.getLogger("global-popup-hook-logger");
+const logger = log.getLogger("popup-hook-logger");
 logger.enableAll();
-export { logger as globalPopupHookLogger };
+export { logger as popupHookLogger };
 const managerRef = createRef<PopupManager>();
 export const containerId = "global-hook-neo-popup-manager-container";
 
@@ -91,8 +91,8 @@ const removeInit: PopupManager["remove"] = (
 const removeAllInit: PopupManager["removeAll"] = () => {
   logger.error("You called 'removeAll', before popup manager is ready");
 };
-export const useGlobalPopup = (traceId?: string) => {
-  logger.debug("enter useGlobalPopup", traceId);
+export const usePopup = (traceId?: string) => {
+  logger.debug("enter usePopup", traceId);
   const [mounted, setMounted] = useState(false);
   const [toast, settoast] = useState<PopupManager["toast"]>(() => toastInit);
   const [notify, setnotify] = useState<PopupManager["notify"]>(

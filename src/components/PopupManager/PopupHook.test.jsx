@@ -1,17 +1,17 @@
 import {
   createContainer,
   createDivWithId,
-  useGlobalPopup,
+  usePopup,
   containerId,
-  globalPopupHookLogger,
-} from "./GlobalPopupHook";
+  popupHookLogger,
+} from "./PopupHook";
 import { popupManagerLogger } from "./PopupManager";
 import { renderHook } from "@testing-library/react-hooks";
 popupManagerLogger.disableAll();
-globalPopupHookLogger.disableAll();
-jest.useFakeTimers();
+popupHookLogger.disableAll();
 describe(createContainer, () => {
   it("loads ok", () => {
+    jest.useFakeTimers();
     const callback = jest.fn();
     createContainer(callback);
     expect(callback).toBeCalledTimes(1);
@@ -28,12 +28,10 @@ describe(createDivWithId, () => {
     expect(document.getElementById(id)).toBeTruthy();
   });
 });
-describe(useGlobalPopup, () => {
+describe(usePopup, () => {
   it("mounted ok", async () => {
     expect(document.getElementById(containerId)).toBeDefined();
-    const { result } = renderHook(() => useGlobalPopup());
-    // jest.runAllTimers();
-
+    const { result } = renderHook(() => usePopup());
     expect(result.current.mounted).toBeTruthy();
   });
 });
