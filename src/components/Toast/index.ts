@@ -1,1 +1,1 @@
-export { Toast, toastLogger } from "./Toast";
+export * from "./Toast";

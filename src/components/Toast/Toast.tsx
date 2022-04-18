@@ -1,17 +1,28 @@
 import log from "loglevel";
-import { useEffect, useRef } from "react";
+import { FC, useEffect, useMemo, useRef } from "react";
 import { ToastOptions, usePopup } from "components/PopupManager";
 const logger = log.getLogger("toast-logger");
 logger.enableAll();
 export { logger as toastLogger };
-export const Toast = (props: ToastOptions) => {
-  const { mounted, toast, remove } = usePopup(props.message);
+export interface ToastProps extends Omit<ToastOptions, "message"> {
+  children: string;
+}
+export const Toast: FC<ToastProps> = (props) => {
+  const options: ToastOptions = useMemo(() => {
+    return {
+      message: props.children,
+      icon: props.icon,
+      duration: props.duration,
+    };
+  }, [props]);
+
+  const { mounted, toast, remove } = usePopup(options.message);
   const toastRef = useRef<ReturnType<typeof toast>>();
 
   useEffect(() => {
     if (mounted) {
       logger.debug("creating toast");
-      toastRef.current = toast(props);
+      toastRef.current = toast(options);
     }
     return () => {
       if (toastRef.current) {
@@ -19,6 +30,6 @@ export const Toast = (props: ToastOptions) => {
         remove(toastRef.current.id, toastRef.current.position);
       }
     };
-  }, [mounted, props]);
+  }, [mounted, options]);
   return null;
 };

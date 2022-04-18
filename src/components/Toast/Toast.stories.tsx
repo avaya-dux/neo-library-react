@@ -5,11 +5,11 @@ import {
   removePopupManagerContainer,
 } from "components/PopupManager";
 import { IconNames } from "utils";
-import { Toast, toastLogger as logger } from "./Toast";
+import { Toast, toastLogger as logger, ToastProps } from "./Toast";
 import { Button } from "components/Button";
 import { useEffect } from "react";
 
-const ToastTemplate: Story<ToastOptions> = (props) => {
+const ToastTemplate: Story<ToastProps> = (props) => {
   useEffect(() => {
     return () => {
       logger.debug("remove container");
@@ -49,8 +49,8 @@ export const TwoToasts = () => {
   }, [removePopupManagerContainer]);
   return (
     <div>
-      <Toast message="Toast 1"></Toast>
-      <Toast message="Toast 2"></Toast>
+      <Toast>Toast 1</Toast>
+      <Toast>Toast 2</Toast>
     </div>
   );
 };

@@ -6,7 +6,7 @@ import { PopupManager, ToastOptions } from ".";
 import { removePopupManagerContainer } from "./";
 import { popupManagerLogger as logger } from "./PopupManager";
 
-const ToastTemplate: Story<ToastOptions> = (props) => {
+const PopupManagerToastTemplate: Story<ToastOptions> = (props) => {
   const managerRef = useRef<PopupManager | null>(null);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const ToastTemplate: Story<ToastOptions> = (props) => {
 
 export default {
   title: "Components/PopupManager/Toast",
-  component: ToastTemplate,
+  component: PopupManagerToastTemplate,
   argTypes: {
     icon: {
       options: IconNames,
@@ -35,14 +35,14 @@ export default {
   },
 } as Meta<ToastOptions>;
 
-export const ToastMessageOnly = ToastTemplate.bind({});
+export const ToastMessageOnly = PopupManagerToastTemplate.bind({});
 ToastMessageOnly.args = {
   message: "This is a toast: 5 seconds long, no icon",
   id: "toastWithoutIcon",
   position: "bottom-right",
   duration: 5000,
 };
-export const ToastWithIcon = ToastTemplate.bind({});
+export const ToastWithIcon = PopupManagerToastTemplate.bind({});
 ToastWithIcon.args = {
   message: "This is a toast: 5 seconds long, with an icon.",
   icon: "error",
@@ -57,7 +57,7 @@ export const DefaultToast = () => {
   }, []);
 
   return (
-    <Toast message="Default Toast: positioned at top and center for 5 seconds"></Toast>
+    <Toast>Default Toast: positioned at top and center for 5 seconds</Toast>
   );
 };
 export const ToastsPositioning = () => {
