@@ -66,7 +66,7 @@ export const Default = () => {
       >
         <Divider />
 
-        <Tree label="Basic Tree">
+        <Tree label="Flat Tree">
           <Leaf>leaf one</Leaf>
 
           <Leaf>leaf two</Leaf>
