@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-use-before-define
-import React from "react";
+import { Component } from "react";
 import log from "loglevel";
 import { InternalToast } from "./InternalToast";
 import type {
@@ -13,7 +13,7 @@ import type {
 import { getContainerStyle } from "./PopupUtils";
 
 const logger = log.getLogger("popup-manager-logger");
-logger.enableAll();
+logger.disableAll();
 export { logger as popupManagerLogger };
 
 type Dict<T = any> = Record<string, T>;
@@ -22,7 +22,7 @@ const objectKeys = <T extends Dict>(obj: T) =>
 
 interface Props {}
 
-export class PopupManager extends React.Component<Props, State> {
+export class PopupManager extends Component<Props, State> {
   static counter = 0;
 
   state: State = {

@@ -33,9 +33,13 @@ export const Notification = ({
       role="alert"
       aria-live="polite"
     >
-      <div
-        className={clsx("neo-notification__icon", icon && `neo-icon-${icon}`)}
-      ></div>
+      {icon && (
+        <div
+          role="img"
+          className={clsx("neo-notification__icon", icon && `neo-icon-${icon}`)}
+          aria-label={`icon ${icon}`}
+        />
+      )}
       <div className="neo-notification__message">
         {header && <div className="neo-notification__title">{header}</div>}
         {description && (
