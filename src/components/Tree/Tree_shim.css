@@ -31,6 +31,10 @@ li[dir="rtl"].neo-treeview__sub-tree-item
   border-left: 2px solid transparent;
 }
 
+.neo-treeview__item--expandable {
+  width: 20px;
+}
+
 li[dir="rtl"].neo-treeview__sub-tree-item
   .neo-treeview__item--expandable:before {
   transform: rotate(180deg);

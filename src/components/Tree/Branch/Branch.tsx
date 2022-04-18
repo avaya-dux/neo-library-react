@@ -4,29 +4,73 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 
 import clsx from "clsx";
-import { FC, ReactNode, useContext, useState } from "react";
+import {
+  cloneElement,
+  FC,
+  ReactElement,
+  ReactNode,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { useFocusEffect, useRovingTabIndex } from "react-roving-tabindex";
 
 import { Keys } from "utils";
 
+import { LeafProps } from "..";
 import { TreeContext } from "../TreeContext";
 
-export interface SubTreeProps {
+export interface BranchProps {
   actions?: ReactNode;
-  defaultActive?: boolean;
+  children:
+    | ReactElement<BranchProps | LeafProps>
+    | ReactElement<BranchProps | LeafProps>[];
   defaultExpanded?: boolean;
-  edges: ReactNode;
+  disabled?: boolean;
+  title: ReactNode;
 }
-export const SubTree: FC<SubTreeProps> = ({
+
+/**
+ * A `Branch` can be a child of a `Tree` or itself.
+ *
+ * @see https://design.avayacloud.com/components/web/treeview-web
+ * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-tree
+ */
+export const Branch = ({
   actions,
   children,
-  defaultActive = false,
   defaultExpanded = false,
-  edges,
-}) => {
+  disabled = false,
+  title,
+}: BranchProps) => {
   const { dir } = useContext(TreeContext);
 
-  const [active, setActive] = useState(defaultActive);
+  const ref = useRef(null);
+  const [tabIndex, active, handleKeyDown, handleClick] = useRovingTabIndex(
+    ref,
+    disabled
+  );
+  useFocusEffect(active, ref);
+
   const [expanded, setExpanded] = useState(defaultExpanded);
+
+  const childrenWithRovingTabIndexLogic = useMemo(() => {
+    const childrenAsArray = Array.isArray(children) ? children : [children];
+
+    // if !expanded, we need to disable all children, which tells "react-roving-tabindex" to set their tabIndex to `-1`
+    return expanded
+      ? childrenAsArray
+      : childrenAsArray.map((child, i) => {
+          const childTypeName = (child.type as FC).name;
+          const key = `${childTypeName}-${i}`;
+
+          return cloneElement(child, {
+            disabled: true,
+            key: child.key || key,
+          });
+        });
+  }, [expanded]);
 
   return (
     <li dir={dir} role="treeitem" className="neo-treeview__sub-tree-item">
@@ -37,53 +81,44 @@ export const SubTree: FC<SubTreeProps> = ({
           active && "neo-treeview__item--selected"
         )}
       >
-        <span className="neo-treeview__item--expandable" />
-
         <span
           className="neo-treeview__item-left"
           role="button"
-          tabIndex={active ? 0 : -1} // TODO: roving tab index
+          ref={ref}
+          tabIndex={tabIndex}
           onClick={(e) => {
             e.stopPropagation();
-            setActive(true);
+            handleClick();
             setExpanded(!expanded);
           }}
           onKeyDown={(e) => {
             e.stopPropagation();
+            handleKeyDown(e);
 
             switch (e.key) {
               case Keys.SPACE:
               case Keys.ENTER:
-                setActive(true);
                 setExpanded(!expanded);
                 break;
               case Keys.LEFT:
-                setActive(true);
                 setExpanded(false);
                 break;
               case Keys.RIGHT:
-                setActive(true);
                 setExpanded(true);
-                break;
-              case Keys.UP:
-                // TODO: move tabIndex up
-                setActive(false);
-                break;
-              case Keys.DOWN:
-                // TODO: move tabIndex down
-                setActive(false);
                 break;
             }
           }}
         >
-          {children}
+          <span className="neo-treeview__item--expandable" />
+
+          {title}
         </span>
 
         <span className="neo-treeview__item-right">{actions}</span>
       </div>
 
       <ul aria-expanded={expanded} role="group">
-        {edges}
+        {childrenWithRovingTabIndexLogic}
       </ul>
     </li>
   );

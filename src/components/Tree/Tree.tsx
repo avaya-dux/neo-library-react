@@ -3,7 +3,14 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 
 import clsx from "clsx";
-import { DetailedHTMLProps, FC, HTMLAttributes, useMemo } from "react";
+import {
+  DetailedHTMLProps,
+  FC,
+  HTMLAttributes,
+  ReactNode,
+  useMemo,
+} from "react";
+import { RovingTabIndexProvider } from "react-roving-tabindex";
 
 import { handleAccessbilityError } from "utils";
 import { genId } from "utils/accessibilityUtils";
@@ -18,9 +25,63 @@ export interface TreeProps
     "dir"
   > {
   dir?: "ltr" | "rtl";
-  label?: string;
+  label?: ReactNode;
 }
 
+/**
+ * A `Tree` wraps one or multiple `Branch` and/or `Leaf` components.
+ * It provides labeling, tab indexing, and keyboard navigation by default.
+ *
+ * @example
+  <Tree label="Flat tree">
+    <Leaf>leaf one</Leaf>
+    <Leaf>leaf two</Leaf>
+    <Leaf>leaf three</Leaf>
+  </Tree>
+ *
+ * @example
+  <Tree label="Tree with groupings">
+    <Branch title="Branch One (string)">
+      <Leaf>one</Leaf>
+    </Branch>
+
+    <Branch
+      title={
+        <div>
+          <b>Branch Two</b> (div)
+        </div>
+      }
+    >
+      <Leaf>one</Leaf>
+    </Branch>
+  </Tree>
+ *
+ * @example
+  <Tree label="Tree with groupings and nested groupings">
+    <Branch title="Branch One (string)">
+      <Leaf>one</Leaf>
+    </Branch>
+
+    <Branch
+      title={
+        <div>
+          <b>Branch Two</b> (div)
+        </div>
+      }
+    >
+      <Leaf>one</Leaf>
+
+      <Branch title="Branch Three (string)">
+        <Leaf>two</Leaf>
+      </Branch>
+
+      <Leaf>three</Leaf>
+    </Branch>
+  </Tree>
+ *
+ * @see https://design.avayacloud.com/components/web/treeview-web
+ * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-tree
+ */
 export const Tree: FC<TreeProps> = ({
   "aria-describedby": describedby,
   "aria-label": arialabel,
@@ -43,16 +104,20 @@ export const Tree: FC<TreeProps> = ({
     <div className={clsx("neo-treeview", className)} {...rest}>
       {label && <label htmlFor={treeId}>{label}</label>}
 
-      <TreeContext.Provider value={{ dir }}>
-        <ul
-          aria-describedby={describedby}
-          aria-label={arialabel}
-          id={treeId}
-          role="tree"
-        >
-          {children}
-        </ul>
-      </TreeContext.Provider>
+      <RovingTabIndexProvider
+        options={{ direction: "vertical", focusOnClick: true }}
+      >
+        <TreeContext.Provider value={{ dir }}>
+          <ul
+            aria-describedby={describedby}
+            aria-label={arialabel}
+            id={treeId}
+            role="tree"
+          >
+            {children}
+          </ul>
+        </TreeContext.Provider>
+      </RovingTabIndexProvider>
     </div>
   );
 };
