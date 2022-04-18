@@ -8,7 +8,7 @@ export interface AccordionProps {
   id?: string;
   defaultExpanded?: boolean;
   disabled?: boolean;
-  ariaLevel?: number
+  ariaLevel?: number;
 }
 
 export const Accordion = ({
@@ -17,9 +17,8 @@ export const Accordion = ({
   id = genId(),
   defaultExpanded = false,
   disabled,
-  ariaLevel = 2
+  ariaLevel = 2,
 }: AccordionProps) => {
-
   const [isActive, setIsActive] = useState(defaultExpanded);
 
   return (

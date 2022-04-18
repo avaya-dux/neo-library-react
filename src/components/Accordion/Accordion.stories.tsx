@@ -14,10 +14,6 @@ export const Default = () => (
       body="Some text in body"
       defaultExpanded
     />
-    <Accordion
-      header="Header Disabled"
-      body="Nothing in body"
-      disabled
-    />
+    <Accordion header="Header Disabled" body="Nothing in body" disabled />
   </Sheet>
 );
