@@ -7,7 +7,7 @@ import { Icon } from "components/Icon";
 import { IconButton } from "components/IconButton";
 import { Sheet } from "components/Sheet";
 
-import { SubTree, Tree, TreeItem, TreeProps } from ".";
+import { Branch, Leaf, Tree, TreeProps } from ".";
 
 export default {
   title: "Components/Tree",
@@ -20,35 +20,55 @@ const Divider = () => (
 
 export const Default = () => (
   <section style={{ display: "flex", justifyContent: "space-between" }}>
-    <Sheet title="Tree Examples" style={{ width: 400 }}>
+    <Sheet title="Trees with and without groupings" style={{ width: 400 }}>
       <Divider />
 
-      <Tree label="Tree Label">
-        <TreeItem>upper edge one</TreeItem>
-        <TreeItem>upper edge two</TreeItem>
-        <TreeItem>upper edge three</TreeItem>
+      <Tree label="Flat tree">
+        <Leaf>leaf one</Leaf>
+        <Leaf>leaf two</Leaf>
+        <Leaf>leaf three</Leaf>
       </Tree>
 
       <Divider />
 
       <Tree label="Tree with groupings">
-        <SubTree
-          edges={[
-            <TreeItem key="one">one</TreeItem>,
-            <TreeItem key="two">two</TreeItem>,
-          ]}
-        >
-          Sub Tree One
-        </SubTree>
+        <Branch title="Branch One (string)">
+          <Leaf>one</Leaf>
+        </Branch>
 
-        <SubTree
-          edges={[
-            <TreeItem key="one">one</TreeItem>,
-            <TreeItem key="two">two</TreeItem>,
-          ]}
+        <Branch
+          title={
+            <div>
+              <b>Branch Two</b> (div)
+            </div>
+          }
         >
-          Sub Tree Two
-        </SubTree>
+          <Leaf>one</Leaf>
+        </Branch>
+      </Tree>
+
+      <Divider />
+
+      <Tree label="Tree with nested groupings">
+        <Branch title="Branch One (string)">
+          <Leaf>one</Leaf>
+        </Branch>
+
+        <Branch
+          title={
+            <div>
+              <b>Branch Two</b> (div)
+            </div>
+          }
+        >
+          <Leaf>one</Leaf>
+
+          <Branch title="Branch Three (string)">
+            <Leaf>two</Leaf>
+          </Branch>
+
+          <Leaf>three</Leaf>
+        </Branch>
       </Tree>
 
       <Divider />
@@ -67,22 +87,22 @@ export const Default = () => (
       <p>
         The <code>Tree</code> component takes a <code>label</code> (or{" "}
         <code>aria-label</code>) prop, and children. The children can be{" "}
-        <code>TreeItem</code> components or <code>SubTree</code> components.
+        <code>Leaf</code> components or <code>Branch</code> components.
       </p>
 
       <Divider />
 
       <p>
-        A <code>TreeItem</code> component takes <code>children</code> and an
+        A <code>Leaf</code> component takes <code>children</code> and an
         optional <code>actions</code> prop.
       </p>
 
       <Divider />
 
       <p>
-        A <code>SubTree</code> component takes <code>children</code>,{" "}
-        <code>edges</code> (which can be <code>TreeItem</code> or{" "}
-        <code>SubTree</code>) and an optional <code>actions</code> prop.
+        A <code>Branch</code> component takes <code>children</code>,{" "}
+        <code>edges</code> (which can be <code>Leaf</code> or{" "}
+        <code>Branch</code>) and an optional <code>actions</code> prop.
       </p>
 
       <Divider />
@@ -90,148 +110,20 @@ export const Default = () => (
   </section>
 );
 
-const Label: FC<
-  DetailedHTMLProps<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>
-> = ({ children, ...rest }) => (
-  <label style={{ fontWeight: "bolder", paddingBottom: "5px" }} {...rest}>
-    {children}
-  </label>
-);
-
-const Section: FC = ({ children }) => (
-  <div
-    style={{
-      paddingBottom: "15px",
-      marginBottom: "15px",
-      borderBottom: "solid 1px black",
-    }}
-  >
-    {children}
-  </div>
-);
-
-export const TreeItemExamples = () => {
-  return (
-    <Sheet title="Native Tree Item Example" style={{ width: 400 }}>
-      <Section>
-        <Label id="label-one">string contents</Label>
-
-        <Tree aria-describedby="label-one">
-          <TreeItem>node one</TreeItem>
-
-          <TreeItem>node two</TreeItem>
-        </Tree>
-      </Section>
-
-      <Section>
-        <Label id="label-two">contents with action(s)</Label>
-
-        <Tree aria-describedby="label-two">
-          <TreeItem actions={<Button variant="secondary">mock</Button>}>
-            node one
-          </TreeItem>
-
-          <TreeItem
-            actions={[
-              <Button variant="secondary" key="one">
-                mock
-              </Button>,
-              <Button variant="secondary" key="two">
-                mock
-              </Button>,
-            ]}
-          >
-            node two
-          </TreeItem>
-
-          <TreeItem
-            actions={
-              <>
-                <Button variant="secondary">mock</Button>
-                <Button variant="secondary">mock</Button>
-              </>
-            }
-          >
-            node two
-          </TreeItem>
-        </Tree>
-      </Section>
-
-      <Section>
-        <Label id="label-three">complex content examples</Label>
-
-        <Tree aria-describedby="label-three" dir="ltr">
-          <TreeItem>
-            <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
-            dir === ltr
-          </TreeItem>
-        </Tree>
-
-        <Tree aria-label="file icon, dir='rtl'" dir="rtl">
-          <TreeItem>
-            <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
-            dir === rtl
-          </TreeItem>
-        </Tree>
-
-        <Tree aria-label="right content with icon and dir='rtl'" dir="rtl">
-          <TreeItem actions={<Button variant="secondary">mock</Button>}>
-            <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
-            dir === rtl
-          </TreeItem>
-        </Tree>
-
-        <Tree
-          aria-label="left and right content with icon and dir='ltr'"
-          dir="ltr"
-        >
-          <TreeItem actions={<Button variant="secondary">mock</Button>}>
-            <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
-            dir === ltr
-          </TreeItem>
-        </Tree>
-
-        <Tree aria-label="checkbox content, dir='ltr'" dir="ltr">
-          <TreeItem>
-            <Checkbox aria-labelledby="checkbox-label-one" value="none" />
-
-            <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
-
-            <span id="checkbox-label-one">dir === ltr</span>
-          </TreeItem>
-        </Tree>
-
-        <Tree aria-label="checkbox content, dir='rtl'" dir="rtl">
-          <TreeItem>
-            <Checkbox aria-labelledby="checkbox-label-two" value="none" />
-
-            <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
-
-            <span id="checkbox-label-two">dir === rtl</span>
-          </TreeItem>
-        </Tree>
-      </Section>
-    </Sheet>
-  );
-};
-
 const FullTreeExamples = (props: TreeProps) => (
   <Tree {...props}>
-    <SubTree
-      edges={[
-        <TreeItem key="one">one</TreeItem>,
-        <TreeItem key="two">two</TreeItem>,
-        <TreeItem key="three">three</TreeItem>,
-      ]}
-    >
-      Sub Tree One Label
-    </SubTree>
+    <Branch title="Branch One Label">
+      <Leaf>one</Leaf>
+      <Leaf>two</Leaf>
+      <Leaf>three</Leaf>
+    </Branch>
 
-    <SubTree
+    <Branch
+      title="Branch Two Label, has actions"
       actions={[
         <Button
           key="sub-tree-two-button-one"
-          onClick={() => alert("sub tree two, button one clicked")}
+          onClick={() => alert("Branch two, button one clicked")}
         >
           button one
         </Button>,
@@ -239,51 +131,34 @@ const FullTreeExamples = (props: TreeProps) => (
           aria-label="click here for more options"
           icon="more"
           key="sub-tree-two-button-two"
-          onClick={() => alert("sub tree two, button two clicked")}
+          onClick={() => alert("Branch two, button two clicked")}
           variant="tertiary"
         />,
       ]}
-      edges={[
-        <TreeItem key="four">four</TreeItem>,
-        <TreeItem key="five">five</TreeItem>,
-        <TreeItem key="six">six</TreeItem>,
-      ]}
     >
-      Sub Tree Two Label, has actions
-    </SubTree>
+      <Leaf>four</Leaf>
+      <Leaf>five</Leaf>
+      <Leaf>six</Leaf>
+    </Branch>
 
-    <SubTree
-      edges={[
-        <SubTree
-          key="sub-sub-tree"
-          edges={[
-            <TreeItem key="seven">seven</TreeItem>,
-            <TreeItem key="eight">eight</TreeItem>,
-            <TreeItem key="nine">nine</TreeItem>,
-            <SubTree
-              key="sub-sub-sub-tree"
-              edges={[
-                <TreeItem key="ten">ten</TreeItem>,
-                <TreeItem key="eleven">eleven</TreeItem>,
-                <TreeItem key="twelve">twelve</TreeItem>,
-              ]}
-            >
-              Sub Tree Three, Sub Tree Three-One, Sub Tree Three-One-One Label
-            </SubTree>,
-          ]}
-        >
-          Sub Tree Three, Sub Tree Three-One Label
-        </SubTree>,
-        <TreeItem key="thirteen">thirteen</TreeItem>,
-        <TreeItem key="fourteen">fourteen</TreeItem>,
-      ]}
-    >
-      Sub Tree Three Label
-    </SubTree>
+    <Branch title="Branch Three Label">
+      <Branch title="Branch Three, Branch Three-One Label">
+        <Leaf>seven</Leaf>
+        <Leaf>eight</Leaf>
+        <Leaf>nine</Leaf>
+        <Branch title="Branch Three, Branch Three-One, Branch Three-One-One Label">
+          <Leaf>ten</Leaf>
+          <Leaf>eleven</Leaf>
+          <Leaf>twelve</Leaf>
+        </Branch>
+      </Branch>
+      <Leaf>thirteen</Leaf>
+      <Leaf>fourteen</Leaf>
+    </Branch>
   </Tree>
 );
 
-export const SubTrees = () => {
+export const DirectionExamples = () => {
   const [sheetLtrOpen, setSheetLtrOpen] = useState(true);
   const [sheetRtlOpen, setSheetRtlOpen] = useState(true);
 
@@ -308,14 +183,14 @@ export const SubTrees = () => {
 
       <Divider />
 
-      <Sheet aria-label="Sub Trees Story, dir=ltr" open={sheetLtrOpen}>
-        <FullTreeExamples label="Sub Trees Example, dir=ltr" dir="ltr" />
+      <Sheet aria-label="Direction left-to-right" open={sheetLtrOpen}>
+        <FullTreeExamples label="Direction left-to-right `dir=ltr`" dir="ltr" />
       </Sheet>
 
       <Divider />
 
-      <Sheet aria-label="Sub Trees Story, dir=rtl" open={sheetRtlOpen}>
-        <FullTreeExamples label="Sub Trees Example, dir=rtl" dir="rtl" />
+      <Sheet aria-label="Direction right-to-left" open={sheetRtlOpen}>
+        <FullTreeExamples label="Direction right-to-left `dir=rtl`" dir="rtl" />
       </Sheet>
 
       <Divider />
@@ -323,66 +198,48 @@ export const SubTrees = () => {
   );
 };
 
-const MockButton = () => <Button onClick={() => alert("ping")}>mock</Button>;
+const MockButton = () => (
+  <Button onClick={() => alert("ping")} variant="secondary">
+    mock
+  </Button>
+);
 
 export const EmbededActions = () => {
   return (
     <Sheet title="Embedded Actions Sheet">
       <Tree label="Embedded Actions Tree">
-        <TreeItem>Tree Item, One</TreeItem>
+        <Leaf>
+          <div>
+            Leaf <b>One</b>
+          </div>
+        </Leaf>
 
-        <SubTree
-          edges={[
-            <TreeItem key="one">one</TreeItem>,
-            <TreeItem key="two">two</TreeItem>,
-          ]}
-        >
-          Sub Tree without actions
-        </SubTree>
+        <Branch title="Branch without actions">
+          <Leaf>one</Leaf>
+          <Leaf>two</Leaf>
+        </Branch>
 
-        <SubTree
-          edges={[
-            <TreeItem
-              key="three"
-              actions={[<MockButton key="action-btn-one" />]}
-              disabled
-            >
-              disabled Tree Item
-            </TreeItem>,
-            <TreeItem
-              key="four"
-              actions={[<MockButton key="action-btn-one" />]}
-            >
-              not disabled Tree Item
-            </TreeItem>,
-            <SubTree
-              key="sub-sub-tree-one"
-              edges={[
-                <TreeItem
-                  key="five"
-                  actions={[<MockButton key="action-btn-one" />]}
-                  disabled
-                >
-                  disabled Tree Item
-                </TreeItem>,
-                <TreeItem
-                  key="six"
-                  actions={[<MockButton key="action-btn-one" />]}
-                >
-                  not disabled Tree Item
-                </TreeItem>,
-              ]}
-              actions={[<MockButton key="action-btn-one" />]}
-            >
-              Sub Tree with actions
-            </SubTree>,
-          ]}
-          actions={[<MockButton key="action-btn-one" />]}
-        >
-          Sub Tree with actions
-        </SubTree>
+        <Branch title="Branch with actions" actions={<MockButton />}>
+          <Leaf actions={<MockButton />} disabled>
+            disabled Leaf
+          </Leaf>
 
-        <TreeItem>Tree Item, Final</TreeItem>
+          <Leaf actions={<MockButton />}>not disabled Leaf</Leaf>
+
+          <Branch title="Branch with actions" actions={<MockButton />}>
+            <Leaf actions={<MockButton />} disabled>
+              disabled Leaf
+            </Leaf>
+
+            <Leaf actions={<MockButton />}>not disabled Leaf</Leaf>
+          </Branch>
+        </Branch>
+
+        <Leaf>
+          <div>
+            Leaf <b>Final</b>
+          </div>
+        </Leaf>
       </Tree>
 
       <Divider />
@@ -417,6 +274,112 @@ export const EmbededActions = () => {
           moves focus out of the treegrid.
         </li>
       </ul>
+    </Sheet>
+  );
+};
+
+const Label: FC<
+  DetailedHTMLProps<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>
+> = ({ children, ...rest }) => (
+  <label style={{ fontWeight: "bolder", paddingBottom: "5px" }} {...rest}>
+    {children}
+  </label>
+);
+
+const Section: FC = ({ children }) => (
+  <div
+    style={{
+      paddingBottom: "15px",
+      marginBottom: "15px",
+      borderBottom: "solid 1px black",
+    }}
+  >
+    {children}
+  </div>
+);
+
+export const LeafContentExamples = () => {
+  return (
+    <Sheet title="Leaf Content Examples" style={{ width: 400 }}>
+      <Section>
+        <Label id="label-one">string contents</Label>
+
+        <Tree aria-describedby="label-one">
+          <Leaf>leaf one</Leaf>
+
+          <Leaf>leaf two</Leaf>
+        </Tree>
+      </Section>
+
+      <Section>
+        <Label id="label-two">contents with action(s)</Label>
+
+        <Tree aria-describedby="label-two">
+          <Leaf actions={<MockButton />}>leaf one</Leaf>
+
+          <Leaf
+            actions={[
+              <MockButton key="btn-one" />,
+              <MockButton key="btn-two" />,
+            ]}
+          >
+            leaf two
+          </Leaf>
+
+          <Leaf
+            actions={
+              <>
+                <MockButton />
+                <MockButton />
+              </>
+            }
+          >
+            leaf three
+          </Leaf>
+        </Tree>
+      </Section>
+
+      <Section>
+        <Label id="label-three">complex content examples</Label>
+
+        <Tree aria-describedby="label-three" dir="ltr">
+          <Leaf>
+            <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
+            dir === ltr
+          </Leaf>
+
+          <Leaf dir="rtl">
+            <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
+            dir === rtl
+          </Leaf>
+
+          <Leaf actions={<MockButton />} dir="rtl">
+            <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
+            dir === rtl
+          </Leaf>
+
+          <Leaf actions={<MockButton />} dir="ltr">
+            <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
+            dir === ltr
+          </Leaf>
+
+          <Leaf>
+            <Checkbox aria-labelledby="checkbox-label-one" value="none" />
+
+            <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
+
+            <span id="checkbox-label-one">dir === ltr</span>
+          </Leaf>
+
+          <Leaf dir="rtl">
+            <Checkbox aria-labelledby="checkbox-label-two" value="none" />
+
+            <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
+
+            <span id="checkbox-label-two">dir === rtl</span>
+          </Leaf>
+        </Tree>
+      </Section>
     </Sheet>
   );
 };

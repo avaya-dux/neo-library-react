@@ -18,23 +18,32 @@ import { useFocusEffect, useRovingTabIndex } from "react-roving-tabindex";
 
 import { Keys } from "utils";
 
-import { TreeItemProps } from "../";
+import { LeafProps } from "..";
 import { TreeContext } from "../TreeContext";
 
-export interface SubTreeProps {
+export interface BranchProps {
   actions?: ReactNode;
+  children:
+    | ReactElement<BranchProps | LeafProps>
+    | ReactElement<BranchProps | LeafProps>[];
   defaultExpanded?: boolean;
   disabled?: boolean;
-  edges: ReactElement<SubTreeProps | TreeItemProps>[];
+  title: ReactNode;
 }
 
-export const SubTree: FC<SubTreeProps> = ({
+/**
+ * A `Branch` can be a child of a `Tree` or itself.
+ *
+ * @see https://design.avayacloud.com/components/web/treeview-web
+ * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-tree
+ */
+export const Branch = ({
   actions,
   children,
   defaultExpanded = false,
   disabled = false,
-  edges,
-}) => {
+  title,
+}: BranchProps) => {
   const { dir } = useContext(TreeContext);
 
   const ref = useRef(null);
@@ -46,15 +55,21 @@ export const SubTree: FC<SubTreeProps> = ({
 
   const [expanded, setExpanded] = useState(defaultExpanded);
 
-  const edgesWithRovingTabIndexLogic = useMemo(() => {
+  const childrenWithRovingTabIndexLogic = useMemo(() => {
+    const childrenAsArray = Array.isArray(children) ? children : [children];
+
     // if !expanded, we need to disable all children, which tells "react-roving-tabindex" to set their tabIndex to `-1`
     return expanded
-      ? edges
-      : edges.map((edge) =>
-          cloneElement(edge, {
+      ? childrenAsArray
+      : childrenAsArray.map((child, i) => {
+          const childTypeName = (child.type as FC).name;
+          const key = `${childTypeName}-${i}`;
+
+          return cloneElement(child, {
             disabled: true,
-          })
-        );
+            key: child.key || key,
+          });
+        });
   }, [expanded]);
 
   return (
@@ -96,14 +111,14 @@ export const SubTree: FC<SubTreeProps> = ({
         >
           <span className="neo-treeview__item--expandable" />
 
-          {children}
+          {title}
         </span>
 
         <span className="neo-treeview__item-right">{actions}</span>
       </div>
 
       <ul aria-expanded={expanded} role="group">
-        {edgesWithRovingTabIndexLogic}
+        {childrenWithRovingTabIndexLogic}
       </ul>
     </li>
   );
