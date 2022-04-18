@@ -5,7 +5,8 @@ import { axe } from "jest-axe";
 import { Tree } from ".";
 import * as TreeStories from "./Tree.stories";
 
-const { Default, TreeItemExamples, SubTrees } = composeStories(TreeStories);
+const { Default, DirectionExamples, EmbededActions, LeafContentExamples } =
+  composeStories(TreeStories);
 
 describe("Tree", () => {
   it("fully renders without exploding", () => {
@@ -47,11 +48,11 @@ describe("Tree", () => {
       });
     });
 
-    describe("TreeItemExamples", () => {
+    describe("LeafContentExamples", () => {
       let renderResult;
 
       beforeEach(() => {
-        renderResult = render(<TreeItemExamples />);
+        renderResult = render(<LeafContentExamples />);
       });
 
       it("should render ok", () => {
@@ -66,11 +67,30 @@ describe("Tree", () => {
       });
     });
 
-    describe("SubTrees", () => {
+    describe("DirectionExamples", () => {
       let renderResult;
 
       beforeEach(() => {
-        renderResult = render(<SubTrees />);
+        renderResult = render(<DirectionExamples />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("EmbededActions", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<EmbededActions />);
       });
 
       it("should render ok", () => {
