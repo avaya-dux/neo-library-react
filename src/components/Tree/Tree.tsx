@@ -29,34 +29,54 @@ export interface TreeProps
 }
 
 /**
- * A tree view is a hierarchical list that allows users to move through the various levels.
+ * A `Tree` wraps one or multiple `Branch` and/or `Leaf` components.
+ * It provides labeling, tab indexing, and keyboard navigation by default.
  *
  * @example
-  <Tree label="Tree Label">
-    <TreeItem>edge one</TreeItem>
-    <TreeItem>edge two</TreeItem>
-    <TreeItem>edge three</TreeItem>
+  <Tree label="Flat tree">
+    <Leaf>leaf one</Leaf>
+    <Leaf>leaf two</Leaf>
+    <Leaf>leaf three</Leaf>
   </Tree>
  *
  * @example
   <Tree label="Tree with groupings">
-    <SubTree
-      edges={[
-        <TreeItem key="one">one</TreeItem>,
-        <TreeItem key="two">two</TreeItem>,
-      ]}
-    >
-      Sub Tree One
-    </SubTree>
+    <Branch title="Branch One (string)">
+      <Leaf>one</Leaf>
+    </Branch>
 
-    <SubTree
-      edges={[
-        <TreeItem key="one">one</TreeItem>,
-        <TreeItem key="two">two</TreeItem>,
-      ]}
+    <Branch
+      title={
+        <div>
+          <b>Branch Two</b> (div)
+        </div>
+      }
     >
-      Sub Tree Two
-    </SubTree>
+      <Leaf>one</Leaf>
+    </Branch>
+  </Tree>
+ *
+ * @example
+  <Tree label="Tree with groupings and nested groupings">
+    <Branch title="Branch One (string)">
+      <Leaf>one</Leaf>
+    </Branch>
+
+    <Branch
+      title={
+        <div>
+          <b>Branch Two</b> (div)
+        </div>
+      }
+    >
+      <Leaf>one</Leaf>
+
+      <Branch title="Branch Three (string)">
+        <Leaf>two</Leaf>
+      </Branch>
+
+      <Leaf>three</Leaf>
+    </Branch>
   </Tree>
  *
  * @see https://design.avayacloud.com/components/web/treeview-web

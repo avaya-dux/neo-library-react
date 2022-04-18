@@ -4,17 +4,17 @@ import { axe } from "jest-axe";
 
 import { Button } from "components/Button";
 
-import { SubTree } from ".";
-import { Tree, TreeItem } from "../";
+import { Branch } from ".";
+import { Leaf, Tree } from "..";
 
-describe("SubTree", () => {
+describe("Tree", () => {
   it("fully renders without exploding", () => {
     render(
       <Tree aria-label="tree-root">
-        <SubTree title="example">
-          <TreeItem>one</TreeItem>
-          <TreeItem>two</TreeItem>
-        </SubTree>
+        <Branch title="example">
+          <Leaf>one</Leaf>
+          <Leaf>two</Leaf>
+        </Branch>
       </Tree>
     );
 
@@ -28,9 +28,9 @@ describe("SubTree", () => {
   it("passes basic axe compliance", async () => {
     const { container } = render(
       <Tree aria-label="tree-root">
-        <SubTree title="example">
-          <TreeItem>one</TreeItem>
-        </SubTree>
+        <Branch title="example">
+          <Leaf>one</Leaf>
+        </Branch>
       </Tree>
     );
     const results = await axe(container);
@@ -46,12 +46,12 @@ describe("SubTree", () => {
     beforeEach(() => {
       const { container: c } = render(
         <Tree aria-label="testing tree">
-          <SubTree
+          <Branch
             title={subTreeText}
             actions={<Button key="btn-one">{buttonText}</Button>}
           >
-            <TreeItem>{treeitemText}</TreeItem>
-          </SubTree>
+            <Leaf>{treeitemText}</Leaf>
+          </Branch>
         </Tree>
       );
 

@@ -11,21 +11,25 @@ import {
   useContext,
   useRef,
 } from "react";
-import { useRovingTabIndex, useFocusEffect } from "react-roving-tabindex";
+import { useFocusEffect, useRovingTabIndex } from "react-roving-tabindex";
 
 import { TreeContext } from "../TreeContext";
 
-export interface TreeItemProps
-  extends Omit<
-    DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement>,
-    "dir"
-  > {
+export interface LeafProps
+  extends DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> {
   actions?: ReactNode;
   children: ReactNode;
   disabled?: boolean;
 }
 
-export const TreeItem: FC<TreeItemProps> = ({
+/**
+ * A `Leaf` can be a child of a `Tree` or a `Branch` component.
+ * It is meant to be a leaf/end node in the tree hierarchy.
+ *
+ * @see https://design.avayacloud.com/components/web/treeview-web
+ * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-tree
+ */
+export const Leaf: FC<LeafProps> = ({
   actions,
   children,
   className,
