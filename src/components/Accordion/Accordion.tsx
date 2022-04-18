@@ -8,6 +8,7 @@ export interface AccordionProps {
   id?: string;
   defaultExpanded?: boolean;
   disabled?: boolean;
+  ariaLevel?: number
 }
 
 export const Accordion = ({
@@ -16,8 +17,11 @@ export const Accordion = ({
   id = genId(),
   defaultExpanded = false,
   disabled,
+  ariaLevel = 2
 }: AccordionProps) => {
+
   const [isActive, setIsActive] = useState(defaultExpanded);
+
   return (
     <div className="neo-accordion">
       <div
@@ -33,7 +37,7 @@ export const Accordion = ({
           )}
           role="heading"
           aria-label="Accordion Heading"
-          aria-level={1}
+          aria-level={ariaLevel}
         >
           {disabled ? (
             <button

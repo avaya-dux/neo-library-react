@@ -12,17 +12,12 @@ export const Default = () => (
     <Accordion
       header="Accordion with expand true"
       body="Some text in body"
-      defaultExpanded={true}
+      defaultExpanded
     />
     <Accordion
       header="Header Disabled"
       body="Nothing in body"
-      disabled={true}
-    />
-    <Accordion
-      header="Header Disabled"
-      body="Nothing in body"
-      disabled={false}
+      disabled
     />
   </Sheet>
 );

@@ -33,7 +33,7 @@ describe("Accordion Component", () => {
   });
 
   it("check for disabled accordion when `isDisabled` prop is true", () => {
-    render(<Accordion header={Header} body={Body} disabled={true} />);
+    render(<Accordion header={Header} body={Body} disabled />);
     const AccordionElement = screen.getByRole("button");
     expect(AccordionElement).toHaveAttribute("disabled");
   });
