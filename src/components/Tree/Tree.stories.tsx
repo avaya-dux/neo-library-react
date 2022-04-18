@@ -2,273 +2,163 @@ import { Meta } from "@storybook/react/types-6-0";
 import { DetailedHTMLProps, FC, LabelHTMLAttributes, useState } from "react";
 
 import { Button } from "components/Button";
+import { Checkbox } from "components/Checkbox";
+import { Icon } from "components/Icon";
 import { IconButton } from "components/IconButton";
 import { Sheet } from "components/Sheet";
 
-import { SubTree, Tree, TreeItem, TreeProps } from ".";
+import { Branch, Leaf, Tree, TreeProps } from ".";
 
 export default {
   title: "Components/Tree",
   component: Tree,
 } as Meta<TreeProps>;
 
-export const Default = () => (
-  <Sheet title="Tree Example" style={{ width: 400 }}>
-    <Tree label="Tree Label">
-      <TreeItem key="one">upper edge one</TreeItem>
-      <TreeItem key="two">upper edge two</TreeItem>
-      <TreeItem key="three">upper edge three</TreeItem>
-    </Tree>
-  </Sheet>
-);
-
-const Label: FC<
-  DetailedHTMLProps<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>
-> = ({ children }) => (
-  <label style={{ fontWeight: "bolder", paddingBottom: "5px" }}>
-    {children}
-  </label>
-);
-
-const Section: FC = ({ children }) => (
-  <div
-    role="tree"
-    style={{
-      paddingBottom: "15px",
-      marginBottom: "15px",
-      borderBottom: "solid 1px black",
-    }}
-  >
-    {children}
-  </div>
-);
-
 const Divider = () => (
   <div style={{ margin: "2rem 0", borderBottom: "1px solid black" }} />
 );
 
-export const TreeItemExamples = () => {
-  const [selected, setSelected] = useState("");
+export const Default = () => (
+  <section style={{ display: "flex", justifyContent: "space-between" }}>
+    <Sheet title="Trees with and without groupings" style={{ width: 400 }}>
+      <Divider />
 
-  return (
-    <Sheet title="Native Tree Item Example" style={{ width: 400 }}>
-      <Section>
-        <Label>just children</Label>
+      <Tree label="Flat tree">
+        <Leaf>leaf one</Leaf>
+        <Leaf>leaf two</Leaf>
+        <Leaf>leaf three</Leaf>
+      </Tree>
 
-        <TreeItem
-          selected={selected === "c1"}
-          onClick={() => setSelected("c1")}
+      <Divider />
+
+      <Tree label="Tree with groupings">
+        <Branch title="Branch One (string)">
+          <Leaf>one</Leaf>
+        </Branch>
+
+        <Branch
+          title={
+            <div>
+              <b>Branch Two</b> (div)
+            </div>
+          }
         >
-          node one
-        </TreeItem>
+          <Leaf>one</Leaf>
+        </Branch>
+      </Tree>
 
-        <TreeItem
-          selected={selected === "c2"}
-          onClick={() => setSelected("c2")}
+      <Divider />
+
+      <Tree label="Tree with nested groupings">
+        <Branch title="Branch One (string)">
+          <Leaf>one</Leaf>
+        </Branch>
+
+        <Branch
+          title={
+            <div>
+              <b>Branch Two</b> (div)
+            </div>
+          }
         >
-          node two
-        </TreeItem>
-      </Section>
+          <Leaf>one</Leaf>
 
-      <Section>
-        <Label>left content only</Label>
+          <Branch title="Branch Three (string)">
+            <Leaf>two</Leaf>
+          </Branch>
 
-        <TreeItem
-          selected={selected === "l1"}
-          onClick={() => setSelected("l1")}
-          leftContent={<>node one</>}
-        />
-        <TreeItem
-          selected={selected === "l2"}
-          onClick={() => setSelected("l2")}
-          leftContent={<>node two</>}
-        />
-      </Section>
+          <Leaf>three</Leaf>
+        </Branch>
+      </Tree>
 
-      <Section>
-        <Label>right content only</Label>
-
-        <TreeItem
-          selected={selected === "r1"}
-          onClick={() => setSelected("r1")}
-          rightContent={<>node one</>}
-        />
-        <TreeItem
-          selected={selected === "r2"}
-          onClick={() => setSelected("r2")}
-          rightContent={<>node two</>}
-        />
-      </Section>
-
-      <Section>
-        <Label>left and right content</Label>
-
-        <TreeItem
-          selected={selected === "lr1"}
-          onClick={() => setSelected("lr1")}
-          leftContent={<>left node one</>}
-          rightContent={<>right node one</>}
-        />
-        <TreeItem
-          selected={selected === "lr2"}
-          onClick={() => setSelected("lr2")}
-          leftContent={<>left node two</>}
-          rightContent={<>right node two</>}
-        />
-      </Section>
-
-      <Section>
-        <Label>left content and children</Label>
-
-        <TreeItem
-          selected={selected === "lc1"}
-          onClick={() => setSelected("lc1")}
-          leftContent={<>left node one</>}
-        >
-          center node one
-        </TreeItem>
-        <TreeItem
-          selected={selected === "lc2"}
-          onClick={() => setSelected("lc2")}
-          leftContent={<>left node two</>}
-        >
-          center node two
-        </TreeItem>
-      </Section>
-
-      <Section>
-        <Label>right content and children</Label>
-
-        <TreeItem
-          selected={selected === "rc1"}
-          onClick={() => setSelected("rc1")}
-          rightContent={<>right node one</>}
-        >
-          center node one
-        </TreeItem>
-        <TreeItem
-          selected={selected === "rc2"}
-          onClick={() => setSelected("rc2")}
-          rightContent={<>right node two</>}
-        >
-          center node two
-        </TreeItem>
-      </Section>
-
-      <Section>
-        <Label>left content, right content, and children</Label>
-
-        <TreeItem
-          selected={selected === "lrc1"}
-          onClick={() => setSelected("lrc1")}
-          leftContent={<>left node one</>}
-          rightContent={<>right node one</>}
-        >
-          center node one
-        </TreeItem>
-        <TreeItem
-          selected={selected === "lrc2"}
-          onClick={() => setSelected("lrc2")}
-          leftContent={<>left node two</>}
-          rightContent={<>right node two</>}
-        >
-          center node two
-        </TreeItem>
-      </Section>
-
-      <Section>
-        <Label>icon examples</Label>
-
-        <TreeItem
-          selected={selected === "icon1"}
-          onClick={() => setSelected("icon1")}
-        >
-          defaults with no icon
-        </TreeItem>
-
-        <TreeItem
-          selected={selected === "icon2"}
-          onClick={() => setSelected("icon2")}
-          icon="file"
-        >
-          defaults with file icon
-        </TreeItem>
-
-        <Tree aria-label="file icon, dir='ltr'" dir="ltr">
-          <TreeItem
-            selected={selected === "icon3"}
-            onClick={() => setSelected("icon3")}
-            icon="file"
-          >
-            file icon, dir === ltr
-          </TreeItem>
-        </Tree>
-
-        <Tree aria-label="file icon, dir='rtl'" dir="rtl">
-          <TreeItem
-            selected={selected === "icon4"}
-            onClick={() => setSelected("icon4")}
-            icon="file"
-          >
-            file icon, dir === rtl{" "}
-          </TreeItem>
-        </Tree>
-
-        <Tree aria-label="right content with icon and dir='rtl'" dir="rtl">
-          <TreeItem
-            selected={selected === "icon5"}
-            onClick={() => setSelected("icon5")}
-            icon="file"
-            rightContent={<>right content with icon and dir === rtl </>}
-          />
-        </Tree>
-
-        <Tree aria-label="left content with icon and dir='rtl'" dir="rtl">
-          <TreeItem
-            selected={selected === "icon6"}
-            onClick={() => setSelected("icon6")}
-            icon="file"
-            leftContent={<>left content with icon and dir === rtl</>}
-          />
-        </Tree>
-
-        <Tree aria-label="left content with icon and dir='ltr'" dir="ltr">
-          <TreeItem
-            selected={selected === "icon7"}
-            onClick={() => setSelected("icon7")}
-            icon="file"
-            leftContent={<>left content with icon and dir === ltr</>}
-          />
-        </Tree>
-
-        <Tree
-          aria-label="left and right content with icon and dir='ltr'"
-          dir="ltr"
-        >
-          <TreeItem
-            selected={selected === "icon8"}
-            onClick={() => setSelected("icon8")}
-            icon="file"
-            leftContent={<>left content with icon and dir === ltr</>}
-            rightContent={<>right content with icon and dir === ltr</>}
-          />
-        </Tree>
-
-        <Tree aria-label="left and right with icon and dir='rtl'" dir="rtl">
-          <TreeItem
-            selected={selected === "icon9"}
-            onClick={() => setSelected("icon9")}
-            icon="file"
-            leftContent={<>left content with icon and dir === rtl</>}
-            rightContent={<>right content with icon and dir === rtl</>}
-          />
-        </Tree>
-      </Section>
+      <Divider />
     </Sheet>
-  );
-};
 
-export const SubTrees = () => {
+    <Sheet title="Tree Description" style={{ width: 400 }}>
+      <Divider />
+
+      <p>
+        The <code>Tree</code> component is a hierarchical list that allows users
+        to move through its levels.
+      </p>
+
+      <Divider />
+
+      <p>
+        The <code>Tree</code> component takes a <code>label</code> (or{" "}
+        <code>aria-label</code>) prop, and children. The children can be{" "}
+        <code>Leaf</code> components or <code>Branch</code> components.
+      </p>
+
+      <Divider />
+
+      <p>
+        A <code>Leaf</code> component takes <code>children</code> and an
+        optional <code>actions</code> prop.
+      </p>
+
+      <Divider />
+
+      <p>
+        A <code>Branch</code> component takes <code>children</code>,{" "}
+        <code>edges</code> (which can be <code>Leaf</code> or{" "}
+        <code>Branch</code>) and an optional <code>actions</code> prop.
+      </p>
+
+      <Divider />
+    </Sheet>
+  </section>
+);
+
+const FullTreeExamples = (props: TreeProps) => (
+  <Tree {...props}>
+    <Branch title="Branch One Label">
+      <Leaf>one</Leaf>
+      <Leaf>two</Leaf>
+      <Leaf>three</Leaf>
+    </Branch>
+
+    <Branch
+      title="Branch Two Label, has actions"
+      actions={[
+        <Button
+          key="sub-tree-two-button-one"
+          onClick={() => alert("Branch two, button one clicked")}
+        >
+          button one
+        </Button>,
+        <IconButton
+          aria-label="click here for more options"
+          icon="more"
+          key="sub-tree-two-button-two"
+          onClick={() => alert("Branch two, button two clicked")}
+          variant="tertiary"
+        />,
+      ]}
+    >
+      <Leaf>four</Leaf>
+      <Leaf>five</Leaf>
+      <Leaf>six</Leaf>
+    </Branch>
+
+    <Branch title="Branch Three Label">
+      <Branch title="Branch Three, Branch Three-One Label">
+        <Leaf>seven</Leaf>
+        <Leaf>eight</Leaf>
+        <Leaf>nine</Leaf>
+        <Branch title="Branch Three, Branch Three-One, Branch Three-One-One Label">
+          <Leaf>ten</Leaf>
+          <Leaf>eleven</Leaf>
+          <Leaf>twelve</Leaf>
+        </Branch>
+      </Branch>
+      <Leaf>thirteen</Leaf>
+      <Leaf>fourteen</Leaf>
+    </Branch>
+  </Tree>
+);
+
+export const DirectionExamples = () => {
   const [sheetLtrOpen, setSheetLtrOpen] = useState(true);
   const [sheetRtlOpen, setSheetRtlOpen] = useState(true);
 
@@ -293,147 +183,203 @@ export const SubTrees = () => {
 
       <Divider />
 
-      <Sheet aria-label="Sub Trees Story, dir=ltr" open={sheetLtrOpen}>
-        <Tree label="Sub Trees Example, dir=ltr" dir="ltr">
-          <SubTree
-            edges={[
-              <TreeItem key="one">one</TreeItem>,
-              <TreeItem key="two">two</TreeItem>,
-              <TreeItem key="three">three</TreeItem>,
-            ]}
-          >
-            Sub Tree One Label
-          </SubTree>
-
-          <SubTree
-            actions={[
-              <Button
-                key="sub-tree-two-button-one"
-                onClick={() => alert("sub tree two, button one clicked")}
-              >
-                button one
-              </Button>,
-              <IconButton
-                aria-label="click here for more options"
-                icon="more"
-                key="sub-tree-two-button-two"
-                onClick={() => alert("sub tree two, button two clicked")}
-                variant="tertiary"
-              />,
-            ]}
-            edges={[
-              <TreeItem key="four">four</TreeItem>,
-              <TreeItem key="five">five</TreeItem>,
-              <TreeItem key="six">six</TreeItem>,
-            ]}
-          >
-            Sub Tree Two Label, has actions
-          </SubTree>
-
-          <SubTree
-            edges={[
-              <SubTree
-                key="sub-sub-tree"
-                edges={[
-                  <TreeItem key="seven">seven</TreeItem>,
-                  <TreeItem key="eight">eight</TreeItem>,
-                  <TreeItem key="nine">nine</TreeItem>,
-                  <SubTree
-                    key="sub-sub-sub-tree"
-                    edges={[
-                      <TreeItem key="ten">ten</TreeItem>,
-                      <TreeItem key="eleven">eleven</TreeItem>,
-                      <TreeItem key="twelve">twelve</TreeItem>,
-                    ]}
-                  >
-                    Sub Tree Three, Sub Tree Three-One, Sub Tree Three-One-One
-                    Label
-                  </SubTree>,
-                ]}
-              >
-                Sub Tree Three, Sub Tree Three-One Label
-              </SubTree>,
-              <TreeItem key="thirteen">thirteen</TreeItem>,
-              <TreeItem key="fourteen">fourteen</TreeItem>,
-            ]}
-          >
-            Sub Tree Three Label
-          </SubTree>
-        </Tree>
+      <Sheet aria-label="Direction left-to-right" open={sheetLtrOpen}>
+        <FullTreeExamples label="Direction left-to-right `dir=ltr`" dir="ltr" />
       </Sheet>
 
       <Divider />
 
-      <Sheet aria-label="Sub Trees Story, dir=rtl" open={sheetRtlOpen}>
-        <Tree label="Sub Trees Example, dir=rtl" dir="rtl">
-          <SubTree
-            edges={[
-              <TreeItem key="one">one</TreeItem>,
-              <TreeItem key="two">two</TreeItem>,
-              <TreeItem key="three">three</TreeItem>,
-            ]}
-          >
-            Sub Tree One Label
-          </SubTree>
-
-          <SubTree
-            actions={[
-              <Button
-                key="sub-tree-two-button-one"
-                onClick={() => alert("sub tree two, button one clicked")}
-              >
-                button one
-              </Button>,
-              <IconButton
-                aria-label="click here for more options"
-                icon="more"
-                key="sub-tree-two-button-two"
-                onClick={() => alert("sub tree two, button two clicked")}
-                variant="tertiary"
-              />,
-            ]}
-            edges={[
-              <TreeItem key="four">four</TreeItem>,
-              <TreeItem key="five">five</TreeItem>,
-              <TreeItem key="six">six</TreeItem>,
-            ]}
-          >
-            Sub Tree Two Label, has actions
-          </SubTree>
-
-          <SubTree
-            edges={[
-              <SubTree
-                key="sub-sub-tree"
-                edges={[
-                  <TreeItem key="seven">seven</TreeItem>,
-                  <TreeItem key="eight">eight</TreeItem>,
-                  <TreeItem key="nine">nine</TreeItem>,
-                  <SubTree
-                    key="sub-sub-sub-tree"
-                    edges={[
-                      <TreeItem key="ten">ten</TreeItem>,
-                      <TreeItem key="eleven">eleven</TreeItem>,
-                      <TreeItem key="twelve">twelve</TreeItem>,
-                    ]}
-                  >
-                    Sub Tree Three, Sub Tree Three-One, Sub Tree Three-One-One
-                    Label
-                  </SubTree>,
-                ]}
-              >
-                Sub Tree Three, Sub Tree Three-One Label
-              </SubTree>,
-              <TreeItem key="thirteen">thirteen</TreeItem>,
-              <TreeItem key="fourteen">fourteen</TreeItem>,
-            ]}
-          >
-            Sub Tree Three Label
-          </SubTree>
-        </Tree>
+      <Sheet aria-label="Direction right-to-left" open={sheetRtlOpen}>
+        <FullTreeExamples label="Direction right-to-left `dir=rtl`" dir="rtl" />
       </Sheet>
 
       <Divider />
     </main>
+  );
+};
+
+const MockButton = () => (
+  <Button onClick={() => alert("ping")} variant="secondary">
+    mock
+  </Button>
+);
+
+export const EmbededActions = () => {
+  return (
+    <Sheet title="Embedded Actions Sheet">
+      <Tree label="Embedded Actions Tree">
+        <Leaf>
+          <div>
+            Leaf <b>One</b>
+          </div>
+        </Leaf>
+
+        <Branch title="Branch without actions">
+          <Leaf>one</Leaf>
+          <Leaf>two</Leaf>
+        </Branch>
+
+        <Branch title="Branch with actions" actions={<MockButton />}>
+          <Leaf actions={<MockButton />} disabled>
+            disabled Leaf
+          </Leaf>
+
+          <Leaf actions={<MockButton />}>not disabled Leaf</Leaf>
+
+          <Branch title="Branch with actions" actions={<MockButton />}>
+            <Leaf actions={<MockButton />} disabled>
+              disabled Leaf
+            </Leaf>
+
+            <Leaf actions={<MockButton />}>not disabled Leaf</Leaf>
+          </Branch>
+        </Branch>
+
+        <Leaf>
+          <div>
+            Leaf <b>Final</b>
+          </div>
+        </Leaf>
+      </Tree>
+
+      <Divider />
+
+      <section style={{ display: "flex" }}>
+        <span>Tab-able item (for checking tab order):</span>
+
+        <IconButton icon="check" aria-label="check icon" />
+      </section>
+
+      <Divider />
+
+      <p>
+        Need to implement better keyboard navigation:{" "}
+        <a href="https://www.w3.org/TR/wai-aria-practices-1.1/examples/treegrid/treegrid-1.html#kbd_label">
+          W3 Tree Grid
+        </a>
+      </p>
+
+      <ul style={{ marginLeft: "2rem" }}>
+        <li>
+          <b>Right Arrow</b>, if expanded, moves to first child
+        </li>
+
+        <li>
+          <b>Left Arrow</b>, if collapsed, moves to parent
+        </li>
+
+        <li>
+          <b>Tab</b>, moves focus to the next interactive widget in the current
+          row. If there are no more interactive widgets in the current row,
+          moves focus out of the treegrid.
+        </li>
+      </ul>
+    </Sheet>
+  );
+};
+
+const Label: FC<
+  DetailedHTMLProps<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>
+> = ({ children, ...rest }) => (
+  <label style={{ fontWeight: "bolder", paddingBottom: "5px" }} {...rest}>
+    {children}
+  </label>
+);
+
+const Section: FC = ({ children }) => (
+  <div
+    style={{
+      paddingBottom: "15px",
+      marginBottom: "15px",
+      borderBottom: "solid 1px black",
+    }}
+  >
+    {children}
+  </div>
+);
+
+export const LeafContentExamples = () => {
+  return (
+    <Sheet title="Leaf Content Examples" style={{ width: 400 }}>
+      <Section>
+        <Label id="label-one">string contents</Label>
+
+        <Tree aria-describedby="label-one">
+          <Leaf>leaf one</Leaf>
+
+          <Leaf>leaf two</Leaf>
+        </Tree>
+      </Section>
+
+      <Section>
+        <Label id="label-two">contents with action(s)</Label>
+
+        <Tree aria-describedby="label-two">
+          <Leaf actions={<MockButton />}>leaf one</Leaf>
+
+          <Leaf
+            actions={[
+              <MockButton key="btn-one" />,
+              <MockButton key="btn-two" />,
+            ]}
+          >
+            leaf two
+          </Leaf>
+
+          <Leaf
+            actions={
+              <>
+                <MockButton />
+                <MockButton />
+              </>
+            }
+          >
+            leaf three
+          </Leaf>
+        </Tree>
+      </Section>
+
+      <Section>
+        <Label id="label-three">complex content examples</Label>
+
+        <Tree aria-describedby="label-three" dir="ltr">
+          <Leaf>
+            <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
+            dir === ltr
+          </Leaf>
+
+          <Leaf dir="rtl">
+            <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
+            dir === rtl
+          </Leaf>
+
+          <Leaf actions={<MockButton />} dir="rtl">
+            <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
+            dir === rtl
+          </Leaf>
+
+          <Leaf actions={<MockButton />} dir="ltr">
+            <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
+            dir === ltr
+          </Leaf>
+
+          <Leaf>
+            <Checkbox aria-labelledby="checkbox-label-one" value="none" />
+
+            <Icon icon="file" aria-label="file" style={{ paddingRight: 5 }} />
+
+            <span id="checkbox-label-one">dir === ltr</span>
+          </Leaf>
+
+          <Leaf dir="rtl">
+            <Checkbox aria-labelledby="checkbox-label-two" value="none" />
+
+            <Icon icon="file" aria-label="file" style={{ paddingLeft: 5 }} />
+
+            <span id="checkbox-label-two">dir === rtl</span>
+          </Leaf>
+        </Tree>
+      </Section>
+    </Sheet>
   );
 };

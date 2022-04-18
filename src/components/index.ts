@@ -21,6 +21,7 @@ export * from "./NoContent";
 export * from "./Notification";
 export * from "./Pagination";
 export * from "./RadioGroup";
+export * from "./Select";
 export * from "./SelectNative";
 export * from "./Sheet";
 export * from "./Shimmer";
