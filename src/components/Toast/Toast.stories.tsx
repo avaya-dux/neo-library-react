@@ -32,11 +32,11 @@ export default {
 
 export const Default = ToastTemplate.bind({});
 Default.args = {
-  message: "Default toast, positoned top and center, for 5 seconds",
+  children: "Default toast, positoned top and center, for 5 seconds",
 };
 export const IconBottomCenter = ToastTemplate.bind({});
 IconBottomCenter.args = {
-  message: "Toast, positoned bottom and center, for 5 seconds",
+  children: "Toast, positoned bottom and center, for 5 seconds",
   icon: "align-bottom",
   position: "bottom",
 };
