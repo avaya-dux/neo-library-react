@@ -66,7 +66,7 @@ export const Branch = ({
           const key = `${childTypeName}-${i}`;
 
           return cloneElement(child, {
-            disabled: true,
+            disabled,
             key: child.key || key,
           });
         });
@@ -77,6 +77,7 @@ export const Branch = ({
       <div
         className={clsx(
           "neo-treeview__item",
+          disabled && "neo-treeview__item--disabled",
           expanded && "neo-treeview__item--expanded",
           active && "neo-treeview__item--selected"
         )}
@@ -88,24 +89,30 @@ export const Branch = ({
           tabIndex={tabIndex}
           onClick={(e) => {
             e.stopPropagation();
-            handleClick();
-            setExpanded(!expanded);
+
+            if (!disabled) {
+              handleClick();
+              setExpanded(!expanded);
+            }
           }}
           onKeyDown={(e) => {
             e.stopPropagation();
-            handleKeyDown(e);
 
-            switch (e.key) {
-              case Keys.SPACE:
-              case Keys.ENTER:
-                setExpanded(!expanded);
-                break;
-              case Keys.LEFT:
-                setExpanded(false);
-                break;
-              case Keys.RIGHT:
-                setExpanded(true);
-                break;
+            if (!disabled) {
+              handleKeyDown(e);
+
+              switch (e.key) {
+                case Keys.SPACE:
+                case Keys.ENTER:
+                  setExpanded(!expanded);
+                  break;
+                case Keys.LEFT:
+                  setExpanded(false);
+                  break;
+                case Keys.RIGHT:
+                  setExpanded(true);
+                  break;
+              }
             }
           }}
         >
