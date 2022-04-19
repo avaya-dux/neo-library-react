@@ -37,6 +37,39 @@ describe("Tree", () => {
     expect(results).toHaveNoViolations();
   });
 
+  it("a `disabled` Branch does not expand when clicked, and has `tabIndex='-1'`", () => {
+    render(
+      <Tree aria-label="tree-root">
+        <Branch title="example" disabled>
+          <Leaf>one</Leaf>
+          <Leaf>two</Leaf>
+        </Branch>
+      </Tree>
+    );
+
+    const treeitems = screen.getAllByRole("treeitem");
+    treeitems.shift(); // remove "branch" so that we can inspect the leaves
+
+    treeitems.forEach((treeitem) => {
+      expect(treeitem).toHaveClass("neo-treeview__item--disabled");
+      expect(treeitem).toHaveAttribute("tabIndex", "-1");
+    });
+
+    const groupOfLeaves = screen.getByRole("group");
+    expect(groupOfLeaves).toHaveAttribute("aria-expanded", "false");
+
+    const branch = screen.getByRole("button");
+    userEvent.click(branch);
+
+    // still not expanded
+    expect(groupOfLeaves).toHaveAttribute("aria-expanded", "false");
+
+    userEvent.keyboard("{enter}");
+
+    // still not expanded
+    expect(groupOfLeaves).toHaveAttribute("aria-expanded", "false");
+  });
+
   describe("interactivity", () => {
     const treeitemText = "treeitem";
     const buttonText = "button";
