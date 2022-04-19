@@ -86,7 +86,7 @@ export const Sheet: FC<SheetProps> = ({
       aria-labelledby={id}
       role="dialog"
       className={clsx(
-        "neo-sheet sheet--custom",
+        "neo-sheet",
         slide && "neo-slide",
         slide && open && "sheet-horizontal-slide-in-shim",
         slide && !open && "sheet-horizontal-slide-out-shim",
