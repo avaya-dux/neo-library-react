@@ -1,63 +1,132 @@
 // BUG: we shouldn't need to disable these rule as W3 recommends using these roles
 // https://www.w3.org/TR/wai-aria-practices-1.1/examples/treeview/treeview-1/treeview-1a.html
+/* eslint-disable jsx-a11y/role-supports-aria-props */
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 
 import clsx from "clsx";
-import { DetailedHTMLProps, FC, LiHTMLAttributes, useContext } from "react";
+import {
+  cloneElement,
+  FC,
+  ReactElement,
+  ReactNode,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { useFocusEffect, useRovingTabIndex } from "react-roving-tabindex";
 
-import { Icon } from "components/Icon";
-import { IconNamesType } from "utils";
+import { Keys } from "utils";
 
+import { LeafProps } from "..";
 import { TreeContext } from "../TreeContext";
 
-export interface BranchProps
-  extends Omit<
-    DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement>,
-    "dir"
-  > {
-  icon?: IconNamesType;
-  iconLabel?: string;
-  leftContent?: JSX.Element; // TODO: don't use a prop for this
-  rightContent?: JSX.Element; // TODO: don't use a prop for this
-  selected?: boolean;
+export interface BranchProps {
+  actions?: ReactNode;
+  children:
+    | ReactElement<BranchProps | LeafProps>
+    | ReactElement<BranchProps | LeafProps>[];
+  defaultExpanded?: boolean;
+  disabled?: boolean;
+  title: ReactNode;
 }
 
-export const Branch: FC<BranchProps> = ({
+/**
+ * A `Branch` can be a child of a `Tree` or itself.
+ *
+ * @see https://design.avayacloud.com/components/web/treeview-web
+ * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-tree
+ */
+export const Branch = ({
+  actions,
   children,
-  className,
-  icon,
-  iconLabel = "tree item icon",
-  leftContent,
-  rightContent,
-  selected = false,
-
-  ...rest
-}) => {
+  defaultExpanded = false,
+  disabled = false,
+  title,
+}: BranchProps) => {
   const { dir } = useContext(TreeContext);
 
+  const ref = useRef(null);
+  const [tabIndex, active, handleKeyDown, handleClick] = useRovingTabIndex(
+    ref,
+    disabled
+  );
+  useFocusEffect(active, ref);
+
+  const [expanded, setExpanded] = useState(defaultExpanded);
+
+  const childrenWithRovingTabIndexLogic = useMemo(() => {
+    const childrenAsArray = Array.isArray(children) ? children : [children];
+
+    // if !expanded, we need to disable all children, which tells "react-roving-tabindex" to set their tabIndex to `-1`
+    return expanded
+      ? childrenAsArray
+      : childrenAsArray.map((child, i) => {
+          const childTypeName = (child.type as FC).name;
+          const key = `${childTypeName}-${i}`;
+
+          return cloneElement(child, {
+            disabled,
+            key: child.key || key,
+          });
+        });
+  }, [expanded]);
+
   return (
-    <li
-      className={clsx(
-        "neo-treeview__item",
-        selected && "neo-treeview__item--selected",
-        className
-      )}
-      dir={dir}
-      role="treeitem"
-      tabIndex={selected ? 0 : -1}
-      {...rest}
-    >
-      {icon && <Icon icon={icon} aria-label={iconLabel} />}
+    <li dir={dir} role="treeitem" className="neo-treeview__sub-tree-item">
+      <div
+        className={clsx(
+          "neo-treeview__item",
+          disabled && "neo-treeview__item--disabled",
+          expanded && "neo-treeview__item--expanded",
+          active && "neo-treeview__item--selected"
+        )}
+      >
+        <span
+          className="neo-treeview__item-left"
+          role="button"
+          ref={ref}
+          tabIndex={tabIndex}
+          onClick={(e) => {
+            e.stopPropagation();
 
-      {leftContent && (
-        <span className="neo-treeview__item-left">{leftContent}</span>
-      )}
+            if (!disabled) {
+              handleClick();
+              setExpanded(!expanded);
+            }
+          }}
+          onKeyDown={(e) => {
+            e.stopPropagation();
 
-      {children && <>{children}</>}
+            if (!disabled) {
+              handleKeyDown(e);
 
-      {rightContent && (
-        <span className="neo-treeview__item-right">{rightContent}</span>
-      )}
+              switch (e.key) {
+                case Keys.SPACE:
+                case Keys.ENTER:
+                  setExpanded(!expanded);
+                  break;
+                case Keys.LEFT:
+                  setExpanded(false);
+                  break;
+                case Keys.RIGHT:
+                  setExpanded(true);
+                  break;
+              }
+            }
+          }}
+        >
+          <span className="neo-treeview__item--expandable" />
+
+          {title}
+        </span>
+
+        <span className="neo-treeview__item-right">{actions}</span>
+      </div>
+
+      <ul aria-expanded={expanded} role="group">
+        {childrenWithRovingTabIndexLogic}
+      </ul>
     </li>
   );
 };

@@ -39,7 +39,7 @@ export const Default = () => {
       <Sheet
         open={sheetOneOpen}
         title="Sheet one"
-        buttons={[
+        actions={[
           <Button key="btn1">button 1</Button>,
           <Button key="btn2">second btn</Button>,
         ]}
@@ -68,7 +68,7 @@ Templated.args = {
   title: "Sheet title",
   slide: true,
   open: true,
-  buttons: [
+  actions: [
     <Button key="btn1">button 1</Button>,
     <Button key="btn2">second btn</Button>,
   ],

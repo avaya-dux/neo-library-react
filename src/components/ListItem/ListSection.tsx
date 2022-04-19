@@ -1,5 +1,10 @@
 import clsx from "clsx";
-import { Fragment, FunctionComponent, ReactElement } from "react";
+import {
+  CSSProperties,
+  Fragment,
+  FunctionComponent,
+  ReactElement,
+} from "react";
 
 import { AvatarProps } from "components/Avatar";
 import { IconProps } from "components/Icon";
@@ -11,6 +16,7 @@ export interface ListSectionProps {
   avatar?: ReactElement<AvatarProps>;
   actions?: ReactElement<any>[];
   icon?: ReactElement<IconProps>;
+  style?: CSSProperties;
   tooltip?: string;
   tooltipPosition?: TooltipPosition;
 }
@@ -25,6 +31,7 @@ export const ListSection: FunctionComponent<ListSectionProps> = ({
   children,
   className,
   hover,
+  style,
   tooltip,
   tooltipPosition = "bottom-right", // TODO-NEO-690 // remove this line to default to "auto" once 690 is completed
 }) => {
@@ -37,6 +44,7 @@ export const ListSection: FunctionComponent<ListSectionProps> = ({
         hover && "neo-group-list--actions__item--clickable",
         className
       )}
+      style={style}
     >
       <div className="neo-group-list__actions--left">
         {tooltip ? (

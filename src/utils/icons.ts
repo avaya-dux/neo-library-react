@@ -454,6 +454,7 @@ export const IconNames = [
   "undo",
   "upload",
   "usb",
+  "user",
   "user-add",
   "user-conference",
   "user-details",
@@ -811,6 +812,7 @@ export type IconNamesType =
   | "mobile-not-paired"
   | "mobile-paired"
   | "mobile-wireless"
+  | "more"
   | "music"
   | "network-quality"
   | "network-quality-0"

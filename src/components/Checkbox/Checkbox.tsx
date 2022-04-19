@@ -1,23 +1,34 @@
-import { useMemo } from "react";
+import clsx from "clsx";
 
-import { Tooltip, TooltipPosition } from "components/Tooltip";
-import { genId } from "utils/accessibilityUtils";
+import { genId, handleAccessbilityError } from "utils";
 
-import { getCheckboxClassName } from "./helpers";
-
-export interface CheckboxProps
+interface BaseCheckboxProps
   extends Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
-    "type" | "checked"
+    "checked" | "type" | "value"
   > {
-  checked?: boolean | "indeterminate";
-  describedBy?: string;
-  isLabelHidden?: boolean;
-  label: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  tooltip?: { label: string; position?: TooltipPosition };
-  value: string;
+  checked?: boolean | "mixed"; // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-checked
+  value: string | number;
 }
+
+type EnforcedAccessibleLabel =
+  | {
+      label: string | JSX.Element;
+      "aria-label"?: string;
+      "aria-labelledby"?: string;
+    }
+  | {
+      label?: string | JSX.Element;
+      "aria-label": string;
+      "aria-labelledby"?: string;
+    }
+  | {
+      label?: string | JSX.Element;
+      "aria-label"?: string;
+      "aria-labelledby": string;
+    };
+
+export type CheckboxProps = BaseCheckboxProps & EnforcedAccessibleLabel;
 
 /**
  * Checkboxes are used when several choices are available and multiple selections are allowed.
@@ -30,66 +41,43 @@ export interface CheckboxProps
 
 export const Checkbox = ({
   checked,
-  describedBy,
-  id,
-  isLabelHidden = false,
+  className,
+  id = genId(),
   label,
-  name,
-  onChange,
-  tooltip,
-  value,
+
   ...rest
 }: CheckboxProps) => {
-  const internalId = useMemo(() => id || genId(), []);
-
-  const computeInputJSX = () => {
-    const inputProps = {
-      value,
-      type: "checkbox",
-      onChange,
-      name,
-      id: internalId,
-      checked: checked === true || checked === "indeterminate",
-    };
-
-    if (isLabelHidden) {
-      inputProps["aria-label"] = label;
-    } else {
-      inputProps["aria-describedby"] = describedBy;
-    }
-
-    return (
-      <>
-        <input
-          {...inputProps}
-          {...getCheckboxClassName(checked === "indeterminate")}
-          {...rest}
-        />
-
-        <Label
-          htmlFor={internalId}
-          label={label}
-          isLabelHidden={isLabelHidden}
-        />
-      </>
+  if (!label && !rest["aria-label"] && !rest["aria-labelledby"]) {
+    handleAccessbilityError(
+      "Checkbox must have an have an accessible label. Please add a `label`, `aria-label`, or `aria-labelledby` prop."
     );
-  };
+  }
 
-  return tooltip ? (
-    <Tooltip label={tooltip.label} position={tooltip.position}>
-      {computeInputJSX()}
-    </Tooltip>
-  ) : (
-    computeInputJSX()
+  if (checked !== undefined && !rest.onChange) {
+    handleAccessbilityError(
+      "You provided a `checked` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultChecked`. Otherwise, set either `onChange` or `readOnly`."
+    );
+  }
+
+  return (
+    <>
+      <input
+        type="checkbox"
+        id={id}
+        checked={checked === "mixed" || checked}
+        className={clsx(
+          "neo-check",
+          checked === "mixed" && "neo-check--indeterminate",
+          className
+        )}
+        {...rest}
+      />
+
+      {/*
+        BUG: the Neo styles are all on the `label` element, so if there isn't a `label`,
+        there's no checkbox. Which is bad.
+      */}
+      <label htmlFor={id}>{label}</label>
+    </>
   );
 };
-
-const Label = ({
-  htmlFor,
-  label,
-  isLabelHidden,
-}: {
-  htmlFor: string;
-  label: string;
-  isLabelHidden: boolean;
-}) => <label htmlFor={htmlFor}>{isLabelHidden ? "" : label}</label>;

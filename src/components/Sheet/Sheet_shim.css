@@ -1,3 +1,8 @@
+.neo-sheet__header .neo-sheet__header--left {
+  font-size: 19px;
+  line-height: 28px;
+}
+
 .sheet-horizontal-slide-in-shim {
   animation-name: slideInRightShim;
   animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
