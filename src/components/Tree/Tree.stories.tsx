@@ -547,6 +547,26 @@ export const LeafContentExamples = () => {
           </Leaf>
         </Tree>
       </Section>
+
+      <Section>
+        <Label id="label-four">disabled content</Label>
+
+        <Tree aria-describedby="label-four">
+          <Leaf>enabled leaf</Leaf>
+
+          <Leaf disabled>disabled leaf</Leaf>
+
+          <Branch title="enabled branch">
+            <Leaf>enabled leaf</Leaf>
+            <Leaf disabled>disabled leaf</Leaf>
+          </Branch>
+
+          <Branch disabled title="disabled branch">
+            <Leaf>enabled leaf</Leaf>
+            <Leaf disabled>disabled leaf</Leaf>
+          </Branch>
+        </Tree>
+      </Section>
     </Sheet>
   );
 };
