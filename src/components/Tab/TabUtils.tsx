@@ -4,7 +4,7 @@ import { genId } from "utils";
 import { InternalTab } from "./InternalTab";
 import { InternalTabProps } from "./InternalTabTypes";
 import { ClosableTab, Tab, TabPanel } from "./TabComponents";
-import { TabPanelProps, TabsProps } from "./TabTypes";
+import { TabListProps, TabPanelProps, TabsProps } from "./TabTypes";
 
 const logger = log.getLogger("tab-utils-logger");
 logger.disableAll();
@@ -67,6 +67,31 @@ export const buildTabProps = (
       id: id || genId(),
       name: children,
       content: panel,
+      ...(icon ? { icon } : {}),
+    };
+  });
+};
+
+export const buildTabPropsNoPanel = (
+  children: TabsProps["children"]
+): InternalTabProps[] => {
+  const tablist = children as ReactElement<TabListProps>;
+  const tabs = toArray(tablist.props.children).filter(isValidTabElement);
+  return tabs.map((tab) => {
+    const props = tab.props;
+    const { id, children, ...rest } = props;
+    const disabled = !!props!.disabled;
+    logger.debug(`${id} disabled = ${disabled}`);
+    const icon = "icon" in props ? props!.icon : undefined;
+    const closable = isClosableTab(tab);
+    const onClose = "onClose" in props ? props!.onClose : undefined;
+    return {
+      ...rest,
+      disabled,
+      closable,
+      onClose,
+      id: id || genId(),
+      name: children,
       ...(icon ? { icon } : {}),
     };
   });

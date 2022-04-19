@@ -31,8 +31,11 @@ interface Oritentation {
 interface CommonTabsProps extends React.HTMLAttributes<HTMLDivElement> {
   defaultIndex?: number;
   index?: number;
-  children: [ReactElement<TabListProps>, ReactElement<TabPanelsProps>];
+  children:
+    | ReactElement<TabListProps>
+    | [ReactElement<TabListProps>, ReactElement<TabPanelsProps>];
   onTabChange?: (index: number) => void;
+  onTabPanelChange?: (index: number) => void;
 }
 export interface HorizontalTabsProps extends CommonTabsProps, Oritentation {
   orientation?: "horizontal";

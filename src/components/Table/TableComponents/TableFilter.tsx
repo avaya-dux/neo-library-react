@@ -54,7 +54,7 @@ export const TableFilter = <T extends Record<string, any>>({
       />
 
       <Sheet
-        buttons={buttons}
+        actions={buttons}
         className="neo-table__filters--sheet"
         open={filterSheetVisible}
         title={filterColumns}
