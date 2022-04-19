@@ -1,6 +1,9 @@
 import { Meta } from "@storybook/react/types-6-0";
-import { Accordion } from "./Accordion";
+
 import { Sheet } from "components/Sheet";
+
+import { Accordion } from "./Accordion";
+
 export default {
   title: "Components/Accordion",
   component: Accordion,
@@ -8,12 +11,12 @@ export default {
 
 export const Default = () => (
   <Sheet title="Accordion Examples" style={{ width: 400 }}>
-    <Accordion header="Accordion Header" body="Some text in body" />
-    <Accordion
-      header="Accordion with expand true"
-      body="Some text in body"
-      defaultExpanded
-    />
-    <Accordion header="Header Disabled" body="Nothing in body" disabled />
+    <Accordion header="Accordion Header">Some text in body</Accordion>
+
+    <Accordion header="Accordion with expand true" defaultExpanded>
+      Some text in body
+    </Accordion>
+
+    <Accordion header="Header Disabled" disabled />
   </Sheet>
 );
