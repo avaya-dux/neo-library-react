@@ -13,6 +13,7 @@ export const Toast: FC<ToastProps> = (props) => {
       message: props.children,
       icon: props.icon,
       duration: props.duration,
+      position: props.position,
     };
   }, [props]);
 
