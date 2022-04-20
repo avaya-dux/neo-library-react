@@ -169,6 +169,7 @@ export const LoadingMultipleSelect = () => {
 };
 
 export const SelectsWithoutChildren = () => {
+  // BUG: need an "empty" message/option
   return (
     <>
       <Select label="Test Label" />

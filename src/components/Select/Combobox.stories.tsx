@@ -33,6 +33,7 @@ export const MultipleSelectCombobox = () => (
 );
 
 export const DisabledCombobox = () => {
+  // BUG: allows typing while disabled
   return (
     <Select label={label} isCombobox disabled>
       <SelectOption>Option 1</SelectOption>
@@ -62,6 +63,7 @@ export const RequiredMultipleSelectComboboxHelperText = () => {
     [selectedValues, setHelperText, helperText, setErrorList]
   );
 
+  // BUG: if users start typing, it is a bad UX (plus, dropdown stops working on click, we need to add a "no results found" message)
   return (
     <Form
       onSubmit={(e) => {
