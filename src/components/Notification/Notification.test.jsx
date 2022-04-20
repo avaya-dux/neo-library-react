@@ -5,7 +5,10 @@ import { axe } from "jest-axe";
 import * as EventStories from "./EventNotification.stories";
 import * as NonEventStories from "./NonEventNotification.stories";
 import * as ToggleEventStories from "./ToggleNotification.stories";
-import { createAction } from "./Notification";
+import { createAction, notificationLogger } from "./Notification";
+import { popupManagerLogger } from "components/PopupManager";
+notificationLogger.disableAll();
+popupManagerLogger.disableAll();
 
 const {
   Success,
