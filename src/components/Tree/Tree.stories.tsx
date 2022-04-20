@@ -1,10 +1,13 @@
 import { Meta } from "@storybook/react/types-6-0";
 import { DetailedHTMLProps, FC, LabelHTMLAttributes, useState } from "react";
 
+import { Accordion } from "components/Accordion";
 import { Button } from "components/Button";
 import { Checkbox } from "components/Checkbox";
 import { Icon } from "components/Icon";
 import { IconButton } from "components/IconButton";
+import { List } from "components/List";
+import { ListSection } from "components/ListItem";
 import { Sheet } from "components/Sheet";
 
 import { Branch, Leaf, Tree, TreeProps } from ".";
@@ -18,97 +21,261 @@ const Divider = () => (
   <div style={{ margin: "2rem 0", borderBottom: "1px solid black" }} />
 );
 
-export const Default = () => (
-  <section style={{ display: "flex", justifyContent: "space-between" }}>
-    <Sheet title="Trees with and without groupings" style={{ width: 400 }}>
-      <Divider />
+const ListItem: FC = ({ children }) => (
+  <ListSection style={{ height: "auto" }}>{children}</ListSection>
+);
 
-      <Tree label="Flat tree">
-        <Leaf>leaf one</Leaf>
-        <Leaf>leaf two</Leaf>
-        <Leaf>leaf three</Leaf>
-      </Tree>
+export const Default = () => {
+  const storySheetStyles = {
+    width: 400,
+    marginBottom: "2rem",
+  };
 
-      <Divider />
+  const [sheetsOpen, setSheetsOpen] = useState({
+    examples: true,
+    description: true,
+    navigation: true,
+  });
 
-      <Tree label="Tree with groupings">
-        <Branch title="Branch One (string)">
-          <Leaf>one</Leaf>
-        </Branch>
+  return (
+    <section
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        flexWrap: "wrap",
+      }}
+    >
+      <Sheet
+        open={sheetsOpen.examples}
+        slide
+        style={storySheetStyles}
+        title="Trees with and without groupings"
+        actions={[
+          <Button
+            key="btn-hide"
+            onClick={() =>
+              setSheetsOpen({
+                ...sheetsOpen,
+                examples: false,
+              })
+            }
+          >
+            Hide
+          </Button>,
+        ]}
+      >
+        <Divider />
 
-        <Branch
-          title={
-            <div>
-              <b>Branch Two</b> (div)
-            </div>
-          }
-        >
-          <Leaf>one</Leaf>
-        </Branch>
-      </Tree>
+        <Tree label="Flat Tree">
+          <Leaf>leaf one</Leaf>
 
-      <Divider />
+          <Leaf>leaf two</Leaf>
+        </Tree>
 
-      <Tree label="Tree with nested groupings">
-        <Branch title="Branch One (string)">
-          <Leaf>one</Leaf>
-        </Branch>
+        <Divider />
 
-        <Branch
-          title={
-            <div>
-              <b>Branch Two</b> (div)
-            </div>
-          }
-        >
-          <Leaf>one</Leaf>
-
-          <Branch title="Branch Three (string)">
-            <Leaf>two</Leaf>
+        <Tree label="Nested Tree">
+          <Branch title="Branch One (string)">
+            <Leaf>leaf one</Leaf>
           </Branch>
 
-          <Leaf>three</Leaf>
-        </Branch>
-      </Tree>
+          <Branch
+            title={
+              <div>
+                <b>Branch Two</b> (div)
+              </div>
+            }
+          >
+            <Leaf>leaf two</Leaf>
 
-      <Divider />
-    </Sheet>
+            <Branch title="Branch Three (string)">
+              <Leaf>leaf three</Leaf>
+            </Branch>
 
-    <Sheet title="Tree Description" style={{ width: 400 }}>
-      <Divider />
+            <Leaf>leaf four</Leaf>
+          </Branch>
+        </Tree>
 
-      <p>
-        The <code>Tree</code> component is a hierarchical list that allows users
-        to move through its levels.
-      </p>
+        <Divider />
+      </Sheet>
 
-      <Divider />
+      <Sheet
+        open={sheetsOpen.description}
+        slide
+        style={storySheetStyles}
+        title="Tree Description"
+        actions={[
+          <Button
+            key="btn-hide"
+            onClick={() =>
+              setSheetsOpen({
+                ...sheetsOpen,
+                description: false,
+              })
+            }
+          >
+            Hide
+          </Button>,
+        ]}
+      >
+        <Divider />
 
-      <p>
-        The <code>Tree</code> component takes a <code>label</code> (or{" "}
-        <code>aria-label</code>) prop, and children. The children can be{" "}
-        <code>Leaf</code> components or <code>Branch</code> components.
-      </p>
+        <p>
+          The <code>Tree</code> component takes a <code>label</code> (or{" "}
+          <code>aria-label</code>) prop, and children. The children can be{" "}
+          <code>Leaf</code> or <code>Branch</code> components.
+        </p>
 
-      <Divider />
+        <Divider />
 
-      <p>
-        A <code>Leaf</code> component takes <code>children</code> and an
-        optional <code>actions</code> prop.
-      </p>
+        <p>
+          A <code>Branch</code> component takes <code>children</code>, (which
+          can be a <code>Leaf</code> or <code>Branch</code>), a{" "}
+          <code>title</code> prop, and an optional <code>actions</code> prop.
+        </p>
 
-      <Divider />
+        <Divider />
 
-      <p>
-        A <code>Branch</code> component takes <code>children</code>,{" "}
-        <code>edges</code> (which can be <code>Leaf</code> or{" "}
-        <code>Branch</code>) and an optional <code>actions</code> prop.
-      </p>
+        <p>
+          A <code>Leaf</code> component takes <code>children</code> and an
+          optional <code>actions</code> prop.
+        </p>
 
-      <Divider />
-    </Sheet>
-  </section>
-);
+        <Divider />
+      </Sheet>
+
+      <Sheet
+        open={sheetsOpen.navigation}
+        slide
+        style={storySheetStyles}
+        title="Tree Keyboard Navigation Support"
+        actions={[
+          <Button
+            key="btn-hide"
+            onClick={() =>
+              setSheetsOpen({
+                ...sheetsOpen,
+                navigation: false,
+              })
+            }
+          >
+            Hide
+          </Button>,
+        ]}
+      >
+        <Divider />
+
+        <Accordion header="Left Arrow">
+          <List>
+            <ListItem>When focus is on an open node, closes the node.</ListItem>
+
+            <ListItem>
+              When focus is on a root node that is closed, does nothing.
+            </ListItem>
+          </List>
+        </Accordion>
+
+        <Accordion header="Right Arrow">
+          <List>
+            <ListItem>
+              When focus is on a closed node, opens the node; focus does not
+              move.
+            </ListItem>
+
+            <ListItem>When focus is on a leaf node, does nothing.</ListItem>
+          </List>
+        </Accordion>
+
+        <Accordion header="Up arrow">
+          <List>
+            <ListItem>
+              Moves focus to the previous node that is focusable without opening
+              or closing a node.
+            </ListItem>
+
+            <ListItem>If focus is on the first node, does nothing.</ListItem>
+          </List>
+        </Accordion>
+
+        <Accordion header="Down arrow">
+          <List>
+            <ListItem>
+              Moves focus to the next node that is focusable without opening or
+              closing a node.
+            </ListItem>
+
+            <ListItem>If focus is on the last node, does nothing.</ListItem>
+          </List>
+        </Accordion>
+
+        <Accordion header="Home">
+          <List>
+            <ListItem>
+              Moves focus to first node without opening or closing a node.
+            </ListItem>
+          </List>
+        </Accordion>
+
+        <Accordion header="End">
+          <List>
+            <ListItem>
+              Moves focus to the last node that can be focused without expanding
+              any nodes that are closed.
+            </ListItem>
+          </List>
+        </Accordion>
+      </Sheet>
+
+      <Sheet style={storySheetStyles} title="Show Hidden Sheets">
+        <Divider />
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Button
+            disabled={sheetsOpen.examples}
+            onClick={() =>
+              setSheetsOpen({
+                ...sheetsOpen,
+                examples: true,
+              })
+            }
+          >
+            Show Examples
+          </Button>
+
+          <Button
+            disabled={sheetsOpen.description}
+            style={{ marginTop: 5, marginBottom: 5 }}
+            onClick={() =>
+              setSheetsOpen({
+                ...sheetsOpen,
+                description: true,
+              })
+            }
+          >
+            Show Description
+          </Button>
+
+          <Button
+            disabled={sheetsOpen.navigation}
+            onClick={() =>
+              setSheetsOpen({
+                ...sheetsOpen,
+                navigation: true,
+              })
+            }
+          >
+            Show Keyboard Support
+          </Button>
+        </div>
+      </Sheet>
+    </section>
+  );
+};
 
 const FullTreeExamples = (props: TreeProps) => (
   <Tree {...props}>
@@ -163,7 +330,7 @@ export const DirectionExamples = () => {
   const [sheetRtlOpen, setSheetRtlOpen] = useState(true);
 
   return (
-    <main>
+    <section>
       <Divider />
 
       <section
@@ -194,7 +361,7 @@ export const DirectionExamples = () => {
       </Sheet>
 
       <Divider />
-    </main>
+    </section>
   );
 };
 
@@ -378,6 +545,26 @@ export const LeafContentExamples = () => {
 
             <span id="checkbox-label-two">dir === rtl</span>
           </Leaf>
+        </Tree>
+      </Section>
+
+      <Section>
+        <Label id="label-four">disabled content</Label>
+
+        <Tree aria-describedby="label-four">
+          <Leaf>enabled leaf</Leaf>
+
+          <Leaf disabled>disabled leaf</Leaf>
+
+          <Branch title="enabled branch">
+            <Leaf>enabled leaf</Leaf>
+            <Leaf disabled>disabled leaf</Leaf>
+          </Branch>
+
+          <Branch disabled title="disabled branch">
+            <Leaf>enabled leaf</Leaf>
+            <Leaf disabled>disabled leaf</Leaf>
+          </Branch>
         </Tree>
       </Section>
     </Sheet>

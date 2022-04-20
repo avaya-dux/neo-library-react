@@ -38,7 +38,7 @@ describe("Sheet", () => {
     const { getByRole } = render(
       <Sheet
         title="example title"
-        buttons={[<Button key="example1">example</Button>]}
+        actions={[<Button key="example1">example</Button>]}
       />
     );
 
@@ -63,7 +63,7 @@ describe("Sheet", () => {
       render(
         <Sheet
           aria-label="innapropriate aria label, need to use `title` prop"
-          buttons={[<Button key="example1">example</Button>]}
+          actions={[<Button key="example1">example</Button>]}
         />
       )
     ).toThrow();
@@ -86,7 +86,7 @@ describe("Sheet", () => {
     it("when `open={true}`, a Sheet's contents _are_ visible and tab-able", () => {
       const btnSpy = jest.fn();
       const buttons = [<Button onClick={btnSpy}>example</Button>];
-      render(<Sheet open={true} title="sheet title" buttons={buttons} />);
+      render(<Sheet open={true} title="sheet title" actions={buttons} />);
 
       const sheet = screen.getByRole("dialog");
       expect(sheet).not.toHaveClass("neo-display-none");

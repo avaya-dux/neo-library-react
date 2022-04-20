@@ -8,7 +8,7 @@ import "./Sheet_shim.css";
 type EnforcedAccessibleLabel =
   | {
       title: string | JSX.Element;
-      buttons?: JSX.Element[];
+      actions?: JSX.Element[];
       "aria-label"?: string;
       "aria-labelledby"?: string;
     }
@@ -56,7 +56,7 @@ export const Sheet: FC<SheetProps> = ({
   ...rest
 }) => {
   const initialRender = useIsInitialRender();
-  const buttons = "buttons" in rest ? rest.buttons : null;
+  const buttons = "actions" in rest ? rest.actions : null;
 
   if (!(title || rest["aria-label"] || rest["aria-labelledby"])) {
     handleAccessbilityError(
@@ -86,7 +86,7 @@ export const Sheet: FC<SheetProps> = ({
       aria-labelledby={id}
       role="dialog"
       className={clsx(
-        "neo-sheet sheet--custom",
+        "neo-sheet",
         slide && "neo-slide",
         slide && open && "sheet-horizontal-slide-in-shim",
         slide && !open && "sheet-horizontal-slide-out-shim",
@@ -96,8 +96,8 @@ export const Sheet: FC<SheetProps> = ({
       {...rest}
     >
       <div className="neo-sheet__header">
-        <div className="neo-sheet__header--left">
-          {typeof title === "string" ? <h4 id={id}>{title}</h4> : title}
+        <div className="neo-sheet__header--left" id={id}>
+          {title}
         </div>
 
         <div className="neo-sheet__header--right">{buttons}</div>

@@ -40,7 +40,7 @@ export interface TreeProps
   </Tree>
  *
  * @example
-  <Tree label="Tree with groupings">
+  <Tree label="Nested Tree">
     <Branch title="Branch One (string)">
       <Leaf>one</Leaf>
     </Branch>
@@ -57,7 +57,7 @@ export interface TreeProps
   </Tree>
  *
  * @example
-  <Tree label="Tree with groupings and nested groupings">
+  <Tree label="Nested Tree and nested groupings">
     <Branch title="Branch One (string)">
       <Leaf>one</Leaf>
     </Branch>
@@ -69,13 +69,13 @@ export interface TreeProps
         </div>
       }
     >
-      <Leaf>one</Leaf>
+      <Leaf>two</Leaf>
 
       <Branch title="Branch Three (string)">
-        <Leaf>two</Leaf>
+        <Leaf>three</Leaf>
       </Branch>
 
-      <Leaf>three</Leaf>
+      <Leaf>four</Leaf>
     </Branch>
   </Tree>
  *

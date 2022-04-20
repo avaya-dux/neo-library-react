@@ -1,24 +1,23 @@
 import clsx from "clsx";
-import { ReactNode, useState } from "react";
+import { FC, ReactNode, useState } from "react";
 import { genId } from "utils";
 
 export interface AccordionProps {
-  header: string;
-  body: ReactNode;
+  header: ReactNode;
   id?: string;
   defaultExpanded?: boolean;
   disabled?: boolean;
   ariaLevel?: number;
 }
 
-export const Accordion = ({
+export const Accordion: FC<AccordionProps> = ({
   header,
-  body,
+  children,
   id = genId(),
   defaultExpanded = false,
   disabled,
   ariaLevel = 2,
-}: AccordionProps) => {
+}) => {
   const [isActive, setIsActive] = useState(defaultExpanded);
 
   return (
@@ -65,7 +64,7 @@ export const Accordion = ({
             className="neo-accordion__body"
             role="region"
           >
-            <div className="neo-accordion__content">{body}</div>
+            <div className="neo-accordion__content">{children}</div>
           </div>
         )}
       </div>
