@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/react/types-6-0";
 import { Button } from "components/Button";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { NonEventNotificationProps, Notification } from ".";
 
 export default {
@@ -36,8 +36,6 @@ export const AlertShow = () => {
 };
 
 export const AlertShowContainer = () => {
-  let container: HTMLDivElement | null;
-  const ref = useRef<HTMLDivElement | null>(null);
   const [isOpen, setOpen] = useState(false);
   return (
     <div>
@@ -51,12 +49,7 @@ export const AlertShowContainer = () => {
       >
         {isOpen ? "Hide" : "Show"}
       </Button>
-      <div
-        ref={(element) => {
-          container = element;
-          ref.current = container;
-        }}
-      >
+      <div>
         <h3>Alert should popup below</h3>
       </div>
 
@@ -67,7 +60,6 @@ export const AlertShowContainer = () => {
           header="Alert"
           description="This is an alert."
           action={{ onClick: () => setOpen(false) }}
-          ref={ref}
         />
       )}
       <div>
