@@ -12,7 +12,7 @@ export const DownshiftWithComboboxProps = (
   id: string,
   setSelectedItems: Dispatch<SetStateAction<string[]>>,
   setInputValue: Dispatch<SetStateAction<string[]>>,
-  onSelectedValueChange?: (value: string[] | string) => any,
+  onSelectedValueChange?: (value: string[] | string) => void,
   loading?: boolean,
   disabled?: boolean
 ) => {
@@ -121,7 +121,7 @@ export const DownshiftWithSelectProps = (
   items: string[],
   id: string,
   setSelectedItems: Dispatch<SetStateAction<string[]>>,
-  onSelectedValueChange?: (value: string[] | string) => any,
+  onSelectedValueChange?: (value: string[] | string) => void,
   disabled?: boolean,
   loading?: boolean
 ) => {

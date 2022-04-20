@@ -50,11 +50,11 @@ export const RequiredMultipleSelectComboboxHelperText = () => {
   const [errorList, setErrorList] = useState<string[]>([]);
 
   const updateSelectedValue = useCallback(
-    (value: any): any => {
+    (value: string | string[]): void => {
       console.log(value);
       console.log(selectedValues);
 
-      setSelectedValues(value);
+      setSelectedValues(value as string[]);
 
       setHelperText(helperText);
       setErrorList([]);

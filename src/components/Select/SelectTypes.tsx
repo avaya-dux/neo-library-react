@@ -18,7 +18,7 @@ export interface SelectProps {
   isMultipleSelect?: boolean;
   label: string;
   loading?: boolean;
-  onSelectedValueChange?: (value: string[] | string) => any;
+  onSelectedValueChange?: (value: string | string[]) => void;
   placeholder?: string;
   required?: boolean;
   values?: string[];

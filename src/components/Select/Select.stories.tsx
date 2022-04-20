@@ -14,7 +14,7 @@ export default {
 
 const label = "Test label";
 
-const handleSelectedValueChange = (value: any) => {
+const handleSelectedValueChange = (value: string | string[]) => {
   console.log(value);
 };
 
