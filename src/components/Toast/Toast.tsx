@@ -8,12 +8,11 @@ export interface ToastProps extends Omit<ToastOptions, "message"> {
   children: string;
 }
 export const Toast: FC<ToastProps> = (props) => {
+  const { children, ...rest } = props;
   const options: ToastOptions = useMemo(() => {
     return {
-      message: props.children,
-      icon: props.icon,
-      duration: props.duration,
-      position: props.position,
+      ...rest,
+      message: children,
     };
   }, [props]);
 
