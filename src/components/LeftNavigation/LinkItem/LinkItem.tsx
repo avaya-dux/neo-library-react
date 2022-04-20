@@ -17,11 +17,12 @@ export const LinkItem = ({
 
   ...rest
 }: LinkItemProps) => {
-
   const ctx = useContext(NavigationContext);
   const handleOnClick: MouseEventHandler = (e) => {
     // TODO: Make this active and parent too, use callback
-    ctx?.onSelectedLink ? console.log("we have a valid onSelectedLink") : console.log("invalid onSelectedLink");
+    ctx?.onSelectedLink
+      ? console.log("we have a valid onSelectedLink")
+      : console.log("invalid onSelectedLink");
     ctx?.onSelectedLink && ctx.onSelectedLink("id goes here", "some url");
     onClick && onClick(e);
   };
