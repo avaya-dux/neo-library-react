@@ -1,7 +1,12 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { IconNames } from "utils";
-import { EventNotificationProps, Notification } from ".";
 import ReactStopwatch from "react-stopwatch";
+import { IconNames } from "utils";
+import {
+  EventNotificationProps,
+  Notification,
+  notificationLogger as logger,
+} from ".";
+
 type WithoutType = Omit<EventNotificationProps, "type">;
 const EventTemplate: Story<WithoutType> = ({ ...rest }: WithoutType) => {
   const props = { type: "event", ...rest } as EventNotificationProps;
@@ -40,7 +45,7 @@ export const EventCounterUp = () => {
       minutes={0}
       hours={0}
       limit="05:00"
-      onCallback={() => console.log("Finish")}
+      onCallback={() => logger.debug("Finish")}
       withLoop={true}
       render={({ formatted }: { [key: string]: any }) => {
         return (
