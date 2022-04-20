@@ -1,8 +1,8 @@
 import clsx from "clsx";
+import { UseComboboxReturnValue } from "downshift";
 import {
   Children,
   Fragment,
-  FunctionComponent,
   isValidElement,
   useEffect,
   useMemo,
@@ -13,34 +13,32 @@ import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 import { useIsInitialRender } from "utils/hooks/useIsInitialRender";
 
-import { SelectProps } from "./SelectTypes";
+import {
+  DownshiftWithComboboxMultipleSelectProps,
+  DownshiftWithComboboxProps,
+  DownshiftWithMultipleSelectProps,
+  DownshiftWithSelectProps,
+} from "./DownshiftHooks";
 import { SelectContext } from "./SelectContext";
+import { SelectProps } from "./SelectTypes";
 
 import "./Select_shim.css";
 
-import {
-  DownshiftWithSelectProps,
-  DownshiftWithMultipleSelectProps,
-  DownshiftWithComboboxProps,
-  DownshiftWithComboboxMultipleSelectProps,
-} from "./DownshiftHooks";
-import { UseComboboxReturnValue } from "downshift";
-
-export const Select: FunctionComponent<SelectProps> = ({
-  isMultipleSelect,
-  isCombobox,
-  label,
-  placeholder = "Select One",
-  id = genId(),
+export const Select = ({
+  children = [],
   disabled,
   errorList = [],
   helperText,
+  id = genId(),
+  isCombobox,
+  isMultipleSelect,
+  label,
   loading = false,
-  required,
   onSelectedValueChange,
+  placeholder = "Select One",
+  required,
   values,
-  children = [],
-}) => {
+}: SelectProps) => {
   if (!label) {
     handleAccessbilityError("Select requires a label prop");
   }
