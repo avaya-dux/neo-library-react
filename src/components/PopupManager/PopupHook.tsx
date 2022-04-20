@@ -14,50 +14,54 @@ export { logger as popupHookLogger };
 const managerRef = createRef<PopupManager>();
 export const containerId = "global-hook-neo-popup-manager-container";
 
-let ready = false;
-export const createContainer = (callback: () => void) => {
-  logger.debug("ready=", ready);
-  let container = document.getElementById(containerId);
-  if (container !== null) {
-    logger.debug("container exists");
-    if (ready) {
-      callback();
+export const [createContainer, removePopupManagerContainer] = (() => {
+  let ready = false;
+  const createContainer = (callback: () => void) => {
+    logger.debug("ready=", ready);
+    let container = document.getElementById(containerId);
+    if (container !== null) {
+      logger.debug("container exists");
+      if (ready) {
+        callback();
+        return;
+      }
+      const intervalId = setInterval(() => {
+        logger.debug("checking: ready =", ready);
+        if (ready) {
+          clearInterval(intervalId);
+          callback();
+        }
+      }, 100);
       return;
     }
-    const intervalId = setInterval(() => {
-      logger.debug("checking: ready =", ready);
-      if (ready) {
-        clearInterval(intervalId);
+    container = createDivWithId(containerId);
+    logger.debug("container created");
+    ReactDOM.render(
+      <PopupManager ref={managerRef}></PopupManager>,
+      container,
+      () => {
+        logger.debug("global popup manager is mounted...");
+        ready = true;
         callback();
       }
-    }, 100);
-    return;
-  }
-  container = createDivWithId(containerId);
-  logger.debug("container created");
-  ReactDOM.render(
-    <PopupManager ref={managerRef}></PopupManager>,
-    container,
-    () => {
-      logger.debug("global popup manager is mounted...");
-      ready = true;
-      callback();
+    );
+  };
+  const removePopupManagerContainer = () => {
+    logger.debug("global popup hook: removing container");
+    const container = document.getElementById(containerId);
+    if (container) {
+      document.body.removeChild(container);
     }
-  );
-};
+    ready = false;
+  };
+  return [createContainer, removePopupManagerContainer];
+})();
+
 export const createDivWithId = (id: string) => {
   const container = document.createElement("div");
   container.setAttribute("id", id);
   document.body.appendChild(container);
   return container;
-};
-export const removePopupManagerContainer = () => {
-  logger.debug("global popup hook: removing container");
-  const container = document.getElementById(containerId);
-  if (container) {
-    document.body.removeChild(container);
-  }
-  ready = false;
 };
 
 const toastInit: PopupManager["toast"] = (toastOptions: ToastOptions) => {
