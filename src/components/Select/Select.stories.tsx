@@ -1,8 +1,7 @@
 import { Meta } from "@storybook/react/types-6-0";
+import { useCallback, useEffect, useState } from "react";
 
-import { useState, useEffect, useCallback } from "react";
-
-import { Form, Button } from "components";
+import { Button, Form } from "components";
 
 import { Select } from "./Select";
 import { SelectOption } from "./SelectOption";

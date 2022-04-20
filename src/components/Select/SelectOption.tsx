@@ -1,14 +1,15 @@
-import { FunctionComponent, useContext, useMemo } from "react";
-
-import { MultipleSelectOptionProps, SelectOptionProps } from "./SelectTypes";
-
-import { SelectContext } from "./SelectContext";
+import { useContext, useMemo } from "react";
 
 import { genId } from "utils/accessibilityUtils";
 
-export const SelectOption: FunctionComponent<
-  SelectOptionProps | MultipleSelectOptionProps
-> = ({ disabled, children, helperText }) => {
+import { SelectContext } from "./SelectContext";
+import { SelectOptionProps } from "./SelectTypes";
+
+export const SelectOption = ({
+  children,
+  disabled,
+  helperText,
+}: SelectOptionProps) => {
   const {
     isMultipleSelect,
     items,
