@@ -1,8 +1,7 @@
 import { Meta } from "@storybook/react/types-6-0";
+import { useCallback, useEffect, useState } from "react";
 
-import { useState, useEffect, useCallback } from "react";
-
-import { Form, Button } from "components";
+import { Button, Form } from "components";
 
 import { Select } from "./Select";
 import { SelectOption } from "./SelectOption";
@@ -34,6 +33,7 @@ export const MultipleSelectCombobox = () => (
 );
 
 export const DisabledCombobox = () => {
+  // BUG: allows typing while disabled
   return (
     <Select label={label} isCombobox disabled>
       <SelectOption>Option 1</SelectOption>
@@ -51,11 +51,11 @@ export const RequiredMultipleSelectComboboxHelperText = () => {
   const [errorList, setErrorList] = useState<string[]>([]);
 
   const updateSelectedValue = useCallback(
-    (value: any): any => {
+    (value: string | string[]): void => {
       console.log(value);
       console.log(selectedValues);
 
-      setSelectedValues(value);
+      setSelectedValues(value as string[]);
 
       setHelperText(helperText);
       setErrorList([]);
@@ -63,6 +63,7 @@ export const RequiredMultipleSelectComboboxHelperText = () => {
     [selectedValues, setHelperText, helperText, setErrorList]
   );
 
+  // BUG: if users start typing, it is a bad UX (plus, dropdown stops working on click, we need to add a "no results found" message)
   return (
     <Form
       onSubmit={(e) => {
