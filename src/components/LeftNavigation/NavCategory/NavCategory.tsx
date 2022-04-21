@@ -6,9 +6,11 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import clsx from "clsx";
+import { useFocusEffect, useRovingTabIndex } from "react-roving-tabindex";
 
 import { NavCategoryProps } from "../LeftNavigationTypes";
 import { LinkItem } from "../LinkItem";
@@ -62,7 +64,14 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   const [isExpanded, setIsExpanded] = useState(expanded);
   const [navItemClass, setNavItemClass] = useState(LEFTNAV_CATEGORY_STYLE);
   const [iconClass, setIconClass] = useState("");
-  const ctx = useContext(NavigationContext);
+  const { currentUrl, onSelectedLink } = useContext(NavigationContext);
+
+  const ref = useRef(null);
+  const [tabIndex, isActive, handleKeyIndex, handleClick] = useRovingTabIndex(
+    ref,
+    disabled
+  );
+  useFocusEffect(isActive, ref);
 
   useEffect(() => {
     const itemStyle = getNavBarClassNames(isExpanded, active, disabled);
@@ -86,22 +95,41 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   };
   const handleKeyDown = (event: KeyboardEvent) => {
     event.stopPropagation();
-    if (event.key === Keys.ENTER) {
-      setIsExpanded(!isExpanded);
+
+    if (!disabled) {
+      handleKeyIndex(event);
+
+      switch (event.key) {
+        case Keys.SPACE:
+        case Keys.ENTER:
+          setIsExpanded(!isExpanded);
+          break;
+        case Keys.LEFT:
+          setIsExpanded(false);
+          break;
+        case Keys.RIGHT:
+          setIsExpanded(true);
+          break;
+      }
     }
   };
 
-  const linkItems = Children.map(children, (child, index) => (
-    <LinkItem
-      active={child?.props.active}
-      disabled={child?.props.disabled}
-      href={child?.props.href}
-      id={index.toString()}
-      onClick={child?.props.onClick}
-    >
-      {child?.props.children}
-    </LinkItem>
-  ));
+  const linkItems = Children.map(children, (child, index) => {
+    const childTypeName = (child?.type as FunctionComponent).name;
+    const id = child?.id || `${childTypeName}-${index}`;
+    const isDisabled = !isExpanded || disabled || child?.props.disabled;
+    return (
+      <LinkItem
+        active={child?.props.active}
+        disabled={isDisabled}
+        href={child?.props.href}
+        id={id}
+        onClick={child?.props.onClick}
+      >
+        {child?.props.children}
+      </LinkItem>
+    );
+  });
 
   return (
     <li id={internalId} className={navItemClass}>
@@ -113,6 +141,8 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
           icon && iconClass,
           className
         )}
+        ref={ref}
+        tabIndex={tabIndex}
         disabled={disabled}
         onClick={onExpand}
         onKeyDown={handleKeyDown}

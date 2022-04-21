@@ -1,19 +1,10 @@
-import {
-  FunctionComponent,
-  KeyboardEvent,
-  MouseEvent,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { FunctionComponent, KeyboardEvent, MouseEvent, useState } from "react";
+
+import { RovingTabIndexProvider } from "react-roving-tabindex";
+import { genId } from "utils";
 
 import { NavigationContext } from "./NavigationContext";
 import { LeftNavProps, NavigationContextType } from "./LeftNavigationTypes";
-
-import { genId, Keys } from "utils";
-
-const LEFTNAV_STYLE: string = "neo-leftnav__main";
 
 /**
  * This is the main Left Navigation outer container that contains all other subComponents
@@ -54,12 +45,16 @@ export const LeftNavigation: FunctionComponent<LeftNavProps> = ({
   };
 
   return (
-    <NavigationContext.Provider value={navContext}>
-      <div className="neo-leftnav--wrapper">
-        <nav className="neo-leftnav">
-          <ul className="neo-leftnav__nav">{children}</ul>
-        </nav>
-      </div>
-    </NavigationContext.Provider>
+    <RovingTabIndexProvider
+      options={{ direction: "vertical", focusOnClick: true }}
+    >
+      <NavigationContext.Provider value={navContext}>
+        <div className="neo-leftnav--wrapper">
+          <nav className="neo-leftnav">
+            <ul className="neo-leftnav__nav">{children}</ul>
+          </nav>
+        </div>
+      </NavigationContext.Provider>
+    </RovingTabIndexProvider>
   );
 };
