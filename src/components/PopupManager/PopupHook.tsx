@@ -9,13 +9,23 @@ import {
   NotificationOptions,
 } from "./PopupTypes";
 const logger = log.getLogger("popup-hook-logger");
-logger.enableAll();
+logger.disableAll();
 export { logger as popupHookLogger };
 const managerRef = createRef<PopupManager>();
 export const containerId = "global-hook-neo-popup-manager-container";
-
-export const [createContainer, removePopupManagerContainer] = (() => {
+export const repeatCheck = (getter: () => boolean, callback: () => void) => {
+  const intervalId = setInterval(() => {
+    const value = getter();
+    logger.debug("checking: ready =", value);
+    if (value) {
+      clearInterval(intervalId);
+      callback();
+    }
+  }, 100);
+};
+export const [createContainer, removePopupManagerContainer, getReady] = (() => {
   let ready = false;
+  const getReady = () => ready;
   const createContainer = (callback: () => void) => {
     logger.debug("ready=", ready);
     let container = document.getElementById(containerId);
@@ -25,13 +35,7 @@ export const [createContainer, removePopupManagerContainer] = (() => {
         callback();
         return;
       }
-      const intervalId = setInterval(() => {
-        logger.debug("checking: ready =", ready);
-        if (ready) {
-          clearInterval(intervalId);
-          callback();
-        }
-      }, 100);
+      repeatCheck(getReady, callback);
       return;
     }
     container = createDivWithId(containerId);
@@ -54,7 +58,7 @@ export const [createContainer, removePopupManagerContainer] = (() => {
     }
     ready = false;
   };
-  return [createContainer, removePopupManagerContainer];
+  return [createContainer, removePopupManagerContainer, getReady];
 })();
 
 export const createDivWithId = (id: string) => {

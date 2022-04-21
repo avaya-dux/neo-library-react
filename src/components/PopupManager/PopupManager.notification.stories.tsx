@@ -6,7 +6,7 @@ import {
   Notification,
   notificationLogger as logger,
 } from "components/Notification";
-
+logger.disableAll();
 type WithoutType = Omit<EventNotificationProps, "type">;
 const EventTemplate: Story<WithoutType> = ({ ...rest }: WithoutType) => {
   const props = { type: "event", ...rest } as EventNotificationProps;
@@ -36,6 +36,7 @@ export const PopCounterEvent = () => {
         popupRef.current = managerRef.current.notify({
           id: "event-counter",
           node: notificationRef.current,
+          position: "bottom",
         });
         logger.debug(
           "after notify call: open is ",
@@ -55,20 +56,24 @@ export const PopCounterEvent = () => {
   }, [open]);
 
   useEffect(() => {
-    if (managerRef.current) {
-      managerRef.current.setZIndex(9900);
-    }
     return () => {
-      logger.debug("PopClosableEvent cleaning up ...");
+      logger.debug("PopCounterEvent cleaning up ...");
       removeAll();
     };
-  }, [managerRef]);
+  }, []);
 
   const removeAll = () => {
-    logger.debug("PopClosableEvent cleaning up ...");
+    logger.debug("PopCounterEvent removeAll ...");
     if (managerRef.current) {
       logger.debug("remove all...");
       managerRef.current.removeAll();
+    }
+  };
+
+  const setZIndex = () => {
+    if (managerRef.current) {
+      managerRef.current.setZIndex(2000);
+      alert("zindex changed");
     }
   };
 
@@ -80,6 +85,9 @@ export const PopCounterEvent = () => {
       </div>
       <div>
         <button onClick={removeAll}>Remove All</button>
+      </div>
+      <div>
+        <button onClick={setZIndex}>Change Z Index</button>
       </div>
     </>
   );

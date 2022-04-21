@@ -1,18 +1,20 @@
-import {
-  createContainer,
-  createDivWithId,
-  usePopup,
-  containerId,
-  popupHookLogger,
-  toastInit,
-  notifyInit,
-  removeInit,
-  removeAllInit,
-  removePopupManagerContainer,
-} from "./PopupHook";
-import { popupManagerLogger } from "./PopupManager";
 import { renderHook } from "@testing-library/react-hooks";
 import { Notification } from "components/Notification";
+import {
+  containerId,
+  createContainer,
+  createDivWithId,
+  getReady,
+  notifyInit,
+  popupHookLogger,
+  removeAllInit,
+  removeInit,
+  removePopupManagerContainer,
+  repeatCheck,
+  toastInit,
+  usePopup,
+} from "./PopupHook";
+import { popupManagerLogger } from "./PopupManager";
 popupManagerLogger.disableAll();
 popupHookLogger.disableAll();
 describe("PopupHook", () => {
@@ -28,6 +30,7 @@ describe("PopupHook", () => {
     createContainer(callback);
     jest.runAllTimers();
     expect(callback).toBeCalledTimes(1);
+    expect(getReady()).toBeTruthy();
   });
 
   it("createDivWithId creation successful", () => {
@@ -89,5 +92,17 @@ describe("PopupHook", () => {
   it("removePopupManagerContainer works when container does not exists.", () => {
     expect(document.getElementById(containerId)).toBeNull();
     removePopupManagerContainer();
+  });
+  it("repeatCheck", () => {
+    jest.useFakeTimers();
+    const getter = jest
+      .fn()
+      .mockReturnValueOnce(false)
+      .mockReturnValueOnce(true);
+    const callback = jest.fn();
+    repeatCheck(getter, callback);
+    jest.runAllTimers();
+    expect(getter).toBeCalledTimes(2);
+    expect(callback).toBeCalled();
   });
 });

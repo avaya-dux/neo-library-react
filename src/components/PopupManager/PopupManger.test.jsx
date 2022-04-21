@@ -119,6 +119,13 @@ describe("PopupManager", () => {
         await new Promise((resolve) => setTimeout(resolve, 0));
         expect(() => getByRole("alert")).toThrow();
       });
+      it("setZIndex works", () => {
+        const [_, , setZIndex] = screen.getAllByRole("button");
+        userEvent.click(setZIndex);
+        const topContainer = document.getElementById("neo-popup-manager-top");
+        const style = window.getComputedStyle(topContainer);
+        expect(style.zIndex).toBe("2000");
+      });
     });
     describe("PopClosableEvent", () => {
       let renderResult;
