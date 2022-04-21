@@ -34,9 +34,8 @@ export const PopCounterEvent = () => {
     if (open) {
       if (managerRef.current) {
         popupRef.current = managerRef.current.notify({
-          id: "event-couter",
+          id: "event-counter",
           node: notificationRef.current,
-          position: "bottom",
         });
         logger.debug(
           "after notify call: open is ",
@@ -61,18 +60,26 @@ export const PopCounterEvent = () => {
     }
     return () => {
       logger.debug("PopClosableEvent cleaning up ...");
-      if (managerRef.current) {
-        logger.debug("remove all...");
-        managerRef.current.removeAll();
-      }
+      removeAll();
     };
   }, [managerRef]);
+
+  const removeAll = () => {
+    logger.debug("PopClosableEvent cleaning up ...");
+    if (managerRef.current) {
+      logger.debug("remove all...");
+      managerRef.current.removeAll();
+    }
+  };
 
   return (
     <>
       <PopupManager ref={managerRef} />
       <div>
         <button onClick={() => setOpen((prev) => !prev)}>Toggle</button>
+      </div>
+      <div>
+        <button onClick={removeAll}>Remove All</button>
       </div>
     </>
   );
@@ -104,7 +111,6 @@ export const PopClosableEvent = () => {
     if (open) {
       if (managerRef.current) {
         popupRef.current = managerRef.current.notify({
-          id: "event-couter",
           node: notificationRef.current,
           position: "bottom",
         });

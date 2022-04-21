@@ -49,9 +49,6 @@ export class PopupManager extends Component<Props, State> {
   };
 
   setZIndex = (zIndex: number) => {
-    if (!this.mounted) {
-      return;
-    }
     this.setState((prevState) => {
       const ret = {
         positions: { ...prevState.positions },

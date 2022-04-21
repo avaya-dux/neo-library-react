@@ -64,14 +64,16 @@ export const createDivWithId = (id: string) => {
   return container;
 };
 
-const toastInit: PopupManager["toast"] = (toastOptions: ToastOptions) => {
+export const toastInit: PopupManager["toast"] = (
+  toastOptions: ToastOptions
+) => {
   logger.error(
     "You called 'toast', before popup manager is ready, with",
     toastOptions
   );
   return { id: -1, position: "top" };
 };
-const notifyInit: PopupManager["notify"] = (
+export const notifyInit: PopupManager["notify"] = (
   notificationOptions: NotificationOptions
 ) => {
   logger.error(
@@ -81,7 +83,7 @@ const notifyInit: PopupManager["notify"] = (
   return { id: -1, position: "top" };
 };
 
-const removeInit: PopupManager["remove"] = (
+export const removeInit: PopupManager["remove"] = (
   id: PopupId,
   position: PopupPosition
 ) => {
@@ -92,7 +94,7 @@ const removeInit: PopupManager["remove"] = (
   );
 };
 
-const removeAllInit: PopupManager["removeAll"] = () => {
+export const removeAllInit: PopupManager["removeAll"] = () => {
   logger.error("You called 'removeAll', before popup manager is ready");
 };
 export const usePopup = (traceId?: string) => {
