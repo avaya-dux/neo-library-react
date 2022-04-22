@@ -2,7 +2,9 @@ import {
   Children,
   FunctionComponent,
   KeyboardEvent,
+  KeyboardEventHandler,
   MouseEvent,
+  MouseEventHandler,
   useContext,
   useEffect,
   useMemo,
@@ -89,11 +91,16 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
 
   const refKeys = [];
 
-  const onExpand = (event: MouseEvent) => {
+  const handleOnClick: MouseEventHandler = (event: MouseEvent) => {
+    console.log({ event });
     event.stopPropagation();
+    console.log("clicked!!", { isExpanded });
     setIsExpanded(!isExpanded);
   };
-  const handleKeyDown = (event: KeyboardEvent) => {
+
+  const handleKeyDown: KeyboardEventHandler = (
+    event: KeyboardEvent<HTMLButtonElement>
+  ) => {
     event.stopPropagation();
 
     if (!disabled) {
@@ -102,6 +109,7 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
       switch (event.key) {
         case Keys.SPACE:
         case Keys.ENTER:
+          console.log("enter pressed", { isExpanded });
           setIsExpanded(!isExpanded);
           break;
         case Keys.LEFT:
@@ -144,8 +152,8 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
         ref={ref}
         tabIndex={tabIndex}
         disabled={disabled}
-        onClick={onExpand}
-        onKeyDown={handleKeyDown}
+        onClick={handleOnClick}
+        onKeyDown={(e) => handleKeyDown(e)}
         aria-label={label}
         {...rest}
       >
