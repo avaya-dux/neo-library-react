@@ -25,7 +25,10 @@ describe("InternalToast", () => {
       const { container } = renderResult;
       expect(container).toBeDefined();
       const toast = screen.getByRole("alert");
-      expect(toast).toHaveAttribute("aria-label", "5 seconds");
+      expect(toast).toHaveAttribute(
+        "aria-label",
+        expect.stringContaining("5 seconds")
+      );
     });
 
     it("passes basic axe compliance", async () => {
@@ -61,7 +64,10 @@ describe("InternalToast", () => {
       const { container } = renderResult;
       expect(container).toBeDefined();
       const toast = screen.getByRole("alert");
-      expect(toast).toHaveAttribute("aria-label", "1 second");
+      expect(toast).toHaveAttribute(
+        "aria-label",
+        expect.stringContaining("1 second")
+      );
     });
 
     it("passes basic axe compliance", async () => {

@@ -25,19 +25,19 @@ export const InternalToast = ({
     remove(id, position);
   };
   useTimeout(hide, duration);
-  const ariaLabel = useMemo(() => {
-    const seconds = Math.round(duration / 1000);
-    return seconds + " " + (seconds > 1 ? "seconds" : "second");
+  const seconds = useMemo(() => {
+    const number = Math.round(duration / 1000);
+    return number + " " + (number > 1 ? "seconds" : "second");
   }, [duration]);
-  return <BasicToast {...{ message, ariaLabel, icon }} />;
+  return <BasicToast {...{ message, seconds, icon }} />;
 };
 const BasicToast = ({
   message,
-  ariaLabel,
+  seconds,
   icon,
 }: {
   message: string;
-  ariaLabel: string;
+  seconds: string;
   icon?: IconNamesType;
 }) => {
   return (
@@ -45,7 +45,7 @@ const BasicToast = ({
       className="neo-toast"
       role="alert"
       aria-live="polite"
-      aria-label={ariaLabel}
+      aria-label={`Toast message will last only ${seconds};`}
     >
       {icon && (
         <span className={clsx("neo-toast__icon", `neo-icon-${icon}`)}></span>
