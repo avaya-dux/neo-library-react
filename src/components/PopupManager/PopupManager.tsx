@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-use-before-define
 import { Component } from "react";
 import log from "loglevel";
-import { InternalToast } from "./InternalToast";
+import { InternalToast, InternalToastOptions } from "./InternalToast";
 import type {
   NotificationOptions,
   PopupId,
@@ -183,7 +183,7 @@ export class PopupManager extends Component<Props, State> {
               <InternalToast
                 key={`${popupOption.id}-${index}`}
                 remove={this.remove}
-                {...(popupOption as ToastOptions)}
+                {...(popupOption as InternalToastOptions)}
               />
             );
           })}
