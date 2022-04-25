@@ -1,7 +1,6 @@
 export type {
   ToastOptions,
   NotificationOptions,
-  PopupOptions,
   PopupId,
   PopupPosition,
 } from "./PopupTypes";
