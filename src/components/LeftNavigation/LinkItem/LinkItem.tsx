@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { Button } from "components/Button";
-import { MouseEventHandler, useContext } from "react";
+import { MouseEventHandler, useContext, useEffect, useState } from "react";
 
 import { LinkItemProps } from "../LeftNavigationTypes";
 import { NavigationContext } from "../NavigationContext";
@@ -14,10 +14,25 @@ export const LinkItem = ({
   onClick,
   onFocus,
   onMouseOver,
+  parentHasIcon,
 
   ...rest
 }: LinkItemProps) => {
   const ctx = useContext(NavigationContext);
+  const [itemStyle, setItemStyle] = useState({ padding: "8px 28px 8px 20px" });
+
+  useEffect(() => {
+    let leftPadding = "20px";
+
+    if (disabled) {
+      leftPadding = parentHasIcon? "72px" : "40px";
+    } else if (parentHasIcon) {
+      leftPadding = "52px";
+    }
+    const itemStyle = { padding: `8px 28px 8px ${leftPadding}` };
+    setItemStyle(itemStyle);
+  }, [disabled, parentHasIcon]);
+
   const handleOnClick: MouseEventHandler = (e) => {
     // TODO: Make this active and parent too, use callback
     ctx?.onSelectedLink
@@ -26,6 +41,7 @@ export const LinkItem = ({
     ctx?.onSelectedLink && ctx.onSelectedLink("id goes here", "some url");
     onClick && onClick(e);
   };
+
   return (
     <li
       {...rest}
@@ -36,13 +52,7 @@ export const LinkItem = ({
       )}
     >
       {disabled ? (
-        <Button
-          disabled={disabled}
-          variant="tertiary"
-          style={{
-            padding: "8px 28px 8px 72px",
-          }}
-        >
+        <Button disabled={disabled} variant="tertiary" style={itemStyle}>
           {children}
         </Button>
       ) : (
@@ -51,6 +61,7 @@ export const LinkItem = ({
           onClick={handleOnClick}
           onFocus={onFocus}
           onMouseOver={onMouseOver}
+          style={itemStyle}
         >
           {children}
         </a>

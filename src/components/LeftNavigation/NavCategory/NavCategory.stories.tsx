@@ -1,7 +1,8 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 
 import { LeftNavigation } from "../LeftNavigation";
-import { NavCategory, NavCategoryProps } from "./NavCategory";
+import { NavCategoryProps } from "../LeftNavigationTypes";
+import { NavCategory } from "./NavCategory";
 import { LinkItem } from "../LinkItem";
 
 export default {
@@ -15,11 +16,21 @@ export const TextOnly: Story<NavCategoryProps> = () => (
       <LinkItem> First Item </LinkItem>
       <LinkItem active={true}> Active Item </LinkItem>
       <LinkItem> Third Item </LinkItem>
+      <LinkItem disabled> Disabled Item </LinkItem>
+    </NavCategory>
+    <NavCategory label="Collapsed">
+      <LinkItem> First Item </LinkItem>
+      <LinkItem> Second Item </LinkItem>
+      <LinkItem> Third Item </LinkItem>
+    </NavCategory>
+    <NavCategory disabled label="Disabled Category">
+      <LinkItem> First Item </LinkItem>
+      <LinkItem> Second Item </LinkItem>
     </NavCategory>
   </LeftNavigation>
 );
 
-export const Multiple: Story<NavCategoryProps> = () => (
+export const WithIcons: Story<NavCategoryProps> = () => (
   <div className="neo-leftnav--wrapper">
     <nav className="neo-leftnav">
       <ul className="neo-leftnav__nav">
@@ -32,6 +43,7 @@ export const Multiple: Story<NavCategoryProps> = () => (
         <NavCategory active expanded icon="call" label="Active">
           <LinkItem> Item 1 </LinkItem>
           <LinkItem active={true}> Active Item 2 </LinkItem>
+          <LinkItem disabled> Disabled Item </LinkItem>
           <LinkItem> Item 3</LinkItem>
         </NavCategory>
         <NavCategory disabled icon="available" label="Disabled Category">

@@ -8,6 +8,7 @@ export interface LinkItemProps
   active?: boolean;
   disabled?: boolean;
   href?: string;
+  parentHasIcon?: boolean;
 }
 export interface NavCategoryProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {

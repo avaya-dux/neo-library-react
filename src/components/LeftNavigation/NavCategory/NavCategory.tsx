@@ -50,7 +50,7 @@ export function getNavBarClassNames(
 
  * @see https://design.avayacloud.com/components/web/list-web
  */
-export const NavCategory: FunctionComponent<NavCategoryProps> = ({
+export const NavCategory = ({
   id,
   children = [],
   label,
@@ -60,7 +60,7 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   disabled = false,
   active = false,
   ...rest
-}) => {
+}: NavCategoryProps) => {
   const internalId = useMemo(() => id || genId(), []);
   const listClass = "neo-leftnav__nav";
   const [isExpanded, setIsExpanded] = useState(expanded);
@@ -126,9 +126,11 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
     const childTypeName = (child?.type as FunctionComponent).name;
     const id = child?.id || `${childTypeName}-${index}`;
     const isDisabled = !isExpanded || disabled || child?.props.disabled;
+    const parentHasIcon = icon ? true : false;
     return (
       <LinkItem
         active={child?.props.active}
+        parentHasIcon={parentHasIcon}
         disabled={isDisabled}
         href={child?.props.href}
         id={id}
