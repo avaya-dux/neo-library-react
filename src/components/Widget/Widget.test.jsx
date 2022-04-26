@@ -9,7 +9,7 @@ const {
   UsageExample,
   EmptyWidget,
   DisabledWidget,
-  LoadingWidget,
+  InteractiveWidget,
   LoadingEmptyWidget,
   ScrollableWidget,
 } = composeStories(WidgetStories);
@@ -76,10 +76,10 @@ describe("Widget", () => {
         expect(results).toHaveNoViolations();
       });
     });
-    describe("LoadingWidget", () => {
+    describe("InteractiveWidget", () => {
       let renderResult;
       beforeEach(() => {
-        renderResult = render(<LoadingWidget />);
+        renderResult = render(<InteractiveWidget />);
       });
       it("should render ok", () => {
         const { container } = renderResult;

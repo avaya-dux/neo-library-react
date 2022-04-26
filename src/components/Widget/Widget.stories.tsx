@@ -1,4 +1,4 @@
-import { Meta } from "@storybook/react/types-6-0";
+import { Meta, Story } from "@storybook/react/types-6-0";
 import { Select, SelectOption } from "components/Select";
 import { Switch } from "components/Switch";
 import { WidgetProps } from "./WidgetTypes";
@@ -45,7 +45,7 @@ export const UsageExample = () => {
     >
       <Widget>
         <LeftHeader>
-          <span className="neo-icon-chat"></span>
+          <Icon icon="chat" aria-label="chat" />
           <p>Header of widget window</p>
         </LeftHeader>
         <RightHeader>
@@ -119,19 +119,19 @@ export const DisabledWidget = () => {
     </Widget>
   );
 };
-export const LoadingWidget = () => {
-  const [loading, setloading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => setloading(false), 5000);
-  }, []);
 
+const InteractiveWidgetTemplate: Story<WidgetProps> = ({
+  loading,
+  empty,
+  disabled,
+}) => {
   return (
     <div>
       <p>
-        In this example, the Widget will show some text in about 5 seconds when
-        loading is done.
+        In this example, you can controll Widget by setting loading, empty, and
+        disabled properties
       </p>
-      <Widget loading={loading}>
+      <Widget loading={loading} empty={empty} disabled={disabled}>
         <LeftHeader>
           <Icon icon="chat" aria-label="chat" />
           <p>Header of widget window</p>
@@ -141,7 +141,7 @@ export const LoadingWidget = () => {
             icon="more"
             variant="tertiary"
             aria-label="more"
-          ></IconButton>{" "}
+          ></IconButton>
         </RightHeader>
         <WidgetBody isMessage>
           Adipisicing in consequat incididunt occaecat sit eu
@@ -153,6 +153,12 @@ export const LoadingWidget = () => {
   );
 };
 
+export const InteractiveWidget = InteractiveWidgetTemplate.bind({});
+InteractiveWidget.args = {
+  empty: false,
+  loading: false,
+  disabled: false,
+};
 export const LoadingEmptyWidget = () => {
   const [loading, setloading] = useState(true);
   const [empty, setempty] = useState(false);

@@ -36,7 +36,9 @@ export const WidgetBody: FC<BodyProps> = ({
       style={getStyle({ style, fixedHeight, fixedWidth })}
       {...rest}
     >
-      {empty ? (
+      {loading ? (
+        <div>{children}</div>
+      ) : empty ? (
         <div className="neo-empty-state">
           <p className="neo-icon-info">This widget has no content</p>
         </div>
