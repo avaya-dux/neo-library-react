@@ -21,7 +21,7 @@ export const BasicWidget = () => {
   return (
     <Widget>
       <LeftHeader>
-        <span className="neo-icon-chat"></span>
+        <Icon icon="chat" aria-label="chat" />
         <p>Header of widget window</p>
       </LeftHeader>
       <RightHeader></RightHeader>
@@ -80,7 +80,7 @@ export const UsageExample = () => {
       </Widget>
       <Widget>
         <LeftHeader>
-          <span className="neo-icon-chat"></span>
+          <Icon icon="chat" aria-label="chat" />
           <p>Header of widget window</p>
         </LeftHeader>
         <RightHeader>
@@ -97,7 +97,7 @@ export const EmptyWidget = () => {
   return (
     <Widget empty>
       <LeftHeader>
-        <span className="neo-icon-settings"></span>
+        <Icon icon="settings" aria-label="settings" />
         <p>Header of widget window</p>
       </LeftHeader>
     </Widget>
@@ -110,20 +110,30 @@ export const LoadingWidget = () => {
   }, []);
 
   return (
-    <Widget loading={loading}>
-      <LeftHeader>
-        <span className="neo-icon-chat"></span>
-        <p>Header of widget window</p>
-      </LeftHeader>
-      <RightHeader>
-        <button className="neo-icon-more" aria-label="more"></button>
-      </RightHeader>
-      <WidgetBody isMessage>
-        Adipisicing in consequat incididunt occaecat sit eu
-        <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
-        reprehenderit.
-      </WidgetBody>
-    </Widget>
+    <div>
+      <p>
+        In this example, the Widget will show some text in about 5 seconds when
+        loading is done.
+      </p>
+      <Widget loading={loading}>
+        <LeftHeader>
+          <Icon icon="chat" aria-label="chat" />
+          <p>Header of widget window</p>
+        </LeftHeader>
+        <RightHeader>
+          <IconButton
+            icon="more"
+            variant="tertiary"
+            aria-label="more"
+          ></IconButton>{" "}
+        </RightHeader>
+        <WidgetBody isMessage>
+          Adipisicing in consequat incididunt occaecat sit eu
+          <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
+          reprehenderit.
+        </WidgetBody>
+      </Widget>
+    </div>
   );
 };
 
@@ -138,19 +148,29 @@ export const LoadingEmptyWidget = () => {
   }, []);
 
   return (
-    <Widget loading={loading} empty={empty}>
-      <LeftHeader>
-        <span className="neo-icon-chat"></span>
-        <p>Header of widget window</p>
-      </LeftHeader>
-      <RightHeader>
-        <button className="neo-icon-more" aria-label="more"></button>
-      </RightHeader>
-      <WidgetBody isMessage>
-        Adipisicing in consequat incididunt occaecat sit eu
-        <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
-        reprehenderit.
-      </WidgetBody>
-    </Widget>
+    <div>
+      <p>
+        In this example, the Widget will display empty content after 5 seconds.
+      </p>
+
+      <Widget loading={loading} empty={empty}>
+        <LeftHeader>
+          <Icon icon="chat" aria-label="chat" />
+          <p>Header of widget window</p>
+        </LeftHeader>
+        <RightHeader>
+          <IconButton
+            icon="more"
+            variant="tertiary"
+            aria-label="more"
+          ></IconButton>
+        </RightHeader>
+        <WidgetBody isMessage>
+          Adipisicing in consequat incididunt occaecat sit eu
+          <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
+          reprehenderit.
+        </WidgetBody>
+      </Widget>
+    </div>
   );
 };
