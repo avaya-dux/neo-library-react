@@ -5,8 +5,12 @@ import { WidgetProps } from "./WidgetTypes";
 import { LeftHeader } from "./LeftHeader";
 import { RightHeader } from "./RightHeader";
 import { Widget } from "./Widget";
-import { Body } from "./WidgetBody";
+import { WidgetBody } from "./WidgetBody";
 import { useEffect, useState } from "react";
+import { Form } from "components/Form";
+import { TextInput } from "components/TextInput";
+import { Icon } from "components/Icon";
+import { IconButton } from "components/IconButton";
 
 export default {
   title: "Components/Widget",
@@ -21,84 +25,71 @@ export const BasicWidget = () => {
         <p>Header of widget window</p>
       </LeftHeader>
       <RightHeader></RightHeader>
-      <Body>
-        <p className="neo-widget__message neo-widget__message">
-          Adipisicing in consequat incididunt occaecat sit eu
-          <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
-          reprehenderit.
-        </p>
-      </Body>
+      <WidgetBody isMessage>
+        Adipisicing in consequat incididunt occaecat sit eu
+        <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
+        reprehenderit.
+      </WidgetBody>
     </Widget>
   );
 };
 
-export const ExampleOne = () => {
+export const UsageExample = () => {
   return (
-    <Widget>
-      <LeftHeader>
-        <span className="neo-icon-chat"></span>
-        <p>Header of widget window</p>
-      </LeftHeader>
-      <RightHeader>
-        <button
-          className="neo-btn-square neo-btn-square-tertiary neo-btn-square-tertiary--default neo-icon-settings"
-          aria-label="Settings"
-        ></button>
-      </RightHeader>
-    </Widget>
-  );
-};
+    <div
+      style={{
+        display: "grid",
+        gridColumn: 1,
+        gridRowGap: 5,
+      }}
+    >
+      <Widget>
+        <LeftHeader>
+          <span className="neo-icon-chat"></span>
+          <p>Header of widget window</p>
+        </LeftHeader>
+        <RightHeader>
+          <IconButton
+            icon="settings"
+            variant="tertiary"
+            aria-label="Settings"
+          ></IconButton>
+        </RightHeader>
+      </Widget>
+      <Widget>
+        <LeftHeader>
+          <p>Header of widget window</p>
+        </LeftHeader>
+        <RightHeader>
+          <Form inline>
+            <Select isMultipleSelect label="Options">
+              <SelectOption>Option 1</SelectOption>
+              <SelectOption disabled>Option 2</SelectOption>
+              <SelectOption>Option 3</SelectOption>
+              <SelectOption>Option 4</SelectOption>
+            </Select>
 
-export const ExampleTwo = () => {
-  return (
-    <Widget>
-      <LeftHeader>
-        <p>Header of widget window</p>
-      </LeftHeader>
-      <RightHeader>
-        <form className="neo-form neo-form--inline">
-          <div className="neo-form-control">
-            <div className="neo-input-group">
-              <Select isMultipleSelect label="Options">
-                <SelectOption>Option 1</SelectOption>
-                <SelectOption disabled>Option 2</SelectOption>
-                <SelectOption>Option 3</SelectOption>
-                <SelectOption>Option 4</SelectOption>
-              </Select>
-            </div>
-          </div>
-          <div className="neo-form-control">
-            <div className="neo-input-icon__wrapper">
-              <span className="neo-icon-search"></span>
-              <input
-                id="input-icon-left"
-                className="neo-input"
-                placeholder="Search"
-                type="text"
-              />
-            </div>
-          </div>
-        </form>
-      </RightHeader>
-    </Widget>
-  );
-};
-
-export const ExampleThree = () => {
-  return (
-    <Widget>
-      <LeftHeader>
-        <span className="neo-icon-chat"></span>
-        <p>Header of widget window</p>
-      </LeftHeader>
-      <RightHeader>
-        <form className="neo-form neo-form--inline">
-          <div className="neo-form-control">
+            <TextInput
+              id="input-icon-left"
+              label="Search"
+              startAddon={<Icon icon="search" aria-label="input icon" />}
+              placeholder="Search"
+            />
+          </Form>
+        </RightHeader>
+      </Widget>
+      <Widget>
+        <LeftHeader>
+          <span className="neo-icon-chat"></span>
+          <p>Header of widget window</p>
+        </LeftHeader>
+        <RightHeader>
+          <Form inline>
             <Switch defaultChecked aria-label="test" />
-          </div>
-        </form>
-      </RightHeader>
-    </Widget>
+          </Form>
+        </RightHeader>
+      </Widget>
+    </div>
   );
 };
 
@@ -127,13 +118,11 @@ export const LoadingWidget = () => {
       <RightHeader>
         <button className="neo-icon-more" aria-label="more"></button>
       </RightHeader>
-      <Body>
-        <p className="neo-widget__message">
-          Adipisicing in consequat incididunt occaecat sit eu
-          <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
-          reprehenderit.
-        </p>
-      </Body>
+      <WidgetBody isMessage>
+        Adipisicing in consequat incididunt occaecat sit eu
+        <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
+        reprehenderit.
+      </WidgetBody>
     </Widget>
   );
 };
@@ -157,13 +146,11 @@ export const LoadingEmptyWidget = () => {
       <RightHeader>
         <button className="neo-icon-more" aria-label="more"></button>
       </RightHeader>
-      <Body>
-        <p className="neo-widget__message">
-          Adipisicing in consequat incididunt occaecat sit eu
-          <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
-          reprehenderit.
-        </p>
-      </Body>
+      <WidgetBody isMessage>
+        Adipisicing in consequat incididunt occaecat sit eu
+        <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
+        reprehenderit.
+      </WidgetBody>
     </Widget>
   );
 };

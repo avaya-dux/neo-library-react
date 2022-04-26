@@ -6,9 +6,7 @@ import * as WidgetStories from "./Widget.stories";
 
 const {
   BasicWidget,
-  ExampleOne,
-  ExampleTwo,
-  ExampleThree,
+  UsageExample,
   EmptyWidget,
   LoadingWidget,
   LoadingEmptyWidget,
@@ -31,40 +29,10 @@ describe("Widget", () => {
         expect(results).toHaveNoViolations();
       });
     });
-    describe("ExampleOne", () => {
+    describe("UsageExample", () => {
       let renderResult;
       beforeEach(() => {
-        renderResult = render(<ExampleOne />);
-      });
-      it("should render ok", () => {
-        const { container } = renderResult;
-        expect(container).toBeDefined();
-      });
-      it("passes basic axe compliance", async () => {
-        const { container } = renderResult;
-        const results = await axe(container);
-        expect(results).toHaveNoViolations();
-      });
-    });
-    describe("ExampleTwo", () => {
-      let renderResult;
-      beforeEach(() => {
-        renderResult = render(<ExampleTwo />);
-      });
-      it("should render ok", () => {
-        const { container } = renderResult;
-        expect(container).toBeDefined();
-      });
-      it("passes basic axe compliance", async () => {
-        const { container } = renderResult;
-        const results = await axe(container);
-        expect(results).toHaveNoViolations();
-      });
-    });
-    describe("ExampleThree", () => {
-      let renderResult;
-      beforeEach(() => {
-        renderResult = render(<ExampleThree />);
+        renderResult = render(<UsageExample />);
       });
       it("should render ok", () => {
         const { container } = renderResult;

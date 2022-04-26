@@ -11,11 +11,17 @@ export type LeftHeaderProps = {
 };
 export type RightHeaderProps = { children?: ReactNode };
 
-export type BodyProps = { children?: ReactNode };
+export type BodyProps = {
+  children?: ReactNode;
+  isMessage?: boolean;
+  fixedWidth?: number;
+  fixedHeight?: number;
+} & React.HTMLAttributes<HTMLDivElement>;
 
 export type ContextProps = {
   loading: boolean;
   empty: boolean;
+  disabled: boolean;
 };
 export type ThreeChildren = [
   ReactElement<LeftHeaderProps>,

@@ -1,6 +1,5 @@
-import { FC } from "react";
 import { LeftHeaderProps } from "./WidgetTypes";
 
-export const LeftHeader: FC<LeftHeaderProps> = ({ children }) => {
+export const LeftHeader = ({ children }: LeftHeaderProps) => {
   return <div className="neo-widget__header-left">{children}</div>;
 };
