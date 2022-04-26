@@ -76,9 +76,9 @@ export const NavCategory = ({
   useFocusEffect(isActive, ref);
 
   useEffect(() => {
-    const itemStyle = getNavBarClassNames(isExpanded, active, disabled);
+    const itemStyle = getNavBarClassNames(isExpanded, isActive, disabled);
     setNavItemClass(itemStyle);
-  }, [isExpanded, active, disabled]);
+  }, [isExpanded, isActive, disabled]);
 
   useEffect(() => {
     const iconStyles = getIconClass(icon);
@@ -94,6 +94,7 @@ export const NavCategory = ({
   const handleOnClick: MouseEventHandler = (event: MouseEvent) => {
     console.log({ event });
     event.stopPropagation();
+    handleClick();
     console.log("clicked!!", { isExpanded });
     setIsExpanded(!isExpanded);
   };

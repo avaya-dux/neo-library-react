@@ -1,4 +1,4 @@
-import { FunctionComponent, KeyboardEvent, MouseEvent, useState } from "react";
+import { FunctionComponent } from "react";
 
 import { RovingTabIndexProvider } from "react-roving-tabindex";
 import { genId } from "utils";
@@ -30,6 +30,8 @@ export const LeftNavigation: FunctionComponent<LeftNavProps> = ({
   children,
   currentUrl = "",
 }) => {
+  const navId = genId();
+
   const handleSelectedLink = (id: string, url: string) => {
     console.log("handleSelectedLink CALLED");
     console.log({ id, url });
@@ -45,7 +47,7 @@ export const LeftNavigation: FunctionComponent<LeftNavProps> = ({
       options={{ direction: "vertical", focusOnClick: true }}
     >
       <NavigationContext.Provider value={navContext}>
-        <div className="neo-leftnav--wrapper">
+        <div id={navId} className="neo-leftnav--wrapper">
           <nav className="neo-leftnav">
             <ul className="neo-leftnav__nav">{children}</ul>
           </nav>
