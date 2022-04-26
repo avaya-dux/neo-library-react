@@ -102,6 +102,7 @@ export const NavCategory = ({
     event: KeyboardEvent<HTMLButtonElement>
   ) => {
     event.stopPropagation();
+    event.preventDefault();
 
     if (!disabled) {
       handleKeyIndex(event);

@@ -30,10 +30,6 @@ export const LeftNavigation: FunctionComponent<LeftNavProps> = ({
   children,
   currentUrl = "",
 }) => {
-  const handleKeyDown = (event: KeyboardEvent) => {
-    event.stopPropagation();
-  };
-
   const handleSelectedLink = (id: string, url: string) => {
     console.log("handleSelectedLink CALLED");
     console.log({ id, url });
