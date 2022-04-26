@@ -10,7 +10,6 @@ toastLogger.disableAll();
 
 const { Default, InteractiveToasts, IconBottomCenter, TwoToasts } =
   composeStories(ToastStories);
-jest.useFakeTimers();
 
 describe("Toast", () => {
   describe("Storybook", () => {
@@ -24,7 +23,6 @@ describe("Toast", () => {
         expect(container).toBeDefined();
       });
       it("passes basic axe compliance", async () => {
-        jest.useRealTimers();
         const { container } = renderResult;
         const results = await axe(container);
         expect(results).toHaveNoViolations();

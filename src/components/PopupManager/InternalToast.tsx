@@ -1,10 +1,16 @@
 import clsx from "clsx";
 import log from "loglevel";
+import { useMemo } from "react";
 import { IconNamesType } from "utils/icons";
 import { useTimeout } from "utils/useTimeout";
 import { PopupId, PopupPosition, ToastOptions } from "./PopupTypes";
 const logger = log.getLogger("internal-toast-logger");
 logger.disableAll();
+type required = Required<Pick<ToastOptions, "id" | "position">>;
+type optionals = Omit<ToastOptions, "id" | "position">;
+type callbacks = { remove: (id: PopupId, position: PopupPosition) => void };
+export interface InternalToastOptions extends required, optionals {}
+
 export const InternalToast = ({
   id,
   position,
@@ -12,29 +18,35 @@ export const InternalToast = ({
   duration = 5000,
   remove,
   ...rest
-}: ToastOptions & {
-  remove: (id: PopupId, position: PopupPosition) => void;
-}) => {
+}: InternalToastOptions & callbacks) => {
   logger.debug("message is ", message);
   const icon = "icon" in rest ? rest.icon : undefined;
   const hide = () => {
-    if (id && position) {
-      remove(id, position);
-    }
+    remove(id, position);
   };
   useTimeout(hide, duration);
-
-  return <BasicToast {...{ message, icon }} />;
+  const seconds = useMemo(() => {
+    const number = Math.round(duration / 1000);
+    return number + " " + (number > 1 ? "seconds" : "second");
+  }, [duration]);
+  return <BasicToast {...{ message, seconds, icon }} />;
 };
 const BasicToast = ({
   message,
+  seconds,
   icon,
 }: {
   message: string;
+  seconds: string;
   icon?: IconNamesType;
 }) => {
   return (
-    <div className="neo-toast" role="alert" aria-live="polite">
+    <div
+      className="neo-toast"
+      role="alert"
+      aria-live="polite"
+      aria-label={`Toast message will last only ${seconds};`}
+    >
       {icon && (
         <span className={clsx("neo-toast__icon", `neo-icon-${icon}`)}></span>
       )}
