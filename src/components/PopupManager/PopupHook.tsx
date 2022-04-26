@@ -9,13 +9,23 @@ import {
   NotificationOptions,
 } from "./PopupTypes";
 const logger = log.getLogger("popup-hook-logger");
-logger.enableAll();
+logger.disableAll();
 export { logger as popupHookLogger };
 const managerRef = createRef<PopupManager>();
 export const containerId = "global-hook-neo-popup-manager-container";
-
-export const [createContainer, removePopupManagerContainer] = (() => {
+export const repeatCheck = (getter: () => boolean, callback: () => void) => {
+  const intervalId = setInterval(() => {
+    const value = getter();
+    logger.debug("checking: ready =", value);
+    if (value) {
+      clearInterval(intervalId);
+      callback();
+    }
+  }, 100);
+};
+export const [createContainer, removePopupManagerContainer, getReady] = (() => {
   let ready = false;
+  const getReady = () => ready;
   const createContainer = (callback: () => void) => {
     logger.debug("ready=", ready);
     let container = document.getElementById(containerId);
@@ -25,13 +35,7 @@ export const [createContainer, removePopupManagerContainer] = (() => {
         callback();
         return;
       }
-      const intervalId = setInterval(() => {
-        logger.debug("checking: ready =", ready);
-        if (ready) {
-          clearInterval(intervalId);
-          callback();
-        }
-      }, 100);
+      repeatCheck(getReady, callback);
       return;
     }
     container = createDivWithId(containerId);
@@ -54,7 +58,7 @@ export const [createContainer, removePopupManagerContainer] = (() => {
     }
     ready = false;
   };
-  return [createContainer, removePopupManagerContainer];
+  return [createContainer, removePopupManagerContainer, getReady];
 })();
 
 export const createDivWithId = (id: string) => {
@@ -64,14 +68,16 @@ export const createDivWithId = (id: string) => {
   return container;
 };
 
-const toastInit: PopupManager["toast"] = (toastOptions: ToastOptions) => {
+export const toastInit: PopupManager["toast"] = (
+  toastOptions: ToastOptions
+) => {
   logger.error(
     "You called 'toast', before popup manager is ready, with",
     toastOptions
   );
   return { id: -1, position: "top" };
 };
-const notifyInit: PopupManager["notify"] = (
+export const notifyInit: PopupManager["notify"] = (
   notificationOptions: NotificationOptions
 ) => {
   logger.error(
@@ -81,7 +87,7 @@ const notifyInit: PopupManager["notify"] = (
   return { id: -1, position: "top" };
 };
 
-const removeInit: PopupManager["remove"] = (
+export const removeInit: PopupManager["remove"] = (
   id: PopupId,
   position: PopupPosition
 ) => {
@@ -92,7 +98,7 @@ const removeInit: PopupManager["remove"] = (
   );
 };
 
-const removeAllInit: PopupManager["removeAll"] = () => {
+export const removeAllInit: PopupManager["removeAll"] = () => {
   logger.error("You called 'removeAll', before popup manager is ready");
 };
 export const usePopup = (traceId?: string) => {
