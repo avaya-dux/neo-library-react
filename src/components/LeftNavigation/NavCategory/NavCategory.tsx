@@ -124,24 +124,27 @@ export const NavCategory = ({
     }
   };
 
-  const linkItems = Children.map(children, (child, index) => {
-    const childTypeName = (child?.type as FunctionComponent).name;
-    const id = child?.id || `${childTypeName}-${index}`;
-    const isDisabled = !isExpanded || disabled || child?.props.disabled;
-    const parentHasIcon = icon ? true : false;
-    return (
-      <LinkItem
-        active={child?.props.active}
-        parentHasIcon={parentHasIcon}
-        disabled={isDisabled}
-        href={child?.props.href}
-        id={id}
-        onClick={child?.props.onClick}
-      >
-        {child?.props.children}
-      </LinkItem>
-    );
-  });
+  const linkItems = useMemo(() => {
+    return Children.map(children, (child, index) => {
+      const childTypeName = (child?.type as FunctionComponent).name;
+      const id = child?.id || `${childTypeName}-${index}`;
+      const isDisabled = !isExpanded || disabled || child?.props.disabled;
+      const parentHasIcon = icon ? true : false;
+      console.log({ childTypeName });
+      return (
+        <LinkItem
+          active={child?.props.active}
+          parentHasIcon={parentHasIcon}
+          disabled={isDisabled}
+          href={child?.props.href}
+          id={id}
+          onClick={child?.props.onClick}
+        >
+          {child?.props.children}
+        </LinkItem>
+      );
+    });
+  }, [isExpanded, disabled]);
 
   return (
     <li id={internalId} className={navItemClass}>
