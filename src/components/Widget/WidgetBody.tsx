@@ -37,7 +37,7 @@ export const WidgetBody: FC<BodyProps> = ({
       {...rest}
     >
       {loading ? (
-        <div>{children}</div>
+        <p className={clsx("neo-widget__message")}>{children}</p>
       ) : empty ? (
         <div className="neo-empty-state">
           <p className="neo-icon-info">This widget has no content</p>
