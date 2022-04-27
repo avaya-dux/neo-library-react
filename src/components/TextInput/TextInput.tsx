@@ -61,7 +61,7 @@ export const TextInput: React.FC<TextInputProps> = ({
       required={required}
       inline={inline}
     >
-      <label htmlFor={internalId}>{label}</label>
+      {label && <label htmlFor={internalId}>{label}</label>}
 
       {readOnly ? (
         <InternalTextInputElement
