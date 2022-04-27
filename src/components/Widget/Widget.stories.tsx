@@ -62,16 +62,21 @@ export const UsageExample = () => {
         </LeftHeader>
         <RightHeader>
           <Form inline>
-            <Select isMultipleSelect label="Options">
-              <SelectOption>Option 1</SelectOption>
-              <SelectOption disabled>Option 2</SelectOption>
-              <SelectOption>Option 3</SelectOption>
-              <SelectOption>Option 4</SelectOption>
-            </Select>
-
+            <div style={{ width: 200 }}>
+              <Select
+                isMultipleSelect
+                aria-label="Options"
+                label="Label is mandatory"
+              >
+                <SelectOption>Option 1</SelectOption>
+                <SelectOption disabled>Option 2</SelectOption>
+                <SelectOption>Option 3</SelectOption>
+                <SelectOption>Option 4</SelectOption>
+              </Select>
+            </div>
             <TextInput
               id="input-icon-left"
-              label="Search"
+              aria-label="Search"
               startAddon={<Icon icon="search" aria-label="input icon" />}
               placeholder="Search"
             />
@@ -180,13 +185,7 @@ export const LoadingEmptyWidget = () => {
           <Icon icon="chat" aria-label="chat" />
           <p>Header of widget window</p>
         </LeftHeader>
-        <RightHeader>
-          <IconButton
-            icon="more"
-            variant="tertiary"
-            aria-label="more"
-          ></IconButton>
-        </RightHeader>
+        <RightHeader></RightHeader>
         <WidgetBody isMessage>
           Adipisicing in consequat incididunt occaecat sit eu
           <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
@@ -205,8 +204,8 @@ export const ScrollableWidget = () => {
         <p>Header of widget window</p>
       </LeftHeader>
       <RightHeader></RightHeader>
-      <WidgetBody fixedHeight={800} fixedWidth={1000}>
-        <div>
+      <WidgetBody>
+        <div style={{ width: 1000, height: 1300 }}>
           <h3>Item 1</h3>
           <p>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam
@@ -316,16 +315,6 @@ export const ScrollableWidget = () => {
             necessitatibus rem iusto adipisci aspernatur sint nobis, ab, iste
             debitis illo eveniet harum, nam tempora. Corporis rerum deserunt
             quia minus. Nam, officia modi porro fugit molestiae ipsum maiores
-            quos provident, eaque vel optio soluta ea eius ratione repellat
-            repudiandae impedit earum beatae facilis exercitationem assumenda
-            eligendi error dolores distinctio. Expedita quasi eum vel
-            consectetur porro consequatur sunt pariatur itaque quibusdam rem
-            quae soluta nam, doloremque temporibus natus, eaque, animi suscipit
-            quam dicta provident repellat. Cupiditate accusamus fuga, quidem
-            molestiae quasi id, veniam aliquid numquam ea sapiente corporis
-            obcaecati amet voluptates placeat rerum cum fugiat rem deleniti
-            adipisci suscipit ab dicta assumenda ad! Consequuntur eveniet,
-            officiis maiores veniam amet praesentium fugit libero numquam
             excepturi?
           </p>
         </div>
@@ -416,17 +405,10 @@ export const ScrollableWidget = () => {
             repellat deserunt cupiditate illum accusamus voluptate sint officia
             ipsum neque consequatur. Ab asperiores, recusandae placeat
             repudiandae nam ipsam voluptates omnis ratione, numquam impedit
-            expedita cupiditate vel laudantium enim corporis veniam? Tempore
-            totam ipsa, repudiandae porro consectetur sequi ducimus fuga
-            delectus eum inventore cum! Itaque explicabo accusantium non
-            asperiores maiores ipsum quisquam numquam sed eligendi placeat natus
-            officiis recusandae veritatis facilis, nam ullam est temporibus
-            pariatur ad laborum in repellendus iste? In asperiores esse tenetur
-            voluptatum cum ex doloribus vero repellendus atque illo? Vero
-            reiciendis labore exercitationem ex iste saepe officia culpa ipsam.
+            expedita cupiditate vel laudantium enim corporis veniam? Tempor
           </p>
         </div>
-        <div>
+        <div style={{ height: 300 }}>
           <h3>Item 3</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
@@ -499,16 +481,6 @@ export const ScrollableWidget = () => {
             quae veritatis enim perferendis, ratione quod harum provident ex
             iste ut ipsam unde dicta error alias inventore tempore molestiae
             facere rem autem? Vitae sequi hic assumenda dolorum eveniet
-            necessitatibus velit sit deleniti voluptas odit porro unde rerum
-            ducimus accusantium eius recusandae, aliquid voluptates. Aliquam,
-            iste? Inventore sint quo commodi tenetur? Eveniet, illum fugit ad
-            sapiente eum tempore veritatis laborum adipisci alias atque vel,
-            dignissimos in, minima vitae quibusdam possimus at non. Ipsa
-            voluptatum aliquid est temporibus, culpa labore pariatur nisi nam
-            magni incidunt odit nemo placeat. Suscipit cumque voluptate vel quos
-            sunt dolores enim explicabo quam ut debitis, nobis natus inventore
-            minus totam pariatur dicta. Sapiente ratione voluptatum voluptates
-            cum quasi aliquam quae ducimus, perferendis tenetur officiis.
           </p>
         </div>
       </WidgetBody>

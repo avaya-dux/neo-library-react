@@ -3,6 +3,7 @@ import { CSSProperties, FC, useContext } from "react";
 import { WidgetContext } from "./WidgetContext";
 import { BodyProps } from "./WidgetTypes";
 
+// to remove
 export const getStyle = ({
   style,
   fixedHeight,
@@ -18,9 +19,6 @@ export const WidgetBody: FC<BodyProps> = ({
   children,
   isMessage = false,
   className,
-  fixedHeight,
-  fixedWidth,
-  style,
   ...rest
 }) => {
   const { loading, empty, disabled } = useContext(WidgetContext);
@@ -33,7 +31,6 @@ export const WidgetBody: FC<BodyProps> = ({
         disabled && "neo-widget__body-disabled",
         className
       )}
-      style={getStyle({ style, fixedHeight, fixedWidth })}
       {...rest}
     >
       {loading ? (

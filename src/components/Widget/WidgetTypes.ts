@@ -14,8 +14,6 @@ export type RightHeaderProps = { children?: ReactNode };
 export type BodyProps = {
   children?: ReactNode;
   isMessage?: boolean;
-  fixedWidth?: number;
-  fixedHeight?: number;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export type ContextProps = {
