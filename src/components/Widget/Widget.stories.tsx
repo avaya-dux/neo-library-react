@@ -70,12 +70,14 @@ export const UsageExample = () => {
                 <SelectOption>Option 4</SelectOption>
               </Select>
             </div>
-            <TextInput
-              id="input-icon-left"
-              aria-label="Search"
-              startAddon={<Icon icon="search" aria-label="input icon" />}
-              placeholder="Search"
-            />
+            <div style={{ width: 280, height: "100%" }}>
+              <TextInput
+                id="input-icon-left"
+                aria-label="Search"
+                startAddon={<Icon icon="search" aria-label="input icon" />}
+                placeholder="Search"
+              />
+            </div>
           </Form>
         </RightHeader>
       </Widget>
@@ -201,7 +203,7 @@ export const ScrollableWidget = () => {
       </LeftHeader>
       <RightHeader></RightHeader>
       <WidgetBody>
-        <div style={{ width: 2000, height: 600 }}>
+        <div style={{ width: 2000, marginBottom: 40 }}>
           <h3>Item 1</h3>
           <p>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam
@@ -314,7 +316,7 @@ export const ScrollableWidget = () => {
             excepturi?
           </p>
         </div>
-        <div style={{ width: 2000, height: 500 }}>
+        <div style={{ width: 2000, marginBottom: 40 }}>
           <h3>Item 2</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis iure
@@ -404,7 +406,7 @@ export const ScrollableWidget = () => {
             expedita cupiditate vel laudantium enim corporis veniam? Tempor
           </p>
         </div>
-        <div style={{ height: 300 }}>
+        <div>
           <h3>Item 3</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
