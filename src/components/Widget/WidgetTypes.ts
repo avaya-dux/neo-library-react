@@ -11,7 +11,7 @@ export type LeftHeaderProps = {
 };
 export type RightHeaderProps = { children?: ReactNode };
 
-export type BodyProps = {
+export type WidgetBodyProps = {
   children?: ReactNode;
   isMessage?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
@@ -24,7 +24,7 @@ export type ContextProps = {
 export type ThreeChildren = [
   ReactElement<LeftHeaderProps>,
   ReactElement<RightHeaderProps>,
-  ReactElement<BodyProps>
+  ReactElement<WidgetBodyProps>
 ];
 export type BothHeaders = [
   ReactElement<LeftHeaderProps>,

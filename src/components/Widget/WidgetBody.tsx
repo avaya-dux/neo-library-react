@@ -1,26 +1,14 @@
 import clsx from "clsx";
-import { CSSProperties, FC, useContext } from "react";
+import { useContext } from "react";
 import { WidgetContext } from "./WidgetContext";
-import { BodyProps } from "./WidgetTypes";
+import { WidgetBodyProps } from "./WidgetTypes";
 
-// to remove
-export const getStyle = ({
-  style,
-  fixedHeight,
-  fixedWidth,
-}: {
-  style?: CSSProperties;
-  fixedHeight?: number;
-  fixedWidth?: number;
-} = {}): CSSProperties => {
-  return { ...style, height: fixedHeight, width: fixedWidth };
-};
-export const WidgetBody: FC<BodyProps> = ({
+export const WidgetBody = ({
   children,
   isMessage = false,
   className,
   ...rest
-}) => {
+}: WidgetBodyProps) => {
   const { loading, empty, disabled } = useContext(WidgetContext);
 
   return (
