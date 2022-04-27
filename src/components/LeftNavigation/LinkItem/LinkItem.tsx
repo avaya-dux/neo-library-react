@@ -66,10 +66,9 @@ export const LinkItem = ({
   ) => {
     event.stopPropagation();
     event.preventDefault();
+    handleKeyIndex(event);
 
     if (!disabled) {
-      handleKeyIndex(event);
-
       switch (event.key) {
         case Keys.SPACE:
         case Keys.ENTER:
@@ -89,7 +88,13 @@ export const LinkItem = ({
       )}
     >
       {disabled ? (
-        <Button disabled={disabled} variant="tertiary" style={itemStyle}>
+        <Button
+          disabled={disabled}
+          ref={ref}
+          variant="tertiary"
+          style={itemStyle}
+          tabIndex={tabIndex}
+        >
           {children}
         </Button>
       ) : (

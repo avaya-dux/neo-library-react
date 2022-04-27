@@ -47,7 +47,7 @@ export const LeftNavigation: FunctionComponent<LeftNavProps> = ({
       options={{ direction: "vertical", focusOnClick: true }}
     >
       <NavigationContext.Provider value={navContext}>
-        <div id={navId} className="neo-leftnav--wrapper">
+        <div id={navId} className="neo-leftnav--wrapper" role="navigation">
           <nav className="neo-leftnav">
             <ul className="neo-leftnav__nav">{children}</ul>
           </nav>

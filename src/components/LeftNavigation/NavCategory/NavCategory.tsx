@@ -1,5 +1,6 @@
 import {
   Children,
+  cloneElement,
   FunctionComponent,
   KeyboardEvent,
   KeyboardEventHandler,
@@ -104,10 +105,9 @@ export const NavCategory = ({
   ) => {
     event.stopPropagation();
     event.preventDefault();
-
+    handleKeyIndex(event);
+    
     if (!disabled) {
-      handleKeyIndex(event);
-
       switch (event.key) {
         case Keys.SPACE:
         case Keys.ENTER:
@@ -127,22 +127,16 @@ export const NavCategory = ({
   const linkItems = useMemo(() => {
     return Children.map(children, (child, index) => {
       const childTypeName = (child?.type as FunctionComponent).name;
-      const id = child?.id || `${childTypeName}-${index}`;
-      const isDisabled = !isExpanded || disabled || child?.props.disabled;
+      const key = `${childTypeName}-${index}`;
+      const isDisabled = !isExpanded || disabled || !!child?.props.disabled;
       const parentHasIcon = icon ? true : false;
-      console.log({ childTypeName });
-      return (
-        <LinkItem
-          active={child?.props.active}
-          parentHasIcon={parentHasIcon}
-          disabled={isDisabled}
-          href={child?.props.href}
-          id={id}
-          onClick={child?.props.onClick}
-        >
-          {child?.props.children}
-        </LinkItem>
-      );
+      console.log({ childTypeName, isDisabled });
+      
+      return cloneElement(child, {
+        disabled: isDisabled,
+        key: child.key || key,
+        parentHasIcon: parentHasIcon,
+      });
     });
   }, [isExpanded, disabled]);
 
