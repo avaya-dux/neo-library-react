@@ -5,7 +5,7 @@ import { WidgetBodyProps } from "./WidgetTypes";
 
 export const WidgetBody = ({
   children,
-  isMessage = false,
+  textOnly = false,
   className,
   ...rest
 }: WidgetBodyProps) => {
@@ -27,7 +27,7 @@ export const WidgetBody = ({
         <div className="neo-empty-state">
           <p className="neo-icon-info">This widget has no content</p>
         </div>
-      ) : isMessage ? (
+      ) : textOnly ? (
         <p
           className={clsx(
             "neo-widget__message",

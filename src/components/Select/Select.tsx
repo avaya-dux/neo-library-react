@@ -33,14 +33,15 @@ export const Select = ({
   isCombobox,
   isMultipleSelect,
   label,
+  ariaLabel,
   loading = false,
   onSelectedValueChange,
   placeholder = "Select One",
   required,
   values,
 }: SelectProps) => {
-  if (!label) {
-    handleAccessbilityError("Select requires a label prop");
+  if (!(label || ariaLabel)) {
+    handleAccessbilityError("Select requires a label prop or aria-label");
   }
 
   const isInitialRender = useIsInitialRender();
@@ -162,8 +163,7 @@ export const Select = ({
       error={errorList.length > 0}
       required={required}
     >
-      <label {...getLabelProps()}>{label}</label>
-
+      {label && <label {...getLabelProps()}>{label}</label>}
       <div
         {...getComboboxProps?.()}
         className={clsx(
@@ -219,7 +219,11 @@ export const Select = ({
 
         {isCombobox ? (
           isMultipleSelect ? (
-            <div className="neo-multiselect__content" {...getMenuProps()}>
+            <div
+              className="neo-multiselect__content"
+              {...getMenuProps()}
+              aria-label={ariaLabel}
+            >
               {childrenWithProps?.map((child, index) => {
                 if (inputItems.includes(child.props.children.props.children)) {
                   return <Fragment key={index}>{child}</Fragment>;
@@ -230,7 +234,7 @@ export const Select = ({
             </div>
           ) : (
             <div className="neo-multiselect__content">
-              <ul {...getMenuProps()}>
+              <ul aria-label={ariaLabel} {...getMenuProps()}>
                 {childrenWithProps?.map((child, index) => {
                   if (
                     inputItems.includes(child.props.children.props.children)
@@ -244,22 +248,26 @@ export const Select = ({
             </div>
           )
         ) : isMultipleSelect ? (
-          <div className="neo-multiselect__content" {...getMenuProps()}>
+          <div
+            className="neo-multiselect__content"
+            {...getMenuProps()}
+            aria-label={ariaLabel}
+          >
             {childrenWithProps}
           </div>
         ) : (
           <div className="neo-multiselect__content">
-            <ul {...getMenuProps()}>{childrenWithProps}</ul>
+            <ul {...getMenuProps()} aria-label={ariaLabel}>
+              {childrenWithProps}
+            </ul>
           </div>
         )}
       </div>
-
       {helperText && (
         <div className="neo-input-hint" id={helperId}>
           {helperText}
         </div>
       )}
-
       {errorList.length > 0 &&
         errorList?.map((text, index) => (
           <div className="neo-input-hint" key={`error-text-${index}`}>

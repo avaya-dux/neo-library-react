@@ -4,16 +4,19 @@ import {
   ReactPortal,
   ReactChild,
   ReactElement,
+  HTMLAttributes,
 } from "react";
 
 export type LeftHeaderProps = {
   children: ReactChild | ReactFragment | ReactPortal;
 };
-export type RightHeaderProps = { children?: ReactNode };
+export type RightHeaderProps = {
+  children?: ReactNode;
+} & HTMLAttributes<HTMLDivElement>;
 
 export type WidgetBodyProps = {
   children?: ReactNode;
-  isMessage?: boolean;
+  textOnly?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export type ContextProps = {

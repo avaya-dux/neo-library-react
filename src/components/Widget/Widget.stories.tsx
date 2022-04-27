@@ -25,7 +25,7 @@ export const BasicWidget = () => {
         <p>Header of widget window</p>
       </LeftHeader>
       <RightHeader></RightHeader>
-      <WidgetBody isMessage>
+      <WidgetBody textOnly>
         Adipisicing in consequat incididunt occaecat sit eu
         <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
         reprehenderit.
@@ -61,13 +61,9 @@ export const UsageExample = () => {
           <p>Header of widget window</p>
         </LeftHeader>
         <RightHeader>
-          <Form inline>
-            <div style={{ width: 200 }}>
-              <Select
-                isMultipleSelect
-                aria-label="Options"
-                label="Label is mandatory"
-              >
+          <Form inline style={{ alignItems: "flex-end", gap: 10 }}>
+            <div style={{ width: 200, height: "100%" }}>
+              <Select isMultipleSelect ariaLabel="Options">
                 <SelectOption>Option 1</SelectOption>
                 <SelectOption disabled>Option 2</SelectOption>
                 <SelectOption>Option 3</SelectOption>
@@ -116,7 +112,7 @@ export const DisabledWidget = () => {
         <p>Header of widget window</p>
       </LeftHeader>
       <RightHeader />
-      <WidgetBody isMessage>
+      <WidgetBody textOnly>
         Adipisicing in consequat incididunt occaecat sit eu
         <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
         reprehenderit.
@@ -148,7 +144,7 @@ const InteractiveWidgetTemplate: Story<WidgetProps> = ({
             aria-label="more"
           ></IconButton>
         </RightHeader>
-        <WidgetBody isMessage>
+        <WidgetBody textOnly>
           Adipisicing in consequat incididunt occaecat sit eu
           <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
           reprehenderit.
@@ -186,7 +182,7 @@ export const LoadingEmptyWidget = () => {
           <p>Header of widget window</p>
         </LeftHeader>
         <RightHeader></RightHeader>
-        <WidgetBody isMessage>
+        <WidgetBody textOnly>
           Adipisicing in consequat incididunt occaecat sit eu
           <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
           reprehenderit.
@@ -205,7 +201,7 @@ export const ScrollableWidget = () => {
       </LeftHeader>
       <RightHeader></RightHeader>
       <WidgetBody>
-        <div style={{ width: 1000, height: 1300 }}>
+        <div style={{ width: 2000, height: 600 }}>
           <h3>Item 1</h3>
           <p>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam
@@ -318,7 +314,7 @@ export const ScrollableWidget = () => {
             excepturi?
           </p>
         </div>
-        <div>
+        <div style={{ width: 2000, height: 500 }}>
           <h3>Item 2</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis iure
