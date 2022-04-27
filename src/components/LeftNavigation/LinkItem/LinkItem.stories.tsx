@@ -2,6 +2,7 @@ import { Meta } from "@storybook/react/types-6-0";
 import { MouseEvent } from "react";
 import log from "loglevel";
 
+import { LeftNavigation } from "../LeftNavigation";
 import { NavCategory } from "components/LeftNavigation/NavCategory";
 import { LinkItem } from "./LinkItem";
 
@@ -25,37 +26,33 @@ const handleFocus = () => {
 };
 
 export const LinkItems = () => (
-  <div className="neo-leftnav--wrapper">
-    <nav className="neo-leftnav">
-      <ul className="neo-leftnav__nav">
-        <NavCategory label="Main Category">
-          <LinkItem
-            onClick={handleClick}
-            onMouseOver={handleHover}
-            onFocus={handleFocus}
-            active={false}
-          >
-            Normal Link
-          </LinkItem>
-          <LinkItem
-            onClick={handleClick}
-            onMouseOver={handleHover}
-            onFocus={handleFocus}
-            active={true}
-          >
-            Active Link
-          </LinkItem>
-          <LinkItem
-            onClick={handleClick}
-            onMouseOver={handleHover}
-            onFocus={handleFocus}
-            active={false}
-            disabled={true}
-          >
-            Disabled Link
-          </LinkItem>
-        </NavCategory>
-      </ul>
-    </nav>
-  </div>
+  <LeftNavigation currentUrl="">
+    <NavCategory label="Main Category">
+      <LinkItem
+        onClick={handleClick}
+        onMouseOver={handleHover}
+        onFocus={handleFocus}
+        active={false}
+      >
+        Normal Link
+      </LinkItem>
+      <LinkItem
+        onClick={handleClick}
+        onMouseOver={handleHover}
+        onFocus={handleFocus}
+        active={true}
+      >
+        Active Link
+      </LinkItem>
+      <LinkItem
+        onClick={handleClick}
+        onMouseOver={handleHover}
+        onFocus={handleFocus}
+        active={false}
+        disabled={true}
+      >
+        Disabled Link
+      </LinkItem>
+    </NavCategory>
+  </LeftNavigation>
 );
