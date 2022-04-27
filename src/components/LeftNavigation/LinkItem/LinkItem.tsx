@@ -1,6 +1,17 @@
 import clsx from "clsx";
 import { Button } from "components/Button";
-import { MouseEventHandler, useContext, useEffect, useState } from "react";
+import {
+  KeyboardEvent,
+  KeyboardEventHandler,
+  MouseEventHandler,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { useFocusEffect, useRovingTabIndex } from "react-roving-tabindex";
+
+import { Keys } from "utils";
 
 import { LinkItemProps } from "../LeftNavigationTypes";
 import { NavigationContext } from "../NavigationContext";
@@ -9,7 +20,7 @@ export const LinkItem = ({
   active = false,
   children,
   className,
-  disabled,
+  disabled = false,
   href,
   onClick,
   onFocus,
@@ -21,11 +32,18 @@ export const LinkItem = ({
   const ctx = useContext(NavigationContext);
   const [itemStyle, setItemStyle] = useState({ padding: "8px 28px 8px 20px" });
 
+  const ref = useRef(null);
+  const [tabIndex, isActive, handleKeyIndex, handleClick] = useRovingTabIndex(
+    ref,
+    disabled
+  );
+  useFocusEffect(isActive, ref);
+
   useEffect(() => {
     let leftPadding = "20px";
 
     if (disabled) {
-      leftPadding = parentHasIcon? "72px" : "40px";
+      leftPadding = parentHasIcon ? "72px" : "40px";
     } else if (parentHasIcon) {
       leftPadding = "52px";
     }
@@ -35,11 +53,30 @@ export const LinkItem = ({
 
   const handleOnClick: MouseEventHandler = (e) => {
     // TODO: Make this active and parent too, use callback
+    handleClick();
     ctx?.onSelectedLink
       ? console.log("we have a valid onSelectedLink")
       : console.log("invalid onSelectedLink");
     ctx?.onSelectedLink && ctx.onSelectedLink("id goes here", "some url");
     onClick && onClick(e);
+  };
+
+  const handleKeyDown: KeyboardEventHandler = (
+    event: KeyboardEvent<HTMLButtonElement>
+  ) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    if (!disabled) {
+      handleKeyIndex(event);
+
+      switch (event.key) {
+        case Keys.SPACE:
+        case Keys.ENTER:
+          ctx?.onSelectedLink && ctx.onSelectedLink("id goes here", "some url");
+          break;
+      }
+    }
   };
 
   return (
@@ -61,7 +98,10 @@ export const LinkItem = ({
           onClick={handleOnClick}
           onFocus={onFocus}
           onMouseOver={onMouseOver}
+          onKeyDown={handleKeyDown}
+          ref={ref}
           style={itemStyle}
+          tabIndex={tabIndex}
         >
           {children}
         </a>
