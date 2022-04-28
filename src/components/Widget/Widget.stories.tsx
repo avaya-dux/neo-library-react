@@ -25,7 +25,7 @@ export const BasicWidget = () => {
         <p>Header of widget window</p>
       </Header>
       <HeaderAction></HeaderAction>
-      <Content textOnly>
+      <Content>
         Adipisicing in consequat incididunt occaecat sit eu
         <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
         reprehenderit.
@@ -114,7 +114,7 @@ export const DisabledWidget = () => {
         <p>Header of widget window</p>
       </Header>
       <HeaderAction />
-      <Content textOnly>
+      <Content>
         Adipisicing in consequat incididunt occaecat sit eu
         <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
         reprehenderit.
@@ -146,7 +146,7 @@ const InteractiveWidgetTemplate: Story<WidgetProps> = ({
             aria-label="more"
           ></IconButton>
         </HeaderAction>
-        <Content textOnly>
+        <Content>
           Adipisicing in consequat incididunt occaecat sit eu
           <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
           reprehenderit.
@@ -184,7 +184,7 @@ export const LoadingEmptyWidget = () => {
           <p>Header of widget window</p>
         </Header>
         <HeaderAction></HeaderAction>
-        <Content textOnly>
+        <Content>
           Adipisicing in consequat incididunt occaecat sit eu
           <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
           reprehenderit.
@@ -202,7 +202,7 @@ export const ScrollableWidget = () => {
         <p>Header of widget window</p>
       </Header>
       <HeaderAction></HeaderAction>
-      <Content>
+      <Content asText={false}>
         <div style={{ width: 2000, marginBottom: 40 }}>
           <h3>Item 1</h3>
           <p>

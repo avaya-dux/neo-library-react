@@ -6,7 +6,7 @@ import { ContentProps } from "./WidgetTypes";
 export const Content = ({
   children,
   className,
-  textOnly = false,
+  asText = true,
   ...rest
 }: ContentProps) => {
   const { loading, empty, disabled } = useContext(WidgetContext);
@@ -26,7 +26,7 @@ export const Content = ({
         <div className="neo-empty-state">
           <p className="neo-icon-info">This widget has no content</p>
         </div>
-      ) : textOnly ? (
+      ) : asText ? (
         <p
           className={clsx(
             "neo-widget__message",

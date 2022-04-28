@@ -16,7 +16,7 @@ export type HeaderActionProps = {
 
 export type ContentProps = {
   children?: ReactNode;
-  textOnly?: boolean;
+  asText?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export type ContextProps = {
