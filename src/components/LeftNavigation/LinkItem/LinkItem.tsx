@@ -64,13 +64,10 @@ export const LinkItem = ({
     event.preventDefault();
     handleKeyIndex(event);
 
-    if (!disabled) {
-      switch (event.key) {
-        case Keys.SPACE:
-        case Keys.ENTER:
-          ctx?.onSelectedLink && ctx.onSelectedLink(id, href);
-          break;
-      }
+    if (disabled) return;
+
+    if (event.key === Keys.SPACE || event.key === Keys.ENTER) {
+      ctx?.onSelectedLink && ctx.onSelectedLink(id, href);
     }
   };
 

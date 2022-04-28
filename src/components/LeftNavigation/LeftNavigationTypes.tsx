@@ -20,7 +20,8 @@ export interface NavCategoryProps
   children?: ReactElement<LinkItemProps> | ReactElement<LinkItemProps>[];
 }
 export interface LeftNavProps extends React.BaseHTMLAttributes<HTMLElement> {
-  currentUrl: string;
+  ariaLabel: string;
+  currentUrl?: string;
   onSelected?: (id: string, url: string) => void;
   children?:
     | ReactElement<NavCategoryProps | TopLinkItemProps>

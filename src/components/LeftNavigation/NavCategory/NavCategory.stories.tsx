@@ -11,7 +11,7 @@ export default {
 } as Meta<NavCategoryProps>;
 
 export const TextOnly: Story<NavCategoryProps> = () => (
-  <LeftNavigation currentUrl="">
+  <LeftNavigation ariaLabel="Text only Nav" currentUrl="">
     <NavCategory active expanded={true} label="Text Only Category">
       <LinkItem> First Item </LinkItem>
       <LinkItem active={true}> Active Item </LinkItem>
@@ -31,7 +31,7 @@ export const TextOnly: Story<NavCategoryProps> = () => (
 );
 
 export const WithIcons: Story<NavCategoryProps> = () => (
-  <LeftNavigation currentUrl="">
+  <LeftNavigation ariaLabel="Nav with Icons" currentUrl="">
     <NavCategory icon="audio-on" label="Collapsed">
       <LinkItem> First Item </LinkItem>
       <LinkItem> Second Item </LinkItem>
