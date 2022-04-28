@@ -1,7 +1,5 @@
 import { Meta } from "@storybook/react/types-6-0";
-
 import { Sheet } from "components/Sheet";
-
 import { Accordion } from "./Accordion";
 
 export default {
@@ -18,5 +16,7 @@ export const Default = () => (
     </Accordion>
 
     <Accordion header="Header Disabled" disabled />
+    <Accordion header="Accordion Header test">Some text in body</Accordion>
   </Sheet>
 );
+

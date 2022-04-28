@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, useState, useEffect } from "react";
 import { genId } from "utils";
 
 export interface AccordionProps {
@@ -8,17 +8,31 @@ export interface AccordionProps {
   defaultExpanded?: boolean;
   disabled?: boolean;
   ariaLevel?: number;
+  allowOnlyOneExpand?: boolean;
+  isOpen?: boolean;
+  handleClick?: (id?: string | number) => void;
 }
 
 export const Accordion: FC<AccordionProps> = ({
   header,
-  children,
   id = genId(),
   defaultExpanded = false,
   disabled,
   ariaLevel = 2,
+  allowOnlyOneExpand = false,
+  isOpen,
+  handleClick,
+  children,
 }) => {
   const [isActive, setIsActive] = useState(defaultExpanded);
+
+  useEffect(() => {
+    if (isOpen || defaultExpanded) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
+  }, [isOpen]);
 
   return (
     <div className="neo-accordion">
@@ -37,11 +51,23 @@ export const Accordion: FC<AccordionProps> = ({
           aria-label="Accordion Heading"
           aria-level={ariaLevel}
         >
-          {disabled ? (
+          {disabled && (
             <button
               className="neo-accordion__header-text"
               aria-disabled
               disabled
+            >
+              {header}
+            </button>
+          )}
+
+          {allowOnlyOneExpand && handleClick ? (
+            <button
+              className="neo-accordion__header-text"
+              aria-expanded={isActive ? "true" : "false"}
+              aria-controls="accordion-panel"
+              id={id}
+              onClick={() => handleClick(id)}
             >
               {header}
             </button>
