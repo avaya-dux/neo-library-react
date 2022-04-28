@@ -68,7 +68,7 @@ export const Branch = ({
         key: child.key || key,
       });
     });
-  }, [expanded]);
+  }, [expanded, disabled, children]);
 
   return (
     <li dir={dir} role="treeitem" className="neo-treeview__sub-tree-item">
