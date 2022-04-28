@@ -24,7 +24,6 @@ export const BasicWidget = () => {
         <Icon icon="chat" aria-label="chat" />
         <p>Header of widget window</p>
       </Header>
-      <HeaderAction></HeaderAction>
       <Content>
         Adipisicing in consequat incididunt occaecat sit eu
         <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt

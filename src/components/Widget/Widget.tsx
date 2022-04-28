@@ -9,13 +9,18 @@ import { ThreeChildren, WidgetProps } from "./WidgetTypes";
  * @param children could be single element, 2 elements, or 3 elements
  * @returns an array of 3 elements
  */
-function toArray(children: WidgetProps["children"]): ThreeChildren {
+export function normalize(children: WidgetProps["children"]): ThreeChildren {
   const ret = Array.isArray(children) ? [...children] : [children];
   if (ret.length === 1) {
     ret.push(<HeaderAction />);
   }
   if (ret.length === 2) {
-    ret.push(<Content />);
+    const isAction = ret[1].type === HeaderAction;
+    if (isAction) {
+      ret.push(<Content />);
+    } else {
+      ret.splice(1, 0, <HeaderAction />);
+    }
   }
   return ret as unknown as ThreeChildren;
 }
@@ -25,7 +30,7 @@ export const Widget = ({
   disabled = false,
   children,
 }: WidgetProps) => {
-  const [headerLeft, headerRight, body] = toArray(children);
+  const [headerLeft, headerRight, body] = normalize(children);
   return (
     <WidgetContext.Provider value={{ loading, empty, disabled }}>
       <div className="neo-widget__content">

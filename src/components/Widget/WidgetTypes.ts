@@ -29,10 +29,10 @@ export type ThreeChildren = [
   ReactElement<HeaderActionProps>,
   ReactElement<ContentProps>
 ];
-export type BothHeaders = [
+export type TwoChildren = [
   ReactElement<HeaderProps>,
-  ReactElement<HeaderActionProps>
+  ReactElement<HeaderActionProps | ContentProps>
 ];
 export type WidgetProps = {
-  children: ThreeChildren | BothHeaders | ReactElement<HeaderProps>;
+  children: ThreeChildren | TwoChildren | ReactElement<HeaderProps>;
 } & Partial<ContextProps>;
