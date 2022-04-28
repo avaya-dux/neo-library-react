@@ -37,7 +37,9 @@ export const LeftNavigation: FunctionComponent<LeftNavProps> = ({
     if (onSelected) {
       onSelected(id, url);
     } else {
-      console.log("Please provide a handler funciton for onSelected prop in LeftNavigation");
+      console.error(
+        "Please provide a handler funciton for onSelected prop in LeftNavigation"
+      );
     }
   };
 
