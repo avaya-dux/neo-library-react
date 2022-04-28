@@ -21,8 +21,8 @@ export const LinkItem = ({
   children,
   className,
   disabled = false,
-  href,
-  onClick,
+  href="",
+  id="",
   onFocus,
   onMouseOver,
   parentHasIcon,
@@ -52,13 +52,9 @@ export const LinkItem = ({
   }, [disabled, parentHasIcon]);
 
   const handleOnClick: MouseEventHandler = (e) => {
-    // TODO: Make this active and parent too, use callback
     handleClick();
-    ctx?.onSelectedLink
-      ? console.log("we have a valid onSelectedLink")
-      : console.log("invalid onSelectedLink");
-    ctx?.onSelectedLink && ctx.onSelectedLink("id goes here", "some url");
-    onClick && onClick(e);
+    e.preventDefault();
+    ctx?.onSelectedLink && ctx.onSelectedLink(id, href);
   };
 
   const handleKeyDown: KeyboardEventHandler = (
@@ -72,7 +68,7 @@ export const LinkItem = ({
       switch (event.key) {
         case Keys.SPACE:
         case Keys.ENTER:
-          ctx?.onSelectedLink && ctx.onSelectedLink("id goes here", "some url");
+          ctx?.onSelectedLink && ctx.onSelectedLink(id, href);
           break;
       }
     }

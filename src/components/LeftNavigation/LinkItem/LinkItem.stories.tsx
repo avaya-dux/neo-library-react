@@ -14,9 +14,8 @@ export default {
   component: LinkItem,
 } as Meta;
 
-const handleClick = (e: MouseEvent) => {
-  e.preventDefault();
-  alert(`clicked on the item: ${e.currentTarget.textContent}`);
+const handleClick = (id: string, url: string) => {
+  alert(`clicked on the item with id: ${id}, url: ${url}`);
 };
 const handleHover = () => {
   logger.debug("hovered on the item");
@@ -26,18 +25,17 @@ const handleFocus = () => {
 };
 
 export const LinkItems = () => (
-  <LeftNavigation currentUrl="">
+  <LeftNavigation currentUrl="" onSelected={handleClick}>
     <NavCategory label="Main Category">
       <LinkItem
-        onClick={handleClick}
         onMouseOver={handleHover}
         onFocus={handleFocus}
         active={false}
+        href="http://bing.com"
       >
         Normal Link
       </LinkItem>
       <LinkItem
-        onClick={handleClick}
         onMouseOver={handleHover}
         onFocus={handleFocus}
         active={true}
@@ -45,7 +43,6 @@ export const LinkItems = () => (
         Active Link
       </LinkItem>
       <LinkItem
-        onClick={handleClick}
         onMouseOver={handleHover}
         onFocus={handleFocus}
         active={false}

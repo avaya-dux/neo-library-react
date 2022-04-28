@@ -29,12 +29,16 @@ import { LeftNavProps, NavigationContextType } from "./LeftNavigationTypes";
 export const LeftNavigation: FunctionComponent<LeftNavProps> = ({
   children,
   currentUrl = "",
+  onSelected = null,
 }) => {
   const navId = genId();
 
   const handleSelectedLink = (id: string, url: string) => {
-    console.log("handleSelectedLink CALLED");
-    console.log({ id, url });
+    if (onSelected) {
+      onSelected(id, url);
+    } else {
+      console.log("Please provide a handler funciton for onSelected prop in LeftNavigation");
+    }
   };
 
   const navContext: NavigationContextType = {
@@ -47,7 +51,7 @@ export const LeftNavigation: FunctionComponent<LeftNavProps> = ({
       options={{ direction: "vertical", focusOnClick: true }}
     >
       <NavigationContext.Provider value={navContext}>
-        <div id={navId} className="neo-leftnav--wrapper" role="navigation">
+        <div id={navId} className="neo-leftnav--wrapper">
           <nav className="neo-leftnav">
             <ul className="neo-leftnav__nav">{children}</ul>
           </nav>

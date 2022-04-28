@@ -125,6 +125,7 @@ export const NavCategory = ({
       return cloneElement(child, {
         disabled: isDisabled,
         key: child.key || key,
+        id: child.props.id || key,
         parentHasIcon: parentHasIcon,
       });
     });
