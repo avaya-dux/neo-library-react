@@ -1,2 +1,5 @@
 export * from "./WidgetTypes";
-export * from "./Widget";
+export { Header } from "./Header";
+export { Action } from "./Action";
+export { Content } from "./Content";
+export { Widget } from "./Widget";
