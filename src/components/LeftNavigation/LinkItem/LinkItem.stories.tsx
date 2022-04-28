@@ -1,5 +1,4 @@
 import { Meta } from "@storybook/react/types-6-0";
-import { MouseEvent } from "react";
 import log from "loglevel";
 
 import { LeftNavigation } from "../LeftNavigation";

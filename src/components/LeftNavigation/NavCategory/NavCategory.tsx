@@ -6,7 +6,6 @@ import {
   KeyboardEventHandler,
   MouseEvent,
   MouseEventHandler,
-  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -18,7 +17,6 @@ import { useFocusEffect, useRovingTabIndex } from "react-roving-tabindex";
 import { NavCategoryProps } from "../LeftNavigationTypes";
 
 import { genId, getIconClass, Keys } from "utils";
-import { NavigationContext } from "../NavigationContext";
 
 const LEFTNAV_CATEGORY_STYLE: string = "neo-leftnav__main";
 
@@ -115,10 +113,10 @@ export const NavCategory = ({
 
   const linkItems = useMemo(() => {
     return Children.map(children, (child, index) => {
-      const childTypeName = (child?.type as FunctionComponent).name;
+      const childTypeName = (child.type as FunctionComponent).name;
       const key = `${childTypeName}-${index}`;
       const isDisabled = !isExpanded || disabled || !!child.props.disabled;
-      const parentHasIcon = icon ? true : false;
+      const parentHasIcon = !!icon;
 
       return cloneElement(child, {
         disabled: isDisabled,
