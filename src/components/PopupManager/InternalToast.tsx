@@ -34,9 +34,8 @@ export const InternalToast = ({
     <BasicToast
       {...{
         message,
-        seconds,
-        "aria-label": ariaLabel || `Toast message will last only ${seconds};`,
         icon,
+        "aria-label": ariaLabel || `Toast message will last only ${seconds};`,
       }}
     />
   );
