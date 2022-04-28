@@ -1,11 +1,11 @@
 import clsx from "clsx";
-import { RightHeaderProps } from "./WidgetTypes";
+import { HeaderActionProps } from "./WidgetTypes";
 
-export const RightHeader = ({
+export const HeaderAction = ({
   children,
   className,
   ...rest
-}: RightHeaderProps) => {
+}: HeaderActionProps) => {
   return (
     <div className={clsx("neo-widget__header-right", className)} {...rest}>
       {children}

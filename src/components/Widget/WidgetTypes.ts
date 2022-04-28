@@ -7,14 +7,14 @@ import {
   HTMLAttributes,
 } from "react";
 
-export type LeftHeaderProps = {
+export type HeaderProps = {
   children: ReactChild | ReactFragment | ReactPortal;
 };
-export type RightHeaderProps = {
+export type HeaderActionProps = {
   children?: ReactNode;
 } & HTMLAttributes<HTMLDivElement>;
 
-export type WidgetBodyProps = {
+export type ContentProps = {
   children?: ReactNode;
   textOnly?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
@@ -25,14 +25,14 @@ export type ContextProps = {
   disabled: boolean;
 };
 export type ThreeChildren = [
-  ReactElement<LeftHeaderProps>,
-  ReactElement<RightHeaderProps>,
-  ReactElement<WidgetBodyProps>
+  ReactElement<HeaderProps>,
+  ReactElement<HeaderActionProps>,
+  ReactElement<ContentProps>
 ];
 export type BothHeaders = [
-  ReactElement<LeftHeaderProps>,
-  ReactElement<RightHeaderProps>
+  ReactElement<HeaderProps>,
+  ReactElement<HeaderActionProps>
 ];
 export type WidgetProps = {
-  children: ThreeChildren | BothHeaders | ReactElement<LeftHeaderProps>;
+  children: ThreeChildren | BothHeaders | ReactElement<HeaderProps>;
 } & Partial<ContextProps>;

@@ -2,10 +2,10 @@ import { Meta, Story } from "@storybook/react/types-6-0";
 import { Select, SelectOption } from "components/Select";
 import { Switch } from "components/Switch";
 import { WidgetProps } from "./WidgetTypes";
-import { LeftHeader } from "./LeftHeader";
-import { RightHeader } from "./RightHeader";
+import { Header } from "./Header";
+import { HeaderAction } from "./HeaderAction";
 import { Widget } from "./Widget";
-import { WidgetBody } from "./WidgetBody";
+import { Content } from "./Content";
 import { useEffect, useState } from "react";
 import { Form } from "components/Form";
 import { TextInput } from "components/TextInput";
@@ -20,16 +20,16 @@ export default {
 export const BasicWidget = () => {
   return (
     <Widget>
-      <LeftHeader>
+      <Header>
         <Icon icon="chat" aria-label="chat" />
         <p>Header of widget window</p>
-      </LeftHeader>
-      <RightHeader></RightHeader>
-      <WidgetBody textOnly>
+      </Header>
+      <HeaderAction></HeaderAction>
+      <Content textOnly>
         Adipisicing in consequat incididunt occaecat sit eu
         <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
         reprehenderit.
-      </WidgetBody>
+      </Content>
     </Widget>
   );
 };
@@ -44,26 +44,26 @@ export const UsageExample = () => {
       }}
     >
       <Widget>
-        <LeftHeader>
+        <Header>
           <Icon icon="chat" aria-label="chat" />
           <p>Header of widget window</p>
-        </LeftHeader>
-        <RightHeader>
+        </Header>
+        <HeaderAction>
           <IconButton
             icon="settings"
             variant="tertiary"
             aria-label="Settings"
           ></IconButton>
-        </RightHeader>
+        </HeaderAction>
       </Widget>
       <Widget>
-        <LeftHeader>
+        <Header>
           <p>Header of widget window</p>
-        </LeftHeader>
-        <RightHeader>
+        </Header>
+        <HeaderAction>
           <Form inline style={{ alignItems: "flex-end", gap: 10 }}>
             <div style={{ width: 200, height: "100%" }}>
-              <Select isMultipleSelect ariaLabel="Options">
+              <Select isMultipleSelect aria-label="Options">
                 <SelectOption>Option 1</SelectOption>
                 <SelectOption disabled>Option 2</SelectOption>
                 <SelectOption>Option 3</SelectOption>
@@ -79,18 +79,18 @@ export const UsageExample = () => {
               />
             </div>
           </Form>
-        </RightHeader>
+        </HeaderAction>
       </Widget>
       <Widget>
-        <LeftHeader>
+        <Header>
           <Icon icon="chat" aria-label="chat" />
           <p>Header of widget window</p>
-        </LeftHeader>
-        <RightHeader>
+        </Header>
+        <HeaderAction>
           <Form inline>
             <Switch defaultChecked aria-label="test" />
           </Form>
-        </RightHeader>
+        </HeaderAction>
       </Widget>
     </div>
   );
@@ -99,26 +99,26 @@ export const UsageExample = () => {
 export const EmptyWidget = () => {
   return (
     <Widget empty>
-      <LeftHeader>
+      <Header>
         <Icon icon="settings" aria-label="settings" />
         <p>Header of widget window</p>
-      </LeftHeader>
+      </Header>
     </Widget>
   );
 };
 export const DisabledWidget = () => {
   return (
     <Widget disabled>
-      <LeftHeader>
+      <Header>
         <Icon icon="settings" aria-label="settings" />
         <p>Header of widget window</p>
-      </LeftHeader>
-      <RightHeader />
-      <WidgetBody textOnly>
+      </Header>
+      <HeaderAction />
+      <Content textOnly>
         Adipisicing in consequat incididunt occaecat sit eu
         <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
         reprehenderit.
-      </WidgetBody>
+      </Content>
     </Widget>
   );
 };
@@ -135,22 +135,22 @@ const InteractiveWidgetTemplate: Story<WidgetProps> = ({
         disabled properties
       </p>
       <Widget loading={loading} empty={empty} disabled={disabled}>
-        <LeftHeader>
+        <Header>
           <Icon icon="chat" aria-label="chat" />
           <p>Header of widget window</p>
-        </LeftHeader>
-        <RightHeader>
+        </Header>
+        <HeaderAction>
           <IconButton
             icon="more"
             variant="tertiary"
             aria-label="more"
           ></IconButton>
-        </RightHeader>
-        <WidgetBody textOnly>
+        </HeaderAction>
+        <Content textOnly>
           Adipisicing in consequat incididunt occaecat sit eu
           <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
           reprehenderit.
-        </WidgetBody>
+        </Content>
       </Widget>
     </div>
   );
@@ -179,16 +179,16 @@ export const LoadingEmptyWidget = () => {
       </p>
 
       <Widget loading={loading} empty={empty}>
-        <LeftHeader>
+        <Header>
           <Icon icon="chat" aria-label="chat" />
           <p>Header of widget window</p>
-        </LeftHeader>
-        <RightHeader></RightHeader>
-        <WidgetBody textOnly>
+        </Header>
+        <HeaderAction></HeaderAction>
+        <Content textOnly>
           Adipisicing in consequat incididunt occaecat sit eu
           <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
           reprehenderit.
-        </WidgetBody>
+        </Content>
       </Widget>
     </div>
   );
@@ -197,12 +197,12 @@ export const LoadingEmptyWidget = () => {
 export const ScrollableWidget = () => {
   return (
     <Widget>
-      <LeftHeader>
+      <Header>
         <Icon icon="chat" aria-label="chat" />
         <p>Header of widget window</p>
-      </LeftHeader>
-      <RightHeader></RightHeader>
-      <WidgetBody>
+      </Header>
+      <HeaderAction></HeaderAction>
+      <Content>
         <div style={{ width: 2000, marginBottom: 40 }}>
           <h3>Item 1</h3>
           <p>
@@ -481,7 +481,7 @@ export const ScrollableWidget = () => {
             facere rem autem? Vitae sequi hic assumenda dolorum eveniet
           </p>
         </div>
-      </WidgetBody>
+      </Content>
     </Widget>
   );
 };

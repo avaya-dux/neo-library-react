@@ -6,8 +6,8 @@ export type SelectOptionProps = {
   helperText?: string;
 };
 type AtLeastOneProps =
-  | { label: string; ariaLabel?: string }
-  | { label?: string; ariaLabel: string };
+  | { label: string; "aria-label"?: string }
+  | { label?: string; "aria-label": string };
 
 export type SelectProps = {
   children?:

@@ -1,16 +1,15 @@
 import clsx from "clsx";
 import { useContext } from "react";
 import { WidgetContext } from "./WidgetContext";
-import { WidgetBodyProps } from "./WidgetTypes";
+import { ContentProps } from "./WidgetTypes";
 
-export const WidgetBody = ({
+export const Content = ({
   children,
-  textOnly = false,
   className,
+  textOnly = false,
   ...rest
-}: WidgetBodyProps) => {
+}: ContentProps) => {
   const { loading, empty, disabled } = useContext(WidgetContext);
-
   return (
     <div
       className={clsx(

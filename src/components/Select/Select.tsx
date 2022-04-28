@@ -33,7 +33,7 @@ export const Select = ({
   isCombobox,
   isMultipleSelect,
   label,
-  ariaLabel,
+  "aria-label": ariaLabel,
   loading = false,
   onSelectedValueChange,
   placeholder = "Select One",

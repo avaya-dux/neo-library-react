@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import { RightHeader } from "./RightHeader";
-import { WidgetBody } from "./WidgetBody";
+import { HeaderAction } from "./HeaderAction";
+import { Content } from "./Content";
 import { WidgetContext } from "./WidgetContext";
 import { ThreeChildren, WidgetProps } from "./WidgetTypes";
 
@@ -12,10 +12,10 @@ import { ThreeChildren, WidgetProps } from "./WidgetTypes";
 function toArray(children: WidgetProps["children"]): ThreeChildren {
   const ret = Array.isArray(children) ? [...children] : [children];
   if (ret.length === 1) {
-    ret.push(<RightHeader />);
+    ret.push(<HeaderAction />);
   }
   if (ret.length === 2) {
-    ret.push(<WidgetBody />);
+    ret.push(<Content />);
   }
   return ret as unknown as ThreeChildren;
 }
