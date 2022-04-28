@@ -86,17 +86,9 @@ export const NavCategory = ({
     setIconClass(iconStyles);
   }, [icon]);
 
-  useEffect(() => {
-    console.log({ children });
-  }, [children]);
-
-  const refKeys = [];
-
   const handleOnClick: MouseEventHandler = (event: MouseEvent) => {
-    console.log({ event });
     event.stopPropagation();
     handleClick();
-    console.log("clicked!!", { isExpanded });
     setIsExpanded(!isExpanded);
   };
 
@@ -106,12 +98,11 @@ export const NavCategory = ({
     event.stopPropagation();
     event.preventDefault();
     handleKeyIndex(event);
-    
+
     if (!disabled) {
       switch (event.key) {
         case Keys.SPACE:
         case Keys.ENTER:
-          console.log("enter pressed", { isExpanded });
           setIsExpanded(!isExpanded);
           break;
         case Keys.LEFT:
@@ -130,8 +121,7 @@ export const NavCategory = ({
       const key = `${childTypeName}-${index}`;
       const isDisabled = !isExpanded || disabled || !!child?.props.disabled;
       const parentHasIcon = icon ? true : false;
-      console.log({ childTypeName, isDisabled });
-      
+
       return cloneElement(child, {
         disabled: isDisabled,
         key: child.key || key,
