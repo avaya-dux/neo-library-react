@@ -1,4 +1,4 @@
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { Meta } from "@storybook/react/types-6-0";
 import { Accordion } from "../Accordion";
 import { AccordionGroup, AccordionGroupProps } from "./AccordionGroup";
 import { Sheet } from "components/Sheet";

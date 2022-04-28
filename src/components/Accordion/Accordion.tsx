@@ -72,15 +72,17 @@ export const Accordion: FC<AccordionProps> = ({
               {header}
             </button>
           ) : (
-            <button
-              className="neo-accordion__header-text"
-              aria-expanded={isActive ? "true" : "false"}
-              aria-controls="accordion-panel"
-              id={id}
-              onClick={() => setIsActive(!isActive)}
-            >
-              {header}
-            </button>
+            !disabled && (
+              <button
+                className="neo-accordion__header-text"
+                aria-expanded={isActive ? "true" : "false"}
+                aria-controls="accordion-panel"
+                id={id}
+                onClick={() => setIsActive(!isActive)}
+              >
+                {header}
+              </button>
+            )
           )}
         </div>
 

@@ -19,4 +19,3 @@ export const Default = () => (
     <Accordion header="Accordion Header test">Some text in body</Accordion>
   </Sheet>
 );
-

@@ -24,7 +24,7 @@ export const AccordionGroup: FC<AccordionGroupProps> = ({
       <p>{groupHeading}</p>
       {checkChildren.map((child, index) => {
         const key: number = index;
-        const checkId = index === currentId ? true : false;
+        const checkId = index === currentId;
         if (allowOnlyOneToExpand) {
           return cloneElement(child, {
             key: key,
@@ -33,7 +33,7 @@ export const AccordionGroup: FC<AccordionGroupProps> = ({
             allowOnlyOneToExpand: true,
           });
         } else {
-          return cloneElement(child, {key: key});
+          return cloneElement(child, { key: key });
         }
       })}
     </div>
