@@ -5,7 +5,7 @@ import { axe } from "jest-axe";
 import * as WidgetStories from "./Widget.stories";
 import { normalize } from "./Widget";
 import { Header } from "./Header";
-import { HeaderAction } from "./HeaderAction";
+import { Action } from "./Action";
 import { Content } from "./Content";
 const {
   BasicWidget,
@@ -20,25 +20,25 @@ const {
 describe("Widget", () => {
   describe(normalize, () => {
     it("Should do nothing with all required children", () => {
-      const children = [<Header />, <HeaderAction />, <Content />];
+      const children = [<Header />, <Action />, <Content />];
       const result = normalize(children);
       expect(result).toStrictEqual(children);
     });
-    it("should append Content when only Header and HeaderAction are passed in", () => {
-      const children = [<Header />, <HeaderAction />];
+    it("should append Content when only Header and Action are passed in", () => {
+      const children = [<Header />, <Action />];
       const result = normalize(children);
       expect(result[2].type).toStrictEqual(Content);
     });
-    it("should insert HeaderAction when only Header and Content are passed in", () => {
+    it("should insert Action when only Header and Content are passed in", () => {
       const children = [<Header />, <Content />];
       const result = normalize(children);
-      expect(result[1].type).toStrictEqual(HeaderAction);
+      expect(result[1].type).toStrictEqual(Action);
       expect(result[2].type).toStrictEqual(Content);
     });
-    it("should append HeaderAction and contetn when only Header is passed in", () => {
+    it("should append Action and contetn when only Header is passed in", () => {
       const children = [<Header />];
       const result = normalize(children);
-      expect(result[1].type).toStrictEqual(HeaderAction);
+      expect(result[1].type).toStrictEqual(Action);
       expect(result[2].type).toStrictEqual(Content);
     });
   });

@@ -10,7 +10,7 @@ import {
 export type HeaderProps = {
   children: ReactChild | ReactFragment | ReactPortal;
 };
-export type HeaderActionProps = {
+export type ActionProps = {
   children?: ReactNode;
 } & HTMLAttributes<HTMLDivElement>;
 
@@ -26,12 +26,12 @@ export type ContextProps = {
 };
 export type ThreeChildren = [
   ReactElement<HeaderProps>,
-  ReactElement<HeaderActionProps>,
+  ReactElement<ActionProps>,
   ReactElement<ContentProps>
 ];
 export type TwoChildren = [
   ReactElement<HeaderProps>,
-  ReactElement<HeaderActionProps | ContentProps>
+  ReactElement<ActionProps | ContentProps>
 ];
 export type WidgetProps = {
   children: ThreeChildren | TwoChildren | ReactElement<HeaderProps>;

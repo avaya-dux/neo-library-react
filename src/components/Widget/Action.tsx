@@ -1,11 +1,7 @@
 import clsx from "clsx";
-import { HeaderActionProps } from "./WidgetTypes";
+import { ActionProps } from "./WidgetTypes";
 
-export const HeaderAction = ({
-  children,
-  className,
-  ...rest
-}: HeaderActionProps) => {
+export const Action = ({ children, className, ...rest }: ActionProps) => {
   return (
     <div className={clsx("neo-widget__header-right", className)} {...rest}>
       {children}

@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { HeaderAction } from "./HeaderAction";
+import { Action } from "./Action";
 import { Content } from "./Content";
 import { WidgetContext } from "./WidgetContext";
 import { ThreeChildren, WidgetProps } from "./WidgetTypes";
@@ -12,14 +12,14 @@ import { ThreeChildren, WidgetProps } from "./WidgetTypes";
 export function normalize(children: WidgetProps["children"]): ThreeChildren {
   const ret = Array.isArray(children) ? [...children] : [children];
   if (ret.length === 1) {
-    ret.push(<HeaderAction />);
+    ret.push(<Action />);
   }
   if (ret.length === 2) {
-    const isAction = ret[1].type === HeaderAction;
+    const isAction = ret[1].type === Action;
     if (isAction) {
       ret.push(<Content />);
     } else {
-      ret.splice(1, 0, <HeaderAction />);
+      ret.splice(1, 0, <Action />);
     }
   }
   return ret as unknown as ThreeChildren;

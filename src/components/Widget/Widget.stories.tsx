@@ -3,7 +3,7 @@ import { Select, SelectOption } from "components/Select";
 import { Switch } from "components/Switch";
 import { WidgetProps } from "./WidgetTypes";
 import { Header } from "./Header";
-import { HeaderAction } from "./HeaderAction";
+import { Action } from "./Action";
 import { Widget } from "./Widget";
 import { Content } from "./Content";
 import { useEffect, useState } from "react";
@@ -47,19 +47,19 @@ export const UsageExample = () => {
           <Icon icon="chat" aria-label="chat" />
           <p>Header of widget window</p>
         </Header>
-        <HeaderAction>
+        <Action>
           <IconButton
             icon="settings"
             variant="tertiary"
             aria-label="Settings"
           ></IconButton>
-        </HeaderAction>
+        </Action>
       </Widget>
       <Widget>
         <Header>
           <p>Header of widget window</p>
         </Header>
-        <HeaderAction>
+        <Action>
           <Form inline style={{ alignItems: "flex-end", gap: 10 }}>
             <div style={{ width: 200, height: "100%" }}>
               <Select isMultipleSelect aria-label="Options">
@@ -78,18 +78,18 @@ export const UsageExample = () => {
               />
             </div>
           </Form>
-        </HeaderAction>
+        </Action>
       </Widget>
       <Widget>
         <Header>
           <Icon icon="chat" aria-label="chat" />
           <p>Header of widget window</p>
         </Header>
-        <HeaderAction>
+        <Action>
           <Form inline>
             <Switch defaultChecked aria-label="test" />
           </Form>
-        </HeaderAction>
+        </Action>
       </Widget>
     </div>
   );
@@ -112,7 +112,7 @@ export const DisabledWidget = () => {
         <Icon icon="settings" aria-label="settings" />
         <p>Header of widget window</p>
       </Header>
-      <HeaderAction />
+      <Action />
       <Content>
         Adipisicing in consequat incididunt occaecat sit eu
         <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
@@ -138,13 +138,13 @@ const InteractiveWidgetTemplate: Story<WidgetProps> = ({
           <Icon icon="chat" aria-label="chat" />
           <p>Header of widget window</p>
         </Header>
-        <HeaderAction>
+        <Action>
           <IconButton
             icon="more"
             variant="tertiary"
             aria-label="more"
           ></IconButton>
-        </HeaderAction>
+        </Action>
         <Content>
           Adipisicing in consequat incididunt occaecat sit eu
           <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
@@ -182,7 +182,7 @@ export const LoadingEmptyWidget = () => {
           <Icon icon="chat" aria-label="chat" />
           <p>Header of widget window</p>
         </Header>
-        <HeaderAction></HeaderAction>
+        <Action></Action>
         <Content>
           Adipisicing in consequat incididunt occaecat sit eu
           <strong>enim ex pariatur</strong>. Ad eiusmod duis incididunt
@@ -200,7 +200,7 @@ export const ScrollableWidget = () => {
         <Icon icon="chat" aria-label="chat" />
         <p>Header of widget window</p>
       </Header>
-      <HeaderAction></HeaderAction>
+      <Action></Action>
       <Content asText={false}>
         <div style={{ width: 2000, marginBottom: 40 }}>
           <h3>Item 1</h3>
