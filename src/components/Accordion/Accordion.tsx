@@ -8,7 +8,7 @@ export interface AccordionProps {
   defaultExpanded?: boolean;
   disabled?: boolean;
   ariaLevel?: number;
-  allowOnlyOneExpand?: boolean;
+  allowOnlyOneToExpand?: boolean;
   isOpen?: boolean;
   handleClick?: (id?: string | number) => void;
 }
@@ -19,7 +19,7 @@ export const Accordion: FC<AccordionProps> = ({
   defaultExpanded = false,
   disabled,
   ariaLevel = 2,
-  allowOnlyOneExpand = false,
+  allowOnlyOneToExpand = false,
   isOpen,
   handleClick,
   children,
@@ -61,7 +61,7 @@ export const Accordion: FC<AccordionProps> = ({
             </button>
           )}
 
-          {allowOnlyOneExpand && handleClick ? (
+          {allowOnlyOneToExpand && handleClick ? (
             <button
               className="neo-accordion__header-text"
               aria-expanded={isActive ? "true" : "false"}

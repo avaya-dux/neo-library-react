@@ -3,14 +3,13 @@ import { AccordionProps } from "../Accordion";
 import "./AccordionGroup_shim.css";
 
 export interface AccordionGroupProps {
-  allowOnlyOneExpand?: boolean;
-  groupHeading: string;
+  allowOnlyOneToExpand?: boolean;
+  groupHeading?: string;
   defaultOpen?: number;
   children: ReactElement<AccordionProps>[];
-  handleClickParent?: () => void;
 }
 export const AccordionGroup: FC<AccordionGroupProps> = ({
-  allowOnlyOneExpand = false,
+  allowOnlyOneToExpand = false,
   groupHeading,
   defaultOpen = 0,
   children,
@@ -26,12 +25,12 @@ export const AccordionGroup: FC<AccordionGroupProps> = ({
       {checkChildren.map((child, index) => {
         const key: number = index;
         const checkId = index === currentId ? true : false;
-        if (allowOnlyOneExpand) {
+        if (allowOnlyOneToExpand) {
           return cloneElement(child, {
             key: key,
             handleClick: () => handleClickParent(index),
             isOpen: checkId,
-            allowOnlyOneExpand: true,
+            allowOnlyOneToExpand: true,
           });
         } else {
           return cloneElement(child, {key: key});
