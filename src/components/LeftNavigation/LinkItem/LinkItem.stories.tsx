@@ -35,11 +35,7 @@ export const LinkItems = () => (
       >
         Normal Link
       </LinkItem>
-      <LinkItem
-        onMouseOver={handleHover}
-        onFocus={handleFocus}
-        active={true}
-      >
+      <LinkItem onMouseOver={handleHover} onFocus={handleFocus} active={true}>
         Active Link
       </LinkItem>
       <LinkItem

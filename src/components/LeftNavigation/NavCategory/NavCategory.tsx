@@ -16,7 +16,6 @@ import clsx from "clsx";
 import { useFocusEffect, useRovingTabIndex } from "react-roving-tabindex";
 
 import { NavCategoryProps } from "../LeftNavigationTypes";
-import { LinkItem } from "../LinkItem";
 
 import { genId, getIconClass, Keys } from "utils";
 import { NavigationContext } from "../NavigationContext";
@@ -67,7 +66,6 @@ export const NavCategory = ({
   const [isExpanded, setIsExpanded] = useState(expanded);
   const [navItemClass, setNavItemClass] = useState(LEFTNAV_CATEGORY_STYLE);
   const [iconClass, setIconClass] = useState("");
-  const { currentUrl, onSelectedLink } = useContext(NavigationContext);
 
   const ref = useRef(null);
   const [tabIndex, isActive, handleKeyIndex, handleClick] = useRovingTabIndex(
@@ -119,7 +117,7 @@ export const NavCategory = ({
     return Children.map(children, (child, index) => {
       const childTypeName = (child?.type as FunctionComponent).name;
       const key = `${childTypeName}-${index}`;
-      const isDisabled = !isExpanded || disabled || !!child?.props.disabled;
+      const isDisabled = !isExpanded || disabled || !!child.props.disabled;
       const parentHasIcon = icon ? true : false;
 
       return cloneElement(child, {
