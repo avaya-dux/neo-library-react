@@ -86,7 +86,7 @@
     "@babel/core": "^7.17.9",
     "@cypress/react": "^5.12.4",
     "@cypress/webpack-dev-server": "^1.8.4",
-    "@rollup/plugin-commonjs": "^21.1.0",
+    "@rollup/plugin-commonjs": "^22.0.0",
     "@rollup/plugin-node-resolve": "^13.2.1",
     "@rollup/plugin-typescript": "^8.3.2",
     "@storybook/addon-actions": "^6.4.22",
