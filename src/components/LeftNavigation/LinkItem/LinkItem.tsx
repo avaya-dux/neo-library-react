@@ -60,14 +60,20 @@ export const LinkItem = ({
   const handleKeyDown: KeyboardEventHandler = (
     event: KeyboardEvent<HTMLButtonElement>
   ) => {
-    event.stopPropagation();
-    event.preventDefault();
+    if (event.key !== Keys.TAB) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
     handleKeyIndex(event);
 
     if (disabled) return;
 
-    if (event.key === Keys.SPACE || event.key === Keys.ENTER) {
-      ctx?.onSelectedLink && ctx.onSelectedLink(id, href);
+    switch (event.key) {
+      case Keys.SPACE:
+      case Keys.ENTER:
+        ctx?.onSelectedLink && ctx.onSelectedLink(id, href);
+        break;
     }
   };
 

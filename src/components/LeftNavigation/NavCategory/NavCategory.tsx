@@ -91,9 +91,11 @@ export const NavCategory = ({
   const handleKeyDown: KeyboardEventHandler = (
     event: KeyboardEvent<HTMLButtonElement>
   ) => {
-    event.stopPropagation();
-    event.preventDefault();
     handleKeyIndex(event);
+    if (event.key !== Keys.TAB) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
 
     if (!disabled) {
       switch (event.key) {

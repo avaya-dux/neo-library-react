@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback } from "react";
+import { FunctionComponent, useCallback, useMemo } from "react";
 
 import { RovingTabIndexProvider } from "react-roving-tabindex";
 import { genId } from "utils";
@@ -38,7 +38,7 @@ export const LeftNavigation: FunctionComponent<LeftNavProps> = ({
     );
   }
 
-  const navId = genId();
+  const navId = useMemo(() => genId(), []);
 
   const handleSelectedLink = useCallback(
     (id: string, url: string) => {
