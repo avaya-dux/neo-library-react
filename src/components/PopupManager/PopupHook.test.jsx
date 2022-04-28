@@ -39,7 +39,7 @@ describe("PopupHook", () => {
     expect(document.getElementById(id)).toBeTruthy();
   });
 
-  it("usePopup creates container ok", async () => {
+  it("usePopup creates container", async () => {
     expect(document.getElementById(containerId)).toBeNull();
     const { result } = renderHook(() => usePopup());
     expect(result.current.mounted).toBeTruthy();

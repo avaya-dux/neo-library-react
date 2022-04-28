@@ -111,11 +111,9 @@ export class PopupManager extends Component<Props, State> {
     const position = options.position ?? "top";
 
     return {
+      ...options,
       id,
-      message: options.message,
-      icon: options.icon,
       position,
-      duration: options.duration,
     };
   };
 
