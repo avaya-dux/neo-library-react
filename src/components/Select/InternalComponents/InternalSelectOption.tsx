@@ -12,11 +12,10 @@ export const InternalSelectOption = ({
   index,
 }: SelectOptionProps & { index: number }) => {
   const {
-    downshiftProps: { getItemProps, highlightedIndex, selectedItem },
+    downshiftProps: { getItemProps, highlightedIndex },
 
-    optionProps: { isMultipleSelect, options },
+    optionProps: { isMultipleSelect, options, selectedItems },
   } = useContext(SelectContext);
-  const selectedItems = [selectedItem]; // BUG: fix this
 
   const optionSelf = options[index];
 
