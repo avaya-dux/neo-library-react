@@ -12,10 +12,11 @@ export const InternalSelectOption = ({
   index,
 }: SelectOptionProps & { index: number }) => {
   const {
-    downshiftProps: { getItemProps, highlightedIndex, selectedItems },
+    downshiftProps: { getItemProps, highlightedIndex, selectedItem },
 
     optionProps: { isMultipleSelect, options },
   } = useContext(SelectContext);
+  const selectedItems = [selectedItem]; // BUG: fix this
 
   const optionSelf = options[index];
 
@@ -29,50 +30,38 @@ export const InternalSelectOption = ({
     disabled,
   });
 
-  if (isMultipleSelect) {
-    const MultiSelectOption = (
-      <>
-        <input
-          className="neo-check"
-          type="checkbox"
-          disabled={disabled}
-          checked={!!selectedItems && selectedItems.includes(optionSelf)}
-          readOnly
-          aria-labelledby={labelId}
-          aria-describedby={helperId}
-        />
+  return isMultipleSelect ? (
+    <div className="neo-input-group">
+      <input
+        className="neo-check"
+        type="checkbox"
+        disabled={disabled}
+        checked={!!selectedItems && selectedItems.includes(optionSelf)}
+        readOnly
+        aria-labelledby={labelId}
+        aria-describedby={helperId}
+      />
 
-        <div
-          key={optionSelf}
-          {...optionProps}
-          style={
-            highlightedIndex === index && !disabled
-              ? { backgroundColor: "#e8f1fc" }
-              : {}
-          }
-          className="neo-check__label"
-          htmlFor={optionSelf}
-          id={labelId}
-        >
-          {children}
-        </div>
-      </>
-    );
-
-    return helperText ? (
-      <div className="neo-input-group">
-        {MultiSelectOption}
-        <p className="neo-input-hint" id={helperId}>
-          {helperText}
-        </p>
+      <div
+        key={optionSelf}
+        {...optionProps}
+        style={
+          highlightedIndex === index && !disabled
+            ? { backgroundColor: "#e8f1fc" }
+            : {}
+        }
+        className="neo-check__label"
+        htmlFor={optionSelf}
+        id={labelId}
+      >
+        {children}
       </div>
-    ) : (
-      { MultiSelectOption }
-    );
-  }
 
-  // else, is single select
-  return (
+      <p className="neo-input-hint" id={helperId}>
+        {helperText}
+      </p>
+    </div>
+  ) : (
     <li
       // TO-DO: Replace inline styles here with focus styles for Select options in Neo CSS library
       style={highlightedIndex === index ? { backgroundColor: "#e8f1fc" } : {}}

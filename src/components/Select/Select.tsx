@@ -46,8 +46,8 @@ export const Select = (props: SelectProps) => {
 
   // const selectText = useMemo(
   //   () =>
-  //     `${selectedItems.length > 0 ? selectedItems.join(", ") : placeholder}`,
-  //   [selectedItems]
+  //     `${selectedItems.length > 0 ? selectedItems.join(", ") : placeholder}`, // TODO: use Chips component
+  //   [selectedItems, placeholder]
   // );
 
   useEffect(() => {
@@ -114,6 +114,7 @@ export const Select = (props: SelectProps) => {
             placeholder,
           },
           optionProps: {
+            isMultipleSelect,
             options,
           },
         }}
