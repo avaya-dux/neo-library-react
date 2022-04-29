@@ -4,12 +4,12 @@ import { computeBadge } from "utils";
 
 export interface BadgeProps {
   data: string;
-  ariaLabel: string;
+  "aria-label": string;
 }
 
 export const Badge: FunctionComponent<BadgeProps> = ({
   data,
-  ariaLabel,
+  "aria-label": ariaLabel,
   children,
   ...rest
 }) => {

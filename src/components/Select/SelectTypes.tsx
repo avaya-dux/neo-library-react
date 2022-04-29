@@ -5,8 +5,11 @@ export type SelectOptionProps = {
   disabled?: boolean;
   helperText?: string;
 };
+type AtLeastOneProps =
+  | { label: string; "aria-label"?: string }
+  | { label?: string; "aria-label": string };
 
-export interface SelectProps {
+export type SelectProps = {
   children?:
     | ReactElement<SelectOptionProps>
     | ReactElement<SelectOptionProps>[];
@@ -16,10 +19,9 @@ export interface SelectProps {
   id?: string;
   isCombobox?: boolean;
   isMultipleSelect?: boolean;
-  label: string;
   loading?: boolean;
   onSelectedValueChange?: (value: string | string[]) => void;
   placeholder?: string;
   required?: boolean;
   values?: string[];
-}
+} & AtLeastOneProps;
