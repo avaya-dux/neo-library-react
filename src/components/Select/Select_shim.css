@@ -83,3 +83,20 @@
   box-shadow: none;
   cursor: not-allowed;
 }
+
+/* no left padding while loading */
+.neo-multiselect.neo-select__spinner span input.neo-input {
+  padding-left: 0;
+}
+
+/* no left padding while loading */
+.neo-multiselect.neo-select__spinner button.neo-multiselect__header,
+.neo-multiselect.neo-select__spinner span.neo-multiselect-combo__header {
+  padding-left: 32px;
+  background-color: #f1f1f1;
+}
+
+div.neo-multiselect button.neo-multiselect__header,
+div.neo-multiselect span.neo-multiselect-combo__header {
+  width: 100%;
+}

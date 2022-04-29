@@ -37,11 +37,6 @@ export const MultiSelect = () => {
         {...getToggleButtonProps()}
         className="neo-multiselect__header"
         type="button"
-        style={{
-          width: "100%",
-          paddingLeft: loading && "32px",
-          backgroundColor: loading && "#f1f1f1",
-        }}
       >
         {selectedItemsText}
       </button>

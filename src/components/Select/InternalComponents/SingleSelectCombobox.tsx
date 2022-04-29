@@ -39,19 +39,11 @@ export const SingleSelectCombobox = () => {
       <span
         {...getToggleButtonProps()}
         className={"neo-multiselect-combo__header"}
-        style={{
-          width: "100%",
-          paddingLeft: loading && "32px",
-          backgroundColor: loading && "#f1f1f1",
-        }}
       >
         <input
           {...getInputProps()}
           placeholder={placeholder}
           className="neo-input"
-          style={{
-            paddingLeft: loading && "0px",
-          }}
         />
       </span>
 
