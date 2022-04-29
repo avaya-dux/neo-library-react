@@ -16,9 +16,6 @@ export const AccordionGroup: FC<AccordionGroupProps> = ({
 }) => {
   const childrenAsArray = Array.isArray(children) ? children : [children];
   const [currentId, setCurrentId] = useState(defaultOpen);
-  const handleClickParent = (id: number) => {
-    setCurrentId(id);
-  };
   return (
     <div className="neo-accordion-group">
       <p>{groupHeading}</p>
@@ -28,7 +25,7 @@ export const AccordionGroup: FC<AccordionGroupProps> = ({
         if (allowOnlyOne) {
           return cloneElement(child, {
             key: key,
-            handleClick: () => handleClickParent(index),
+            handleClick: () => setCurrentId(index),
             isOpen: isOpen,
             allowOnlyOne: true,
           });

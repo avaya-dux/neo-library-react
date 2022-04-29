@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { FC, ReactNode, useState, useEffect } from "react";
+import { FC, ReactNode, useState, useEffect, ButtonHTMLAttributes } from "react";
 import { genId } from "utils";
 
 export interface AccordionProps {
@@ -7,8 +7,8 @@ export interface AccordionProps {
   id?: string;
   defaultExpanded?: boolean;
   disabled?: boolean;
-  ariaLevel?: number;
-  ariaLabel?: string;
+  "aria-level"?: number;
+  "aria-label"?: string;
   allowOnlyOne?: boolean;
   isOpen?: boolean;
   handleClick?: (id?: string | number) => void;
@@ -19,8 +19,8 @@ export const Accordion: FC<AccordionProps> = ({
   id = genId(),
   defaultExpanded = false,
   disabled,
-  ariaLevel = 2,
-  ariaLabel = "Accordion Heading",
+  "aria-level": ariaLevel = 2,
+  "aria-label": ariaLabel = "Accordion Heading",
   allowOnlyOne = false,
   isOpen,
   handleClick,
@@ -34,7 +34,7 @@ export const Accordion: FC<AccordionProps> = ({
     } else {
       setIsActive(false);
     }
-  }, [isOpen, defaultExpanded]);
+  }, [isOpen]);
 
   return (
     <div className="neo-accordion">
@@ -54,7 +54,7 @@ export const Accordion: FC<AccordionProps> = ({
           aria-level={ariaLevel}
         >
           {(disabled && allowOnlyOne) ||
-            (disabled && (
+            (disabled) && (
               <button
                 className="neo-accordion__header-text"
                 aria-disabled
@@ -62,7 +62,7 @@ export const Accordion: FC<AccordionProps> = ({
               >
                 {header}
               </button>
-            ))}
+            )}
 
           {allowOnlyOne && handleClick ? (
             <button
