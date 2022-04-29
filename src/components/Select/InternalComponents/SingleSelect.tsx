@@ -12,7 +12,6 @@ export const SingleSelect = () => {
 
   return (
     <div
-      aria-label={ariaLabel}
       aria-describedby={helperText && helperId}
       className={clsx(
         "neo-multiselect",
@@ -22,7 +21,9 @@ export const SingleSelect = () => {
       )}
     >
       <div className="neo-multiselect__content">
-        <ul {...getMenuProps()}>{children}</ul>
+        <ul aria-label={ariaLabel} {...getMenuProps()}>
+          {children}
+        </ul>
       </div>
     </div>
   );

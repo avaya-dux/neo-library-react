@@ -15,8 +15,8 @@ export type SelectContextProps = {
   selectProps: {
     ariaLabel?: string;
     disabled: boolean;
-    helperId: string;
-    helperText: string;
+    helperId?: string;
+    helperText?: string;
     loading: boolean;
     placeholder: string;
   };
@@ -34,8 +34,6 @@ export const SelectContext = createContext<SelectContextProps>({
 
   selectProps: {
     disabled: false,
-    helperId: "",
-    helperText: "",
     loading: false,
     placeholder: "",
   },

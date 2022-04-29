@@ -12,7 +12,6 @@ export const MultiSelect = () => {
 
   return (
     <div
-      aria-label={ariaLabel}
       aria-describedby={helperText && helperId}
       className={clsx(
         "neo-multiselect",
@@ -21,7 +20,11 @@ export const MultiSelect = () => {
         isOpen && "neo-multiselect--active"
       )}
     >
-      <div className="neo-multiselect__content" {...getMenuProps()}>
+      <div
+        aria-label={ariaLabel}
+        className="neo-multiselect__content"
+        {...getMenuProps()}
+      >
         {children}
       </div>
     </div>
