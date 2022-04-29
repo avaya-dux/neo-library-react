@@ -1,4 +1,4 @@
-import { SelectOptionProps } from "./SelectTypes";
+import { SelectOptionProps } from "./utils/SelectTypes";
 
 export const SelectOption = (_: SelectOptionProps) => {
   throw new Error(

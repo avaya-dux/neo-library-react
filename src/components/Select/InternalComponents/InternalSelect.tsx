@@ -1,7 +1,9 @@
-import { MultiSelect } from "./MultiSelect";
-import { MultiSelectCombobox } from "./MultiSelectCombobox";
-import { SingleSelect } from "./SingleSelect";
-import { SingleSelectCombobox } from "./SingleSelectCombobox";
+import {
+  MultiSelect,
+  MultiSelectCombobox,
+  SingleSelect,
+  SingleSelectCombobox,
+} from "./";
 
 export const InternalSelect = ({
   isCombobox,

@@ -4,8 +4,7 @@ import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 import { useIsInitialRender } from "utils/hooks/useIsInitialRender";
 
-import { InternalSelect } from "./InternalComponents";
-import { InternalSelectOption } from "./InternalComponents/InternalSelectOption";
+import { InternalSelect, InternalSelectOption } from "./InternalComponents";
 import { useDownshift } from "./utils/downshiftHooks";
 import { SelectContext } from "./utils/SelectContext";
 import { SelectProps } from "./utils/SelectTypes";

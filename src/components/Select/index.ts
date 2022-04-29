@@ -1,3 +1,3 @@
 export * from "./Select";
-export * from "./utils/SelectOption";
+export * from "./SelectOption";
 export * from "./utils/SelectTypes";

@@ -11,7 +11,6 @@ type AtLeastOneProps =
   | { label?: string; "aria-label": string };
 
 export type SelectProps = {
-  "aria-label"?: string;
   children?:
     | ReactElement<SelectOptionProps>
     | ReactElement<SelectOptionProps>[];
