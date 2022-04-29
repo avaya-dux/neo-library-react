@@ -7,6 +7,7 @@ export type SelectOptionProps = {
 };
 
 export interface SelectProps {
+  "aria-label"?: string;
   children?:
     | ReactElement<SelectOptionProps>
     | ReactElement<SelectOptionProps>[];

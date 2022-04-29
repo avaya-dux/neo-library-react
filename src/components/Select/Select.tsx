@@ -14,6 +14,7 @@ import "./Select_shim.css";
 
 export const Select = (props: SelectProps) => {
   const {
+    "aria-label": ariaLabel,
     children = [],
     disabled = false,
     errorList = [],
@@ -29,8 +30,8 @@ export const Select = (props: SelectProps) => {
     values,
   } = props;
 
-  if (!label) {
-    handleAccessbilityError("Select requires a label prop");
+  if (!(label || ariaLabel)) {
+    handleAccessbilityError("Select requires a label prop or aria-label");
   }
 
   const helperId = useMemo(() => `helper-text-${id}`, [id]);
