@@ -1,133 +1,54 @@
-import clsx from "clsx";
-import { UseComboboxReturnValue } from "downshift";
-import {
-  Children,
-  Fragment,
-  isValidElement,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { Children, isValidElement, useEffect, useMemo, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 import { useIsInitialRender } from "utils/hooks/useIsInitialRender";
 
-import {
-  DownshiftWithComboboxMultipleSelectProps,
-  DownshiftWithComboboxProps,
-  DownshiftWithMultipleSelectProps,
-  DownshiftWithSelectProps,
-} from "./DownshiftHooks";
-import { SelectContext } from "./SelectContext";
-import { SelectProps } from "./SelectTypes";
+import { InternalSelect } from "./InternalComponents";
+import { InternalSelectOption } from "./InternalComponents/InternalSelectOption";
+import { useDownshift } from "./utils/downshiftHooks";
+import { SelectContext } from "./utils/SelectContext";
+import { SelectProps } from "./utils/SelectTypes";
 
 import "./Select_shim.css";
 
-export const Select = ({
-  children = [],
-  disabled,
-  errorList = [],
-  helperText,
-  id = genId(),
-  isCombobox,
-  isMultipleSelect,
-  label,
-  loading = false,
-  onSelectedValueChange,
-  placeholder = "Select One",
-  required,
-  values,
-}: SelectProps) => {
+export const Select = (props: SelectProps) => {
+  const {
+    children = [],
+    disabled = false,
+    errorList = [],
+    helperText = "",
+    id = genId(),
+    isCombobox = false,
+    isMultipleSelect = false,
+    label = "",
+    loading = false,
+    onSelectedValueChange,
+    placeholder = "",
+    required,
+    values,
+  } = props;
+
   if (!label) {
     handleAccessbilityError("Select requires a label prop");
   }
 
+  const helperId = useMemo(() => `helper-text-${id}`, [id]);
   const isInitialRender = useIsInitialRender();
 
-  const items: string[] = useMemo(
-    () =>
-      Array.isArray(children)
-        ? children.map((child) => {
-            if (isValidElement(child)) {
-              return child.props.children.toString();
-            } else {
-              return " ";
-            }
-          })
-        : Array.from(children.props.children.toString()),
+  const options = useMemo(
+    () => Children.map(children, (child) => child.props.children),
     [children]
   );
-
+  const [inputItems, setInputItems] = useState<string[]>(options);
   const [selectedItems, setSelectedItems] = useState<string[]>(values || []);
-
   const [controlledInputValue, setControlledInputValue] = useState<string>("");
 
-  const [inputItems, setInputItems] = useState<string[]>(items);
-
-  const helperId = useMemo(() => `helper-text-${id}`, [id]);
-
-  const selectText = useMemo(
-    () =>
-      `${selectedItems.length > 0 ? selectedItems.join(", ") : placeholder}`,
-    [selectedItems]
-  );
-
-  const downshiftProps = isCombobox
-    ? isMultipleSelect
-      ? DownshiftWithComboboxMultipleSelectProps(
-          items,
-          id,
-          controlledInputValue,
-          setControlledInputValue,
-          selectedItems,
-          setSelectedItems,
-          inputItems,
-          setInputItems,
-          disabled,
-          loading
-        )
-      : DownshiftWithComboboxProps(
-          items,
-          id,
-          setSelectedItems,
-          setInputItems,
-          onSelectedValueChange,
-          disabled,
-          loading
-        )
-    : isMultipleSelect
-    ? DownshiftWithMultipleSelectProps(
-        items,
-        id,
-        selectedItems,
-        setSelectedItems,
-        disabled,
-        loading
-      )
-    : DownshiftWithSelectProps(
-        items,
-        id,
-        setSelectedItems,
-        onSelectedValueChange,
-        disabled,
-        loading
-      );
-
-  const {
-    isOpen,
-    highlightedIndex,
-    getMenuProps,
-    getItemProps,
-    getLabelProps,
-    getToggleButtonProps,
-  } = downshiftProps;
-
-  const getComboboxProps = (downshiftProps as UseComboboxReturnValue<string>)
-    .getComboboxProps;
-
-  const getInputProps = (downshiftProps as UseComboboxReturnValue<string>)
-    .getInputProps;
+  // const selectText = useMemo(
+  //   () =>
+  //     `${selectedItems.length > 0 ? selectedItems.join(", ") : placeholder}`,
+  //   [selectedItems]
+  // );
 
   useEffect(() => {
     if (values) {
@@ -142,19 +63,36 @@ export const Select = ({
     setControlledInputValue(`${selectedItems.join(", ")}`);
   }, [selectedItems]);
 
-  const context = {
+  const downshiftProps = useDownshift(
+    controlledInputValue,
+    id,
+    inputItems,
+    isCombobox,
     isMultipleSelect,
-    items,
-    itemProps: getItemProps,
+    options,
     selectedItems,
-    highlightedIndex,
-  };
+    setControlledInputValue,
+    setInputItems,
+    setSelectedItems,
+    disabled,
+    loading,
+    onSelectedValueChange
+  );
 
-  const childrenWithProps = Children.map(children, (child, index) => (
-    <SelectContext.Provider value={{ ...context, index }}>
-      {child}
-    </SelectContext.Provider>
-  ));
+  const internalChildren = useMemo(
+    () =>
+      Children.map(children, (child, index) => {
+        console.log("child", child); // TODO: test
+        if (isValidElement(child)) {
+          return <InternalSelectOption {...child.props} index={index} />;
+        } else {
+          throw new Error("Select children must be valid React elements"); // TODO: test
+        }
+      }),
+    [children]
+  );
+
+  const { getLabelProps } = downshiftProps;
 
   return (
     <NeoInputWrapper
@@ -164,95 +102,27 @@ export const Select = ({
     >
       <label {...getLabelProps()}>{label}</label>
 
-      <div
-        {...getComboboxProps?.()}
-        className={clsx(
-          "neo-multiselect",
-          disabled && "neo-multiselect--disabled",
-          loading && "neo-select__spinner",
-          isOpen && "neo-multiselect--active"
-        )}
-        aria-describedby={helperText && helperId}
+      <SelectContext.Provider
+        value={{
+          children: internalChildren,
+          downshiftProps,
+          selectProps: {
+            disabled,
+            helperId,
+            helperText,
+            loading,
+            placeholder,
+          },
+          optionProps: {
+            options,
+          },
+        }}
       >
-        {isCombobox ? (
-          <span
-            {...getToggleButtonProps()}
-            className={
-              isCombobox
-                ? "neo-multiselect-combo__header"
-                : "neo-multiselect__header"
-            }
-            style={{
-              width: "100%",
-              paddingLeft: loading && "32px",
-              backgroundColor: loading && "#f1f1f1",
-            }}
-          >
-            <input
-              {...getInputProps?.()}
-              placeholder={placeholder}
-              className="neo-input"
-              style={{
-                paddingLeft: loading && "0px",
-              }}
-            />
-          </span>
-        ) : (
-          <button
-            {...getToggleButtonProps()}
-            className={
-              isCombobox
-                ? "neo-multiselect-combo__header"
-                : "neo-multiselect__header"
-            }
-            type="button"
-            // TO-DO: Add this property to .neo-multiselect__header class to maintain styling when using button element instead of div
-            style={{
-              width: "100%",
-              paddingLeft: loading && "32px",
-              backgroundColor: loading && "#f1f1f1",
-            }}
-          >
-            {selectText}
-          </button>
-        )}
-
-        {isCombobox ? (
-          isMultipleSelect ? (
-            <div className="neo-multiselect__content" {...getMenuProps()}>
-              {childrenWithProps?.map((child, index) => {
-                if (inputItems.includes(child.props.children.props.children)) {
-                  return <Fragment key={index}>{child}</Fragment>;
-                } else {
-                  return null;
-                }
-              })}
-            </div>
-          ) : (
-            <div className="neo-multiselect__content">
-              <ul {...getMenuProps()}>
-                {childrenWithProps?.map((child, index) => {
-                  if (
-                    inputItems.includes(child.props.children.props.children)
-                  ) {
-                    return <Fragment key={index}>{child}</Fragment>;
-                  } else {
-                    return null;
-                  }
-                })}
-              </ul>
-            </div>
-          )
-        ) : isMultipleSelect ? (
-          <div className="neo-multiselect__content" {...getMenuProps()}>
-            {childrenWithProps}
-          </div>
-        ) : (
-          <div className="neo-multiselect__content">
-            <ul {...getMenuProps()}>{childrenWithProps}</ul>
-          </div>
-        )}
-      </div>
+        <InternalSelect
+          isCombobox={isCombobox}
+          isMultipleSelect={isMultipleSelect}
+        />
+      </SelectContext.Provider>
 
       {helperText && (
         <div className="neo-input-hint" id={helperId}>

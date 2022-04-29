@@ -1,13 +1,7 @@
 import { useCombobox, useSelect } from "downshift";
 import { Dispatch, SetStateAction } from "react";
 
-/* HACK: these are technically hooks, but naming them with the 'use' prefix and calling them conditionally in the Select Component
-   throws a compiler+linter error. They are also not technically functional components, however calling useSelect outside of a custom hook
-   or functional component also throws a compiler+linter error. As a result, the naming of these functions is incorrect but maintained
-   to preserve the logic and readibility of the code.
-*/
-
-export const DownshiftWithComboboxProps = (
+const useDownshiftWithComboboxProps = (
   items: string[],
   id: string,
   setSelectedItems: Dispatch<SetStateAction<string[]>>,
@@ -50,7 +44,7 @@ export const DownshiftWithComboboxProps = (
   });
 };
 
-export const DownshiftWithComboboxMultipleSelectProps = (
+const useDownshiftWithComboboxMultipleSelectProps = (
   items: string[],
   id: string,
   controlledInputValue: string,
@@ -117,7 +111,7 @@ export const DownshiftWithComboboxMultipleSelectProps = (
   });
 };
 
-export const DownshiftWithSelectProps = (
+const useDownshiftWithSelectProps = (
   items: string[],
   id: string,
   setSelectedItems: Dispatch<SetStateAction<string[]>>,
@@ -150,7 +144,7 @@ export const DownshiftWithSelectProps = (
   });
 };
 
-export const DownshiftWithMultipleSelectProps = (
+const useDownshiftWithMultipleSelectProps = (
   items: string[],
   id: string,
   selectedItems: string[],
@@ -193,4 +187,68 @@ export const DownshiftWithMultipleSelectProps = (
       }
     },
   });
+};
+
+export const useDownshift = (
+  controlledInputValue: string,
+  id: string,
+  inputItems: string[],
+  isCombobox: boolean,
+  isMultipleSelect: boolean,
+  items: string[],
+  selectedItems: string[],
+  setControlledInputValue: Dispatch<SetStateAction<string>>,
+  setInputItems: Dispatch<SetStateAction<string[]>>,
+  setSelectedItems: Dispatch<SetStateAction<string[]>>,
+  disabled?: boolean,
+  loading?: boolean,
+  onSelectedValueChange?: (value: string[] | string) => void
+) => {
+  const singleSelectComboboxProps = useDownshiftWithComboboxProps(
+    items,
+    id,
+    setSelectedItems,
+    setInputItems,
+    onSelectedValueChange,
+    disabled,
+    loading
+  );
+  const multiSelectComboboxProps = useDownshiftWithComboboxMultipleSelectProps(
+    items,
+    id,
+    controlledInputValue,
+    setControlledInputValue,
+    selectedItems,
+    setSelectedItems,
+    inputItems,
+    setInputItems,
+    disabled,
+    loading
+  );
+  const singleSelectProps = useDownshiftWithSelectProps(
+    items,
+    id,
+    setSelectedItems,
+    onSelectedValueChange,
+    disabled,
+    loading
+  );
+  const multipleSelectProps = useDownshiftWithMultipleSelectProps(
+    items,
+    id,
+    selectedItems,
+    setSelectedItems,
+    disabled,
+    loading
+  );
+
+  if (isCombobox && isMultipleSelect) {
+    return multiSelectComboboxProps;
+  } else if (isCombobox) {
+    return singleSelectComboboxProps;
+  } else if (isMultipleSelect) {
+    return multipleSelectProps;
+  }
+
+  return singleSelectProps;
 };

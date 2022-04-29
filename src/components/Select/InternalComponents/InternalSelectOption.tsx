@@ -2,28 +2,32 @@ import { useContext, useMemo } from "react";
 
 import { genId } from "utils/accessibilityUtils";
 
-import { SelectContext } from "./SelectContext";
-import { SelectOptionProps } from "./SelectTypes";
+import { SelectContext } from "../utils/SelectContext";
+import { SelectOptionProps } from "../utils/SelectTypes";
 
-export const SelectOption = ({
+export const InternalSelectOption = ({
   children,
   disabled,
   helperText,
-}: SelectOptionProps) => {
+  index,
+}: SelectOptionProps & { index: number }) => {
   const {
-    isMultipleSelect,
-    items,
-    itemProps,
-    highlightedIndex,
-    selectedItems,
-    index,
+    downshiftProps: { getItemProps, highlightedIndex, selectedItems },
+
+    optionProps: { isMultipleSelect, options },
   } = useContext(SelectContext);
 
-  const item = items[index];
+  const optionSelf = options[index];
 
   const labelId = useMemo(() => `label-id-${genId()}`, []);
 
   const helperId = useMemo(() => `helper-text-${genId()}`, []);
+
+  const optionProps = getItemProps({
+    item: optionSelf,
+    index,
+    disabled,
+  });
 
   if (isMultipleSelect) {
     const MultiSelectOption = (
@@ -32,25 +36,22 @@ export const SelectOption = ({
           className="neo-check"
           type="checkbox"
           disabled={disabled}
-          checked={!!selectedItems && selectedItems.includes(item)}
+          checked={!!selectedItems && selectedItems.includes(optionSelf)}
           readOnly
           aria-labelledby={labelId}
           aria-describedby={helperId}
         />
+
         <div
-          key={`${item}${index}`}
-          {...itemProps({
-            item,
-            index,
-            disabled,
-          })}
+          key={optionSelf}
+          {...optionProps}
           style={
             highlightedIndex === index && !disabled
               ? { backgroundColor: "#e8f1fc" }
               : {}
           }
           className="neo-check__label"
-          htmlFor={item}
+          htmlFor={optionSelf}
           id={labelId}
         >
           {children}
@@ -66,19 +67,19 @@ export const SelectOption = ({
         </p>
       </div>
     ) : (
-      <>{MultiSelectOption}</>
+      { MultiSelectOption }
     );
   }
+
+  // else, is single select
   return (
-    <>
-      <li
-        // TO-DO: Replace inline styles here with focus styles for Select options in Neo CSS library
-        style={highlightedIndex === index ? { backgroundColor: "#e8f1fc" } : {}}
-        key={`${item}${index}`}
-        {...itemProps({ item, index, disabled })}
-      >
-        {children}
-      </li>
-    </>
+    <li
+      // TO-DO: Replace inline styles here with focus styles for Select options in Neo CSS library
+      style={highlightedIndex === index ? { backgroundColor: "#e8f1fc" } : {}}
+      key={`${optionSelf}${index}`}
+      {...optionProps}
+    >
+      {children}
+    </li>
   );
 };
