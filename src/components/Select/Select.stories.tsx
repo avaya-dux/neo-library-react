@@ -1,11 +1,11 @@
 import { Meta } from "@storybook/react/types-6-0";
 import { useCallback, useEffect, useState } from "react";
 
-import { Button, Form } from "components";
+import { Button, Form, Sheet } from "components";
 
 import { Select } from "./Select";
 import { SelectOption } from "./SelectOption";
-import { SelectProps } from "./SelectTypes";
+import { SelectProps } from "./utils/SelectTypes";
 
 export default {
   title: "Components/Select/Select",
@@ -20,13 +20,14 @@ const handleSelectedValueChange = (value: string | string[]) => {
 
 export const DefaultSelects = () => {
   return (
-    <>
+    <Sheet title="Default Single and Multi Select" style={{ width: 400 }}>
       <Select label={label} onSelectedValueChange={handleSelectedValueChange}>
         <SelectOption>Option 1</SelectOption>
         <SelectOption disabled>Option 2</SelectOption>
         <SelectOption>Option 3</SelectOption>
         <SelectOption>Option 4</SelectOption>
       </Select>
+
       <Select
         isMultipleSelect
         label={label}
@@ -37,7 +38,7 @@ export const DefaultSelects = () => {
         <SelectOption>Option 3</SelectOption>
         <SelectOption>Option 4</SelectOption>
       </Select>
-    </>
+    </Sheet>
   );
 };
 

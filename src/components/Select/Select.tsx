@@ -44,12 +44,6 @@ export const Select = (props: SelectProps) => {
   const [selectedItems, setSelectedItems] = useState<string[]>(values || []);
   const [controlledInputValue, setControlledInputValue] = useState<string>("");
 
-  // const selectText = useMemo(
-  //   () =>
-  //     `${selectedItems.length > 0 ? selectedItems.join(", ") : placeholder}`, // TODO: use Chips component
-  //   [selectedItems, placeholder]
-  // );
-
   useEffect(() => {
     if (values) {
       setSelectedItems(values);
@@ -117,6 +111,7 @@ export const Select = (props: SelectProps) => {
           optionProps: {
             isMultipleSelect,
             options,
+            selectedItems,
           },
         }}
       >

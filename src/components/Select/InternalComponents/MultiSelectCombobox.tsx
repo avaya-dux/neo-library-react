@@ -27,7 +27,7 @@ export const MultiSelectCombobox = () => {
 
   return (
     <div
-      {...getComboboxProps?.()}
+      {...getComboboxProps()}
       aria-describedby={helperText && helperId}
       className={clsx(
         "neo-multiselect",
@@ -46,7 +46,7 @@ export const MultiSelectCombobox = () => {
         }}
       >
         <input
-          {...getInputProps?.()}
+          {...getInputProps()}
           placeholder={placeholder}
           className="neo-input"
           style={{

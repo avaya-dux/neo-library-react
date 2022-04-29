@@ -24,6 +24,7 @@ export type SelectContextProps = {
   optionProps: {
     isMultipleSelect: boolean;
     options: string[];
+    selectedItems: string[];
   };
 };
 
@@ -41,5 +42,6 @@ export const SelectContext = createContext<SelectContextProps>({
   optionProps: {
     isMultipleSelect: false,
     options: [],
+    selectedItems: [],
   },
 });
