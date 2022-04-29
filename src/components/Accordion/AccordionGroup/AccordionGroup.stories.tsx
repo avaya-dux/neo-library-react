@@ -13,20 +13,20 @@ export const Default = () => {
     <Sheet title="Sheet title" style={{ width: 600 }}>
       <br />
       <AccordionGroup groupHeading="Default Group of Accordion">
-        <Accordion header={"heading 1"} defaultExpanded>
+        <Accordion header="heading 1" defaultExpanded ariaLabel="heading 1">
           {"some data in the body1"}
         </Accordion>
-        <Accordion header={"heading 2"}>{"some data in the body2"}</Accordion>
-        <Accordion header={"heading 3"}>{"some data in the body3"}</Accordion>
+        <Accordion header="heading 2" ariaLabel="heading 2">{"some data in the body2"}</Accordion>
+        <Accordion header="heading 3" ariaLabel="heading 3">{"some data in the body3"}</Accordion>
       </AccordionGroup>
       <br />
       <AccordionGroup
         groupHeading="Group of Accordion expand one at a time"
         allowOnlyOne
       >
-        <Accordion header={"heading 1"}>{"some data in the body1"}</Accordion>
-        <Accordion header={"heading 2"}>{"some data in the body2"}</Accordion>
-        <Accordion header={"heading 3"}>{"some data in the body3"}</Accordion>
+        <Accordion header="heading 1" ariaLabel="heading 1">{"some data in the body1"}</Accordion>
+        <Accordion header="heading 2" ariaLabel="heading 2">{"some data in the body2"}</Accordion>
+        <Accordion header="heading 3" ariaLabel="heading 3">{"some data in the body3"}</Accordion>
       </AccordionGroup>
       <br />
       <AccordionGroup
@@ -34,11 +34,11 @@ export const Default = () => {
         allowOnlyOne
         defaultOpen={1}
       >
-        <Accordion header={"heading 1"} disabled>
+        <Accordion header="heading 1" disabled ariaLabel="disabled accordion">
           {"some data in the body1"}
         </Accordion>
-        <Accordion header={"heading 2"}>{"some data in the body2"}</Accordion>
-        <Accordion header={"heading 3"}>{"some data in the body3"}</Accordion>
+        <Accordion header="heading 2" ariaLabel="heading 2">{"some data in the body2"}</Accordion>
+        <Accordion header="heading 3" ariaLabel="heading 3">{"some data in the body3"}</Accordion>
       </AccordionGroup>
     </Sheet>
   );
