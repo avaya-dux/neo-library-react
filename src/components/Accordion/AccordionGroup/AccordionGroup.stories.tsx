@@ -22,7 +22,7 @@ export const Default = () => {
       <br />
       <AccordionGroup
         groupHeading="Group of Accordion expand one at a time"
-        allowOnlyOneToExpand
+        allowOnlyOne
       >
         <Accordion header={"heading 1"}>{"some data in the body1"}</Accordion>
         <Accordion header={"heading 2"}>{"some data in the body2"}</Accordion>
@@ -31,7 +31,7 @@ export const Default = () => {
       <br />
       <AccordionGroup
         groupHeading="Group of Accordion expand one at a time with defaultOpen prop as 1"
-        allowOnlyOneToExpand
+        allowOnlyOne
         defaultOpen={1}
       >
         <Accordion header={"heading 1"}>{"some data in the body1"}</Accordion>

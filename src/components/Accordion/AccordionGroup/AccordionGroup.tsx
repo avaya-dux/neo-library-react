@@ -3,18 +3,18 @@ import { AccordionProps } from "../Accordion";
 import "./AccordionGroup_shim.css";
 
 export interface AccordionGroupProps {
-  allowOnlyOneToExpand?: boolean;
+  allowOnlyOne?: boolean;
   groupHeading?: string;
   defaultOpen?: number;
   children: ReactElement<AccordionProps>[];
 }
 export const AccordionGroup: FC<AccordionGroupProps> = ({
-  allowOnlyOneToExpand = false,
+  allowOnlyOne = false,
   groupHeading,
   defaultOpen = 0,
   children,
 }) => {
-  const checkChildren = Array.isArray(children) ? children : [children];
+  const childrenAsArray = Array.isArray(children) ? children : [children];
   const [currentId, setCurrentId] = useState(defaultOpen);
   const handleClickParent = (id: number) => {
     setCurrentId(id);
@@ -22,15 +22,15 @@ export const AccordionGroup: FC<AccordionGroupProps> = ({
   return (
     <div className="neo-accordion-group">
       <p>{groupHeading}</p>
-      {checkChildren.map((child, index) => {
+      {childrenAsArray.map((child, index) => {
         const key: number = index;
         const checkId = index === currentId;
-        if (allowOnlyOneToExpand) {
+        if (allowOnlyOne) {
           return cloneElement(child, {
             key: key,
             handleClick: () => handleClickParent(index),
             isOpen: checkId,
-            allowOnlyOneToExpand: true,
+            allowOnlyOne: true,
           });
         } else {
           return cloneElement(child, { key: key });
