@@ -8,6 +8,7 @@ export interface AccordionProps {
   defaultExpanded?: boolean;
   disabled?: boolean;
   ariaLevel?: number;
+  ariaLabel?: string;
   allowOnlyOne?: boolean;
   isOpen?: boolean;
   handleClick?: (id?: string | number) => void;
@@ -19,6 +20,7 @@ export const Accordion: FC<AccordionProps> = ({
   defaultExpanded = false,
   disabled,
   ariaLevel = 2,
+  ariaLabel = "Accordion Heading",
   allowOnlyOne = false,
   isOpen,
   handleClick,
@@ -32,7 +34,7 @@ export const Accordion: FC<AccordionProps> = ({
     } else {
       setIsActive(false);
     }
-  }, [isOpen]);
+  }, [isOpen, defaultExpanded]);
 
   return (
     <div className="neo-accordion">
@@ -48,7 +50,7 @@ export const Accordion: FC<AccordionProps> = ({
             disabled && "neo-accordion__header--disabled"
           )}
           role="heading"
-          aria-label="Accordion Heading"
+          aria-label={ariaLabel}
           aria-level={ariaLevel}
         >
           {disabled && (

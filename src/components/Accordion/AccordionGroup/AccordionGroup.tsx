@@ -24,12 +24,12 @@ export const AccordionGroup: FC<AccordionGroupProps> = ({
       <p>{groupHeading}</p>
       {childrenAsArray.map((child, index) => {
         const key: number = index;
-        const checkId = index === currentId;
+        const isOpen = index === currentId;
         if (allowOnlyOne) {
           return cloneElement(child, {
             key: key,
             handleClick: () => handleClickParent(index),
-            isOpen: checkId,
+            isOpen: isOpen,
             allowOnlyOne: true,
           });
         } else {
