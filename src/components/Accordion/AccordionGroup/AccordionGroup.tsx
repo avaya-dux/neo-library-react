@@ -15,17 +15,17 @@ export const AccordionGroup: FC<AccordionGroupProps> = ({
   children,
 }) => {
   const childrenAsArray = Array.isArray(children) ? children : [children];
-  const [currentId, setCurrentId] = useState(defaultOpen);
+  const [openAccordionIndex, setOpenAccordionIndex] = useState(defaultOpen);
   return (
     <div className="neo-accordion-group">
       <p>{groupHeading}</p>
       {childrenAsArray.map((child, index) => {
         const key: number = index;
-        const isOpen = index === currentId;
+        const isOpen = index === openAccordionIndex;
         if (allowOnlyOne) {
           return cloneElement(child, {
             key: key,
-            handleClick: () => setCurrentId(index),
+            handleClick: () => setOpenAccordionIndex(index),
             isOpen: isOpen,
             allowOnlyOne: true,
           });
