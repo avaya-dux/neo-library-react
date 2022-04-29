@@ -101,13 +101,14 @@ export const Select = (props: SelectProps) => {
       error={errorList.length > 0}
       required={required}
     >
-      <label {...getLabelProps()}>{label}</label>
+      {label && <label {...getLabelProps()}>{label}</label>}
 
       <SelectContext.Provider
         value={{
           children: internalChildren,
           downshiftProps,
           selectProps: {
+            ariaLabel,
             disabled,
             helperId,
             helperText,

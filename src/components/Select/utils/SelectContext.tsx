@@ -13,6 +13,7 @@ export type SelectContextProps = {
   downshiftProps: ContextDownshiftProps;
 
   selectProps: {
+    ariaLabel?: string;
     disabled: boolean;
     helperId: string;
     helperText: string;

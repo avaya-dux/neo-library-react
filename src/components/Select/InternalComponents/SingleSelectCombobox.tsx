@@ -13,19 +13,27 @@ export const SingleSelectCombobox = () => {
       getToggleButtonProps,
       isOpen,
     },
-    selectProps: { disabled, helperId, helperText, loading, placeholder },
+    selectProps: {
+      ariaLabel,
+      disabled,
+      helperId,
+      helperText,
+      loading,
+      placeholder,
+    },
   } = useContext(SelectContext);
 
   return (
     <div
       {...getComboboxProps?.()}
+      aria-label={ariaLabel}
+      aria-describedby={helperText && helperId}
       className={clsx(
         "neo-multiselect",
         disabled && "neo-multiselect--disabled",
         loading && "neo-select__spinner",
         isOpen && "neo-multiselect--active"
       )}
-      aria-describedby={helperText && helperId}
     >
       <span
         {...getToggleButtonProps()}

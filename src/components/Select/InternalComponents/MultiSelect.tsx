@@ -7,18 +7,19 @@ export const MultiSelect = () => {
   const {
     children,
     downshiftProps: { getMenuProps, isOpen },
-    selectProps: { disabled, helperId, helperText, loading },
+    selectProps: { ariaLabel, disabled, helperId, helperText, loading },
   } = useContext(SelectContext);
 
   return (
     <div
+      aria-label={ariaLabel}
+      aria-describedby={helperText && helperId}
       className={clsx(
         "neo-multiselect",
         disabled && "neo-multiselect--disabled",
         loading && "neo-select__spinner",
         isOpen && "neo-multiselect--active"
       )}
-      aria-describedby={helperText && helperId}
     >
       <div className="neo-multiselect__content" {...getMenuProps()}>
         {children}
