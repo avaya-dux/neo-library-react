@@ -1,4 +1,4 @@
-import { Children, isValidElement, useEffect, useMemo, useState } from "react";
+import { Children, useEffect, useMemo, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
@@ -75,14 +75,9 @@ export const Select = (props: SelectProps) => {
 
   const internalChildren = useMemo(
     () =>
-      Children.map(children, (child, index) => {
-        console.log("child", child); // TODO: test
-        if (isValidElement(child)) {
-          return <InternalSelectOption {...child.props} index={index} />;
-        } else {
-          throw new Error("Select children must be valid React elements"); // TODO: test
-        }
-      }),
+      Children.map(children, (child, index) => (
+        <InternalSelectOption {...child.props} index={index} />
+      )),
     [children]
   );
 
