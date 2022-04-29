@@ -53,7 +53,7 @@ export const Accordion: FC<AccordionProps> = ({
           aria-label={ariaLabel}
           aria-level={ariaLevel}
         >
-          {disabled && (
+          {(disabled && allowOnlyOne) || (disabled) && (
             <button
               className="neo-accordion__header-text"
               aria-disabled
