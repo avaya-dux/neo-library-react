@@ -16,6 +16,7 @@ export const InternalToast = ({
   position,
   message,
   duration = 5000,
+  "aria-label": ariaLabel,
   remove,
   ...rest
 }: InternalToastOptions & callbacks) => {
@@ -29,15 +30,23 @@ export const InternalToast = ({
     const number = Math.round(duration / 1000);
     return number + " " + (number > 1 ? "seconds" : "second");
   }, [duration]);
-  return <BasicToast {...{ message, seconds, icon }} />;
+  return (
+    <BasicToast
+      {...{
+        message,
+        icon,
+        "aria-label": ariaLabel || `Toast message will last only ${seconds};`,
+      }}
+    />
+  );
 };
 const BasicToast = ({
   message,
-  seconds,
+  "aria-label": ariaLabel,
   icon,
 }: {
   message: string;
-  seconds: string;
+  "aria-label": string;
   icon?: IconNamesType;
 }) => {
   return (
@@ -45,7 +54,7 @@ const BasicToast = ({
       className="neo-toast"
       role="alert"
       aria-live="polite"
-      aria-label={`Toast message will last only ${seconds};`}
+      aria-label={ariaLabel}
     >
       {icon && (
         <span className={clsx("neo-toast__icon", `neo-icon-${icon}`)}></span>

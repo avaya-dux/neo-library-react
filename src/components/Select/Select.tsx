@@ -25,7 +25,7 @@ export const Select = (props: SelectProps) => {
     label = "",
     loading = false,
     onSelectedValueChange,
-    placeholder = "",
+    placeholder = "Select One",
     required,
     values,
   } = props;
@@ -131,7 +131,6 @@ export const Select = (props: SelectProps) => {
           {helperText}
         </div>
       )}
-
       {errorList.length > 0 &&
         errorList?.map((text, index) => (
           <div className="neo-input-hint" key={`error-text-${index}`}>
