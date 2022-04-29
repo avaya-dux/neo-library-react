@@ -53,15 +53,16 @@ export const Accordion: FC<AccordionProps> = ({
           aria-label={ariaLabel}
           aria-level={ariaLevel}
         >
-          {(disabled && allowOnlyOne) || (disabled) && (
-            <button
-              className="neo-accordion__header-text"
-              aria-disabled
-              disabled
-            >
-              {header}
-            </button>
-          )}
+          {(disabled && allowOnlyOne) ||
+            (disabled && (
+              <button
+                className="neo-accordion__header-text"
+                aria-disabled
+                disabled
+              >
+                {header}
+              </button>
+            ))}
 
           {allowOnlyOne && handleClick ? (
             <button

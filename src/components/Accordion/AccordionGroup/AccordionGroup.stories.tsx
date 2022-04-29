@@ -34,7 +34,9 @@ export const Default = () => {
         allowOnlyOne
         defaultOpen={1}
       >
-        <Accordion header={"heading 1"} disabled>{"some data in the body1"}</Accordion>
+        <Accordion header={"heading 1"} disabled>
+          {"some data in the body1"}
+        </Accordion>
         <Accordion header={"heading 2"}>{"some data in the body2"}</Accordion>
         <Accordion header={"heading 3"}>{"some data in the body3"}</Accordion>
       </AccordionGroup>
