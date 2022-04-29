@@ -181,20 +181,17 @@ export const SelectsWithoutChildren = () => {
 
 export const SelectsWithWrongChildren = () => {
   return (
-    <>
-      <Select label="Test Label">
-        <p>Test wrong child</p>
+    <Sheet title="'Wrong' children" style={{ width: 400 }}>
+      <Select label="Single Select, <p> element as child">
+        <p>Paragraph One</p>
+        <p>Paragraph Two</p>
       </Select>
-      <Select label="Test Label">
-        <SelectOption>Option 1</SelectOption>
+
+      <Select isMultipleSelect label="Multi Select, <p> element as child">
+        <p>Paragraph One</p>
+        <p>Paragraph Two</p>
       </Select>
-      <Select isMultipleSelect label="Test Label">
-        <p>Test wrong child</p>
-      </Select>
-      <Select isMultipleSelect label="Test Label">
-        <SelectOption>Option 1</SelectOption>
-      </Select>
-    </>
+    </Sheet>
   );
 };
 
