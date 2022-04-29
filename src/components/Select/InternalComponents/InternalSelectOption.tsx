@@ -12,7 +12,7 @@ export const InternalSelectOption = ({
   index,
 }: SelectOptionProps & { index: number }) => {
   const {
-    downshiftProps: { getItemProps, highlightedIndex },
+    downshiftProps: { getItemProps },
 
     optionProps: { isMultipleSelect, options, selectedItems },
   } = useContext(SelectContext);
@@ -30,29 +30,18 @@ export const InternalSelectOption = ({
   });
 
   return isMultipleSelect ? (
-    <div className="neo-input-group">
+    <div {...optionProps} className="neo-input-group" key={optionSelf}>
       <input
-        className="neo-check"
-        type="checkbox"
-        disabled={disabled}
-        checked={!!selectedItems && selectedItems.includes(optionSelf)}
-        readOnly
+        aria-describedby={helperText && helperId}
         aria-labelledby={labelId}
-        aria-describedby={helperId}
+        checked={selectedItems.includes(optionSelf)}
+        className="neo-check"
+        disabled={disabled}
+        readOnly
+        type="checkbox"
       />
 
-      <div
-        key={optionSelf}
-        {...optionProps}
-        style={
-          highlightedIndex === index && !disabled
-            ? { backgroundColor: "#e8f1fc" }
-            : {}
-        }
-        className="neo-check__label"
-        htmlFor={optionSelf}
-        id={labelId}
-      >
+      <div className="neo-check__label" id={labelId}>
         {children}
       </div>
 
@@ -61,12 +50,7 @@ export const InternalSelectOption = ({
       </p>
     </div>
   ) : (
-    <li
-      // TO-DO: Replace inline styles here with focus styles for Select options in Neo CSS library
-      style={highlightedIndex === index ? { backgroundColor: "#e8f1fc" } : {}}
-      key={`${optionSelf}${index}`}
-      {...optionProps}
-    >
+    <li {...optionProps} key={`${optionSelf}${index}`}>
       {children}
     </li>
   );

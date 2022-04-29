@@ -100,3 +100,11 @@ div.neo-multiselect button.neo-multiselect__header,
 div.neo-multiselect span.neo-multiselect-combo__header {
   width: 100%;
 }
+
+/* internal select option highlight styles */
+div.neo-input-group[aria-selected="true"] {
+  background-color: #e8f1fc;
+}
+.neo-multiselect__content ul li[aria-selected="true"] {
+  background-color: #e8f1fc;
+}

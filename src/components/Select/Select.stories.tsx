@@ -21,7 +21,10 @@ const handleSelectedValueChange = (value: string | string[]) => {
 export const DefaultSelects = () => {
   return (
     <Sheet title="Default Single and Multi Select" style={{ width: 400 }}>
-      <Select label={label} onSelectedValueChange={handleSelectedValueChange}>
+      <Select
+        label="Single Select"
+        onSelectedValueChange={handleSelectedValueChange}
+      >
         <SelectOption>Option 1</SelectOption>
         <SelectOption disabled>Option 2</SelectOption>
         <SelectOption>Option 3</SelectOption>
@@ -30,7 +33,7 @@ export const DefaultSelects = () => {
 
       <Select
         isMultipleSelect
-        label={label}
+        label="Multi Select"
         onSelectedValueChange={handleSelectedValueChange}
       >
         <SelectOption>Option 1</SelectOption>
