@@ -23,14 +23,14 @@ export const InternalSelectOption = ({
 
   const helperId = useMemo(() => `helper-text-${genId()}`, []);
 
-  const optionProps = getItemProps({
+  const itemProps = getItemProps({
     item: optionSelf,
     index,
     disabled,
   });
 
   return isMultipleSelect ? (
-    <div {...optionProps} className="neo-input-group" key={optionSelf}>
+    <div className="neo-input-group" key={optionSelf}>
       <input
         aria-describedby={helperText && helperId}
         aria-labelledby={labelId}
@@ -41,7 +41,7 @@ export const InternalSelectOption = ({
         type="checkbox"
       />
 
-      <div className="neo-check__label" id={labelId}>
+      <div {...itemProps} className="neo-check__label" id={labelId}>
         {children}
       </div>
 
@@ -50,7 +50,7 @@ export const InternalSelectOption = ({
       </p>
     </div>
   ) : (
-    <li {...optionProps} key={`${optionSelf}${index}`}>
+    <li {...itemProps} key={`${optionSelf}${index}`}>
       {children}
     </li>
   );
