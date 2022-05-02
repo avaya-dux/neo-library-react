@@ -22,24 +22,30 @@ export const DefaultSelects = () => {
   return (
     <Sheet title="Default Single and Multi Select" style={{ width: 400 }}>
       <Select
-        label="Single Select"
+        label="Select a favorite food"
         onSelectedValueChange={handleSelectedValueChange}
       >
         <SelectOption>Apple</SelectOption>
-        <SelectOption disabled>Gravel</SelectOption>
+        <SelectOption helperText="Not a Food" disabled>
+          Gravel
+        </SelectOption>
         <SelectOption helperText="Vegetable">Broccoli</SelectOption>
-        <SelectOption helperText="Fruit">Banana</SelectOption>
+        <SelectOption>Banana</SelectOption>
+        <SelectOption>Pear</SelectOption>
       </Select>
 
       <Select
         isMultipleSelect
-        label="Multi Select"
+        label="Select a few favorite foods"
         onSelectedValueChange={handleSelectedValueChange}
       >
         <SelectOption>Apple</SelectOption>
-        <SelectOption disabled>Gravel</SelectOption>
+        <SelectOption helperText="Not a Food" disabled>
+          Gravel
+        </SelectOption>
         <SelectOption helperText="Vegetable">Broccoli</SelectOption>
-        <SelectOption helperText="Fruit">Banana</SelectOption>
+        <SelectOption>Banana</SelectOption>
+        <SelectOption>Pear</SelectOption>
       </Select>
     </Sheet>
   );
@@ -177,6 +183,7 @@ export const SelectsWithoutChildren = () => {
   return (
     <>
       <Select label="Test Label" />
+
       <Select label="Test label" isMultipleSelect />
     </>
   );
