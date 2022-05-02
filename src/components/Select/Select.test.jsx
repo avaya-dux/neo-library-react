@@ -220,7 +220,7 @@ describe("Select", () => {
 
       it("renders the correct list item as disabled", () => {
         const { getAllByText } = renderResult;
-        const disabledListItems = getAllByText("Option 2");
+        const disabledListItems = getAllByText("Gravel");
         disabledListItems.forEach((disabledListItem) => {
           expect(disabledListItem).toHaveAttribute("disabled");
         });

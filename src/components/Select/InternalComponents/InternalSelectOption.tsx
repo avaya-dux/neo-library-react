@@ -41,9 +41,9 @@ export const InternalSelectOption = ({
         type="checkbox"
       />
 
-      <label {...itemProps} className="neo-check__label" id={labelId}>
+      <div {...itemProps} className="neo-check__label" id={labelId}>
         {children}
-      </label>
+      </div>
 
       {helperText && (
         <p className="neo-input-hint" id={helperId}>
