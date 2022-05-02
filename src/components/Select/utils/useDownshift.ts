@@ -1,7 +1,7 @@
 import { useCombobox, useSelect } from "downshift";
 import { Dispatch, SetStateAction } from "react";
 
-const useDownshiftWithComboboxProps = (
+const DownshiftWithComboboxProps = (
   items: string[],
   id: string,
   setSelectedItems: Dispatch<SetStateAction<string[]>>,
@@ -44,7 +44,7 @@ const useDownshiftWithComboboxProps = (
   });
 };
 
-const useDownshiftWithComboboxMultipleSelectProps = (
+const DownshiftWithComboboxMultipleSelectProps = (
   items: string[],
   id: string,
   controlledInputValue: string,
@@ -111,7 +111,7 @@ const useDownshiftWithComboboxMultipleSelectProps = (
   });
 };
 
-const useDownshiftWithSelectProps = (
+const DownshiftWithSelectProps = (
   items: string[],
   id: string,
   setSelectedItems: Dispatch<SetStateAction<string[]>>,
@@ -144,7 +144,7 @@ const useDownshiftWithSelectProps = (
   });
 };
 
-const useDownshiftWithMultipleSelectProps = (
+const DownshiftWithMultipleSelectProps = (
   items: string[],
   id: string,
   selectedItems: string[],
@@ -204,51 +204,57 @@ export const useDownshift = (
   loading?: boolean,
   onSelectedValueChange?: (value: string[] | string) => void
 ) => {
-  const singleSelectComboboxProps = useDownshiftWithComboboxProps(
-    items,
-    id,
-    setSelectedItems,
-    setInputItems,
-    onSelectedValueChange,
-    disabled,
-    loading
-  );
-  const multiSelectComboboxProps = useDownshiftWithComboboxMultipleSelectProps(
-    items,
-    id,
-    controlledInputValue,
-    setControlledInputValue,
-    selectedItems,
-    setSelectedItems,
-    inputItems,
-    setInputItems,
-    disabled,
-    loading
-  );
-  const singleSelectProps = useDownshiftWithSelectProps(
-    items,
-    id,
-    setSelectedItems,
-    onSelectedValueChange,
-    disabled,
-    loading
-  );
-  const multipleSelectProps = useDownshiftWithMultipleSelectProps(
-    items,
-    id,
-    selectedItems,
-    setSelectedItems,
-    disabled,
-    loading
-  );
+  /**
+   * HACK: these are hooks, but because we pass and recieve
+   * different props based on `isCombobox` and `isMultipleSelect`,
+   * we've had to compromise and pretend that they're just regular
+   * functions.
+   *
+   * In theory, they still function as hooks because `isCombobox` and
+   * `isMultipleSelect` are never changed. So this is definitely a
+   * hack, but it's not the worst one. In theory.
+   */
 
   if (isCombobox && isMultipleSelect) {
-    return multiSelectComboboxProps;
+    return DownshiftWithComboboxMultipleSelectProps(
+      items,
+      id,
+      controlledInputValue,
+      setControlledInputValue,
+      selectedItems,
+      setSelectedItems,
+      inputItems,
+      setInputItems,
+      disabled,
+      loading
+    );
   } else if (isCombobox) {
-    return singleSelectComboboxProps;
+    return DownshiftWithComboboxProps(
+      items,
+      id,
+      setSelectedItems,
+      setInputItems,
+      onSelectedValueChange,
+      disabled,
+      loading
+    );
   } else if (isMultipleSelect) {
-    return multipleSelectProps;
+    return DownshiftWithMultipleSelectProps(
+      items,
+      id,
+      selectedItems,
+      setSelectedItems,
+      disabled,
+      loading
+    );
   }
 
-  return singleSelectProps;
+  return DownshiftWithSelectProps(
+    items,
+    id,
+    setSelectedItems,
+    onSelectedValueChange,
+    disabled,
+    loading
+  );
 };

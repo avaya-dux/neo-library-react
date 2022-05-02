@@ -5,9 +5,9 @@ import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 import { useIsInitialRender } from "utils/hooks/useIsInitialRender";
 
 import { InternalSelect, InternalSelectOption } from "./InternalComponents";
-import { useDownshift } from "./utils/downshiftHooks";
 import { SelectContext } from "./utils/SelectContext";
 import { SelectProps } from "./utils/SelectTypes";
+import { useDownshift } from "./utils/useDownshift";
 
 import "./Select_shim.css";
 
