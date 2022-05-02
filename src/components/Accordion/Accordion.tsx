@@ -62,7 +62,7 @@ export const Accordion: FC<AccordionProps> = ({
             aria-controls="accordion-panel"
             id={id}
             onClick={
-              handleClick ? () => handleClick(id) : () => setIsActive(!isActive)
+              handleClick ? () => handleClick() : () => setIsActive(!isActive)
             }
             disabled={disabled !== false}
           >
