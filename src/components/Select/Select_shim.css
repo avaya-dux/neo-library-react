@@ -113,3 +113,16 @@ div.neo-multiselect span.neo-multiselect-combo__header {
 .neo-multiselect .neo-multiselect__content .neo-input-group {
   padding-bottom: 0;
 }
+
+/* can't use `label` due to axe error, need to update styling to use `div` instead */
+.neo-multiselect__content .neo-check + div + .neo-input-hint {
+  white-space: nowrap;
+  margin: 0;
+  padding-left: 40px;
+  padding-right: 8px;
+}
+
+/* BUG: need to figure out a better way to disable hover for the multi-select when an option is disabled */
+div.neo-multiselect div.neo-input-group:hover {
+  background-color: transparent;
+}
