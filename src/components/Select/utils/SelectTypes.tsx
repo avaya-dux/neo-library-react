@@ -21,6 +21,7 @@ export type SelectProps = {
   isCombobox?: boolean;
   isMultipleSelect?: boolean;
   loading?: boolean;
+  noOptionsMessage?: string;
   onSelectedValueChange?: (value: string | string[]) => void;
   placeholder?: string;
   required?: boolean;

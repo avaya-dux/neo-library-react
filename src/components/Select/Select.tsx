@@ -23,6 +23,7 @@ export const Select = (props: SelectProps) => {
     isMultipleSelect = false,
     label = "",
     loading = false,
+    noOptionsMessage = "No options available",
     onSelectedValueChange,
     placeholder = "Select One",
     required,
@@ -75,9 +76,15 @@ export const Select = (props: SelectProps) => {
 
   const internalChildren = useMemo(
     () =>
-      Children.map(children, (child, index) => (
-        <InternalSelectOption {...child.props} index={index} />
-      )),
+      Children.count(children) === 0
+        ? [
+            <InternalSelectOption disabled index={0}>
+              {noOptionsMessage}
+            </InternalSelectOption>,
+          ]
+        : Children.map(children, (child, index) => (
+            <InternalSelectOption {...child.props} index={index} />
+          )),
     [children]
   );
 
