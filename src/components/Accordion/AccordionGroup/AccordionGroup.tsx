@@ -1,38 +1,32 @@
-import { ReactElement, FC, useState, cloneElement } from "react";
+import { ReactElement, FC, useState, cloneElement, Children } from "react";
 import { AccordionProps } from "../Accordion";
 import "./AccordionGroup_shim.css";
 
 export interface AccordionGroupProps {
   allowOnlyOne?: boolean;
   groupHeading?: string;
-  defaultOpen?: number;
+  defaultOpenAccordingIndex?: number;
   children: ReactElement<AccordionProps>[];
 }
-export const AccordionGroup: FC<AccordionGroupProps> = ({
+export const AccordionGroup = ({
   allowOnlyOne = false,
   groupHeading,
-  defaultOpen = 0,
+  defaultOpenAccordingIndex = 0,
   children,
-}) => {
-  const childrenAsArray = Array.isArray(children) ? children : [children];
-  const [openAccordionIndex, setOpenAccordionIndex] = useState(defaultOpen);
+}: AccordionGroupProps) => {
+  const [openAccordionIndex, setOpenAccordionIndex] = useState(defaultOpenAccordingIndex);
+  const controlledChildren =
+    Children.map(children,(child, index) =>
+      cloneElement(child, {
+        key: index,
+        handleClick: allowOnlyOne ? () => setOpenAccordionIndex(index) : undefined,
+        isOpen: index === openAccordionIndex,
+      })
+    );
   return (
     <div className="neo-accordion-group">
       <p>{groupHeading}</p>
-      {childrenAsArray.map((child, index) => {
-        const key: number = index;
-        const isOpen = index === openAccordionIndex;
-        if (allowOnlyOne) {
-          return cloneElement(child, {
-            key: key,
-            handleClick: () => setOpenAccordionIndex(index),
-            isOpen: isOpen,
-            allowOnlyOne: true,
-          });
-        } else {
-          return cloneElement(child, { key: key });
-        }
-      })}
+      {controlledChildren}
     </div>
   );
 };

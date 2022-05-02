@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { FC, ReactNode, useState, useEffect } from "react";
+import { FC, ReactNode, useState, useEffect, ReactComponentElement } from "react";
 import { genId } from "utils";
 
 export interface AccordionProps {
@@ -9,7 +9,6 @@ export interface AccordionProps {
   disabled?: boolean;
   "aria-level"?: number;
   "aria-label"?: string;
-  allowOnlyOne?: boolean;
   isOpen?: boolean;
   handleClick?: (id?: string | number) => void;
 }
@@ -21,7 +20,6 @@ export const Accordion: FC<AccordionProps> = ({
   disabled,
   "aria-level": ariaLevel = 2,
   "aria-label": ariaLabel = "Accordion Heading",
-  allowOnlyOne = false,
   isOpen,
   handleClick,
   children,
@@ -35,7 +33,6 @@ export const Accordion: FC<AccordionProps> = ({
       setIsActive(false);
     }
   }, [isOpen]);
-
   return (
     <div className="neo-accordion">
       <div
@@ -53,40 +50,21 @@ export const Accordion: FC<AccordionProps> = ({
           aria-label={ariaLabel}
           aria-level={ariaLevel}
         >
-          {(disabled && allowOnlyOne) ||
-            (disabled && (
-              <button
-                className="neo-accordion__header-text"
-                aria-disabled
-                disabled
-              >
-                {header}
-              </button>
-            ))}
-
-          {allowOnlyOne && handleClick ? (
             <button
               className="neo-accordion__header-text"
               aria-expanded={isActive ? "true" : "false"}
               aria-controls="accordion-panel"
               id={id}
-              onClick={() => handleClick(id)}
+              onClick={
+                handleClick
+                  ? () => handleClick(id)
+                  : () => setIsActive(!isActive)
+              }
+              disabled = {disabled ? true : false}
             >
               {header}
             </button>
-          ) : (
-            !disabled && (
-              <button
-                className="neo-accordion__header-text"
-                aria-expanded={isActive ? "true" : "false"}
-                aria-controls="accordion-panel"
-                id={id}
-                onClick={() => setIsActive(!isActive)}
-              >
-                {header}
-              </button>
-            )
-          )}
+
         </div>
 
         {isActive && !disabled && (
