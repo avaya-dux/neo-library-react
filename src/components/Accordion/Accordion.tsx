@@ -1,5 +1,11 @@
 import clsx from "clsx";
-import { FC, ReactNode, useState, useEffect } from "react";
+import {
+  FC,
+  ReactNode,
+  useState,
+  useEffect,
+  ButtonHTMLAttributes,
+} from "react";
 import { genId } from "utils";
 
 export interface AccordionProps {
@@ -7,8 +13,8 @@ export interface AccordionProps {
   id?: string;
   defaultExpanded?: boolean;
   disabled?: boolean;
-  ariaLevel?: number;
-  ariaLabel?: string;
+  "aria-level"?: number;
+  "aria-label"?: string;
   allowOnlyOne?: boolean;
   isOpen?: boolean;
   handleClick?: (id?: string | number) => void;
@@ -19,14 +25,16 @@ export const Accordion: FC<AccordionProps> = ({
   id = genId(),
   defaultExpanded = false,
   disabled,
-  ariaLevel = 2,
-  ariaLabel = "Accordion Heading",
+  "aria-level": ariaLevel = 2,
+  "aria-label": ariaLabel = "Accordion Heading",
   allowOnlyOne = false,
   isOpen,
   handleClick,
   children,
 }) => {
   const [isActive, setIsActive] = useState(defaultExpanded);
+  const ariaControlText = `accordion-heading-${id}`;
+  const ariaLabelText = `accordion-body-${id}`;
 
   useEffect(() => {
     if (isOpen || defaultExpanded) {
@@ -34,7 +42,7 @@ export const Accordion: FC<AccordionProps> = ({
     } else {
       setIsActive(false);
     }
-  }, [isOpen, defaultExpanded]);
+  }, [isOpen]);
 
   return (
     <div className="neo-accordion">
@@ -53,23 +61,32 @@ export const Accordion: FC<AccordionProps> = ({
           aria-label={ariaLabel}
           aria-level={ariaLevel}
         >
-          {(disabled && allowOnlyOne) ||
-            (disabled && (
-              <button
-                className="neo-accordion__header-text"
-                aria-disabled
-                disabled
-              >
-                {header}
-              </button>
-            ))}
+          {disabled && allowOnlyOne && (
+            <button
+              className="neo-accordion__header-text"
+              aria-disabled
+              disabled
+            >
+              {header}
+            </button>
+          )}
+          {disabled && !allowOnlyOne && (
+            <button
+              className="neo-accordion__header-text"
+              aria-disabled
+              disabled
+            >
+              {header}
+            </button>
+          )}
 
-          {allowOnlyOne && handleClick ? (
+          {allowOnlyOne && handleClick && !disabled ? (
             <button
               className="neo-accordion__header-text"
               aria-expanded={isActive ? "true" : "false"}
-              aria-controls="accordion-panel"
-              id={id}
+              aria-controls={ariaControlText}
+              aria-labelledby={id}
+              // id={id}
               onClick={() => handleClick(id)}
             >
               {header}
@@ -79,8 +96,9 @@ export const Accordion: FC<AccordionProps> = ({
               <button
                 className="neo-accordion__header-text"
                 aria-expanded={isActive ? "true" : "false"}
-                aria-controls="accordion-panel"
-                id={id}
+                aria-controls={ariaControlText}
+                aria-labelledby="accordion-Heading"
+                // id={id}
                 onClick={() => setIsActive(!isActive)}
               >
                 {header}
@@ -91,9 +109,10 @@ export const Accordion: FC<AccordionProps> = ({
 
         {isActive && !disabled && (
           <div
-            id="accordion-panel"
+            id={ariaControlText}
             className="neo-accordion__body"
             role="region"
+            aria-label={ariaLabelText}
           >
             <div className="neo-accordion__content">{children}</div>
           </div>
