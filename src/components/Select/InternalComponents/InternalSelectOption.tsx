@@ -14,7 +14,7 @@ export const InternalSelectOption = ({
   const {
     downshiftProps: { getItemProps },
 
-    optionProps: { isMultipleSelect, options, selectedItems },
+    optionProps: { multiple, options, selectedItems },
   } = useContext(SelectContext);
 
   const optionSelf = options[index];
@@ -29,7 +29,7 @@ export const InternalSelectOption = ({
     disabled,
   });
 
-  return isMultipleSelect ? (
+  return multiple ? (
     <div className="neo-input-group" key={optionSelf}>
       <input
         aria-describedby={helperText}

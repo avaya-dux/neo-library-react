@@ -19,8 +19,8 @@ export const Select = (props: SelectProps) => {
     errorList = [],
     helperText = "",
     id = genId(),
-    isCombobox = false,
-    isMultipleSelect = false,
+    searchable = false,
+    multiple = false,
     label = "",
     loading = false,
     noOptionsMessage = "No options available",
@@ -62,8 +62,8 @@ export const Select = (props: SelectProps) => {
     controlledInputValue,
     id,
     inputItems,
-    isCombobox,
-    isMultipleSelect,
+    searchable,
+    multiple,
     options,
     selectedItems,
     setControlledInputValue,
@@ -78,12 +78,12 @@ export const Select = (props: SelectProps) => {
     () =>
       Children.count(children) === 0
         ? [
-            <InternalSelectOption disabled index={0}>
+            <InternalSelectOption disabled index={0} key="no-options">
               {noOptionsMessage}
             </InternalSelectOption>,
           ]
         : Children.map(children, (child, index) => (
-            <InternalSelectOption {...child.props} index={index} />
+            <InternalSelectOption {...child.props} index={index} key={index} />
           )),
     [children]
   );
@@ -111,16 +111,13 @@ export const Select = (props: SelectProps) => {
             placeholder,
           },
           optionProps: {
-            isMultipleSelect,
+            multiple,
             options,
             selectedItems,
           },
         }}
       >
-        <InternalSelect
-          isCombobox={isCombobox}
-          isMultipleSelect={isMultipleSelect}
-        />
+        <InternalSelect searchable={searchable} multiple={multiple} />
       </SelectContext.Provider>
 
       {helperText && (

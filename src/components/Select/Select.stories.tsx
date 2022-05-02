@@ -35,7 +35,7 @@ export const DefaultSelects = () => {
       </Select>
 
       <Select
-        isMultipleSelect
+        multiple
         label="Select a few favorite foods"
         onSelectedValueChange={handleSelectedValueChange}
       >
@@ -54,7 +54,7 @@ export const DefaultSelects = () => {
 export const SelectWithHelperText = () => {
   return (
     <Select
-      isMultipleSelect
+      multiple
       label={label}
       helperText="This is helper text"
       id="neo-select"
@@ -103,7 +103,7 @@ export const RequiredMultipleSelectWithHelperText = () => {
       }}
     >
       <Select
-        isMultipleSelect
+        multiple
         values={selectedOption}
         onSelectedValueChange={updateSelectedValue}
         label={label}
@@ -143,7 +143,7 @@ export const RequiredMultipleSelectWithHelperText = () => {
 export const DisabledMultipleSelectWithErrorState = () => {
   return (
     <Select
-      isMultipleSelect
+      multiple
       label={label}
       errorList={["This is an error message"]}
       disabled
@@ -170,7 +170,7 @@ export const LoadingMultipleSelect = () => {
   }, []);
 
   return (
-    <Select isMultipleSelect label={label} loading={loading}>
+    <Select multiple label={label} loading={loading}>
       {options.map((option, index) => (
         <SelectOption key={index}>{option}</SelectOption>
       ))}
@@ -184,7 +184,7 @@ export const SelectsWithoutChildren = () => {
     <>
       <Select label="Test Label" />
 
-      <Select label="Test label" isMultipleSelect />
+      <Select label="Test label" multiple />
     </>
   );
 };
@@ -197,7 +197,7 @@ export const SelectsWithWrongChildren = () => {
         <p>Paragraph Two</p>
       </Select>
 
-      <Select isMultipleSelect label="Multi Select, <p> element as child">
+      <Select multiple label="Multi Select, <p> element as child">
         <p>Paragraph One</p>
         <p>Paragraph Two</p>
       </Select>
@@ -208,13 +208,13 @@ export const SelectsWithWrongChildren = () => {
 export const MoreThanOneMultipleSelect = () => {
   return (
     <>
-      <Select isMultipleSelect label="First Multiple Select">
+      <Select multiple label="First Multiple Select">
         <SelectOption>Option 1</SelectOption>
         <SelectOption>Option 2</SelectOption>
         <SelectOption>Option 3</SelectOption>
         <SelectOption>Option 4</SelectOption>
       </Select>
-      <Select isMultipleSelect label="Second Multiple Select">
+      <Select multiple label="Second Multiple Select">
         <SelectOption>Option 1</SelectOption>
         <SelectOption disabled>Option 2</SelectOption>
         <SelectOption>Option 3</SelectOption>

@@ -4,7 +4,7 @@ import { useContext } from "react";
 
 import { SelectContext } from "../utils/SelectContext";
 
-export const SingleSelectCombobox = () => {
+export const SingleSelectSearchable = () => {
   const {
     children,
     downshiftProps,
