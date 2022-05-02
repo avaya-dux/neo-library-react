@@ -1,5 +1,11 @@
 import clsx from "clsx";
-import { FC, ReactNode, useState, useEffect, ReactComponentElement } from "react";
+import {
+  FC,
+  ReactNode,
+  useState,
+  useEffect,
+  ReactComponentElement,
+} from "react";
 import { genId } from "utils";
 
 export interface AccordionProps {
@@ -50,21 +56,18 @@ export const Accordion: FC<AccordionProps> = ({
           aria-label={ariaLabel}
           aria-level={ariaLevel}
         >
-            <button
-              className="neo-accordion__header-text"
-              aria-expanded={isActive ? "true" : "false"}
-              aria-controls="accordion-panel"
-              id={id}
-              onClick={
-                handleClick
-                  ? () => handleClick(id)
-                  : () => setIsActive(!isActive)
-              }
-              disabled = {disabled ? true : false}
-            >
-              {header}
-            </button>
-
+          <button
+            className="neo-accordion__header-text"
+            aria-expanded={isActive ? "true" : "false"}
+            aria-controls="accordion-panel"
+            id={id}
+            onClick={
+              handleClick ? () => handleClick(id) : () => setIsActive(!isActive)
+            }
+            disabled={disabled ? true : false}
+          >
+            {header}
+          </button>
         </div>
 
         {isActive && !disabled && (
