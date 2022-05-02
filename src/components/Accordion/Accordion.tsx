@@ -23,7 +23,7 @@ export const Accordion: FC<AccordionProps> = ({
   header,
   id = genId(),
   defaultExpanded = false,
-  disabled,
+  disabled = false,
   "aria-level": ariaLevel = 2,
   "aria-label": ariaLabel = "Accordion Heading",
   isOpen,
@@ -64,7 +64,7 @@ export const Accordion: FC<AccordionProps> = ({
             onClick={
               handleClick ? () => handleClick(id) : () => setIsActive(!isActive)
             }
-            disabled={disabled ? true : false}
+            disabled={disabled !== false}
           >
             {header}
           </button>
