@@ -102,9 +102,14 @@ div.neo-multiselect span.neo-multiselect-combo__header {
 }
 
 /* internal select option highlight styles */
-div.neo-input-group[aria-selected="true"] {
-  background-color: #e8f1fc;
-}
+.neo-multiselect__content
+  .neo-input-group
+  div.neo-check__label[aria-selected="true"],
 .neo-multiselect__content ul li[aria-selected="true"] {
   background-color: #e8f1fc;
+}
+
+/* remove innapropriate padding */
+.neo-multiselect .neo-multiselect__content .neo-input-group {
+  padding-bottom: 0;
 }

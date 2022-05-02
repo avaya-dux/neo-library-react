@@ -25,10 +25,10 @@ export const DefaultSelects = () => {
         label="Single Select"
         onSelectedValueChange={handleSelectedValueChange}
       >
-        <SelectOption>Option 1</SelectOption>
-        <SelectOption disabled>Option 2</SelectOption>
-        <SelectOption>Option 3</SelectOption>
-        <SelectOption>Option 4</SelectOption>
+        <SelectOption>Apple</SelectOption>
+        <SelectOption disabled>Gravel</SelectOption>
+        <SelectOption helperText="Vegetable">Broccoli</SelectOption>
+        <SelectOption helperText="Fruit">Banana</SelectOption>
       </Select>
 
       <Select
@@ -36,10 +36,10 @@ export const DefaultSelects = () => {
         label="Multi Select"
         onSelectedValueChange={handleSelectedValueChange}
       >
-        <SelectOption>Option 1</SelectOption>
-        <SelectOption disabled>Option 2</SelectOption>
-        <SelectOption>Option 3</SelectOption>
-        <SelectOption>Option 4</SelectOption>
+        <SelectOption>Apple</SelectOption>
+        <SelectOption disabled>Gravel</SelectOption>
+        <SelectOption helperText="Vegetable">Broccoli</SelectOption>
+        <SelectOption helperText="Fruit">Banana</SelectOption>
       </Select>
     </Sheet>
   );

@@ -32,7 +32,7 @@ export const InternalSelectOption = ({
   return isMultipleSelect ? (
     <div className="neo-input-group" key={optionSelf}>
       <input
-        aria-describedby={helperText && helperId}
+        aria-describedby={helperText}
         aria-labelledby={labelId}
         checked={selectedItems.includes(optionSelf)}
         className="neo-check"
@@ -45,13 +45,21 @@ export const InternalSelectOption = ({
         {children}
       </div>
 
-      <p className="neo-input-hint" id={helperId}>
-        {helperText}
-      </p>
+      {helperText && (
+        <p className="neo-input-hint" id={helperId}>
+          {helperText}
+        </p>
+      )}
     </div>
   ) : (
     <li {...itemProps} key={`${optionSelf}${index}`}>
       {children}
+
+      {helperText && (
+        <p className="neo-input-hint" id={helperId}>
+          {helperText}
+        </p>
+      )}
     </li>
   );
 };
