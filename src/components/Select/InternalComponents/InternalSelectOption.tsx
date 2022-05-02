@@ -41,9 +41,9 @@ export const InternalSelectOption = ({
         type="checkbox"
       />
 
-      <div {...itemProps} className="neo-check__label" id={labelId}>
+      <label {...itemProps} className="neo-check__label" id={labelId}>
         {children}
-      </div>
+      </label>
 
       {helperText && (
         <p className="neo-input-hint" id={helperId}>
@@ -55,11 +55,7 @@ export const InternalSelectOption = ({
     <li {...itemProps} key={`${optionSelf}${index}`}>
       {children}
 
-      {helperText && (
-        <p className="neo-input-hint" id={helperId}>
-          {helperText}
-        </p>
-      )}
+      {helperText && <p className="neo-input-hint">{helperText}</p>}
     </li>
   );
 };
