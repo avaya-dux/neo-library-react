@@ -1,5 +1,11 @@
 import clsx from "clsx";
-import { FC, ReactNode, useState, useEffect, ButtonHTMLAttributes } from "react";
+import {
+  FC,
+  ReactNode,
+  useState,
+  useEffect,
+  ButtonHTMLAttributes,
+} from "react";
 import { genId } from "utils";
 
 export interface AccordionProps {
@@ -54,7 +60,7 @@ export const Accordion: FC<AccordionProps> = ({
           aria-level={ariaLevel}
         >
           {(disabled && allowOnlyOne) ||
-            (disabled) && (
+            (disabled && (
               <button
                 className="neo-accordion__header-text"
                 aria-disabled
@@ -62,7 +68,7 @@ export const Accordion: FC<AccordionProps> = ({
               >
                 {header}
               </button>
-            )}
+            ))}
 
           {allowOnlyOne && handleClick ? (
             <button
