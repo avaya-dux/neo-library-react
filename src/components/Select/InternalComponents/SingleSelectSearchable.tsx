@@ -1,13 +1,17 @@
 import clsx from "clsx";
 import { UseComboboxReturnValue } from "downshift";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+
+import { Chip } from "components/Chip";
 
 import { SelectContext } from "../utils/SelectContext";
+import { InternalSelectOption } from "./InternalSelectOption";
 
 export const SingleSelectSearchable = () => {
   const {
     children,
     downshiftProps,
+    optionProps: { noOptionsMessage },
     selectProps: {
       ariaLabel,
       disabled,
@@ -22,8 +26,22 @@ export const SingleSelectSearchable = () => {
     getInputProps,
     getMenuProps,
     getToggleButtonProps,
+    inputValue,
     isOpen,
+    reset,
+    selectedItem,
+    setInputValue,
   } = downshiftProps as UseComboboxReturnValue<string>;
+
+  const { id, ...restInputProps } = getInputProps();
+
+  useEffect(() => setInputValue(""), [selectedItem]);
+
+  const displayedDropdownOptions = children.filter((child) =>
+    child.props.children.toLowerCase().includes(inputValue.toLowerCase())
+      ? child
+      : null
+  );
 
   return (
     <div
@@ -38,18 +56,39 @@ export const SingleSelectSearchable = () => {
     >
       <span
         {...getToggleButtonProps()}
-        className={"neo-multiselect-combo__header"}
+        className="neo-multiselect-combo__header"
       >
+        {selectedItem && (
+          <Chip onClick={reset} closable>
+            {selectedItem}
+          </Chip>
+        )}
+
         <input
-          {...getInputProps()}
-          placeholder={placeholder}
+          {...restInputProps}
           className="neo-input"
+          disabled={disabled}
+          placeholder={placeholder}
+        />
+
+        <input
+          className="neo-display-none"
+          id={id}
+          readOnly
+          tabIndex={-1}
+          value={selectedItem || ""}
         />
       </span>
 
       <div className="neo-multiselect__content">
         <ul aria-label={ariaLabel} {...getMenuProps()}>
-          {children}
+          {displayedDropdownOptions.length ? (
+            displayedDropdownOptions
+          ) : (
+            <InternalSelectOption disabled index={0} key="no-options">
+              {noOptionsMessage}
+            </InternalSelectOption>
+          )}
         </ul>
       </div>
     </div>

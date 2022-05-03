@@ -14,35 +14,38 @@ export default {
 
 const label = "Test label";
 
-const values = ["Apples"];
-
 export const DefaultSearchable = () => (
-  <Select label={label} searchable>
-    <SelectOption>Apples</SelectOption>
-    <SelectOption>Bananas</SelectOption>
-    <SelectOption>Oranges</SelectOption>
+  <Select label="Select a food" searchable>
+    <SelectOption>Apple</SelectOption>
+    <SelectOption helperText="Not a Food" disabled>
+      Gravel
+    </SelectOption>
+    <SelectOption helperText="Vegetable">Broccoli</SelectOption>
+    <SelectOption>Banana</SelectOption>
+    <SelectOption>Pear</SelectOption>
   </Select>
 );
 
 export const MultipleSelectSearchable = () => (
-  <Select label={label} multiple searchable values={values}>
-    <SelectOption>Apples</SelectOption>
-    <SelectOption disabled>Bananas</SelectOption>
-    <SelectOption>Oranges</SelectOption>
+  <Select label="Select multiple foods" multiple searchable values={["Apple"]}>
+    <SelectOption>Apple</SelectOption>
+    <SelectOption helperText="Not a Food" disabled>
+      Gravel
+    </SelectOption>
+    <SelectOption helperText="Vegetable">Broccoli</SelectOption>
+    <SelectOption>Banana</SelectOption>
+    <SelectOption>Pear</SelectOption>
   </Select>
 );
 
-export const DisabledSearchable = () => {
-  // BUG: allows typing while disabled
-  return (
-    <Select label={label} searchable disabled>
-      <SelectOption>Option 1</SelectOption>
-      <SelectOption disabled>Option 2</SelectOption>
-      <SelectOption>Option 3</SelectOption>
-      <SelectOption>Option 4</SelectOption>
-    </Select>
-  );
-};
+export const DisabledSearchable = () => (
+  <Select label={label} searchable disabled>
+    <SelectOption>Option 1</SelectOption>
+    <SelectOption disabled>Option 2</SelectOption>
+    <SelectOption>Option 3</SelectOption>
+    <SelectOption>Option 4</SelectOption>
+  </Select>
+);
 
 export const RequiredMultipleSelectSearchableHelperText = () => {
   const helperTextExample = "Please select one";

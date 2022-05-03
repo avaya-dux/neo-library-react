@@ -90,6 +90,25 @@ export const Select = (props: SelectProps) => {
 
   const { getLabelProps } = downshiftProps;
 
+  const contextValue = {
+    children: internalChildren,
+    downshiftProps,
+    selectProps: {
+      ariaLabel,
+      disabled,
+      helperId,
+      helperText,
+      loading,
+      placeholder,
+    },
+    optionProps: {
+      multiple,
+      noOptionsMessage,
+      options,
+      selectedItems,
+    },
+  };
+
   return (
     <NeoInputWrapper
       disabled={disabled || loading}
@@ -98,25 +117,7 @@ export const Select = (props: SelectProps) => {
     >
       {label && <label {...getLabelProps()}>{label}</label>}
 
-      <SelectContext.Provider
-        value={{
-          children: internalChildren,
-          downshiftProps,
-          selectProps: {
-            ariaLabel,
-            disabled,
-            helperId,
-            helperText,
-            loading,
-            placeholder,
-          },
-          optionProps: {
-            multiple,
-            options,
-            selectedItems,
-          },
-        }}
-      >
+      <SelectContext.Provider value={contextValue}>
         <InternalSelect searchable={searchable} multiple={multiple} />
       </SelectContext.Provider>
 
