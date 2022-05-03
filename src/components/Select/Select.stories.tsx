@@ -1,8 +1,7 @@
 import { Meta } from "@storybook/react/types-6-0";
+import { useCallback, useEffect, useState } from "react";
 
-import { useState, useEffect, useCallback } from "react";
-
-import { Form, Button } from "components";
+import { Button, Form } from "components";
 
 import { Select } from "./Select";
 import { SelectOption } from "./SelectOption";
@@ -15,7 +14,7 @@ export default {
 
 const label = "Test label";
 
-const handleSelectedValueChange = (value: any) => {
+const handleSelectedValueChange = (value: string | string[]) => {
   console.log(value);
 };
 
@@ -170,6 +169,7 @@ export const LoadingMultipleSelect = () => {
 };
 
 export const SelectsWithoutChildren = () => {
+  // BUG: need an "empty" message/option
   return (
     <>
       <Select label="Test Label" />

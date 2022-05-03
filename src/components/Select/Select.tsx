@@ -1,8 +1,8 @@
 import clsx from "clsx";
+import { UseComboboxReturnValue } from "downshift";
 import {
   Children,
   Fragment,
-  FunctionComponent,
   isValidElement,
   useEffect,
   useMemo,
@@ -13,36 +13,35 @@ import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 import { useIsInitialRender } from "utils/hooks/useIsInitialRender";
 
-import { SelectProps } from "./SelectTypes";
+import {
+  DownshiftWithComboboxMultipleSelectProps,
+  DownshiftWithComboboxProps,
+  DownshiftWithMultipleSelectProps,
+  DownshiftWithSelectProps,
+} from "./DownshiftHooks";
 import { SelectContext } from "./SelectContext";
+import { SelectProps } from "./SelectTypes";
 
 import "./Select_shim.css";
 
-import {
-  DownshiftWithSelectProps,
-  DownshiftWithMultipleSelectProps,
-  DownshiftWithComboboxProps,
-  DownshiftWithComboboxMultipleSelectProps,
-} from "./DownshiftHooks";
-import { UseComboboxReturnValue } from "downshift";
-
-export const Select: FunctionComponent<SelectProps> = ({
-  isMultipleSelect,
-  isCombobox,
-  label,
-  placeholder = "Select One",
-  id = genId(),
+export const Select = ({
+  children = [],
   disabled,
   errorList = [],
   helperText,
+  id = genId(),
+  isCombobox,
+  isMultipleSelect,
+  label,
+  "aria-label": ariaLabel,
   loading = false,
-  required,
   onSelectedValueChange,
+  placeholder = "Select One",
+  required,
   values,
-  children = [],
-}) => {
-  if (!label) {
-    handleAccessbilityError("Select requires a label prop");
+}: SelectProps) => {
+  if (!(label || ariaLabel)) {
+    handleAccessbilityError("Select requires a label prop or aria-label");
   }
 
   const isInitialRender = useIsInitialRender();
@@ -164,8 +163,7 @@ export const Select: FunctionComponent<SelectProps> = ({
       error={errorList.length > 0}
       required={required}
     >
-      <label {...getLabelProps()}>{label}</label>
-
+      {label && <label {...getLabelProps()}>{label}</label>}
       <div
         {...getComboboxProps?.()}
         className={clsx(
@@ -221,7 +219,11 @@ export const Select: FunctionComponent<SelectProps> = ({
 
         {isCombobox ? (
           isMultipleSelect ? (
-            <div className="neo-multiselect__content" {...getMenuProps()}>
+            <div
+              className="neo-multiselect__content"
+              {...getMenuProps()}
+              aria-label={ariaLabel}
+            >
               {childrenWithProps?.map((child, index) => {
                 if (inputItems.includes(child.props.children.props.children)) {
                   return <Fragment key={index}>{child}</Fragment>;
@@ -232,7 +234,7 @@ export const Select: FunctionComponent<SelectProps> = ({
             </div>
           ) : (
             <div className="neo-multiselect__content">
-              <ul {...getMenuProps()}>
+              <ul aria-label={ariaLabel} {...getMenuProps()}>
                 {childrenWithProps?.map((child, index) => {
                   if (
                     inputItems.includes(child.props.children.props.children)
@@ -246,22 +248,26 @@ export const Select: FunctionComponent<SelectProps> = ({
             </div>
           )
         ) : isMultipleSelect ? (
-          <div className="neo-multiselect__content" {...getMenuProps()}>
+          <div
+            className="neo-multiselect__content"
+            {...getMenuProps()}
+            aria-label={ariaLabel}
+          >
             {childrenWithProps}
           </div>
         ) : (
           <div className="neo-multiselect__content">
-            <ul {...getMenuProps()}>{childrenWithProps}</ul>
+            <ul {...getMenuProps()} aria-label={ariaLabel}>
+              {childrenWithProps}
+            </ul>
           </div>
         )}
       </div>
-
       {helperText && (
         <div className="neo-input-hint" id={helperId}>
           {helperText}
         </div>
       )}
-
       {errorList.length > 0 &&
         errorList?.map((text, index) => (
           <div className="neo-input-hint" key={`error-text-${index}`}>

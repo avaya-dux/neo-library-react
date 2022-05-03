@@ -2,29 +2,26 @@ import { ReactElement } from "react";
 
 export type SelectOptionProps = {
   children: string;
-  helperText?: string;
   disabled?: boolean;
+  helperText?: string;
 };
+type AtLeastOneProps =
+  | { label: string; "aria-label"?: string }
+  | { label?: string; "aria-label": string };
 
-export type MultipleSelectOptionProps = {
-  children: string;
-  helperText?: string;
-  disabled?: boolean;
-};
-export interface SelectProps {
-  isMultipleSelect?: boolean;
-  isCombobox?: boolean;
-  label: string;
-  placeholder?: string;
+export type SelectProps = {
+  children?:
+    | ReactElement<SelectOptionProps>
+    | ReactElement<SelectOptionProps>[];
   disabled?: boolean;
   errorList?: string[];
   helperText?: string;
-  loading?: boolean;
-  required?: boolean;
   id?: string;
-  onSelectedValueChange?: (value: string[] | string) => any;
-  children?:
-    | ReactElement<SelectOptionProps | MultipleSelectOptionProps>
-    | ReactElement<SelectOptionProps | MultipleSelectOptionProps>[];
+  isCombobox?: boolean;
+  isMultipleSelect?: boolean;
+  loading?: boolean;
+  onSelectedValueChange?: (value: string | string[]) => void;
+  placeholder?: string;
+  required?: boolean;
   values?: string[];
-}
+} & AtLeastOneProps;

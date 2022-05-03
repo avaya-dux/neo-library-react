@@ -14,7 +14,7 @@ export const Default = () => {
       <br />
       <AccordionGroup header="Default Group of Accordion">
         <Accordion header="heading 1" defaultExpanded>
-          {"some data in the body1"}
+          "some data in the body1"
         </Accordion>
         <Accordion header="heading 2">some data in the body2</Accordion>
         <Accordion header="heading 3">some data in the body3</Accordion>
