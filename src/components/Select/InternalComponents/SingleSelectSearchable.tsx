@@ -38,6 +38,7 @@ export const SingleSelectSearchable = () => {
 
   const { id, onBlur, onKeyDown, ...restInputProps } = getInputProps();
 
+  // clear the search value when the user selects an item
   useEffect(() => setInputValue(""), [selectedItem]);
 
   const displayedDropdownOptions = children.filter((child) =>
