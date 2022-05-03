@@ -22,6 +22,7 @@ export const SingleSelectSearchable = () => {
     },
   } = useContext(SelectContext);
   const {
+    closeMenu,
     getComboboxProps,
     getInputProps,
     getMenuProps,
@@ -33,7 +34,7 @@ export const SingleSelectSearchable = () => {
     setInputValue,
   } = downshiftProps as UseComboboxReturnValue<string>;
 
-  const { id, ...restInputProps } = getInputProps();
+  const { id, onBlur, ...restInputProps } = getInputProps();
 
   useEffect(() => setInputValue(""), [selectedItem]);
 
@@ -69,6 +70,11 @@ export const SingleSelectSearchable = () => {
           className="neo-input"
           disabled={disabled}
           placeholder={placeholder}
+          onBlur={(e) => {
+            closeMenu();
+            setInputValue("");
+            onBlur(e);
+          }}
         />
 
         <input
