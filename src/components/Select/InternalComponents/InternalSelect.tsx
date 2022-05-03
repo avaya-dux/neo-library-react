@@ -1,9 +1,7 @@
-import {
-  MultiSelect,
-  MultiSelectSearchable,
-  SingleSelect,
-  SingleSelectSearchable,
-} from "./";
+import { MultiSelect } from "./MultiSelect";
+import { MultiSelectSearchable } from "./MultiSelectSearchable";
+import { SingleSelect } from "./SingleSelect";
+import { SingleSelectSearchable } from "./SingleSelectSearchable";
 
 export const InternalSelect = ({
   searchable,
