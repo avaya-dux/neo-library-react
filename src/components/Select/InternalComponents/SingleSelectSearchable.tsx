@@ -3,6 +3,7 @@ import { UseComboboxReturnValue } from "downshift";
 import { useContext, useEffect } from "react";
 
 import { Chip } from "components/Chip";
+import { Keys } from "utils";
 
 import { SelectContext } from "../utils/SelectContext";
 import { InternalSelectOption } from "./InternalSelectOption";
@@ -30,11 +31,12 @@ export const SingleSelectSearchable = () => {
     inputValue,
     isOpen,
     reset,
+    selectItem,
     selectedItem,
     setInputValue,
   } = downshiftProps as UseComboboxReturnValue<string>;
 
-  const { id, onBlur, ...restInputProps } = getInputProps();
+  const { id, onBlur, onKeyDown, ...restInputProps } = getInputProps();
 
   useEffect(() => setInputValue(""), [selectedItem]);
 
@@ -75,6 +77,17 @@ export const SingleSelectSearchable = () => {
             setInputValue("");
             onBlur(e);
           }}
+          onKeyDown={(e) => {
+            if (e.key === Keys.ENTER && displayedDropdownOptions.length === 1) {
+              selectItem(displayedDropdownOptions[0].props.children);
+              setInputValue("");
+              closeMenu();
+            } else if (e.key === Keys.BACKSPACE && inputValue.length === 0) {
+              reset();
+            }
+
+            onKeyDown(e);
+          }}
         />
 
         <input
@@ -91,7 +104,7 @@ export const SingleSelectSearchable = () => {
           {displayedDropdownOptions.length ? (
             displayedDropdownOptions
           ) : (
-            <InternalSelectOption disabled index={0} key="no-options">
+            <InternalSelectOption disabled index={0} key="no-available-options">
               {noOptionsMessage}
             </InternalSelectOption>
           )}
