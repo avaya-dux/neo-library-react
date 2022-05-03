@@ -1,3 +1,4 @@
+export * from "./Chip";
 export { BasicChip } from "./BasicChip";
 export { ClosableChip } from "./ClosableChip";
 export { ExpandableChip } from "./ExpandableChip";
