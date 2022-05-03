@@ -16,27 +16,17 @@ export const Default = () => {
         <Accordion header={"heading 1"} defaultExpanded>
           {"some data in the body1"}
         </Accordion>
-        <Accordion header="heading 2" aria-Label="heading 2">
-          {"some data in the body2"}
-        </Accordion>
-        <Accordion header="heading 3" aria-Label="heading 3">
-          {"some data in the body3"}
-        </Accordion>
+        <Accordion header="heading 2">{"some data in the body2"}</Accordion>
+        <Accordion header="heading 3">{"some data in the body3"}</Accordion>
       </AccordionGroup>
       <br />
       <AccordionGroup
         header="Group of Accordion expand one at a time"
         allowOnlyOne
       >
-        <Accordion header="heading 1" aria-Label="heading 1">
-          {"some data in the body1"}
-        </Accordion>
-        <Accordion header="heading 2" aria-Label="heading 2">
-          {"some data in the body2"}
-        </Accordion>
-        <Accordion header="heading 3" aria-Label="heading 3">
-          {"some data in the body3"}
-        </Accordion>
+        <Accordion header="heading 1">{"some data in the body1"}</Accordion>
+        <Accordion header="heading 2">{"some data in the body2"}</Accordion>
+        <Accordion header="heading 3">{"some data in the body3"}</Accordion>
       </AccordionGroup>
       <br />
       <AccordionGroup
@@ -44,15 +34,11 @@ export const Default = () => {
         allowOnlyOne
         defaultOpenAccordingIndex={1}
       >
-        <Accordion header="heading 1" disabled aria-Label="disabled accordion">
+        <Accordion header="heading 1" disabled>
           {"some data in the body1"}
         </Accordion>
-        <Accordion header="heading 2" aria-Label="heading 2">
-          {"some data in the body2"}
-        </Accordion>
-        <Accordion header="heading 3" aria-Label="heading 3">
-          {"some data in the body3"}
-        </Accordion>
+        <Accordion header="heading 2">{"some data in the body2"}</Accordion>
+        <Accordion header="heading 3">{"some data in the body3"}</Accordion>
       </AccordionGroup>
     </Sheet>
   );
