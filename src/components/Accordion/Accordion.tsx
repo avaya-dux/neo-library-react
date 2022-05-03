@@ -59,7 +59,7 @@ export const Accordion: FC<AccordionProps> = ({
             aria-controls={ariaControlId}
             id={id}
             onClick={() => {
-              handleClick ? handleClick() : setIsActive(!isActive)
+              handleClick ? handleClick() : setIsActive(!isActive);
             }}
             disabled={disabled}
             // aria-disabled below condition is for screen reader when allowOnlyOne prop is true from parent component.
