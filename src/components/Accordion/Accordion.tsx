@@ -33,6 +33,7 @@ export const Accordion: FC<AccordionProps> = ({
   const [isActive, setIsActive] = useState(defaultExpanded);
   const ariaControlText = `accordion-heading-${id}`;
   const ariaLabelText = `accordion-body-${id}`;
+  const ariaControlId = `accordion-control-${id}`;
 
   useEffect(() => {
     if (isOpen || defaultExpanded) {
@@ -61,7 +62,7 @@ export const Accordion: FC<AccordionProps> = ({
           <button
             className="neo-accordion__header-text"
             aria-expanded={isActive ? "true" : "false"}
-            aria-controls="accordion-panel"
+            aria-controls={ariaControlId}
             id={id}
             onClick={
               handleClick ? () => handleClick() : () => setIsActive(!isActive)
@@ -74,7 +75,7 @@ export const Accordion: FC<AccordionProps> = ({
 
         {isActive && !disabled && (
           <div
-            id={ariaControlText}
+            id={ariaControlId}
             className="neo-accordion__body"
             role="region"
             aria-label={ariaLabelText}
