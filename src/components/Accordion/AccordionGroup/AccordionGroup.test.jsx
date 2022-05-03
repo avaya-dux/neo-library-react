@@ -130,7 +130,6 @@ describe("Group Accordion Component", () => {
     const AccordionElements = screen.getAllByRole("button");
     AccordionElements.forEach((Accordion, index) => {
       if (index === 2) {
-        expect(Accordion).toHaveTextContent("heading 3");
         expect(Accordion).toHaveAttribute("disabled");
       }
     });
