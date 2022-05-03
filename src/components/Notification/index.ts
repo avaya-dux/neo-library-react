@@ -1,2 +1,2 @@
-export { Notification } from "./Notification";
+export { Notification, notificationLogger } from "./Notification";
 export * from "./NotificationTypes";

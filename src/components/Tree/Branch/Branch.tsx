@@ -59,18 +59,16 @@ export const Branch = ({
     const childrenAsArray = Array.isArray(children) ? children : [children];
 
     // if !expanded, we need to disable all children, which tells "react-roving-tabindex" to set their tabIndex to `-1`
-    return expanded
-      ? childrenAsArray
-      : childrenAsArray.map((child, i) => {
-          const childTypeName = (child.type as FC).name;
-          const key = `${childTypeName}-${i}`;
+    return childrenAsArray.map((child, i) => {
+      const childTypeName = (child.type as FC).name;
+      const key = `${childTypeName}-${i}`;
 
-          return cloneElement(child, {
-            disabled,
-            key: child.key || key,
-          });
-        });
-  }, [expanded]);
+      return cloneElement(child, {
+        disabled: !expanded || disabled || child.props.disabled,
+        key: child.key || key,
+      });
+    });
+  }, [expanded, disabled, children]);
 
   return (
     <li dir={dir} role="treeitem" className="neo-treeview__sub-tree-item">

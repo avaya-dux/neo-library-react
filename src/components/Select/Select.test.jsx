@@ -3,8 +3,8 @@ import { fireEvent, render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { Select } from "./Select";
-import { SelectOption } from "./SelectOption";
 import * as SelectStories from "./Select.stories";
+import { SelectOption } from "./SelectOption";
 
 const {
   DefaultSelects,

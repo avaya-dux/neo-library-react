@@ -11,7 +11,7 @@ const badgeData = "99";
 
 const defaultBadgeProps = {
   data: badgeData,
-  ariaLabel: `Badge representing ${badgeData}`,
+  "aria-label": `Badge representing ${badgeData}`,
 };
 
 const Template: Story<BadgeProps> = (props: BadgeProps) => <Badge {...props} />;
