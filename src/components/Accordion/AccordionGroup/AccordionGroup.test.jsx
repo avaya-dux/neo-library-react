@@ -36,15 +36,9 @@ describe("Group Accordion Component", () => {
   it("Check button click functionality and assigns appropriate aria-expanded value", () => {
     render(
       <AccordionGroup header={groupHeaderText}>
-        <Accordion header="heading 1" aria-Label="heading 1">
-          {bodyText}
-        </Accordion>
-        <Accordion header="heading 2" aria-Label="heading 2">
-          {bodyText}
-        </Accordion>
-        <Accordion header="heading 3" aria-Label="heading 3">
-          {bodyText}
-        </Accordion>
+        <Accordion header="heading 1">{bodyText}</Accordion>
+        <Accordion header="heading 2">{bodyText}</Accordion>
+        <Accordion header="heading 3">{bodyText}</Accordion>
       </AccordionGroup>
     );
     const AccordionElements = screen.getAllByRole("button");
@@ -59,22 +53,14 @@ describe("Group Accordion Component", () => {
   it("Check group accordion render properly by having a default open, when `allowOnlyOne` prop is passed", () => {
     render(
       <AccordionGroup header={groupHeaderText} allowOnlyOne>
-        <Accordion header="heading 1" aria-Label="heading 1">
-          {bodyText}
-        </Accordion>
-        <Accordion header="heading 2" aria-Label="heading 2">
-          {bodyText}
-        </Accordion>
-        <Accordion header="heading 3" aria-Label="heading 3">
-          {bodyText}
-        </Accordion>
+        <Accordion header="heading 1">{bodyText}</Accordion>
+        <Accordion header="heading 2">{bodyText}</Accordion>
+        <Accordion header="heading 3">{bodyText}</Accordion>
       </AccordionGroup>
     );
     const AccordionElements = screen.getAllByRole("button");
     AccordionElements.forEach((Accordion, index) => {
-      {
-        /* // by default it opens first accordion */
-      }
+      // by default it opens first accordion
       if (index === 0) {
         expect(Accordion).toHaveTextContent("heading 1");
         expect(Accordion).toHaveAttribute("aria-expanded", "true");
@@ -91,22 +77,14 @@ describe("Group Accordion Component", () => {
         allowOnlyOne
         defaultOpenAccordingIndex={2}
       >
-        <Accordion header="heading 1" aria-Label="heading 1">
-          {bodyText}
-        </Accordion>
-        <Accordion header="heading 2" aria-Label="heading 2">
-          {bodyText}
-        </Accordion>
-        <Accordion header="heading 3" aria-Label="heading 3">
-          {bodyText}
-        </Accordion>
+        <Accordion header="heading 1">{bodyText}</Accordion>
+        <Accordion header="heading 2">{bodyText}</Accordion>
+        <Accordion header="heading 3">{bodyText}</Accordion>
       </AccordionGroup>
     );
     const AccordionElements = screen.getAllByRole("button");
     AccordionElements.forEach((Accordion, index) => {
-      {
-        /* // by default index = 1 is open but as we passed defaultOpenAccordionIndex prop we are seeing index = 2 open */
-      }
+      // by default index = 1 is open but as we passed defaultOpenAccordionIndex prop we are seeing index = 2 open
       if (index === 2) {
         expect(Accordion).toHaveTextContent("heading 3");
         expect(Accordion).toHaveAttribute("aria-expanded", "true");
@@ -116,13 +94,9 @@ describe("Group Accordion Component", () => {
   it("Check group accordion render properly when disable prop is passed ", () => {
     render(
       <AccordionGroup header={groupHeaderText} allowOnlyOne>
-        <Accordion header="heading 1" aria-Label="heading 1">
-          {bodyText}
-        </Accordion>
-        <Accordion header="heading 2" aria-Label="heading 2">
-          {bodyText}
-        </Accordion>
-        <Accordion header="heading 3" aria-Label="heading 3" disabled>
+        <Accordion header="heading 1">{bodyText}</Accordion>
+        <Accordion header="heading 2">{bodyText}</Accordion>
+        <Accordion header="heading 3" disabled>
           {bodyText}
         </Accordion>
       </AccordionGroup>
