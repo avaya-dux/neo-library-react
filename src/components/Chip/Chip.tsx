@@ -12,7 +12,7 @@ export const Chip = ({
   children: string;
   closable?: boolean;
   id?: string;
-  variant: Variants;
+  variant?: Variants;
 }) => {
   return closable ? (
     <ClosableChip
