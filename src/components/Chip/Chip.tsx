@@ -1,7 +1,8 @@
 import { genId } from "utils";
 
-import { BasicChip, ClosableChip } from "./";
+import { BasicChip } from "./BasicChip";
 import { Variants } from "./ChipTypes";
+import { ClosableChip } from "./ClosableChip";
 
 export const Chip = ({
   children,
