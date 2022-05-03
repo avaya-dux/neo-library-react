@@ -1,11 +1,5 @@
 import clsx from "clsx";
-import {
-  FC,
-  ReactNode,
-  useState,
-  useEffect,
-  ReactComponentElement,
-} from "react";
+import { FC, ReactNode, useState, useEffect } from "react";
 import { genId } from "utils";
 
 export interface AccordionProps {

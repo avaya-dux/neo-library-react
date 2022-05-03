@@ -12,8 +12,8 @@ export const Default = () => {
   return (
     <Sheet title="Sheet title" style={{ width: 600 }}>
       <br />
-      <AccordionGroup groupHeading="Default Group of Accordion">
-        <Accordion header="heading 1" defaultExpanded aria-Label="heading 1">
+      <AccordionGroup header="Default Group of Accordion">
+        <Accordion header={"heading 1"} defaultExpanded>
           {"some data in the body1"}
         </Accordion>
         <Accordion header="heading 2" aria-Label="heading 2">{"some data in the body2"}</Accordion>
@@ -21,7 +21,7 @@ export const Default = () => {
       </AccordionGroup>
       <br />
       <AccordionGroup
-        groupHeading="Group of Accordion expand one at a time"
+        header="Group of Accordion expand one at a time"
         allowOnlyOne
       >
         <Accordion header="heading 1" aria-Label="heading 1">{"some data in the body1"}</Accordion>
@@ -30,7 +30,7 @@ export const Default = () => {
       </AccordionGroup>
       <br />
       <AccordionGroup
-        groupHeading="Group of Accordion expand one at a time with defaultOpen prop as 1"
+        header="Group of Accordion expand one at a time with defaultOpen prop as 1"
         allowOnlyOne
         defaultOpenAccordingIndex={1}
       >
