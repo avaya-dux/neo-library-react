@@ -25,8 +25,8 @@ export const Accordion: FC<AccordionProps> = ({
   children,
 }) => {
   const [isActive, setIsActive] = useState(defaultExpanded);
-  const ariaControlText = `accordion-heading-${id}`;
-  const ariaLabelText = `accordion-body-${id}`;
+
+  const ariaLabelId = `accordion-body-${id}`;
   const ariaControlId = `accordion-control-${id}`;
 
   useEffect(() => {
@@ -62,6 +62,8 @@ export const Accordion: FC<AccordionProps> = ({
               handleClick ? () => handleClick() : () => setIsActive(!isActive)
             }
             disabled={disabled !== false}
+            // aria-disabled below condition is for screen reader
+            aria-disabled={isActive && handleClick ? true : false}
           >
             {header}
           </button>
@@ -72,7 +74,7 @@ export const Accordion: FC<AccordionProps> = ({
             id={ariaControlId}
             className="neo-accordion__body"
             role="region"
-            aria-label={ariaLabelText}
+            aria-label={ariaLabelId}
           >
             <div className="neo-accordion__content">{children}</div>
           </div>
