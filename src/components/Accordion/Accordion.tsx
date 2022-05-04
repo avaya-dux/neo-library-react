@@ -4,18 +4,18 @@ import { genId } from "utils";
 
 export interface AccordionProps {
   header: ReactNode;
-  id?: string;
+  headerId?: string;
   defaultExpanded?: boolean;
   disabled?: boolean;
   "aria-level"?: number;
   "aria-label"?: string;
   isOpen?: boolean;
-  handleClick?: (id?: string | number) => void;
+  handleClick?: () => void;
 }
 
 export const Accordion: FC<AccordionProps> = ({
   header,
-  id = genId(),
+  headerId = genId(),
   defaultExpanded = false,
   disabled = false,
   "aria-level": ariaLevel = 2,
@@ -26,8 +26,7 @@ export const Accordion: FC<AccordionProps> = ({
 }) => {
   const [isActive, setIsActive] = useState(defaultExpanded);
 
-  const ariaLabelId = `accordion-body-${id}`;
-  const ariaControlId = `accordion-control-${id}`;
+  const bodyId = `accordion-control-${headerId}`;
 
   useEffect(() => {
     if (isOpen || defaultExpanded) {
@@ -56,26 +55,21 @@ export const Accordion: FC<AccordionProps> = ({
           <button
             className="neo-accordion__header-text"
             aria-expanded={isActive ? "true" : "false"}
-            aria-controls={ariaControlId}
-            id={id}
+            aria-controls={bodyId}
+            id={headerId}
             onClick={() => {
               handleClick ? handleClick() : setIsActive(!isActive);
             }}
             disabled={disabled}
             // aria-disabled below condition is for screen reader when allowOnlyOne prop is true from parent component.
-            aria-disabled={!!(isActive && handleClick)}
+            aria-disabled={isActive && handleClick ? true : false}
           >
             {header}
           </button>
         </div>
 
         {isActive && !disabled && (
-          <div
-            id={ariaControlId}
-            className="neo-accordion__body"
-            role="region"
-            aria-label={ariaLabelId}
-          >
+          <div id={bodyId} className="neo-accordion__body">
             <div className="neo-accordion__content">{children}</div>
           </div>
         )}

@@ -14,7 +14,7 @@ export const Default = () => {
       <br />
       <AccordionGroup header="Default Group of Accordion">
         <Accordion header="heading 1" defaultExpanded>
-          "some data in the body1"
+          some data in the body1
         </Accordion>
         <Accordion header="heading 2">some data in the body2</Accordion>
         <Accordion header="heading 3">some data in the body3</Accordion>
@@ -25,12 +25,16 @@ export const Default = () => {
         allowOnlyOne
       >
         <Accordion header="heading 1">some data in the body1</Accordion>
-        <Accordion header="heading 2">some data in the body2</Accordion>
-        <Accordion header="heading 3">some data in the body3</Accordion>
+        <Accordion header="heading 2">
+          <p>Body data with `p` tag</p>
+        </Accordion>
+        <Accordion header="heading 3">
+          <img src="https://placekitten.com/g/200/300" alt="image of a cat" />
+        </Accordion>
       </AccordionGroup>
       <br />
       <AccordionGroup
-        header="Group of Accordion expand one at a time with defaultOpen prop as 1"
+        header="Group of Accordion expand one at a time with defaultOpen prop as 'heading 2'"
         allowOnlyOne
         defaultOpenAccordingIndex={1}
       >
