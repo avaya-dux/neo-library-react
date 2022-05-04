@@ -36,10 +36,14 @@ export const SingleSelectSearchable = () => {
     setInputValue,
   } = downshiftProps as UseComboboxReturnValue<string>;
 
-  const { id, onBlur, onKeyDown, ...restInputProps } = getInputProps();
+  const { id, onKeyDown, ...restInputProps } = getInputProps();
 
-  // clear the search value when the user selects an item
-  useEffect(() => setInputValue(""), [selectedItem]);
+  // clear the search when dropdown closes (when the user selects an item or clicks away)
+  useEffect(() => {
+    if (isOpen === false) {
+      !isOpen && setInputValue("");
+    }
+  }, [isOpen, setInputValue]);
 
   const displayedDropdownOptions = children.filter((child) =>
     child.props.children.toLowerCase().includes(inputValue.toLowerCase())
@@ -73,11 +77,6 @@ export const SingleSelectSearchable = () => {
           className="neo-input"
           disabled={disabled}
           placeholder={placeholder}
-          onBlur={(e) => {
-            closeMenu();
-            setInputValue("");
-            onBlur(e);
-          }}
           onKeyDown={(e) => {
             if (
               e.key === Keys.ENTER &&
@@ -85,7 +84,6 @@ export const SingleSelectSearchable = () => {
               !displayedDropdownOptions[0].props.disabled
             ) {
               selectItem(displayedDropdownOptions[0].props.children);
-              setInputValue("");
               closeMenu();
             } else if (e.key === Keys.BACKSPACE && inputValue.length === 0) {
               reset();

@@ -30,6 +30,9 @@ const DownshiftWithComboboxProps = (
       if (selectedItem) {
         setSelectedItems([selectedItem]);
         onSelectedValueChange?.(selectedItem);
+      } else {
+        setSelectedItems([]);
+        onSelectedValueChange?.("");
       }
     },
     onInputValueChange: ({ inputValue }) => {
@@ -139,6 +142,9 @@ const DownshiftWithSelectProps = (
       if (selectedItem) {
         setSelectedItems([selectedItem]);
         onSelectedValueChange?.(selectedItem);
+      } else {
+        setSelectedItems([]);
+        onSelectedValueChange?.("");
       }
     },
   });
