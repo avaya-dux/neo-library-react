@@ -1,11 +1,12 @@
 import { UseComboboxReturnValue, UseSelectReturnValue } from "downshift";
 import { createContext, ReactElement } from "react";
 
+import { InternalSelectOptionProps } from "../InternalComponents";
 import { SelectOptionProps } from "./SelectTypes";
 
 type ContextDownshiftProps =
-  | UseComboboxReturnValue<string>
-  | UseSelectReturnValue<string>;
+  | UseComboboxReturnValue<ReactElement<InternalSelectOptionProps>>
+  | UseSelectReturnValue<ReactElement<InternalSelectOptionProps>>;
 
 export type SelectContextProps = {
   children: ReactElement<SelectOptionProps>[];
@@ -22,10 +23,11 @@ export type SelectContextProps = {
   };
 
   optionProps: {
+    filteredOptions: ReactElement<InternalSelectOptionProps>[];
     multiple: boolean;
     noOptionsMessage: string;
-    options: string[];
-    selectedItems: string[];
+    options: ReactElement<InternalSelectOptionProps>[];
+    selectedItems: ReactElement<InternalSelectOptionProps>[];
   };
 };
 
@@ -41,6 +43,7 @@ export const SelectContext = createContext<SelectContextProps>({
   },
 
   optionProps: {
+    filteredOptions: [],
     multiple: false,
     noOptionsMessage: "",
     options: [],

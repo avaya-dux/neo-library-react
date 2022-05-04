@@ -27,7 +27,12 @@ export const DefaultSearchable = () => (
 );
 
 export const MultipleSelectSearchable = () => (
-  <Select label="Select multiple foods" multiple searchable values={["Apple"]}>
+  <Select
+    label="Select multiple foods"
+    multiple
+    searchable
+    selectedValues={["Apple"]}
+  >
     <SelectOption>Apple</SelectOption>
     <SelectOption helperText="Not a Food" disabled>
       Gravel
@@ -79,7 +84,7 @@ export const RequiredMultipleSelectSearchableHelperText = () => {
       <Select
         multiple
         searchable
-        values={selectedValues}
+        selectedValues={selectedValues}
         onSelectedValueChange={updateSelectedValue}
         label={label}
         helperText={helperText}

@@ -104,7 +104,7 @@ export const RequiredMultipleSelectWithHelperText = () => {
     >
       <Select
         multiple
-        values={selectedOption}
+        selectedValues={selectedOption}
         onSelectedValueChange={updateSelectedValue}
         label={label}
         helperText={helperText}

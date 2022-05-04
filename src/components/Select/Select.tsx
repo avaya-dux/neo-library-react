@@ -1,10 +1,14 @@
-import { Children, useEffect, useMemo, useState } from "react";
+import { Children, ReactElement, useEffect, useMemo, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 import { useIsInitialRender } from "utils/hooks/useIsInitialRender";
 
-import { InternalSelect, InternalSelectOption } from "./InternalComponents";
+import {
+  InternalSelect,
+  InternalSelectOption,
+  InternalSelectOptionProps,
+} from "./InternalComponents";
 import { SelectContext } from "./utils/SelectContext";
 import { SelectProps } from "./utils/SelectTypes";
 import { useDownshift } from "./utils/useDownshift";
@@ -27,7 +31,7 @@ export const Select = (props: SelectProps) => {
     onSelectedValueChange,
     placeholder = "Select One",
     required,
-    values,
+    selectedValues,
   } = props;
 
   if (!(label || ariaLabel)) {
@@ -37,44 +41,7 @@ export const Select = (props: SelectProps) => {
   const helperId = useMemo(() => `helper-text-${id}`, [id]);
   const isInitialRender = useIsInitialRender();
 
-  const options = useMemo(
-    () => Children.map(children, (child) => child.props.children),
-    [children]
-  );
-  const [inputItems, setInputItems] = useState<string[]>(options);
-  const [selectedItems, setSelectedItems] = useState<string[]>(values || []);
-  const [controlledInputValue, setControlledInputValue] = useState<string>("");
-
-  useEffect(() => {
-    if (values) {
-      setSelectedItems(values);
-    }
-  }, [values]);
-
-  useEffect(() => {
-    if (!isInitialRender && onSelectedValueChange) {
-      onSelectedValueChange(selectedItems);
-    }
-    setControlledInputValue(`${selectedItems.join(", ")}`);
-  }, [selectedItems]);
-
-  const downshiftProps = useDownshift(
-    controlledInputValue,
-    id,
-    inputItems,
-    searchable,
-    multiple,
-    options,
-    selectedItems,
-    setControlledInputValue,
-    setInputItems,
-    setSelectedItems,
-    disabled,
-    loading,
-    onSelectedValueChange
-  );
-
-  const internalChildren = useMemo(
+  const options: ReactElement<InternalSelectOptionProps>[] = useMemo(
     () =>
       Children.count(children) === 0
         ? [
@@ -87,11 +54,56 @@ export const Select = (props: SelectProps) => {
           )),
     [children]
   );
+  const [filteredOptions, setFilteredOptions] = useState(options);
+  const [selectedItems, setSelectedItems] = useState<
+    ReactElement<InternalSelectOptionProps>[]
+  >([]);
+  const [searchText, setSearchText] = useState("");
+
+  useEffect(() => {
+    if (selectedValues) {
+      const userSelectedOptions = options.filter(
+        (option) =>
+          option.props.value && selectedValues.includes(option.props.value)
+      );
+      setSelectedItems(userSelectedOptions);
+    }
+  }, [selectedValues]);
+
+  useEffect(() => {
+    if (!isInitialRender && onSelectedValueChange) {
+      if (multiple) {
+        const newlySelectedValues = selectedItems.map(
+          (item) => item.props.value as string
+        );
+
+        onSelectedValueChange(newlySelectedValues);
+      } else {
+        onSelectedValueChange(selectedItems[0].props.value as string);
+      }
+    }
+  }, [selectedItems]);
+
+  const downshiftProps = useDownshift(
+    disabled,
+    id,
+    loading,
+    multiple,
+    searchable,
+    options,
+    searchText,
+    setSearchText,
+    filteredOptions,
+    setFilteredOptions,
+    selectedItems,
+    setSelectedItems,
+    onSelectedValueChange
+  );
 
   const { getLabelProps } = downshiftProps;
 
   const contextValue = {
-    children: internalChildren,
+    children: options, // BUG: that's not right...
     downshiftProps,
     selectProps: {
       ariaLabel,
@@ -102,6 +114,7 @@ export const Select = (props: SelectProps) => {
       placeholder,
     },
     optionProps: {
+      filteredOptions,
       multiple,
       noOptionsMessage,
       options,

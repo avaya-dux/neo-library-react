@@ -1,18 +1,20 @@
 import clsx from "clsx";
 import { UseComboboxReturnValue } from "downshift";
-import { useContext, useEffect } from "react";
+import { ReactElement, useContext, useEffect } from "react";
 
 import { Chip } from "components/Chip";
 import { Keys } from "utils";
 
 import { SelectContext } from "../utils/SelectContext";
-import { InternalSelectOption } from "./InternalSelectOption";
+import {
+  InternalSelectOption,
+  InternalSelectOptionProps,
+} from "./InternalSelectOption";
 
 export const SingleSelectSearchable = () => {
   const {
-    children,
     downshiftProps,
-    optionProps: { noOptionsMessage },
+    optionProps: { filteredOptions, noOptionsMessage },
     selectProps: {
       ariaLabel,
       disabled,
@@ -34,7 +36,9 @@ export const SingleSelectSearchable = () => {
     selectItem,
     selectedItem,
     setInputValue,
-  } = downshiftProps as UseComboboxReturnValue<string>;
+  } = downshiftProps as UseComboboxReturnValue<
+    ReactElement<InternalSelectOptionProps>
+  >;
 
   const { id, onKeyDown, ...restInputProps } = getInputProps();
 
@@ -44,12 +48,6 @@ export const SingleSelectSearchable = () => {
       !isOpen && setInputValue("");
     }
   }, [isOpen, setInputValue]);
-
-  const displayedDropdownOptions = children.filter((child) =>
-    child.props.children.toLowerCase().includes(inputValue.toLowerCase())
-      ? child
-      : null
-  );
 
   return (
     <div
@@ -68,7 +66,7 @@ export const SingleSelectSearchable = () => {
       >
         {selectedItem && (
           <Chip onClick={reset} closable>
-            {selectedItem}
+            {selectedItem.props.children}
           </Chip>
         )}
 
@@ -80,10 +78,10 @@ export const SingleSelectSearchable = () => {
           onKeyDown={(e) => {
             if (
               e.key === Keys.ENTER &&
-              displayedDropdownOptions.length === 1 &&
-              !displayedDropdownOptions[0].props.disabled
+              filteredOptions.length === 1 &&
+              !filteredOptions[0].props.disabled
             ) {
-              selectItem(displayedDropdownOptions[0].props.children);
+              selectItem(filteredOptions[0]);
               closeMenu();
             } else if (e.key === Keys.BACKSPACE && inputValue.length === 0) {
               reset();
@@ -98,15 +96,22 @@ export const SingleSelectSearchable = () => {
           id={id}
           readOnly
           tabIndex={-1}
-          value={selectedItem || ""}
+          value={selectedItem?.props.value}
         />
       </span>
 
       <div className="neo-multiselect__content">
         <ul aria-label={ariaLabel} {...getMenuProps()}>
-          {displayedDropdownOptions.length ? (
-            displayedDropdownOptions
+          {filteredOptions.length ? (
+            filteredOptions.map((option, index) => (
+              <InternalSelectOption
+                {...option.props}
+                index={index}
+                key={index}
+              />
+            ))
           ) : (
+            // TODO: BUG: this shouldn't be necessary
             <InternalSelectOption disabled index={0} key="no-available-options">
               {noOptionsMessage}
             </InternalSelectOption>

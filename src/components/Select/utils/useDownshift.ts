@@ -1,18 +1,25 @@
 import { useCombobox, useSelect } from "downshift";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, ReactElement, SetStateAction } from "react";
+
+import { InternalSelectOptionProps } from "../InternalComponents";
 
 const DownshiftWithComboboxProps = (
-  items: string[],
-  id: string,
-  setSelectedItems: Dispatch<SetStateAction<string[]>>,
-  setInputValue: Dispatch<SetStateAction<string[]>>,
+  options: ReactElement<InternalSelectOptionProps>[],
+  selectId: string,
+  setSelectedItems: Dispatch<
+    SetStateAction<ReactElement<InternalSelectOptionProps>[]>
+  >,
+  filteredOptions: ReactElement<InternalSelectOptionProps>[],
+  setFilteredOptions: Dispatch<
+    SetStateAction<ReactElement<InternalSelectOptionProps>[]>
+  >,
   onSelectedValueChange?: (value: string[] | string) => void,
   loading?: boolean,
   disabled?: boolean
 ) => {
   return useCombobox({
-    items,
-    id,
+    items: filteredOptions,
+    id: selectId,
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
       switch (type) {
@@ -29,41 +36,51 @@ const DownshiftWithComboboxProps = (
     onSelectedItemChange: ({ selectedItem }) => {
       if (selectedItem) {
         setSelectedItems([selectedItem]);
-        onSelectedValueChange?.(selectedItem);
+        onSelectedValueChange?.(selectedItem.props.value as string);
       } else {
         setSelectedItems([]);
         onSelectedValueChange?.("");
       }
     },
     onInputValueChange: ({ inputValue }) => {
-      inputValue
-        ? setInputValue(
-            items.filter((item) =>
-              item.toLowerCase().startsWith(inputValue.toLowerCase())
-            )
-          )
-        : setInputValue(items);
+      if (inputValue) {
+        const relatedOptions = options.filter((child) => {
+          const childSearchText =
+            child.props.searchText || child.props.children;
+
+          return childSearchText
+            .toLowerCase()
+            .includes(inputValue.toLowerCase());
+        });
+        // setSearchText(inputValue);
+        setFilteredOptions(relatedOptions);
+      } else if (inputValue === "") {
+        setFilteredOptions(options);
+      }
     },
   });
 };
 
 const DownshiftWithComboboxMultipleSelectProps = (
-  items: string[],
-  id: string,
-  controlledInputValue: string,
-  setControlledInputValue: Dispatch<SetStateAction<string>>,
-  selectedItems: string[],
-  setSelectedItems: Dispatch<SetStateAction<string[]>>,
-  inputItems: string[],
-  setInputItems: Dispatch<SetStateAction<string[]>>,
+  options: ReactElement<InternalSelectOptionProps>[],
+  selectId: string,
+  searchText: string,
+  setSearchText: Dispatch<SetStateAction<string>>,
+  selectedItems: ReactElement<InternalSelectOptionProps>[],
+  setSelectedItems: Dispatch<
+    SetStateAction<ReactElement<InternalSelectOptionProps>[]>
+  >,
+  setFilteredOptions: Dispatch<
+    SetStateAction<ReactElement<InternalSelectOptionProps>[]>
+  >,
   disabled?: boolean,
   loading?: boolean
 ) => {
   return useCombobox({
-    items,
-    id,
+    items: options,
+    id: selectId,
     selectedItem: null,
-    inputValue: controlledInputValue,
+    inputValue: searchText,
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
       switch (type) {
@@ -74,7 +91,7 @@ const DownshiftWithComboboxMultipleSelectProps = (
           };
         case useCombobox.stateChangeTypes.InputChange:
           if (changes.inputValue === "" && !changes.selectedItem)
-            setControlledInputValue("");
+            setSearchText("");
           return {
             ...changes,
           };
@@ -91,14 +108,18 @@ const DownshiftWithComboboxMultipleSelectProps = (
     },
     onInputValueChange: ({ inputValue }) => {
       if (inputValue) {
-        setControlledInputValue(inputValue);
-        setInputItems(
-          inputItems.filter((item) =>
-            item.toLowerCase().startsWith(inputValue.toLowerCase())
-          )
-        );
+        const relatedOptions = options.filter((child) => {
+          const childSearchText =
+            child.props.searchText || child.props.children;
+
+          return childSearchText
+            .toLowerCase()
+            .includes(inputValue.toLowerCase());
+        });
+        // setSearchText(inputValue);
+        setFilteredOptions(relatedOptions);
       } else if (inputValue === "") {
-        setInputItems(items);
+        setFilteredOptions(options);
       }
     },
     onSelectedItemChange: ({ selectedItem }) => {
@@ -115,16 +136,18 @@ const DownshiftWithComboboxMultipleSelectProps = (
 };
 
 const DownshiftWithSelectProps = (
-  items: string[],
-  id: string,
-  setSelectedItems: Dispatch<SetStateAction<string[]>>,
+  items: ReactElement<InternalSelectOptionProps>[],
+  selectId: string,
+  setSelectedItems: Dispatch<
+    SetStateAction<ReactElement<InternalSelectOptionProps>[]>
+  >,
   onSelectedValueChange?: (value: string[] | string) => void,
   disabled?: boolean,
   loading?: boolean
 ) => {
   return useSelect({
     items,
-    id,
+    id: selectId,
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
       switch (type) {
@@ -141,7 +164,7 @@ const DownshiftWithSelectProps = (
     onSelectedItemChange: ({ selectedItem }) => {
       if (selectedItem) {
         setSelectedItems([selectedItem]);
-        onSelectedValueChange?.(selectedItem);
+        onSelectedValueChange?.(selectedItem.props.value as string);
       } else {
         setSelectedItems([]);
         onSelectedValueChange?.("");
@@ -151,16 +174,18 @@ const DownshiftWithSelectProps = (
 };
 
 const DownshiftWithMultipleSelectProps = (
-  items: string[],
-  id: string,
-  selectedItems: string[],
-  setSelectedItems: Dispatch<SetStateAction<string[]>>,
+  options: ReactElement<InternalSelectOptionProps>[],
+  selectId: string,
+  selectedItems: ReactElement<InternalSelectOptionProps>[],
+  setSelectedItems: Dispatch<
+    SetStateAction<ReactElement<InternalSelectOptionProps>[]>
+  >,
   disabled?: boolean,
   loading?: boolean
 ) => {
   return useSelect({
-    items,
-    id,
+    items: options,
+    id: selectId,
     selectedItem: null,
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
@@ -196,18 +221,22 @@ const DownshiftWithMultipleSelectProps = (
 };
 
 export const useDownshift = (
-  controlledInputValue: string,
-  id: string,
-  inputItems: string[],
-  searchable: boolean,
+  disabled: boolean,
+  selectId: string,
+  loading: boolean,
   multiple: boolean,
-  items: string[],
-  selectedItems: string[],
-  setControlledInputValue: Dispatch<SetStateAction<string>>,
-  setInputItems: Dispatch<SetStateAction<string[]>>,
-  setSelectedItems: Dispatch<SetStateAction<string[]>>,
-  disabled?: boolean,
-  loading?: boolean,
+  searchable: boolean,
+  options: ReactElement<InternalSelectOptionProps>[],
+  searchText: string,
+  setSearchText: Dispatch<SetStateAction<string>>,
+  filteredOptions: ReactElement<InternalSelectOptionProps>[],
+  setFilteredOptions: Dispatch<
+    SetStateAction<ReactElement<InternalSelectOptionProps>[]>
+  >,
+  selectedItems: ReactElement<InternalSelectOptionProps>[],
+  setSelectedItems: Dispatch<
+    SetStateAction<ReactElement<InternalSelectOptionProps>[]>
+  >,
   onSelectedValueChange?: (value: string[] | string) => void
 ) => {
   /**
@@ -223,31 +252,31 @@ export const useDownshift = (
 
   if (searchable && multiple) {
     return DownshiftWithComboboxMultipleSelectProps(
-      items,
-      id,
-      controlledInputValue,
-      setControlledInputValue,
+      options,
+      selectId,
+      searchText,
+      setSearchText,
       selectedItems,
       setSelectedItems,
-      inputItems,
-      setInputItems,
+      setFilteredOptions,
       disabled,
       loading
     );
   } else if (searchable) {
     return DownshiftWithComboboxProps(
-      items,
-      id,
+      options,
+      selectId,
       setSelectedItems,
-      setInputItems,
+      filteredOptions,
+      setFilteredOptions,
       onSelectedValueChange,
       disabled,
       loading
     );
   } else if (multiple) {
     return DownshiftWithMultipleSelectProps(
-      items,
-      id,
+      options,
+      selectId,
       selectedItems,
       setSelectedItems,
       disabled,
@@ -256,8 +285,8 @@ export const useDownshift = (
   }
 
   return DownshiftWithSelectProps(
-    items,
-    id,
+    options,
+    selectId,
     setSelectedItems,
     onSelectedValueChange,
     disabled,

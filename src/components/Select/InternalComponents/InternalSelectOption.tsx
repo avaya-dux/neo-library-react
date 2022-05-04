@@ -5,12 +5,16 @@ import { genId } from "utils/accessibilityUtils";
 import { SelectContext } from "../utils/SelectContext";
 import { SelectOptionProps } from "../utils/SelectTypes";
 
+export interface InternalSelectOptionProps extends SelectOptionProps {
+  index: number;
+}
+
 export const InternalSelectOption = ({
   children,
   disabled,
   helperText,
   index,
-}: SelectOptionProps & { index: number }) => {
+}: InternalSelectOptionProps) => {
   const {
     downshiftProps: { getItemProps },
 
