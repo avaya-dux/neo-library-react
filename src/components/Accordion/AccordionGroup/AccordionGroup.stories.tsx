@@ -29,7 +29,7 @@ export const Default = () => {
           <p>Body data with `p` tag</p>
         </Accordion>
         <Accordion header="heading 3">
-          <img src="https://placekitten.com/g/200/300" alt="image of a cat" />
+          <img src="https://placekitten.com/g/200/300" alt="A Cat" />
         </Accordion>
       </AccordionGroup>
       <br />
