@@ -79,7 +79,11 @@ export const SingleSelectSearchable = () => {
             onBlur(e);
           }}
           onKeyDown={(e) => {
-            if (e.key === Keys.ENTER && displayedDropdownOptions.length === 1) {
+            if (
+              e.key === Keys.ENTER &&
+              displayedDropdownOptions.length === 1 &&
+              !displayedDropdownOptions[0].props.disabled
+            ) {
               selectItem(displayedDropdownOptions[0].props.children);
               setInputValue("");
               closeMenu();
