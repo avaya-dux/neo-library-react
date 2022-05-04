@@ -34,7 +34,12 @@ export const LinkItems = () => (
       >
         Normal Link
       </LinkItem>
-      <LinkItem onMouseOver={handleHover} onFocus={handleFocus} active={true}>
+      <LinkItem
+        href="http://avaya.com"
+        onMouseOver={handleHover}
+        onFocus={handleFocus}
+        active={true}
+      >
         Active Link
       </LinkItem>
       <LinkItem

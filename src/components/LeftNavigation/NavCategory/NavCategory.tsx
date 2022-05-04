@@ -6,6 +6,7 @@ import {
   KeyboardEventHandler,
   MouseEvent,
   MouseEventHandler,
+  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -15,6 +16,7 @@ import clsx from "clsx";
 import { useFocusEffect, useRovingTabIndex } from "react-roving-tabindex";
 
 import { NavCategoryProps } from "../LeftNavigationTypes";
+import { NavigationContext } from "../NavigationContext";
 
 import { genId, getIconClass, Keys } from "utils";
 
@@ -72,6 +74,8 @@ export const NavCategory = ({
   );
   useFocusEffect(isActive, ref);
 
+  const ctx = useContext(NavigationContext);
+
   useEffect(() => {
     const itemStyle = getNavBarClassNames(isExpanded, isActive, disabled);
     setNavItemClass(itemStyle);
@@ -121,13 +125,14 @@ export const NavCategory = ({
       const parentHasIcon = !!icon;
 
       return cloneElement(child, {
+        active: child.props.href === ctx.currentUrl,
         disabled: isDisabled,
         key: child.key || key,
         id: child.props.id || key,
         parentHasIcon: parentHasIcon,
       });
     });
-  }, [isExpanded, disabled]);
+  }, [isExpanded, disabled, ctx]);
 
   return (
     <li id={internalId} className={navItemClass}>
