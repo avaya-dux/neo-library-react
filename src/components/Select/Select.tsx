@@ -15,6 +15,40 @@ import { useDownshift } from "./utils/useDownshift";
 
 import "./Select_shim.css";
 
+/**
+ * The `Select` component allows the user to select one or more options from a list
+ * of `SelectOption`.
+ *
+ * @example
+  <Select
+    label="Select a favorite food"
+    onSelectedValueChange={handleSelectedValueChange}
+  >
+    <SelectOption>Apple</SelectOption>
+    <SelectOption helperText="Vegetable">Broccoli</SelectOption>
+    <SelectOption>Banana</SelectOption>
+    <SelectOption>Pear</SelectOption>
+  </Select>
+ *
+ * @example
+  <Select
+    label="Select multiple foods"
+    multiple
+    searchable
+    selectedValues={["Apple"]}
+  >
+    <SelectOption>Apple</SelectOption>
+    <SelectOption helperText="Not a Food" disabled>
+      Gravel
+    </SelectOption>
+    <SelectOption helperText="Vegetable">Broccoli</SelectOption>
+    <SelectOption>Banana</SelectOption>
+    <SelectOption>Pear</SelectOption>
+  </Select>
+ *
+ * @see https://design.avayacloud.com/components/web/select-web
+ * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-select
+ */
 export const Select = (props: SelectProps) => {
   const {
     "aria-label": ariaLabel,
