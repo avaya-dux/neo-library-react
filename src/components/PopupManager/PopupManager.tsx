@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-use-before-define
 import { Component } from "react";
 import log from "loglevel";
-import { InternalToast } from "./InternalToast";
+import { InternalToast, InternalToastOptions } from "./InternalToast";
 import type {
   NotificationOptions,
   PopupId,
@@ -49,9 +49,6 @@ export class PopupManager extends Component<Props, State> {
   };
 
   setZIndex = (zIndex: number) => {
-    if (!this.mounted) {
-      return;
-    }
     this.setState((prevState) => {
       const ret = {
         positions: { ...prevState.positions },
@@ -114,11 +111,9 @@ export class PopupManager extends Component<Props, State> {
     const position = options.position ?? "top";
 
     return {
+      ...options,
       id,
-      message: options.message,
-      icon: options.icon,
       position,
-      duration: options.duration,
     };
   };
 
@@ -186,7 +181,7 @@ export class PopupManager extends Component<Props, State> {
               <InternalToast
                 key={`${popupOption.id}-${index}`}
                 remove={this.remove}
-                {...(popupOption as ToastOptions)}
+                {...(popupOption as InternalToastOptions)}
               />
             );
           })}

@@ -64,11 +64,11 @@ export const Branch = ({
       const key = `${childTypeName}-${i}`;
 
       return cloneElement(child, {
-        disabled: !expanded || disabled,
+        disabled: !expanded || disabled || child.props.disabled,
         key: child.key || key,
       });
     });
-  }, [expanded]);
+  }, [expanded, disabled, children]);
 
   return (
     <li dir={dir} role="treeitem" className="neo-treeview__sub-tree-item">

@@ -20,6 +20,7 @@ export interface ToastOptions extends PopupOptions {
   duration?: number;
   message: string;
   icon?: IconNamesType;
+  "aria-label"?: string;
 }
 
 export interface NotificationOptions extends PopupOptions {

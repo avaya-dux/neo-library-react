@@ -33,6 +33,7 @@ export default {
 export const Default = ToastTemplate.bind({});
 Default.args = {
   children: "Default toast, positoned top and center, for 5 seconds",
+  "aria-label": "Passed in aria label: toast lasts 5 seconds",
 };
 export const IconBottomCenter = ToastTemplate.bind({});
 IconBottomCenter.args = {

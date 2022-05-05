@@ -6,7 +6,7 @@ import {
   Notification,
   notificationLogger as logger,
 } from "components/Notification";
-
+logger.disableAll();
 type WithoutType = Omit<EventNotificationProps, "type">;
 const EventTemplate: Story<WithoutType> = ({ ...rest }: WithoutType) => {
   const props = { type: "event", ...rest } as EventNotificationProps;
@@ -34,7 +34,7 @@ export const PopCounterEvent = () => {
     if (open) {
       if (managerRef.current) {
         popupRef.current = managerRef.current.notify({
-          id: "event-couter",
+          id: "event-counter",
           node: notificationRef.current,
           position: "bottom",
         });
@@ -56,23 +56,38 @@ export const PopCounterEvent = () => {
   }, [open]);
 
   useEffect(() => {
-    if (managerRef.current) {
-      managerRef.current.setZIndex(9900);
-    }
     return () => {
-      logger.debug("PopClosableEvent cleaning up ...");
-      if (managerRef.current) {
-        logger.debug("remove all...");
-        managerRef.current.removeAll();
-      }
+      logger.debug("PopCounterEvent cleaning up ...");
+      removeAll();
     };
-  }, [managerRef]);
+  }, []);
+
+  const removeAll = () => {
+    logger.debug("PopCounterEvent removeAll ...");
+    if (managerRef.current) {
+      logger.debug("remove all...");
+      managerRef.current.removeAll();
+    }
+  };
+
+  const setZIndex = () => {
+    if (managerRef.current) {
+      managerRef.current.setZIndex(2000);
+      alert("zindex changed");
+    }
+  };
 
   return (
     <>
       <PopupManager ref={managerRef} />
       <div>
         <button onClick={() => setOpen((prev) => !prev)}>Toggle</button>
+      </div>
+      <div>
+        <button onClick={removeAll}>Remove All</button>
+      </div>
+      <div>
+        <button onClick={setZIndex}>Change Z Index</button>
       </div>
     </>
   );
@@ -104,7 +119,6 @@ export const PopClosableEvent = () => {
     if (open) {
       if (managerRef.current) {
         popupRef.current = managerRef.current.notify({
-          id: "event-couter",
           node: notificationRef.current,
           position: "bottom",
         });

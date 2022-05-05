@@ -1,9 +1,10 @@
 import { composeStories } from "@storybook/testing-react";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { notificationLogger } from "components/Notification";
 import { toastLogger } from "components/Toast";
 import { axe } from "jest-axe";
-import { popupManagerLogger, popupHookLogger } from ".";
+import { popupHookLogger, popupManagerLogger } from ".";
 import * as NotificationStories from "./PopupManager.notification.stories";
 import * as ToastStories from "./PopupManager.toast.stories";
 popupManagerLogger.disableAll();
@@ -98,6 +99,37 @@ describe("PopupManager", () => {
         const results = await axe(container);
         expect(results).toHaveNoViolations();
       });
+      it("toggle notification works", async () => {
+        const { getByRole } = renderResult;
+        const toggle = screen.getAllByRole("button")[0];
+        userEvent.click(toggle);
+        const notification = await screen.findByRole("alert");
+        expect(notification).toBeDefined();
+        userEvent.click(toggle);
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(() => getByRole("alert")).toThrow();
+      });
+      it("removeAll notifications works", async () => {
+        const { getByRole } = renderResult;
+        const [toggle, removeAll] = screen.getAllByRole("button");
+        userEvent.click(toggle);
+        const notification = await screen.findByRole("alert");
+        expect(notification).toBeDefined();
+        userEvent.click(removeAll);
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(() => getByRole("alert")).toThrow();
+      });
+      it("setZIndex works", () => {
+        const alert = window.alert;
+        window.alert = jest.fn();
+        const [_, , setZIndex] = screen.getAllByRole("button");
+        userEvent.click(setZIndex);
+        const topContainer = document.getElementById("neo-popup-manager-top");
+        const style = window.getComputedStyle(topContainer);
+        expect(style.zIndex).toBe("2000");
+        expect(window.alert).toBeCalled();
+        window.alert = alert;
+      });
     });
     describe("PopClosableEvent", () => {
       let renderResult;
@@ -107,7 +139,6 @@ describe("PopupManager", () => {
       it("should render ok", () => {
         const { container } = renderResult;
         expect(container).toBeDefined();
-        document.getElementById("neo-popup-manager-bottom-right");
       });
 
       it("passes basic axe compliance", async () => {
