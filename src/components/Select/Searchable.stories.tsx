@@ -44,7 +44,7 @@ export const MultipleSelectSearchable = () => (
 );
 
 export const DisabledSearchable = () => (
-  <Select label={label} searchable disabled>
+  <Select label="I am disabled" disabled searchable>
     <SelectOption>Option 1</SelectOption>
     <SelectOption disabled>Option 2</SelectOption>
     <SelectOption>Option 3</SelectOption>

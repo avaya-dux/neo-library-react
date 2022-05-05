@@ -11,7 +11,6 @@ const {
   SelectWithHelperText,
   DisabledSelect,
   RequiredMultipleSelectWithHelperText,
-  DisabledMultipleSelectWithErrorState,
   LoadingMultipleSelect,
   SelectsWithWrongChildren,
   MoreThanOneMultipleSelect,
@@ -305,27 +304,6 @@ describe("Select", () => {
       fireEvent.click(resetButton);
       const defaultSelectHeader = getByText("Select One");
       expect(defaultSelectHeader).toHaveClass("neo-multiselect__header");
-    });
-
-    it("passes basic axe compliance", async () => {
-      const { container } = renderResult;
-      const results = await axe(container);
-      expect(results).toHaveNoViolations();
-    });
-  });
-
-  describe("Disabled Multiple Select With Error State,", () => {
-    let renderResult;
-    beforeEach(() => {
-      renderResult = render(<DisabledMultipleSelectWithErrorState />);
-    });
-
-    it("does not open content area on click when disabled", () => {
-      const { getByText } = renderResult;
-      const defaultSelectHeader = getByText("Select One");
-      expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
-      fireEvent.click(defaultSelectHeader);
-      expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
     });
 
     it("passes basic axe compliance", async () => {

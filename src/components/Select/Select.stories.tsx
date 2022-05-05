@@ -67,16 +67,14 @@ export const SelectWithHelperText = () => {
   );
 };
 
-export const DisabledSelect = () => {
-  return (
-    <Select label={label} disabled>
+export const DisabledSelect = () => (
+  <Select label="I am disabled" disabled>
       <SelectOption>Option 1</SelectOption>
       <SelectOption disabled>Option 2</SelectOption>
       <SelectOption>Option 3</SelectOption>
       <SelectOption>Option 4</SelectOption>
     </Select>
   );
-};
 
 export const RequiredMultipleSelectWithHelperText = () => {
   const helperTextExample = "Please select one";
@@ -85,7 +83,7 @@ export const RequiredMultipleSelectWithHelperText = () => {
   const [errorList, setErrorList] = useState<string[]>([]);
 
   const updateSelectedValue = useCallback(
-    (value: any): any => {
+    (value) => {
       setSelectedOption(value);
       setHelperText(helperText);
       setErrorList([]);
@@ -140,56 +138,33 @@ export const RequiredMultipleSelectWithHelperText = () => {
   );
 };
 
-export const DisabledMultipleSelectWithErrorState = () => {
-  return (
-    <Select
-      multiple
-      label={label}
-      errorList={["This is an error message"]}
-      disabled
-    >
-      <SelectOption>Choice 1</SelectOption>
-    </Select>
-  );
-};
-
 export const LoadingMultipleSelect = () => {
   const [loading, setLoading] = useState(true);
   const [options, setOptions] = useState<string[]>([]);
 
-  const fakeLoad = () => {
+  useEffect(() => {
     setTimeout(() => {
       setOptions(["Option 1", "Option 2", "Option 3", "Option 4"]);
       setLoading(false);
     }, 2000);
-  };
-
-  useEffect(() => {
-    fakeLoad();
-    return () => {};
   }, []);
 
   return (
     <Select multiple label={label} loading={loading}>
-      {options.map((option, index) => (
-        <SelectOption key={index}>{option}</SelectOption>
+      {options.map((option) => (
+        <SelectOption>{option}</SelectOption>
       ))}
     </Select>
   );
 };
 
-export const SelectsWithoutChildren = () => {
-  return (
-    <Sheet
-      title="No Options view for single and multi select Select"
-      style={{ width: 400 }}
-    >
-      <Select label="Test Label" />
+export const SelectsWithoutChildren = () => (
+  <Sheet title="No Options for single and multi Select" style={{ width: 400 }}>
+    <Select label="Single Select" noOptionsMessage="Empty" />
 
-      <Select label="Test label" multiple />
-    </Sheet>
-  );
-};
+    <Select label="Multiple Select" multiple />
+  </Sheet>
+);
 
 export const SelectsWithWrongChildren = () => {
   return (
@@ -209,19 +184,20 @@ export const SelectsWithWrongChildren = () => {
 
 export const MoreThanOneMultipleSelect = () => {
   return (
-    <>
+    <Sheet title="Keyboard Navigation between Selects" style={{ width: 400 }}>
       <Select multiple label="First Multiple Select">
         <SelectOption>Option 1</SelectOption>
         <SelectOption>Option 2</SelectOption>
         <SelectOption>Option 3</SelectOption>
         <SelectOption>Option 4</SelectOption>
       </Select>
+
       <Select multiple label="Second Multiple Select">
         <SelectOption>Option 1</SelectOption>
         <SelectOption disabled>Option 2</SelectOption>
         <SelectOption>Option 3</SelectOption>
         <SelectOption>Option 4</SelectOption>
       </Select>
-    </>
+    </Sheet>
   );
 };

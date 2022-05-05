@@ -23,12 +23,18 @@ export const InternalSelectOption = ({
     selectProps: { filteredOptions },
   } = useContext(SelectContext);
 
+  /*
+    NOTE: these values will never change for non-searchable selects,
+    so the use of `useMemo` here is awesome. But these values _will_
+    change constantly for searchable selects, and the use of `useMemo`
+    for those is bad. Thus, we use `useMemo` here is debatable.
+  */
+  const [labelId, helperId] = useMemo(
+    () => [`label-id-${genId()}`, `helper-text-${genId()}`],
+    [children]
+  );
+
   const optionSelf = filteredOptions[index];
-
-  const labelId = useMemo(() => `label-id-${genId()}`, []);
-
-  const helperId = useMemo(() => `helper-text-${genId()}`, []);
-
   const itemProps = getItemProps({
     item: optionSelf,
     index,
@@ -58,7 +64,7 @@ export const InternalSelectOption = ({
       )}
     </div>
   ) : (
-    <li {...itemProps} key={`${optionSelf}${index}`}>
+    <li {...itemProps}>
       {children}
 
       {helperText && <p className="neo-input-hint">{helperText}</p>}
