@@ -1,8 +1,9 @@
 import clsx from "clsx";
 import { UseComboboxReturnValue } from "downshift";
-import { useContext } from "react";
+import { ReactElement, useContext } from "react";
 
 import { SelectContext } from "../utils/SelectContext";
+import { InternalSelectOptionProps } from "./InternalSelectOption";
 
 export const MultiSelectSearchable = () => {
   const {
@@ -23,7 +24,9 @@ export const MultiSelectSearchable = () => {
     getMenuProps,
     getToggleButtonProps,
     isOpen,
-  } = downshiftProps as UseComboboxReturnValue<string>;
+  } = downshiftProps as UseComboboxReturnValue<
+    ReactElement<InternalSelectOptionProps>
+  >;
 
   return (
     <div

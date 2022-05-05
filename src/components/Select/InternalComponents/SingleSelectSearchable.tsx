@@ -6,18 +6,16 @@ import { Chip } from "components/Chip";
 import { Keys } from "utils";
 
 import { SelectContext } from "../utils/SelectContext";
-import {
-  InternalSelectOption,
-  InternalSelectOptionProps,
-} from "./InternalSelectOption";
+import { InternalSelectOptionProps } from "./InternalSelectOption";
+import { OptionsWithEmptyMessageFallback } from "./OptionsWithEmptyMessageFallback";
 
 export const SingleSelectSearchable = () => {
   const {
     downshiftProps,
-    optionProps: { filteredOptions, noOptionsMessage },
     selectProps: {
       ariaLabel,
       disabled,
+      filteredOptions,
       helperId,
       helperText,
       loading,
@@ -102,20 +100,7 @@ export const SingleSelectSearchable = () => {
 
       <div className="neo-multiselect__content">
         <ul aria-label={ariaLabel} {...getMenuProps()}>
-          {filteredOptions.length ? (
-            filteredOptions.map((option, index) => (
-              <InternalSelectOption
-                {...option.props}
-                index={index}
-                key={index}
-              />
-            ))
-          ) : (
-            // TODO: BUG: this shouldn't be necessary
-            <InternalSelectOption disabled index={0} key="no-available-options">
-              {noOptionsMessage}
-            </InternalSelectOption>
-          )}
+          <OptionsWithEmptyMessageFallback />
         </ul>
       </div>
     </div>

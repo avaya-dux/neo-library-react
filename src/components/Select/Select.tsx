@@ -108,13 +108,13 @@ export const Select = (props: SelectProps) => {
     selectProps: {
       ariaLabel,
       disabled,
+      filteredOptions,
       helperId,
       helperText,
       loading,
       placeholder,
     },
     optionProps: {
-      filteredOptions,
       multiple,
       noOptionsMessage,
       options,

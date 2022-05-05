@@ -16,6 +16,7 @@ export type SelectContextProps = {
   selectProps: {
     ariaLabel?: string;
     disabled: boolean;
+    filteredOptions: ReactElement<InternalSelectOptionProps>[];
     helperId?: string;
     helperText?: string;
     loading: boolean;
@@ -23,7 +24,6 @@ export type SelectContextProps = {
   };
 
   optionProps: {
-    filteredOptions: ReactElement<InternalSelectOptionProps>[];
     multiple: boolean;
     noOptionsMessage: string;
     options: ReactElement<InternalSelectOptionProps>[];
@@ -38,12 +38,12 @@ export const SelectContext = createContext<SelectContextProps>({
 
   selectProps: {
     disabled: false,
+    filteredOptions: [],
     loading: false,
     placeholder: "",
   },
 
   optionProps: {
-    filteredOptions: [],
     multiple: false,
     noOptionsMessage: "",
     options: [],
