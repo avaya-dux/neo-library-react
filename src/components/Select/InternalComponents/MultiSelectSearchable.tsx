@@ -30,7 +30,7 @@ export const MultiSelectSearchable = () => {
     getToggleButtonProps,
     inputValue,
     isOpen,
-    selectItem: toggleItem,
+    selectItem: toggleItem, // NOTE: I've adjusted the hook for this case (searchable multi-select) such that the "select" is actually a "toggle" now
     setInputValue,
   } = downshiftProps as UseComboboxReturnValue<SelectOptionProps>;
 
