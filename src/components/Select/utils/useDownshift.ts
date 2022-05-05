@@ -60,12 +60,15 @@ const DownshiftWithComboboxMultipleSelectProps = (
     id: selectId,
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
+      const { selectedItem } = changes;
+
       switch (type) {
         case useCombobox.stateChangeTypes.ToggleButtonClick:
           return {
             ...changes,
             isOpen: !(disabled || loading),
           };
+
         case useCombobox.stateChangeTypes.InputKeyDownEnter:
         case useCombobox.stateChangeTypes.ItemClick:
           return {
@@ -74,6 +77,23 @@ const DownshiftWithComboboxMultipleSelectProps = (
             isOpen: true,
             highlightedIndex: state.highlightedIndex,
           };
+
+        case useCombobox.stateChangeTypes.FunctionSelectItem:
+          if (selectedItem && selectedItems.includes(selectedItem)) {
+            setSelectedItems(
+              selectedItems.filter((item) => item !== selectedItem)
+            );
+          } else if (selectedItem) {
+            setSelectedItems([...selectedItems, selectedItem]);
+          }
+
+          return {
+            ...changes,
+            highlightedIndex: state.highlightedIndex,
+            inputValue: "",
+            selectedItem: null,
+          };
+
         default:
           return changes;
       }
