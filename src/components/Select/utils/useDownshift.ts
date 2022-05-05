@@ -128,6 +128,7 @@ const DownshiftWithComboboxMultipleSelectProps = (
 const DownshiftWithSelectProps = (
   items: SelectOptionProps[],
   selectId: string,
+  setSelectedItems: Dispatch<SetStateAction<SelectOptionProps[]>>,
   disabled: boolean,
   loading: boolean
 ) => {
@@ -145,6 +146,13 @@ const DownshiftWithSelectProps = (
           };
         default:
           return changes;
+      }
+    },
+    onSelectedItemChange: ({ selectedItem }) => {
+      if (!selectedItem) {
+        setSelectedItems([]);
+      } else {
+        setSelectedItems([selectedItem]);
       }
     },
   });
@@ -268,5 +276,11 @@ export const useDownshift = (
     );
   }
 
-  return DownshiftWithSelectProps(options, selectId, disabled, loading);
+  return DownshiftWithSelectProps(
+    options,
+    selectId,
+    setSelectedItems,
+    disabled,
+    loading
+  );
 };

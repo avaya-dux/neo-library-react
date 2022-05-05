@@ -12,41 +12,73 @@ export default {
   component: Select,
 } as Meta<SelectProps>;
 
-const handleSelectedValueChange = (value: string | string[]) => {
-  console.log(value);
-};
+const foodOptions = [
+  <SelectOption value="apple" key="apple">
+    Apple
+  </SelectOption>,
+  <SelectOption value="gravel" key="apple" helperText="Not a Food" disabled>
+    Gravel
+  </SelectOption>,
+  <SelectOption value="broccoli" key="apple" helperText="Vegetable">
+    Broccoli
+  </SelectOption>,
+  <SelectOption value="banana" key="apple">
+    Banana
+  </SelectOption>,
+  <SelectOption value="pear" key="apple">
+    Pear
+  </SelectOption>,
+  <SelectOption value="blueberries" key="blueberries">
+    Blueberries
+  </SelectOption>,
+  <SelectOption value="grapes" key="grapes">
+    Grapes
+  </SelectOption>,
+  <SelectOption value="oranges" key="oranges">
+    Oranges
+  </SelectOption>,
+];
 
 export const DefaultSelects = () => {
+  const [favFood, setFavFood] = useState("");
+  const [foods, setFoods] = useState<string[]>([]);
+
   return (
     <Sheet title="Default Single and Multi Select" style={{ width: 400 }}>
       <Select
         label="Select a favorite food"
         helperText="Please select one"
-        onSelectedValueChange={handleSelectedValueChange}
+        onSelectedValueChange={(value) => {
+          setFavFood(value as string);
+        }}
       >
-        <SelectOption>Apple</SelectOption>
-        <SelectOption helperText="Not a Food" disabled>
-          Gravel
-        </SelectOption>
-        <SelectOption helperText="Vegetable">Broccoli</SelectOption>
-        <SelectOption>Banana</SelectOption>
-        <SelectOption>Pear</SelectOption>
+        {foodOptions}
       </Select>
 
       <Select
         multiple
-        label="Select a few favorite foods"
+        label="Select a few nice foods"
         helperText="Please select one or more"
-        onSelectedValueChange={handleSelectedValueChange}
+        onSelectedValueChange={(value) => setFoods(value as string[])}
       >
-        <SelectOption>Apple</SelectOption>
-        <SelectOption helperText="Not a Food" disabled>
-          Gravel
-        </SelectOption>
-        <SelectOption helperText="Vegetable">Broccoli</SelectOption>
-        <SelectOption>Banana</SelectOption>
-        <SelectOption>Pear</SelectOption>
+        {foodOptions}
       </Select>
+
+      <hr />
+
+      <div>
+        <p>Favorite Food: {favFood || "None selected"}</p>
+      </div>
+
+      <div>
+        <p>Nice Foods Selection: {foods.length === 0 && "None Selected"}</p>
+
+        <ul>
+          {foods.map((food) => (
+            <li key={food}>{food}</li>
+          ))}
+        </ul>
+      </div>
     </Sheet>
   );
 };
