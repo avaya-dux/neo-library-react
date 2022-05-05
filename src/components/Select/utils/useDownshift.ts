@@ -91,7 +91,6 @@ const DownshiftWithComboboxMultipleSelectProps = (
             ...changes,
             highlightedIndex: state.highlightedIndex,
             inputValue: "",
-            selectedItem: null,
           };
 
         default:

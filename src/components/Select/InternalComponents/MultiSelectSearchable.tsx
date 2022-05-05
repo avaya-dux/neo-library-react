@@ -16,6 +16,7 @@ export const MultiSelectSearchable = () => {
     selectProps: {
       ariaLabel,
       disabled,
+      filteredOptions,
       helperId,
       helperText,
       loading,
@@ -29,7 +30,7 @@ export const MultiSelectSearchable = () => {
     getToggleButtonProps,
     inputValue,
     isOpen,
-    selectItem,
+    selectItem: toggleItem,
     setInputValue,
   } = downshiftProps as UseComboboxReturnValue<SelectOptionProps>;
 
@@ -49,7 +50,7 @@ export const MultiSelectSearchable = () => {
             <Chip
               closable
               key={`${item.children}-${index}`}
-              onClick={() => selectItem(item)}
+              onClick={() => toggleItem(item)}
             >
               {item.children}
             </Chip>
@@ -81,8 +82,14 @@ export const MultiSelectSearchable = () => {
           disabled={disabled}
           placeholder={placeholder}
           onKeyDown={(e) => {
-            if (e.key === Keys.BACKSPACE && inputValue.length === 0) {
-              selectItem(selectedItems[selectedItems.length - 1]);
+            if (
+              e.key === Keys.ENTER &&
+              filteredOptions.length === 1 &&
+              !filteredOptions[0].disabled
+            ) {
+              toggleItem(filteredOptions[0]);
+            } else if (e.key === Keys.BACKSPACE && inputValue.length === 0) {
+              toggleItem(selectedItems[selectedItems.length - 1]);
             }
 
             onKeyDown(e);
