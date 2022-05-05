@@ -48,8 +48,6 @@ const DownshiftWithComboboxProps = (
 const DownshiftWithComboboxMultipleSelectProps = (
   options: SelectOptionProps[],
   selectId: string,
-  searchText: string,
-  setSearchText: Dispatch<SetStateAction<string>>,
   selectedItems: SelectOptionProps[],
   setSelectedItems: Dispatch<SetStateAction<SelectOptionProps[]>>,
   setFilteredOptions: Dispatch<SetStateAction<SelectOptionProps[]>>,
@@ -59,8 +57,6 @@ const DownshiftWithComboboxMultipleSelectProps = (
   return useCombobox({
     items: options,
     id: selectId,
-    selectedItem: null,
-    inputValue: searchText,
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
       switch (type) {
@@ -192,8 +188,6 @@ export const useDownshift = (
   multiple: boolean,
   searchable: boolean,
   options: SelectOptionProps[],
-  searchText: string,
-  setSearchText: Dispatch<SetStateAction<string>>,
   filteredOptions: SelectOptionProps[],
   setFilteredOptions: Dispatch<SetStateAction<SelectOptionProps[]>>,
   selectedItems: SelectOptionProps[],
@@ -214,8 +208,6 @@ export const useDownshift = (
     return DownshiftWithComboboxMultipleSelectProps(
       options,
       selectId,
-      searchText,
-      setSearchText,
       selectedItems,
       setSelectedItems,
       setFilteredOptions,

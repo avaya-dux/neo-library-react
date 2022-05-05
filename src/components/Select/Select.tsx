@@ -77,7 +77,6 @@ export const Select = (props: SelectProps) => {
   );
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [selectedItems, setSelectedItems] = useState<SelectOptionProps[]>([]);
-  const [searchText, setSearchText] = useState("");
 
   // TODO: update to _not_ use `selectedValues` and use `children.props.selected` (triggering on `children`)
   useEffect(() => {
@@ -110,8 +109,6 @@ export const Select = (props: SelectProps) => {
     multiple,
     searchable,
     options,
-    searchText,
-    setSearchText,
     filteredOptions,
     setFilteredOptions,
     selectedItems,
