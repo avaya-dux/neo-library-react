@@ -41,7 +41,7 @@ export const SingleSelectSearchable = () => {
   // clear the search when dropdown closes (when the user selects an item or clicks away)
   useEffect(() => {
     if (isOpen === false) {
-      !isOpen && setInputValue("");
+      setInputValue("");
     }
   }, [isOpen, setInputValue]);
 
