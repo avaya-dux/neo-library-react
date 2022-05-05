@@ -34,7 +34,7 @@ export const InternalSelectOption = ({
   });
 
   return multiple ? (
-    <div className="neo-input-group" key={optionSelf}>
+    <div className="neo-input-group">
       <input
         aria-describedby={helperText}
         aria-labelledby={labelId}
