@@ -71,7 +71,6 @@ export const RequiredMultipleSelectSearchableHelperText = () => {
     [selectedValues, setHelperText, helperText, setErrorList]
   );
 
-  // BUG: if users start typing, it is a bad UX (plus, dropdown stops working on click, we need to add a "no results found" message)
   return (
     <Form
       onSubmit={(e) => {

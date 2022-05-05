@@ -179,13 +179,15 @@ export const LoadingMultipleSelect = () => {
 };
 
 export const SelectsWithoutChildren = () => {
-  // BUG: need an "empty" message/option
   return (
-    <>
+    <Sheet
+      title="No Options view for single and multi select Select"
+      style={{ width: 400 }}
+    >
       <Select label="Test Label" />
 
       <Select label="Test label" multiple />
-    </>
+    </Sheet>
   );
 };
 
