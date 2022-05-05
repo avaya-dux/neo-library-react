@@ -1,12 +1,14 @@
 import clsx from "clsx";
 import { useContext, useMemo } from "react";
 
+import { Chip } from "components/Chip";
+
 import { SelectContext } from "../utils/SelectContext";
+import { OptionsWithEmptyMessageFallback } from "./OptionsWithEmptyMessageFallback";
 
 export const MultiSelect = () => {
   const {
-    children,
-    downshiftProps: { getMenuProps, getToggleButtonProps, isOpen },
+    downshiftProps: { getMenuProps, getToggleButtonProps, isOpen, selectItem },
     optionProps: { selectedItems },
     selectProps: {
       ariaLabel,
@@ -18,9 +20,20 @@ export const MultiSelect = () => {
     },
   } = useContext(SelectContext);
 
-  const selectedItemsText = useMemo(
-    () => (selectedItems.length ? selectedItems.join(", ") : placeholder), // TODO: use Chips component
-    [selectedItems, placeholder]
+  const selectedItemsAsChips = useMemo(
+    () =>
+      selectedItems.length
+        ? selectedItems.map((item, index) => (
+            <Chip
+              closable
+              key={`${item.children}-${index}`}
+              onClick={() => selectItem(item)} // `selectItem` toggles the item out of `selectedItems`
+            >
+              {item.children}
+            </Chip>
+          ))
+        : null,
+    [selectedItems]
   );
 
   return (
@@ -38,7 +51,7 @@ export const MultiSelect = () => {
         className="neo-multiselect__header"
         type="button"
       >
-        {selectedItemsText}
+        {selectedItemsAsChips || placeholder}
       </button>
 
       <div
@@ -46,7 +59,7 @@ export const MultiSelect = () => {
         className="neo-multiselect__content"
         {...getMenuProps()}
       >
-        {children}
+        <OptionsWithEmptyMessageFallback />
       </div>
     </div>
   );
