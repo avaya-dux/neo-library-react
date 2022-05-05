@@ -30,7 +30,7 @@ export const LeftNavigation: FunctionComponent<LeftNavProps> = ({
   ariaLabel = "",
   children,
   currentUrl = "",
-  onSelected = null,
+  onSelected,
 }) => {
   if (ariaLabel === "") {
     console.error(

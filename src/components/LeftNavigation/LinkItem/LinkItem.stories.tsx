@@ -29,7 +29,6 @@ export const LinkItems = () => (
       <LinkItem
         onMouseOver={handleHover}
         onFocus={handleFocus}
-        active={false}
         href="http://bing.com"
       >
         Normal Link
@@ -38,14 +37,13 @@ export const LinkItems = () => (
         href="http://avaya.com"
         onMouseOver={handleHover}
         onFocus={handleFocus}
-        active={true}
       >
         Active Link
       </LinkItem>
       <LinkItem
+        href="http://avaya.com"
         onMouseOver={handleHover}
         onFocus={handleFocus}
-        active={false}
         disabled={true}
       >
         Disabled Link

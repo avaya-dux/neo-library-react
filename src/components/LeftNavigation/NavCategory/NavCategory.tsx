@@ -148,7 +148,7 @@ export const NavCategory = ({
         tabIndex={tabIndex}
         disabled={disabled}
         onClick={handleOnClick}
-        onKeyDown={(e) => handleKeyDown(e)}
+        onKeyDown={handleKeyDown}
         aria-label={label}
         {...rest}
       >

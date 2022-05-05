@@ -11,7 +11,7 @@ import {
 } from "react";
 import { useFocusEffect, useRovingTabIndex } from "react-roving-tabindex";
 
-import { Keys } from "utils";
+import { genId, Keys } from "utils";
 
 import { LinkItemProps } from "../LeftNavigationTypes";
 import { NavigationContext } from "../NavigationContext";
@@ -21,8 +21,8 @@ export const LinkItem = ({
   children,
   className,
   disabled = false,
-  href = "",
-  id = "",
+  href,
+  id = genId(),
   onFocus,
   onMouseOver,
   parentHasIcon,

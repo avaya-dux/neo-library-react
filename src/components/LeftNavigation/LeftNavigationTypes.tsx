@@ -7,7 +7,7 @@ export interface LinkItemProps
   children: string;
   active?: boolean;
   disabled?: boolean;
-  href?: string;
+  href: string;
   parentHasIcon?: boolean;
 }
 export interface NavCategoryProps
