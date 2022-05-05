@@ -8,8 +8,8 @@ const DownshiftWithComboboxProps = (
   selectId: string,
   filteredOptions: SelectOptionProps[],
   setFilteredOptions: Dispatch<SetStateAction<SelectOptionProps[]>>,
-  loading?: boolean,
-  disabled?: boolean
+  loading: boolean,
+  disabled: boolean
 ) => {
   return useCombobox({
     items: filteredOptions,
@@ -52,8 +52,8 @@ const DownshiftWithComboboxMultipleSelectProps = (
   setSelectedItems: Dispatch<SetStateAction<SelectOptionProps[]>>,
   filteredOptions: SelectOptionProps[],
   setFilteredOptions: Dispatch<SetStateAction<SelectOptionProps[]>>,
-  disabled?: boolean,
-  loading?: boolean
+  disabled: boolean,
+  loading: boolean
 ) => {
   return useCombobox({
     items: filteredOptions,
@@ -99,7 +99,6 @@ const DownshiftWithComboboxMultipleSelectProps = (
       }
     },
     onInputValueChange: ({ inputValue }) => {
-      // TODO: extract duplicate code
       if (inputValue) {
         const relatedOptions = options.filter((child) => {
           const childSearchText = child.searchText || child.children;
@@ -129,8 +128,8 @@ const DownshiftWithComboboxMultipleSelectProps = (
 const DownshiftWithSelectProps = (
   items: SelectOptionProps[],
   selectId: string,
-  disabled?: boolean,
-  loading?: boolean
+  disabled: boolean,
+  loading: boolean
 ) => {
   return useSelect({
     items,
@@ -156,8 +155,8 @@ const DownshiftWithMultipleSelectProps = (
   selectId: string,
   selectedItems: SelectOptionProps[],
   setSelectedItems: Dispatch<SetStateAction<SelectOptionProps[]>>,
-  disabled?: boolean,
-  loading?: boolean
+  disabled: boolean,
+  loading: boolean
 ) => {
   return useSelect({
     items: options,
