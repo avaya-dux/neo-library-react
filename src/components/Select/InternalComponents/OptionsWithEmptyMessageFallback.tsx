@@ -16,7 +16,7 @@ export const OptionsWithEmptyMessageFallback = () => {
           <InternalSelectOption
             {...option}
             index={index}
-            key={`internal-option-${index}`}
+            key={`internal-option-${option.value}-${index}`}
           />
         ))
       ) : (

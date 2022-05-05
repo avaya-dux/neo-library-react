@@ -18,10 +18,12 @@ export const InternalSelectOption = ({
   const {
     downshiftProps: { getItemProps },
 
-    optionProps: { multiple, options, selectedItems },
+    optionProps: { multiple, selectedItems },
+
+    selectProps: { filteredOptions },
   } = useContext(SelectContext);
 
-  const optionSelf = options[index];
+  const optionSelf = filteredOptions[index];
 
   const labelId = useMemo(() => `label-id-${genId()}`, []);
 
