@@ -1,14 +1,18 @@
 import clsx from "clsx";
 import { UseComboboxReturnValue } from "downshift";
-import { ReactElement, useContext } from "react";
+import { useContext, useEffect, useMemo } from "react";
+
+import { Chip } from "components/Chip";
+import { Keys } from "utils";
 
 import { SelectContext } from "../utils/SelectContext";
-import { InternalSelectOptionProps } from "./InternalSelectOption";
+import { SelectOptionProps } from "../utils/SelectTypes";
+import { OptionsWithEmptyMessageFallback } from "./OptionsWithEmptyMessageFallback";
 
 export const MultiSelectSearchable = () => {
   const {
-    children,
     downshiftProps,
+    optionProps: { selectedItems },
     selectProps: {
       ariaLabel,
       disabled,
@@ -23,10 +27,36 @@ export const MultiSelectSearchable = () => {
     getInputProps,
     getMenuProps,
     getToggleButtonProps,
+    inputValue,
     isOpen,
-  } = downshiftProps as UseComboboxReturnValue<
-    ReactElement<InternalSelectOptionProps>
-  >;
+    selectItem,
+    setInputValue,
+  } = downshiftProps as UseComboboxReturnValue<SelectOptionProps>;
+
+  const { id, onKeyDown, ...restInputProps } = getInputProps();
+
+  // clear the search when dropdown closes (when the user selects an item or clicks away)
+  useEffect(() => {
+    if (isOpen === false) {
+      setInputValue("");
+    }
+  }, [isOpen, setInputValue]);
+
+  const selectedItemsAsChips = useMemo(
+    () =>
+      selectedItems.length
+        ? selectedItems.map((item, index) => (
+            <Chip
+              closable
+              key={`${item.children}-${index}`}
+              onClick={() => selectItem(item)}
+            >
+              {item.children}
+            </Chip>
+          ))
+        : null,
+    [selectedItems]
+  );
 
   return (
     <div
@@ -41,12 +71,30 @@ export const MultiSelectSearchable = () => {
     >
       <span
         {...getToggleButtonProps()}
-        className={"neo-multiselect-combo__header"}
+        className="neo-multiselect-combo__header"
       >
+        {selectedItemsAsChips}
+
         <input
-          {...getInputProps()}
-          placeholder={placeholder}
+          {...restInputProps}
           className="neo-input"
+          disabled={disabled}
+          placeholder={placeholder}
+          onKeyDown={(e) => {
+            if (e.key === Keys.BACKSPACE && inputValue.length === 0) {
+              selectItem(selectedItems[selectedItems.length - 1]);
+            }
+
+            onKeyDown(e);
+          }}
+        />
+
+        <input
+          className="neo-display-none"
+          id={id}
+          readOnly
+          tabIndex={-1}
+          value={selectedItems.map((item) => item.value as string)}
         />
       </span>
 
@@ -55,7 +103,7 @@ export const MultiSelectSearchable = () => {
         className="neo-multiselect__content"
         {...getMenuProps()}
       >
-        {children}
+        <OptionsWithEmptyMessageFallback />
       </div>
     </div>
   );

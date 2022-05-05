@@ -50,12 +50,13 @@ const DownshiftWithComboboxMultipleSelectProps = (
   selectId: string,
   selectedItems: SelectOptionProps[],
   setSelectedItems: Dispatch<SetStateAction<SelectOptionProps[]>>,
+  filteredOptions: SelectOptionProps[],
   setFilteredOptions: Dispatch<SetStateAction<SelectOptionProps[]>>,
   disabled?: boolean,
   loading?: boolean
 ) => {
   return useCombobox({
-    items: options,
+    items: filteredOptions,
     id: selectId,
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
@@ -65,16 +66,11 @@ const DownshiftWithComboboxMultipleSelectProps = (
             ...changes,
             isOpen: !(disabled || loading),
           };
-        case useCombobox.stateChangeTypes.InputChange:
-          if (changes.inputValue === "" && !changes.selectedItem)
-            setSearchText("");
-          return {
-            ...changes,
-          };
         case useCombobox.stateChangeTypes.InputKeyDownEnter:
         case useCombobox.stateChangeTypes.ItemClick:
           return {
             ...changes,
+            inputValue: "",
             isOpen: true,
             highlightedIndex: state.highlightedIndex,
           };
@@ -99,9 +95,8 @@ const DownshiftWithComboboxMultipleSelectProps = (
       }
     },
     onSelectedItemChange: ({ selectedItem }) => {
-      if (!selectedItem) {
-        return;
-      }
+      if (!selectedItem) return;
+
       if (selectedItems.includes(selectedItem)) {
         setSelectedItems(selectedItems.filter((item) => item !== selectedItem));
       } else {
@@ -210,6 +205,7 @@ export const useDownshift = (
       selectId,
       selectedItems,
       setSelectedItems,
+      filteredOptions,
       setFilteredOptions,
       disabled,
       loading
