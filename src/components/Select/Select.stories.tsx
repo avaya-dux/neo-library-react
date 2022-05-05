@@ -12,8 +12,6 @@ export default {
   component: Select,
 } as Meta<SelectProps>;
 
-const label = "Test label";
-
 const handleSelectedValueChange = (value: string | string[]) => {
   console.log(value);
 };
@@ -23,6 +21,7 @@ export const DefaultSelects = () => {
     <Sheet title="Default Single and Multi Select" style={{ width: 400 }}>
       <Select
         label="Select a favorite food"
+        helperText="Please select one"
         onSelectedValueChange={handleSelectedValueChange}
       >
         <SelectOption>Apple</SelectOption>
@@ -37,6 +36,7 @@ export const DefaultSelects = () => {
       <Select
         multiple
         label="Select a few favorite foods"
+        helperText="Please select one or more"
         onSelectedValueChange={handleSelectedValueChange}
       >
         <SelectOption>Apple</SelectOption>
@@ -51,25 +51,9 @@ export const DefaultSelects = () => {
   );
 };
 
-export const SelectWithHelperText = () => {
-  return (
-    <Select
-      multiple
-      label={label}
-      helperText="This is helper text"
-      id="neo-select"
-    >
-      <SelectOption>Option 1</SelectOption>
-      <SelectOption disabled>Option 2</SelectOption>
-      <SelectOption>Option 3</SelectOption>
-      <SelectOption>Option 4</SelectOption>
-    </Select>
-  );
-};
-
 export const DisabledSelect = () => (
   <Select label="I am disabled" disabled>
-      <SelectOption>Option 1</SelectOption>
+    <SelectOption>Option 1</SelectOption>
       <SelectOption disabled>Option 2</SelectOption>
       <SelectOption>Option 3</SelectOption>
       <SelectOption>Option 4</SelectOption>
@@ -104,7 +88,7 @@ export const RequiredMultipleSelectWithHelperText = () => {
         multiple
         selectedValues={selectedOption}
         onSelectedValueChange={updateSelectedValue}
-        label={label}
+        label="Select one or more"
         helperText={helperText}
         errorList={errorList}
         required
@@ -138,7 +122,7 @@ export const RequiredMultipleSelectWithHelperText = () => {
   );
 };
 
-export const LoadingMultipleSelect = () => {
+export const LoadOptions = () => {
   const [loading, setLoading] = useState(true);
   const [options, setOptions] = useState<string[]>([]);
 
@@ -150,7 +134,7 @@ export const LoadingMultipleSelect = () => {
   }, []);
 
   return (
-    <Select multiple label={label} loading={loading}>
+    <Select multiple label="Mock Loading Example" loading={loading}>
       {options.map((option, index) => (
         <SelectOption key={index}>{option}</SelectOption>
       ))}
