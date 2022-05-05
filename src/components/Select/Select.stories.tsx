@@ -151,8 +151,8 @@ export const LoadingMultipleSelect = () => {
 
   return (
     <Select multiple label={label} loading={loading}>
-      {options.map((option) => (
-        <SelectOption>{option}</SelectOption>
+      {options.map((option, index) => (
+        <SelectOption key={index}>{option}</SelectOption>
       ))}
     </Select>
   );

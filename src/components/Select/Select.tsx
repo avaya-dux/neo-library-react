@@ -71,11 +71,15 @@ export const Select = (props: SelectProps) => {
   const helperId = useMemo(() => `helper-text-${id}`, [id]);
   const isInitialRender = useIsInitialRender();
 
-  const options: SelectOptionProps[] = useMemo(
+  const options = useMemo(
     () => Children.map(children, (child) => child.props),
     [children]
   );
   const [filteredOptions, setFilteredOptions] = useState(options);
+  useEffect(() => {
+    setFilteredOptions(options);
+  }, [options]);
+
   const [selectedItems, setSelectedItems] = useState<SelectOptionProps[]>([]);
 
   // TODO: update to _not_ use `selectedValues` and use `children.props.selected` (triggering on `children`)

@@ -8,7 +8,12 @@ import { OptionsWithEmptyMessageFallback } from "./OptionsWithEmptyMessageFallba
 
 export const MultiSelect = () => {
   const {
-    downshiftProps: { getMenuProps, getToggleButtonProps, isOpen, selectItem },
+    downshiftProps: {
+      getMenuProps,
+      getToggleButtonProps,
+      isOpen,
+      selectItem: toggleItem, // NOTE: I've adjusted the hook for this case (multi-select) such that the "select" is actually a "toggle" now
+    },
     optionProps: { selectedItems },
     selectProps: {
       ariaLabel,
@@ -27,7 +32,7 @@ export const MultiSelect = () => {
             <Chip
               closable
               key={`${item.children}-${index}`}
-              onClick={() => selectItem(item)} // `selectItem` toggles the item out of `selectedItems`
+              onClick={() => toggleItem(item)}
             >
               {item.children}
             </Chip>

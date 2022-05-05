@@ -79,6 +79,7 @@ const DownshiftWithComboboxMultipleSelectProps = (
           };
 
         case useCombobox.stateChangeTypes.FunctionSelectItem:
+          // unsure why this is needed since we have `onSelectedItemChange`...
           if (selectedItem && selectedItems.includes(selectedItem)) {
             setSelectedItems(
               selectedItems.filter((item) => item !== selectedItem)
@@ -164,12 +165,15 @@ const DownshiftWithMultipleSelectProps = (
     selectedItem: null,
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
+      const { selectedItem } = changes;
+
       switch (type) {
         case useSelect.stateChangeTypes.ToggleButtonClick:
           return {
             ...changes,
             isOpen: !(disabled || loading),
           };
+
         case useSelect.stateChangeTypes.MenuKeyDownEnter:
         case useSelect.stateChangeTypes.MenuKeyDownSpaceButton:
         case useSelect.stateChangeTypes.ItemClick:
@@ -178,14 +182,30 @@ const DownshiftWithMultipleSelectProps = (
             isOpen: true,
             highlightedIndex: state.highlightedIndex,
           };
+
+        case useSelect.stateChangeTypes.FunctionSelectItem:
+          // unsure why this is needed since we have `onSelectedItemChange`...
+          if (selectedItem && selectedItems.includes(selectedItem)) {
+            setSelectedItems(
+              selectedItems.filter((item) => item !== selectedItem)
+            );
+          } else if (selectedItem) {
+            setSelectedItems([...selectedItems, selectedItem]);
+          }
+
+          return {
+            ...changes,
+            highlightedIndex: state.highlightedIndex,
+            inputValue: "",
+          };
+
         default:
           return changes;
       }
     },
     onSelectedItemChange: ({ selectedItem }) => {
-      if (!selectedItem) {
-        return;
-      }
+      if (!selectedItem) return;
+
       if (selectedItems.includes(selectedItem)) {
         setSelectedItems(selectedItems.filter((item) => item !== selectedItem));
       } else {
