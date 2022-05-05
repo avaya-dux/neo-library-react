@@ -2,12 +2,16 @@ import clsx from "clsx";
 import { useContext } from "react";
 
 import { SelectContext } from "../utils/SelectContext";
+import { OptionsWithEmptyMessageFallback } from "./OptionsWithEmptyMessageFallback";
 
 export const SingleSelect = () => {
   const {
-    children,
-    downshiftProps: { getMenuProps, getToggleButtonProps, isOpen },
-    optionProps: { selectedItems },
+    downshiftProps: {
+      getMenuProps,
+      getToggleButtonProps,
+      selectedItem,
+      isOpen,
+    },
     selectProps: {
       ariaLabel,
       disabled,
@@ -33,12 +37,12 @@ export const SingleSelect = () => {
         className="neo-multiselect__header"
         type="button"
       >
-        {selectedItems[0] || placeholder} {/* TODO: use Chips component */}
+        {selectedItem?.children || placeholder}
       </button>
 
       <div className="neo-multiselect__content">
         <ul aria-label={ariaLabel} {...getMenuProps()}>
-          {children}
+          <OptionsWithEmptyMessageFallback />
         </ul>
       </div>
     </div>

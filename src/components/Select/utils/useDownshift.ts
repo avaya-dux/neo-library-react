@@ -1,19 +1,13 @@
 import { useCombobox, useSelect } from "downshift";
-import { Dispatch, ReactElement, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 
-import { InternalSelectOptionProps } from "../InternalComponents";
+import { SelectOptionProps } from "./SelectTypes";
 
 const DownshiftWithComboboxProps = (
-  options: ReactElement<InternalSelectOptionProps>[],
+  options: SelectOptionProps[],
   selectId: string,
-  setSelectedItems: Dispatch<
-    SetStateAction<ReactElement<InternalSelectOptionProps>[]>
-  >,
-  filteredOptions: ReactElement<InternalSelectOptionProps>[],
-  setFilteredOptions: Dispatch<
-    SetStateAction<ReactElement<InternalSelectOptionProps>[]>
-  >,
-  onSelectedValueChange?: (value: string[] | string) => void,
+  filteredOptions: SelectOptionProps[],
+  setFilteredOptions: Dispatch<SetStateAction<SelectOptionProps[]>>,
   loading?: boolean,
   disabled?: boolean
 ) => {
@@ -33,26 +27,16 @@ const DownshiftWithComboboxProps = (
           return changes;
       }
     },
-    onSelectedItemChange: ({ selectedItem }) => {
-      if (selectedItem) {
-        setSelectedItems([selectedItem]);
-        onSelectedValueChange?.(selectedItem.props.value as string);
-      } else {
-        setSelectedItems([]);
-        onSelectedValueChange?.("");
-      }
-    },
     onInputValueChange: ({ inputValue }) => {
       if (inputValue) {
         const relatedOptions = options.filter((child) => {
-          const childSearchText =
-            child.props.searchText || child.props.children;
+          const childSearchText = child.searchText || child.children;
 
           return childSearchText
             .toLowerCase()
             .includes(inputValue.toLowerCase());
         });
-        // setSearchText(inputValue);
+
         setFilteredOptions(relatedOptions);
       } else if (inputValue === "") {
         setFilteredOptions(options);
@@ -62,17 +46,13 @@ const DownshiftWithComboboxProps = (
 };
 
 const DownshiftWithComboboxMultipleSelectProps = (
-  options: ReactElement<InternalSelectOptionProps>[],
+  options: SelectOptionProps[],
   selectId: string,
   searchText: string,
   setSearchText: Dispatch<SetStateAction<string>>,
-  selectedItems: ReactElement<InternalSelectOptionProps>[],
-  setSelectedItems: Dispatch<
-    SetStateAction<ReactElement<InternalSelectOptionProps>[]>
-  >,
-  setFilteredOptions: Dispatch<
-    SetStateAction<ReactElement<InternalSelectOptionProps>[]>
-  >,
+  selectedItems: SelectOptionProps[],
+  setSelectedItems: Dispatch<SetStateAction<SelectOptionProps[]>>,
+  setFilteredOptions: Dispatch<SetStateAction<SelectOptionProps[]>>,
   disabled?: boolean,
   loading?: boolean
 ) => {
@@ -107,16 +87,16 @@ const DownshiftWithComboboxMultipleSelectProps = (
       }
     },
     onInputValueChange: ({ inputValue }) => {
+      // TODO: extract duplicate code
       if (inputValue) {
         const relatedOptions = options.filter((child) => {
-          const childSearchText =
-            child.props.searchText || child.props.children;
+          const childSearchText = child.searchText || child.children;
 
           return childSearchText
             .toLowerCase()
             .includes(inputValue.toLowerCase());
         });
-        // setSearchText(inputValue);
+
         setFilteredOptions(relatedOptions);
       } else if (inputValue === "") {
         setFilteredOptions(options);
@@ -136,12 +116,8 @@ const DownshiftWithComboboxMultipleSelectProps = (
 };
 
 const DownshiftWithSelectProps = (
-  items: ReactElement<InternalSelectOptionProps>[],
+  items: SelectOptionProps[],
   selectId: string,
-  setSelectedItems: Dispatch<
-    SetStateAction<ReactElement<InternalSelectOptionProps>[]>
-  >,
-  onSelectedValueChange?: (value: string[] | string) => void,
   disabled?: boolean,
   loading?: boolean
 ) => {
@@ -161,25 +137,14 @@ const DownshiftWithSelectProps = (
           return changes;
       }
     },
-    onSelectedItemChange: ({ selectedItem }) => {
-      if (selectedItem) {
-        setSelectedItems([selectedItem]);
-        onSelectedValueChange?.(selectedItem.props.value as string);
-      } else {
-        setSelectedItems([]);
-        onSelectedValueChange?.("");
-      }
-    },
   });
 };
 
 const DownshiftWithMultipleSelectProps = (
-  options: ReactElement<InternalSelectOptionProps>[],
+  options: SelectOptionProps[],
   selectId: string,
-  selectedItems: ReactElement<InternalSelectOptionProps>[],
-  setSelectedItems: Dispatch<
-    SetStateAction<ReactElement<InternalSelectOptionProps>[]>
-  >,
+  selectedItems: SelectOptionProps[],
+  setSelectedItems: Dispatch<SetStateAction<SelectOptionProps[]>>,
   disabled?: boolean,
   loading?: boolean
 ) => {
@@ -226,18 +191,13 @@ export const useDownshift = (
   loading: boolean,
   multiple: boolean,
   searchable: boolean,
-  options: ReactElement<InternalSelectOptionProps>[],
+  options: SelectOptionProps[],
   searchText: string,
   setSearchText: Dispatch<SetStateAction<string>>,
-  filteredOptions: ReactElement<InternalSelectOptionProps>[],
-  setFilteredOptions: Dispatch<
-    SetStateAction<ReactElement<InternalSelectOptionProps>[]>
-  >,
-  selectedItems: ReactElement<InternalSelectOptionProps>[],
-  setSelectedItems: Dispatch<
-    SetStateAction<ReactElement<InternalSelectOptionProps>[]>
-  >,
-  onSelectedValueChange?: (value: string[] | string) => void
+  filteredOptions: SelectOptionProps[],
+  setFilteredOptions: Dispatch<SetStateAction<SelectOptionProps[]>>,
+  selectedItems: SelectOptionProps[],
+  setSelectedItems: Dispatch<SetStateAction<SelectOptionProps[]>>
 ) => {
   /**
    * HACK: these are hooks, but because we pass and recieve
@@ -266,10 +226,8 @@ export const useDownshift = (
     return DownshiftWithComboboxProps(
       options,
       selectId,
-      setSelectedItems,
       filteredOptions,
       setFilteredOptions,
-      onSelectedValueChange,
       disabled,
       loading
     );
@@ -284,12 +242,5 @@ export const useDownshift = (
     );
   }
 
-  return DownshiftWithSelectProps(
-    options,
-    selectId,
-    setSelectedItems,
-    onSelectedValueChange,
-    disabled,
-    loading
-  );
+  return DownshiftWithSelectProps(options, selectId, disabled, loading);
 };

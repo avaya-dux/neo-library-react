@@ -6,7 +6,7 @@ export interface SelectOptionProps {
   helperText?: string;
   searchText?: string;
   // selected?: boolean; TODO: use?
-  value?: string; // TODO: use
+  value?: string;
 }
 
 type LabelOrAriaLabelProps =

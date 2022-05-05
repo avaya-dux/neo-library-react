@@ -1,16 +1,12 @@
-import { Children, ReactElement, useEffect, useMemo, useState } from "react";
+import { Children, useEffect, useMemo, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 import { useIsInitialRender } from "utils/hooks/useIsInitialRender";
 
-import {
-  InternalSelect,
-  InternalSelectOption,
-  InternalSelectOptionProps,
-} from "./InternalComponents";
+import { InternalSelect } from "./InternalComponents";
 import { SelectContext } from "./utils/SelectContext";
-import { SelectProps } from "./utils/SelectTypes";
+import { SelectOptionProps, SelectProps } from "./utils/SelectTypes";
 import { useDownshift } from "./utils/useDownshift";
 
 import "./Select_shim.css";
@@ -75,30 +71,19 @@ export const Select = (props: SelectProps) => {
   const helperId = useMemo(() => `helper-text-${id}`, [id]);
   const isInitialRender = useIsInitialRender();
 
-  const options: ReactElement<InternalSelectOptionProps>[] = useMemo(
-    () =>
-      Children.count(children) === 0
-        ? [
-            <InternalSelectOption disabled index={0} key="no-options">
-              {noOptionsMessage}
-            </InternalSelectOption>,
-          ]
-        : Children.map(children, (child, index) => (
-            <InternalSelectOption {...child.props} index={index} key={index} />
-          )),
+  const options: SelectOptionProps[] = useMemo(
+    () => Children.map(children, (child) => child.props),
     [children]
   );
   const [filteredOptions, setFilteredOptions] = useState(options);
-  const [selectedItems, setSelectedItems] = useState<
-    ReactElement<InternalSelectOptionProps>[]
-  >([]);
+  const [selectedItems, setSelectedItems] = useState<SelectOptionProps[]>([]);
   const [searchText, setSearchText] = useState("");
 
+  // TODO: update to _not_ use `selectedValues` and use `children.props.selected` (triggering on `children`)
   useEffect(() => {
     if (selectedValues) {
       const userSelectedOptions = options.filter(
-        (option) =>
-          option.props.value && selectedValues.includes(option.props.value)
+        (option) => option.value && selectedValues.includes(option.value)
       );
       setSelectedItems(userSelectedOptions);
     }
@@ -108,12 +93,12 @@ export const Select = (props: SelectProps) => {
     if (!isInitialRender && onSelectedValueChange) {
       if (multiple) {
         const newlySelectedValues = selectedItems.map(
-          (item) => item.props.value as string
+          (item) => item.value as string
         );
 
         onSelectedValueChange(newlySelectedValues);
       } else {
-        onSelectedValueChange(selectedItems[0].props.value as string);
+        onSelectedValueChange(selectedItems[0].value as string);
       }
     }
   }, [selectedItems]);
@@ -130,14 +115,12 @@ export const Select = (props: SelectProps) => {
     filteredOptions,
     setFilteredOptions,
     selectedItems,
-    setSelectedItems,
-    onSelectedValueChange
+    setSelectedItems
   );
 
   const { getLabelProps } = downshiftProps;
 
   const contextValue = {
-    children: options, // BUG: that's not right...
     downshiftProps,
     selectProps: {
       ariaLabel,

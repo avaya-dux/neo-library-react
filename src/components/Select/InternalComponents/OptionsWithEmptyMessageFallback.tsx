@@ -14,7 +14,7 @@ export const OptionsWithEmptyMessageFallback = () => {
       {filteredOptions.length ? (
         filteredOptions.map((option, index) => (
           <InternalSelectOption
-            {...option.props}
+            {...option}
             index={index}
             key={`internal-option-${index}`}
           />

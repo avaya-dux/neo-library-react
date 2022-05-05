@@ -1,12 +1,12 @@
 import clsx from "clsx";
 import { UseComboboxReturnValue } from "downshift";
-import { ReactElement, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 
 import { Chip } from "components/Chip";
 import { Keys } from "utils";
 
 import { SelectContext } from "../utils/SelectContext";
-import { InternalSelectOptionProps } from "./InternalSelectOption";
+import { SelectOptionProps } from "../utils/SelectTypes";
 import { OptionsWithEmptyMessageFallback } from "./OptionsWithEmptyMessageFallback";
 
 export const SingleSelectSearchable = () => {
@@ -34,9 +34,7 @@ export const SingleSelectSearchable = () => {
     selectItem,
     selectedItem,
     setInputValue,
-  } = downshiftProps as UseComboboxReturnValue<
-    ReactElement<InternalSelectOptionProps>
-  >;
+  } = downshiftProps as UseComboboxReturnValue<SelectOptionProps>;
 
   const { id, onKeyDown, ...restInputProps } = getInputProps();
 
@@ -64,7 +62,7 @@ export const SingleSelectSearchable = () => {
       >
         {selectedItem && (
           <Chip onClick={reset} closable>
-            {selectedItem.props.children}
+            {selectedItem.children}
           </Chip>
         )}
 
@@ -77,7 +75,7 @@ export const SingleSelectSearchable = () => {
             if (
               e.key === Keys.ENTER &&
               filteredOptions.length === 1 &&
-              !filteredOptions[0].props.disabled
+              !filteredOptions[0].disabled
             ) {
               selectItem(filteredOptions[0]);
               closeMenu();
@@ -94,7 +92,7 @@ export const SingleSelectSearchable = () => {
           id={id}
           readOnly
           tabIndex={-1}
-          value={selectedItem?.props.value}
+          value={selectedItem?.value}
         />
       </span>
 

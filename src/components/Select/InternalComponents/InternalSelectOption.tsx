@@ -36,7 +36,7 @@ export const InternalSelectOption = ({
   return multiple ? (
     <div className="neo-input-group">
       <input
-        aria-describedby={helperText}
+        aria-describedby={helperText && helperId}
         aria-labelledby={labelId}
         checked={selectedItems.includes(optionSelf)}
         className="neo-check"
