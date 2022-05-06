@@ -135,7 +135,7 @@ export const Disabled = () => (
 );
 
 export const RequiredInForm = () => {
-  const [selectedOption, setSelectedOption] = useState<string[]>(["1"]);
+  const [selectedOption, setSelectedOption] = useState("");
   const [errorList, setErrorList] = useState<string[]>([]);
 
   const updateSelectedValue = useCallback(
@@ -164,20 +164,37 @@ export const RequiredInForm = () => {
         onSubmit={(e) => {
           e.preventDefault();
           if (selectedOption.length > 0) {
-            alert(`you successfully submitted: ${selectedOption.join(", ")}`);
+            alert(`you successfully submitted: ${selectedOption}`);
           }
         }}
       >
-        {/* TODO: use `selected`/`defaultValues`/`values` */}
         <Select
-          multiple
-          onSelectedValueChange={updateSelectedValue}
-          label="Select one or more"
           errorList={errorList}
+          label="Select one or more"
+          onSelectedValueChange={updateSelectedValue}
           required
         >
-          <SelectOption value="1">Choice 1</SelectOption>
-          <SelectOption value="2">Choice 2</SelectOption>
+          <SelectOption value="1">Foods One</SelectOption>
+          <SelectOption value="2" selected>
+            Foods Two
+          </SelectOption>
+        </Select>
+
+        <Select
+          label="Food options"
+          defaultValue={["apple"]}
+          multiple
+          disabled={selectedOption !== "1"}
+        >
+          {foodOptions}
+        </Select>
+
+        <Select
+          label="Food options"
+          // value="pear" // TODO: use and test. Don't forget to FULLY control it in this story
+          disabled={selectedOption !== "2"}
+        >
+          {foodOptions}
         </Select>
 
         <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -185,8 +202,8 @@ export const RequiredInForm = () => {
             type="reset"
             variant="secondary"
             onClick={() => {
-              // BUG: not working as intended
-              setSelectedOption([]);
+              // BUG: reset not working as intended
+              setSelectedOption("");
               setErrorList([]);
             }}
           >

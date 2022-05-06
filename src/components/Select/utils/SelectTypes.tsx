@@ -5,7 +5,7 @@ export interface SelectOptionProps {
   disabled?: boolean;
   helperText?: string;
   searchText?: string;
-  // selected?: boolean; TODO: use?
+  selected?: boolean;
   value?: string;
 }
 
@@ -17,6 +17,7 @@ export type SelectProps = {
   children?:
     | ReactElement<SelectOptionProps>
     | ReactElement<SelectOptionProps>[];
+  defaultValue?: string | string[];
   disabled?: boolean;
   errorList?: string[];
   helperText?: string;
@@ -28,5 +29,4 @@ export type SelectProps = {
   placeholder?: string;
   required?: boolean;
   searchable?: boolean;
-  selectedValues?: string[];
 } & LabelOrAriaLabelProps;

@@ -49,19 +49,19 @@ export const Select = (props: SelectProps) => {
   const {
     "aria-label": ariaLabel,
     children = [],
+    defaultValue,
     disabled = false,
     errorList = [],
     helperText = "",
     id = genId(),
-    searchable = false,
-    multiple = false,
     label = "",
     loading = false,
+    multiple = false,
     noOptionsMessage = "No options available",
     onSelectedValueChange,
     placeholder = "Select One",
     required,
-    selectedValues,
+    searchable = false,
   } = props;
 
   if (!(label || ariaLabel)) {
@@ -71,6 +71,7 @@ export const Select = (props: SelectProps) => {
   const helperId = useMemo(() => `helper-text-${id}`, [id]);
   const isInitialRender = useIsInitialRender();
 
+  // NOTE: if the `value` is not set, use `children` as value
   const options = useMemo(
     () =>
       Children.map(children, (child) => {
@@ -89,16 +90,18 @@ export const Select = (props: SelectProps) => {
   }, [options]);
 
   const [selectedItems, setSelectedItems] = useState<SelectOptionProps[]>([]);
-
-  // TODO: update to _not_ use `selectedValues` and use `children.props.selected` (triggering on `children`)
   useEffect(() => {
-    if (selectedValues) {
-      const userSelectedOptions = options.filter(
-        (option) => option.value && selectedValues.includes(option.value)
+    if (isInitialRender && defaultValue) {
+      const userSelectedOptions = options.filter((option) =>
+        multiple
+          ? defaultValue.includes(option.value as string)
+          : defaultValue === option.value
       );
       setSelectedItems(userSelectedOptions);
+    } else if (isInitialRender && options.some((o) => o.selected)) {
+      setSelectedItems(options.filter((option) => option.selected));
     }
-  }, [selectedValues]);
+  }, []);
 
   useEffect(() => {
     if (!isInitialRender && onSelectedValueChange) {
