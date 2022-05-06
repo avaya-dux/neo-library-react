@@ -146,11 +146,10 @@ export const RequiredInForm = () => {
     [setSelectedOption, setErrorList]
   );
 
-  // TODO: add searchable selects to this form
   return (
     <section>
       <div style={{ marginBottom: 10 }}>
-        {/* TODO: BUG: not working as intended */}
+        {/* BUG: not working as intended */}
         <b>IMPORTANT NOTE:</b>
 
         <p>
@@ -193,7 +192,7 @@ export const RequiredInForm = () => {
           disabled={selectedOption !== "2"}
           label="Food options"
           searchable
-          value="pear"
+          value="pear" // TODO: test; don't forget to FULLY control it in this story
         >
           {foodOptions}
         </Select>
