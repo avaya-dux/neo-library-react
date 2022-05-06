@@ -8,7 +8,7 @@ import { SelectOption } from "./SelectOption";
 import { SelectProps } from "./utils/SelectTypes";
 
 export default {
-  title: "Components/Select/Select",
+  title: "Components/Select",
   component: Select,
 } as Meta<SelectProps>;
 
@@ -39,32 +39,28 @@ const foodOptions = [
   </SelectOption>,
 ];
 
-export const DefaultSelects = () => {
+export const BasicSelects = () => {
   const [favFood, setFavFood] = useState("");
   const [foods, setFoods] = useState<string[]>([]);
 
   return (
     <Sheet title="Default Single and Multi Select" style={{ width: 400 }}>
       <Select
-        label="Select a favorite food"
         helperText="Please select one"
-        onSelectedValueChange={(value) => {
-          setFavFood(value as string);
-        }}
+        label="Select a favorite food"
+        onSelectedValueChange={(value) => setFavFood(value as string)}
       >
         {foodOptions}
       </Select>
 
       <Select
-        multiple
-        label="Select a few nice foods"
         helperText="Please select one or more"
+        label="Select a few nice foods"
+        multiple
         onSelectedValueChange={(value) => setFoods(value as string[])}
       >
         {foodOptions}
       </Select>
-
-      <hr />
 
       <div>
         <p>Favorite Food: {favFood || "None selected"}</p>
@@ -83,7 +79,53 @@ export const DefaultSelects = () => {
   );
 };
 
-export const DisabledSelect = () => (
+export const Searchable = () => {
+  const [favFood, setFavFood] = useState("");
+  const [foods, setFoods] = useState<string[]>([]);
+
+  return (
+    <Sheet title="Searchable Single and Multi Select" style={{ width: 400 }}>
+      <Select
+        helperText="Please select one"
+        label="Select a favorite food"
+        searchable
+        onSelectedValueChange={(value) => {
+          setFavFood(value as string);
+        }}
+      >
+        {foodOptions}
+      </Select>
+
+      {/* BUG: attempting to toggle the same option multiple times does not work */}
+      <Select
+        id="multi-searchable-select"
+        helperText="Please select one or more"
+        label="Select a few nice foods"
+        multiple
+        onSelectedValueChange={(value) => setFoods(value as string[])}
+        searchable
+      >
+        {foodOptions}
+      </Select>
+
+      <div>
+        <p>Favorite Food: {favFood || "None selected"}</p>
+      </div>
+
+      <div>
+        <p>Foods Selection: {foods.length === 0 && "None Selected"}</p>
+
+        <ul>
+          {foods.map((food) => (
+            <li key={food}>{food}</li>
+          ))}
+        </ul>
+      </div>
+    </Sheet>
+  );
+};
+
+export const Disabled = () => (
   <Select label="I am disabled" disabled>
     <SelectOption>Option 1</SelectOption>
     <SelectOption disabled>Option 2</SelectOption>
@@ -104,6 +146,7 @@ export const RequiredInForm = () => {
     [setSelectedOption, setErrorList]
   );
 
+  // TODO: add searchable selects to this form
   return (
     <section>
       <div style={{ marginBottom: 10 }}>

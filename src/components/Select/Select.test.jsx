@@ -7,10 +7,12 @@ import * as SelectStories from "./Select.stories";
 import { SelectOption } from "./SelectOption";
 
 const {
-  DefaultSelects,
-  DisabledSelect,
+  BasicSelects,
+  Searchable,
+  Disabled,
   RequiredInForm,
   LoadOptions,
+  SelectsWithoutChildren,
   SelectsWithWrongChildren,
   MoreThanOneMultipleSelect,
 } = composeStories(SelectStories);
@@ -198,7 +200,7 @@ describe("Select", () => {
     describe("Default Selects", () => {
       let renderResult;
       beforeEach(() => {
-        renderResult = render(<DefaultSelects />);
+        renderResult = render(<BasicSelects />);
       });
 
       it("passes the correct props to list item element", () => {
@@ -225,10 +227,28 @@ describe("Select", () => {
       });
     });
 
+    describe("Searchable Selects", () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<Searchable />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
     describe("Disabled Select", () => {
       let renderResult;
       beforeEach(() => {
-        renderResult = render(<DisabledSelect />);
+        renderResult = render(<Disabled />);
       });
       it("correctly prevents toggling active class on click", () => {
         const { getByTestId } = renderResult;
@@ -245,7 +265,7 @@ describe("Select", () => {
       });
     });
 
-    describe("RequiredInForm", () => {
+    describe("Required In Form", () => {
       let renderResult;
       beforeEach(() => {
         renderResult = render(<RequiredInForm />);
@@ -284,7 +304,7 @@ describe("Select", () => {
       });
     });
 
-    describe("Loading Multiple Select", () => {
+    describe("Loading", () => {
       let renderResult;
 
       beforeEach(() => {
@@ -297,6 +317,24 @@ describe("Select", () => {
         expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
         fireEvent.click(defaultSelectHeader);
         expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("Selects Without Children", () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<SelectsWithoutChildren />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
       });
 
       it("passes basic axe compliance", async () => {
