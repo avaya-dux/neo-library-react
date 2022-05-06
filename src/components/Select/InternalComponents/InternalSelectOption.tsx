@@ -34,7 +34,7 @@ export const InternalSelectOption = ({
     [children]
   );
 
-  const optionSelf = filteredOptions[index];
+  const optionSelf = filteredOptions[index] || {};
   const itemProps = getItemProps({
     item: optionSelf,
     index,
