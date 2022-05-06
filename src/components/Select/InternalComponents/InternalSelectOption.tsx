@@ -18,7 +18,7 @@ export const InternalSelectOption = ({
   const {
     downshiftProps: { getItemProps },
 
-    optionProps: { multiple, selectedItems },
+    optionProps: { multiple, selectedItemsValues },
 
     selectProps: { filteredOptions },
   } = useContext(SelectContext);
@@ -46,7 +46,7 @@ export const InternalSelectOption = ({
       <input
         aria-describedby={helperText && helperId}
         aria-labelledby={labelId}
-        checked={selectedItems.includes(optionSelf)}
+        checked={selectedItemsValues.includes(optionSelf.value)}
         className="neo-check"
         disabled={disabled}
         readOnly

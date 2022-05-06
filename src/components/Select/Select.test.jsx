@@ -9,7 +9,7 @@ import { SelectOption } from "./SelectOption";
 const {
   DefaultSelects,
   DisabledSelect,
-  RequiredMultipleSelectWithHelperText,
+  RequiredInForm,
   LoadOptions,
   SelectsWithWrongChildren,
   MoreThanOneMultipleSelect,
@@ -245,10 +245,10 @@ describe("Select", () => {
       });
     });
 
-    describe("RequiredMultipleSelectWithHelperText", () => {
+    describe("RequiredInForm", () => {
       let renderResult;
       beforeEach(() => {
-        renderResult = render(<RequiredMultipleSelectWithHelperText />);
+        renderResult = render(<RequiredInForm />);
       });
 
       it("renders the correct default options", () => {

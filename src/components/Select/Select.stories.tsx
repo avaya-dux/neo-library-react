@@ -92,7 +92,7 @@ export const DisabledSelect = () => (
     </Select>
   );
 
-export const RequiredMultipleSelectWithHelperText = () => {
+export const RequiredInForm = () => {
   const [selectedOption, setSelectedOption] = useState<string[]>(["1"]);
   const [errorList, setErrorList] = useState<string[]>([]);
 

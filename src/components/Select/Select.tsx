@@ -113,6 +113,10 @@ export const Select = (props: SelectProps) => {
       }
     }
   }, [selectedItems]);
+  const selectedItemsValues = useMemo(
+    () => selectedItems.map((item) => item.value),
+    [selectedItems]
+  );
 
   const downshiftProps = useDownshift(
     disabled,
@@ -145,6 +149,7 @@ export const Select = (props: SelectProps) => {
       noOptionsMessage,
       options,
       selectedItems,
+      selectedItemsValues,
     },
   };
 

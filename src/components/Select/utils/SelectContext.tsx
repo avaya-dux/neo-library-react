@@ -25,6 +25,7 @@ export type SelectContextProps = {
     noOptionsMessage: string;
     options: SelectOptionProps[];
     selectedItems: SelectOptionProps[];
+    selectedItemsValues: (string | undefined)[];
   };
 };
 
@@ -43,5 +44,6 @@ export const SelectContext = createContext<SelectContextProps>({
     noOptionsMessage: "",
     options: [],
     selectedItems: [],
+    selectedItemsValues: [],
   },
 });
