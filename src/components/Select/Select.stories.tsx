@@ -86,11 +86,11 @@ export const DefaultSelects = () => {
 export const DisabledSelect = () => (
   <Select label="I am disabled" disabled>
     <SelectOption>Option 1</SelectOption>
-      <SelectOption disabled>Option 2</SelectOption>
-      <SelectOption>Option 3</SelectOption>
-      <SelectOption>Option 4</SelectOption>
-    </Select>
-  );
+    <SelectOption disabled>Option 2</SelectOption>
+    <SelectOption>Option 3</SelectOption>
+    <SelectOption>Option 4</SelectOption>
+  </Select>
+);
 
 export const RequiredInForm = () => {
   const [selectedOption, setSelectedOption] = useState<string[]>(["1"]);
@@ -105,50 +105,64 @@ export const RequiredInForm = () => {
   );
 
   return (
-    <Form
-      onSubmit={(e) => {
-        e.preventDefault();
-        if (selectedOption.length > 0) {
-          alert(`you successfully submitted: ${selectedOption.join(", ")}`);
-        }
-      }}
-    >
-      <Select
-        multiple
-        onSelectedValueChange={updateSelectedValue}
-        label="Select one or more"
-        errorList={errorList}
-        required
-      >
-        <SelectOption value="1">Choice 1</SelectOption>
-        <SelectOption value="2">Choice 2</SelectOption>
-      </Select>
+    <section>
+      <div style={{ marginBottom: 10 }}>
+        {/* TODO: BUG: not working as intended */}
+        <b>IMPORTANT NOTE:</b>
 
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <Button
-          type="reset"
-          variant="secondary"
-          onClick={() => {
-            setSelectedOption([]);
-            setErrorList([]);
-          }}
-        >
-          Reset
-        </Button>
-
-        <Button
-          style={{ marginRight: "8px" }}
-          type="submit"
-          onClick={() => {
-            if (selectedOption.length < 1) {
-              setErrorList(["This is a required field"]);
-            }
-          }}
-        >
-          Submit
-        </Button>
+        <p>
+          Reset and Submit are not working as intended. Please stay tuned for
+          updates
+        </p>
       </div>
-    </Form>
+
+      <Form
+        id="select-form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (selectedOption.length > 0) {
+            alert(`you successfully submitted: ${selectedOption.join(", ")}`);
+          }
+        }}
+      >
+        {/* TODO: use `selected`/`defaultValues`/`values` */}
+        <Select
+          multiple
+          onSelectedValueChange={updateSelectedValue}
+          label="Select one or more"
+          errorList={errorList}
+          required
+        >
+          <SelectOption value="1">Choice 1</SelectOption>
+          <SelectOption value="2">Choice 2</SelectOption>
+        </Select>
+
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Button
+            type="reset"
+            variant="secondary"
+            onClick={() => {
+              setSelectedOption([]);
+              setErrorList([]);
+            }}
+          >
+            Reset
+          </Button>
+
+          <Button
+            style={{ marginRight: "8px" }}
+            type="submit"
+            onClick={() => {
+              if (selectedOption.length < 1) {
+                setErrorList(["This is a required field"]);
+              }
+            }}
+          >
+            Submit
+          </Button>
+        </div>
+      </Form>
+    </section>
   );
 };
 

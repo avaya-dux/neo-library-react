@@ -51,6 +51,7 @@ export const InternalSelectOption = ({
         disabled={disabled}
         readOnly
         type="checkbox"
+        value={optionSelf.value}
       />
 
       <div {...itemProps} className="neo-check__label" id={labelId}>
