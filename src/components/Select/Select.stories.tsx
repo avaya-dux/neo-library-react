@@ -16,16 +16,16 @@ const foodOptions = [
   <SelectOption value="apple" key="apple">
     Apple
   </SelectOption>,
-  <SelectOption value="gravel" key="apple" helperText="Not a Food" disabled>
+  <SelectOption value="gravel" key="gravel" helperText="Not a Food" disabled>
     Gravel
   </SelectOption>,
-  <SelectOption value="broccoli" key="apple" helperText="Vegetable">
+  <SelectOption value="broccoli" key="broccoli" helperText="Vegetable">
     Broccoli
   </SelectOption>,
-  <SelectOption value="banana" key="apple">
+  <SelectOption value="banana" key="banana">
     Banana
   </SelectOption>,
-  <SelectOption value="pear" key="apple">
+  <SelectOption value="pear" key="pear">
     Pear
   </SelectOption>,
   <SelectOption value="blueberries" key="blueberries">

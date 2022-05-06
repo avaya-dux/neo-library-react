@@ -13,17 +13,18 @@ import "./Select_shim.css";
 
 /**
  * The `Select` component allows the user to select one or more options from a list
- * of `SelectOption`.
+ * of `SelectOption`. If no `value` is passed via options, the `children` string is
+ * assigned as the value.
  *
  * @example
   <Select
     label="Select a favorite food"
     onSelectedValueChange={handleSelectedValueChange}
   >
-    <SelectOption>Apple</SelectOption>
-    <SelectOption helperText="Vegetable">Broccoli</SelectOption>
-    <SelectOption>Banana</SelectOption>
-    <SelectOption>Pear</SelectOption>
+    <SelectOption value="apple">Apple</SelectOption>
+    <SelectOption value="broccoli" helperText="Vegetable">Broccoli</SelectOption>
+    <SelectOption value="banana">Banana</SelectOption>
+    <SelectOption value="pear">Pear</SelectOption>
   </Select>
  *
  * @example
@@ -31,15 +32,14 @@ import "./Select_shim.css";
     label="Select multiple foods"
     multiple
     searchable
-    selectedValues={["Apple"]}
   >
-    <SelectOption>Apple</SelectOption>
-    <SelectOption helperText="Not a Food" disabled>
+    <SelectOption value="apple">Apple</SelectOption>
+    <SelectOption value="gravel" helperText="Not a Food" disabled>
       Gravel
     </SelectOption>
-    <SelectOption helperText="Vegetable">Broccoli</SelectOption>
-    <SelectOption>Banana</SelectOption>
-    <SelectOption>Pear</SelectOption>
+    <SelectOption value="broccoli" helperText="Vegetable">Broccoli</SelectOption>
+    <SelectOption value="banana">Banana</SelectOption>
+    <SelectOption value="pear">Pear</SelectOption>
   </Select>
  *
  * @see https://design.avayacloud.com/components/web/select-web
