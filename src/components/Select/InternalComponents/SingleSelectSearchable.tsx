@@ -92,7 +92,7 @@ export const SingleSelectSearchable = () => {
           id={id}
           readOnly
           tabIndex={-1}
-          value={selectedItem?.value}
+          value={selectedItem?.value || ""}
         />
       </span>
 
