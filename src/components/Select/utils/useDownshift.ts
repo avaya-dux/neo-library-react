@@ -61,6 +61,7 @@ const DownshiftWithComboboxMultipleSelectProps = (
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
       const { selectedItem } = changes;
+      const selectedItemsValues = selectedItems.map((item) => item.value);
 
       switch (type) {
         case useCombobox.stateChangeTypes.ToggleButtonClick:
@@ -80,9 +81,12 @@ const DownshiftWithComboboxMultipleSelectProps = (
 
         case useCombobox.stateChangeTypes.FunctionSelectItem:
           // unsure why this is needed since we have `onSelectedItemChange`...
-          if (selectedItem && selectedItems.includes(selectedItem)) {
+          if (
+            selectedItem &&
+            selectedItemsValues.includes(selectedItem.value)
+          ) {
             setSelectedItems(
-              selectedItems.filter((item) => item !== selectedItem)
+              selectedItems.filter((item) => item.value !== selectedItem.value)
             );
           } else if (selectedItem) {
             setSelectedItems([...selectedItems, selectedItem]);
@@ -116,8 +120,11 @@ const DownshiftWithComboboxMultipleSelectProps = (
     onSelectedItemChange: ({ selectedItem }) => {
       if (!selectedItem) return;
 
-      if (selectedItems.includes(selectedItem)) {
-        setSelectedItems(selectedItems.filter((item) => item !== selectedItem));
+      const selectedItemsValues = selectedItems.map((item) => item.value);
+      if (selectedItemsValues.includes(selectedItem.value)) {
+        setSelectedItems(
+          selectedItems.filter((item) => item.value !== selectedItem.value)
+        );
       } else {
         setSelectedItems([...selectedItems, selectedItem]);
       }
@@ -213,11 +220,8 @@ const DownshiftWithMultipleSelectProps = (
     onSelectedItemChange: ({ selectedItem }) => {
       if (!selectedItem) return;
 
-      const previouslySelectedItemValues = selectedItems.map(
-        (item) => item.value
-      );
-
-      if (previouslySelectedItemValues.includes(selectedItem.value)) {
+      const selectedItemValues = selectedItems.map((item) => item.value);
+      if (selectedItemValues.includes(selectedItem.value)) {
         setSelectedItems(
           selectedItems.filter((item) => item.value !== selectedItem.value)
         );
