@@ -51,7 +51,7 @@ export const InternalSelectOption = ({
         disabled={disabled}
         readOnly
         type="checkbox"
-        value={optionSelf.value}
+        value={optionSelf.value} // BUG: `value` is updated on reset, but the change needs to be propgated up
       />
 
       <div {...itemProps} className="neo-check__label" id={labelId}>

@@ -142,6 +142,7 @@ export const RequiredInForm = () => {
             type="reset"
             variant="secondary"
             onClick={() => {
+              // BUG: not working as intended
               setSelectedOption([]);
               setErrorList([]);
             }}
