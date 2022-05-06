@@ -213,8 +213,14 @@ const DownshiftWithMultipleSelectProps = (
     onSelectedItemChange: ({ selectedItem }) => {
       if (!selectedItem) return;
 
-      if (selectedItems.includes(selectedItem)) {
-        setSelectedItems(selectedItems.filter((item) => item !== selectedItem));
+      const previouslySelectedItemValues = selectedItems.map(
+        (item) => item.value
+      );
+
+      if (previouslySelectedItemValues.includes(selectedItem.value)) {
+        setSelectedItems(
+          selectedItems.filter((item) => item.value !== selectedItem.value)
+        );
       } else {
         setSelectedItems([...selectedItems, selectedItem]);
       }

@@ -72,7 +72,15 @@ export const Select = (props: SelectProps) => {
   const isInitialRender = useIsInitialRender();
 
   const options = useMemo(
-    () => Children.map(children, (child) => child.props),
+    () =>
+      Children.map(children, (child) => {
+        const props = { ...child.props };
+        if (!props.value) {
+          props.value = props.children;
+        }
+
+        return props;
+      }),
     [children]
   );
   const [filteredOptions, setFilteredOptions] = useState(options);

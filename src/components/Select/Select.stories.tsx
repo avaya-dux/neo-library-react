@@ -93,18 +93,15 @@ export const DisabledSelect = () => (
   );
 
 export const RequiredMultipleSelectWithHelperText = () => {
-  const helperTextExample = "Please select one";
-  const [selectedOption, setSelectedOption] = useState<string[]>(["Choice 1"]);
-  const [helperText, setHelperText] = useState(helperTextExample);
+  const [selectedOption, setSelectedOption] = useState<string[]>(["1"]);
   const [errorList, setErrorList] = useState<string[]>([]);
 
   const updateSelectedValue = useCallback(
     (value) => {
       setSelectedOption(value);
-      setHelperText(helperText);
       setErrorList([]);
     },
-    [setSelectedOption, setHelperText, helperText, setErrorList]
+    [setSelectedOption, setErrorList]
   );
 
   return (
@@ -118,38 +115,39 @@ export const RequiredMultipleSelectWithHelperText = () => {
     >
       <Select
         multiple
-        selectedValues={selectedOption}
         onSelectedValueChange={updateSelectedValue}
         label="Select one or more"
-        helperText={helperText}
         errorList={errorList}
         required
       >
-        <SelectOption>Choice 1</SelectOption>
-        <SelectOption>Choice 2</SelectOption>
+        <SelectOption value="1">Choice 1</SelectOption>
+        <SelectOption value="2">Choice 2</SelectOption>
       </Select>
-      <Button
-        style={{ marginRight: "8px" }}
-        type="submit"
-        onClick={() => {
-          if (selectedOption.length < 1) {
-            setHelperText("");
-            setErrorList(["This is a required field"]);
-          }
-        }}
-      >
-        Submit
-      </Button>
-      <Button
-        type="reset"
-        onClick={() => {
-          setSelectedOption([]);
-          setHelperText(helperTextExample);
-          setErrorList([]);
-        }}
-      >
-        Reset
-      </Button>
+
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Button
+          type="reset"
+          variant="secondary"
+          onClick={() => {
+            setSelectedOption([]);
+            setErrorList([]);
+          }}
+        >
+          Reset
+        </Button>
+
+        <Button
+          style={{ marginRight: "8px" }}
+          type="submit"
+          onClick={() => {
+            if (selectedOption.length < 1) {
+              setErrorList(["This is a required field"]);
+            }
+          }}
+        >
+          Submit
+        </Button>
+      </div>
     </Form>
   );
 };
