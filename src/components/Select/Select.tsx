@@ -62,6 +62,7 @@ export const Select = (props: SelectProps) => {
     placeholder = "Select One",
     required,
     searchable = false,
+    value,
   } = props;
 
   if (!(label || ariaLabel)) {
@@ -100,8 +101,15 @@ export const Select = (props: SelectProps) => {
       setSelectedItems(userSelectedOptions);
     } else if (isInitialRender && options.some((o) => o.selected)) {
       setSelectedItems(options.filter((option) => option.selected));
+    } else if (value) {
+      const userSelectedOptions = options.filter((option) =>
+        multiple
+          ? value.includes(option.value as string)
+          : value === option.value
+      );
+      setSelectedItems(userSelectedOptions);
     }
-  }, []);
+  }, [value]);
 
   useEffect(() => {
     if (!isInitialRender && onSelectedValueChange) {

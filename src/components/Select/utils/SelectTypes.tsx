@@ -29,4 +29,5 @@ export type SelectProps = {
   placeholder?: string;
   required?: boolean;
   searchable?: boolean;
+  value?: string | string[];
 } & LabelOrAriaLabelProps;

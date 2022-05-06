@@ -12,6 +12,7 @@ import { OptionsWithEmptyMessageFallback } from "./OptionsWithEmptyMessageFallba
 export const SingleSelectSearchable = () => {
   const {
     downshiftProps,
+    optionProps: { selectedItems },
     selectProps: {
       ariaLabel,
       disabled,
@@ -32,7 +33,6 @@ export const SingleSelectSearchable = () => {
     isOpen,
     reset,
     selectItem,
-    selectedItem,
     setInputValue,
   } = downshiftProps as UseComboboxReturnValue<SelectOptionProps>;
 
@@ -60,9 +60,9 @@ export const SingleSelectSearchable = () => {
         {...getToggleButtonProps()}
         className="neo-multiselect-combo__header"
       >
-        {selectedItem && (
+        {selectedItems[0] && (
           <Chip onClick={reset} closable>
-            {selectedItem.children}
+            {selectedItems[0].children}
           </Chip>
         )}
 
@@ -92,7 +92,7 @@ export const SingleSelectSearchable = () => {
           id={id}
           readOnly
           tabIndex={-1}
-          value={selectedItem?.value || ""}
+          value={selectedItems[0]?.value || ""}
         />
       </span>
 

@@ -6,12 +6,8 @@ import { OptionsWithEmptyMessageFallback } from "./OptionsWithEmptyMessageFallba
 
 export const SingleSelect = () => {
   const {
-    downshiftProps: {
-      getMenuProps,
-      getToggleButtonProps,
-      selectedItem,
-      isOpen,
-    },
+    downshiftProps: { getMenuProps, getToggleButtonProps, isOpen },
+    optionProps: { selectedItems },
     selectProps: {
       ariaLabel,
       disabled,
@@ -37,7 +33,7 @@ export const SingleSelect = () => {
         className="neo-multiselect__header"
         type="button"
       >
-        {selectedItem?.children || placeholder}
+        {selectedItems[0]?.children || placeholder}
       </button>
 
       <div className="neo-multiselect__content">

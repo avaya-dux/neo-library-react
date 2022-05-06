@@ -181,18 +181,19 @@ export const RequiredInForm = () => {
         </Select>
 
         <Select
-          label="Food options"
           defaultValue={["apple"]}
-          multiple
           disabled={selectedOption !== "1"}
+          label="Food options"
+          multiple
         >
           {foodOptions}
         </Select>
 
         <Select
-          label="Food options"
-          // value="pear" // TODO: use and test. Don't forget to FULLY control it in this story
           disabled={selectedOption !== "2"}
+          label="Food options"
+          searchable
+          value="pear"
         >
           {foodOptions}
         </Select>
