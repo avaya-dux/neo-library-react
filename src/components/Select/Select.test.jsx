@@ -21,28 +21,43 @@ const randomString = () =>
   Math.random().toString(36).substring(2, 15) +
   Math.random().toString(36).substring(2, 15);
 
+const foodOptions = [
+  <SelectOption value="apple" key="apple">
+    Apple
+  </SelectOption>,
+  <SelectOption value="gravel" key="gravel" helperText="Not a Food" disabled>
+    Gravel
+  </SelectOption>,
+  <SelectOption value="broccoli" key="broccoli" helperText="Vegetable">
+    Broccoli
+  </SelectOption>,
+  <SelectOption value="banana" key="banana">
+    Banana
+  </SelectOption>,
+  <SelectOption value="pear" key="pear">
+    Pear
+  </SelectOption>,
+  <SelectOption value="blueberries" key="blueberries">
+    Blueberries
+  </SelectOption>,
+  <SelectOption value="grapes" key="grapes">
+    Grapes
+  </SelectOption>,
+  <SelectOption value="oranges" key="oranges">
+    Oranges
+  </SelectOption>,
+];
+
 describe("Select", () => {
-  describe("Custom Select", () => {
+  describe("Single Select, non-searchable", () => {
     describe("Basic unit tests", () => {
       let renderResult;
 
       const randomizedLabel = randomString();
 
-      const randomizedItems = [
-        {
-          text: randomString(),
-        },
-        {
-          text: randomString(),
-        },
-        {
-          text: randomString(),
-        },
-      ];
-
       beforeEach(() => {
         renderResult = render(
-          <Select label={randomizedLabel} items={randomizedItems} />
+          <Select label={randomizedLabel}>{foodOptions}</Select>
         );
       });
 
