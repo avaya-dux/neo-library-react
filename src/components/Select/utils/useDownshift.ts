@@ -6,6 +6,8 @@ import { SelectOptionProps } from "./SelectTypes";
 const DownshiftWithComboboxProps = (
   options: SelectOptionProps[],
   selectId: string,
+  selectedItems: SelectOptionProps[],
+  setSelectedItems: Dispatch<SetStateAction<SelectOptionProps[]>>,
   filteredOptions: SelectOptionProps[],
   setFilteredOptions: Dispatch<SetStateAction<SelectOptionProps[]>>,
   loading: boolean,
@@ -23,6 +25,7 @@ const DownshiftWithComboboxProps = (
             isOpen: !(disabled || loading),
             inputValue: state.inputValue,
           };
+
         default:
           return changes;
       }
@@ -40,6 +43,16 @@ const DownshiftWithComboboxProps = (
         setFilteredOptions(relatedOptions);
       } else if (inputValue === "") {
         setFilteredOptions(options);
+      }
+    },
+    onSelectedItemChange: ({ selectedItem: clickedItem }) => {
+      if (!clickedItem) {
+        setSelectedItems([]);
+      } else if (
+        selectedItems.length === 0 ||
+        selectedItems[0].value !== (clickedItem?.value as string)
+      ) {
+        setSelectedItems([clickedItem]);
       }
     },
   });
@@ -270,6 +283,8 @@ export const useDownshift = (
     return DownshiftWithComboboxProps(
       options,
       selectId,
+      selectedItems,
+      setSelectedItems,
       filteredOptions,
       setFilteredOptions,
       disabled,

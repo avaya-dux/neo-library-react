@@ -61,7 +61,13 @@ export const SingleSelectSearchable = () => {
         className="neo-multiselect-combo__header"
       >
         {selectedItems[0] && (
-          <Chip onClick={reset} closable>
+          <Chip
+            onClick={(e) => {
+              e.stopPropagation();
+              reset();
+            }}
+            closable
+          >
             {selectedItems[0].children}
           </Chip>
         )}

@@ -136,6 +136,7 @@ export const Disabled = () => (
 
 export const RequiredInForm = () => {
   const [selectedOption, setSelectedOption] = useState("");
+  const [selectedFood, setSelectedFood] = useState(foodOptions[4].props.value);
   const [errorList, setErrorList] = useState<string[]>([]);
 
   const updateSelectedValue = useCallback(
@@ -169,20 +170,21 @@ export const RequiredInForm = () => {
       >
         <Select
           errorList={errorList}
-          label="Select one or more"
+          label="Would you like to choose a favorite food? Or multiple foods?"
           onSelectedValueChange={updateSelectedValue}
           required
         >
-          <SelectOption value="1">Foods One</SelectOption>
+          <SelectOption value="1">Multiple Foods</SelectOption>
+
           <SelectOption value="2" selected>
-            Foods Two
+            Just One Favorite
           </SelectOption>
         </Select>
 
         <Select
-          defaultValue={["apple"]}
+          defaultValue={[foodOptions[0].props.value]}
           disabled={selectedOption !== "1"}
-          label="Food options"
+          label="Multiple Foods Selection"
           multiple
         >
           {foodOptions}
@@ -190,9 +192,12 @@ export const RequiredInForm = () => {
 
         <Select
           disabled={selectedOption !== "2"}
-          label="Food options"
+          label="Favorite Food"
+          onSelectedValueChange={(value) => {
+            setSelectedFood(value);
+          }}
           searchable
-          value="pear" // TODO: test; don't forget to FULLY control it in this story
+          value={selectedFood}
         >
           {foodOptions}
         </Select>

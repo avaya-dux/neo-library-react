@@ -102,6 +102,7 @@ export const Select = (props: SelectProps) => {
     } else if (isInitialRender && options.some((o) => o.selected)) {
       setSelectedItems(options.filter((option) => option.selected));
     } else if (value) {
+      // TODO: BUG: infinite loop if user controlled
       const userSelectedOptions = options.filter((option) =>
         multiple
           ? value.includes(option.value as string)
@@ -113,6 +114,7 @@ export const Select = (props: SelectProps) => {
 
   useEffect(() => {
     if (!isInitialRender && onSelectedValueChange) {
+      // TODO: BUG: infinite loop if user controlled
       if (multiple) {
         const newlySelectedValues = selectedItems.map(
           (item) => item.value as string
@@ -120,7 +122,9 @@ export const Select = (props: SelectProps) => {
 
         onSelectedValueChange(newlySelectedValues);
       } else {
-        onSelectedValueChange(selectedItems[0].value as string);
+        onSelectedValueChange(
+          selectedItems.length ? (selectedItems[0].value as string) : null
+        );
       }
     }
   }, [selectedItems]);
