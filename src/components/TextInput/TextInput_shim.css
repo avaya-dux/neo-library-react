@@ -1,0 +1,11 @@
+.neo-input-editable__wrapper .neo-icon-view-on:before {
+    content: "\f298";
+    font-size: x-large;
+    margin-top: 0.2em;
+}
+
+.neo-input-editable__wrapper .neo-icon-view-off:before{
+    content: "\f297";
+    font-size: x-large;
+    margin-top: 0.2em;
+}

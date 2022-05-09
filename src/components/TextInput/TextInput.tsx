@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { HTMLAttributes, ReactNode, RefObject, useMemo, useRef } from "react";
+import { HTMLAttributes, ReactNode, RefObject, useMemo, useRef, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import {
@@ -9,7 +9,7 @@ import {
   handleAccessbilityError,
   IconNamesType,
 } from "utils";
-
+import "./TextInput_shim.css";
 export interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
   clearable?: boolean;
   disabled?: boolean;
@@ -25,6 +25,7 @@ export interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
   startAddon?: ReactNode;
   startIcon?: IconNamesType;
   value?: number | string;
+  type?: string;
 }
 
 export const TextInput: React.FC<TextInputProps> = ({
@@ -42,6 +43,7 @@ export const TextInput: React.FC<TextInputProps> = ({
   startAddon,
   startIcon,
   value,
+  type = "text",
   ...rest
 }) => {
   if (!label && !placeholder) {
@@ -53,6 +55,19 @@ export const TextInput: React.FC<TextInputProps> = ({
 
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const [eyeIcon, setEyeIcon] = useState("view-on");
+  const [inputType, setInputType ] = useState(type);
+  const toggleIcon = () => {
+    eyeIcon === "view-on" ? setEyeIcon("view-off") : setEyeIcon("view-on");
+    if(eyeIcon === "view-on"){
+      setEyeIcon("view-off")
+      setInputType("not password");
+    }else{
+      setEyeIcon("view-on")
+      setInputType("password");
+    }
+
+  }
   return (
     <NeoInputWrapper
       wrapperClassName={startIcon || endIcon ? "neo-input-icon" : ""}
@@ -100,12 +115,14 @@ export const TextInput: React.FC<TextInputProps> = ({
                 placeholder={placeholder}
                 readOnly={readOnly}
                 value={value}
+                type={inputType}
                 {...rest}
               />
 
               {/* BUG: `clearable` icon overrides `endIcon` */}
               {endIcon && <span className={`neo-icon-${endIcon}`} />}
-
+              {inputType && inputType==="password" ? <span className={`neo-icon-${eyeIcon}`} onClick={toggleIcon}/> : ""}
+              {inputType && inputType==="not password" ? <span className={`neo-icon-${eyeIcon}`} onClick={toggleIcon}/> : ""}
               {!!clearable && (
                 <button
                   aria-label="clear input"
@@ -142,8 +159,9 @@ export const InternalTextInputElement = ({
   placeholder,
   inputRef,
   value,
+  type = "text",
   ...rest
-}: Pick<TextInputProps, "readOnly" | "disabled" | "placeholder" | "value"> & {
+}: Pick<TextInputProps, "readOnly" | "disabled" | "placeholder" | "value" | "type"> & {
   internalId: string;
   inputRef: RefObject<HTMLInputElement>;
 }) => (
@@ -157,6 +175,7 @@ export const InternalTextInputElement = ({
     ref={inputRef}
     tabIndex={readOnly ? -1 : 0}
     value={value}
+    type = {type}
     {...rest}
   />
 );
