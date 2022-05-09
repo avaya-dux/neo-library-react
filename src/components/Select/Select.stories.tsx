@@ -174,30 +174,28 @@ export const RequiredInForm = () => {
           onSelectedValueChange={updateSelectedValue}
           required
         >
-          <SelectOption value="1">Multiple Foods</SelectOption>
+          <SelectOption value="1">Just One Favorite</SelectOption>
 
           <SelectOption value="2" selected>
-            Just One Favorite
+            Multiple Foods
           </SelectOption>
         </Select>
 
         <Select
-          defaultValue={[foodOptions[0].props.value]}
           disabled={selectedOption !== "1"}
-          label="Multiple Foods Selection"
-          multiple
+          label="Favorite Food"
+          onSelectedValueChange={setSelectedFood}
+          searchable
+          value={selectedFood}
         >
           {foodOptions}
         </Select>
 
         <Select
+          defaultValue={[foodOptions[0].props.value]}
           disabled={selectedOption !== "2"}
-          label="Favorite Food"
-          onSelectedValueChange={(value) => {
-            setSelectedFood(value);
-          }}
-          searchable
-          value={selectedFood}
+          label="Multiple Foods Selection"
+          multiple
         >
           {foodOptions}
         </Select>

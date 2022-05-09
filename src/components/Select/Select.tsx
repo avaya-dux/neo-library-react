@@ -102,19 +102,25 @@ export const Select = (props: SelectProps) => {
     } else if (isInitialRender && options.some((o) => o.selected)) {
       setSelectedItems(options.filter((option) => option.selected));
     } else if (value) {
-      // TODO: BUG: infinite loop if user controlled
       const userSelectedOptions = options.filter((option) =>
         multiple
           ? value.includes(option.value as string)
           : value === option.value
       );
-      setSelectedItems(userSelectedOptions);
+
+      const selectionHasChanged = multiple
+        ? selectedItems.length !== value.length ||
+          selectedItems.every((item) => value.includes(item.value as string))
+        : selectedItems[0]?.value !== value;
+
+      if (selectionHasChanged) {
+        setSelectedItems(userSelectedOptions);
+      }
     }
   }, [value]);
 
   useEffect(() => {
     if (!isInitialRender && onSelectedValueChange) {
-      // TODO: BUG: infinite loop if user controlled
       if (multiple) {
         const newlySelectedValues = selectedItems.map(
           (item) => item.value as string
