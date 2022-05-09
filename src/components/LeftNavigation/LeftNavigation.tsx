@@ -27,12 +27,12 @@ import { LeftNavProps, NavigationContextType } from "./LeftNavigationTypes";
  * @see https://design.avayacloud.com/components/web/left-nav-web
  */
 export const LeftNavigation: FunctionComponent<LeftNavProps> = ({
-  ariaLabel = "",
   children,
   currentUrl = "",
   onSelected,
+  ...rest
 }) => {
-  if (ariaLabel === "") {
+  if (!rest["aria-label"]) {
     console.error(
       "A descriptive ariaLabel prop value is required for screen readers to identify the navigation component"
     );
@@ -48,10 +48,6 @@ export const LeftNavigation: FunctionComponent<LeftNavProps> = ({
 
       if (onSelected) {
         onSelected(id, url);
-      } else {
-        console.error(
-          "Please provide a handler funciton for onSelected prop in LeftNavigation"
-        );
       }
     },
     [onSelected]
@@ -67,12 +63,7 @@ export const LeftNavigation: FunctionComponent<LeftNavProps> = ({
       options={{ direction: "vertical", focusOnClick: true }}
     >
       <NavigationContext.Provider value={navContext}>
-        <div
-          aria-label={ariaLabel}
-          id={navId}
-          className="neo-leftnav--wrapper"
-          role="navigation"
-        >
+        <div id={navId} className="neo-leftnav--wrapper">
           <nav className="neo-leftnav">
             <ul className="neo-leftnav__nav">{children}</ul>
           </nav>
