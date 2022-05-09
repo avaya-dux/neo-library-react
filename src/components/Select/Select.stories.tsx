@@ -250,7 +250,7 @@ export const LoadOptions = () => {
   );
 };
 
-export const SelectsWithoutChildren = () => (
+export const Empty = () => (
   <Sheet title="No Options for single and multi Select" style={{ width: 400 }}>
     <Select label="Single Select" noOptionsMessage="Empty" />
 
