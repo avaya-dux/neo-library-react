@@ -93,7 +93,8 @@ const DownshiftWithComboboxMultipleSelectProps = (
           };
 
         case useCombobox.stateChangeTypes.FunctionSelectItem:
-          // unsure why this is needed since we have `onSelectedItemChange`...
+          // `onSelectedItemChange` handles most use-cases, but this reducer step
+          // is needed to support removing items via `Chip` click and input `backspace`
           if (
             selectedItem &&
             selectedItemsValues.includes(selectedItem.value)
