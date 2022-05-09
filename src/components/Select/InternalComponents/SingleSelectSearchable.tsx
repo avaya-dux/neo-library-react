@@ -83,6 +83,7 @@ export const SingleSelectSearchable = () => {
               filteredOptions.length === 1 &&
               !filteredOptions[0].disabled
             ) {
+              e.preventDefault();
               selectItem(filteredOptions[0]);
               closeMenu();
             } else if (e.key === Keys.BACKSPACE && inputValue.length === 0) {
