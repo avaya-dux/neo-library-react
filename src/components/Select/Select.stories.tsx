@@ -103,6 +103,7 @@ export const Searchable = () => {
         label="Select a few nice foods"
         multiple
         onSelectedValueChange={(value) => setFoods(value as string[])}
+        placeholder=""
         searchable
       >
         {foodOptions}
@@ -202,11 +203,13 @@ export const RequiredInForm = () => {
 
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Button
+            disabled
             type="reset"
             variant="secondary"
             onClick={() => {
               // BUG: reset not working as intended
               setSelectedOption("");
+              setSelectedFood(null);
               setErrorList([]);
             }}
           >
@@ -214,6 +217,7 @@ export const RequiredInForm = () => {
           </Button>
 
           <Button
+            disabled
             style={{ marginRight: "8px" }}
             type="submit"
             onClick={() => {

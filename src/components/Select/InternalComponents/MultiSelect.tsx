@@ -51,13 +51,17 @@ export const MultiSelect = () => {
         isOpen && "neo-multiselect--active"
       )}
     >
-      <button
-        {...getToggleButtonProps()}
-        className="neo-multiselect__header"
-        type="button"
-      >
-        {selectedItemsAsChips || placeholder}
-      </button>
+      <span className="neo-multiselect-combo__header">
+        {selectedItemsAsChips}
+
+        <button
+          {...getToggleButtonProps()}
+          className="neo-multiselect__header"
+          type="button"
+        >
+          {selectedItemsAsChips ? <>&nbsp;</> : placeholder}
+        </button>
+      </span>
 
       <div
         aria-label={ariaLabel}

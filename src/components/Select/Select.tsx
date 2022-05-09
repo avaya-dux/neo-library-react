@@ -72,7 +72,7 @@ export const Select = (props: SelectProps) => {
   const helperId = useMemo(() => `helper-text-${id}`, [id]);
   const isInitialRender = useIsInitialRender();
 
-  // NOTE: if the `value` is not set, use `children` as value
+  // if the `value` is not set, use `children` as `value`
   const options = useMemo(
     () =>
       Children.map(children, (child) => {
@@ -87,7 +87,17 @@ export const Select = (props: SelectProps) => {
   );
   const [filteredOptions, setFilteredOptions] = useState(options);
   useEffect(() => {
-    setFilteredOptions(options);
+    // HACK: _sometimes_ when going from/to empty options (loading options), the code gets
+    // into an infinite loop. I'm not sure why, so this is my hack around that issue.
+    const optionsHaveChanged =
+      options.length !== filteredOptions.length ||
+      options.some(
+        (option, index) => option.value !== filteredOptions[index].value
+      );
+
+    if (optionsHaveChanged) {
+      setFilteredOptions(options);
+    }
   }, [options]);
 
   const [selectedItems, setSelectedItems] = useState<SelectOptionProps[]>([]);
