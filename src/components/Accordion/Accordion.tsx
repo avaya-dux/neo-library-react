@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { FC, ReactNode, useState, useEffect } from "react";
+import { FC, ReactNode, useState, useEffect, useMemo } from "react";
 import { genId } from "utils";
 
 export interface AccordionProps {
@@ -12,7 +12,6 @@ export interface AccordionProps {
   isOpen?: boolean;
   handleClick?: () => void;
 }
-
 export const Accordion: FC<AccordionProps> = ({
   header,
   headerId = genId(),
@@ -24,9 +23,11 @@ export const Accordion: FC<AccordionProps> = ({
   handleClick,
   children,
 }) => {
+  const internalId = useMemo(() => headerId || genId(), [headerId]);
+
   const [isActive, setIsActive] = useState(defaultExpanded);
 
-  const bodyId = `accordion-control-${headerId}`;
+  const bodyId = `accordion-control-${internalId}`;
 
   useEffect(() => {
     if (isOpen || defaultExpanded) {
@@ -56,7 +57,7 @@ export const Accordion: FC<AccordionProps> = ({
             className="neo-accordion__header-text"
             aria-expanded={isActive ? "true" : "false"}
             aria-controls={bodyId}
-            id={headerId}
+            id={internalId}
             onClick={() => {
               handleClick ? handleClick() : setIsActive(!isActive);
             }}
