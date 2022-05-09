@@ -87,9 +87,9 @@ const DownshiftWithComboboxMultipleSelectProps = (
         case useCombobox.stateChangeTypes.ItemClick:
           return {
             ...changes,
+            highlightedIndex: state.highlightedIndex,
             inputValue: "",
             isOpen: true,
-            highlightedIndex: state.highlightedIndex,
           };
 
         case useCombobox.stateChangeTypes.FunctionSelectItem:
@@ -132,6 +132,7 @@ const DownshiftWithComboboxMultipleSelectProps = (
       }
     },
     onSelectedItemChange: ({ selectedItem }) => {
+      // BUG: is not triggered if same item is selected twice
       if (!selectedItem) return;
 
       const selectedItemsValues = selectedItems.map((item) => item.value);
