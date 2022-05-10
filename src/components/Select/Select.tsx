@@ -4,30 +4,65 @@ import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 import { useIsInitialRender } from "utils/hooks/useIsInitialRender";
 
-import { InternalSelect, InternalSelectOption } from "./InternalComponents";
+import { InternalSelect } from "./InternalComponents";
 import { SelectContext } from "./utils/SelectContext";
-import { SelectProps } from "./utils/SelectTypes";
+import { SelectOptionProps, SelectProps } from "./utils/SelectTypes";
 import { useDownshift } from "./utils/useDownshift";
 
 import "./Select_shim.css";
 
+/**
+ * The `Select` component allows the user to select one or more options from a list
+ * of `SelectOption`. If no `value` is passed via options, the `children` string is
+ * assigned as the value.
+ *
+ * @example
+  <Select
+    label="Select a favorite food"
+    onSelectedValueChange={handleSelectedValueChange}
+  >
+    <SelectOption value="apple">Apple</SelectOption>
+    <SelectOption value="broccoli" helperText="Vegetable">Broccoli</SelectOption>
+    <SelectOption value="banana">Banana</SelectOption>
+    <SelectOption value="pear">Pear</SelectOption>
+  </Select>
+ *
+ * @example
+  <Select
+    label="Select multiple foods"
+    multiple
+    searchable
+  >
+    <SelectOption value="apple">Apple</SelectOption>
+    <SelectOption value="gravel" helperText="Not a Food" disabled>
+      Gravel
+    </SelectOption>
+    <SelectOption value="broccoli" helperText="Vegetable">Broccoli</SelectOption>
+    <SelectOption value="banana">Banana</SelectOption>
+    <SelectOption value="pear">Pear</SelectOption>
+  </Select>
+ *
+ * @see https://design.avayacloud.com/components/web/select-web
+ * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-select
+ */
 export const Select = (props: SelectProps) => {
   const {
     "aria-label": ariaLabel,
     children = [],
+    defaultValue,
     disabled = false,
     errorList = [],
     helperText = "",
     id = genId(),
-    searchable = false,
-    multiple = false,
     label = "",
     loading = false,
+    multiple = false,
     noOptionsMessage = "No options available",
     onSelectedValueChange,
     placeholder = "Select One",
     required,
-    values,
+    searchable = false,
+    value,
   } = props;
 
   if (!(label || ariaLabel)) {
@@ -37,65 +72,104 @@ export const Select = (props: SelectProps) => {
   const helperId = useMemo(() => `helper-text-${id}`, [id]);
   const isInitialRender = useIsInitialRender();
 
+  // if the `value` is not set, use `children` as `value`
   const options = useMemo(
-    () => Children.map(children, (child) => child.props.children),
+    () =>
+      Children.map(children, (child) => {
+        const props = { ...child.props };
+        if (!props.value) {
+          props.value = props.children;
+        }
+
+        return props;
+      }),
     [children]
   );
-  const [inputItems, setInputItems] = useState<string[]>(options);
-  const [selectedItems, setSelectedItems] = useState<string[]>(values || []);
-  const [controlledInputValue, setControlledInputValue] = useState<string>("");
-
+  const [filteredOptions, setFilteredOptions] = useState(options);
   useEffect(() => {
-    if (values) {
-      setSelectedItems(values);
+    // HACK: _sometimes_ when going from/to empty options (loading options), the code gets
+    // into an infinite loop. I'm not sure why, so this is my hack around that issue.
+    const optionsHaveChanged =
+      options.length !== filteredOptions.length ||
+      options.some(
+        (option, index) => option.value !== filteredOptions[index].value
+      );
+
+    if (optionsHaveChanged) {
+      setFilteredOptions(options);
     }
-  }, [values]);
+  }, [options]);
+
+  const [selectedItems, setSelectedItems] = useState<SelectOptionProps[]>([]);
+  useEffect(() => {
+    if (isInitialRender && defaultValue) {
+      const userSelectedOptions = options.filter((option) =>
+        multiple
+          ? defaultValue.includes(option.value as string)
+          : defaultValue === option.value
+      );
+      setSelectedItems(userSelectedOptions);
+    } else if (isInitialRender && options.some((o) => o.selected)) {
+      setSelectedItems(options.filter((option) => option.selected));
+    } else if (value) {
+      const selectionHasChanged = multiple
+        ? selectedItems.length !== value.length ||
+          selectedItems.every((item) => value.includes(item.value as string))
+        : selectedItems[0]?.value !== value;
+
+      if (selectionHasChanged) {
+        const userSelectedOptions = options.filter((option) =>
+          multiple
+            ? value.includes(option.value as string)
+            : value === option.value
+        );
+
+        setSelectedItems(userSelectedOptions);
+      }
+    }
+  }, [value]);
 
   useEffect(() => {
     if (!isInitialRender && onSelectedValueChange) {
-      onSelectedValueChange(selectedItems);
-    }
-    setControlledInputValue(`${selectedItems.join(", ")}`);
-  }, [selectedItems]);
+      if (multiple) {
+        const newlySelectedValues = selectedItems.map(
+          (item) => item.value as string
+        );
 
-  const downshiftProps = useDownshift(
-    controlledInputValue,
-    id,
-    inputItems,
-    searchable,
-    multiple,
-    options,
-    selectedItems,
-    setControlledInputValue,
-    setInputItems,
-    setSelectedItems,
-    disabled,
-    loading,
-    onSelectedValueChange
+        onSelectedValueChange(newlySelectedValues);
+      } else {
+        onSelectedValueChange(
+          selectedItems.length ? (selectedItems[0].value as string) : null
+        );
+      }
+    }
+  }, [selectedItems]);
+  const selectedItemsValues = useMemo(
+    () => selectedItems.map((item) => item.value),
+    [selectedItems]
   );
 
-  const internalChildren = useMemo(
-    () =>
-      Children.count(children) === 0
-        ? [
-            <InternalSelectOption disabled index={0} key="no-options">
-              {noOptionsMessage}
-            </InternalSelectOption>,
-          ]
-        : Children.map(children, (child, index) => (
-            <InternalSelectOption {...child.props} index={index} key={index} />
-          )),
-    [children]
+  const downshiftProps = useDownshift(
+    disabled,
+    id,
+    loading,
+    multiple,
+    searchable,
+    options,
+    filteredOptions,
+    setFilteredOptions,
+    selectedItems,
+    setSelectedItems
   );
 
   const { getLabelProps } = downshiftProps;
 
   const contextValue = {
-    children: internalChildren,
     downshiftProps,
     selectProps: {
       ariaLabel,
       disabled,
+      filteredOptions,
       helperId,
       helperText,
       loading,
@@ -106,6 +180,7 @@ export const Select = (props: SelectProps) => {
       noOptionsMessage,
       options,
       selectedItems,
+      selectedItemsValues,
     },
   };
 

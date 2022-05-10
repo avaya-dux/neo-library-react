@@ -6,16 +6,17 @@ import { Chip } from "components/Chip";
 import { Keys } from "utils";
 
 import { SelectContext } from "../utils/SelectContext";
-import { InternalSelectOption } from "./InternalSelectOption";
+import { SelectOptionProps } from "../utils/SelectTypes";
+import { OptionsWithEmptyMessageFallback } from "./OptionsWithEmptyMessageFallback";
 
 export const SingleSelectSearchable = () => {
   const {
-    children,
     downshiftProps,
-    optionProps: { noOptionsMessage },
+    optionProps: { selectedItems },
     selectProps: {
       ariaLabel,
       disabled,
+      filteredOptions,
       helperId,
       helperText,
       loading,
@@ -32,24 +33,17 @@ export const SingleSelectSearchable = () => {
     isOpen,
     reset,
     selectItem,
-    selectedItem,
     setInputValue,
-  } = downshiftProps as UseComboboxReturnValue<string>;
+  } = downshiftProps as UseComboboxReturnValue<SelectOptionProps>;
 
   const { id, onKeyDown, ...restInputProps } = getInputProps();
 
   // clear the search when dropdown closes (when the user selects an item or clicks away)
   useEffect(() => {
     if (isOpen === false) {
-      !isOpen && setInputValue("");
+      setInputValue("");
     }
   }, [isOpen, setInputValue]);
-
-  const displayedDropdownOptions = children.filter((child) =>
-    child.props.children.toLowerCase().includes(inputValue.toLowerCase())
-      ? child
-      : null
-  );
 
   return (
     <div
@@ -66,9 +60,15 @@ export const SingleSelectSearchable = () => {
         {...getToggleButtonProps()}
         className="neo-multiselect-combo__header"
       >
-        {selectedItem && (
-          <Chip onClick={reset} closable>
-            {selectedItem}
+        {selectedItems[0] && (
+          <Chip
+            onClick={(e) => {
+              e.stopPropagation();
+              reset();
+            }}
+            closable
+          >
+            {selectedItems[0].children}
           </Chip>
         )}
 
@@ -80,10 +80,11 @@ export const SingleSelectSearchable = () => {
           onKeyDown={(e) => {
             if (
               e.key === Keys.ENTER &&
-              displayedDropdownOptions.length === 1 &&
-              !displayedDropdownOptions[0].props.disabled
+              filteredOptions.length === 1 &&
+              !filteredOptions[0].disabled
             ) {
-              selectItem(displayedDropdownOptions[0].props.children);
+              e.preventDefault();
+              selectItem(filteredOptions[0]);
               closeMenu();
             } else if (e.key === Keys.BACKSPACE && inputValue.length === 0) {
               reset();
@@ -98,19 +99,13 @@ export const SingleSelectSearchable = () => {
           id={id}
           readOnly
           tabIndex={-1}
-          value={selectedItem || ""}
+          value={selectedItems[0]?.value || ""}
         />
       </span>
 
       <div className="neo-multiselect__content">
         <ul aria-label={ariaLabel} {...getMenuProps()}>
-          {displayedDropdownOptions.length ? (
-            displayedDropdownOptions
-          ) : (
-            <InternalSelectOption disabled index={0} key="no-available-options">
-              {noOptionsMessage}
-            </InternalSelectOption>
-          )}
+          <OptionsWithEmptyMessageFallback />
         </ul>
       </div>
     </div>
