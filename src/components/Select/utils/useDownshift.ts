@@ -1,13 +1,7 @@
 import { useCombobox, useSelect } from "downshift";
 import { Dispatch, SetStateAction } from "react";
 
-/* HACK: these are technically hooks, but naming them with the 'use' prefix and calling them conditionally in the Select Component
-   throws a compiler+linter error. They are also not technically functional components, however calling useSelect outside of a custom hook
-   or functional component also throws a compiler+linter error. As a result, the naming of these functions is incorrect but maintained
-   to preserve the logic and readibility of the code.
-*/
-
-export const DownshiftWithComboboxProps = (
+const DownshiftWithComboboxProps = (
   items: string[],
   id: string,
   setSelectedItems: Dispatch<SetStateAction<string[]>>,
@@ -50,7 +44,7 @@ export const DownshiftWithComboboxProps = (
   });
 };
 
-export const DownshiftWithComboboxMultipleSelectProps = (
+const DownshiftWithComboboxMultipleSelectProps = (
   items: string[],
   id: string,
   controlledInputValue: string,
@@ -117,7 +111,7 @@ export const DownshiftWithComboboxMultipleSelectProps = (
   });
 };
 
-export const DownshiftWithSelectProps = (
+const DownshiftWithSelectProps = (
   items: string[],
   id: string,
   setSelectedItems: Dispatch<SetStateAction<string[]>>,
@@ -150,7 +144,7 @@ export const DownshiftWithSelectProps = (
   });
 };
 
-export const DownshiftWithMultipleSelectProps = (
+const DownshiftWithMultipleSelectProps = (
   items: string[],
   id: string,
   selectedItems: string[],
@@ -193,4 +187,74 @@ export const DownshiftWithMultipleSelectProps = (
       }
     },
   });
+};
+
+export const useDownshift = (
+  controlledInputValue: string,
+  id: string,
+  inputItems: string[],
+  searchable: boolean,
+  multiple: boolean,
+  items: string[],
+  selectedItems: string[],
+  setControlledInputValue: Dispatch<SetStateAction<string>>,
+  setInputItems: Dispatch<SetStateAction<string[]>>,
+  setSelectedItems: Dispatch<SetStateAction<string[]>>,
+  disabled?: boolean,
+  loading?: boolean,
+  onSelectedValueChange?: (value: string[] | string) => void
+) => {
+  /**
+   * HACK: these are hooks, but because we pass and recieve
+   * different props based on `searchable` and `multiple`,
+   * we've had to compromise and pretend that they're just regular
+   * functions.
+   *
+   * In theory, they still function as hooks because `searchable` and
+   * `multiple` are never changed. So this is definitely a
+   * hack, but it's not the worst one. In theory.
+   */
+
+  if (searchable && multiple) {
+    return DownshiftWithComboboxMultipleSelectProps(
+      items,
+      id,
+      controlledInputValue,
+      setControlledInputValue,
+      selectedItems,
+      setSelectedItems,
+      inputItems,
+      setInputItems,
+      disabled,
+      loading
+    );
+  } else if (searchable) {
+    return DownshiftWithComboboxProps(
+      items,
+      id,
+      setSelectedItems,
+      setInputItems,
+      onSelectedValueChange,
+      disabled,
+      loading
+    );
+  } else if (multiple) {
+    return DownshiftWithMultipleSelectProps(
+      items,
+      id,
+      selectedItems,
+      setSelectedItems,
+      disabled,
+      loading
+    );
+  }
+
+  return DownshiftWithSelectProps(
+    items,
+    id,
+    setSelectedItems,
+    onSelectedValueChange,
+    disabled,
+    loading
+  );
 };

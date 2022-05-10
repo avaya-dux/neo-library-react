@@ -5,6 +5,7 @@ export type SelectOptionProps = {
   disabled?: boolean;
   helperText?: string;
 };
+
 type AtLeastOneProps =
   | { label: string; "aria-label"?: string }
   | { label?: string; "aria-label": string };
@@ -17,11 +18,12 @@ export type SelectProps = {
   errorList?: string[];
   helperText?: string;
   id?: string;
-  isCombobox?: boolean;
-  isMultipleSelect?: boolean;
   loading?: boolean;
+  multiple?: boolean;
+  noOptionsMessage?: string;
   onSelectedValueChange?: (value: string | string[]) => void;
   placeholder?: string;
   required?: boolean;
+  searchable?: boolean;
   values?: string[];
 } & AtLeastOneProps;

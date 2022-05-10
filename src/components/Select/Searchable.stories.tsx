@@ -5,10 +5,10 @@ import { Button, Form } from "components";
 
 import { Select } from "./Select";
 import { SelectOption } from "./SelectOption";
-import { SelectProps } from "./SelectTypes";
+import { SelectProps } from "./utils/SelectTypes";
 
 export default {
-  title: "Components/Select/Combobox",
+  title: "Components/Select/Searchable",
   component: Select,
 } as Meta<SelectProps>;
 
@@ -16,26 +16,26 @@ const label = "Test label";
 
 const values = ["Apples"];
 
-export const DefaultCombobox = () => (
-  <Select label={label} isCombobox>
+export const DefaultSearchable = () => (
+  <Select label={label} searchable>
     <SelectOption>Apples</SelectOption>
     <SelectOption>Bananas</SelectOption>
     <SelectOption>Oranges</SelectOption>
   </Select>
 );
 
-export const MultipleSelectCombobox = () => (
-  <Select label={label} isMultipleSelect isCombobox values={values}>
+export const MultipleSelectSearchable = () => (
+  <Select label={label} multiple searchable values={values}>
     <SelectOption>Apples</SelectOption>
     <SelectOption disabled>Bananas</SelectOption>
     <SelectOption>Oranges</SelectOption>
   </Select>
 );
 
-export const DisabledCombobox = () => {
+export const DisabledSearchable = () => {
   // BUG: allows typing while disabled
   return (
-    <Select label={label} isCombobox disabled>
+    <Select label={label} searchable disabled>
       <SelectOption>Option 1</SelectOption>
       <SelectOption disabled>Option 2</SelectOption>
       <SelectOption>Option 3</SelectOption>
@@ -44,7 +44,7 @@ export const DisabledCombobox = () => {
   );
 };
 
-export const RequiredMultipleSelectComboboxHelperText = () => {
+export const RequiredMultipleSelectSearchableHelperText = () => {
   const helperTextExample = "Please select one";
   const [selectedValues, setSelectedValues] = useState<string[]>(["Choice 1"]);
   const [helperText, setHelperText] = useState(helperTextExample);
@@ -74,8 +74,8 @@ export const RequiredMultipleSelectComboboxHelperText = () => {
       }}
     >
       <Select
-        isMultipleSelect
-        isCombobox
+        multiple
+        searchable
         values={selectedValues}
         onSelectedValueChange={updateSelectedValue}
         label={label}
@@ -112,7 +112,7 @@ export const RequiredMultipleSelectComboboxHelperText = () => {
   );
 };
 
-export const LoadingMultipleSelectCombobox = () => {
+export const LoadingMultipleSelectSearchable = () => {
   const [loading, setLoading] = useState(true);
   const options: string[] = ["Option 1", "Option 2", "Option 3", "Option 4"];
 
@@ -123,7 +123,7 @@ export const LoadingMultipleSelectCombobox = () => {
   }, []);
 
   return (
-    <Select isMultipleSelect isCombobox label={label} loading={loading}>
+    <Select multiple searchable label={label} loading={loading}>
       {options.map((option, index) => (
         <SelectOption key={index}>{option}</SelectOption>
       ))}

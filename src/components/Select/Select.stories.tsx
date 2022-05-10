@@ -1,11 +1,11 @@
 import { Meta } from "@storybook/react/types-6-0";
 import { useCallback, useEffect, useState } from "react";
 
-import { Button, Form } from "components";
+import { Button, Form, Sheet } from "components";
 
 import { Select } from "./Select";
 import { SelectOption } from "./SelectOption";
-import { SelectProps } from "./SelectTypes";
+import { SelectProps } from "./utils/SelectTypes";
 
 export default {
   title: "Components/Select/Select",
@@ -20,31 +20,41 @@ const handleSelectedValueChange = (value: string | string[]) => {
 
 export const DefaultSelects = () => {
   return (
-    <>
-      <Select label={label} onSelectedValueChange={handleSelectedValueChange}>
-        <SelectOption>Option 1</SelectOption>
-        <SelectOption disabled>Option 2</SelectOption>
-        <SelectOption>Option 3</SelectOption>
-        <SelectOption>Option 4</SelectOption>
-      </Select>
+    <Sheet title="Default Single and Multi Select" style={{ width: 400 }}>
       <Select
-        isMultipleSelect
-        label={label}
+        label="Select a favorite food"
         onSelectedValueChange={handleSelectedValueChange}
       >
-        <SelectOption>Option 1</SelectOption>
-        <SelectOption disabled>Option 2</SelectOption>
-        <SelectOption>Option 3</SelectOption>
-        <SelectOption>Option 4</SelectOption>
+        <SelectOption>Apple</SelectOption>
+        <SelectOption helperText="Not a Food" disabled>
+          Gravel
+        </SelectOption>
+        <SelectOption helperText="Vegetable">Broccoli</SelectOption>
+        <SelectOption>Banana</SelectOption>
+        <SelectOption>Pear</SelectOption>
       </Select>
-    </>
+
+      <Select
+        multiple
+        label="Select a few favorite foods"
+        onSelectedValueChange={handleSelectedValueChange}
+      >
+        <SelectOption>Apple</SelectOption>
+        <SelectOption helperText="Not a Food" disabled>
+          Gravel
+        </SelectOption>
+        <SelectOption helperText="Vegetable">Broccoli</SelectOption>
+        <SelectOption>Banana</SelectOption>
+        <SelectOption>Pear</SelectOption>
+      </Select>
+    </Sheet>
   );
 };
 
 export const SelectWithHelperText = () => {
   return (
     <Select
-      isMultipleSelect
+      multiple
       label={label}
       helperText="This is helper text"
       id="neo-select"
@@ -93,7 +103,7 @@ export const RequiredMultipleSelectWithHelperText = () => {
       }}
     >
       <Select
-        isMultipleSelect
+        multiple
         values={selectedOption}
         onSelectedValueChange={updateSelectedValue}
         label={label}
@@ -133,7 +143,7 @@ export const RequiredMultipleSelectWithHelperText = () => {
 export const DisabledMultipleSelectWithErrorState = () => {
   return (
     <Select
-      isMultipleSelect
+      multiple
       label={label}
       errorList={["This is an error message"]}
       disabled
@@ -160,7 +170,7 @@ export const LoadingMultipleSelect = () => {
   }, []);
 
   return (
-    <Select isMultipleSelect label={label} loading={loading}>
+    <Select multiple label={label} loading={loading}>
       {options.map((option, index) => (
         <SelectOption key={index}>{option}</SelectOption>
       ))}
@@ -173,40 +183,38 @@ export const SelectsWithoutChildren = () => {
   return (
     <>
       <Select label="Test Label" />
-      <Select label="Test label" isMultipleSelect />
+
+      <Select label="Test label" multiple />
     </>
   );
 };
 
 export const SelectsWithWrongChildren = () => {
   return (
-    <>
-      <Select label="Test Label">
-        <p>Test wrong child</p>
+    <Sheet title="'Wrong' children" style={{ width: 400 }}>
+      <Select label="Single Select, <p> element as child">
+        <p>Paragraph One</p>
+        <p>Paragraph Two</p>
       </Select>
-      <Select label="Test Label">
-        <SelectOption>Option 1</SelectOption>
+
+      <Select multiple label="Multi Select, <p> element as child">
+        <p>Paragraph One</p>
+        <p>Paragraph Two</p>
       </Select>
-      <Select isMultipleSelect label="Test Label">
-        <p>Test wrong child</p>
-      </Select>
-      <Select isMultipleSelect label="Test Label">
-        <SelectOption>Option 1</SelectOption>
-      </Select>
-    </>
+    </Sheet>
   );
 };
 
 export const MoreThanOneMultipleSelect = () => {
   return (
     <>
-      <Select isMultipleSelect label="First Multiple Select">
+      <Select multiple label="First Multiple Select">
         <SelectOption>Option 1</SelectOption>
         <SelectOption>Option 2</SelectOption>
         <SelectOption>Option 3</SelectOption>
         <SelectOption>Option 4</SelectOption>
       </Select>
-      <Select isMultipleSelect label="Second Multiple Select">
+      <Select multiple label="Second Multiple Select">
         <SelectOption>Option 1</SelectOption>
         <SelectOption disabled>Option 2</SelectOption>
         <SelectOption>Option 3</SelectOption>

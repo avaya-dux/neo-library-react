@@ -92,9 +92,7 @@ describe("Select", () => {
       let renderResult;
       const randomizedLabel = randomString();
       beforeEach(() => {
-        renderResult = render(
-          <Select isMultipleSelect label={randomizedLabel} />
-        );
+        renderResult = render(<Select multiple label={randomizedLabel} />);
       });
 
       it("renders without exploding", () => {
@@ -139,11 +137,7 @@ describe("Select", () => {
       it("only calls the event handler when option is not disabled", () => {
         const spy = jest.fn();
         const { getAllByRole } = render(
-          <Select
-            isMultipleSelect
-            label="not important"
-            onSelectedValueChange={spy}
-          >
+          <Select multiple label="not important" onSelectedValueChange={spy}>
             <SelectOption>Option 1</SelectOption>
             <SelectOption disabled>Option 2</SelectOption>
             <SelectOption>Option 3</SelectOption>
@@ -173,7 +167,7 @@ describe("Select", () => {
         const label = randomString();
         const { getByText, rerender } = render(
           <Select
-            isMultipleSelect
+            multiple
             label={label}
             loading={loading}
             placeholder={placeholder}
@@ -188,7 +182,7 @@ describe("Select", () => {
         loading = false;
         rerender(
           <Select
-            isMultipleSelect
+            multiple
             label={label}
             loading={loading}
             placeholder={placeholder}
@@ -220,7 +214,7 @@ describe("Select", () => {
 
       it("renders the correct list item as disabled", () => {
         const { getAllByText } = renderResult;
-        const disabledListItems = getAllByText("Option 2");
+        const disabledListItems = getAllByText("Gravel");
         disabledListItems.forEach((disabledListItem) => {
           expect(disabledListItem).toHaveAttribute("disabled");
         });

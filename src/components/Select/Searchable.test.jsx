@@ -7,7 +7,7 @@ const randomString = () =>
   Math.random().toString(36).substring(2, 15) +
   Math.random().toString(36).substring(2, 15);
 
-describe("Combobox", () => {
+describe("Searchable Select", () => {
   describe("Basic unit tests", () => {
     let renderResult;
 
@@ -27,7 +27,7 @@ describe("Combobox", () => {
 
     beforeEach(() => {
       renderResult = render(
-        <Select label={randomizedLabel} items={randomizedItems} isCombobox />
+        <Select label={randomizedLabel} items={randomizedItems} searchable />
       );
     });
 
@@ -45,28 +45,28 @@ describe("Combobox", () => {
       );
     });
 
-    it("passes the correct props to combobox element", () => {
+    it("passes the correct props to searchable element", () => {
       const { getByRole } = renderResult;
-      const comboboxElement = getByRole("textbox").closest("div");
+      const searchableElement = getByRole("textbox").closest("div");
       const expectedAttributes = [
         "aria-haspopup",
         "aria-owns",
         "aria-expanded",
       ];
       expectedAttributes.forEach((attribute) =>
-        expect(comboboxElement).toHaveAttribute(attribute)
+        expect(searchableElement).toHaveAttribute(attribute)
       );
     });
 
     it("toggles aria-expanded prop on click", () => {
       const { getByRole } = renderResult;
       const toggleButton = getByRole("textbox").closest("span");
-      const comboboxElement = getByRole("textbox").closest("div");
-      expect(comboboxElement).toHaveAttribute("aria-expanded", "false");
+      const searchableElement = getByRole("textbox").closest("div");
+      expect(searchableElement).toHaveAttribute("aria-expanded", "false");
       fireEvent.click(toggleButton);
-      expect(comboboxElement).toHaveAttribute("aria-expanded", "true");
+      expect(searchableElement).toHaveAttribute("aria-expanded", "true");
       fireEvent.click(toggleButton);
-      expect(comboboxElement).toHaveAttribute("aria-expanded", "true");
+      expect(searchableElement).toHaveAttribute("aria-expanded", "true");
     });
 
     it("passes basic axe compliance", async () => {
