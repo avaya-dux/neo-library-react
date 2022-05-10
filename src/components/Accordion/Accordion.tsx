@@ -1,21 +1,20 @@
 import clsx from "clsx";
-import { FC, ReactNode, useState, useEffect } from "react";
+import { FC, ReactNode, useState, useEffect, useMemo } from "react";
 import { genId } from "utils";
 
 export interface AccordionProps {
   header: ReactNode;
-  id?: string;
+  headerId?: string;
   defaultExpanded?: boolean;
   disabled?: boolean;
   "aria-level"?: number;
   "aria-label"?: string;
   isOpen?: boolean;
-  handleClick?: (id?: string | number) => void;
+  handleClick?: () => void;
 }
-
 export const Accordion: FC<AccordionProps> = ({
   header,
-  id = genId(),
+  headerId = genId(),
   defaultExpanded = false,
   disabled = false,
   "aria-level": ariaLevel = 2,
@@ -24,7 +23,11 @@ export const Accordion: FC<AccordionProps> = ({
   handleClick,
   children,
 }) => {
+  const internalId = useMemo(() => headerId || genId(), [headerId]);
+
   const [isActive, setIsActive] = useState(defaultExpanded);
+
+  const bodyId = `accordion-control-${internalId}`;
 
   useEffect(() => {
     if (isOpen || defaultExpanded) {
@@ -53,23 +56,21 @@ export const Accordion: FC<AccordionProps> = ({
           <button
             className="neo-accordion__header-text"
             aria-expanded={isActive ? "true" : "false"}
-            aria-controls="accordion-panel"
-            id={id}
-            onClick={
-              handleClick ? () => handleClick() : () => setIsActive(!isActive)
-            }
-            disabled={disabled !== false}
+            aria-controls={bodyId}
+            id={internalId}
+            onClick={() => {
+              handleClick ? handleClick() : setIsActive(!isActive);
+            }}
+            disabled={disabled}
+            // aria-disabled below condition is for screen reader when allowOnlyOne prop is true from parent component.
+            aria-disabled={!!(isActive && handleClick)}
           >
             {header}
           </button>
         </div>
 
         {isActive && !disabled && (
-          <div
-            id="accordion-panel"
-            className="neo-accordion__body"
-            role="region"
-          >
+          <div id={bodyId} className="neo-accordion__body">
             <div className="neo-accordion__content">{children}</div>
           </div>
         )}
