@@ -1,25 +1,41 @@
 import clsx from "clsx";
-import { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, useState, useEffect, useMemo } from "react";
 import { genId } from "utils";
 
 export interface AccordionProps {
   header: ReactNode;
-  id?: string;
+  headerId?: string;
   defaultExpanded?: boolean;
   disabled?: boolean;
-  ariaLevel?: number;
+  "aria-level"?: number;
+  "aria-label"?: string;
+  isOpen?: boolean;
+  handleClick?: () => void;
 }
-
 export const Accordion: FC<AccordionProps> = ({
   header,
-  children,
-  id = genId(),
+  headerId = genId(),
   defaultExpanded = false,
-  disabled,
-  ariaLevel = 2,
+  disabled = false,
+  "aria-level": ariaLevel = 2,
+  "aria-label": ariaLabel = "Accordion Heading",
+  isOpen,
+  handleClick,
+  children,
 }) => {
+  const internalId = useMemo(() => headerId || genId(), [headerId]);
+
   const [isActive, setIsActive] = useState(defaultExpanded);
 
+  const bodyId = `accordion-control-${internalId}`;
+
+  useEffect(() => {
+    if (isOpen || defaultExpanded) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
+  }, [isOpen]);
   return (
     <div className="neo-accordion">
       <div
@@ -34,36 +50,27 @@ export const Accordion: FC<AccordionProps> = ({
             disabled && "neo-accordion__header--disabled"
           )}
           role="heading"
-          aria-label="Accordion Heading"
+          aria-label={ariaLabel}
           aria-level={ariaLevel}
         >
-          {disabled ? (
-            <button
-              className="neo-accordion__header-text"
-              aria-disabled
-              disabled
-            >
-              {header}
-            </button>
-          ) : (
-            <button
-              className="neo-accordion__header-text"
-              aria-expanded={isActive ? "true" : "false"}
-              aria-controls="accordion-panel"
-              id={id}
-              onClick={() => setIsActive(!isActive)}
-            >
-              {header}
-            </button>
-          )}
+          <button
+            className="neo-accordion__header-text"
+            aria-expanded={isActive ? "true" : "false"}
+            aria-controls={bodyId}
+            id={internalId}
+            onClick={() => {
+              handleClick ? handleClick() : setIsActive(!isActive);
+            }}
+            disabled={disabled}
+            // aria-disabled below condition is for screen reader when allowOnlyOne prop is true from parent component.
+            aria-disabled={!!(isActive && handleClick)}
+          >
+            {header}
+          </button>
         </div>
 
         {isActive && !disabled && (
-          <div
-            id="accordion-panel"
-            className="neo-accordion__body"
-            role="region"
-          >
+          <div id={bodyId} className="neo-accordion__body">
             <div className="neo-accordion__content">{children}</div>
           </div>
         )}
