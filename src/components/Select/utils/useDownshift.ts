@@ -213,7 +213,8 @@ const DownshiftWithMultipleSelectProps = (
           };
 
         case useSelect.stateChangeTypes.FunctionSelectItem:
-          // unsure why this is needed since we have `onSelectedItemChange`...
+          // `onSelectedItemChange` handles most use-cases, but this reducer step
+          // is needed to support removing items via `Chip` click and input `backspace`
           if (selectedItem && selectedItems.includes(selectedItem)) {
             setSelectedItems(
               selectedItems.filter((item) => item !== selectedItem)

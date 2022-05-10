@@ -24,10 +24,10 @@ export const InternalSelectOption = ({
   } = useContext(SelectContext);
 
   /*
-    NOTE: these values will never change for non-searchable selects,
+    NOTE: these `id`s will never change for non-searchable selects,
     so the use of `useMemo` here is awesome. But these values _will_
-    change constantly for searchable selects, and the use of `useMemo`
-    for those is bad. Thus, we use `useMemo` here is debatable.
+    change for searchable selects, and the use of `useMemo` for that
+    use-case is bad. Thus, the use `useMemo` for these `id`s is debatable.
   */
   const [labelId, helperId] = useMemo(
     () => [`label-id-${genId()}`, `helper-text-${genId()}`],
