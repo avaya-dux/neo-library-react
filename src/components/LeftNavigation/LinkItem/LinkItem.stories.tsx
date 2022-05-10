@@ -24,7 +24,11 @@ const handleFocus = () => {
 };
 
 export const LinkItems = () => (
-  <LeftNavigation aria-label="Main Navigation" currentUrl="" onSelected={handleClick}>
+  <LeftNavigation
+    aria-label="Main Navigation"
+    currentUrl=""
+    onSelected={handleClick}
+  >
     <NavCategory label="Main Category">
       <LinkItem
         onMouseOver={handleHover}
