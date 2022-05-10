@@ -1,20 +1,20 @@
 import { MultiSelect } from "./MultiSelect";
-import { MultiSelectCombobox } from "./MultiSelectCombobox";
+import { MultiSelectSearchable } from "./MultiSelectSearchable";
 import { SingleSelect } from "./SingleSelect";
-import { SingleSelectCombobox } from "./SingleSelectCombobox";
+import { SingleSelectSearchable } from "./SingleSelectSearchable";
 
 export const InternalSelect = ({
-  isCombobox,
-  isMultipleSelect,
+  searchable,
+  multiple,
 }: {
-  isCombobox?: boolean;
-  isMultipleSelect?: boolean;
+  searchable?: boolean;
+  multiple?: boolean;
 }) => {
-  if (isCombobox && isMultipleSelect) {
-    return <MultiSelectCombobox />;
-  } else if (isCombobox) {
-    return <SingleSelectCombobox />;
-  } else if (isMultipleSelect) {
+  if (searchable && multiple) {
+    return <MultiSelectSearchable />;
+  } else if (searchable) {
+    return <SingleSelectSearchable />;
+  } else if (multiple) {
     return <MultiSelect />;
   }
 

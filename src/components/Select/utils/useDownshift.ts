@@ -193,8 +193,8 @@ export const useDownshift = (
   controlledInputValue: string,
   id: string,
   inputItems: string[],
-  isCombobox: boolean,
-  isMultipleSelect: boolean,
+  searchable: boolean,
+  multiple: boolean,
   items: string[],
   selectedItems: string[],
   setControlledInputValue: Dispatch<SetStateAction<string>>,
@@ -206,16 +206,16 @@ export const useDownshift = (
 ) => {
   /**
    * HACK: these are hooks, but because we pass and recieve
-   * different props based on `isCombobox` and `isMultipleSelect`,
+   * different props based on `searchable` and `multiple`,
    * we've had to compromise and pretend that they're just regular
    * functions.
    *
-   * In theory, they still function as hooks because `isCombobox` and
-   * `isMultipleSelect` are never changed. So this is definitely a
+   * In theory, they still function as hooks because `searchable` and
+   * `multiple` are never changed. So this is definitely a
    * hack, but it's not the worst one. In theory.
    */
 
-  if (isCombobox && isMultipleSelect) {
+  if (searchable && multiple) {
     return DownshiftWithComboboxMultipleSelectProps(
       items,
       id,
@@ -228,7 +228,7 @@ export const useDownshift = (
       disabled,
       loading
     );
-  } else if (isCombobox) {
+  } else if (searchable) {
     return DownshiftWithComboboxProps(
       items,
       id,
@@ -238,7 +238,7 @@ export const useDownshift = (
       disabled,
       loading
     );
-  } else if (isMultipleSelect) {
+  } else if (multiple) {
     return DownshiftWithMultipleSelectProps(
       items,
       id,
