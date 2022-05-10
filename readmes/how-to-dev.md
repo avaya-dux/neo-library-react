@@ -4,6 +4,8 @@
 
 > For unit testing we use [jest](https://jestjs.io/), for integration testing we use [Cypress](https://www.cypress.io/how-it-works), for linting we use [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/).
 
+> You can see an overview of [the libraries structure here](https://app.codesee.io/maps/public/188812a0-d098-11ec-bea5-0157c94ef4f8). Generated via [CodeSee](https://www.codesee.io/).
+
 ## first steps
 
 - use [NodeJS LTS](https://nodejs.org/) (preferably via nvm, [mac nvm](https://tecadmin.net/install-nvm-macos-with-homebrew/) | [windows nvm](https://github.com/coreybutler/nvm-windows#node-version-manager-nvm-for-windows))
