@@ -5,24 +5,36 @@ import { genId } from "utils/accessibilityUtils";
 import { SelectContext } from "../utils/SelectContext";
 import { SelectOptionProps } from "../utils/SelectTypes";
 
+export interface InternalSelectOptionProps extends SelectOptionProps {
+  index: number;
+}
+
 export const InternalSelectOption = ({
   children,
   disabled,
   helperText,
   index,
-}: SelectOptionProps & { index: number }) => {
+}: InternalSelectOptionProps) => {
   const {
     downshiftProps: { getItemProps },
 
-    optionProps: { multiple, options, selectedItems },
+    optionProps: { multiple, selectedItemsValues },
+
+    selectProps: { filteredOptions },
   } = useContext(SelectContext);
 
-  const optionSelf = options[index];
+  /*
+    NOTE: these `id`s will never change for non-searchable selects,
+    so the use of `useMemo` here is awesome. But these values _will_
+    change for searchable selects, and the use of `useMemo` for that
+    use-case is bad. Thus, the use `useMemo` for these `id`s is debatable.
+  */
+  const [labelId, helperId] = useMemo(
+    () => [`label-id-${genId()}`, `helper-text-${genId()}`],
+    [children]
+  );
 
-  const labelId = useMemo(() => `label-id-${genId()}`, []);
-
-  const helperId = useMemo(() => `helper-text-${genId()}`, []);
-
+  const optionSelf = filteredOptions[index] || {};
   const itemProps = getItemProps({
     item: optionSelf,
     index,
@@ -30,15 +42,16 @@ export const InternalSelectOption = ({
   });
 
   return multiple ? (
-    <div className="neo-input-group" key={optionSelf}>
+    <div className="neo-input-group">
       <input
-        aria-describedby={helperText}
+        aria-describedby={helperText && helperId}
         aria-labelledby={labelId}
-        checked={selectedItems.includes(optionSelf)}
+        checked={selectedItemsValues.includes(optionSelf.value)}
         className="neo-check"
         disabled={disabled}
         readOnly
         type="checkbox"
+        value={optionSelf.value} // BUG: `value` is updated on reset, but the change needs to be propgated up
       />
 
       <div {...itemProps} className="neo-check__label" id={labelId}>
@@ -52,7 +65,7 @@ export const InternalSelectOption = ({
       )}
     </div>
   ) : (
-    <li {...itemProps} key={`${optionSelf}${index}`}>
+    <li {...itemProps}>
       {children}
 
       {helperText && <p className="neo-input-hint">{helperText}</p>}

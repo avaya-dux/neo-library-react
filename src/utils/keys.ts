@@ -1,12 +1,13 @@
 export const Keys = Object.freeze({
+  BACKSPACE: "Backspace",
+  DOWN: "ArrowDown",
+  END: "End",
   ENTER: "Enter",
   ESC: "Escape",
-  SPACE: " ",
   HOME: "Home",
-  END: "End",
   LEFT: "ArrowLeft",
   RIGHT: "ArrowRight",
-  UP: "ArrowUp",
-  DOWN: "ArrowDown",
+  SPACE: " ",
   TAB: "Tab",
+  UP: "ArrowUp",
 });
