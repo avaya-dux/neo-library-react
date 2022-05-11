@@ -11,3 +11,8 @@
   background: none;
   border: none;
 }
+
+.neo-input-editable__wrapper input::-ms-reveal,
+.neo-input-editable__wrapper input::-ms-clear {
+  display: none;
+}

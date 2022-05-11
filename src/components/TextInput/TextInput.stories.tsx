@@ -30,7 +30,7 @@ export const DifferentHTMLOutputExamples = () => {
         startAddon={<Icon icon="star-filled" aria-label="input icon" />}
       />
       <TextInput
-        label="input type password"
+        label="Input type password"
         placeholder="Placeholder text"
         type="password"
       />

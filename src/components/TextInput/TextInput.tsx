@@ -16,7 +16,9 @@ import {
   handleAccessbilityError,
   IconNamesType,
 } from "utils";
+
 import "./TextInput_shim.css";
+
 export interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
   clearable?: boolean;
   disabled?: boolean;
@@ -32,7 +34,9 @@ export interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
   startAddon?: ReactNode;
   startIcon?: IconNamesType;
   value?: number | string;
-  type?: string;
+  type?: "text" | "password" | "number" | "email" | "tel";
+  ariaLabelPasswordShow?: "string";
+  ariaLabelPasswordHide?: "string";
 }
 
 export const TextInput: React.FC<TextInputProps> = ({
@@ -51,6 +55,8 @@ export const TextInput: React.FC<TextInputProps> = ({
   startIcon,
   value,
   type,
+  ariaLabelPasswordShow = "Show Password",
+  ariaLabelPasswordHide = "Hide Password",
   ...rest
 }) => {
   if (!label && !placeholder) {
@@ -65,18 +71,18 @@ export const TextInput: React.FC<TextInputProps> = ({
   const [eyeIcon, setEyeIcon] = useState("view-on");
   const [inputType, setInputType] = useState(type);
   const [ariaPressed, setAriaPressed] = useState(false);
-  const [ariaLabel, setAriaLabel] = useState("show password");
+  const [ariaLabel, setAriaLabel] = useState(ariaLabelPasswordShow);
 
   const toggleIcon = () => {
     if (eyeIcon === "view-on") {
       setEyeIcon("view-off");
-      setInputType(" ");
-      setAriaLabel("hide password");
+      setInputType("text");
+      setAriaLabel(ariaLabelPasswordHide);
       setAriaPressed(true);
     } else {
       setEyeIcon("view-on");
       setInputType("password");
-      setAriaLabel("show password");
+      setAriaLabel(ariaLabelPasswordShow);
       setAriaPressed(false);
     }
   };
@@ -134,15 +140,13 @@ export const TextInput: React.FC<TextInputProps> = ({
               {/* BUG: `clearable` icon overrides `endIcon` */}
               {endIcon && <span className={`neo-icon-${endIcon}`} />}
 
-              {inputType === "password" || inputType === " " ? (
+              {type === "password" && (
                 <button
                   className={`neo-icon-${eyeIcon}`}
                   onClick={toggleIcon}
                   aria-pressed={ariaPressed}
                   aria-label={ariaLabel}
                 />
-              ) : (
-                " "
               )}
               {!!clearable && (
                 <button
