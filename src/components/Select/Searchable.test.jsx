@@ -46,8 +46,8 @@ describe("Searchable Select", () => {
     });
 
     it("passes the correct props to searchable element", () => {
-      const { getByRole } = renderResult;
-      const searchableElement = getByRole("textbox").closest("div");
+      const { getAllByRole } = renderResult;
+      const searchableElement = getAllByRole("textbox")[0].closest("div");
       const expectedAttributes = [
         "aria-haspopup",
         "aria-owns",
@@ -59,9 +59,9 @@ describe("Searchable Select", () => {
     });
 
     it("toggles aria-expanded prop on click", () => {
-      const { getByRole } = renderResult;
-      const toggleButton = getByRole("textbox").closest("span");
-      const searchableElement = getByRole("textbox").closest("div");
+      const { getAllByRole } = renderResult;
+      const toggleButton = getAllByRole("textbox")[0].closest("span");
+      const searchableElement = getAllByRole("textbox")[0].closest("div");
       expect(searchableElement).toHaveAttribute("aria-expanded", "false");
       fireEvent.click(toggleButton);
       expect(searchableElement).toHaveAttribute("aria-expanded", "true");

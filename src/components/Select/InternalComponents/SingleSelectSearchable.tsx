@@ -1,16 +1,22 @@
 import clsx from "clsx";
 import { UseComboboxReturnValue } from "downshift";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+
+import { Chip } from "components/Chip";
+import { Keys } from "utils";
 
 import { SelectContext } from "../utils/SelectContext";
+import { SelectOptionProps } from "../utils/SelectTypes";
+import { OptionsWithEmptyMessageFallback } from "./OptionsWithEmptyMessageFallback";
 
 export const SingleSelectSearchable = () => {
   const {
-    children,
     downshiftProps,
+    optionProps: { selectedItems },
     selectProps: {
       ariaLabel,
       disabled,
+      filteredOptions,
       helperId,
       helperText,
       loading,
@@ -18,12 +24,26 @@ export const SingleSelectSearchable = () => {
     },
   } = useContext(SelectContext);
   const {
+    closeMenu,
     getComboboxProps,
     getInputProps,
     getMenuProps,
     getToggleButtonProps,
+    inputValue,
     isOpen,
-  } = downshiftProps as UseComboboxReturnValue<string>;
+    reset,
+    selectItem,
+    setInputValue,
+  } = downshiftProps as UseComboboxReturnValue<SelectOptionProps>;
+
+  const { id, onKeyDown, ...restInputProps } = getInputProps();
+
+  // clear the search when dropdown closes (when the user selects an item or clicks away)
+  useEffect(() => {
+    if (isOpen === false) {
+      setInputValue("");
+    }
+  }, [isOpen, setInputValue]);
 
   return (
     <div
@@ -38,18 +58,54 @@ export const SingleSelectSearchable = () => {
     >
       <span
         {...getToggleButtonProps()}
-        className={"neo-multiselect-combo__header"}
+        className="neo-multiselect-combo__header"
       >
+        {selectedItems[0] && (
+          <Chip
+            onClick={(e) => {
+              e.stopPropagation();
+              reset();
+            }}
+            closable
+          >
+            {selectedItems[0].children}
+          </Chip>
+        )}
+
         <input
-          {...getInputProps()}
-          placeholder={placeholder}
+          {...restInputProps}
           className="neo-input"
+          disabled={disabled}
+          placeholder={placeholder}
+          onKeyDown={(e) => {
+            if (
+              e.key === Keys.ENTER &&
+              filteredOptions.length === 1 &&
+              !filteredOptions[0].disabled
+            ) {
+              e.preventDefault();
+              selectItem(filteredOptions[0]);
+              closeMenu();
+            } else if (e.key === Keys.BACKSPACE && inputValue.length === 0) {
+              reset();
+            }
+
+            onKeyDown(e);
+          }}
+        />
+
+        <input
+          className="neo-display-none"
+          id={id}
+          readOnly
+          tabIndex={-1}
+          value={selectedItems[0]?.value || ""}
         />
       </span>
 
       <div className="neo-multiselect__content">
         <ul aria-label={ariaLabel} {...getMenuProps()}>
-          {children}
+          <OptionsWithEmptyMessageFallback />
         </ul>
       </div>
     </div>
