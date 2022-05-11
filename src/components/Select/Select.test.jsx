@@ -10,6 +10,7 @@ const {
   BasicSelects,
   Searchable,
   Disabled,
+  DefaultValues,
   RequiredInForm,
   LoadOptions,
   Empty,
@@ -274,6 +275,24 @@ describe("Select", () => {
         fireEvent.click(toggleElement);
         expect(toggleElement).not.toHaveClass("neo-multiselect--active");
       });
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("Default Values", () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<DefaultValues />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
       it("passes basic axe compliance", async () => {
         const { container } = renderResult;
         const results = await axe(container);

@@ -134,6 +134,23 @@ export const Disabled = () => (
   </Select>
 );
 
+export const DefaultValues = () => (
+  <section>
+    <Select label="Second Options is selected via `selected` prop">
+      <SelectOption>first option</SelectOption>
+
+      <SelectOption selected>second option</SelectOption>
+    </Select>
+
+    <Select
+      label="Third Option is selected via `defaultValue` prop"
+      defaultValue={foodOptions[2].props.value}
+    >
+      {foodOptions}
+    </Select>
+  </section>
+);
+
 export const RequiredInForm = () => {
   const [selection, setSelection] = useState("2");
   const [selectedFood, setSelectedFood] = useState(foodOptions[4].props.value);
