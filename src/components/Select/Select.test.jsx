@@ -154,7 +154,7 @@ describe("Select", () => {
       it("only calls the event handler when option is not disabled", () => {
         const spy = jest.fn();
         const { getAllByRole } = render(
-          <Select multiple label="not important" onSelectedValueChange={spy}>
+          <Select multiple label="not important" onChange={spy}>
             <SelectOption>Option 1</SelectOption>
             <SelectOption disabled>Option 2</SelectOption>
             <SelectOption>Option 3</SelectOption>

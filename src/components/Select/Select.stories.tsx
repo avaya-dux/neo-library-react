@@ -1,5 +1,5 @@
 import { Meta } from "@storybook/react/types-6-0";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button, Form, Sheet } from "components";
 
@@ -48,7 +48,7 @@ export const BasicSelects = () => {
       <Select
         helperText="Please select one"
         label="Select a favorite food"
-        onSelectedValueChange={(value) => setFavFood(value as string)}
+        onChange={(value) => setFavFood(value as string)}
       >
         {foodOptions}
       </Select>
@@ -57,7 +57,7 @@ export const BasicSelects = () => {
         helperText="Please select one or more"
         label="Select a few nice foods"
         multiple
-        onSelectedValueChange={(value) => setFoods(value as string[])}
+        onChange={(value) => setFoods(value as string[])}
       >
         {foodOptions}
       </Select>
@@ -89,7 +89,7 @@ export const Searchable = () => {
         helperText="Please select one"
         label="Select a favorite food"
         searchable
-        onSelectedValueChange={(value) => {
+        onChange={(value) => {
           setFavFood(value as string);
         }}
       >
@@ -101,7 +101,7 @@ export const Searchable = () => {
         helperText="Please select one or more"
         label="Select a few nice foods"
         multiple
-        onSelectedValueChange={(value) => setFoods(value as string[])}
+        onChange={(value) => setFoods(value as string[])}
         placeholder=""
         searchable
       >
@@ -135,22 +135,17 @@ export const Disabled = () => (
 );
 
 export const RequiredInForm = () => {
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selection, setSelection] = useState("2");
   const [selectedFood, setSelectedFood] = useState(foodOptions[4].props.value);
-  const [errorList, setErrorList] = useState<string[]>([]);
-
-  const updateSelectedValue = useCallback(
-    (value) => {
-      setSelectedOption(value);
-      setErrorList([]);
-    },
-    [setSelectedOption, setErrorList]
-  );
+  const [foodErrorList, setFoodErrorList] = useState<string[]>([]);
+  const [selectedFoods, setSelectedFoods] = useState([
+    foodOptions[4].props.value,
+  ]);
+  const [foodsErrorList, setFoodsErrorList] = useState<string[]>([]);
 
   return (
     <section>
       <div style={{ marginBottom: 10 }}>
-        {/* BUG: not working as intended */}
         <b>IMPORTANT NOTE:</b>
 
         <p>
@@ -163,16 +158,20 @@ export const RequiredInForm = () => {
         id="select-form"
         onSubmit={(e) => {
           e.preventDefault();
-          if (selectedOption.length > 0) {
-            alert(`you successfully submitted: ${selectedOption}`);
+          if (selectedFood || selectedFoods.length) {
+            const submission =
+              selection === "1" ? selectedFood : selectedFoods.join(", ");
+            alert(`you successfully submitted: ${submission}`);
+          } else if (selection === "1") {
+            setFoodErrorList(["Required"]);
+          } else if (selection === "2") {
+            setFoodsErrorList(["Required"]);
           }
         }}
       >
         <Select
-          errorList={errorList}
-          label="Would you like to choose a favorite food? Or multiple foods?"
-          onSelectedValueChange={updateSelectedValue}
-          required
+          label="Would you like to choose a favorite food, or multiple foods?"
+          onChange={(v) => setSelection(v as string)}
         >
           <SelectOption value="1">Just One Favorite</SelectOption>
 
@@ -182,9 +181,10 @@ export const RequiredInForm = () => {
         </Select>
 
         <Select
-          disabled={selectedOption !== "1"}
+          disabled={selection !== "1"}
+          errorList={foodErrorList}
           label="Favorite Food"
-          onSelectedValueChange={setSelectedFood}
+          onChange={setSelectedFood}
           searchable
           value={selectedFood}
         >
@@ -192,36 +192,42 @@ export const RequiredInForm = () => {
         </Select>
 
         <Select
-          defaultValue={[foodOptions[0].props.value]}
-          disabled={selectedOption !== "2"}
+          disabled={selection !== "2"}
+          errorList={foodsErrorList}
           label="Multiple Foods Selection"
           multiple
+          onChange={(value) => setSelectedFoods(value as string[])}
+          value={selectedFoods}
         >
           {foodOptions}
         </Select>
 
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Button
-            disabled
             type="reset"
             variant="secondary"
             onClick={() => {
-              // BUG: reset not working as intended
-              setSelectedOption("");
               setSelectedFood(null);
-              setErrorList([]);
+              setSelectedFoods([]);
+              setFoodErrorList([]);
+              setFoodsErrorList([]);
             }}
           >
             Reset
           </Button>
 
           <Button
-            disabled
             style={{ marginRight: "8px" }}
             type="submit"
-            onClick={() => {
-              if (selectedOption.length < 1) {
-                setErrorList(["This is a required field"]);
+            onClick={(e) => {
+              if (selection === "1" && !selectedFood) {
+                setFoodErrorList(["Required"]);
+                e.preventDefault();
+                e.stopPropagation();
+              } else if (selection === "2" && selectedFoods.length === 0) {
+                setFoodsErrorList(["Required"]);
+                e.preventDefault();
+                e.stopPropagation();
               }
             }}
           >
