@@ -161,104 +161,93 @@ export const RequiredInForm = () => {
   const [foodsErrorList, setFoodsErrorList] = useState<string[]>([]);
 
   return (
-    <section>
-      <div style={{ marginBottom: 10 }}>
-        <b>IMPORTANT NOTE:</b>
-
-        <p>
-          Reset and Submit are not working as intended. Please stay tuned for
-          updates
-        </p>
-      </div>
-
-      <Form
-        id="select-form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (selectedFood || selectedFoods.length) {
-            const submission =
-              selection === "1" ? selectedFood : selectedFoods.join(", ");
-            alert(`you successfully submitted: ${submission}`);
-          } else if (selection === "1") {
-            setFoodErrorList(["Required"]);
-          } else if (selection === "2") {
-            setFoodsErrorList(["Required"]);
-          }
-        }}
+    <Form
+      id="select-form"
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (selectedFood || selectedFoods.length) {
+          const submission =
+            selection === "1" ? selectedFood : selectedFoods.join(", ");
+          alert(`you successfully submitted: ${submission}`);
+        } else if (selection === "1") {
+          setFoodErrorList(["Required"]);
+        } else if (selection === "2") {
+          setFoodsErrorList(["Required"]);
+        }
+      }}
+    >
+      <Select
+        label="Would you like to choose a favorite food, or multiple foods?"
+        onChange={(v) => setSelection(v as string)}
       >
-        <Select
-          label="Would you like to choose a favorite food, or multiple foods?"
-          onChange={(v) => setSelection(v as string)}
-        >
-          <SelectOption value="1">Just One Favorite</SelectOption>
+        <SelectOption value="1">Just One Favorite</SelectOption>
 
-          <SelectOption value="2" selected>
-            Multiple Foods
-          </SelectOption>
-        </Select>
+        <SelectOption value="2" selected>
+          Multiple Foods
+        </SelectOption>
+      </Select>
 
-        <Select
-          disabled={selection !== "1"}
-          errorList={foodErrorList}
-          label="Favorite Food"
-          onChange={(value) => {
+      <Select
+        disabled={selection !== "1"}
+        errorList={foodErrorList}
+        label="Favorite Food"
+        onChange={(value) => {
+          setFoodErrorList([]);
+          setSelectedFood(value as string);
+        }}
+        searchable
+        value={selectedFood}
+      >
+        {foodOptions}
+      </Select>
+
+      <Select
+        disabled={selection !== "2"}
+        errorList={foodsErrorList}
+        label="Multiple Foods Selection"
+        multiple
+        onChange={(value) => {
+          setFoodsErrorList([]);
+          setSelectedFoods(value as string[]);
+        }}
+        value={selectedFoods}
+      >
+        {foodOptions}
+      </Select>
+
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Button
+          type="reset"
+          variant="secondary"
+          onClick={() => {
+            setSelectedFood(null);
+            setSelectedFoods([]);
             setFoodErrorList([]);
-            setSelectedFood(value as string);
-          }}
-          searchable
-          value={selectedFood}
-        >
-          {foodOptions}
-        </Select>
-
-        <Select
-          disabled={selection !== "2"}
-          errorList={foodsErrorList}
-          label="Multiple Foods Selection"
-          multiple
-          onChange={(value) => {
             setFoodsErrorList([]);
-            setSelectedFoods(value as string[]);
           }}
-          value={selectedFoods}
         >
-          {foodOptions}
-        </Select>
+          Reset
+        </Button>
 
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Button
-            type="reset"
-            variant="secondary"
-            onClick={() => {
-              setSelectedFood(null);
-              setSelectedFoods([]);
-              setFoodErrorList([]);
-              setFoodsErrorList([]);
-            }}
-          >
-            Reset
-          </Button>
-
-          <Button
-            style={{ marginRight: "8px" }}
-            type="submit"
-            onClick={(e) => {
-              if (selection === "1" && !selectedFood) {
-                setFoodErrorList(["Required"]);
-                e.preventDefault();
-                e.stopPropagation();
-              } else if (selection === "2" && selectedFoods.length === 0) {
-                setFoodsErrorList(["Required"]);
-                e.preventDefault();
-                e.stopPropagation();
-              }
-            }}
-          >
-            Submit
-          </Button>
-        </div>
-      </Form>
-    </section>
+        <Button
+          style={{ marginRight: "8px" }}
+          type="submit"
+          onClick={(e) => {
+            if (selection === "1" && !selectedFood) {
+              setFoodErrorList(["Required"]);
+              e.preventDefault();
+              e.stopPropagation();
+            } else if (selection === "2" && selectedFoods.length === 0) {
+              setFoodsErrorList(["Required"]);
+              e.preventDefault();
+              e.stopPropagation();
+            }
+          }}
+        >
+          Submit
+        </Button>
+      </div>
+    </Form>
   );
 };
 
