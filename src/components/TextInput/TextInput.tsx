@@ -54,7 +54,7 @@ export const TextInput: React.FC<TextInputProps> = ({
   startAddon,
   startIcon,
   value,
-  type,
+  type = "text",
   ariaLabelPasswordShow = "Show Password",
   ariaLabelPasswordHide = "Hide Password",
   ...rest
