@@ -2,10 +2,10 @@
 ![github workflow status](https://github.com/avaya-dux/neo-library-react/actions/workflows/run-yarn.yml/badge.svg)
 [![npm version](https://badge.fury.io/js/@avaya%2Fneo-react.svg)](https://badge.fury.io/js/@avaya%2Fneo-react)
 
-![Coverage lines](./badges/badge-lines.svg)
-![Coverage functions](./badges/badge-functions.svg)
-![Coverage branches](./badges/badge-branches.svg)
-![Coverage statements](./badges/badge-statements.svg)
+![Coverage lines](https://github.com/avaya-dux/neo-library-react/blob/main/badges/badge-lines.svg)
+![Coverage functions](https://github.com/avaya-dux/neo-library-react/blob/main/badges/badge-functions.svg)
+![Coverage branches](https://github.com/avaya-dux/neo-library-react/blob/main/badges/badge-branches.svg)
+![Coverage statements](https://github.com/avaya-dux/neo-library-react/blob/main/badges/badge-statements.svg)
 
 # Neo React Component Library
 
