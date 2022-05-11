@@ -6,7 +6,7 @@ import { Button, Form } from "components";
 import { SelectNative, SelectNativeProps } from ".";
 
 export default {
-  title: "Components/Select/Select Native",
+  title: "Components/Select/Native Select",
   component: SelectNative,
 } as Meta<SelectNativeProps>;
 

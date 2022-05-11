@@ -1,20 +1,19 @@
 import { UseComboboxReturnValue, UseSelectReturnValue } from "downshift";
-import { createContext, ReactElement } from "react";
+import { createContext } from "react";
 
 import { SelectOptionProps } from "./SelectTypes";
 
 type ContextDownshiftProps =
-  | UseComboboxReturnValue<string>
-  | UseSelectReturnValue<string>;
+  | UseComboboxReturnValue<SelectOptionProps>
+  | UseSelectReturnValue<SelectOptionProps>;
 
 export type SelectContextProps = {
-  children: ReactElement<SelectOptionProps>[];
-
   downshiftProps: ContextDownshiftProps;
 
   selectProps: {
     ariaLabel?: string;
     disabled: boolean;
+    filteredOptions: SelectOptionProps[];
     helperId?: string;
     helperText?: string;
     loading: boolean;
@@ -24,18 +23,18 @@ export type SelectContextProps = {
   optionProps: {
     multiple: boolean;
     noOptionsMessage: string;
-    options: string[];
-    selectedItems: string[];
+    options: SelectOptionProps[];
+    selectedItems: SelectOptionProps[];
+    selectedItemsValues: (string | undefined)[];
   };
 };
 
 export const SelectContext = createContext<SelectContextProps>({
-  children: [],
-
   downshiftProps: {} as ContextDownshiftProps, // HACK: should be a better way, but it eludes me
 
   selectProps: {
     disabled: false,
+    filteredOptions: [],
     loading: false,
     placeholder: "",
   },
@@ -45,5 +44,6 @@ export const SelectContext = createContext<SelectContextProps>({
     noOptionsMessage: "",
     options: [],
     selectedItems: [],
+    selectedItemsValues: [],
   },
 });
