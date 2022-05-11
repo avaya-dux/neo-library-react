@@ -1,14 +1,13 @@
 .neo-input-editable__wrapper .neo-icon-view-on:before {
-    content: "\f298";
-    font-size: x-large;
+  font-size: x-large;
 }
 
-.neo-input-editable__wrapper .neo-icon-view-off:before{
-    content: "\f297";
-    font-size: x-large;
+.neo-input-editable__wrapper .neo-icon-view-off:before {
+  font-size: x-large;
 }
 
-.neo-input-editable__wrapper .neo-icon-view-on, .neo-input-editable__wrapper .neo-icon-view-off {
-    background: none;
-    border:none;
+.neo-input-editable__wrapper .neo-icon-view-on,
+.neo-input-editable__wrapper .neo-icon-view-off {
+  background: none;
+  border: none;
 }

@@ -50,7 +50,7 @@ export const TextInput: React.FC<TextInputProps> = ({
   startAddon,
   startIcon,
   value,
-  type = "text",
+  type,
   ...rest
 }) => {
   if (!label && !placeholder) {
@@ -64,14 +64,20 @@ export const TextInput: React.FC<TextInputProps> = ({
 
   const [eyeIcon, setEyeIcon] = useState("view-on");
   const [inputType, setInputType] = useState(type);
+  const [ariaPressed, setAriaPressed] = useState(false);
+  const [ariaLabel, setAriaLabel] = useState("show password");
+
   const toggleIcon = () => {
-    eyeIcon === "view-on" ? setEyeIcon("view-off") : setEyeIcon("view-on");
     if (eyeIcon === "view-on") {
       setEyeIcon("view-off");
-      setInputType("not password");
+      setInputType(" ");
+      setAriaLabel("hide password");
+      setAriaPressed(true);
     } else {
       setEyeIcon("view-on");
       setInputType("password");
+      setAriaLabel("show password");
+      setAriaPressed(false);
     }
   };
   return (
@@ -127,29 +133,16 @@ export const TextInput: React.FC<TextInputProps> = ({
 
               {/* BUG: `clearable` icon overrides `endIcon` */}
               {endIcon && <span className={`neo-icon-${endIcon}`} />}
-              {inputType && inputType === "password" ? (
+
+              {inputType === "password" || inputType === " " ? (
                 <button
                   className={`neo-icon-${eyeIcon}`}
                   onClick={toggleIcon}
-                  // role="button"
-                  // tabIndex={0}
-                  aria-pressed="false"
-                  aria-label="show password"
+                  aria-pressed={ariaPressed}
+                  aria-label={ariaLabel}
                 />
               ) : (
-                ""
-              )}
-              {inputType && inputType === "not password" ? (
-                <button
-                  className={`neo-icon-${eyeIcon}`}
-                  onClick={toggleIcon}
-                  // role="button"
-                  // tabIndex={0}
-                  aria-pressed="true"
-                  aria-label="hide password"
-                />
-              ) : (
-                ""
+                " "
               )}
               {!!clearable && (
                 <button
@@ -187,7 +180,7 @@ export const InternalTextInputElement = ({
   placeholder,
   inputRef,
   value,
-  type = "text",
+  type,
   ...rest
 }: Pick<
   TextInputProps,
