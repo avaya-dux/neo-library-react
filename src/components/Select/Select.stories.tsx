@@ -201,7 +201,10 @@ export const RequiredInForm = () => {
           disabled={selection !== "1"}
           errorList={foodErrorList}
           label="Favorite Food"
-          onChange={setSelectedFood}
+          onChange={(value) => {
+            setFoodErrorList([]);
+            setSelectedFood(value as string);
+          }}
           searchable
           value={selectedFood}
         >
@@ -213,7 +216,10 @@ export const RequiredInForm = () => {
           errorList={foodsErrorList}
           label="Multiple Foods Selection"
           multiple
-          onChange={(value) => setSelectedFoods(value as string[])}
+          onChange={(value) => {
+            setFoodsErrorList([]);
+            setSelectedFoods(value as string[]);
+          }}
           value={selectedFoods}
         >
           {foodOptions}
