@@ -11,7 +11,7 @@ export default {
 } as Meta<NavCategoryProps>;
 
 export const TextOnly: Story<NavCategoryProps> = () => (
-  <LeftNavigation ariaLabel="Text only Nav" currentUrl="http://active.com">
+  <LeftNavigation aria-label="Text only Nav" currentUrl="http://active.com">
     <NavCategory expanded={true} label="Text Only Category">
       <LinkItem href="http://first.com"> First Item </LinkItem>
       <LinkItem href="http://active.com"> Active Item </LinkItem>
@@ -33,7 +33,7 @@ export const TextOnly: Story<NavCategoryProps> = () => (
 );
 
 export const WithIcons: Story<NavCategoryProps> = () => (
-  <LeftNavigation ariaLabel="Nav with Icons" currentUrl="http://active.com">
+  <LeftNavigation aria-label="Nav with Icons" currentUrl="http://active.com">
     <NavCategory icon="audio-on" label="Collapsed">
       <LinkItem href="http://first.com"> First Item </LinkItem>
       <LinkItem href="http://dup.com"> Duplicate Link </LinkItem>
@@ -51,6 +51,36 @@ export const WithIcons: Story<NavCategoryProps> = () => (
     <NavCategory disabled icon="available" label="Disabled Category">
       <LinkItem href="http://link.com"> Link </LinkItem>
       <LinkItem href="http://link2.com"> Link 2</LinkItem>
+    </NavCategory>
+  </LeftNavigation>
+);
+
+export const TestApp: Story<NavCategoryProps> = () => (
+  <LeftNavigation
+    aria-label="Integration Testing App Menu"
+    currentUrl="http://active.com"
+  >
+    <NavCategory icon="interaction-details" label="Interactivity">
+      <LinkItem href="http://first.com"> Address Book </LinkItem>
+      <LinkItem href="http://dup.com"> Email Client </LinkItem>
+      <LinkItem href="http://dup.com"> Manage Accounts</LinkItem>
+      <LinkItem href="http://fourth.com"> Photo Gallery </LinkItem>
+      <LinkItem href="http://fourth.com"> Notification Center </LinkItem>
+    </NavCategory>
+    <NavCategory icon="code-cloud" label="API Testing">
+      <LinkItem href="http://item1.com"> Table </LinkItem>
+      <LinkItem href="http://active.com"> Select / Menus </LinkItem>
+      <LinkItem href="http://disabled.com">Forms</LinkItem>
+    </NavCategory>
+    <NavCategory icon="layout-custom" label="Form Factor">
+      <LinkItem href="http://link.com"> Desktop </LinkItem>
+      <LinkItem href="http://link2.com"> Mobile</LinkItem>
+      <LinkItem href="http://link2.com"> Layouts</LinkItem>
+    </NavCategory>
+    <NavCategory icon="chat-ready" label="Localization">
+      <LinkItem href="http://strings.com"> Strings </LinkItem>
+      <LinkItem href="http://dates.com"> Dates</LinkItem>
+      <LinkItem href="http://bidi.com"> Bi-directional</LinkItem>
     </NavCategory>
   </LeftNavigation>
 );
