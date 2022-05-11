@@ -1,33 +1,50 @@
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 
+import { UserEventKeys } from "utils";
+
 import { Select } from "./Select";
+import { SelectOption } from "./SelectOption";
 
-const randomString = () =>
-  Math.random().toString(36).substring(2, 15) +
-  Math.random().toString(36).substring(2, 15);
+const foodOptions = [
+  <SelectOption value="apple" key="apple">
+    Apple
+  </SelectOption>,
+  <SelectOption value="gravel" key="gravel" helperText="Not a Food" disabled>
+    Gravel
+  </SelectOption>,
+  <SelectOption value="broccoli" key="broccoli" helperText="Vegetable">
+    Broccoli
+  </SelectOption>,
+  <SelectOption value="banana" key="banana">
+    Banana
+  </SelectOption>,
+  <SelectOption value="pear" key="pear">
+    Pear
+  </SelectOption>,
+  <SelectOption value="blueberries" key="blueberries">
+    Blueberries
+  </SelectOption>,
+  <SelectOption value="grapes" key="grapes">
+    Grapes
+  </SelectOption>,
+  <SelectOption value="oranges" key="oranges">
+    Oranges
+  </SelectOption>,
+];
 
-describe("Searchable Select", () => {
-  describe("Basic unit tests", () => {
+describe("Select", () => {
+  const label = "Searchable Select";
+
+  describe("Searchable Single Select", () => {
     let renderResult;
-
-    const randomizedLabel = randomString();
-
-    const randomizedItems = [
-      {
-        text: randomString(),
-      },
-      {
-        text: randomString(),
-      },
-      {
-        text: randomString(),
-      },
-    ];
 
     beforeEach(() => {
       renderResult = render(
-        <Select label={randomizedLabel} items={randomizedItems} searchable />
+        <Select label={label} searchable>
+          {foodOptions}
+        </Select>
       );
     });
 
@@ -38,7 +55,7 @@ describe("Searchable Select", () => {
 
     it("passes the correct props to label element", () => {
       const { getByText } = renderResult;
-      const labelElement = getByText(randomizedLabel);
+      const labelElement = getByText(label);
       const expectedAttributes = ["id", "for"];
       expectedAttributes.forEach((attribute) =>
         expect(labelElement).toHaveAttribute(attribute)
@@ -73,6 +90,69 @@ describe("Searchable Select", () => {
       const { container } = renderResult;
       const results = await axe(container);
       expect(results).toHaveNoViolations();
+    });
+
+    it("toggles clicked elements", () => {
+      expect(screen.queryAllByRole("button")).toHaveLength(0);
+      const combobox = screen.getByRole("combobox");
+      const comboboxBtn = screen.getAllByRole("textbox")[0].closest("span");
+      expect(combobox).toHaveAttribute("aria-expanded", "false");
+      userEvent.click(comboboxBtn);
+      expect(combobox).toHaveAttribute("aria-expanded", "true");
+
+      const options = screen.getAllByRole("option");
+      fireEvent.click(options[0]);
+
+      expect(screen.getAllByRole("button")).toHaveLength(1); // has one chip
+
+      fireEvent.click(screen.getByRole("button"));
+
+      expect(screen.queryAllByRole("button")).toHaveLength(0); // chip removed
+    });
+  });
+
+  describe("Searchable Multi Select", () => {
+    it("toggles clicked elements", () => {
+      render(
+        <Select label={label} multiple searchable>
+          {foodOptions}
+        </Select>
+      );
+
+      expect(screen.queryAllByRole("button")).toHaveLength(0);
+      const combobox = screen.getByRole("combobox");
+      const comboboxBtn = screen.getAllByRole("textbox")[0].closest("span");
+      expect(combobox).toHaveAttribute("aria-expanded", "false");
+      userEvent.click(comboboxBtn);
+      expect(combobox).toHaveAttribute("aria-expanded", "true");
+
+      const options = screen.getAllByRole("option");
+      fireEvent.click(options[0]);
+
+      expect(screen.getAllByRole("button")).toHaveLength(1); // has one chip
+
+      fireEvent.click(options[0]);
+
+      expect(screen.queryAllByRole("button")).toHaveLength(0); // chip removed
+    });
+
+    it("can select and remove items via the keyboard", () => {
+      render(
+        <Select label={label} multiple searchable>
+          {foodOptions}
+        </Select>
+      );
+      const comboboxBtn = screen.getAllByRole("textbox")[0].closest("span");
+      userEvent.click(comboboxBtn);
+
+      userEvent.keyboard(foodOptions[0].props.children);
+      userEvent.keyboard(UserEventKeys.ENTER);
+
+      expect(screen.getAllByRole("button")).toHaveLength(1); // has one chip
+
+      userEvent.keyboard(UserEventKeys.BACKSPACE);
+
+      expect(screen.queryAllByRole("button")).toHaveLength(0); // chip removed
     });
   });
 });
