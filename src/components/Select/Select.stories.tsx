@@ -5,39 +5,13 @@ import { Button, Form, Sheet } from "components";
 
 import { Select } from "./Select";
 import { SelectOption } from "./SelectOption";
+import { fruitOptions } from "./utils/mockdata";
 import { SelectProps } from "./utils/SelectTypes";
 
 export default {
   title: "Components/Select",
   component: Select,
 } as Meta<SelectProps>;
-
-const foodOptions = [
-  <SelectOption value="apple" key="apple">
-    Apple
-  </SelectOption>,
-  <SelectOption value="gravel" key="gravel" helperText="Not a Food" disabled>
-    Gravel
-  </SelectOption>,
-  <SelectOption value="broccoli" key="broccoli" helperText="Vegetable">
-    Broccoli
-  </SelectOption>,
-  <SelectOption value="banana" key="banana">
-    Banana
-  </SelectOption>,
-  <SelectOption value="pear" key="pear">
-    Pear
-  </SelectOption>,
-  <SelectOption value="blueberries" key="blueberries">
-    Blueberries
-  </SelectOption>,
-  <SelectOption value="grapes" key="grapes">
-    Grapes
-  </SelectOption>,
-  <SelectOption value="oranges" key="oranges">
-    Oranges
-  </SelectOption>,
-];
 
 export const BasicSelects = () => {
   const [favFood, setFavFood] = useState("");
@@ -50,7 +24,7 @@ export const BasicSelects = () => {
         label="Select a favorite food"
         onChange={(value) => setFavFood(value as string)}
       >
-        {foodOptions}
+        {fruitOptions}
       </Select>
 
       <Select
@@ -59,7 +33,7 @@ export const BasicSelects = () => {
         multiple
         onChange={(value) => setFoods(value as string[])}
       >
-        {foodOptions}
+        {fruitOptions}
       </Select>
 
       <div>
@@ -93,7 +67,7 @@ export const Searchable = () => {
           setFavFood(value as string);
         }}
       >
-        {foodOptions}
+        {fruitOptions}
       </Select>
 
       <Select
@@ -105,7 +79,7 @@ export const Searchable = () => {
         placeholder=""
         searchable
       >
-        {foodOptions}
+        {fruitOptions}
       </Select>
 
       <div>
@@ -144,19 +118,19 @@ export const DefaultValues = () => (
 
     <Select
       label="Third Option is selected via `defaultValue` prop"
-      defaultValue={foodOptions[2].props.value}
+      defaultValue={fruitOptions[2].props.value}
     >
-      {foodOptions}
+      {fruitOptions}
     </Select>
   </section>
 );
 
 export const RequiredInForm = () => {
   const [selection, setSelection] = useState("2");
-  const [selectedFood, setSelectedFood] = useState(foodOptions[4].props.value);
+  const [selectedFood, setSelectedFood] = useState(fruitOptions[4].props.value);
   const [foodErrorList, setFoodErrorList] = useState<string[]>([]);
   const [selectedFoods, setSelectedFoods] = useState([
-    foodOptions[4].props.value,
+    fruitOptions[4].props.value,
   ]);
   const [foodsErrorList, setFoodsErrorList] = useState<string[]>([]);
 
@@ -198,7 +172,7 @@ export const RequiredInForm = () => {
         searchable
         value={selectedFood}
       >
-        {foodOptions}
+        {fruitOptions}
       </Select>
 
       <Select
@@ -212,7 +186,7 @@ export const RequiredInForm = () => {
         }}
         value={selectedFoods}
       >
-        {foodOptions}
+        {fruitOptions}
       </Select>
 
       <div style={{ display: "flex", justifyContent: "space-between" }}>

@@ -5,6 +5,7 @@ import { axe } from "jest-axe";
 import { Select } from "./Select";
 import * as SelectStories from "./Select.stories";
 import { SelectOption } from "./SelectOption";
+import { fruitOptions } from "./utils/mockdata";
 
 const {
   BasicSelects,
@@ -22,33 +23,6 @@ const randomString = () =>
   Math.random().toString(36).substring(2, 15) +
   Math.random().toString(36).substring(2, 15);
 
-const foodOptions = [
-  <SelectOption value="apple" key="apple">
-    Apple
-  </SelectOption>,
-  <SelectOption value="gravel" key="gravel" helperText="Not a Food" disabled>
-    Gravel
-  </SelectOption>,
-  <SelectOption value="broccoli" key="broccoli" helperText="Vegetable">
-    Broccoli
-  </SelectOption>,
-  <SelectOption value="banana" key="banana">
-    Banana
-  </SelectOption>,
-  <SelectOption value="pear" key="pear">
-    Pear
-  </SelectOption>,
-  <SelectOption value="blueberries" key="blueberries">
-    Blueberries
-  </SelectOption>,
-  <SelectOption value="grapes" key="grapes">
-    Grapes
-  </SelectOption>,
-  <SelectOption value="oranges" key="oranges">
-    Oranges
-  </SelectOption>,
-];
-
 describe("Select", () => {
   describe("Single Select, non-searchable", () => {
     let renderResult;
@@ -57,7 +31,7 @@ describe("Select", () => {
 
     beforeEach(() => {
       renderResult = render(
-        <Select label={randomizedLabel}>{foodOptions}</Select>
+        <Select label={randomizedLabel}>{fruitOptions}</Select>
       );
     });
 

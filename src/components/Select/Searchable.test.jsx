@@ -5,34 +5,7 @@ import { axe } from "jest-axe";
 import { UserEventKeys } from "utils";
 
 import { Select } from "./Select";
-import { SelectOption } from "./SelectOption";
-
-const foodOptions = [
-  <SelectOption value="apple" key="apple">
-    Apple
-  </SelectOption>,
-  <SelectOption value="gravel" key="gravel" helperText="Not a Food" disabled>
-    Gravel
-  </SelectOption>,
-  <SelectOption value="broccoli" key="broccoli" helperText="Vegetable">
-    Broccoli
-  </SelectOption>,
-  <SelectOption value="banana" key="banana">
-    Banana
-  </SelectOption>,
-  <SelectOption value="pear" key="pear">
-    Pear
-  </SelectOption>,
-  <SelectOption value="blueberries" key="blueberries">
-    Blueberries
-  </SelectOption>,
-  <SelectOption value="grapes" key="grapes">
-    Grapes
-  </SelectOption>,
-  <SelectOption value="oranges" key="oranges">
-    Oranges
-  </SelectOption>,
-];
+import { fruitOptions } from "./utils/mockdata";
 
 describe("Select", () => {
   const label = "Searchable Select";
@@ -43,7 +16,7 @@ describe("Select", () => {
     beforeEach(() => {
       renderResult = render(
         <Select label={label} searchable>
-          {foodOptions}
+          {fruitOptions}
         </Select>
       );
     });
@@ -115,7 +88,7 @@ describe("Select", () => {
     it("toggles clicked elements", () => {
       render(
         <Select label={label} multiple searchable>
-          {foodOptions}
+          {fruitOptions}
         </Select>
       );
 
@@ -139,13 +112,13 @@ describe("Select", () => {
     it("can select and remove items via the keyboard", () => {
       render(
         <Select label={label} multiple searchable>
-          {foodOptions}
+          {fruitOptions}
         </Select>
       );
       const comboboxBtn = screen.getAllByRole("textbox")[0].closest("span");
       userEvent.click(comboboxBtn);
 
-      userEvent.keyboard(foodOptions[0].props.children);
+      userEvent.keyboard(fruitOptions[0].props.children);
       userEvent.keyboard(UserEventKeys.ENTER);
 
       expect(screen.getAllByRole("button")).toHaveLength(1); // has one chip
