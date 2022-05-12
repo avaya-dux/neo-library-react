@@ -76,12 +76,12 @@ export const Select = (props: SelectProps) => {
   const options = useMemo(
     () =>
       Children.map(children, (child) => {
-        const props = { ...child.props };
-        if (!props.value) {
-          props.value = props.children;
+        const childprops = { ...child.props };
+        if (!childprops.value) {
+          childprops.value = childprops.children;
         }
 
-        return props;
+        return childprops;
       }),
     [children]
   );
