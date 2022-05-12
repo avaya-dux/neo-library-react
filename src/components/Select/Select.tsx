@@ -111,7 +111,7 @@ export const Select = (props: SelectProps) => {
       setSelectedItems(userSelectedOptions);
     } else if (isInitialRender && options.some((o) => o.selected)) {
       setSelectedItems(options.filter((option) => option.selected));
-    } else {
+    } else if (!isInitialRender || value) {
       const selectionHasChanged = multiple
         ? selectedItems.length !== value?.length ||
           !selectedItems.every((item) => value.includes(item.value as string))
