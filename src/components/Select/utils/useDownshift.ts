@@ -75,6 +75,9 @@ const DownshiftWithComboboxMultipleSelectProps = (
       const { changes, type } = actionAndChanges;
       const { selectedItem } = changes;
       const selectedItemsValues = selectedItems.map((item) => item.value);
+      const shouldRemoveItem = selectedItemsValues.includes(
+        selectedItem?.value
+      );
 
       switch (type) {
         case useCombobox.stateChangeTypes.ToggleButtonClick:
@@ -85,16 +88,26 @@ const DownshiftWithComboboxMultipleSelectProps = (
 
         case useCombobox.stateChangeTypes.InputKeyDownEnter:
         case useCombobox.stateChangeTypes.ItemClick:
+          if (selectedItem && shouldRemoveItem) {
+            setSelectedItems(
+              selectedItems.filter((item) => item.value !== selectedItem.value)
+            );
+          } else if (selectedItem) {
+            setSelectedItems([...selectedItems, selectedItem]);
+          }
+
           return {
             ...changes,
             highlightedIndex: state.highlightedIndex,
             inputValue: "",
             isOpen: true,
+            selectedItem: shouldRemoveItem ? null : selectedItem,
           };
 
         case useCombobox.stateChangeTypes.FunctionSelectItem:
-          // `onSelectedItemChange` handles most use-cases, but this reducer step
-          // is needed to support removing items via `Chip` click and input `backspace`
+          // `stateChangeTypes.ItemClick` handles most use-cases, but this reducer step
+          // is needed to support removing items via `Chip` click, input `backspace`,
+          // and input `enter` (and _only_ those three use-cases)
           if (
             selectedItem &&
             selectedItemsValues.includes(selectedItem.value)
@@ -129,19 +142,6 @@ const DownshiftWithComboboxMultipleSelectProps = (
         setFilteredOptions(relatedOptions);
       } else if (inputValue === "") {
         setFilteredOptions(options);
-      }
-    },
-    onSelectedItemChange: ({ selectedItem }) => {
-      // BUG: is not triggered if same item is selected twice
-      if (!selectedItem) return;
-
-      const selectedItemsValues = selectedItems.map((item) => item.value);
-      if (selectedItemsValues.includes(selectedItem.value)) {
-        setSelectedItems(
-          selectedItems.filter((item) => item.value !== selectedItem.value)
-        );
-      } else {
-        setSelectedItems([...selectedItems, selectedItem]);
       }
     },
   });

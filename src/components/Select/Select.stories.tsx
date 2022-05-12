@@ -96,7 +96,6 @@ export const Searchable = () => {
         {foodOptions}
       </Select>
 
-      {/* BUG: attempting to toggle the same option multiple times does not work */}
       <Select
         id="multi-searchable-select"
         helperText="Please select one or more"
