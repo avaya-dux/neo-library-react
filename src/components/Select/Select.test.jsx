@@ -62,6 +62,15 @@ describe("Select", () => {
       expect(toggleButton).toHaveAttribute("aria-expanded", "true");
     });
 
+    it("sets and clears error text appropriately", () => {
+      const errorText = "Error Text";
+      const { getByText, rerender } = renderResult;
+      expect(() => getByText(errorText)).toThrow();
+
+      rerender(<Select label={label} errorList={[errorText]} />);
+      expect(getByText(errorText)).toBeInTheDocument();
+    });
+
     it("passes basic axe compliance", async () => {
       const { container } = renderResult;
       const results = await axe(container);
@@ -109,6 +118,15 @@ describe("Select", () => {
         expect(toggleElement).toHaveAttribute("aria-expanded", "false");
         fireEvent.click(toggleElement);
         expect(toggleElement).toHaveAttribute("aria-expanded", "true");
+      });
+
+      it("sets and clears error text appropriately", () => {
+        const errorText = "Error Text";
+        const { getByText, rerender } = renderResult;
+        expect(() => getByText(errorText)).toThrow();
+
+        rerender(<Select multiple label={label} errorList={[errorText]} />);
+        expect(getByText(errorText)).toBeInTheDocument();
       });
 
       it("passes basic axe compliance", async () => {
