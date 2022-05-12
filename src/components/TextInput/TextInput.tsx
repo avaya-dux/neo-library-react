@@ -140,14 +140,7 @@ export const TextInput: React.FC<TextInputProps> = ({
               {/* BUG: `clearable` icon overrides `endIcon` */}
               {endIcon && <span className={`neo-icon-${endIcon}`} />}
 
-              {type === "password" && (
-                <button
-                  className={`neo-icon-${eyeIcon}`}
-                  onClick={toggleIcon}
-                  aria-pressed={ariaPressed}
-                  aria-label={ariaLabel}
-                />
-              )}
+             
               {!!clearable && (
                 <button
                   aria-label="clear input"
@@ -157,6 +150,14 @@ export const TextInput: React.FC<TextInputProps> = ({
                   onClick={() => {
                     dispatchInputOnChangeEvent(inputRef.current!, "");
                   }}
+                />
+              )}
+               {type === "password" && (
+                <button
+                  className={`neo-icon-${eyeIcon}`}
+                  onClick={toggleIcon}
+                  aria-pressed={ariaPressed}
+                  aria-label={ariaLabel}
                 />
               )}
             </div>
