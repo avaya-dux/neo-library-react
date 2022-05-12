@@ -135,93 +135,113 @@ export const RequiredInForm = () => {
   const [foodsErrorList, setFoodsErrorList] = useState<string[]>([]);
 
   return (
-    <Form
-      id="select-form"
-      onSubmit={(e) => {
-        e.preventDefault();
-        if (selectedFood || selectedFoods.length) {
-          const submission =
-            selection === "1" ? selectedFood : selectedFoods.join(", ");
-          alert(`you successfully submitted: ${submission}`);
-        } else if (selection === "1") {
-          setFoodErrorList(["Required"]);
-        } else if (selection === "2") {
-          setFoodsErrorList(["Required"]);
-        }
-      }}
-    >
-      <Select
-        label="Would you like to choose a favorite food, or multiple foods?"
-        onChange={(v) => setSelection(v as string)}
-      >
-        <SelectOption value="1">Just One Favorite</SelectOption>
+    <Sheet title="Required in Form" style={{ width: 400 }}>
+      <article>
+        <p style={{ paddingBottom: 10 }}>
+          <b>IMPORTANT:</b> Please be aware of the following:
+        </p>
 
-        <SelectOption value="2" selected>
-          Multiple Foods
-        </SelectOption>
-      </Select>
+        <p style={{ paddingBottom: 10 }}>
+          Our <code>Select</code> component comes with quite a bit of
+          functionalty, and while we are working on making it easier to use and
+          more intuitive, you will need to control the error messages manually
+          at this time.
+        </p>
 
-      <Select
-        disabled={selection !== "1"}
-        errorList={foodErrorList}
-        label="Favorite Food"
-        onChange={(value) => {
-          setFoodErrorList([]);
-          setSelectedFood(value as string);
+        <p style={{ paddingBottom: 10 }}>
+          We've created this example, but please reach out to us if you have any
+          questions or concerns.
+        </p>
+      </article>
+
+      <Form
+        id="select-form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (selectedFood || selectedFoods.length) {
+            const submission =
+              selection === "1" ? selectedFood : selectedFoods.join(", ");
+            alert(`you successfully submitted: ${submission}`);
+          } else if (selection === "1") {
+            setFoodErrorList(["Required"]);
+          } else if (selection === "2") {
+            setFoodsErrorList(["Required"]);
+          }
         }}
-        searchable
-        value={selectedFood}
       >
-        {fruitOptions}
-      </Select>
+        <Select
+          label="Would you like to choose a favorite food, or multiple foods?"
+          onChange={(v) => setSelection(v as string)}
+        >
+          <SelectOption value="1">Just One Favorite</SelectOption>
 
-      <Select
-        disabled={selection !== "2"}
-        errorList={foodsErrorList}
-        label="Multiple Foods Selection"
-        multiple
-        onChange={(value) => {
-          setFoodsErrorList([]);
-          setSelectedFoods(value as string[]);
-        }}
-        value={selectedFoods}
-      >
-        {fruitOptions}
-      </Select>
+          <SelectOption value="2" selected>
+            Multiple Foods
+          </SelectOption>
+        </Select>
 
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <Button
-          type="reset"
-          variant="secondary"
-          onClick={() => {
-            setSelectedFood(null);
-            setSelectedFoods([]);
+        <Select
+          disabled={selection !== "1"}
+          errorList={foodErrorList}
+          label="Favorite Food"
+          onChange={(value) => {
             setFoodErrorList([]);
-            setFoodsErrorList([]);
+            setSelectedFood(value as string);
           }}
+          searchable
+          value={selectedFood}
         >
-          Reset
-        </Button>
+          {fruitOptions}
+        </Select>
 
-        <Button
-          style={{ marginRight: "8px" }}
-          type="submit"
-          onClick={(e) => {
-            if (selection === "1" && !selectedFood) {
-              setFoodErrorList(["Required"]);
-              e.preventDefault();
-              e.stopPropagation();
-            } else if (selection === "2" && selectedFoods.length === 0) {
-              setFoodsErrorList(["Required"]);
-              e.preventDefault();
-              e.stopPropagation();
-            }
+        <Select
+          disabled={selection !== "2"}
+          errorList={foodsErrorList}
+          label="Multiple Foods Selection"
+          multiple
+          onChange={(value) => {
+            setFoodsErrorList([]);
+            setSelectedFoods(value as string[]);
           }}
+          value={selectedFoods}
         >
-          Submit
-        </Button>
-      </div>
-    </Form>
+          {fruitOptions}
+        </Select>
+
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Button
+            type="reset"
+            variant="secondary"
+            onClick={() => {
+              setSelectedFood(null);
+              setSelectedFoods([]);
+              setFoodErrorList([]);
+              setFoodsErrorList([]);
+            }}
+          >
+            Reset
+          </Button>
+
+          <Button
+            style={{ marginRight: "8px" }}
+            type="submit"
+            onClick={(e) => {
+              if (selection === "1" && !selectedFood) {
+                setFoodErrorList(["Required"]);
+                e.preventDefault();
+                e.stopPropagation();
+              } else if (selection === "2" && selectedFoods.length === 0) {
+                setFoodsErrorList(["Required"]);
+                e.preventDefault();
+                e.stopPropagation();
+              }
+            }}
+          >
+            Submit
+          </Button>
+        </div>
+      </Form>
+    </Sheet>
   );
 };
 
