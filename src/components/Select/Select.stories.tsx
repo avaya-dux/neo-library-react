@@ -127,7 +127,7 @@ export const DefaultValues = () => (
 
 export const RequiredInForm = () => {
   const [selection, setSelection] = useState("2");
-  const [selectedFood, setSelectedFood] = useState(fruitOptions[4].props.value);
+  const [selectedFood, setSelectedFood] = useState(fruitOptions[5].props.value);
   const [foodErrorList, setFoodErrorList] = useState<string[]>([]);
   const [selectedFoods, setSelectedFoods] = useState([
     fruitOptions[4].props.value,
