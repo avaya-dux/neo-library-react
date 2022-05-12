@@ -19,20 +19,14 @@ const {
   MoreThanOneMultipleSelect,
 } = composeStories(SelectStories);
 
-const randomString = () =>
-  Math.random().toString(36).substring(2, 15) +
-  Math.random().toString(36).substring(2, 15);
+const label = "Select Label";
 
 describe("Select", () => {
   describe("Single Select, non-searchable", () => {
     let renderResult;
 
-    const randomizedLabel = randomString();
-
     beforeEach(() => {
-      renderResult = render(
-        <Select label={randomizedLabel}>{fruitOptions}</Select>
-      );
+      renderResult = render(<Select label={label}>{fruitOptions}</Select>);
     });
 
     it("renders without exploding", () => {
@@ -42,7 +36,7 @@ describe("Select", () => {
 
     it("passes the correct props to label element", () => {
       const { getByText } = renderResult;
-      const labelElement = getByText(randomizedLabel);
+      const labelElement = getByText(label);
       const expectedAttributes = ["id", "for"];
       expectedAttributes.forEach((attribute) =>
         expect(labelElement).toHaveAttribute(attribute)
@@ -78,11 +72,10 @@ describe("Select", () => {
   describe("Multiple Select, non-searchable", () => {
     describe("Basic unit tests", () => {
       let renderResult;
-      const randomizedLabel = "label";
       const placeholder = "Please Select One";
       beforeEach(() => {
         renderResult = render(
-          <Select multiple label={randomizedLabel} placeholder={placeholder}>
+          <Select multiple label={label} placeholder={placeholder}>
             <SelectOption>ping</SelectOption>
           </Select>
         );
@@ -95,7 +88,7 @@ describe("Select", () => {
 
       it("passes the correct props to label element", () => {
         const { getByText } = renderResult;
-        const labelElement = getByText(randomizedLabel);
+        const labelElement = getByText(label);
         const expectedAttributes = ["id", "for"];
         expectedAttributes.forEach((attribute) =>
           expect(labelElement).toHaveAttribute(attribute)
@@ -155,7 +148,6 @@ describe("Select", () => {
 
       it("does open content area on click after content is loaded", () => {
         const placeholder = "please select one";
-        const label = randomString();
         const { getByText, rerender } = render(
           <Select
             multiple
