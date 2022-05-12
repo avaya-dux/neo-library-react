@@ -29,16 +29,43 @@ export const DifferentHTMLOutputExamples = () => {
         placeholder="Placeholder text"
         startAddon={<Icon icon="star-filled" aria-label="input icon" />}
       />
+
       <TextInput
         label="Input type password"
-        placeholder="Placeholder text"
+        placeholder="Placeholder password"
         type="password"
       />
+
+      <TextInput
+        label="Input type email"
+        placeholder="Placeholder email"
+        type="email"
+      />
+
+      <TextInput
+        label="Input type number"
+        placeholder="Placeholder number"
+        type="number"
+      />
+
+      <TextInput
+        label="Input type tel"
+        placeholder="Placeholder tel"
+        type="tel"
+      />
+
+      <TextInput
+        label="Input type text"
+        placeholder="Placeholder text"
+        type="text"
+      />
+
       <TextInput
         label="With start icon"
         placeholder="Placeholder text"
         startIcon="star-filled"
       />
+
       <TextInput defaultValue="Try To Change Me" disabled label="Disabled" />
 
       <TextInput
