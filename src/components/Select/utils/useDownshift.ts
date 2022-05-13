@@ -119,6 +119,12 @@ const DownshiftWithComboboxMultipleSelectProps = (
           };
 
         case useCombobox.stateChangeTypes.FunctionSelectItem:
+          /** NOTE: if the user uses arrows+enter to select an item, it triggers
+           * FunctionSelectItem+InputKeyDownEnter, thus we need to simply ignore
+           * that case here
+           */
+          if (selectedItem?.value === createOptionValue) return state;
+
           // `stateChangeTypes.ItemClick` handles most use-cases, but this reducer step
           // is needed to support removing items via `Chip` click, input `backspace`,
           // and input `enter` (and _only_ those three use-cases)
