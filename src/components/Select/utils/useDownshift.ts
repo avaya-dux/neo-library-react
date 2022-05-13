@@ -92,6 +92,12 @@ const DownshiftWithComboboxMultipleSelectProps = (
             setSelectedItems(
               selectedItems.filter((item) => item.value !== selectedItem.value)
             );
+          } else if (!selectedItem && filteredOptions.length === 0) {
+            const createdItem: SelectOptionProps = {
+              children: state.inputValue,
+              value: state.inputValue,
+            };
+            setSelectedItems([...selectedItems, createdItem]);
           } else if (selectedItem) {
             setSelectedItems([...selectedItems, selectedItem]);
           }

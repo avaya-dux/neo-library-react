@@ -99,6 +99,21 @@ export const Searchable = () => {
   );
 };
 
+export const Creatable = () => {
+  return (
+    <Sheet title="Creatable Single & Multiple Select" style={{ width: 400 }}>
+      <Select
+        creatable
+        label="Select or create multiple foods"
+        multiple
+        searchable
+      >
+        {fruitOptions}
+      </Select>
+    </Sheet>
+  );
+};
+
 export const Disabled = () => (
   <Select label="I am disabled" disabled>
     <SelectOption>Option 1</SelectOption>
