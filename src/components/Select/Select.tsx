@@ -152,6 +152,8 @@ export const Select = (props: SelectProps) => {
   );
 
   const downshiftProps = useDownshift(
+    creatable,
+    createMessage,
     disabled,
     id,
     loading,
@@ -170,7 +172,6 @@ export const Select = (props: SelectProps) => {
     downshiftProps,
     selectProps: {
       ariaLabel,
-      creatable,
       disabled,
       filteredOptions,
       helperId,
@@ -179,7 +180,6 @@ export const Select = (props: SelectProps) => {
       placeholder,
     },
     optionProps: {
-      createMessage,
       multiple,
       noOptionsMessage,
       options,

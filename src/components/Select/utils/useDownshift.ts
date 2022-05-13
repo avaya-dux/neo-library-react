@@ -3,6 +3,8 @@ import { Dispatch, SetStateAction } from "react";
 
 import { SelectOptionProps } from "./SelectTypes";
 
+const createOptionValue = "neo-select-create-option";
+
 const DownshiftWithComboboxProps = (
   options: SelectOptionProps[],
   selectId: string,
@@ -66,7 +68,9 @@ const DownshiftWithComboboxMultipleSelectProps = (
   filteredOptions: SelectOptionProps[],
   setFilteredOptions: Dispatch<SetStateAction<SelectOptionProps[]>>,
   disabled: boolean,
-  loading: boolean
+  loading: boolean,
+  creatable: boolean,
+  createMessage: string
 ) => {
   return useCombobox({
     items: filteredOptions,
@@ -92,7 +96,11 @@ const DownshiftWithComboboxMultipleSelectProps = (
             setSelectedItems(
               selectedItems.filter((item) => item.value !== selectedItem.value)
             );
-          } else if (!selectedItem && filteredOptions.length === 0) {
+          } else if (
+            selectedItem &&
+            creatable &&
+            selectedItem.value === createOptionValue
+          ) {
             const createdItem: SelectOptionProps = {
               children: state.inputValue,
               value: state.inputValue,
@@ -145,7 +153,15 @@ const DownshiftWithComboboxMultipleSelectProps = (
             .includes(inputValue.toLowerCase());
         });
 
-        setFilteredOptions(relatedOptions);
+        if (relatedOptions.length === 0 && creatable) {
+          const createdItem: SelectOptionProps = {
+            children: `${createMessage} '${inputValue}'`,
+            value: createOptionValue,
+          };
+          setFilteredOptions([createdItem]);
+        } else {
+          setFilteredOptions(relatedOptions);
+        }
       } else if (inputValue === "") {
         setFilteredOptions(options);
       }
@@ -255,6 +271,8 @@ const DownshiftWithMultipleSelectProps = (
 };
 
 export const useDownshift = (
+  creatable: boolean,
+  createMessage: string,
   disabled: boolean,
   selectId: string,
   loading: boolean,
@@ -286,7 +304,9 @@ export const useDownshift = (
       filteredOptions,
       setFilteredOptions,
       disabled,
-      loading
+      loading,
+      creatable,
+      createMessage
     );
   } else if (searchable) {
     return DownshiftWithComboboxProps(
