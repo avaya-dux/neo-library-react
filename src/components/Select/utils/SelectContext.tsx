@@ -12,6 +12,7 @@ export type SelectContextProps = {
 
   selectProps: {
     ariaLabel?: string;
+    creatable?: boolean;
     disabled: boolean;
     filteredOptions: SelectOptionProps[];
     helperId?: string;
@@ -21,6 +22,7 @@ export type SelectContextProps = {
   };
 
   optionProps: {
+    createMessage: string;
     multiple: boolean;
     noOptionsMessage: string;
     options: SelectOptionProps[];
@@ -34,12 +36,14 @@ export const SelectContext = createContext<SelectContextProps>({
 
   selectProps: {
     disabled: false,
+    creatable: false,
     filteredOptions: [],
     loading: false,
     placeholder: "",
   },
 
   optionProps: {
+    createMessage: "",
     multiple: false,
     noOptionsMessage: "",
     options: [],

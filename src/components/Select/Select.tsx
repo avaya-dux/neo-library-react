@@ -48,7 +48,9 @@ import "./Select_shim.css";
 export const Select = (props: SelectProps) => {
   const {
     "aria-label": ariaLabel,
+    createMessage = "Create? ",
     children = [],
+    creatable = false,
     defaultValue,
     disabled = false,
     errorList = [],
@@ -168,6 +170,7 @@ export const Select = (props: SelectProps) => {
     downshiftProps,
     selectProps: {
       ariaLabel,
+      creatable,
       disabled,
       filteredOptions,
       helperId,
@@ -176,6 +179,7 @@ export const Select = (props: SelectProps) => {
       placeholder,
     },
     optionProps: {
+      createMessage,
       multiple,
       noOptionsMessage,
       options,
