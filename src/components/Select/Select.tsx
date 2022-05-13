@@ -48,7 +48,7 @@ import "./Select_shim.css";
 export const Select = (props: SelectProps) => {
   const {
     "aria-label": ariaLabel,
-    createMessage = "Create? ",
+    createMessage = "Create:",
     children = [],
     creatable = false,
     defaultValue,
