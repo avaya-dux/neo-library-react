@@ -1,5 +1,12 @@
 import clsx from "clsx";
-import { HTMLAttributes, ReactNode, RefObject, useMemo, useRef } from "react";
+import {
+  HTMLAttributes,
+  ReactNode,
+  RefObject,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import {
@@ -9,6 +16,8 @@ import {
   handleAccessbilityError,
   IconNamesType,
 } from "utils";
+
+import "./TextInput_shim.css";
 
 export interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
   clearable?: boolean;
@@ -25,6 +34,9 @@ export interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
   startAddon?: ReactNode;
   startIcon?: IconNamesType;
   value?: number | string;
+  type?: "text" | "password" | "number" | "email" | "tel";
+  ariaLabelPasswordShow?: "string";
+  ariaLabelPasswordHide?: "string";
 }
 
 export const TextInput: React.FC<TextInputProps> = ({
@@ -42,6 +54,9 @@ export const TextInput: React.FC<TextInputProps> = ({
   startAddon,
   startIcon,
   value,
+  type = "text",
+  ariaLabelPasswordShow = "Show Password",
+  ariaLabelPasswordHide = "Hide Password",
   ...rest
 }) => {
   if (!label && !placeholder) {
@@ -53,6 +68,24 @@ export const TextInput: React.FC<TextInputProps> = ({
 
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const [eyeIcon, setEyeIcon] = useState("view-on");
+  const [inputType, setInputType] = useState(type);
+  const [ariaPressed, setAriaPressed] = useState(false);
+  const [ariaLabel, setAriaLabel] = useState(ariaLabelPasswordShow);
+
+  const toggleIcon = () => {
+    if (eyeIcon === "view-on") {
+      setEyeIcon("view-off");
+      setInputType("text");
+      setAriaLabel(ariaLabelPasswordHide);
+      setAriaPressed(true);
+    } else {
+      setEyeIcon("view-on");
+      setInputType("password");
+      setAriaLabel(ariaLabelPasswordShow);
+      setAriaPressed(false);
+    }
+  };
   return (
     <NeoInputWrapper
       wrapperClassName={startIcon || endIcon ? "neo-input-icon" : ""}
@@ -100,6 +133,7 @@ export const TextInput: React.FC<TextInputProps> = ({
                 placeholder={placeholder}
                 readOnly={readOnly}
                 value={value}
+                type={inputType}
                 {...rest}
               />
 
@@ -115,6 +149,14 @@ export const TextInput: React.FC<TextInputProps> = ({
                   onClick={() => {
                     dispatchInputOnChangeEvent(inputRef.current!, "");
                   }}
+                />
+              )}
+              {type === "password" && (
+                <button
+                  className={`neo-icon-${eyeIcon}`}
+                  onClick={toggleIcon}
+                  aria-pressed={ariaPressed}
+                  aria-label={ariaLabel}
                 />
               )}
             </div>
@@ -142,8 +184,12 @@ export const InternalTextInputElement = ({
   placeholder,
   inputRef,
   value,
+  type,
   ...rest
-}: Pick<TextInputProps, "readOnly" | "disabled" | "placeholder" | "value"> & {
+}: Pick<
+  TextInputProps,
+  "readOnly" | "disabled" | "placeholder" | "value" | "type"
+> & {
   internalId: string;
   inputRef: RefObject<HTMLInputElement>;
 }) => (
@@ -157,6 +203,7 @@ export const InternalTextInputElement = ({
     ref={inputRef}
     tabIndex={readOnly ? -1 : 0}
     value={value}
+    type={type}
     {...rest}
   />
 );
