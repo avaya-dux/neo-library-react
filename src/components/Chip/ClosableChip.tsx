@@ -1,7 +1,7 @@
-import { forwardRef } from "react";
+import { forwardRef, MouseEvent } from "react";
 
 import { Tooltip } from "components/Tooltip";
-import { IconNamesType } from "utils";
+import { IconNamesType, Keys } from "utils";
 import { genId } from "utils/accessibilityUtils";
 
 import { getBasicChipClassNames } from "./BasicChip";
@@ -18,13 +18,14 @@ export interface ClosableChipProps extends OneWayChipProps {
 export const ClosableChip: React.FC<ClosableChipProps> = forwardRef(
   (
     {
-      variant = "default",
-      tooltip,
       disabled = false,
-      withinChipContainer = false,
-      text,
-      id,
       icon,
+      id = genId(),
+      onClick,
+      text,
+      tooltip,
+      variant = "default",
+      withinChipContainer = false,
       ...rest
     }: ClosableChipProps,
     ref: React.Ref<HTMLDivElement>
@@ -37,16 +38,21 @@ export const ClosableChip: React.FC<ClosableChipProps> = forwardRef(
     );
     const buttonAriaLabel = getButtonAriaLabel(text);
 
-    const attributes = {
-      ref,
-      className: classes,
-      id: id || genId(),
-      ...rest,
-      tabIndex: 0,
-      role: "button",
-    };
     const chipElement = (
-      <div {...attributes}>
+      <div
+        id={id}
+        ref={ref}
+        className={classes}
+        tabIndex={0}
+        role="button"
+        onClick={onClick}
+        onKeyDown={(e) => {
+          if ([Keys.ENTER, Keys.SPACE].includes(e.key)) {
+            onClick?.(e as unknown as MouseEvent<Element>);
+          }
+        }}
+        {...rest}
+      >
         {text}
         <section // button is interactive so it can not be used when the parent div is interactive due to the "button" role. Section is a landmark element, which can have an aria-label.
           className="neo-close neo-close--clear"
