@@ -83,3 +83,58 @@
   box-shadow: none;
   cursor: not-allowed;
 }
+
+/* no left padding while loading */
+.neo-multiselect.neo-select__spinner span input.neo-input {
+  padding-left: 0;
+}
+
+/* no left padding while loading */
+.neo-multiselect.neo-select__spinner button.neo-multiselect__header,
+.neo-multiselect.neo-select__spinner span.neo-multiselect-combo__header {
+  padding-left: 32px;
+  background-color: #f1f1f1;
+}
+
+div.neo-multiselect button.neo-multiselect__header,
+div.neo-multiselect span.neo-multiselect-combo__header {
+  width: 100%;
+}
+
+/* internal select option highlight styles */
+.neo-multiselect__content
+  .neo-input-group
+  div.neo-check__label[aria-selected="true"],
+.neo-multiselect__content ul li[aria-selected="true"] {
+  background-color: #e8f1fc;
+}
+
+/* remove innapropriate padding */
+.neo-multiselect .neo-multiselect__content .neo-input-group {
+  padding-bottom: 0;
+}
+
+/* can't use `label` due to axe error, need to update styling to use `div` instead */
+.neo-multiselect__content .neo-check + div + .neo-input-hint {
+  white-space: nowrap;
+  margin: 0;
+  padding-left: 40px;
+  padding-right: 8px;
+}
+
+/* BUG: need to figure out a better way to disable hover for the multi-select when an option is disabled */
+div.neo-multiselect div.neo-input-group:hover {
+  background-color: transparent;
+}
+
+/* override bad styling for the multi-select (non-searchable) */
+.neo-input-group .neo-multiselect span.neo-multiselect-combo__header {
+  justify-content: start;
+}
+.neo-input-group
+  .neo-multiselect
+  span.neo-multiselect-combo__header
+  button.neo-multiselect__header {
+  border: none;
+  margin: 0;
+}

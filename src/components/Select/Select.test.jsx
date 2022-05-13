@@ -1,5 +1,5 @@
 import { composeStories } from "@storybook/testing-react";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { Select } from "./Select";
@@ -7,12 +7,12 @@ import * as SelectStories from "./Select.stories";
 import { SelectOption } from "./SelectOption";
 
 const {
-  DefaultSelects,
-  SelectWithHelperText,
-  DisabledSelect,
-  RequiredMultipleSelectWithHelperText,
-  DisabledMultipleSelectWithErrorState,
-  LoadingMultipleSelect,
+  BasicSelects,
+  Searchable,
+  Disabled,
+  RequiredInForm,
+  LoadOptions,
+  Empty,
   SelectsWithWrongChildren,
   MoreThanOneMultipleSelect,
 } = composeStories(SelectStories);
@@ -21,79 +21,95 @@ const randomString = () =>
   Math.random().toString(36).substring(2, 15) +
   Math.random().toString(36).substring(2, 15);
 
+const foodOptions = [
+  <SelectOption value="apple" key="apple">
+    Apple
+  </SelectOption>,
+  <SelectOption value="gravel" key="gravel" helperText="Not a Food" disabled>
+    Gravel
+  </SelectOption>,
+  <SelectOption value="broccoli" key="broccoli" helperText="Vegetable">
+    Broccoli
+  </SelectOption>,
+  <SelectOption value="banana" key="banana">
+    Banana
+  </SelectOption>,
+  <SelectOption value="pear" key="pear">
+    Pear
+  </SelectOption>,
+  <SelectOption value="blueberries" key="blueberries">
+    Blueberries
+  </SelectOption>,
+  <SelectOption value="grapes" key="grapes">
+    Grapes
+  </SelectOption>,
+  <SelectOption value="oranges" key="oranges">
+    Oranges
+  </SelectOption>,
+];
+
 describe("Select", () => {
-  describe("Custom Select", () => {
-    describe("Basic unit tests", () => {
-      let renderResult;
+  describe("Single Select, non-searchable", () => {
+    let renderResult;
 
-      const randomizedLabel = randomString();
+    const randomizedLabel = randomString();
 
-      const randomizedItems = [
-        {
-          text: randomString(),
-        },
-        {
-          text: randomString(),
-        },
-        {
-          text: randomString(),
-        },
-      ];
+    beforeEach(() => {
+      renderResult = render(
+        <Select label={randomizedLabel}>{foodOptions}</Select>
+      );
+    });
 
-      beforeEach(() => {
-        renderResult = render(
-          <Select label={randomizedLabel} items={randomizedItems} />
-        );
-      });
+    it("renders without exploding", () => {
+      const { container } = renderResult;
+      expect(container).not.toBe(null);
+    });
 
-      it("renders without exploding", () => {
-        const { container } = renderResult;
-        expect(container).not.toBe(null);
-      });
+    it("passes the correct props to label element", () => {
+      const { getByText } = renderResult;
+      const labelElement = getByText(randomizedLabel);
+      const expectedAttributes = ["id", "for"];
+      expectedAttributes.forEach((attribute) =>
+        expect(labelElement).toHaveAttribute(attribute)
+      );
+    });
 
-      it("passes the correct props to label element", () => {
-        const { getByText } = renderResult;
-        const labelElement = getByText(randomizedLabel);
-        const expectedAttributes = ["id", "for"];
-        expectedAttributes.forEach((attribute) =>
-          expect(labelElement).toHaveAttribute(attribute)
-        );
-      });
+    it("passes the correct props to toggle element", () => {
+      const { getByRole } = renderResult;
+      const toggleButton = getByRole("button");
+      const expectedAttributes = ["id", "aria-haspopup", "aria-labelledby"];
+      expectedAttributes.forEach((attribute) =>
+        expect(toggleButton).toHaveAttribute(attribute)
+      );
+    });
 
-      it("passes the correct props to toggle element", () => {
-        const { getByRole } = renderResult;
-        const toggleButton = getByRole("button");
-        const expectedAttributes = ["id", "aria-haspopup", "aria-labelledby"];
-        expectedAttributes.forEach((attribute) =>
-          expect(toggleButton).toHaveAttribute(attribute)
-        );
-      });
+    it("toggles aria-expanded prop on click", () => {
+      const { getByRole } = renderResult;
+      const toggleButton = getByRole("button");
+      expect(toggleButton).toHaveAttribute("aria-expanded", "false");
+      fireEvent.click(toggleButton);
+      expect(toggleButton).toHaveAttribute("aria-expanded", "true");
+      fireEvent.click(toggleButton);
+      expect(toggleButton).toHaveAttribute("aria-expanded", "true");
+    });
 
-      it("toggles aria-expanded prop on click", () => {
-        const { getByRole } = renderResult;
-        const toggleButton = getByRole("button");
-        expect(toggleButton).toHaveAttribute("aria-expanded", "false");
-        fireEvent.click(toggleButton);
-        expect(toggleButton).toHaveAttribute("aria-expanded", "true");
-        fireEvent.click(toggleButton);
-        expect(toggleButton).toHaveAttribute("aria-expanded", "true");
-      });
-
-      it("passes basic axe compliance", async () => {
-        const { container } = renderResult;
-        const results = await axe(container);
-        expect(results).toHaveNoViolations();
-      });
+    it("passes basic axe compliance", async () => {
+      const { container } = renderResult;
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
     });
   });
 
-  describe("Multiple Select", () => {
+  describe("Multiple Select, non-searchable", () => {
     describe("Basic unit tests", () => {
       let renderResult;
-      const randomizedLabel = randomString();
+      const randomizedLabel = "label";
+      const placeholder = "Please Select One";
       beforeEach(() => {
         renderResult = render(
-          <Select isMultipleSelect label={randomizedLabel} />
+          <Select multiple label={randomizedLabel} placeholder={placeholder}>
+            <SelectOption>ping</SelectOption>
+          </Select>
         );
       });
 
@@ -112,8 +128,7 @@ describe("Select", () => {
       });
 
       it("passes the correct props to toggle element", () => {
-        const { getByText } = renderResult;
-        const toggleElement = getByText("Select One");
+        const toggleElement = screen.getByRole("button");
         const expectedAttributes = ["id", "aria-haspopup", "aria-labelledby"];
         expectedAttributes.forEach((attribute) =>
           expect(toggleElement).toHaveAttribute(attribute)
@@ -121,8 +136,8 @@ describe("Select", () => {
       });
 
       it("toggles aria-expanded prop on click", () => {
-        const { getByText } = renderResult;
-        const toggleElement = getByText("Select One");
+        const toggleElement = screen.getByRole("button");
+        expect(toggleElement).toHaveTextContent(placeholder);
         expect(toggleElement).toHaveAttribute("aria-expanded", "false");
         fireEvent.click(toggleElement);
         expect(toggleElement).toHaveAttribute("aria-expanded", "true");
@@ -139,11 +154,7 @@ describe("Select", () => {
       it("only calls the event handler when option is not disabled", () => {
         const spy = jest.fn();
         const { getAllByRole } = render(
-          <Select
-            isMultipleSelect
-            label="not important"
-            onSelectedValueChange={spy}
-          >
+          <Select multiple label="not important" onSelectedValueChange={spy}>
             <SelectOption>Option 1</SelectOption>
             <SelectOption disabled>Option 2</SelectOption>
             <SelectOption>Option 3</SelectOption>
@@ -168,14 +179,13 @@ describe("Select", () => {
       });
 
       it("does open content area on click after content is loaded", () => {
-        let loading = true;
         const placeholder = "please select one";
         const label = randomString();
         const { getByText, rerender } = render(
           <Select
-            isMultipleSelect
+            multiple
             label={label}
-            loading={loading}
+            loading={true}
             placeholder={placeholder}
           ></Select>
         );
@@ -185,17 +195,17 @@ describe("Select", () => {
         fireEvent.click(defaultSelectHeader);
         expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
 
-        loading = false;
         rerender(
           <Select
-            isMultipleSelect
+            multiple
             label={label}
-            loading={loading}
+            loading={false}
             placeholder={placeholder}
           >
             <SelectOption>Option 1</SelectOption>
           </Select>
         );
+
         fireEvent.click(defaultSelectHeader);
         expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "true");
       });
@@ -203,10 +213,10 @@ describe("Select", () => {
   });
 
   describe("Storybook tests", () => {
-    describe("Default Selects", () => {
+    describe("Basic Selects", () => {
       let renderResult;
       beforeEach(() => {
-        renderResult = render(<DefaultSelects />);
+        renderResult = render(<BasicSelects />);
       });
 
       it("passes the correct props to list item element", () => {
@@ -220,7 +230,7 @@ describe("Select", () => {
 
       it("renders the correct list item as disabled", () => {
         const { getAllByText } = renderResult;
-        const disabledListItems = getAllByText("Option 2");
+        const disabledListItems = getAllByText("Gravel");
         disabledListItems.forEach((disabledListItem) => {
           expect(disabledListItem).toHaveAttribute("disabled");
         });
@@ -232,25 +242,16 @@ describe("Select", () => {
         expect(results).toHaveNoViolations();
       });
     });
-    describe("Select With Helper Text", () => {
+
+    describe("Searchable Selects", () => {
       let renderResult;
       beforeEach(() => {
-        renderResult = render(<SelectWithHelperText />);
+        renderResult = render(<Searchable />);
       });
 
-      it("passes correct id value to helper text when passed by user", () => {
-        const { getByText } = renderResult;
-        const helperText = getByText("This is helper text");
-        expect(helperText).toHaveAttribute("id", "helper-text-neo-select");
-      });
-
-      it("passes the correct props to listbox element", () => {
-        const { getByRole } = renderResult;
-        const listboxElement = getByRole("listbox");
-        const expectedAttributes = ["id", "aria-labelledby", "tabindex"];
-        expectedAttributes.forEach((attribute) =>
-          expect(listboxElement).toHaveAttribute(attribute)
-        );
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
       });
 
       it("passes basic axe compliance", async () => {
@@ -263,7 +264,7 @@ describe("Select", () => {
     describe("Disabled Select", () => {
       let renderResult;
       beforeEach(() => {
-        renderResult = render(<DisabledSelect />);
+        renderResult = render(<Disabled />);
       });
       it("correctly prevents toggling active class on click", () => {
         const { getByTestId } = renderResult;
@@ -279,124 +280,100 @@ describe("Select", () => {
         expect(results).toHaveNoViolations();
       });
     });
-  });
 
-  describe("RequiredMultipleSelectWithHelperText", () => {
-    let renderResult;
-    beforeEach(() => {
-      renderResult = render(<RequiredMultipleSelectWithHelperText />);
+    describe("Required In Form", () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<RequiredInForm />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
     });
 
-    it("renders the correct default options", () => {
-      const { getAllByText } = renderResult;
-      const selectHeader = getAllByText("Choice 1")[0];
-      expect(selectHeader).toHaveClass("neo-multiselect__header");
+    describe("Loading", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<LoadOptions />);
+      });
+
+      it("does not open content area on click when loading", () => {
+        const { getByText } = renderResult;
+        const defaultSelectHeader = getByText("Select One");
+        expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
+        fireEvent.click(defaultSelectHeader);
+        expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
     });
 
-    it("renders the correct classes when error text passed in", () => {
-      const { getByText, getAllByText } = renderResult;
-      const submitButton = getByText("Submit");
-      const selectedOption = getAllByText("Choice 1")[1];
-      fireEvent.click(selectedOption);
-      fireEvent.click(submitButton);
-      const errorText = getByText("This is a required field");
-      expect(errorText).toBeTruthy();
+    describe("Selects Without Children", () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<Empty />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
     });
 
-    it("clears the selected options when prompted", () => {
-      const { getByText, getAllByText } = renderResult;
-      const selectHeader = getAllByText("Choice 1")[0];
-      expect(selectHeader).toHaveClass("neo-multiselect__header");
-      const resetButton = getByText("Reset");
-      fireEvent.click(resetButton);
-      const defaultSelectHeader = getByText("Select One");
-      expect(defaultSelectHeader).toHaveClass("neo-multiselect__header");
+    describe("Selects With Wrong Children", () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<SelectsWithWrongChildren />);
+      });
+
+      it("renders without exploding", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
     });
 
-    it("passes basic axe compliance", async () => {
-      const { container } = renderResult;
-      const results = await axe(container);
-      expect(results).toHaveNoViolations();
-    });
-  });
+    describe("More Than One Multiple Select", () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<MoreThanOneMultipleSelect />);
+      });
 
-  describe("Disabled Multiple Select With Error State,", () => {
-    let renderResult;
-    beforeEach(() => {
-      renderResult = render(<DisabledMultipleSelectWithErrorState />);
-    });
+      it("allows for different options to be rendered for each Multiple Select individually", () => {
+        const { getAllByText } = renderResult;
+        const allOptionOnes = getAllByText("Option 1");
+        const allOptionTwos = getAllByText("Option 3");
+        fireEvent.click(allOptionOnes[0]);
+        fireEvent.click(allOptionTwos[1]);
+        const allOptionOnesAfterClick = getAllByText("Option 1");
+        const allOptionTwosAfterClick = getAllByText("Option 3");
+        expect(allOptionOnesAfterClick).toHaveLength(3);
+        expect(allOptionTwosAfterClick).toHaveLength(3);
+      });
 
-    it("does not open content area on click when disabled", () => {
-      const { getByText } = renderResult;
-      const defaultSelectHeader = getByText("Select One");
-      expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
-      fireEvent.click(defaultSelectHeader);
-      expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
-    });
-
-    it("passes basic axe compliance", async () => {
-      const { container } = renderResult;
-      const results = await axe(container);
-      expect(results).toHaveNoViolations();
-    });
-  });
-
-  describe("Loading Multiple Select", () => {
-    let renderResult;
-
-    beforeEach(() => {
-      renderResult = render(<LoadingMultipleSelect />);
-    });
-
-    it("does not open content area on click when loading", () => {
-      const { getByText } = renderResult;
-      const defaultSelectHeader = getByText("Select One");
-      expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
-      fireEvent.click(defaultSelectHeader);
-      expect(defaultSelectHeader).toHaveAttribute("aria-expanded", "false");
-    });
-
-    it("passes basic axe compliance", async () => {
-      const { container } = renderResult;
-      const results = await axe(container);
-      expect(results).toHaveNoViolations();
-    });
-  });
-
-  describe("Selects With Wrong Children", () => {
-    let renderResult;
-    beforeEach(() => {
-      renderResult = render(<SelectsWithWrongChildren />);
-    });
-
-    it("renders without exploding", () => {
-      const { container } = renderResult;
-      expect(container).not.toBe(null);
-    });
-  });
-
-  describe("More Than One Multiple Select", () => {
-    let renderResult;
-    beforeEach(() => {
-      renderResult = render(<MoreThanOneMultipleSelect />);
-    });
-
-    it("allows for different options to be rendered for each Multiple Select individually", () => {
-      const { getAllByText } = renderResult;
-      const allOptionOnes = getAllByText("Option 1");
-      const allOptionTwos = getAllByText("Option 3");
-      fireEvent.click(allOptionOnes[0]);
-      fireEvent.click(allOptionTwos[1]);
-      const allOptionOnesAfterClick = getAllByText("Option 1");
-      const allOptionTwosAfterClick = getAllByText("Option 3");
-      expect(allOptionOnesAfterClick).toHaveLength(3);
-      expect(allOptionTwosAfterClick).toHaveLength(3);
-    });
-
-    it("passes basic axe compliance", async () => {
-      const { container } = renderResult;
-      const results = await axe(container);
-      expect(results).toHaveNoViolations();
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
     });
   });
 });

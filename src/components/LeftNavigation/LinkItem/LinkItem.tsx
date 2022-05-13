@@ -1,27 +1,82 @@
 import clsx from "clsx";
 import { Button } from "components/Button";
-import { HTMLAttributes } from "react";
+import {
+  KeyboardEvent,
+  KeyboardEventHandler,
+  MouseEventHandler,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { useFocusEffect, useRovingTabIndex } from "react-roving-tabindex";
 
-export interface ListItemLinkProps
-  extends HTMLAttributes<HTMLLIElement | HTMLAnchorElement> {
-  children: string;
-  active?: boolean;
-  disabled?: boolean;
-  href?: string;
-}
+import { genId, Keys } from "utils";
+
+import { LinkItemProps } from "../LeftNavigationTypes";
+import { NavigationContext } from "../NavigationContext";
 
 export const LinkItem = ({
-  active,
+  active = false,
   children,
   className,
-  disabled,
+  disabled = false,
   href,
-  onClick,
+  id = genId(),
   onFocus,
   onMouseOver,
+  parentHasIcon,
 
   ...rest
-}: ListItemLinkProps) => {
+}: LinkItemProps) => {
+  const ctx = useContext(NavigationContext);
+  const [itemStyle, setItemStyle] = useState({ padding: "8px 28px 8px 20px" });
+
+  const ref = useRef(null);
+  const [tabIndex, isActive, handleKeyIndex, handleClick] = useRovingTabIndex(
+    ref,
+    disabled
+  );
+  useFocusEffect(isActive, ref);
+
+  useEffect(() => {
+    let leftPadding = "20px";
+
+    if (disabled) {
+      leftPadding = parentHasIcon ? "72px" : "40px";
+    } else if (parentHasIcon) {
+      leftPadding = "52px";
+    }
+    const itemStyle = { padding: `8px 28px 8px ${leftPadding}` };
+    setItemStyle(itemStyle);
+  }, [disabled, parentHasIcon]);
+
+  const handleOnClick: MouseEventHandler = (e) => {
+    handleClick();
+    e.preventDefault();
+    ctx?.onSelectedLink && ctx.onSelectedLink(id, href);
+  };
+
+  const handleKeyDown: KeyboardEventHandler = (
+    event: KeyboardEvent<HTMLButtonElement>
+  ) => {
+    if (event.key !== Keys.TAB) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+    handleKeyIndex(event);
+
+    if (disabled) return;
+
+    switch (event.key) {
+      case Keys.SPACE:
+      case Keys.ENTER:
+        ctx?.onSelectedLink && ctx.onSelectedLink(id, href);
+        break;
+    }
+  };
+
   return (
     <li
       {...rest}
@@ -34,19 +89,23 @@ export const LinkItem = ({
       {disabled ? (
         <Button
           disabled={disabled}
+          ref={ref}
           variant="tertiary"
-          style={{
-            padding: "8px 28px 8px 72px",
-          }}
+          style={itemStyle}
+          tabIndex={tabIndex}
         >
           {children}
         </Button>
       ) : (
         <a
           href={href}
-          onClick={onClick}
+          onClick={handleOnClick}
           onFocus={onFocus}
           onMouseOver={onMouseOver}
+          onKeyDown={handleKeyDown}
+          ref={ref}
+          style={itemStyle}
+          tabIndex={tabIndex}
         >
           {children}
         </a>

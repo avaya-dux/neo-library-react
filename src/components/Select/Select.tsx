@@ -1,161 +1,188 @@
-import clsx from "clsx";
-import { UseComboboxReturnValue } from "downshift";
-import {
-  Children,
-  Fragment,
-  isValidElement,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { Children, useEffect, useMemo, useState } from "react";
 
 import { NeoInputWrapper } from "components/NeoInputWrapper";
 import { genId, handleAccessbilityError } from "utils/accessibilityUtils";
 import { useIsInitialRender } from "utils/hooks/useIsInitialRender";
 
-import {
-  DownshiftWithComboboxMultipleSelectProps,
-  DownshiftWithComboboxProps,
-  DownshiftWithMultipleSelectProps,
-  DownshiftWithSelectProps,
-} from "./DownshiftHooks";
-import { SelectContext } from "./SelectContext";
-import { SelectProps } from "./SelectTypes";
+import { InternalSelect } from "./InternalComponents";
+import { SelectContext } from "./utils/SelectContext";
+import { SelectOptionProps, SelectProps } from "./utils/SelectTypes";
+import { useDownshift } from "./utils/useDownshift";
 
 import "./Select_shim.css";
 
-export const Select = ({
-  children = [],
-  disabled,
-  errorList = [],
-  helperText,
-  id = genId(),
-  isCombobox,
-  isMultipleSelect,
-  label,
-  "aria-label": ariaLabel,
-  loading = false,
-  onSelectedValueChange,
-  placeholder = "Select One",
-  required,
-  values,
-}: SelectProps) => {
+/**
+ * The `Select` component allows the user to select one or more options from a list
+ * of `SelectOption`. If no `value` is passed via options, the `children` string is
+ * assigned as the value.
+ *
+ * @example
+  <Select
+    label="Select a favorite food"
+    onSelectedValueChange={handleSelectedValueChange}
+  >
+    <SelectOption value="apple">Apple</SelectOption>
+    <SelectOption value="broccoli" helperText="Vegetable">Broccoli</SelectOption>
+    <SelectOption value="banana">Banana</SelectOption>
+    <SelectOption value="pear">Pear</SelectOption>
+  </Select>
+ *
+ * @example
+  <Select
+    label="Select multiple foods"
+    multiple
+    searchable
+  >
+    <SelectOption value="apple">Apple</SelectOption>
+    <SelectOption value="gravel" helperText="Not a Food" disabled>
+      Gravel
+    </SelectOption>
+    <SelectOption value="broccoli" helperText="Vegetable">Broccoli</SelectOption>
+    <SelectOption value="banana">Banana</SelectOption>
+    <SelectOption value="pear">Pear</SelectOption>
+  </Select>
+ *
+ * @see https://design.avayacloud.com/components/web/select-web
+ * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-select
+ */
+export const Select = (props: SelectProps) => {
+  const {
+    "aria-label": ariaLabel,
+    children = [],
+    defaultValue,
+    disabled = false,
+    errorList = [],
+    helperText = "",
+    id = genId(),
+    label = "",
+    loading = false,
+    multiple = false,
+    noOptionsMessage = "No options available",
+    onSelectedValueChange,
+    placeholder = "Select One",
+    required,
+    searchable = false,
+    value,
+  } = props;
+
   if (!(label || ariaLabel)) {
     handleAccessbilityError("Select requires a label prop or aria-label");
   }
 
+  const helperId = useMemo(() => `helper-text-${id}`, [id]);
   const isInitialRender = useIsInitialRender();
 
-  const items: string[] = useMemo(
+  // if the `value` is not set, use `children` as `value`
+  const options = useMemo(
     () =>
-      Array.isArray(children)
-        ? children.map((child) => {
-            if (isValidElement(child)) {
-              return child.props.children.toString();
-            } else {
-              return " ";
-            }
-          })
-        : Array.from(children.props.children.toString()),
+      Children.map(children, (child) => {
+        const props = { ...child.props };
+        if (!props.value) {
+          props.value = props.children;
+        }
+
+        return props;
+      }),
     [children]
   );
-
-  const [selectedItems, setSelectedItems] = useState<string[]>(values || []);
-
-  const [controlledInputValue, setControlledInputValue] = useState<string>("");
-
-  const [inputItems, setInputItems] = useState<string[]>(items);
-
-  const helperId = useMemo(() => `helper-text-${id}`, [id]);
-
-  const selectText = useMemo(
-    () =>
-      `${selectedItems.length > 0 ? selectedItems.join(", ") : placeholder}`,
-    [selectedItems]
-  );
-
-  const downshiftProps = isCombobox
-    ? isMultipleSelect
-      ? DownshiftWithComboboxMultipleSelectProps(
-          items,
-          id,
-          controlledInputValue,
-          setControlledInputValue,
-          selectedItems,
-          setSelectedItems,
-          inputItems,
-          setInputItems,
-          disabled,
-          loading
-        )
-      : DownshiftWithComboboxProps(
-          items,
-          id,
-          setSelectedItems,
-          setInputItems,
-          onSelectedValueChange,
-          disabled,
-          loading
-        )
-    : isMultipleSelect
-    ? DownshiftWithMultipleSelectProps(
-        items,
-        id,
-        selectedItems,
-        setSelectedItems,
-        disabled,
-        loading
-      )
-    : DownshiftWithSelectProps(
-        items,
-        id,
-        setSelectedItems,
-        onSelectedValueChange,
-        disabled,
-        loading
+  const [filteredOptions, setFilteredOptions] = useState(options);
+  useEffect(() => {
+    // HACK: _sometimes_ when going from/to empty options (loading options), the code gets
+    // into an infinite loop. I'm not sure why, so this is my hack around that issue.
+    const optionsHaveChanged =
+      options.length !== filteredOptions.length ||
+      options.some(
+        (option, index) => option.value !== filteredOptions[index].value
       );
 
-  const {
-    isOpen,
-    highlightedIndex,
-    getMenuProps,
-    getItemProps,
-    getLabelProps,
-    getToggleButtonProps,
-  } = downshiftProps;
-
-  const getComboboxProps = (downshiftProps as UseComboboxReturnValue<string>)
-    .getComboboxProps;
-
-  const getInputProps = (downshiftProps as UseComboboxReturnValue<string>)
-    .getInputProps;
-
-  useEffect(() => {
-    if (values) {
-      setSelectedItems(values);
+    if (optionsHaveChanged) {
+      setFilteredOptions(options);
     }
-  }, [values]);
+  }, [options]);
+
+  const [selectedItems, setSelectedItems] = useState<SelectOptionProps[]>([]);
+  useEffect(() => {
+    if (isInitialRender && defaultValue) {
+      const userSelectedOptions = options.filter((option) =>
+        multiple
+          ? defaultValue.includes(option.value as string)
+          : defaultValue === option.value
+      );
+      setSelectedItems(userSelectedOptions);
+    } else if (isInitialRender && options.some((o) => o.selected)) {
+      setSelectedItems(options.filter((option) => option.selected));
+    } else if (value) {
+      const selectionHasChanged = multiple
+        ? selectedItems.length !== value.length ||
+          selectedItems.every((item) => value.includes(item.value as string))
+        : selectedItems[0]?.value !== value;
+
+      if (selectionHasChanged) {
+        const userSelectedOptions = options.filter((option) =>
+          multiple
+            ? value.includes(option.value as string)
+            : value === option.value
+        );
+
+        setSelectedItems(userSelectedOptions);
+      }
+    }
+  }, [value]);
 
   useEffect(() => {
     if (!isInitialRender && onSelectedValueChange) {
-      onSelectedValueChange(selectedItems);
+      if (multiple) {
+        const newlySelectedValues = selectedItems.map(
+          (item) => item.value as string
+        );
+
+        onSelectedValueChange(newlySelectedValues);
+      } else {
+        onSelectedValueChange(
+          selectedItems.length ? (selectedItems[0].value as string) : null
+        );
+      }
     }
-    setControlledInputValue(`${selectedItems.join(", ")}`);
   }, [selectedItems]);
+  const selectedItemsValues = useMemo(
+    () => selectedItems.map((item) => item.value),
+    [selectedItems]
+  );
 
-  const context = {
-    isMultipleSelect,
-    items,
-    itemProps: getItemProps,
+  const downshiftProps = useDownshift(
+    disabled,
+    id,
+    loading,
+    multiple,
+    searchable,
+    options,
+    filteredOptions,
+    setFilteredOptions,
     selectedItems,
-    highlightedIndex,
-  };
+    setSelectedItems
+  );
 
-  const childrenWithProps = Children.map(children, (child, index) => (
-    <SelectContext.Provider value={{ ...context, index }}>
-      {child}
-    </SelectContext.Provider>
-  ));
+  const { getLabelProps } = downshiftProps;
+
+  const contextValue = {
+    downshiftProps,
+    selectProps: {
+      ariaLabel,
+      disabled,
+      filteredOptions,
+      helperId,
+      helperText,
+      loading,
+      placeholder,
+    },
+    optionProps: {
+      multiple,
+      noOptionsMessage,
+      options,
+      selectedItems,
+      selectedItemsValues,
+    },
+  };
 
   return (
     <NeoInputWrapper
@@ -164,105 +191,11 @@ export const Select = ({
       required={required}
     >
       {label && <label {...getLabelProps()}>{label}</label>}
-      <div
-        {...getComboboxProps?.()}
-        className={clsx(
-          "neo-multiselect",
-          disabled && "neo-multiselect--disabled",
-          loading && "neo-select__spinner",
-          isOpen && "neo-multiselect--active"
-        )}
-        aria-describedby={helperText && helperId}
-      >
-        {isCombobox ? (
-          <span
-            {...getToggleButtonProps()}
-            className={
-              isCombobox
-                ? "neo-multiselect-combo__header"
-                : "neo-multiselect__header"
-            }
-            style={{
-              width: "100%",
-              paddingLeft: loading && "32px",
-              backgroundColor: loading && "#f1f1f1",
-            }}
-          >
-            <input
-              {...getInputProps?.()}
-              placeholder={placeholder}
-              className="neo-input"
-              style={{
-                paddingLeft: loading && "0px",
-              }}
-            />
-          </span>
-        ) : (
-          <button
-            {...getToggleButtonProps()}
-            className={
-              isCombobox
-                ? "neo-multiselect-combo__header"
-                : "neo-multiselect__header"
-            }
-            type="button"
-            // TO-DO: Add this property to .neo-multiselect__header class to maintain styling when using button element instead of div
-            style={{
-              width: "100%",
-              paddingLeft: loading && "32px",
-              backgroundColor: loading && "#f1f1f1",
-            }}
-          >
-            {selectText}
-          </button>
-        )}
 
-        {isCombobox ? (
-          isMultipleSelect ? (
-            <div
-              className="neo-multiselect__content"
-              {...getMenuProps()}
-              aria-label={ariaLabel}
-            >
-              {childrenWithProps?.map((child, index) => {
-                if (inputItems.includes(child.props.children.props.children)) {
-                  return <Fragment key={index}>{child}</Fragment>;
-                } else {
-                  return null;
-                }
-              })}
-            </div>
-          ) : (
-            <div className="neo-multiselect__content">
-              <ul aria-label={ariaLabel} {...getMenuProps()}>
-                {childrenWithProps?.map((child, index) => {
-                  if (
-                    inputItems.includes(child.props.children.props.children)
-                  ) {
-                    return <Fragment key={index}>{child}</Fragment>;
-                  } else {
-                    return null;
-                  }
-                })}
-              </ul>
-            </div>
-          )
-        ) : isMultipleSelect ? (
-          <div
-            className="neo-multiselect__content"
-            {...getMenuProps()}
-            aria-label={ariaLabel}
-          >
-            {childrenWithProps}
-          </div>
-        ) : (
-          <div className="neo-multiselect__content">
-            <ul {...getMenuProps()} aria-label={ariaLabel}>
-              {childrenWithProps}
-            </ul>
-          </div>
-        )}
-      </div>
+      <SelectContext.Provider value={contextValue}>
+        <InternalSelect searchable={searchable} multiple={multiple} />
+      </SelectContext.Provider>
+
       {helperText && (
         <div className="neo-input-hint" id={helperId}>
           {helperText}
