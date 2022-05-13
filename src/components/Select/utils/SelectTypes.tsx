@@ -1,11 +1,15 @@
 import { ReactElement } from "react";
 
-export type SelectOptionProps = {
+export interface SelectOptionProps {
   children: string;
   disabled?: boolean;
   helperText?: string;
-};
-type AtLeastOneProps =
+  searchText?: string;
+  selected?: boolean;
+  value?: string;
+}
+
+type LabelOrAriaLabelProps =
   | { label: string; "aria-label"?: string }
   | { label?: string; "aria-label": string };
 
@@ -13,15 +17,17 @@ export type SelectProps = {
   children?:
     | ReactElement<SelectOptionProps>
     | ReactElement<SelectOptionProps>[];
+  defaultValue?: string | string[];
   disabled?: boolean;
   errorList?: string[];
   helperText?: string;
   id?: string;
-  isCombobox?: boolean;
-  isMultipleSelect?: boolean;
   loading?: boolean;
-  onSelectedValueChange?: (value: string | string[]) => void;
+  multiple?: boolean;
+  noOptionsMessage?: string;
+  onSelectedValueChange?: (value: null | string | string[]) => void;
   placeholder?: string;
   required?: boolean;
-  values?: string[];
-} & AtLeastOneProps;
+  searchable?: boolean;
+  value?: string | string[];
+} & LabelOrAriaLabelProps;

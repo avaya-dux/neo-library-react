@@ -4,23 +4,28 @@ import { BasicChip } from "./BasicChip";
 import { Variants } from "./ChipTypes";
 import { ClosableChip } from "./ClosableChip";
 
+type ChipProps = {
+  children: string;
+  closable?: boolean;
+  id?: string;
+  onClick?: React.MouseEventHandler;
+  variant?: Variants;
+};
+
 export const Chip = ({
   children,
   closable = false,
   id = genId(),
+  onClick,
   variant = "default",
-}: {
-  children: string;
-  closable?: boolean;
-  id?: string;
-  variant?: Variants;
-}) => {
+}: ChipProps) => {
   return closable ? (
     <ClosableChip
       chiptype="closable"
-      variant={variant}
       id={id}
+      onClick={onClick}
       text={children}
+      variant={variant}
     />
   ) : (
     <BasicChip chiptype="basic" variant={variant} id={id} text={children} />

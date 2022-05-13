@@ -1,17 +1,19 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { Select, SelectOption } from "components/Select";
-import { Switch } from "components/Switch";
-import { WidgetProps } from "./WidgetTypes";
-import { Header } from "./Header";
-import { Action } from "./Action";
-import { Widget } from "./Widget";
-import { Content } from "./Content";
 import { useEffect, useState } from "react";
+
 import { Form } from "components/Form";
-import { TextInput } from "components/TextInput";
 import { Icon } from "components/Icon";
 import { IconButton } from "components/IconButton";
+import { Select, SelectOption } from "components/Select";
+import { Switch } from "components/Switch";
+import { TextInput } from "components/TextInput";
+
+import { Action } from "./Action";
+import { Content } from "./Content";
+import { Header } from "./Header";
 import { text } from "./LoremText";
+import { Widget } from "./Widget";
+import { WidgetProps } from "./WidgetTypes";
 
 export default {
   title: "Components/Widget",
@@ -63,7 +65,7 @@ export const UsageExample = () => {
         <Action>
           <Form inline style={{ alignItems: "flex-end", gap: 10 }}>
             <div style={{ width: 200, height: "100%" }}>
-              <Select isMultipleSelect aria-label="Options">
+              <Select multiple aria-label="Options">
                 <SelectOption>Option 1</SelectOption>
                 <SelectOption disabled>Option 2</SelectOption>
                 <SelectOption>Option 3</SelectOption>

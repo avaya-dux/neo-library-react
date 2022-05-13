@@ -1,22 +1,24 @@
 import {
+  Children,
+  cloneElement,
   FunctionComponent,
   KeyboardEvent,
+  KeyboardEventHandler,
   MouseEvent,
+  MouseEventHandler,
+  useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import clsx from "clsx";
+import { useFocusEffect, useRovingTabIndex } from "react-roving-tabindex";
 
-import { genId, getIconClass, IconNamesType, Keys } from "utils";
-export interface NavCategoryProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  label: string;
-  icon?: IconNamesType;
-  expanded?: boolean;
-  disabled?: boolean;
-  active?: boolean;
-}
+import { NavCategoryProps } from "../LeftNavigationTypes";
+import { NavigationContext } from "../NavigationContext";
+
+import { genId, getIconClass, Keys } from "utils";
 
 const LEFTNAV_CATEGORY_STYLE: string = "neo-leftnav__main";
 
@@ -48,9 +50,9 @@ export function getNavBarClassNames(
 
  * @see https://design.avayacloud.com/components/web/list-web
  */
-export const NavCategory: FunctionComponent<NavCategoryProps> = ({
+export const NavCategory = ({
   id,
-  children,
+  children = [],
   label,
   icon,
   className,
@@ -58,33 +60,80 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
   disabled = false,
   active = false,
   ...rest
-}) => {
+}: NavCategoryProps) => {
   const internalId = useMemo(() => id || genId(), []);
   const listClass = "neo-leftnav__nav";
   const [isExpanded, setIsExpanded] = useState(expanded);
   const [navItemClass, setNavItemClass] = useState(LEFTNAV_CATEGORY_STYLE);
   const [iconClass, setIconClass] = useState("");
 
+  const ref = useRef(null);
+  const [tabIndex, isActive, handleKeyIndex, handleClick] = useRovingTabIndex(
+    ref,
+    disabled
+  );
+  useFocusEffect(isActive, ref);
+
+  const ctx = useContext(NavigationContext);
+
   useEffect(() => {
-    const itemStyle = getNavBarClassNames(isExpanded, active, disabled);
+    const itemStyle = getNavBarClassNames(isExpanded, isActive, disabled);
     setNavItemClass(itemStyle);
-  }, [isExpanded, active, disabled]);
+  }, [isExpanded, isActive, disabled]);
 
   useEffect(() => {
     const iconStyles = getIconClass(icon);
     setIconClass(iconStyles);
   }, [icon]);
 
-  const onExpand = (event: MouseEvent) => {
+  const handleOnClick: MouseEventHandler = (event: MouseEvent) => {
     event.stopPropagation();
+    handleClick();
     setIsExpanded(!isExpanded);
   };
-  const handleKeyDown = (event: KeyboardEvent) => {
-    event.stopPropagation();
-    if (event.key === Keys.ENTER) {
-      setIsExpanded(!isExpanded);
+
+  const handleKeyDown: KeyboardEventHandler = (
+    event: KeyboardEvent<HTMLButtonElement>
+  ) => {
+    handleKeyIndex(event);
+    if (event.key !== Keys.TAB) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+    if (!disabled) {
+      switch (event.key) {
+        case Keys.SPACE:
+        case Keys.ENTER:
+          setIsExpanded(!isExpanded);
+          break;
+        case Keys.LEFT:
+          setIsExpanded(false);
+          break;
+        case Keys.RIGHT:
+          setIsExpanded(true);
+          break;
+      }
     }
   };
+
+  const linkItems = useMemo(() => {
+    return Children.map(children, (child, index) => {
+      const childTypeName = (child.type as FunctionComponent).name;
+      const key = `${childTypeName}-${index}`;
+      const isDisabled = !isExpanded || disabled || !!child.props.disabled;
+      const parentHasIcon = !!icon;
+
+      return cloneElement(child, {
+        active: child.props.href === ctx.currentUrl,
+        disabled: isDisabled,
+        key: child.key || key,
+        id: child.props.id || key,
+        parentHasIcon: parentHasIcon,
+      });
+    });
+  }, [isExpanded, disabled, ctx]);
+
   return (
     <li id={internalId} className={navItemClass}>
       <button
@@ -95,15 +144,17 @@ export const NavCategory: FunctionComponent<NavCategoryProps> = ({
           icon && iconClass,
           className
         )}
+        ref={ref}
+        tabIndex={tabIndex}
         disabled={disabled}
-        onClick={onExpand}
+        onClick={handleOnClick}
         onKeyDown={handleKeyDown}
         aria-label={label}
         {...rest}
       >
         {label}
       </button>
-      <ul className={listClass}>{children}</ul>
+      <ul className={listClass}>{linkItems}</ul>
     </li>
   );
 };
