@@ -127,6 +127,10 @@ export const Creatable = () => {
         </p>
       </article>
 
+      <Select creatable label="Select or create a favorite food" searchable>
+        {fruitOptions}
+      </Select>
+
       <Select
         creatable
         createMessage="Add a new fruit:"

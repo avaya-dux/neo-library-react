@@ -1,5 +1,5 @@
 import { useCombobox, useSelect } from "downshift";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 import { SelectOptionProps } from "./SelectTypes";
 
@@ -13,19 +13,23 @@ const DownshiftWithComboboxProps = (
   filteredOptions: SelectOptionProps[],
   setFilteredOptions: Dispatch<SetStateAction<SelectOptionProps[]>>,
   loading: boolean,
-  disabled: boolean
+  disabled: boolean,
+  creatable: boolean,
+  createMessage: string
 ) => {
+  // HACK: `onSelectedItemChange`'s `inputValue` is always `[object Object]`, no idea why
+  const [inputText, setInputText] = useState("");
+
   return useCombobox({
     items: filteredOptions,
     id: selectId,
-    stateReducer: (state, actionAndChanges) => {
+    stateReducer: (_, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
       switch (type) {
         case useCombobox.stateChangeTypes.ToggleButtonClick:
           return {
             ...changes,
             isOpen: !(disabled || loading),
-            inputValue: state.inputValue,
           };
 
         default:
@@ -42,14 +46,30 @@ const DownshiftWithComboboxProps = (
             .includes(inputValue.toLowerCase());
         });
 
-        setFilteredOptions(relatedOptions);
+        if (relatedOptions.length === 0 && creatable) {
+          const createdItem: SelectOptionProps = {
+            children: `${createMessage} '${inputValue}'`,
+            value: createOptionValue,
+          };
+          setFilteredOptions([createdItem]);
+        } else {
+          setFilteredOptions(relatedOptions);
+        }
       } else if (inputValue === "") {
         setFilteredOptions(options);
       }
+
+      setInputText(inputValue || "");
     },
     onSelectedItemChange: ({ selectedItem: clickedItem }) => {
       if (!clickedItem) {
         setSelectedItems([]);
+      } else if (creatable && clickedItem.value === createOptionValue) {
+        const createdItem: SelectOptionProps = {
+          children: inputText,
+          value: inputText,
+        };
+        setSelectedItems([createdItem]);
       } else if (
         selectedItems.length === 0 ||
         selectedItems[0].value !== (clickedItem?.value as string)
@@ -323,7 +343,9 @@ export const useDownshift = (
       filteredOptions,
       setFilteredOptions,
       disabled,
-      loading
+      loading,
+      creatable,
+      createMessage
     );
   } else if (multiple) {
     return DownshiftWithMultipleSelectProps(
