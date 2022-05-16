@@ -5,11 +5,13 @@ import { axe } from "jest-axe";
 import { Select } from "./Select";
 import * as SelectStories from "./Select.stories";
 import { SelectOption } from "./SelectOption";
+import { fruitOptions } from "./utils/mockdata";
 
 const {
   BasicSelects,
   Searchable,
   Disabled,
+  DefaultValues,
   RequiredInForm,
   LoadOptions,
   Empty,
@@ -17,47 +19,14 @@ const {
   MoreThanOneMultipleSelect,
 } = composeStories(SelectStories);
 
-const randomString = () =>
-  Math.random().toString(36).substring(2, 15) +
-  Math.random().toString(36).substring(2, 15);
-
-const foodOptions = [
-  <SelectOption value="apple" key="apple">
-    Apple
-  </SelectOption>,
-  <SelectOption value="gravel" key="gravel" helperText="Not a Food" disabled>
-    Gravel
-  </SelectOption>,
-  <SelectOption value="broccoli" key="broccoli" helperText="Vegetable">
-    Broccoli
-  </SelectOption>,
-  <SelectOption value="banana" key="banana">
-    Banana
-  </SelectOption>,
-  <SelectOption value="pear" key="pear">
-    Pear
-  </SelectOption>,
-  <SelectOption value="blueberries" key="blueberries">
-    Blueberries
-  </SelectOption>,
-  <SelectOption value="grapes" key="grapes">
-    Grapes
-  </SelectOption>,
-  <SelectOption value="oranges" key="oranges">
-    Oranges
-  </SelectOption>,
-];
+const label = "Select Label";
 
 describe("Select", () => {
   describe("Single Select, non-searchable", () => {
     let renderResult;
 
-    const randomizedLabel = randomString();
-
     beforeEach(() => {
-      renderResult = render(
-        <Select label={randomizedLabel}>{foodOptions}</Select>
-      );
+      renderResult = render(<Select label={label}>{fruitOptions}</Select>);
     });
 
     it("renders without exploding", () => {
@@ -67,7 +36,7 @@ describe("Select", () => {
 
     it("passes the correct props to label element", () => {
       const { getByText } = renderResult;
-      const labelElement = getByText(randomizedLabel);
+      const labelElement = getByText(label);
       const expectedAttributes = ["id", "for"];
       expectedAttributes.forEach((attribute) =>
         expect(labelElement).toHaveAttribute(attribute)
@@ -93,6 +62,15 @@ describe("Select", () => {
       expect(toggleButton).toHaveAttribute("aria-expanded", "true");
     });
 
+    it("sets and clears error text appropriately", () => {
+      const errorText = "Error Text";
+      const { getByText, rerender } = renderResult;
+      expect(() => getByText(errorText)).toThrow();
+
+      rerender(<Select label={label} errorList={[errorText]} />);
+      expect(getByText(errorText)).toBeInTheDocument();
+    });
+
     it("passes basic axe compliance", async () => {
       const { container } = renderResult;
       const results = await axe(container);
@@ -103,11 +81,10 @@ describe("Select", () => {
   describe("Multiple Select, non-searchable", () => {
     describe("Basic unit tests", () => {
       let renderResult;
-      const randomizedLabel = "label";
       const placeholder = "Please Select One";
       beforeEach(() => {
         renderResult = render(
-          <Select multiple label={randomizedLabel} placeholder={placeholder}>
+          <Select multiple label={label} placeholder={placeholder}>
             <SelectOption>ping</SelectOption>
           </Select>
         );
@@ -120,7 +97,7 @@ describe("Select", () => {
 
       it("passes the correct props to label element", () => {
         const { getByText } = renderResult;
-        const labelElement = getByText(randomizedLabel);
+        const labelElement = getByText(label);
         const expectedAttributes = ["id", "for"];
         expectedAttributes.forEach((attribute) =>
           expect(labelElement).toHaveAttribute(attribute)
@@ -143,6 +120,15 @@ describe("Select", () => {
         expect(toggleElement).toHaveAttribute("aria-expanded", "true");
       });
 
+      it("sets and clears error text appropriately", () => {
+        const errorText = "Error Text";
+        const { getByText, rerender } = renderResult;
+        expect(() => getByText(errorText)).toThrow();
+
+        rerender(<Select multiple label={label} errorList={[errorText]} />);
+        expect(getByText(errorText)).toBeInTheDocument();
+      });
+
       it("passes basic axe compliance", async () => {
         const { container } = renderResult;
         const results = await axe(container);
@@ -154,7 +140,7 @@ describe("Select", () => {
       it("only calls the event handler when option is not disabled", () => {
         const spy = jest.fn();
         const { getAllByRole } = render(
-          <Select multiple label="not important" onSelectedValueChange={spy}>
+          <Select multiple label="not important" onChange={spy}>
             <SelectOption>Option 1</SelectOption>
             <SelectOption disabled>Option 2</SelectOption>
             <SelectOption>Option 3</SelectOption>
@@ -180,7 +166,6 @@ describe("Select", () => {
 
       it("does open content area on click after content is loaded", () => {
         const placeholder = "please select one";
-        const label = randomString();
         const { getByText, rerender } = render(
           <Select
             multiple
@@ -274,6 +259,24 @@ describe("Select", () => {
         fireEvent.click(toggleElement);
         expect(toggleElement).not.toHaveClass("neo-multiselect--active");
       });
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("Default Values", () => {
+      let renderResult;
+      beforeEach(() => {
+        renderResult = render(<DefaultValues />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
       it("passes basic axe compliance", async () => {
         const { container } = renderResult;
         const results = await axe(container);

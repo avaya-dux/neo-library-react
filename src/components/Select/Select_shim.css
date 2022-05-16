@@ -138,3 +138,17 @@ div.neo-multiselect div.neo-input-group:hover {
   border: none;
   margin: 0;
 }
+
+/* fix bug where the option hint text was incorrectly marked as error text */
+.neo-form-control--error
+  .neo-multiselect__content
+  .neo-input-group
+  .neo-input-hint {
+  color: #5e5e5e; /* --input-hint-color */
+}
+.neo-form-control--error
+  .neo-multiselect__content
+  .neo-input-group
+  .neo-input-hint:before {
+  content: "";
+}

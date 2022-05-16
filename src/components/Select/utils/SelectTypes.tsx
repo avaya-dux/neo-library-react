@@ -25,7 +25,7 @@ export type SelectProps = {
   loading?: boolean;
   multiple?: boolean;
   noOptionsMessage?: string;
-  onSelectedValueChange?: (value: null | string | string[]) => void;
+  onChange?: (value: null | string | string[]) => void;
   placeholder?: string;
   required?: boolean;
   searchable?: boolean;

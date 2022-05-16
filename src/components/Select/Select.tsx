@@ -19,7 +19,7 @@ import "./Select_shim.css";
  * @example
   <Select
     label="Select a favorite food"
-    onSelectedValueChange={handleSelectedValueChange}
+    onChange={handleSelectedValueChange}
   >
     <SelectOption value="apple">Apple</SelectOption>
     <SelectOption value="broccoli" helperText="Vegetable">Broccoli</SelectOption>
@@ -58,7 +58,7 @@ export const Select = (props: SelectProps) => {
     loading = false,
     multiple = false,
     noOptionsMessage = "No options available",
-    onSelectedValueChange,
+    onChange,
     placeholder = "Select One",
     required,
     searchable = false,
@@ -76,12 +76,12 @@ export const Select = (props: SelectProps) => {
   const options = useMemo(
     () =>
       Children.map(children, (child) => {
-        const props = { ...child.props };
-        if (!props.value) {
-          props.value = props.children;
+        const childprops = { ...child.props };
+        if (!childprops.value) {
+          childprops.value = childprops.children;
         }
 
-        return props;
+        return childprops;
       }),
     [children]
   );
@@ -111,16 +111,16 @@ export const Select = (props: SelectProps) => {
       setSelectedItems(userSelectedOptions);
     } else if (isInitialRender && options.some((o) => o.selected)) {
       setSelectedItems(options.filter((option) => option.selected));
-    } else if (value) {
+    } else if (!isInitialRender || value) {
       const selectionHasChanged = multiple
-        ? selectedItems.length !== value.length ||
-          selectedItems.every((item) => value.includes(item.value as string))
+        ? selectedItems.length !== value?.length ||
+          !selectedItems.every((item) => value.includes(item.value as string))
         : selectedItems[0]?.value !== value;
 
       if (selectionHasChanged) {
         const userSelectedOptions = options.filter((option) =>
           multiple
-            ? value.includes(option.value as string)
+            ? value?.includes(option.value as string)
             : value === option.value
         );
 
@@ -130,15 +130,15 @@ export const Select = (props: SelectProps) => {
   }, [value]);
 
   useEffect(() => {
-    if (!isInitialRender && onSelectedValueChange) {
+    if (!isInitialRender && onChange) {
       if (multiple) {
         const newlySelectedValues = selectedItems.map(
           (item) => item.value as string
         );
 
-        onSelectedValueChange(newlySelectedValues);
+        onChange(newlySelectedValues);
       } else {
-        onSelectedValueChange(
+        onChange(
           selectedItems.length ? (selectedItems[0].value as string) : null
         );
       }
