@@ -128,4 +128,72 @@ describe("Select", () => {
       expect(screen.queryAllByRole("button")).toHaveLength(0); // chip removed
     });
   });
+
+  describe("'creatable' functionality", () => {
+    it("`SingleSelectSearchable` allows a user to create and remove custom options if `creatable` prop is set", () => {
+      const newOptionText = "New Option";
+      render(
+        <Select label={label} searchable creatable>
+          {fruitOptions}
+        </Select>
+      );
+
+      const comboboxBtn = screen.getAllByRole("textbox")[0].closest("span");
+      userEvent.click(comboboxBtn);
+
+      // pre search+add we have all options in the list
+      expect(screen.getAllByRole("option")).toHaveLength(fruitOptions.length);
+
+      userEvent.keyboard(newOptionText);
+      expect(screen.getAllByRole("option")).toHaveLength(1);
+      expect(screen.getByRole("option")).toHaveTextContent(newOptionText);
+
+      userEvent.keyboard("{ArrowDown}");
+      userEvent.keyboard(UserEventKeys.ENTER);
+
+      // now that we've added the new option, we can now see the full list, excluding
+      // the new option as we do not show that in the list
+      expect(screen.getAllByRole("option")).toHaveLength(fruitOptions.length);
+
+      // newly created chip has been added
+      expect(screen.getAllByRole("button")).toHaveLength(1);
+      expect(screen.getByRole("button")).toHaveTextContent(newOptionText);
+
+      userEvent.keyboard(UserEventKeys.BACKSPACE);
+      expect(screen.queryAllByRole("button")).toHaveLength(0); // chip removed
+    });
+
+    it("`MultiSelectSearchable` allows a user to create and remove custom options if `creatable` prop is set", () => {
+      const newOptionText = "New Option";
+      render(
+        <Select label={label} multiple searchable creatable>
+          {fruitOptions}
+        </Select>
+      );
+
+      const comboboxBtn = screen.getAllByRole("textbox")[0].closest("span");
+      userEvent.click(comboboxBtn);
+
+      // pre search+add we have all options in the list
+      expect(screen.getAllByRole("option")).toHaveLength(fruitOptions.length);
+
+      userEvent.keyboard(newOptionText);
+      expect(screen.getAllByRole("option")).toHaveLength(1);
+      expect(screen.getByRole("option")).toHaveTextContent(newOptionText);
+
+      userEvent.keyboard("{ArrowDown}");
+      userEvent.keyboard(UserEventKeys.ENTER);
+
+      // now that we've added the new option, we can now see the full list, excluding
+      // the new option as we do not show that in the list
+      expect(screen.getAllByRole("option")).toHaveLength(fruitOptions.length);
+
+      // newly created chip has been added
+      expect(screen.getAllByRole("button")).toHaveLength(1);
+      expect(screen.getByRole("button")).toHaveTextContent(newOptionText);
+
+      userEvent.keyboard(UserEventKeys.BACKSPACE);
+      expect(screen.queryAllByRole("button")).toHaveLength(0); // chip removed
+    });
+  });
 });
