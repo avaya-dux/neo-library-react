@@ -99,6 +99,51 @@ export const Searchable = () => {
   );
 };
 
+export const Creatable = () => {
+  return (
+    <Sheet title="Creatable Single & Multiple Select" style={{ width: 400 }}>
+      <article>
+        <p style={{ paddingBottom: 10 }}>
+          <b>IMPORTANT:</b> Please be aware of the following:
+        </p>
+
+        <p style={{ paddingBottom: 10 }}>
+          When using the <code>creatable</code> prop, your created items will{" "}
+          <i>not</i> appear in the options list; as they are not pre-defined
+          options. To remove them you must remove the <code>Chip</code>.
+        </p>
+
+        <p style={{ paddingBottom: 10 }}>
+          Also, to create an option, you must click direclty on the "create"
+          option via mouse or keyboard navigation.
+        </p>
+
+        <p style={{ paddingBottom: 10 }}>
+          Please reach out to us{" "}
+          <a href="https://github.com/avaya-dux/neo-library-react/issues/new">
+            via our GitHub page
+          </a>{" "}
+          if you have any questions or concerns.
+        </p>
+      </article>
+
+      <Select creatable label="Select or create a favorite food" searchable>
+        {fruitOptions}
+      </Select>
+
+      <Select
+        creatable
+        createMessage="Add a new fruit:"
+        label="Select or create multiple foods"
+        multiple
+        searchable
+      >
+        {fruitOptions}
+      </Select>
+    </Sheet>
+  );
+};
+
 export const Disabled = () => (
   <Select label="I am disabled" disabled>
     <SelectOption>Option 1</SelectOption>
@@ -149,8 +194,11 @@ export const RequiredInForm = () => {
         </p>
 
         <p style={{ paddingBottom: 10 }}>
-          We've created this example, but please reach out to us if you have any
-          questions or concerns.
+          We've created this example, but please reach out to us{" "}
+          <a href="https://github.com/avaya-dux/neo-library-react/issues/new">
+            via our GitHub page
+          </a>{" "}
+          if you have any questions or concerns.
         </p>
       </article>
 
