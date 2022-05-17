@@ -75,6 +75,7 @@ BasicNavbar.args = {
 export const NavbarWithNavigationToggle = Template.bind({});
 NavbarWithNavigationToggle.args = {
   logo: linkLogo,
+  skipLabel: "Skip it!",
   navMenuToggleBtn,
 };
 NavbarWithNavigationToggle.decorators = [
