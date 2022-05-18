@@ -128,4 +128,136 @@ describe("Select", () => {
       expect(screen.queryAllByRole("button")).toHaveLength(0); // chip removed
     });
   });
+
+  describe("'creatable' functionality", () => {
+    it("`SingleSelectSearchable` allows a user to create and remove custom options if `creatable` prop is set", () => {
+      const newOptionText = "New Option";
+      render(
+        <Select label={label} searchable creatable>
+          {fruitOptions}
+        </Select>
+      );
+
+      const comboboxBtn = screen.getAllByRole("textbox")[0].closest("span");
+      userEvent.click(comboboxBtn);
+
+      // pre search+add we have all options in the list
+      expect(screen.getAllByRole("option")).toHaveLength(fruitOptions.length);
+
+      userEvent.keyboard(newOptionText);
+      expect(screen.getAllByRole("option")).toHaveLength(1);
+      expect(screen.getByRole("option")).toHaveTextContent(newOptionText);
+
+      userEvent.keyboard("{ArrowDown}");
+      userEvent.keyboard(UserEventKeys.ENTER);
+
+      // now that we've added the new option, we can now see the full list, excluding
+      // the new option as we do not show that in the list
+      expect(screen.getAllByRole("option")).toHaveLength(fruitOptions.length);
+
+      // newly created chip has been added
+      expect(screen.getAllByRole("button")).toHaveLength(1);
+      expect(screen.getByRole("button")).toHaveTextContent(newOptionText);
+
+      userEvent.keyboard(UserEventKeys.BACKSPACE);
+      expect(screen.queryAllByRole("button")).toHaveLength(0); // chip removed
+    });
+
+    it("`SingleSelectSearchable` allows a user to create exactly one custom option", () => {
+      const firstOptionText = "first custom option";
+      const secondOptionText = "second custom option";
+      render(
+        <Select label={label} searchable creatable>
+          {fruitOptions}
+        </Select>
+      );
+
+      const comboboxBtn = screen.getAllByRole("textbox")[0].closest("span");
+      userEvent.click(comboboxBtn);
+
+      // add first option
+      userEvent.keyboard(firstOptionText);
+      userEvent.keyboard("{ArrowDown}");
+      userEvent.keyboard(UserEventKeys.ENTER);
+
+      // first option chip has been created
+      expect(screen.getAllByRole("button")).toHaveLength(1);
+      expect(screen.getByRole("button")).toHaveTextContent(firstOptionText);
+
+      // add second option
+      userEvent.keyboard(secondOptionText);
+      userEvent.keyboard("{ArrowDown}");
+      userEvent.keyboard(UserEventKeys.ENTER);
+
+      // first option chip has been removed in place of second option chip
+      expect(screen.getAllByRole("button")).toHaveLength(1);
+      expect(screen.getByRole("button")).toHaveTextContent(secondOptionText);
+    });
+
+    it("`MultiSelectSearchable` allows a user to create and remove custom options if `creatable` prop is set", () => {
+      const newOptionText = "New Option";
+      render(
+        <Select label={label} multiple searchable creatable>
+          {fruitOptions}
+        </Select>
+      );
+
+      const comboboxBtn = screen.getAllByRole("textbox")[0].closest("span");
+      userEvent.click(comboboxBtn);
+
+      // pre search+add we have all options in the list
+      expect(screen.getAllByRole("option")).toHaveLength(fruitOptions.length);
+
+      userEvent.keyboard(newOptionText);
+      expect(screen.getAllByRole("option")).toHaveLength(1);
+      expect(screen.getByRole("option")).toHaveTextContent(newOptionText);
+
+      userEvent.keyboard("{ArrowDown}");
+      userEvent.keyboard(UserEventKeys.ENTER);
+
+      // now that we've added the new option, we can now see the full list, excluding
+      // the new option as we do not show that in the list
+      expect(screen.getAllByRole("option")).toHaveLength(fruitOptions.length);
+
+      // newly created chip has been added
+      expect(screen.getAllByRole("button")).toHaveLength(1);
+      expect(screen.getByRole("button")).toHaveTextContent(newOptionText);
+
+      userEvent.keyboard(UserEventKeys.BACKSPACE);
+      expect(screen.queryAllByRole("button")).toHaveLength(0); // chip removed
+    });
+
+    it("`MultiSelectSearchable` allows a user to create multiple custom options", () => {
+      const firstOptionText = "first custom option";
+      const secondOptionText = "second custom option";
+      render(
+        <Select label={label} multiple searchable creatable>
+          {fruitOptions}
+        </Select>
+      );
+
+      const comboboxBtn = screen.getAllByRole("textbox")[0].closest("span");
+      userEvent.click(comboboxBtn);
+
+      // add first option
+      userEvent.keyboard(firstOptionText);
+      userEvent.keyboard("{ArrowDown}");
+      userEvent.keyboard(UserEventKeys.ENTER);
+
+      // first option chip has been created
+      expect(screen.getAllByRole("button")).toHaveLength(1);
+      expect(screen.getByRole("button")).toHaveTextContent(firstOptionText);
+
+      // add second option
+      userEvent.keyboard(secondOptionText);
+      userEvent.keyboard("{ArrowDown}");
+      userEvent.keyboard(UserEventKeys.ENTER);
+
+      // both chips have been created
+      expect(screen.getAllByRole("button")).toHaveLength(2);
+      expect(screen.getAllByRole("button")[1]).toHaveTextContent(
+        secondOptionText
+      );
+    });
+  });
 });
