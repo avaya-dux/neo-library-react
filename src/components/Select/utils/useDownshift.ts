@@ -1,7 +1,9 @@
 import { useCombobox, useSelect } from "downshift";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 import { SelectOptionProps } from "./SelectTypes";
+
+const createOptionValue = "neo-select-create-option";
 
 const DownshiftWithComboboxProps = (
   options: SelectOptionProps[],
@@ -11,19 +13,23 @@ const DownshiftWithComboboxProps = (
   filteredOptions: SelectOptionProps[],
   setFilteredOptions: Dispatch<SetStateAction<SelectOptionProps[]>>,
   loading: boolean,
-  disabled: boolean
+  disabled: boolean,
+  creatable: boolean,
+  createMessage: string
 ) => {
+  // HACK: `onSelectedItemChange`'s `inputValue` is always `[object Object]`, no idea why
+  const [inputText, setInputText] = useState("");
+
   return useCombobox({
     items: filteredOptions,
     id: selectId,
-    stateReducer: (state, actionAndChanges) => {
+    stateReducer: (_, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
       switch (type) {
         case useCombobox.stateChangeTypes.ToggleButtonClick:
           return {
             ...changes,
             isOpen: !(disabled || loading),
-            inputValue: state.inputValue,
           };
 
         default:
@@ -40,14 +46,30 @@ const DownshiftWithComboboxProps = (
             .includes(inputValue.toLowerCase());
         });
 
-        setFilteredOptions(relatedOptions);
+        if (relatedOptions.length === 0 && creatable) {
+          const createdItem: SelectOptionProps = {
+            children: `${createMessage} '${inputValue}'`,
+            value: createOptionValue,
+          };
+          setFilteredOptions([createdItem]);
+        } else {
+          setFilteredOptions(relatedOptions);
+        }
       } else if (inputValue === "") {
         setFilteredOptions(options);
       }
+
+      setInputText(inputValue || "");
     },
     onSelectedItemChange: ({ selectedItem: clickedItem }) => {
       if (!clickedItem) {
         setSelectedItems([]);
+      } else if (creatable && clickedItem.value === createOptionValue) {
+        const createdItem: SelectOptionProps = {
+          children: inputText,
+          value: inputText,
+        };
+        setSelectedItems([createdItem]);
       } else if (
         selectedItems.length === 0 ||
         selectedItems[0].value !== (clickedItem?.value as string)
@@ -66,7 +88,9 @@ const DownshiftWithComboboxMultipleSelectProps = (
   filteredOptions: SelectOptionProps[],
   setFilteredOptions: Dispatch<SetStateAction<SelectOptionProps[]>>,
   disabled: boolean,
-  loading: boolean
+  loading: boolean,
+  creatable: boolean,
+  createMessage: string
 ) => {
   return useCombobox({
     items: filteredOptions,
@@ -92,6 +116,16 @@ const DownshiftWithComboboxMultipleSelectProps = (
             setSelectedItems(
               selectedItems.filter((item) => item.value !== selectedItem.value)
             );
+          } else if (
+            selectedItem &&
+            creatable &&
+            selectedItem.value === createOptionValue
+          ) {
+            const createdItem: SelectOptionProps = {
+              children: state.inputValue,
+              value: state.inputValue,
+            };
+            setSelectedItems([...selectedItems, createdItem]);
           } else if (selectedItem) {
             setSelectedItems([...selectedItems, selectedItem]);
           }
@@ -105,6 +139,12 @@ const DownshiftWithComboboxMultipleSelectProps = (
           };
 
         case useCombobox.stateChangeTypes.FunctionSelectItem:
+          /** NOTE: if the user uses arrows+enter to select an item, it triggers
+           * FunctionSelectItem+InputKeyDownEnter, thus we need to simply ignore
+           * that case here
+           */
+          if (selectedItem?.value === createOptionValue) return state;
+
           // `stateChangeTypes.ItemClick` handles most use-cases, but this reducer step
           // is needed to support removing items via `Chip` click, input `backspace`,
           // and input `enter` (and _only_ those three use-cases)
@@ -139,7 +179,15 @@ const DownshiftWithComboboxMultipleSelectProps = (
             .includes(inputValue.toLowerCase());
         });
 
-        setFilteredOptions(relatedOptions);
+        if (relatedOptions.length === 0 && creatable) {
+          const createdItem: SelectOptionProps = {
+            children: `${createMessage} '${inputValue}'`,
+            value: createOptionValue,
+          };
+          setFilteredOptions([createdItem]);
+        } else {
+          setFilteredOptions(relatedOptions);
+        }
       } else if (inputValue === "") {
         setFilteredOptions(options);
       }
@@ -249,6 +297,8 @@ const DownshiftWithMultipleSelectProps = (
 };
 
 export const useDownshift = (
+  creatable: boolean,
+  createMessage: string,
   disabled: boolean,
   selectId: string,
   loading: boolean,
@@ -280,7 +330,9 @@ export const useDownshift = (
       filteredOptions,
       setFilteredOptions,
       disabled,
-      loading
+      loading,
+      creatable,
+      createMessage
     );
   } else if (searchable) {
     return DownshiftWithComboboxProps(
@@ -291,7 +343,9 @@ export const useDownshift = (
       filteredOptions,
       setFilteredOptions,
       disabled,
-      loading
+      loading,
+      creatable,
+      createMessage
     );
   } else if (multiple) {
     return DownshiftWithMultipleSelectProps(
