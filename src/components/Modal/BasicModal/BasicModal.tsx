@@ -1,4 +1,4 @@
-import { FC, useEffect, KeyboardEvent, useCallback } from "react";
+import { FC, useEffect, useCallback } from "react";
 import ReactDOM from "react-dom";
 import { Button, ButtonProps } from "components/Button";
 import "./BasicModal_shim.css";
@@ -8,8 +8,7 @@ export interface BasicModalProps extends ButtonProps {
   open: boolean;
   onClose: () => void;
   title: string;
-  clsebtn?: string;
-  ariaLabelClose?: string;
+  closeButtonLabel?: string;
   actions?: JSX.Element[];
 }
 
@@ -17,9 +16,8 @@ export const BasicModal: FC<BasicModalProps> = ({
   open,
   onClose,
   title,
-  clsebtn = "close",
+  closeButtonLabel = "Close",
   children,
-  ariaLabelClose = "button to close modal",
   ...rest
 }) => {
   const buttons = "actions" in rest ? rest.actions : null;
@@ -52,7 +50,7 @@ export const BasicModal: FC<BasicModalProps> = ({
           className="neo-modal__content"
           aria-modal="true"
           aria-labelledby={title}
-          tabIndex={-1}
+          tabIndex={1}
           role="dialog"
         >
           <div className="neo-modal__header">
@@ -62,15 +60,10 @@ export const BasicModal: FC<BasicModalProps> = ({
             <div className="neo-modal__message">{children}</div>
           </div>
           <div className="neo-modal__footer">
-            {buttons}
-            <Button
-              variant="primary"
-              data-dismiss="modal"
-              aria-label={ariaLabelClose}
-              onClick={onClose}
-            >
-              {clsebtn}
+            <Button variant="secondary" data-dismiss="modal" onClick={onClose}>
+              {closeButtonLabel}
             </Button>
+            {buttons}
           </div>
         </div>
       </div>

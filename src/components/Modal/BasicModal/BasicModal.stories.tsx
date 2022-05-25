@@ -1,10 +1,10 @@
-import { Meta, Story } from "@storybook/react/types-6-0";
-import { Button } from "components/Button";
+import { Meta } from "@storybook/react/types-6-0";
+import { Button } from "../../Button";
 import { BasicModal, BasicModalProps } from "./BasicModal";
 import useModal from "../useModal";
 
 export default {
-  title: "Components/Basic Modal",
+  title: "Components/Modal/Basic",
   component: BasicModal,
 } as Meta<BasicModalProps>;
 
@@ -20,18 +20,18 @@ export const BasicModalExample = () => {
           toggle();
         }}
       >
-        Show
+        Activate Full Modal Example
       </Button>
       <BasicModal
         open={isOpen}
         onClose={toggle}
-        title="Modal Example"
+        title="Header of Modal Window"
         actions={[
           <Button
             key="example1"
             onClick={() => console.log("Clicked on the action button.")}
           >
-            action btn
+            Remove
           </Button>,
         ]}
       >
@@ -56,24 +56,24 @@ export const BasicModalExampleWithDiffContent = () => {
           toggle();
         }}
       >
-        Show
+        Activate Full Modal Example
       </Button>
       <BasicModal
         open={isOpen}
         onClose={toggle}
-        title="This is basic Modal Example"
+        title="Header of Modal Window"
         actions={[
           <Button
             key="example1"
             onClick={() => console.log("Clicked on the action1 button.")}
           >
-            action1 btn
+            Action 1
           </Button>,
           <Button
             key="example2"
             onClick={() => console.log("Clicked on the action2 button.")}
           >
-            action2 btn
+            Action 2
           </Button>,
         ]}
       >
