@@ -22,6 +22,12 @@ const search = (
 );
 
 describe("Skip Navigation component", () => {
+  it("should be always present in DOM", () => {
+    mount(<NavbarWithSearch logo={logo} search={search} />);
+
+    cy.get("a").contains("Skip").should("have.class", "neo-skipnav");
+  });
+
   it("should not be shown when not focused", () => {
     mount(<NavbarWithSearch logo={logo} search={search} />);
 
@@ -29,13 +35,16 @@ describe("Skip Navigation component", () => {
     cy.get("input").first().focus();
 
     // Skip Nav anchor should be "hidden away" from view when not focused
-    cy.get("a").invoke("css", "width").should("equal", "1px");
+    cy.get("a").invoke("css", "left").should("equal", "-10000px");
   });
 
   it("should be shown when it receives focus", () => {
     mount(<NavbarWithSearch logo={logo} search={search} />);
 
-    cy.realPress("Tab"); // Give focus to Skip Nav link
-    cy.focused().invoke("css", "width").should("equal", "auto");
+    // Set focus on input component
+    cy.get("input").first().focus();
+
+    cy.realPress(["Shift", "Tab"]); // Give focus to Skip Nav link
+    cy.focused().invoke("css", "left").should("equal", "30px");
   });
 });
