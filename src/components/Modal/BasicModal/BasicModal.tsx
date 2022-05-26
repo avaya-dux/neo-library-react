@@ -51,6 +51,7 @@ export const BasicModal: FC<BasicModalProps> = ({
           aria-modal="true"
           aria-labelledby={title}
           role="dialog"
+          tabIndex={0}
         >
           <div className="neo-modal__header">
             <h4>{title}</h4>
