@@ -40,11 +40,7 @@ export const BasicModal: FC<BasicModalProps> = ({
 
   const modal = (
     <FocusLock>
-      <div
-        id="neo-modal-example"
-        data-testid="neo-modal-example"
-        className="neo-modal--active"
-      >
+      <div id="neo-modal-example" className="neo-modal--active">
         <div className="neo-modal__background"></div>
         <div
           className="neo-modal__content"

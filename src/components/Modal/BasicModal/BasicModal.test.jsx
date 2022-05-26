@@ -15,7 +15,7 @@ describe("BasicModal Component", () => {
         <p>Testing content</p>
       </BasicModal>
     );
-    const rootElement = screen.getByTestId("neo-modal-example");
+    const rootElement = screen.getByText(titleText);
     expect(rootElement).toBeInTheDocument();
   });
   it("passes basic axe compliance", async () => {
