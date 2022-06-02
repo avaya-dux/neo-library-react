@@ -32,6 +32,8 @@ export interface NavbarProps {
   >;
   title?: string;
   sticky?: boolean;
+  skipLabel?: string;
+  skipHref?: string;
   navButtons?: ReactElement<NavbarButtonProps>[];
   navMenuToggleBtn?: ReactElement<Partial<NavbarButtonProps>>;
   navbarTabs?: ReactElement<TabProps>;
@@ -57,6 +59,8 @@ export interface NavbarProps {
   />
   },
   title: "Product Name",
+  skipLabel: "Skip to main content",
+  skipHref: "#content",
   navButtons: [
     <NavbarButton icon="info" aria-label="Info" />,
     <NavbarButton icon="settings" aria-label="Settings" />,
@@ -77,6 +81,8 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
   navbarTabs,
   userOptions,
   sticky,
+  skipLabel = "Skip to main content",
+  skipHref = "#",
 }) => {
   // TO-DO: NEO-786 - Replace inline styles on line 80 with updated CSS rules to avoid use of <form> element in Navbar
   // TO-DO: NEO-785 - Replace inline styles on line 76 with updated CSS rules for correct styling of 'title' prop
@@ -102,6 +108,9 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
   return (
     <nav className={clsx("neo-navbar", sticky && "neo-navbar--sticky")}>
       <div className="neo-nav--left">
+        <a className="neo-skipnav" href={skipHref}>
+          {skipLabel}
+        </a>
         {navMenuToggleBtn}
 
         {logo}
