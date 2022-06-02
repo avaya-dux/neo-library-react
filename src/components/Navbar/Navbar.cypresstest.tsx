@@ -5,10 +5,6 @@ import { TextInput } from "components/TextInput";
 import { Logo } from "./LeftContent";
 import fpo from "./logo-fpo.png";
 
-// const Template: Story<NavbarProps> = (props: NavbarProps) => {
-//   return <Navbar {...props} />;
-// };
-
 const logo = <Logo src={fpo} />;
 
 const search = (
