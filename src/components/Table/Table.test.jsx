@@ -580,44 +580,6 @@ describe("Table", () => {
       });
     });
 
-    describe("CompactRowHeight", () => {
-      let renderResult;
-
-      beforeEach(() => {
-        renderResult = render(<CompactRowHeight />);
-      });
-
-      it("should render ok", () => {
-        const { container } = renderResult;
-        expect(container).not.toBe(null);
-      });
-
-      it("passes basic axe compliance", async () => {
-        const { container } = renderResult;
-        const results = await axe(container);
-        expect(results).toHaveNoViolations();
-      });
-    });
-
-    describe("MediumRowHeight", () => {
-      let renderResult;
-
-      beforeEach(() => {
-        renderResult = render(<MediumRowHeight />);
-      });
-
-      it("should render ok", () => {
-        const { container } = renderResult;
-        expect(container).not.toBe(null);
-      });
-
-      it("passes basic axe compliance", async () => {
-        const { container } = renderResult;
-        const results = await axe(container);
-        expect(results).toHaveNoViolations();
-      });
-    });
-
     describe("SelectableRows", () => {
       let renderResult;
 

@@ -342,22 +342,6 @@ export const BareBones = () => (
   <Table columns={FilledFields.columns} data={[...FilledFields.data]} />
 );
 
-export const CompactRowHeight = () => (
-  <Table
-    rowHeight="compact"
-    columns={FilledFields.columns}
-    data={[...FilledFields.data]}
-  />
-);
-
-export const MediumRowHeight = () => (
-  <Table
-    rowHeight="medium"
-    columns={FilledFields.columns}
-    data={[...FilledFields.data]}
-  />
-);
-
 export const SelectableRows = () => {
   const defaultSelectedRowIds = [
     FilledFields.data[1].id.toString(),
