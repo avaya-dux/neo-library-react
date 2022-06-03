@@ -14,10 +14,12 @@ import * as TableStories from "./Table.stories";
 const {
   AdvancedFilteringAndSorting,
   BareBones,
+  CompactRowHeight,
   CustomActions,
   Default,
   EditableData,
   EmptyDataSet,
+  MediumRowHeight,
   SelectableRows,
   Templated,
 } = composeStories(TableStories);
@@ -30,6 +32,22 @@ describe("Table", () => {
 
     const tableElement = getByRole("table");
     expect(tableElement).toBeTruthy();
+  });
+
+  it("rowHeight is set to compact ", () => {
+    const { getByRole } = render(<Table rowHeight="compact" {...FilledFields} />);
+
+    const tableElement = getByRole("table");
+    expect(tableElement).toHaveClass("neo-table--compact");
+  });
+
+  it("rowHeight is set to medium ", () => {
+    const { getByRole } = render(
+      <Table rowHeight="medium" {...FilledFields} />
+    );
+
+    const tableElement = getByRole("table");
+    expect(tableElement).toHaveClass("neo-table--medium");
   });
 
   it("passes basic axe compliance", async () => {
@@ -548,6 +566,44 @@ describe("Table", () => {
 
       beforeEach(() => {
         renderResult = render(<BareBones />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("CompactRowHeight", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<CompactRowHeight />);
+      });
+
+      it("should render ok", () => {
+        const { container } = renderResult;
+        expect(container).not.toBe(null);
+      });
+
+      it("passes basic axe compliance", async () => {
+        const { container } = renderResult;
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      });
+    });
+
+    describe("MediumRowHeight", () => {
+      let renderResult;
+
+      beforeEach(() => {
+        renderResult = render(<MediumRowHeight />);
       });
 
       it("should render ok", () => {
