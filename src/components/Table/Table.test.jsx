@@ -14,10 +14,12 @@ import * as TableStories from "./Table.stories";
 const {
   AdvancedFilteringAndSorting,
   BareBones,
+  CompactRowHeight,
   CustomActions,
   Default,
   EditableData,
   EmptyDataSet,
+  MediumRowHeight,
   SelectableRows,
   Templated,
 } = composeStories(TableStories);
@@ -30,6 +32,22 @@ describe("Table", () => {
 
     const tableElement = getByRole("table");
     expect(tableElement).toBeTruthy();
+  });
+
+  it("rowHeight is set to compact ", () => {
+    const { getByRole } = render(<Table rowHeight="compact" {...FilledFields} />);
+
+    const tableElement = getByRole("table");
+    expect(tableElement).toHaveClass("neo-table--compact");
+  });
+
+  it("rowHeight is set to medium ", () => {
+    const { getByRole } = render(
+      <Table rowHeight="medium" {...FilledFields} />
+    );
+
+    const tableElement = getByRole("table");
+    expect(tableElement).toHaveClass("neo-table--medium");
   });
 
   it("passes basic axe compliance", async () => {

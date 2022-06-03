@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { useMemo, useState } from "react";
 import {
   useFilters,
@@ -75,6 +76,7 @@ export const Table = <T extends Record<string, any>>({
   handleRowToggled,
   readonly = false,
   selectableRows = "none",
+  rowHeight = "large",
   translations,
 
   ...rest
@@ -181,7 +183,11 @@ export const Table = <T extends Record<string, any>>({
 
         <table
           {...getTableProps()}
-          className="neo-table"
+          className={clsx(
+            "neo-table",
+            rowHeight === "compact" && "neo-table--compact",
+            rowHeight === "medium" && "neo-table--medium"
+          )}
           aria-labelledby={tableCaptionId}
           aria-describedby={tableSummaryId}
         >
