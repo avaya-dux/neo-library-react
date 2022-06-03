@@ -186,7 +186,7 @@ export const Table = <T extends Record<string, any>>({
           className={clsx(
             "neo-table",
             rowHeight === "compact" && "neo-table--compact",
-            rowHeight === "medium" && "neo-table--medium",
+            rowHeight === "medium" && "neo-table--medium"
           )}
           aria-labelledby={tableCaptionId}
           aria-describedby={tableSummaryId}
