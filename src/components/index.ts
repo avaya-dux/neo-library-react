@@ -15,8 +15,6 @@ export * from "./LeftNavigation";
 export * from "./List";
 export * from "./ListItem";
 export * from "./Navbar";
-export * from "./Navbar/LeftContent";
-export * from "./Navbar/RightContent";
 export * from "./Menu";
 export * from "./Modal";
 export * from "./NeoInputWrapper";
