@@ -12,7 +12,7 @@ const handleClick = (id: string, url: string) => {
 export const Default = () => (
   <LeftNavigation
     aria-label="Main Navigation"
-    onSelected={handleClick}
+    onNavigate={handleClick}
     currentUrl=""
   >
     <TopLinkItem label="Normal Link" href="#" />

@@ -58,7 +58,7 @@ describe("TopLinkItem", () => {
     const { getByText } = render(
       <LeftNavigation
         aria-label="Main Navigation"
-        onSelected={mockedFunction}
+        onNavigate={mockedFunction}
         currentUrl=""
       >
         <TopLinkItem label={TopLinkItemLabel} />
