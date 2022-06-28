@@ -7,6 +7,10 @@ interface TextAreaBase extends HTMLProps<HTMLTextAreaElement> {
   error?: boolean;
   helperText?: string;
   locked?: boolean;
+  translations?: {
+    remaining: string;
+    over: string;
+  };
 }
 
 interface TextAreaWithPlaceholder extends TextAreaBase {
@@ -29,6 +33,10 @@ export const TextArea: React.FC<TextAreaProps> = ({
   maxLength,
   placeholder,
   required,
+  translations = {
+    remaining: "remaining",
+    over: "over",
+  },
   ...rest
 }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -81,7 +89,11 @@ export const TextArea: React.FC<TextAreaProps> = ({
             className="neo-input-textarea__counter"
             id={`${internalId}-counter`}
           >
-            {characterCount} / {maxLength}
+            {Math.abs(maxLength - characterCount)}{" "}
+            {maxLength - characterCount >= 0
+              ? translations?.remaining
+              : translations?.over}{" "}
+            / {maxLength}
           </div>
         )}
       </div>
