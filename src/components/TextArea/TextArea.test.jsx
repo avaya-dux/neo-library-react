@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { getAriaDescribedBy, getTextAreaClassName, TextArea } from "./TextArea";
@@ -8,6 +8,10 @@ const defaultTextAreaProps = {
   placeholder: "Hello World...",
   helperText: "Some helper text.",
   maxLength: 10,
+  translations: {
+    remaining: "remaining",
+    over: "over",
+  },
 };
 
 const errorTextAreaProps = {
@@ -25,16 +29,43 @@ describe("Text Area", () => {
 
     expect(rootElement).toBeTruthy();
   });
+
   it("passes basic axe compliance", async () => {
     const { container } = render(<TextArea {...defaultTextAreaProps} />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
+
   it("triggers error on exceeding max character count", () => {
     const datatestid = "NeoInputWrapper-root";
     const { getByTestId } = render(<TextArea {...errorTextAreaProps} />);
     const rootElement = getByTestId(datatestid);
     expect(rootElement).toHaveClass("neo-form-control--error");
+  });
+
+  it("shows 'remaining' text when char count <= max length", () => {
+    render(<TextArea {...defaultTextAreaProps} />);
+
+    const charCountElement = screen.getByText(
+      new RegExp(defaultTextAreaProps.translations.remaining, "i")
+    );
+
+    expect(charCountElement).toBeDefined();
+    expect(charCountElement).toHaveClass("neo-input-textarea__counter");
+  });
+
+  it("shows 'over' text when char count > max length", () => {
+    const tooLongText = "This is a longer string than max value";
+    render(<TextArea {...defaultTextAreaProps} defaultValue={tooLongText} />);
+
+    expect(defaultTextAreaProps.maxLength).toBeLessThan(tooLongText.length);
+
+    const charCountElement = screen.getByText(
+      new RegExp(defaultTextAreaProps.translations.over, "i")
+    );
+
+    expect(charCountElement).toBeDefined();
+    expect(charCountElement).toHaveClass("neo-input-textarea__counter");
   });
 });
 

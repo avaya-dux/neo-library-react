@@ -15,6 +15,10 @@ const testTextAreaProps: TextAreaProps = {
   placeholder: "Placeholder",
   helperText: "Some helper text.",
   maxLength: 10,
+  translations: {
+    remaining: "remaining",
+    over: "over",
+  },
 };
 
 export const Default = Template.bind({});
