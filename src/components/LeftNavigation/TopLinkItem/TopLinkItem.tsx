@@ -1,14 +1,16 @@
 import clsx from "clsx";
 import { Button } from "components/Button";
-import { IconNamesType } from "utils";
+import { MouseEventHandler, useContext } from "react";
+import { genId, IconNamesType } from "utils";
+import { NavigationContext } from "../NavigationContext";
 import "./TopLinkItem_shim.css";
 export interface TopLinkItemProps {
   active?: boolean;
   label: string;
-  href?: string;
+  href: string;
   icon?: IconNamesType;
+  id?: string;
   disabled?: boolean;
-  onClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
 }
 
 export const TopLinkItem = ({
@@ -16,9 +18,16 @@ export const TopLinkItem = ({
   label,
   href,
   icon,
+  id = genId(),
   disabled,
-  onClick,
 }: TopLinkItemProps) => {
+  const ctx = useContext(NavigationContext);
+
+  const onClick: MouseEventHandler = (e) => {
+    e.preventDefault();
+    ctx?.onSelectedLink && ctx.onSelectedLink(id, href);
+  };
+
   return (
     <li
       className={clsx(

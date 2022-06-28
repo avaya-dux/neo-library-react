@@ -2,6 +2,7 @@ import { composeStories } from "@storybook/testing-react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 import { TopLinkItem } from "./TopLinkItem";
+import { LeftNavigation } from "../LeftNavigation";
 import * as TopLinkItemStories from "./TopLinkItem.stories";
 
 const { Default } = composeStories(TopLinkItemStories);
@@ -55,7 +56,13 @@ describe("TopLinkItem", () => {
   it("should simulate onclick function when not disabled", () => {
     const mockedFunction = jest.fn();
     const { getByText } = render(
-      <TopLinkItem onClick={mockedFunction} label={TopLinkItemLabel} />
+      <LeftNavigation
+        aria-label="Main Navigation"
+        onSelected={mockedFunction}
+        currentUrl=""
+      >
+        <TopLinkItem label={TopLinkItemLabel} />
+      </LeftNavigation>
     );
     const linkElement = getByText(TopLinkItemLabel);
     fireEvent.click(linkElement);
