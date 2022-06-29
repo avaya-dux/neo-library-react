@@ -5,7 +5,7 @@ import { axe } from "jest-axe";
 import { LinkItem } from "./LinkItem";
 import * as LinkItemStories from "./LinkItem.stories";
 
-const { LinkItems, handleClick } = composeStories(LinkItemStories);
+const { LinkItems } = composeStories(LinkItemStories);
 
 describe("LinkItem", () => {
   const linkItemText = "example link item";

@@ -27,7 +27,7 @@ export const LinkItems = () => (
   <LeftNavigation
     aria-label="Main Navigation"
     currentUrl=""
-    onSelected={handleClick}
+    onNavigate={handleClick}
   >
     <NavCategory label="Main Category">
       <LinkItem

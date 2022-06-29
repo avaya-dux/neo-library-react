@@ -29,7 +29,7 @@ import { LeftNavProps, NavigationContextType } from "./LeftNavigationTypes";
 export const LeftNavigation: FunctionComponent<LeftNavProps> = ({
   children,
   currentUrl = "",
-  onSelected,
+  onNavigate,
   ...rest
 }) => {
   if (!rest["aria-label"]) {
@@ -46,11 +46,11 @@ export const LeftNavigation: FunctionComponent<LeftNavProps> = ({
     (id: string, url: string) => {
       setCurUrl(url);
 
-      if (onSelected) {
-        onSelected(id, url);
+      if (onNavigate) {
+        onNavigate(id, url);
       }
     },
-    [onSelected]
+    [onNavigate]
   );
 
   const navContext: NavigationContextType = {

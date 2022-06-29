@@ -22,7 +22,7 @@ export interface NavCategoryProps
 export interface LeftNavProps extends React.BaseHTMLAttributes<HTMLElement> {
   "aria-label": string;
   currentUrl?: string;
-  onSelected?: (id: string, url: string) => void;
+  onNavigate?: (id: string, url: string) => void;
   children?:
     | ReactElement<NavCategoryProps | TopLinkItemProps>
     | ReactElement<NavCategoryProps | TopLinkItemProps>[];
