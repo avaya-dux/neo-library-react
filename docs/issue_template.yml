@@ -16,7 +16,7 @@ body:
     id: neo-version
     attributes:
       label: What version of `Neo` are you using?
-      placeholder: 0.0.0
+      placeholder: 3.55.1
     validations:
       required: true
   - type: input
@@ -38,6 +38,13 @@ body:
     attributes:
       label: What operating system are you using?
       placeholder: Mac, Windows, Linux
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: What browser and version are you using?
+      placeholder: Chrome 103.0.5060.53
     validations:
       required: true
   - type: textarea
