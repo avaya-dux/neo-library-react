@@ -6,8 +6,6 @@ import { genId } from "utils/accessibilityUtils";
 
 import { SwitchProps } from "./SwitchTypes";
 
-import "./Switch_shim.css";
-
 /**
  * A `Switch` allows end-users to toggle between a true/false state.
  *
@@ -32,6 +30,7 @@ export const Switch: FC<SwitchProps> = ({
   error,
   id,
   multiline,
+  textOnLeft = false,
   onChange,
 
   ...rest
@@ -40,7 +39,12 @@ export const Switch: FC<SwitchProps> = ({
   const internalId = useMemo(() => id || genId(), [id]);
 
   return (
-    <NeoInputWrapper disabled={disabled} error={error} required={required}>
+    <NeoInputWrapper
+      disabled={disabled}
+      error={error}
+      required={required}
+      {...(textOnLeft && { dir: "rtl" })}
+    >
       <label
         className={clsx(
           "neo-switch",
@@ -57,10 +61,12 @@ export const Switch: FC<SwitchProps> = ({
             onChange?.(event, event.target.checked);
           }}
         />
-
         <i className="neo-switch__icon" />
-
-        <span className="neo-switch-children">{children}</span>
+        {multiline ? (
+          <span className="neo-switch-children">{children}</span>
+        ) : (
+          children
+        )}
       </label>
     </NeoInputWrapper>
   );

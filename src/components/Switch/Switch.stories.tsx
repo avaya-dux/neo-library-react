@@ -35,9 +35,20 @@ export const Default = () => {
       <Switch disabled defaultChecked>
         Disabled Checked
       </Switch>
-
+      <Switch defaultChecked textOnLeft>
+        Label on Left
+      </Switch>
       <Switch multiline>Long label WITH 'multiline' enabled: {longText}</Switch>
-      <Switch>Long label _without_ 'multiline' enabled: {longText}</Switch>
+      <Switch multiline textOnLeft>
+        short
+        <br />
+        Long label 'multiline' on Left: {longText}
+      </Switch>
+      <Switch multiline textOnLeft>
+        multiline 1 <br />
+        multiline 2 <br />
+        multiline 3
+      </Switch>
     </section>
   );
 };

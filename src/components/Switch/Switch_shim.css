@@ -6,3 +6,8 @@ label.neo-switch input:checked ~ span.neo-switch-children {
 label.neo-switch.neo-switch--multiline {
   height: auto;
 }
+
+[dir="rtl"] label.neo-switch.neo-switch--multiline input+.neo-switch__icon:after {
+  right: -12px;
+}
+  
