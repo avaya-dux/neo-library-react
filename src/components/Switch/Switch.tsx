@@ -30,7 +30,7 @@ export const Switch: FC<SwitchProps> = ({
   error,
   id,
   multiline,
-  textOnLeft = false,
+  textPlacement = "right",
   onChange,
 
   ...rest
@@ -43,7 +43,7 @@ export const Switch: FC<SwitchProps> = ({
       disabled={disabled}
       error={error}
       required={required}
-      {...(textOnLeft && { dir: "rtl" })}
+      {...(textPlacement === "left" && { dir: "rtl" })}
     >
       <label
         className={clsx(
