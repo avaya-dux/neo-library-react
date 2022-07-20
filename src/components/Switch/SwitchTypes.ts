@@ -12,6 +12,6 @@ export interface SwitchProps
   > {
   error?: boolean;
   multiline?: boolean;
-  textPlacement?: "left" | "right";
+  contentPlacement?: "left" | "right";
   onChange?: React.ChangeEventHandler<HTMLInputElement> | SwitchChangeHandler;
 }

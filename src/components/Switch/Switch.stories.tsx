@@ -35,14 +35,14 @@ export const Default = () => {
       <Switch disabled defaultChecked>
         Disabled Checked
       </Switch>
-      <Switch defaultChecked textPlacement="left">
+      <Switch defaultChecked contentPlacement="left">
         Label on Left
       </Switch>
       <Switch multiline>Long label WITH 'multiline' enabled: {longText}</Switch>
-      <Switch multiline textPlacement="left">
+      <Switch multiline contentPlacement="left">
         Long label 'multiline' on Left: {longText}
       </Switch>
-      <Switch multiline textPlacement="left">
+      <Switch multiline contentPlacement="left">
         multiline 1 <br />
         multiline 2 <br />
         multiline 3
