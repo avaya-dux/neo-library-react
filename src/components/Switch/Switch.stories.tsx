@@ -40,8 +40,6 @@ export const Default = () => {
       </Switch>
       <Switch multiline>Long label WITH 'multiline' enabled: {longText}</Switch>
       <Switch multiline textPlacement="left">
-        short
-        <br />
         Long label 'multiline' on Left: {longText}
       </Switch>
       <Switch multiline textPlacement="left">
