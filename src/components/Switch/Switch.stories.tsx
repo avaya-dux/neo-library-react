@@ -11,13 +11,13 @@ export default {
   component: Switch,
 } as Meta<SwitchProps>;
 
-export const Default = () => {
+const DirectionTemplate: Story<{ dir: string }> = ({ dir = "ltr" }) => {
   const [checked, setChecked] = useState(false);
   const longText =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean rhoncus non elit eu mollis.";
 
   return (
-    <section style={{ width: 200 }}>
+    <section style={{ width: 200 }} dir={dir}>
       <Switch onChange={(_e, checked) => alert("Checked -> " + checked)}>
         Alert on toggle
       </Switch>
@@ -35,15 +35,24 @@ export const Default = () => {
       <Switch disabled defaultChecked>
         Disabled Checked
       </Switch>
-      <Switch defaultChecked contentPlacement="left">
-        Label on Left
+      <Switch defaultChecked dir="rtl">
+        Label fixed on left
       </Switch>
-      <Switch multiline>Long label WITH 'multiline' enabled: {longText}</Switch>
-      <Switch multiline contentPlacement="left">
-        Long label 'multiline' on Left: {longText}
+      <Switch multiline>
+        Long multiline text controlled by parent: {longText}
       </Switch>
-      <Switch multiline contentPlacement="left">
-        multiline 1 <br />
+      <Switch multiline dir="rtl">
+        Long multiline text fixed on left: {longText}
+      </Switch>
+      <Switch multiline dir="rtl">
+        multiline 1 text fixed on left
+        <br />
+        multiline 2 <br />
+        multiline 3
+      </Switch>
+      <Switch multiline>
+        multiline 1 text controlled by parent
+        <br />
         multiline 2 <br />
         multiline 3
       </Switch>
@@ -51,6 +60,10 @@ export const Default = () => {
   );
 };
 
+export const Default = DirectionTemplate.bind({});
+Default.args = {
+  dir: "ltr",
+};
 export const FormControl = () => {
   const [submitted, setSubmitted] = useState(false);
 
