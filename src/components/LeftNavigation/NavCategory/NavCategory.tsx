@@ -78,7 +78,7 @@ export const NavCategory = ({
   const ctx = useContext(NavigationContext);
 
   useEffect(() => {
-    const active = isActive || childIsActive;
+    const active = childIsActive;
     const itemStyle = getNavBarClassNames(isExpanded, active, disabled);
     setNavItemClass(itemStyle);
   }, [isExpanded, isActive, disabled, childIsActive]);
@@ -89,12 +89,10 @@ export const NavCategory = ({
   }, [icon]);
 
   useEffect(() => {
-    console.log("currentUrl = ", ctx.currentUrl);
     let hasActiveLinks = false;
     Children.map(children, (child) => {
       hasActiveLinks = hasActiveLinks || child.props.href === ctx.currentUrl;
     });
-    console.log("NavCategory: ", label, "hasActiveLinks: ", hasActiveLinks);
     setChildIsActive(hasActiveLinks);
   }, [ctx.currentUrl]);
 
