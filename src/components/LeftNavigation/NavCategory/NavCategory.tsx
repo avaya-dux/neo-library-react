@@ -66,6 +66,7 @@ export const NavCategory = ({
   const [isExpanded, setIsExpanded] = useState(expanded);
   const [navItemClass, setNavItemClass] = useState(LEFTNAV_CATEGORY_STYLE);
   const [iconClass, setIconClass] = useState("");
+  const [childIsActive, setChildIsActive] = useState(false);
 
   const ref = useRef(null);
   const [tabIndex, isActive, handleKeyIndex, handleClick] = useRovingTabIndex(
@@ -77,14 +78,23 @@ export const NavCategory = ({
   const ctx = useContext(NavigationContext);
 
   useEffect(() => {
-    const itemStyle = getNavBarClassNames(isExpanded, isActive, disabled);
+    const active = childIsActive;
+    const itemStyle = getNavBarClassNames(isExpanded, active, disabled);
     setNavItemClass(itemStyle);
-  }, [isExpanded, isActive, disabled]);
+  }, [isExpanded, isActive, disabled, childIsActive]);
 
   useEffect(() => {
     const iconStyles = getIconClass(icon);
     setIconClass(iconStyles);
   }, [icon]);
+
+  useEffect(() => {
+    let hasActiveLinks = false;
+    Children.map(children, (child) => {
+      hasActiveLinks = hasActiveLinks || child.props.href === ctx.currentUrl;
+    });
+    setChildIsActive(hasActiveLinks);
+  }, [ctx.currentUrl]);
 
   const handleOnClick: MouseEventHandler = (event: MouseEvent) => {
     event.stopPropagation();
@@ -132,7 +142,7 @@ export const NavCategory = ({
         parentHasIcon: parentHasIcon,
       });
     });
-  }, [isExpanded, disabled, ctx]);
+  }, [isExpanded, disabled, ctx.currentUrl]);
 
   return (
     <li id={internalId} className={navItemClass}>
