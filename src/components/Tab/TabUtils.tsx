@@ -44,37 +44,62 @@ function toArray(children: ReactElement[]) {
 export const buildTabProps = (
   children: TabsProps["children"]
 ): InternalTabProps[] => {
-  const tablist = children[0];
-
-  const tabs = toArray(tablist.props.children).filter(isValidTabElement);
   const panelList = children[1];
   const panels = toArray(panelList.props.children).filter(isValidPanelElement);
-  return tabs.map((tab, index) => {
-    const props = tab.props;
-    const { id, children, ...rest } = props;
-    const disabled = !!props!.disabled;
-    logger.debug(`${id} disabled = ${disabled}`);
-    const icon = "icon" in props ? props!.icon : undefined;
-    const closable = isClosableTab(tab);
-    const onClose = "onClose" in props ? props!.onClose : undefined;
 
-    const content =
-      panels[index] && !!props?.href ? panels[index].props : undefined;
-    if (content && !content.id) {
-      content.id = genId();
-    }
+  const tablist = children[0];
+  const tabs = toArray(tablist.props.children).filter(isValidTabElement);
+  const tabsWithAnAssociatedPanel = tabs
+    .filter((tab) => !tab.props?.href)
+    .map((tab, index) => {
+      const props = tab.props;
+      const { id, children, ...rest } = props;
+      const disabled = !!props!.disabled;
+      logger.debug(`${id} disabled = ${disabled}`);
+      const icon = "icon" in props ? props!.icon : undefined;
+      const closable = isClosableTab(tab);
+      const onClose = "onClose" in props ? props!.onClose : undefined;
 
-    return {
-      ...rest,
-      disabled,
-      closable,
-      onClose,
-      id: id || genId(),
-      name: children,
-      content,
-      ...(icon ? { icon } : {}),
-    };
-  });
+      const content = {
+        ...panels[index].props,
+        id: panels[index].props?.id || genId(),
+      };
+
+      return {
+        ...rest,
+        disabled,
+        closable,
+        onClose,
+        id: id || genId(),
+        name: children,
+        content,
+        ...(icon ? { icon } : {}),
+      };
+    });
+
+  const tabsWithoutPanel = tabs
+    .filter((tab) => !!tab.props?.href)
+    .map((tab) => {
+      const props = tab.props;
+      const { id, children, ...rest } = props;
+      const disabled = !!props!.disabled;
+      logger.debug(`${id} disabled = ${disabled}`);
+      const icon = "icon" in props ? props!.icon : undefined;
+      const closable = isClosableTab(tab);
+      const onClose = "onClose" in props ? props!.onClose : undefined;
+
+      return {
+        ...rest,
+        disabled,
+        closable,
+        onClose,
+        id: id || genId(),
+        name: children,
+        ...(icon ? { icon } : {}),
+      };
+    });
+
+  return [...tabsWithAnAssociatedPanel, ...tabsWithoutPanel];
 };
 
 export const buildTabPropsNoPanel = (

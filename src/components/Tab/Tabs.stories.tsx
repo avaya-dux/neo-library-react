@@ -125,6 +125,8 @@ export const UncontrolledActiveTabStory = () => {
         <TabList>
           <Tab id="tab1">Tab1</Tab>
 
+          <TabLink href="https://kagi.com/faq">Kagi Search Engine</TabLink>
+
           {showTab2 ? (
             <ClosableTab id="tab2" icon="accept" onClose={onCloseTab2}>
               Tab2
@@ -142,8 +144,6 @@ export const UncontrolledActiveTabStory = () => {
           <ClosableTab id="tab5" disabled>
             Tab5
           </ClosableTab>
-
-          <TabLink href="https://kagi.com/faq">Kagi Search Engine</TabLink>
         </TabList>
 
         <TabPanels>

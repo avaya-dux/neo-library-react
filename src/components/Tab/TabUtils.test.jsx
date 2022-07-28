@@ -204,7 +204,17 @@ describe("TabUtils", () => {
         Array [
           Object {
             "closable": false,
-            "content": undefined,
+            "content": Object {
+              "children": Array [
+                <h2>
+                  content1
+                </h2>,
+                <p>
+                  paragraph 1
+                </p>,
+              ],
+              "id": "panel1",
+            },
             "dir": "ltr",
             "disabled": false,
             "id": "tab1",
@@ -213,7 +223,12 @@ describe("TabUtils", () => {
           },
           Object {
             "closable": false,
-            "content": undefined,
+            "content": Object {
+              "children": "content 2",
+              "className": "customClass",
+              "dir": "ltr",
+              "id": "panel2",
+            },
             "disabled": true,
             "id": "tab2",
             "name": "tab2",
@@ -221,7 +236,10 @@ describe("TabUtils", () => {
           },
           Object {
             "closable": true,
-            "content": undefined,
+            "content": Object {
+              "children": "content 3",
+              "id": "panel3",
+            },
             "disabled": false,
             "id": "tab3",
             "name": "tab3",
