@@ -125,8 +125,8 @@ export const InternalTab = ({
     <>
       <a
         id={id}
-        role="tab"
-        aria-selected={active}
+        role={isLink ? "link" : "tab"}
+        aria-selected={isLink ? undefined : active}
         aria-controls={content?.id}
         tabIndex={active && !disabled ? 0 : -1}
         href={href}
