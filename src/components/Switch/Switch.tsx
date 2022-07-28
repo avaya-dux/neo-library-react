@@ -6,23 +6,23 @@ import { genId } from "utils/accessibilityUtils";
 
 import { SwitchProps } from "./SwitchTypes";
 
-import "./Switch_shim.css";
-
 /**
- * A `Switch` allows end-users to toggle between a true/false state.
+ * A `Switch` consists of a checkbox and some text as label. Thus it allows end-users to toggle between a true/false state.
+ * Switch label is passed in as children.  Label placement can be on either side of the checkbox.
+ * By default, the checkbox is placed to the left of the label.  To place label to the left of the checkbox,
+ * set dir to "rtl" on the parent of a Switch or on the Switch itself.
  *
  * @example
  * <Switch
- *   label="Disabled"
  *   disabled
  *   defautlChecked
- * />
+ * >Label</Switch>
  *
  * <Switch
- *   label="Controlled"
  *   checked={checked}
+ *   dir="rtl"
  *   onChange={(event, checked) => setChecked(checked)}
- * />
+ * />Label on left</Switch>
  *
  * @see https://neo-library-react-storybook.netlify.app/?path=/story/components-switch--default
  * @see https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement
@@ -33,14 +33,19 @@ export const Switch: FC<SwitchProps> = ({
   id,
   multiline,
   onChange,
-
+  dir,
   ...rest
 }) => {
   const { disabled, required } = rest;
   const internalId = useMemo(() => id || genId(), [id]);
 
   return (
-    <NeoInputWrapper disabled={disabled} error={error} required={required}>
+    <NeoInputWrapper
+      disabled={disabled}
+      error={error}
+      required={required}
+      dir={dir}
+    >
       <label
         className={clsx(
           "neo-switch",
@@ -57,10 +62,12 @@ export const Switch: FC<SwitchProps> = ({
             onChange?.(event, event.target.checked);
           }}
         />
-
         <i className="neo-switch__icon" />
-
-        <span className="neo-switch-children">{children}</span>
+        {multiline ? (
+          <span className="neo-switch-children">{children}</span>
+        ) : (
+          children
+        )}
       </label>
     </NeoInputWrapper>
   );
