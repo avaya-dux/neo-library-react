@@ -139,7 +139,7 @@ export const NavCategory = ({
         disabled: isDisabled,
         key: child.key || key,
         id: child.props.id || key,
-        parentHasIcon: parentHasIcon,
+        parentHasIcon,
       });
     });
   }, [isExpanded, disabled, ctx.currentUrl]);
