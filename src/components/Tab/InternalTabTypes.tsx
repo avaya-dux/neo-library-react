@@ -7,6 +7,7 @@ export interface InternalTabProps extends React.HTMLAttributes<HTMLLIElement> {
   name: ReactNode;
   disabled: boolean;
   content: TabPanelProps;
+  href?: string;
   icon?: IconNamesType;
   closable?: boolean;
   onClose?: (index: number) => void;

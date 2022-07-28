@@ -3,8 +3,8 @@ import { Dispatch, ReactElement, RefObject, SetStateAction } from "react";
 import { genId } from "utils";
 import { InternalTab } from "./InternalTab";
 import { InternalTabProps } from "./InternalTabTypes";
-import { ClosableTab, Tab, TabPanel } from "./TabComponents";
-import { TabListProps, TabPanelProps, TabsProps } from "./TabTypes";
+import { ClosableTab, Tab, TabLink, TabPanel } from "./TabComponents";
+import { TabListProps, TabsProps } from "./TabTypes";
 
 const logger = log.getLogger("tab-utils-logger");
 logger.disableAll();
@@ -31,7 +31,9 @@ export function isValidTabElement(element: ReactElement) {
   logger.debug(element.type.toString());
 
   // Comparing functions by reference here: should be fast.
-  return isClosableTab(element) || element.type === Tab;
+  return (
+    isClosableTab(element) || element.type === Tab || element.type === TabLink
+  );
 }
 export function isClosableTab(element: ReactElement) {
   return element.type === ClosableTab;
@@ -49,16 +51,19 @@ export const buildTabProps = (
   const panels = toArray(panelList.props.children).filter(isValidPanelElement);
   return tabs.map((tab, index) => {
     const props = tab.props;
-    let panel = panels[index].props as TabPanelProps;
-    if (!panel.id) {
-      panel = { ...panel, id: genId() };
-    }
     const { id, children, ...rest } = props;
     const disabled = !!props!.disabled;
     logger.debug(`${id} disabled = ${disabled}`);
     const icon = "icon" in props ? props!.icon : undefined;
     const closable = isClosableTab(tab);
     const onClose = "onClose" in props ? props!.onClose : undefined;
+
+    const content =
+      panels[index] && !!props?.href ? panels[index].props : undefined;
+    if (content && !content.id) {
+      content.id = genId();
+    }
+
     return {
       ...rest,
       disabled,
@@ -66,7 +71,7 @@ export const buildTabProps = (
       onClose,
       id: id || genId(),
       name: children,
-      content: panel,
+      content,
       ...(icon ? { icon } : {}),
     };
   });

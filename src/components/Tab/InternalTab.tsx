@@ -1,28 +1,34 @@
 import log from "loglevel";
 import {
-  useEffect,
+  FocusEvent,
+  FocusEventHandler,
   KeyboardEvent,
   KeyboardEventHandler,
   MouseEvent,
-  FocusEvent,
   MouseEventHandler,
+  useEffect,
   useRef,
-  FocusEventHandler,
 } from "react";
+
 import { IconNamesType } from "utils";
+
 import {
-  handleKeyDownEvent,
-  handleMouseClickEvent,
-  handleFocusEvent,
   handleBlurEvent,
   handleCloseElementKeyDownEvent,
   handleCloseElementMouseClickEvent,
+  handleFocusEvent,
+  handleKeyDownEvent,
+  handleMouseClickEvent,
 } from "./EventHandlers";
 import { noop } from "./EventHandlers/Helper";
-import { InternalTabProps, InteractiveTabProps } from "./InternalTabTypes";
+import { InteractiveTabProps, InternalTabProps } from "./InternalTabTypes";
+
 const logger = log.getLogger("tab-head-logger");
 logger.disableAll();
 export { logger as internalTabLogger };
+
+const hrefNoopString = "javascript:void(0)";
+
 export const InternalTab = ({
   tabIndex,
   active,
@@ -30,6 +36,7 @@ export const InternalTab = ({
   disabled,
   closable,
   onClose = noop,
+  href = hrefNoopString,
   id,
   name,
   icon,
@@ -43,14 +50,11 @@ export const InternalTab = ({
 }: InternalTabProps & InteractiveTabProps) => {
   logger.debug(`debug internalTab ${id}`);
   const ref = useRef<HTMLAnchorElement>(null);
-  const handleAnchorMouseClickEvent: MouseEventHandler = (e: MouseEvent) => {
-    return handleMouseClickEvent(
-      e,
-      tabs,
-      setActiveTabIndex,
-      setActivePanelIndex
-    );
-  };
+
+  const isLink = href !== hrefNoopString;
+  const handleAnchorMouseClickEvent: MouseEventHandler = (e: MouseEvent) =>
+    !isLink &&
+    handleMouseClickEvent(e, tabs, setActiveTabIndex, setActivePanelIndex);
 
   const handleCloseMouseClickEvent: MouseEventHandler = (e: MouseEvent) => {
     logger.debug(
@@ -115,6 +119,7 @@ export const InternalTab = ({
       ref.current && ref.current.focus();
     }
   }, [activeTabIndex]);
+
   return (
     <>
       <a
@@ -123,7 +128,8 @@ export const InternalTab = ({
         aria-selected={active}
         aria-controls={content?.id}
         tabIndex={active && !disabled ? 0 : -1}
-        href="#fixme"
+        href={href}
+        target={isLink ? "_blank" : undefined}
         dir={closable ? "ltr" : dir}
         aria-disabled={disabled}
         className={getClassNames(className, icon)}

@@ -9,12 +9,20 @@ export interface TabProps extends React.HTMLAttributes<HTMLLIElement> {
   icon?: IconNamesType;
 }
 
+export interface TabLinkProps extends React.HTMLAttributes<HTMLLIElement> {
+  children: ReactNode;
+  disabled?: boolean;
+  href: string;
+  icon?: IconNamesType;
+  id?: string;
+}
+
 export interface ClosableTabProps extends Omit<TabProps, "dir"> {
   onClose?: (index: number) => void;
 }
 
 export interface TabListProps extends React.HTMLAttributes<HTMLUListElement> {
-  children: ReactElement<TabProps | ClosableTabProps>[];
+  children: ReactElement<TabProps | TabLinkProps | ClosableTabProps>[];
 }
 
 export interface TabPanelProps extends React.HTMLAttributes<HTMLDivElement> {
