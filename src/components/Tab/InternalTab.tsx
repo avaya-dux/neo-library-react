@@ -10,6 +10,7 @@ import {
   useRef,
 } from "react";
 
+import { Icon } from "components/Icon";
 import { IconNamesType } from "utils";
 
 import {
@@ -140,7 +141,16 @@ export const InternalTab = ({
         ref={ref}
       >
         {name}
+
+        {isLink && (
+          <Icon
+            className="neo-icon-end"
+            icon="screenpop-on"
+            aria-label="External Link"
+          />
+        )}
       </a>
+
       {closable && (
         <span
           role="button"

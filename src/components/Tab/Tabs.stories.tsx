@@ -7,8 +7,8 @@ import { tabMouseEventHandlerLogger } from "./EventHandlers";
 import {
   ClosableTab,
   Tab,
-  TabList,
   TabLink,
+  TabList,
   TabPanel,
   TabPanels,
 } from "./TabComponents";
@@ -143,7 +143,7 @@ export const UncontrolledActiveTabStory = () => {
             Tab5
           </ClosableTab>
 
-          <TabLink href="https://www.google.com">Google</TabLink>
+          <TabLink href="https://kagi.com/faq">Kagi Search Engine</TabLink>
         </TabList>
 
         <TabPanels>
