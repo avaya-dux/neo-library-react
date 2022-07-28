@@ -8,19 +8,19 @@ import {
   IToolbarTranslations,
 } from ".";
 
-interface ToolbarSharedProps {
+interface ToolbarSharedProps<T extends Record<string, any>> {
   readonly?: boolean;
   selectableRows?: "none" | "single" | "multiple";
-}
-export type TableToolbarProps<T extends Record<string, any>> = {
   customActionsNode?: React.ReactNode;
   handleCreate?: () => Promise<void> | void;
   handleDelete?: (selectedRowIds: string[]) => Promise<void> | void;
   handleEdit?: (selectedRow: T) => Promise<void> | void;
   handleRefresh?: () => Promise<void> | void;
+}
+export type TableToolbarProps<T extends Record<string, any>> = {
   instance: TableInstance<T>;
   translations: IToolbarTranslations;
-} & ToolbarSharedProps;
+} & ToolbarSharedProps<T>;
 
 interface TableHeaderBodySharedProps<T extends Record<string, any>> {
   handleRowToggled?: (selectedRowIds: string[], row?: T) => void;
@@ -45,7 +45,7 @@ export type TableProps<T extends Record<string, any>> = {
   summary?: string;
   containerClassName?: string;
   translations?: ITableTranslations;
-} & ToolbarSharedProps &
+} & ToolbarSharedProps<T> &
   TableOptions<T> &
   Pick<TableBodyProps<T>, "handleRowToggled">;
 
