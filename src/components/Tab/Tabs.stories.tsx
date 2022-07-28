@@ -162,7 +162,7 @@ export const UncontrolledActiveTabStory = () => {
         </TabPanels>
       </Tabs>
 
-      <hr></hr>
+      <hr />
 
       <p>0 based active Tab Index is {activeTabIndex}</p>
     </div>
