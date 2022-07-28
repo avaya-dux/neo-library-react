@@ -67,42 +67,46 @@ describe("Tabs", () => {
       it("Close Tab2 using space should work", () => {
         const { getAllByRole } = renderResult;
         const tabs = getAllByRole("tab");
-        expect(tabs.length).toBe(5);
+        const originalTabLength = tabs.length;
+        expect(tabs.length).toBe(originalTabLength);
         userEvent.tab();
         const closeButton = getAllByRole("button")[0];
         expect(closeButton).toHaveFocus();
         userEvent.keyboard("{space}");
-        expect(getAllByRole("tab").length).toBe(4);
+        expect(getAllByRole("tab").length).toBe(originalTabLength - 1);
       });
       it("Close Tab2 using enter should work", () => {
         const { getAllByRole } = renderResult;
         const tabs = getAllByRole("tab");
-        expect(tabs.length).toBe(5);
+        const originalTabLength = tabs.length;
+        expect(tabs.length).toBe(originalTabLength);
         userEvent.tab();
         const closeButton = getAllByRole("button")[0];
         expect(closeButton).toHaveFocus();
         userEvent.keyboard("{enter}");
-        expect(getAllByRole("tab").length).toBe(4);
+        expect(getAllByRole("tab").length).toBe(originalTabLength - 1);
       });
       it("Tab on Tab2 Close button should not close tab2", () => {
         const { getAllByRole } = renderResult;
         const tabs = getAllByRole("tab");
-        expect(tabs.length).toBe(5);
+        const originalTabLength = tabs.length;
+        expect(tabs.length).toBe(originalTabLength);
         userEvent.tab();
         const closeButton = getAllByRole("button")[0];
         expect(closeButton).toHaveFocus();
         userEvent.tab();
-        expect(getAllByRole("tab").length).toBe(5);
+        expect(getAllByRole("tab").length).toBe(originalTabLength);
       });
       it("Close Tab2 using mouse click should work", () => {
         const { getAllByRole } = renderResult;
         const tabs = getAllByRole("tab");
-        expect(tabs.length).toBe(5);
+        const originalTabLength = tabs.length;
+        expect(tabs.length).toBe(originalTabLength);
         userEvent.tab();
         const closeButton = getAllByRole("button")[0];
         expect(closeButton).toHaveFocus();
         userEvent.click(closeButton);
-        expect(getAllByRole("tab").length).toBe(4);
+        expect(getAllByRole("tab").length).toBe(originalTabLength - 1);
       });
     });
     describe(IconTabs.storyName, () => {
