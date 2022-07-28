@@ -28,7 +28,7 @@ const logger = log.getLogger("tab-head-logger");
 logger.disableAll();
 export { logger as internalTabLogger };
 
-const hrefNoopString = "javascript:void(0)";
+const hrefNoopString = "#noop";
 
 export const InternalTab = ({
   tabIndex,
