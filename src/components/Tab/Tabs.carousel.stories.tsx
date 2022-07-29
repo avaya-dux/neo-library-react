@@ -152,7 +152,7 @@ export const ManyTabsCarousel = () => {
           </TabPanel>
         </TabPanels>
       </Tabs>
-      <hr></hr>
+      <hr />
       <p>0 based active Tab index is {activeTabIndex}</p>
     </div>
   );
@@ -195,7 +195,7 @@ export const TwoTabsCarousel = () => {
           <TabPanel>content 2</TabPanel>
         </TabPanels>
       </Tabs>
-      <hr></hr>
+      <hr />
       <p>0 based active Tab index is {activeTabIndex}</p>
     </div>
   );

@@ -1,10 +1,13 @@
 import { Meta } from "@storybook/react/types-6-0";
-import { Button } from "components";
 import { useState } from "react";
+
+import { Button } from "components";
+
 import { tabMouseEventHandlerLogger } from "./EventHandlers";
 import {
   ClosableTab,
   Tab,
+  TabLink,
   TabList,
   TabPanel,
   TabPanels,
@@ -103,6 +106,7 @@ export const ControlledActiveTabStory = () => {
   );
 };
 ControlledActiveTabStory.storyName = "Disable|Enable Tabs";
+
 export const UncontrolledActiveTabStory = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const onTabChange = (activeTabIndex: number) => {
@@ -114,6 +118,7 @@ export const UncontrolledActiveTabStory = () => {
     console.log(`closing tab at index ${index}`);
     setShowTab2(false);
   };
+
   return (
     <div>
       <Tabs defaultIndex={1} onTabChange={onTabChange}>
@@ -127,29 +132,40 @@ export const UncontrolledActiveTabStory = () => {
           ) : (
             <></>
           )}
+
           <Tab id="tab3">Tab3</Tab>
+
           <Tab id="tab4" disabled>
             Tab4
           </Tab>
+
           <ClosableTab id="tab5" disabled>
             Tab5
           </ClosableTab>
+
+          <TabLink href="https://kagi.com/faq">Kagi Search Engine</TabLink>
         </TabList>
+
         <TabPanels>
           <TabPanel>
             <h2>content1</h2>
+
             <p>paragraph 1</p>
           </TabPanel>
+
           {showTab2 ? <TabPanel>content 2</TabPanel> : <></>}
           <TabPanel>content 33333</TabPanel>
+
           <TabPanel>content 4</TabPanel>
+
           <TabPanel>content 5</TabPanel>
         </TabPanels>
       </Tabs>
-      <hr></hr>
+
+      <hr />
+
       <p>0 based active Tab Index is {activeTabIndex}</p>
     </div>
   );
 };
-
 UncontrolledActiveTabStory.storyName = "Basic Tabs";

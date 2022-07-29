@@ -1,5 +1,6 @@
 import {
   ClosableTabProps,
+  TabLinkProps,
   TabListProps,
   TabPanelProps,
   TabPanelsProps,
@@ -7,6 +8,9 @@ import {
 } from "./TabTypes";
 
 export const Tab = (_props: TabProps) => {
+  return null;
+};
+export const TabLink = (_props: TabLinkProps) => {
   return null;
 };
 export const ClosableTab = (_props: ClosableTabProps) => {
