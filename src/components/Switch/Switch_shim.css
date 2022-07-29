@@ -1,8 +1,0 @@
-/* TODO: remove this file after css-library v3.52.0 */
-label.neo-switch input:checked ~ span.neo-switch-children {
-  font-weight: 600;
-}
-
-label.neo-switch.neo-switch--multiline {
-  height: auto;
-}
