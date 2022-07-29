@@ -36,6 +36,13 @@ export type TableBodyProps<T extends Record<string, any>> = {
   translations: IBodyTranslations;
 } & TableHeaderBodySharedProps<T>;
 
+export interface IFilterContext {
+  allowColumnFilter: boolean;
+  filterSheetVisible: boolean;
+  setFilterSheetVisible: (visible: boolean) => void;
+  toggleFilterSheetVisible: () => void;
+}
+
 export type TableProps<T extends Record<string, any>> = {
   caption?: string;
   id?: string;
@@ -47,16 +54,10 @@ export type TableProps<T extends Record<string, any>> = {
   translations?: ITableTranslations;
 } & ToolbarSharedProps<T> &
   TableOptions<T> &
-  Pick<TableBodyProps<T>, "handleRowToggled">;
+  Pick<TableBodyProps<T>, "handleRowToggled"> &
+  Partial<Pick<IFilterContext, "allowColumnFilter">>;
 
 export type PaginationProps<T extends Record<string, any>> = {
   instance: TableInstance<T>;
   translations: IPaginationTranslations;
 };
-
-export interface IFilterContext {
-  allowColumnFilter: boolean;
-  filterSheetVisible: boolean;
-  setFilterSheetVisible: (visible: boolean) => void;
-  toggleFilterSheetVisible: () => void;
-}
