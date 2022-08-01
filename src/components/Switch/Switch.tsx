@@ -58,6 +58,7 @@ export const Switch: FC<SwitchProps> = ({
           {...rest}
           id={internalId}
           type="checkbox"
+          role="switch"
           onChange={(event) => {
             onChange?.(event, event.target.checked);
           }}
