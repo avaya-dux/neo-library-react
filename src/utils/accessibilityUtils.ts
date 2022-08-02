@@ -20,8 +20,15 @@ export function handleAccessbilityError(message: string) {
  * @returns uuid
  */
 export function genId() {
-  return uuidv4();
+  // if this is _not_ run server side, use `uuidv4`
+  if (typeof window !== "undefined") {
+    return uuidv4();
+  }
+
+  // else, use a random number between zero and ten thousand
+  return Math.floor(Math.random() * 10000).toString();
 }
+
 export function isAriaDisabled(target: HTMLElement): boolean {
   return target.getAttribute("aria-disabled") === "true";
 }
