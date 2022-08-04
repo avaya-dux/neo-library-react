@@ -1,6 +1,6 @@
 {
   "name": "@avaya/neo-react",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "description": "This is the React version of the shared library called 'NEO' buit by Avaya",
   "author": "joe-s-avaya",
   "license": "SEE LICENSE IN LICENSE.md",
@@ -82,7 +82,7 @@
     "react-dom": ">=17.0.2"
   },
   "devDependencies": {
-    "@avaya/neo": "^3.55.1",
+    "@avaya/neo": "^3.57.1",
     "@babel/core": "^7.18.6",
     "@cypress/react": "^5.12.5",
     "@cypress/webpack-dev-server": "^1.8.4",

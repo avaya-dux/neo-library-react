@@ -22,9 +22,13 @@ import { TooltipProps } from "./TooltipTypes";
  *
  * @param label Text displayed in the tooltip
  * @param children Text || JSX.Element || JSX.Element[]
+ * @param position Position of the tooltip, defaults to "auto"
  *
  * @example
  * <Tooltip label="example text">text</Tooltip>
+ *
+ * @example
+ * <Tooltip label="example text" position="top">text</Tooltip>
  *
  * @example
  * <Tooltip label="example text"><span>text</span></Tooltip>
@@ -34,6 +38,7 @@ import { TooltipProps } from "./TooltipTypes";
 export const Tooltip = ({
   arrow = true,
   children,
+  className,
   id = genId(),
   label,
   multiline,
@@ -76,9 +81,12 @@ export const Tooltip = ({
 
   return (
     <div
-      className={`neo-tooltip neo-tooltip--${tooltipPosition} neo-tooltip--onhover`}
-      ref={tooltipContainerRef}
       {...rest}
+      ref={tooltipContainerRef}
+      className={clsx(
+        `neo-tooltip neo-tooltip--${tooltipPosition} neo-tooltip--onhover`,
+        className
+      )}
     >
       {wrappedChildren}
 

@@ -15,7 +15,7 @@ describe("Switch Component", () => {
     render(<Switch>{labelText}</Switch>);
     expect(screen.getByLabelText(labelText)).toBeInTheDocument();
 
-    const input = screen.getByRole("checkbox");
+    const input = screen.getByRole("switch");
     expect(input).toBeInTheDocument();
     expect(input).not.toBeChecked();
   });
@@ -31,7 +31,7 @@ describe("Switch Component", () => {
     it("does not allow toggle when disabled", () => {
       render(<Switch disabled>{labelText}</Switch>);
 
-      const input = screen.getByRole("checkbox");
+      const input = screen.getByRole("switch");
       expect(input).toBeDisabled();
       expect(input).not.toBeChecked();
 
@@ -44,7 +44,7 @@ describe("Switch Component", () => {
       const changeSpy = jest.fn();
       render(<Switch onChange={changeSpy}>{labelText}</Switch>);
 
-      const input = screen.getByRole("checkbox");
+      const input = screen.getByRole("switch");
       expect(input).not.toBeDisabled();
       expect(input).not.toBeChecked();
 

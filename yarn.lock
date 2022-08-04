@@ -9,10 +9,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@avaya/neo@^3.55.1":
-  version "3.55.1"
-  resolved "https://registry.yarnpkg.com/@avaya/neo/-/neo-3.55.1.tgz#49fcba6e18f31b663dd0aaf466c19998d6ba8b10"
-  integrity sha512-Fiuu4dS357lQm+5wyihk0ObQW4G+O4HpUeM+iJRVYrQA8cxlRRRAf/uaZnNhAFWUArDH4XvC6dw1ELtpquopag==
+"@avaya/neo@^3.57.1":
+  version "3.57.1"
+  resolved "https://registry.yarnpkg.com/@avaya/neo/-/neo-3.57.1.tgz#0f1b4f755b4e47fd0f7f2b1f46af8bcba4350331"
+  integrity sha512-OFbfFaglO0U9AD22Ppw7EyUP9uCdUVzNFH5dumCefQ458UNOG7IzYqENJYFw1myiMVZSP4zkfTw6uMF/wRzclA==
 
 "@babel/code-frame@7.10.4":
   version "7.10.4"
