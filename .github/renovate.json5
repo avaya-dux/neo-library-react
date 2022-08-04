@@ -6,6 +6,7 @@
     "group:allNonMajor", // batch non-majors into one PR
     ":semanticCommits", // nicer commit messages
   ],
+  assignees: ["dux-devs"],
   labels: ["dependencies"],
   pin: false,
   rangeStrategy: "bump",
