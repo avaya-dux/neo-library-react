@@ -2,23 +2,24 @@ import { Meta, Story } from "@storybook/react/types-6-0";
 import { cloneElement, FormEvent, useState } from "react";
 
 import {
-  Menu,
-  MenuItem,
-  SubMenu,
-  TextInput,
+  AgentCard,
   Avatar,
-  Tabs,
+  LinkItem,
+  Menu,
+  MenuButton,
+  MenuItem,
+  NavCategory,
+  SubMenu,
   Tab,
   TabList,
-  AgentCard,
-  NavCategory,
-  LinkItem,
+  Tabs,
+  TextInput,
 } from "components";
 
 import { Navbar, NavbarProps } from ".";
-import { Logo, LinkLogo } from "./LeftContent";
-import { NavbarAvatar, NavbarButton } from "./RightContent";
+import { LinkLogo, Logo } from "./LeftContent";
 import fpo from "./logo-fpo.png";
+import { NavbarAvatar, NavbarButton } from "./RightContent";
 
 export default {
   title: "Components/Navbar",
@@ -49,7 +50,14 @@ const navbarAvatar = (
   <NavbarAvatar
     avatar={<Avatar initials="MD" />}
     dropdown={
-      <Menu itemAlignment="right">
+      <Menu
+        itemAlignment="right"
+        menuRootElement={
+          <MenuButton onClick={() => console.log("Functional Menu opened")}>
+            Functional Menu
+          </MenuButton>
+        }
+      >
         <MenuItem key={"1"}>Item1</MenuItem>
         <SubMenu key={"2"} menuRootElement={<MenuItem>Sub Menu</MenuItem>}>
           <MenuItem key={"2-1"}>Sub Item1</MenuItem>
@@ -105,23 +113,25 @@ NavbarWithNavigationToggle.decorators = [
               <nav className="neo-leftnav">
                 <ul className="neo-leftnav__nav">
                   <NavCategory icon="audio-on" label="Collapsed">
-                    <LinkItem> First Item </LinkItem>
-                    <LinkItem> Second Item </LinkItem>
-                    <LinkItem> Third Item </LinkItem>
-                    <LinkItem> Fourth Item </LinkItem>
+                    <LinkItem href="#fake"> First Item </LinkItem>
+                    <LinkItem href="#fake"> Second Item </LinkItem>
+                    <LinkItem href="#fake"> Third Item </LinkItem>
+                    <LinkItem href="#fake"> Fourth Item </LinkItem>
                   </NavCategory>
                   <NavCategory active expanded icon="call" label="Active">
-                    <LinkItem> Item 1 </LinkItem>
-                    <LinkItem active={true}> Active Item 2 </LinkItem>
-                    <LinkItem> Item 3</LinkItem>
+                    <LinkItem href="#fake"> Item 1 </LinkItem>
+                    <LinkItem href="#fake" active={true}>
+                      Active Item 2
+                    </LinkItem>
+                    <LinkItem href="#fake"> Item 3</LinkItem>
                   </NavCategory>
                   <NavCategory
                     disabled
                     icon="available"
                     label="Disabled Category"
                   >
-                    <LinkItem> First Item </LinkItem>
-                    <LinkItem> Second Item </LinkItem>
+                    <LinkItem href="#fake"> First Item </LinkItem>
+                    <LinkItem href="#fake"> Second Item </LinkItem>
                   </NavCategory>
                 </ul>
               </nav>
