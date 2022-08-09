@@ -40,6 +40,16 @@ export const Example = () => {
 
 If you would like to contribute to this project, you can start in our [how to dev doc](https://github.com/avaya-dux/neo-library-react/blob/main/readmes/how-to-dev.md)
 
+## other readme files
+
+- [accessibility guidelines](https://github.com/avaya-dux/neo-library-react/blob/main/readmes/accessibility-guidelines.md)
+- [coding guidelines](https://github.com/avaya-dux/neo-library-react/blob/main/readmes/coding-guidelines.md)
+- [how to dev](https://github.com/avaya-dux/neo-library-react/blob/main/readmes/how-to-dev.md)
+- [how to publish](https://github.com/avaya-dux/neo-library-react/blob/main/readmes/how-to-publish.md)
+- [periphery tech](https://github.com/avaya-dux/neo-library-react/blob/main/readmes/periphery-tech.md)
+- [pr best practices](https://github.com/avaya-dux/neo-library-react/blob/main/readmes/pr-best-practices.md)
+
+
 ## License
 
 Copyright 2020-2022 Avaya Inc. All Rights Reserved.
