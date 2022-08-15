@@ -14,10 +14,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@avaya/neo@^3.58.0":
-  version "3.58.0"
-  resolved "https://registry.yarnpkg.com/@avaya/neo/-/neo-3.58.0.tgz#acb88f9e61985c8b9d03e728dd21414c1051b93c"
-  integrity sha512-jaEaMZb0QVDcZSd3zgZihNaxHZIUvbAWcS6XO+Br5q20wfxKa+RWZWDRZjIaWVo9zaWlR3HAj/ATrNEstAde0Q==
+"@avaya/neo@^3.59.0":
+  version "3.59.0"
+  resolved "https://registry.yarnpkg.com/@avaya/neo/-/neo-3.59.0.tgz#d19133efcc218922da3540a14e85f4530a508a6d"
+  integrity sha512-joVJb+KXT+ZZ+3D8jHZ5kbbQyZ83Gppw0QFEIN7HyGuaOGMkE2KpPJSnP4vhZolYCNndo+k9CjSaOcksIHpnSw==
 
 "@babel/code-frame@7.10.4":
   version "7.10.4"
@@ -3447,10 +3447,10 @@
     lz-string "^1.4.4"
     pretty-format "^27.0.2"
 
-"@testing-library/dom@^8.16.1":
-  version "8.16.1"
-  resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-8.16.1.tgz#96e528c9752d60061128f043e2b43566c0aba2d9"
-  integrity sha512-XEV2mBxgv6DKjL3+U3WEUzBgT2CjYksoXGlLrrJXYP8OvRfGkBonvelkorazpFlp8tkEecO06r43vN4DIEyegQ==
+"@testing-library/dom@^8.17.1":
+  version "8.17.1"
+  resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-8.17.1.tgz#2d7af4ff6dad8d837630fecd08835aee08320ad7"
+  integrity sha512-KnH2MnJUzmFNPW6RIKfd+zf2Wue8mEKX0M3cpX6aKl5ZXrJM1/c/Pc8c2xDNYQCnJO48Sm5ITbMXgqTr3h4jxQ==
   dependencies:
     "@babel/code-frame" "^7.10.4"
     "@babel/runtime" "^7.12.5"
@@ -7351,10 +7351,10 @@ dotenv@^8.0.0:
   resolved "https://registry.npmjs.org/dotenv/-/dotenv-8.6.0.tgz"
   integrity sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==
 
-downshift@^6.1.7:
-  version "6.1.7"
-  resolved "https://registry.npmjs.org/downshift/-/downshift-6.1.7.tgz"
-  integrity sha512-cVprZg/9Lvj/uhYRxELzlu1aezRcgPWBjTvspiGTVEU64gF5pRdSRKFVLcxqsZC637cLAGMbL40JavEfWnqgNg==
+downshift@^6.1.9:
+  version "6.1.9"
+  resolved "https://registry.yarnpkg.com/downshift/-/downshift-6.1.9.tgz#c6bf1259ae95c4312025f95f3783865fa34b8436"
+  integrity sha512-mzvk61WOX4MEsYHMKCXEVwuz/zM84x/WrCbaCQw71hyNN0fmWXvV673uOQy2idgIA+yqDsjtkV5KPfAFWuQylg==
   dependencies:
     "@babel/runtime" "^7.14.8"
     compute-scroll-into-view "^1.0.17"
@@ -8037,10 +8037,10 @@ eslint@^7.11.0:
     text-table "^0.2.0"
     v8-compile-cache "^2.0.3"
 
-eslint@^8.21.0:
-  version "8.21.0"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-8.21.0.tgz#1940a68d7e0573cef6f50037addee295ff9be9ef"
-  integrity sha512-/XJ1+Qurf1T9G2M5IHrsjp+xrGT73RZf23xA1z5wB1ZzzEAWSZKvRwhWxTFp1rvkvCfwcvAUNAP31bhKTTGfDA==
+eslint@^8.22.0:
+  version "8.22.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-8.22.0.tgz#78fcb044196dfa7eef30a9d65944f6f980402c48"
+  integrity sha512-ci4t0sz6vSRKdmkOGmprBo6fmI4PrphDFMy5JEq/fNS0gQkJM3rLmrqcp8ipMcdobH3KtUP40KniAE9W19S4wA==
   dependencies:
     "@eslint/eslintrc" "^1.3.0"
     "@humanwhocodes/config-array" "^0.10.4"
@@ -15257,10 +15257,10 @@ rollup@^1.31.1:
     "@types/node" "*"
     acorn "^7.1.0"
 
-rollup@^2.77.2:
-  version "2.77.2"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.77.2.tgz#6b6075c55f9cc2040a5912e6e062151e42e2c4e3"
-  integrity sha512-m/4YzYgLcpMQbxX3NmAqDvwLATZzxt8bIegO78FZLl+lAgKJBd1DRAOeEiZcKOIOPjxE6ewHWHNgGEalFXuz1g==
+rollup@^2.78.0:
+  version "2.78.0"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.78.0.tgz#00995deae70c0f712ea79ad904d5f6b033209d9e"
+  integrity sha512-4+YfbQC9QEVvKTanHhIAFVUFSRsezvQF8vFOJwtGfb9Bb+r014S+qryr9PSmw8x6sMnPkmFBGAvIFVQxvJxjtg==
   optionalDependencies:
     fsevents "~2.3.2"
 
